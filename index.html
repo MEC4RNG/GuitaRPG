@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Challenge Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #challenge {
+            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <form id="challenge-form">
+        <h2>Customize Your Challenge</h2>
+        <label for="FocalAttribute">Focal Attribute</label>
+        <select id="FocalAttribute">
+            <option value="random">Random</option>
+            <option value="Dexterity">Dexterity (Finger Speed and Agility)</option>
+            <option value="Strength">Strength (Finger Pressure and Control)</option>
+            <option value="Precision">Precision (Accuracy and Clean Playing)</option>
+            <option value="Intelligence">Intelligence (Music Theory and Fretboard Knowledge)</option>
+            <option value="Creativity">Creativity (Improvisation and Composition)</option>
+            <option value="Stamina">Stamina (Endurance and Long Playing Sessions)</option>
+            <option value="Charisma">Charisma (Stage Presence and Expression)</option>
+            <option value="Wisdom">Wisdom (Musical Maturity and Decision Making)</option>
+            <option value="Flexibility">Flexibility (Versatility Across Styles and Techniques)</option>
+        </select>
+
+        <label for="Level1">Mastery Level 1</label>
+        <select id="Level1">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <option value="Fretboard Memorization">Fretboard Memorization</option>
+            <option value="CAGED System">CAGED System</option>
+            <option value="Interval Studies">Interval Studies</option>
+        </select>
+
+        <label for="Level2">Mastery Level 2</label>
+        <select id="Level2">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <option value="Pentatonic Scale Variations">Pentatonic Scale Variations</option>
+            <option value="Blues Scale Extensions">Blues Scale Extensions</option>
+            <option value="Diatonic Harmony (Major and Minor Keys)">Diatonic Harmony (Major and Minor Keys)</option>
+            <option value="Dorian, Phrygian, Lydian, Mixolydian Modes">Dorian, Phrygian, Lydian, Mixolydian Modes</option>
+            <option value="Chord Inversions">Chord Inversions</option>
+            <option value="Extended Chords (9th, 11th, 13th)">Extended Chords (9th, 11th, 13th)</option>
+            <option value="Alternate Tunings (Drop D, DADGAD, etc.)">Alternate Tunings (Drop D, DADGAD, etc.)</option>
+        </select>
+
+        <label for="Level3">Mastery Level 3</label>
+        <select id="Level3">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <option value="Modulating Between Keys">Modulating Between Keys</option>
+            <option value="Harmonic and Melodic Minor Scales">Harmonic and Melodic Minor Scales</option>
+            <option value="Utilizing Passing Notes and Neighbor Tones">Utilizing Passing Notes and Neighbor Tones</option>
+            <option value="Scale Sequencing and Pattern Creation">Scale Sequencing and Pattern Creation</option>
+            <option value="Composing Solos for Different Genres">Composing Solos for Different Genres</option>
+            <option value="Approach Notes for Jazz Improvisation">Approach Notes for Jazz Improvisation</option>
+        </select>
+
+        <label for="Level4">Mastery Level 4</label>
+        <select id="Level4">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <option value="Hybrid Scales and Passing Chords">Hybrid Scales and Passing Chords</option>
+            <option value="Voice Leading">Voice Leading</option>
+            <option value="Improvising with Modes Over Chord Changes">Improvising with Modes Over Chord Changes</option>
+            <option value="Improvisation over Complex Chord Changes">Improvisation over Complex Chord Changes</option>
+            <option value="Harmonic Tension with Suspended Chords">Harmonic Tension with Suspended Chords</option>
+            <option value="Chord Substitutions (Tritone, Secondary Dominants)">Chord Substitutions (Tritone, Secondary Dominants)</option>
+            <option value="Jazz Chord Progressions">Jazz Chord Progressions</option>
+            <option value="Neoclassical Techniques">Neoclassical Techniques</option>
+            <option value="Bebop Scale and Chromatic Approaches">Bebop Scale and Chromatic Approaches</option>
+            <option value="Altered Scales (Altered Dominant, Whole Tone)">Altered Scales (Altered Dominant, Whole Tone)</option>
+        </select>
+
+        <label for="Level5">Mastery Level 5</label>
+        <select id="Level5">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <option value="Modal Interchange">Modal Interchange</option>
+            <option value="Counterpoint">Counterpoint</option>
+            <option value="Exotic Scales (Persian, Hungarian, Byzantine)">Exotic Scales (Persian, Hungarian, Byzantine)</option>
+            <option value="Harmonic Tension with Suspended Chords">Harmonic Tension with Suspended Chords</option>
+        </select>
+            
+
+        <label for="note">Note:</label>
+        <select id="note">
+            <option value="random">Random</option>
+            <option value="A">A</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G#">G#</option>
+        </select>
+    
+        <!-- Scale Types -->
+        <label for="scalesModes">Scales and Modes</label>
+        <select id="scalesModes">
+            <option value="random">Random</option>
+            <optgroup label="Diatonic Scales (Major and Minor Scales)">
+                <option value="Major Scale (Ionian Mode)">Major Scale (Ionian Mode)</option>
+                <option value="Natural Minor Scale (Aeolian Mode)">Natural Minor Scale (Aeolian Mode)</option>
+                <option value="Harmonic Minor Scale">Harmonic Minor Scale</option>
+                <option value="Melodic Minor Scale">Melodic Minor Scale (Ascending)</option>
+                <option value="Pentatonic Major Scale">Pentatonic Major Scale</option>
+                <option value="Pentatonic Minor Scale">Pentatonic Minor Scale</option>
+                <option value="Blues Scale">Blues Scale</option>
+            </optgroup>
+            <optgroup label="Modes of the Major Scale">
+                <option value="Ionian Mode (Major Scale)">Ionian Mode (Major Scale)</option>
+                <option value="Dorian Mode">Dorian Mode</option>
+                <option value="Phrygian Mode">Phrygian Mode</option>
+                <option value="Lydian Mode">Lydian Mode</option>
+                <option value="Mixolydian Mode">Mixolydian Mode</option>
+                <option value="Aeolian Mode (Natural Minor Scale)">Aeolian Mode (Natural Minor Scale)</option>
+                <option value="Locrian Mode">Locrian Mode</option>
+            </optgroup>
+            <optgroup label="Additional Scales and Modes">
+                <option value="Whole Tone Scale">Whole Tone Scale</option>
+                <option value="Diminished Scale">Diminished Scale (Half-Whole Scale)</option>
+                <option value="Octatonic Scale">Octatonic Scale (Whole-Half Scale)</option>
+                <option value="Chromatic Scale">Chromatic Scale</option>
+                <option value="Hungarian Minor Scale">Hungarian Minor Scale</option>
+                <option value="Persian Scale">Persian Scale</option>
+                <option value="Byzantine Scale">Byzantine Scale</option>
+            </optgroup>
+            <optgroup label="Jazz and Blues Scales">
+                <option value="Bebop Major Scale">Bebop Major Scale</option>
+                <option value="Bebop Minor Scale">Bebop Minor Scale</option>
+                <option value="Bebop Dominant Scale">Bebop Dominant Scale</option>
+            </optgroup>
+            <optgroup label="Exotic and World Scales">
+                <option value="Hirajoshi Scale">Hirajoshi Scale</option>
+                <option value="In Sen Scale">In Sen Scale</option>
+                <option value="Egyptian Scale">Egyptian Scale</option>
+                <option value="Arabian Scale">Arabian Scale</option>
+                <option value="Phrygian Dominant Scale">Phrygian Dominant Scale</option>
+            </optgroup>
+            <optgroup label="Other Modes and Scales">
+                <option value="Lydian Dominant Scale">Lydian Dominant Scale</option>
+                <option value="Altered Scale">Altered Scale (Super Locrian)</option>
+                <option value="Enigmatic Scale">Enigmatic Scale</option>
+            </optgroup>
+        </select>
+
+
+        <!-- Fretting Hand Technique -->
+        <label for="frettingTechnique">Fretting Hand Technique</label>
+        <select id="frettingTechnique">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <optgroup label="Beginner">
+                <option value="Finger Placement">Finger Placement</option>
+                <option value="Basic Chords">Basic Chords</option>
+                <option value="Power Chords">Power Chords</option>
+                <option value="Hammer-ons">Hammer-ons</option>
+                <option value="Pull-offs">Pull-offs</option>
+                <option value="Sliding">Sliding</option>
+            </optgroup>
+            <optgroup label="Intermediate">
+                <option value="Legato">Legato</option>
+                <option value="Vibrato">Vibrato</option>
+                <option value="Bending">Bending</option>
+                <option value="Barre Chords">Barre Chords</option>
+                <option value="Double Stops">Double Stops</option>
+                <option value="Tapping">Tapping</option>
+                <option value="Sliding into Chords">Sliding into Chords</option>
+                <option value="Chords with Open Strings">Chords with Open Strings</option>
+                <option value="Fret-Hand Muting">Fret-Hand Muting</option>
+            </optgroup>
+            <optgroup label="Advanced">
+                <option value="String Skipping">String Skipping</option>
+                <option value="Trills">Trills</option>
+                <option value="Advanced Bending Techniques">Advanced Bending Techniques</option>
+                <option value="Artificial Harmonics">Artificial Harmonics</option>
+                <option value="Pinch Harmonics">Pinch Harmonics</option>
+                <option value="Legato Runs">Legato Runs</option>
+                <option value="Chords with Extensions (9th, 11th, 13th)">Chords with Extensions (9th, 11th, 13th)</option>
+                <option value="Tapping (Two-Handed)">Tapping (Two-Handed)</option>
+                <option value="String Bends in Combination with Slides">String Bends in Combination with Slides</option>
+                <option value="Microtonal Bending">Microtonal Bending</option>
+                <option value="Fret-Hand Mutes and Ghost Notes">Fret-Hand Mutes and Ghost Notes</option>
+                <option value="Stretching for Wide Intervals">Stretching for Wide Intervals</option>
+            </optgroup>
+            <optgroup label="Expert">
+                <option value="Finger Independence Exercises">Finger Independence Exercises</option>
+                <option value="Legato in Combination with Tapping">Legato in Combination with Tapping</option>
+                <option value="Chord Inversions">Chord Inversions</option>
+                <option value="Chord-Melody Playing">Chord-Melody Playing</option>
+                <option value="Classical Fingerstyle Techniques">Classical Fingerstyle Techniques</option>
+                <option value="Gypsy Jazz Techniques">Gypsy Jazz Techniques</option>
+                <option value="Neoclassical Techniques">Neoclassical Techniques</option>
+                <option value="Counterpoint with Two-Voice Melodies">Counterpoint with Two-Voice Melodies</option>
+                <option value="Hybrid Scales and Chords">Hybrid Scales and Chords</option>
+            </optgroup>
+        </select>
+
+
+        <!-- Picking Hand Technique -->
+        <label for="pickingTechnique">Picking Hand Technique</label>
+        <select id="pickingTechnique">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <optgroup label="Beginner">
+                <option value="Downstrokes">Downstrokes</option>
+                <option value="Upstrokes">Upstrokes</option>
+                <option value="Alternate Picking">Alternate Picking</option>
+                <option value="Rest Strokes">Rest Strokes</option>
+                <option value="Free Strokes">Free Strokes</option>
+                <option value="Fingerpicking">Fingerpicking</option>
+            </optgroup>
+            <optgroup label="Intermediate">
+                <option value="Palm Muting">Palm Muting</option>
+                <option value="Hybrid Picking">Hybrid Picking</option>
+                <option value="Economy Picking">Economy Picking</option>
+                <option value="Tremolo Picking">Tremolo Picking</option>
+                <option value="Rake Picking">Rake Picking</option>
+                <option value="Fingerstyle">Fingerstyle</option>
+                <option value="Chicken Picking">Chicken Picking</option>
+            </optgroup>
+            <optgroup label="Advanced">
+                <option value="Sweep Picking">Sweep Picking</option>
+                <option value="Flatpicking">Flatpicking</option>
+                <option value="Pinch Harmonics">Pinch Harmonics</option>
+                <option value="Tapping (with picking hand)">Tapping (with picking hand)</option>
+                <option value="Fingerstyle Tremolo">Fingerstyle Tremolo</option>
+                <option value="Slap and Pop">Slap and Pop</option>
+                <option value="Pick Scrape">Pick Scrape</option>
+            </optgroup>
+            <optgroup label="Expert">
+                <option value="Picado (Flamenco Style)">Picado (Flamenco Style)</option>
+                <option value="Classical Fingerstyle Techniques">Classical Fingerstyle Techniques</option>
+                <option value="Artificial Harmonics (with picking hand)">Artificial Harmonics (with picking hand)</option>
+                <option value="String Skipping">String Skipping</option>
+                <option value="Thumb-Picking">Thumb-Picking</option>
+                <option value="Rasgueado">Rasgueado</option>
+                <option value="Harp Harmonics">Harp Harmonics</option>
+                <option value="Advanced Hybrid Picking">Advanced Hybrid Picking</option>
+                <option value="Gypsy Picking">Gypsy Picking</option>
+                <option value="Finger Independence (Fingerpicking)">Finger Independence (Fingerpicking)</option>
+            </optgroup>
+            <optgroup label="Specialized Techniques">
+                <option value="Dynamic Control">Dynamic Control</option>
+                <option value="String Dampening">String Dampening</option>
+                <option value="Hybrid Picking in Complex Time Signatures">Hybrid Picking in Complex Time Signatures</option>
+                <option value="Slapping and Tapping Combination">Slapping and Tapping Combination</option>
+            </optgroup>
+        </select>
+
+
+        <!-- Rhythm -->
+        <label for="rhythm">Rhythm</label>
+        <select id="rhythm">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <optgroup label="Beginner Rhythms">
+                <option value="Downstrokes">Downstrokes</option>
+                <option value="Upstrokes">Upstrokes</option>
+                <option value="Alternate Picking">Alternate Picking</option>
+                <option value="Quarter Notes">Quarter Notes</option>
+                <option value="Eighth Notes">Eighth Notes</option>
+            </optgroup>
+            <optgroup label="Syncopated Rhythms">
+                <option value="Syncopation">Syncopation</option>
+                <option value="Upbeat Strumming (Reggae)">Upbeat Strumming (Reggae)</option>
+                <option value="Backbeat Emphasis">Backbeat Emphasis</option>
+            </optgroup>
+            <optgroup label="Rhythms with Swing and Triplets">
+                <option value="Swing Rhythm">Swing Rhythm</option>
+                <option value="Triplet Feel">Triplet Feel</option>
+                <option value="Shuffle Rhythm">Shuffle Rhythm</option>
+                <option value="Swinging Eighths">Swinging Eighths</option>
+            </optgroup>
+            <optgroup label="Complex Time Signatures">
+                <option value="Odd Time Signatures">Odd Time Signatures</option>
+                <option value="5/4 Time">5/4 Time</option>
+                <option value="7/8 Time">7/8 Time</option>
+                <option value="6/8 Time">6/8 Time</option>
+            </optgroup>
+            <optgroup label="Polyrhythms and Cross Rhythms">
+                <option value="Polyrhythms">Polyrhythms</option>
+                <option value="Cross Rhythms">Cross Rhythms</option>
+                <option value="Metric Modulation">Metric Modulation</option>
+            </optgroup>
+            <optgroup label="Rhythmic Techniques">
+                <option value="Palm Muting">Palm Muting</option>
+                <option value="Dead Notes/Muted Strums">Dead Notes/Muted Strums</option>
+                <option value="Gallop Rhythm">Gallop Rhythm</option>
+                <option value="Percussive Strumming">Percussive Strumming</option>
+                <option value="Chord Anticipation">Chord Anticipation</option>
+                <option value="Ghost Notes">Ghost Notes</option>
+            </optgroup>
+            <optgroup label="Rhythms with Specific Genres">
+                <option value="Rumba Flamenca">Rumba Flamenca</option>
+                <option value="Bossa Nova">Bossa Nova</option>
+                <option value="Ska Rhythm">Ska Rhythm</option>
+                <option value="Djent Rhythm">Djent Rhythm</option>
+                <option value="Funk Groove">Funk Groove</option>
+            </optgroup>
+            <optgroup label="Rhythms with Variations">
+                <option value="Tremolo Strumming">Tremolo Strumming</option>
+                <option value="Triplet Strumming">Triplet Strumming</option>
+                <option value="Slap Guitar Rhythms">Slap Guitar Rhythms</option>
+                <option value="Chugging">Chugging</option>
+            </optgroup>
+            <optgroup label="Advanced Rhythms">
+                <option value="Syncopated Funk Patterns">Syncopated Funk Patterns</option>
+                <option value="Hybrid Rhythms">Hybrid Rhythms</option>
+                <option value="Displaced Rhythms">Displaced Rhythms</option>
+            </optgroup>
+        </select>
+
+
+        <!-- Style of Play -->
+        <label for="playStyle">Play Style</label>
+        <select id="playStyle">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <optgroup label="Traditional Styles">
+                <option value="Classical">Classical</option>
+                <option value="Flamenco">Flamenco</option>
+                <option value="Fingerstyle">Fingerstyle</option>
+                <option value="Gypsy Jazz">Gypsy Jazz</option>
+                <option value="Folk">Folk</option>
+                <option value="Blues">Blues</option>
+            </optgroup>
+            <optgroup label="Modern Styles">
+                <option value="Rock">Rock</option>
+                <option value="Metal">Metal</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Funk">Funk</option>
+                <option value="Country">Country</option>
+                <option value="Reggae">Reggae</option>
+                <option value="Pop">Pop</option>
+            </optgroup>
+            <optgroup label="Rhythmic and Percussive Styles">
+                <option value="Percussive Fingerstyle">Percussive Fingerstyle</option>
+                <option value="Slap Guitar">Slap Guitar</option>
+                <option value="Strumming Patterns (Basic to Complex)">Strumming Patterns (Basic to Complex)</option>
+            </optgroup>
+            <optgroup label="Specialized and Hybrid Styles">
+                <option value="Hybrid Picking">Hybrid Picking</option>
+                <option value="Slide Guitar">Slide Guitar</option>
+                <option value="Tapping">Tapping</option>
+                <option value="Neoclassical">Neoclassical</option>
+                <option value="Djent">Djent</option>
+                <option value="Progressive Rock/Metal">Progressive Rock/Metal</option>
+            </optgroup>
+            <optgroup label="Global and Cultural Styles">
+                <option value="Latin">Latin</option>
+                <option value="Bossa Nova">Bossa Nova</option>
+                <option value="Flamenco Rumba">Flamenco Rumba</option>
+                <option value="Indian Classical Guitar">Indian Classical Guitar</option>
+            </optgroup>
+            <optgroup label="Experimental Styles">
+                <option value="Ambient/Soundscapes">Ambient/Soundscapes</option>
+                <option value="Math Rock">Math Rock</option>
+                <option value="Avant-Garde/Noise">Avant-Garde/Noise</option>
+                <option value="Post-Rock">Post-Rock</option>
+            </optgroup>
+            <optgroup label="Genre-Fusion Styles">
+                <option value="Jazz Fusion">Jazz Fusion</option>
+                <option value="Blues-Rock">Blues-Rock</option>
+                <option value="Gypsy Punk">Gypsy Punk</option>
+                <option value="Flamenco Metal">Flamenco Metal</option>
+            </optgroup>
+            <optgroup label="Rhythm-Based Styles">
+                <option value="Rhythm Guitar">Rhythm Guitar</option>
+                <option value="Lead Guitar">Lead Guitar</option>
+            </optgroup>
+        </select>
+
+
+        <!-- String Restrictions -->
+        <label for="stringChallenge">String Challenge</label>
+        <select id="stringChallenge">
+            <option value="random">Random</option>
+            <option value="none">None</option>
+            <optgroup label="Single-String Challenges">
+                <option value="Single String">Single String (e.g., High E String Only)</option>
+                <option value="Single String Pentatonic">Single String Pentatonic</option>
+                <option value="Single String Arpeggios">Single String Arpeggios</option>
+                <option value="Single String Chord Voicings">Single String Chord Voicings</option>
+                <option value="Single String Melodies">Single String Melodies</option>
+            </optgroup>
+            <optgroup label="Two-String Challenges">
+                <option value="Adjacent Strings Only">Adjacent Strings Only (e.g., D and G Strings)</option>
+                <option value="Non-Adjacent Strings">Non-Adjacent Strings (e.g., Low E and High B Strings)</option>
+                <option value="Double Stops">Double Stops</option>
+                <option value="Two Strings for Chords">Two Strings for Chords</option>
+            </optgroup>
+            <optgroup label="Multi-String Challenges">
+                <option value="Low Strings Only">Low Strings Only (e.g., E, A, D)</option>
+                <option value="High Strings Only">High Strings Only (e.g., G, B, E)</option>
+                <option value="Odd Strings Only">Odd Strings Only (e.g., E, D, B)</option>
+                <option value="Even Strings Only">Even Strings Only (e.g., A, G, E)</option>
+                <option value="Bass Strings Only">Bass Strings Only (Low E and A)</option>
+            </optgroup>
+            <optgroup label="Alternate String Restrictions">
+                <option value="Skip Every Other String">Skip Every Other String (e.g., E, D, B)</option>
+                <option value="Skip Two Strings">Skip Two Strings (e.g., E and G Only)</option>
+                <option value="Hybrid Picking with Non-Adjacent Strings">Hybrid Picking with Non-Adjacent Strings</option>
+                <option value="Fingerpicking Patterns on Non-Adjacent Strings">Fingerpicking Patterns on Non-Adjacent Strings</option>
+            </optgroup>
+            <optgroup label="Combination Challenges">
+                <option value="One String for Rhythm, Another for Lead">One String for Rhythm, Another for Lead</option>
+                <option value="Chord on One String, Melody on Another">Chord on One String, Melody on Another</option>
+                <option value="Double Stops Across Non-Adjacent Strings">Double Stops Across Non-Adjacent Strings</option>
+                <option value="One Finger per String">One Finger per String</option>
+            </optgroup>
+            <optgroup label="Creative Limitations">
+                <option value="Low E String Muted">Low E String Muted</option>
+                <option value="High E String Muted">High E String Muted</option>
+                <option value="Middle Strings Only">Middle Strings Only (D, G)</option>
+                <option value="Bass Note on One String, Melody on Another">Bass Note on One String, Melody on Another</option>
+                <option value="Inverted String Role">Inverted String Role (Low for Lead, High for Rhythm)</option>
+            </optgroup>
+            <optgroup label="Timed and Tempo Challenges">
+                <option value="Changing Strings Each Bar">Changing Strings Each Bar</option>
+                <option value="Speed-Based String Restriction">Speed-Based String Restriction</option>
+                <option value="Single String per Measure">Single String per Measure</option>
+            </optgroup>
+        </select>
+
+    
+        
+    
+        <button type="button" onclick="generateCustomChallenge()">Generate Challenge</button>
+    </form>
+    
+    <div id="challenge"></div>
+    
+    <script>
+      
+    // Utility function to get a random element from an array
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+    
+    const masteryLevel1Descriptions = {
+        "Fretboard Memorization": "Improve your ability to recall the notes across the fretboard quickly and effortlessly.",
+        "CAGED System": "Master the CAGED system to unlock the entire fretboard and play chords and scales in any position.",
+        "Interval Studies": "Focus on interval recognition to enhance your understanding of musical relationships and improve your improvisation skills.",
+        "none": "No mastery level selected for this challenge."
+    };
+    const masteryLevel2Descriptions = {
+        "Pentatonic Scale Variations": "Exploring the pentatonic scale beyond the basic box shapes.",
+        "Blues Scale Extensions": "Building on the blues scale to add more expressive possibilities.",
+        "Diatonic Harmony (Major and Minor Keys)": "Learning how chords are built within the major and minor scales.",
+        "Dorian, Phrygian, Lydian, Mixolydian Modes": "Introduction to modes and how they differ from major and minor scales.",
+        "Chord Inversions": "Understanding how to rearrange the notes of chords to create different voicings.",
+        "Extended Chords (9th, 11th, 13th)": "Adding extra notes to basic triads to form richer harmonies.",
+        "Alternate Tunings (Drop D, DADGAD, etc.)": "Exploring alternate ways to tune the guitar for different sounds and techniques.",
+        "none": "No mastery level selected for this challenge."
+    };
+    const masteryLevel3Descriptions = {
+        "Modulating Between Keys": "Changing keys within a song to create contrast and movement.",
+        "Harmonic and Melodic Minor Scales": "Understanding minor scales with different interval patterns for various musical applications.",
+        "Utilizing Passing Notes and Neighbor Tones": "Enhancing melodies and solos by adding tension and release with non-chord tones.",
+        "Scale Sequencing and Pattern Creation": "Using patterns within scales to create runs and phrases.",
+        "Composing Solos for Different Genres": "Understanding stylistic differences in solo writing across musical genres.",
+        "Approach Notes for Jazz Improvisation": "Adding chromaticism and tension with notes that lead into chord tones.",
+        "none": "No mastery level selected for this challenge."
+    };
+    const masteryLevel4Descriptions = {
+        "Hybrid Scales and Passing Chords": "Mixing scales and using non-diatonic chords to add sophistication to your playing.",
+        "Voice Leading": "Moving smoothly between chords by keeping common tones or stepwise motion.",
+        "Improvising with Modes Over Chord Changes": "Applying modal theory in real-time over changing harmonies.",
+        "Improvisation over Complex Chord Changes": "Handling more sophisticated harmonic structures in improvisation.",
+        "Harmonic Tension with Suspended Chords": "Creating tension in progressions by using suspended chords.",
+        "Chord Substitutions (Tritone, Secondary Dominants)": "Swapping out chords for others to create harmonic variety.",
+        "Jazz Chord Progressions": "More complex harmonic movements typical of jazz music.",
+        "Neoclassical Techniques": "A blend of classical and modern guitar techniques, often involving fast scale runs and arpeggios.",
+        "Bebop Scale and Chromatic Approaches": "Using chromatic passing tones and bebop scales for fast, complex lines.",
+        "Altered Scales (Altered Dominant, Whole Tone)": "Scales designed to fit altered chords, useful in jazz and fusion genres."
+    };
+    const masteryLevel5Descriptions = {
+        "Modal Interchange": "Borrowing chords from parallel modes (e.g., borrowing from the minor mode in a major key context).",
+        "Counterpoint": "Combining multiple independent melodies, a more classical approach to composition and improvisation.",
+        "Exotic Scales (Persian, Hungarian, Byzantine)": "Using scales from outside Western music traditions for unique sounds.",
+        "Harmonic Tension with Suspended Chords": "Using unresolved chords to create dramatic tension in your music."
+    };
+    const scaleDescriptions = {
+        "Major Scale (Ionian Mode)": "The most fundamental scale in Western music, characterized by a whole-whole-half-whole-whole-whole-half step pattern (W-W-H-W-W-W-H).",
+        "Natural Minor Scale (Aeolian Mode)": "The relative minor of the major scale, following a whole-half-whole-whole-half-whole-whole pattern (W-H-W-W-H-W-W).",
+        "Harmonic Minor Scale": "A variation of the natural minor scale with a raised 7th degree to create a leading tone, used in classical and jazz music.",
+        "Melodic Minor Scale": "The 6th and 7th degrees of the natural minor scale are raised when ascending but revert to the natural minor form when descending.",
+        "Pentatonic Major Scale": "A five-note scale derived from the major scale, omitting the 4th and 7th degrees, common in folk, blues, and rock.",
+        "Pentatonic Minor Scale": "The minor version of the pentatonic scale, omitting the 2nd and 6th degrees.",
+        "Blues Scale": "A six-note scale based on the minor pentatonic scale, adding a diminished 5th (the 'blue' note).",
+        "Ionian Mode (Major Scale)": "Identical to the major scale, characterized by a happy and bright sound.",
+        "Dorian Mode": "A minor mode with a raised 6th degree, giving it a jazzy, smooth sound.",
+        "Phrygian Mode": "A minor mode with a lowered 2nd degree, often used in flamenco and Spanish music for a dark, exotic sound.",
+        "Lydian Mode": "A major mode with a raised 4th degree, giving it an ethereal, floating quality.",
+        "Mixolydian Mode": "A major mode with a lowered 7th degree, often found in blues, rock, and funk.",
+        "Aeolian Mode (Natural Minor Scale)": "Identical to the natural minor scale.",
+        "Locrian Mode": "A diminished mode with a lowered 2nd and 5th degree, creating an unstable, tense sound.",
+        "Whole Tone Scale": "A six-note scale where each interval is a whole step, giving it a dreamlike, unresolved sound.",
+        "Diminished Scale": "An eight-note scale alternating between half and whole steps, used in jazz and classical music.",
+        "Octatonic Scale": "Another eight-note scale, alternating between whole and half steps, often used in jazz and modern classical music.",
+        "Chromatic Scale": "A scale consisting of all 12 pitches within an octave, moving by half steps.",
+        "Hungarian Minor Scale": "A variation of the harmonic minor scale with an augmented 4th, commonly used in Eastern European music.",
+        "Persian Scale": "A seven-note scale with a distinctive Eastern sound, featuring half steps and augmented seconds.",
+        "Byzantine Scale": "A Middle Eastern scale with a characteristic half step between the root and second degree.",
+        "Bebop Major Scale": "A major scale with an added chromatic passing tone between the 5th and 6th degrees.",
+        "Bebop Minor Scale": "A minor scale with an added chromatic passing tone between the 5th and 6th degrees.",
+        "Bebop Dominant Scale": "A Mixolydian mode with an added chromatic passing tone between the 7th and root.",
+        "Hirajoshi Scale": "A five-note Japanese scale with a dark, haunting quality.",
+        "In Sen Scale": "Another Japanese scale with a pentatonic structure.",
+        "Egyptian Scale": "A five-note scale with a distinctive Middle Eastern sound.",
+        "Arabian Scale": "A seven-note scale often used in Middle Eastern music, featuring half steps and augmented intervals.",
+        "Phrygian Dominant Scale": "A variation of the Phrygian mode with a major 3rd, often found in flamenco and Jewish music.",
+        "Lydian Dominant Scale": "A combination of Lydian and Mixolydian modes, with a raised 4th and lowered 7th.",
+        "Altered Scale": "A mode derived from the melodic minor scale, often used in jazz for dominant chords.",
+        "Enigmatic Scale": "A highly unusual and chromatic scale with large interval leaps, giving it an otherworldly sound."
+    };
+
+    const scaleExamples = {
+        "Major Scale (Ionian Mode)": "C Major (C-D-E-F-G-A-B-C)",
+        "Natural Minor Scale (Aeolian Mode)": "A Minor (A-B-C-D-E-F-G-A)",
+        "Harmonic Minor Scale": "A Harmonic Minor (A-B-C-D-E-F-G#-A)",
+        "Melodic Minor Scale": "A Melodic Minor (A-B-C-D-E-F#-G#-A)",
+        "Pentatonic Major Scale": "C Major Pentatonic (C-D-E-G-A-C)",
+        "Pentatonic Minor Scale": "A Minor Pentatonic (A-C-D-E-G-A)",
+        "Blues Scale": "A Blues Scale (A-C-D-D#-E-G-A)",
+        "Ionian Mode (Major Scale)": "C Ionian (C-D-E-F-G-A-B-C)",
+        "Dorian Mode": "D Dorian (D-E-F-G-A-B-C-D)",
+        "Phrygian Mode": "E Phrygian (E-F-G-A-B-C-D-E)",
+        "Lydian Mode": "F Lydian (F-G-A-B-C-D-E-F)",
+        "Mixolydian Mode": "G Mixolydian (G-A-B-C-D-E-F-G)",
+        "Aeolian Mode (Natural Minor Scale)": "A Aeolian (A-B-C-D-E-F-G-A)",
+        "Locrian Mode": "B Locrian (B-C-D-E-F-G-A-B)",
+        "Whole Tone Scale": "C Whole Tone (C-D-E-F#-G#-A#-C)",
+        "Diminished Scale": "C Diminished (C-D-D#-F-F#-G#-A-B-C)",
+        "Octatonic Scale": "C Octatonic (C-D-D#-F-F#-G#-A-B-C)",
+        "Chromatic Scale": "C Chromatic (C-C#-D-D#-E-F-F#-G-G#-A-A#-B-C)",
+        "Hungarian Minor Scale": "A Hungarian Minor (A-B-C-D#-E-F-G#-A)",
+        "Persian Scale": "C Persian (C-C#-E-F-G-G#-B-C)",
+        "Byzantine Scale": "C Byzantine (C-C#-E-F-G-G#-B-C)",
+        "Bebop Major Scale": "C Bebop Major (C-D-E-F-G-G#-A-B-C)",
+        "Bebop Minor Scale": "C Bebop Minor (C-D-Eb-F-G-G#-A-Bb-C)",
+        "Bebop Dominant Scale": "C Bebop Dominant (C-D-E-F-G-A-Bb-B-C)",
+        "Hirajoshi Scale": "C Hirajoshi (C-D-Eb-G-G#-C)",
+        "In Sen Scale": "C In Sen (C-D-Eb-G-Bb-C)",
+        "Egyptian Scale": "C Egyptian (C-D-F-G-A-C)",
+        "Arabian Scale": "C Arabian (C-D-Eb-F#-G-A-Bb-C)",
+        "Phrygian Dominant Scale": "E Phrygian Dominant (E-F-G#-A-B-C-D-E)",
+        "Lydian Dominant Scale": "C Lydian Dominant (C-D-E-F#-G-A-Bb-C)",
+        "Altered Scale": "C Altered (C-Db-Eb-E-Gb-Ab-Bb-C)",
+        "Enigmatic Scale": "C Enigmatic (C-Db-E-F#-G#-A#-B-C)"
+    };
+    const rhythmDescriptions = {
+        "Downstrokes": "Playing all the beats with downward pick strokes, often used in simple rock or punk rhythms for a driving, steady feel.",
+        "Upstrokes": "Playing all the beats with upward pick strokes, usually used in combination with downstrokes for a lighter, more syncopated feel.",
+        "Alternate Picking": "Alternating between downstrokes and upstrokes on each beat, commonly used in rock, folk, and pop rhythms.",
+        "Quarter Notes": "Strumming on each quarter note, emphasizing the strong beats of a 4/4 measure.",
+        "Eighth Notes": "Strumming on each eighth note, doubling the speed of quarter notes for a more fluid rhythm.",
+        "Syncopation": "Accenting off-beats or weak beats, creating a rhythm that feels unexpected or 'off-balance.' Common in funk, reggae, and jazz.",
+        "Upbeat Strumming (Reggae)": "Strumming only on the offbeats (2 and 4) to create a syncopated, laid-back groove typical of reggae.",
+        "Backbeat Emphasis": "Accentuating the 2nd and 4th beats in a 4/4 measure, typical of rock, pop, and blues rhythms.",
+        "Swing Rhythm": "Dividing each beat into uneven triplet subdivisions (long-short), commonly used in jazz, blues, and swing music.",
+        "Triplet Feel": "Breaking each beat into three equal parts (triplets), giving the rhythm a rolling, flowing feel.",
+        "Shuffle Rhythm": "A variation of the triplet feel where the first note of each triplet is played, often used in blues and rockabilly.",
+        "Swinging Eighths": "Eighth notes that have a swing feel, where the first eighth note is longer than the second.",
+        "Odd Time Signatures": "Using non-standard time signatures like 5/4, 7/8, and 9/8, which are common in progressive rock and jazz fusion.",
+        "5/4 Time": "A rhythm divided into five beats per measure, creating an unusual and slightly off-kilter feel.",
+        "7/8 Time": "A rhythm divided into seven beats per measure, commonly used in progressive rock and metal for more complex phrasing.",
+        "6/8 Time": "A rhythm divided into six beats per measure, giving a waltz-like or rolling feel often used in folk, classical, and ballads.",
+        "Polyrhythms": "Simultaneous use of two or more conflicting rhythms, like playing 3 beats against 2 (3:2), often found in jazz, metal, and African music.",
+        "Cross Rhythms": "Layering rhythms with different time signatures (e.g., 4/4 over 3/4) to create rhythmic tension, used in progressive music.",
+        "Metric Modulation": "Shifting from one time signature to another in the middle of a piece, altering the perception of the beat without changing the actual tempo.",
+        "Palm Muting": "Muting the strings with the side of the picking hand to create a percussive, choked-off rhythm, common in metal and punk.",
+        "Dead Notes/Muted Strums": "Strumming the strings while lightly muting them to create a percussive, rhythmic 'chuck' sound, often used in funk and reggae.",
+        "Gallop Rhythm": "A fast, three-note pattern (long-short-short) often used in metal and thrash music for a driving, aggressive feel.",
+        "Percussive Strumming": "Using the hand to create a muted or slapping effect on the strings, common in funk, flamenco, and acoustic styles.",
+        "Chord Anticipation": "Playing a chord slightly before the beat, creating a syncopated, forward-driving rhythm, used in jazz and blues.",
+        "Ghost Notes": "Lightly strumming or picking notes that are muted, creating a rhythmic click or percussive sound.",
+        "Rumba Flamenca": "A flamenco rhythm characterized by syncopated strumming patterns and percussive hand slaps on the guitar body.",
+        "Bossa Nova": "A Brazilian rhythm that blends samba and jazz, using syncopated fingerpicking patterns.",
+        "Ska Rhythm": "A rhythm that accentuates the offbeats with sharp, quick upstrokes, often found in ska, reggae, and punk.",
+        "Djent Rhythm": "A modern progressive metal rhythm characterized by highly syncopated, staccato palm-muted patterns on down-tuned guitars.",
+        "Funk Groove": "Rhythmically complex strumming patterns with muted notes, focusing on the groove and emphasizing syncopation.",
+        "Tremolo Strumming": "Rapid, continuous strumming often used to create a fast, aggressive rhythm, commonly found in flamenco and surf rock.",
+        "Triplet Strumming": "Strumming in groups of three, often used in waltzes, blues, or jazz.",
+        "Slap Guitar Rhythms": "Incorporating slap techniques for rhythmic, percussive sounds, often used in funk and slap bass styles.",
+        "Chugging": "A rhythm technique in metal and hard rock where palm-muted downstrokes on the lower strings create a 'chugging' effect.",
+        "Syncopated Funk Patterns": "Advanced syncopation with rests, mutes, and accents, commonly found in funk and R&B guitar.",
+        "Hybrid Rhythms": "Combining different rhythmic patterns, such as triplets and sixteenth notes, to create complex rhythmic phrases.",
+        "Displaced Rhythms": "Moving a repeating rhythm pattern forward or backward by a beat or subdivision to create rhythmic tension."
+    };
+    const playStyleDescriptions = {
+        "Classical": "Played on nylon-string acoustic guitars with fingerstyle techniques, focusing on pieces from the classical music canon. It involves intricate, fingerpicked melodies and chord progressions.",
+        "Flamenco": "A traditional Spanish style characterized by rapid strumming patterns (rasgueado), percussive techniques, and melodic embellishments like picado and tremolo picking.",
+        "Fingerstyle": "A style where the player uses their fingers instead of a pick to pluck individual strings, common in folk, classical, and jazz. It can incorporate complex melodies, bass lines, and harmonies simultaneously.",
+        "Gypsy Jazz": "Often played on acoustic guitars with a focus on fast arpeggios, chromatic runs, and rhythmic strumming (la pompe) to produce a swinging sound.",
+        "Folk": "Typically acoustic guitar-based, folk playing involves open chords, fingerpicking, and simple strumming patterns, often in storytelling songs.",
+        "Blues": "Features techniques like bending, sliding, and the use of the minor pentatonic and blues scales. It often incorporates fingerpicking or hybrid picking for Delta blues or electric guitar for modern blues.",
+        "Rock": "A broad genre that includes everything from power chords and pentatonic solos to advanced improvisation and rhythmic variations. Often electric and heavily amplified.",
+        "Metal": "Known for its use of distortion, fast alternate picking, palm muting, and techniques like sweep picking and tapping. Subgenres include thrash metal, death metal, and progressive metal.",
+        "Jazz": "A genre that focuses on complex chords, extended harmonies, and improvisation. Jazz guitar players often use fingerstyle or hybrid picking to navigate intricate chord progressions.",
+        "Funk": "Focuses on rhythm, groove, and syncopated patterns. Often uses techniques like percussive strumming and muting to achieve the signature 'funk' sound.",
+        "Country": "Characterized by techniques like fingerpicking, chicken picking, and hybrid picking. It often uses open chords, pedal steel-style bends, and simple but effective melodies.",
+        "Reggae": "Emphasizes off-beat rhythms (upstrokes on the offbeat), often using simple chord progressions with clean, rhythmic playing.",
+        "Pop": "Known for simple chord progressions, strumming patterns, and catchy hooks. Pop guitar styles are more about complementing vocals and the overall melody.",
+        "Percussive Fingerstyle": "A modern acoustic style where the guitar body is tapped or hit while simultaneously plucking strings to create a percussive rhythm along with the melody.",
+        "Slap Guitar": "A style where the picking hand uses slap techniques, commonly associated with bass guitar but also used in funk guitar to produce percussive sounds.",
+        "Strumming Patterns (Basic to Complex)": "The use of different rhythmic strumming patterns, often in acoustic music, to create texture and rhythm, ranging from simple up/down strokes to intricate syncopation.",
+        "Hybrid Picking": "Combining pick and fingerpicking techniques, allowing the player to pluck multiple strings simultaneously or play complex passages that require both techniques.",
+        "Slide Guitar": "Using a glass, metal, or ceramic slide to glide over the strings, creating a smooth, continuous sound. Common in blues, country, and southern rock.",
+        "Tapping": "A technique where both hands tap the fretboard to produce fast, legato runs. This technique is common in progressive rock, metal, and shred styles.",
+        "Neoclassical": "A style that incorporates elements of classical music into rock or metal guitar playing, often featuring fast arpeggios, scales, and complex melodies.",
+        "Djent": "A subgenre of progressive metal that focuses on palm-muted, staccato riffs with polyrhythms, syncopation, and down-tuned guitars.",
+        "Progressive Rock/Metal": "Known for odd time signatures, complex song structures, and a mix of acoustic and electric guitar work. Techniques such as tapping, sweep picking, and hybrid picking are common.",
+        "Latin": "A style that encompasses genres like bossa nova, samba, and Latin jazz, often featuring intricate fingerpicking patterns, syncopation, and rhythm-heavy playing.",
+        "Bossa Nova": "A Brazilian style combining samba rhythms with jazz chords, using fingerstyle techniques to create complex, syncopated rhythms.",
+        "Flamenco Rumba": "A popular flamenco sub-style characterized by rhythmic strumming patterns and percussive techniques, often performed in an ensemble setting.",
+        "Indian Classical Guitar": "A fusion style where traditional Indian scales (ragas) and rhythms (talas) are applied to the guitar, using techniques like slides and bends to mimic the vocal style.",
+        "Ambient/Soundscapes": "A style focused on creating ethereal, atmospheric textures using effects like reverb, delay, and modulation. It often involves slow, sustained picking or strumming to create an expansive sound.",
+        "Math Rock": "Known for complex time signatures, dissonance, and intricate tapping and strumming patterns, this style often involves polyrhythms and angular melodies.",
+        "Avant-Garde/Noise": "Experimental use of the guitar, often incorporating feedback, atonal playing, or unconventional techniques like bowing or hammering the strings.",
+        "Post-Rock": "A style that blends atmospheric textures with rock elements, often involving minimalistic melodies, clean tones, and dynamic contrast between soft and loud sections.",
+        "Jazz Fusion": "A mix of jazz with rock, funk, and world music influences. It involves complex improvisation, chord progressions, and techniques like sweep picking and tapping.",
+        "Blues-Rock": "A fusion of blues and rock styles, incorporating blues scales, pentatonic licks, and rock power chords. Often features heavy bending and vibrato.",
+        "Gypsy Punk": "A fusion of gypsy jazz and punk rock, characterized by fast strumming patterns, percussive chords, and energetic performances.",
+        "Flamenco Metal": "A hybrid of flamenco and metal that blends intricate fingerpicking and Spanish scales with heavy, distorted riffs.",
+        "Rhythm Guitar": "Playing chords and maintaining the rhythmic backbone of the song, particularly in rock, metal, and funk. Often focuses on percussive strumming and syncopation.",
+        "Lead Guitar": "Focused on melody and solos, lead guitar playing uses techniques like bends, slides, tapping, and vibrato to create expressive lines."
+    };
+    const pickingHandDescriptions = {
+        "Downstrokes": "Picking downward across the strings, common in many styles, particularly in rock and punk.",
+        "Upstrokes": "Picking upward across the strings, used in combination with downstrokes for alternate picking.",
+        "Alternate Picking": "Using both downstrokes and upstrokes alternately to pick notes in a fluid, efficient motion.",
+        "Rest Strokes": "A technique where, after plucking a string, the pick rests on the adjacent string.",
+        "Free Strokes": "Picking a string without touching or resting on the adjacent string, commonly used in fingerpicking.",
+        "Fingerpicking": "Using individual fingers to pluck the strings, often in folk, classical, and fingerstyle guitar playing.",
+        "Palm Muting": "Lightly resting the palm of the picking hand near the bridge to dampen the strings, creating a muted or percussive sound.",
+        "Hybrid Picking": "Combining flatpicking with fingerpicking, where the pick is used for some notes and fingers for others, often used in country and jazz.",
+        "Economy Picking": "A technique where the picking motion follows the shortest path possible, often used for fast, fluid runs.",
+        "Tremolo Picking": "Rapidly alternating up and downstrokes on a single note or string to create a sustained, fast picking effect.",
+        "Rake Picking": "Dragging the pick across adjacent strings quickly, muting those that aren’t intended to sound, often used to create fast, precise runs.",
+        "Fingerstyle": "Playing the strings with your fingers instead of a pick, often used in classical, folk, and acoustic music, including techniques like arpeggios and thumb-picking.",
+        "Chicken Picking": "A country technique that combines fingerpicking and muting to create a sharp, staccato sound.",
+        "Sweep Picking": "A technique that involves sweeping the pick across several strings in one fluid motion, commonly used for playing arpeggios at high speed.",
+        "Flatpicking": "Playing the strings using a flat pick (plectrum), often associated with bluegrass, country, and rock.",
+        "Pinch Harmonics": "A technique where the pick and thumb simultaneously strike the string to produce high-pitched, harmonic overtones.",
+        "Tapping (with picking hand)": "Tapping on the fretboard with the picking hand to play notes without picking, often used for fast, fluid passages.",
+        "Fingerstyle Tremolo": "Rapidly alternating fingerpicking patterns on one string or across strings, often used in classical and flamenco guitar.",
+        "Slap and Pop": "A technique where the picking hand slaps the strings with the thumb and pops them with the fingers, commonly used in funk and slap bass techniques.",
+        "Pick Scrape": "Scraping the pick along the windings of the wound strings, often used for dramatic effect in rock and metal.",
+        "Picado (Flamenco Style)": "Rapid alternating picking using the index and middle fingers in flamenco music, producing a fast, percussive sound.",
+        "Classical Fingerstyle Techniques": "Advanced fingerpicking used in classical guitar, involving precise control of each finger for complex patterns and arpeggios.",
+        "Artificial Harmonics (with picking hand)": "A method where the picking hand produces harmonics by lightly touching a node point on the string while picking.",
+        "String Skipping": "The picking hand skips over one or more strings while playing a passage, often used in combination with legato and sweep picking for fast, technical playing.",
+        "Thumb-Picking": "Using the thumb to pick bass notes while the fingers play melody or harmony, commonly used in fingerstyle guitar and blues.",
+        "Rasgueado": "A flamenco strumming technique where the fingers of the picking hand rapidly flick outward, creating a rapid succession of strums.",
+        "Harp Harmonics": "A combination of harmonics and plucked notes, where the picking hand alternates between picking regular notes and producing harmonics.",
+        "Advanced Hybrid Picking": "Combining pick and fingers in more intricate patterns and across faster runs, useful in jazz, country, and complex fingerstyle arrangements.",
+        "Gypsy Picking": "A picking technique used in gypsy jazz, characterized by downstrokes on string changes and a more forceful, rhythmic style of picking.",
+        "Finger Independence (Fingerpicking)": "Using thumb and fingers independently for complex fingerstyle patterns, often requiring rhythmic independence.",
+        "Dynamic Control": "Adjusting the intensity of your picking or strumming to control volume, tone, and attack for expressive playing.",
+        "String Dampening": "Using the picking hand to mute certain strings while playing others, often used in funk, jazz, and rock for cleaner sounds.",
+        "Hybrid Picking in Complex Time Signatures": "Applying hybrid picking to play complex rhythmic patterns in odd time signatures.",
+        "Slapping and Tapping Combination": "Integrating slap and pop techniques with tapping for a percussive and fluid playing style."
+    };
+    const frettingHandDescriptions = {
+        "Finger Placement": "Proper finger positioning on the fretboard, close to the frets, to produce clean notes.",
+        "Basic Chords": "Mastery of open chords (C, G, D, A, E) and barre chords.",
+        "Power Chords": "Simplified chords often used in rock and metal, involving two or three notes.",
+        "Hammer-ons": "Striking a note by pressing the finger down onto the fretboard without picking the string again.",
+        "Pull-offs": "Removing a finger from a fretted note to let the string ring to a lower note.",
+        "Sliding": "Moving a finger up or down the neck while maintaining pressure on the string, sliding into a new note.",
+        "Legato": "A technique involving smooth, connected notes using hammer-ons, pull-offs, and slides, often without re-picking.",
+        "Vibrato": "Bending the pitch of a note up and down slightly by moving the fretting finger in a controlled manner.",
+        "Bending": "Pushing or pulling a string to raise its pitch, typically by a half step or whole step.",
+        "Barre Chords": "Using one finger to press down multiple strings across a fret, forming movable chord shapes.",
+        "Double Stops": "Playing two notes at the same time, often involving slides or vibrato.",
+        "Tapping": "Using the fretting hand to tap on the fretboard for fast, percussive note sequences, sometimes in conjunction with the picking hand.",
+        "Sliding into Chords": "Sliding into a chord shape from one or more frets away for smoother transitions.",
+        "Chords with Open Strings": "Chords that combine fretted and open notes, often used in folk and rock.",
+        "Fret-Hand Muting": "Lightly touching the strings with the fretting hand to create a muted or percussive sound.",
+        "String Skipping": "Skipping over one or more strings when transitioning between notes or chords, demanding precise finger positioning.",
+        "Trills": "Rapid alternation between two adjacent notes, involving fast hammer-ons and pull-offs.",
+        "Advanced Bending Techniques": "Incorporating pre-bends, microtonal bends, and release bends for expressive control.",
+        "Artificial Harmonics": "Combining fretting with picking techniques to produce high-pitched, bell-like notes.",
+        "Pinch Harmonics": "Produced using a specific thumb-pick technique in conjunction with precise fretting.",
+        "Legato Runs": "Long, flowing passages of hammer-ons, pull-offs, and slides across the fretboard without picking every note.",
+        "Chords with Extensions (9th, 11th, 13th)": "Complex chord shapes that incorporate extended notes for richer harmonies.",
+        "Tapping (Two-Handed)": "Using multiple fingers from both hands to tap notes on the fretboard for complex patterns.",
+        "String Bends in Combination with Slides": "Bending a note and sliding simultaneously to create expressive transitions.",
+        "Microtonal Bending": "Subtle, less-than-semitone bends often used in styles like blues and Eastern music.",
+        "Fret-Hand Mutes and Ghost Notes": "Muting the strings with the fretting hand to create ghost notes, often used in funk and percussive playing.",
+        "Stretching for Wide Intervals": "Reaching across large distances on the fretboard, typically involving finger independence and precise control.",
+        "Finger Independence Exercises": "Developing dexterity and independence of the fretting fingers for complex chords, scales, and passages.",
+        "Legato in Combination with Tapping": "Combining legato techniques with tapping to create fluid, seamless runs across multiple octaves.",
+        "Chord Inversions": "Rearranging chord shapes by altering the note order, often across multiple positions on the neck.",
+        "Chord-Melody Playing": "Playing melodies and chords simultaneously, often requiring intricate finger control and knowledge of harmony.",
+        "Classical Fingerstyle Techniques": "Advanced finger independence, incorporating intricate arpeggios and complex chord structures (used in classical guitar).",
+        "Gypsy Jazz Techniques": "Incorporating fast, intricate fretwork and chromatic runs typical of gypsy jazz guitar.",
+        "Neoclassical Techniques": "Combining fast arpeggios and scale runs, often requiring intricate fretting hand movements across multiple positions.",
+        "Counterpoint with Two-Voice Melodies": "Playing two independent melodic lines simultaneously, requiring high finger independence.",
+        "Hybrid Scales and Chords": "Mixing different scale systems and incorporating non-diatonic chords for creative harmonic progressions."
+    };
+
+    const stringChallengeDescriptions = {
+        "Single String": "Play scales, riffs, or solos using only one string to develop horizontal movement across the fretboard.",
+        "Single String Pentatonic": "Play the entire pentatonic scale or a solo using only one string, focusing on slides and position shifts.",
+        "Single String Arpeggios": "Practice arpeggios on a single string to improve fretboard awareness.",
+        "Single String Chord Voicings": "Play chord progressions using only notes from a single string.",
+        "Single String Melodies": "Write or improvise melodies on just one string, focusing on expression through slides and vibrato.",
+        "Adjacent Strings Only": "Limit yourself to playing only on two adjacent strings to work on interval training and string transitions.",
+        "Non-Adjacent Strings": "Create riffs, melodies, or chord shapes by skipping strings, encouraging creative string skipping.",
+        "Double Stops": "Play melodies or leads on two strings simultaneously to build finger independence and dynamic control.",
+        "Two Strings for Chords": "Limit chord progressions to two strings (power chords, inverted voicings) to create new chord shapes and harmonies.",
+        "Low Strings Only": "Restrict yourself to the lower three strings, often for rhythm guitar work, to focus on creating heavy, bass-driven riffs.",
+        "High Strings Only": "Focus on playing melodic lines, solos, or intricate fingerpicking patterns on the higher strings.",
+        "Odd Strings Only": "Use only the odd-numbered strings (1st, 3rd, 5th) to challenge yourself with creative finger positioning and string skipping.",
+        "Even Strings Only": "Use only the even-numbered strings to force different patterns and movements across the fretboard.",
+        "Bass Strings Only": "Stick to the lowest two strings, usually used for bass lines or power chords, and challenge yourself to create melodies within that limited range.",
+        "Skip Every Other String": "Play scales, arpeggios, or chord progressions while skipping one string between each note for increased accuracy.",
+        "Skip Two Strings": "Play riffs or solos while skipping two strings between notes for creative phrasing and string skipping exercises.",
+        "Hybrid Picking with Non-Adjacent Strings": "Combine hybrid picking and string skipping to focus on accuracy and articulation across wide intervals.",
+        "Fingerpicking Patterns on Non-Adjacent Strings": "Create fingerpicking patterns that utilize non-adjacent strings, challenging your picking hand’s independence.",
+        "One String for Rhythm, Another for Lead": "Use one string to play rhythm (chords or bass lines) and another string to play lead (melody or solo) simultaneously.",
+        "Chord on One String, Melody on Another": "Play simple chord shapes on one string while using an adjacent string to improvise a melody or solo.",
+        "Double Stops Across Non-Adjacent Strings": "Practice playing two notes simultaneously across strings that aren’t next to each other (e.g., Low E and High B).",
+        "One Finger per String": "Restrict each finger of the fretting hand to a specific string, forcing unconventional movements and hand positioning.",
+        "Low E String Muted": "Mute the low E string completely and focus on creating bass lines, rhythm parts, or solos without it.",
+        "High E String Muted": "Eliminate the high E string and focus on creating melodic lines and solos that use only the lower strings.",
+        "Middle Strings Only": "Use only the middle strings to craft riffs or progressions, forcing you to rethink typical chord shapes and melody lines.",
+        "Bass Note on One String, Melody on Another": "Focus on maintaining a constant bass note on one string while playing a melody or improvisation on a different string.",
+        "Inverted String Role": "Use low strings for melodic, solo playing and high strings for rhythm parts, flipping their conventional roles.",
+        "Changing Strings Each Bar": "Play a melody or riff, but change the string used every measure to develop coordination and string awareness.",
+        "Speed-Based String Restriction": "Play a fast passage but restrict it to only one or two strings, challenging your precision and speed.",
+        "Single String per Measure": "Compose or improvise a piece where you must move to a new string every measure or bar."
+    };
+    const focalAttributeDescriptions = {
+    "Dexterity": "Dexterity refers to how quickly and precisely you can move your fingers across the fretboard. Focus on exercises like scales, arpeggios, and legato runs to improve finger agility.",
+    "Strength": "Strength impacts your ability to apply consistent pressure on the strings for techniques like barre chords, bends, and vibrato. Practice on barre chords and advanced bending techniques.",
+    "Precision": "Precision is about hitting the correct notes with minimal mistakes. Work on clean alternate picking, legato phrasing, and intricate chord transitions to improve accuracy.",
+    "Intelligence": "Intelligence involves applying music theory, like scales, modes, and chord progressions. Study scales, chord construction, key changes, and modal theory for better fretboard navigation.",
+    "Creativity": "Creativity relates to your ability to improvise and compose original pieces. Focus on improvisation, riff writing, and composing solos in various genres to boost creativity.",
+    "Stamina": "Stamina refers to your endurance for playing long sets or complex pieces without fatigue. Build endurance by practicing long performances and challenging solos.",
+    "Charisma": "Charisma reflects your ability to emotionally connect with your audience through stage presence and dynamics. Work on dynamic control, phrasing, vibrato, and live performance skills.",
+    "Wisdom": "Wisdom involves making mature musical decisions, like knowing when to play less and leave space in compositions. Practice musical restraint, phrasing, and dynamic variations.",
+    "Flexibility": "Flexibility is your ability to adapt to different genres, techniques, and musical challenges. Practice different styles like classical, flamenco, blues, rock, and jazz to enhance versatility."
+    };
+    
+    function generateCustomChallenge() {
+    const focalAttributeSelect = document.getElementById('FocalAttribute');
+    const masteryLevel1Select = document.getElementById('Level1');
+    const masteryLevel2Select = document.getElementById('Level2');
+    const masteryLevel3Select = document.getElementById('Level3');
+    const masteryLevel4Select = document.getElementById('Level4');
+    const masteryLevel5Select = document.getElementById('Level5');
+    const noteSelect = document.getElementById('note');
+    const scalesModesSelect = document.getElementById('scalesModes');
+    const frettingHandSelect = document.getElementById('frettingTechnique');
+    const pickingHandSelect = document.getElementById('pickingTechnique');
+    const rhythmSelect = document.getElementById('rhythm');
+    const playStyleSelect = document.getElementById('playStyle');
+    const stringChallengeSelect = document.getElementById('stringChallenge');
+
+    // Retrieve values from each category
+    let masteryLevel1 = masteryLevel1Select.value;
+    let masteryLevel2 = masteryLevel2Select.value;
+    let masteryLevel3 = masteryLevel3Select.value;
+    let masteryLevel4 = masteryLevel4Select.value;
+    let masteryLevel5 = masteryLevel5Select.value;
+    let note = noteSelect.value;
+    let scaleMode = scalesModesSelect.value;
+    let frettingHand = frettingHandSelect.value;
+    let pickingHand = pickingHandSelect.value;
+    let rhythm = rhythmSelect.value;
+    let playStyle = playStyleSelect.value;
+    let stringChallenge = stringChallengeSelect.value;
+    let focalAttribute = focalAttributeSelect.value;
+
+    // Define an array of all possible note options
+    const noteOptions = [
+        "A", "A#", "Bb", "B", "C", "C#", "Db", "D", "D#", "Eb", "E", "F", "F#", "Gb", "G", "G#", "Ab"
+    ];
+
+    // Random selection if "random" is chosen in any category
+    if (focalAttribute === 'random') {
+        focalAttribute = getRandomElement(Object.keys(focalAttributeDescriptions));
+    }
+    if (masteryLevel1 === 'random') {
+        masteryLevel1 = getRandomElement(Object.keys(masteryLevel1Descriptions));
+    }
+    if (masteryLevel2 === 'random') {
+        masteryLevel2 = getRandomElement(Object.keys(masteryLevel2Descriptions));
+    }
+    if (masteryLevel3 === 'random') {
+        masteryLevel3 = getRandomElement(Object.keys(masteryLevel3Descriptions));
+    }
+    if (masteryLevel4 === 'random') {
+        masteryLevel4 = getRandomElement(Object.keys(masteryLevel4Descriptions));
+    }
+    if (masteryLevel5 === 'random') {
+        masteryLevel5 = getRandomElement(Object.keys(masteryLevel5Descriptions));
+    }
+    if (note === 'random') {
+        note = getRandomElement(noteOptions);
+    }
+    if (scaleMode === 'random') {
+        scaleMode = getRandomElement(Object.keys(scaleDescriptions));
+    }
+    if (frettingHand === 'random') {
+        frettingHand = getRandomElement(Object.keys(frettingHandDescriptions));
+    }
+    if (pickingHand === 'random') {
+        pickingHand = getRandomElement(Object.keys(pickingHandDescriptions));
+    }
+    if (rhythm === 'random') {
+        rhythm = getRandomElement(Object.keys(rhythmDescriptions));
+    }
+    if (playStyle === 'random') {
+        playStyle = getRandomElement(Object.keys(playStyleDescriptions));
+    }
+    if (stringChallenge === 'random') {
+        stringChallenge = getRandomElement(Object.keys(stringChallengeDescriptions));
+    }
+
+    // Retrieve descriptions and examples
+    const focalAttributeDescription = focalAttributeDescriptions[focalAttribute];
+    const masteryLevel1Description = masteryLevel1Descriptions[masteryLevel1];
+    const masteryLevel2Description = masteryLevel2Descriptions[masteryLevel2];
+    const masteryLevel3Description = masteryLevel3Descriptions[masteryLevel3];
+    const masteryLevel4Description = masteryLevel4Descriptions[masteryLevel4];
+    const masteryLevel5Description = masteryLevel5Descriptions[masteryLevel5];
+    const scaleDescription = scaleDescriptions[scaleMode];
+    const scaleExample = scaleExamples[scaleMode];
+    const frettingHandDescription = frettingHandDescriptions[frettingHand];
+    const pickingHandDescription = pickingHandDescriptions[pickingHand];
+    const rhythmDescription = rhythmDescriptions[rhythm];
+    const playStyleDescription = playStyleDescriptions[playStyle];
+    const stringChallengeDescription = stringChallengeDescriptions[stringChallenge];
+
+    // Display the selected challenge components
+    document.getElementById('challenge').innerHTML = `
+        <h2>Your Challenge</h2>
+        <p><strong>Focal Attribute:</strong> ${focalAttribute} - ${focalAttributeDescription}</p>
+        <p><strong>Note:</strong> ${note}</p>
+        <p><strong>Scale/Mode:</strong> ${scaleMode} - ${scaleDescription} (Example: ${scaleExample})</p>
+        <p><strong>Mastery Level 1:</strong> ${masteryLevel1} - ${masteryLevel1Description}</p>
+        <p><strong>Mastery Level 2:</strong> ${masteryLevel2} - ${masteryLevel2Description}</p>
+        <p><strong>Mastery Level 3:</strong> ${masteryLevel3} - ${masteryLevel3Description}</p>
+        <p><strong>Mastery Level 4:</strong> ${masteryLevel4} - ${masteryLevel4Description}</p>
+        <p><strong>Mastery Level 5:</strong> ${masteryLevel5} - ${masteryLevel5Description}</p>
+        <p><strong>Fretting Hand Technique:</strong> ${frettingHand} - ${frettingHandDescription}</p>
+        <p><strong>Picking Hand Technique:</strong> ${pickingHand} - ${pickingHandDescription}</p>
+        <p><strong>Rhythm:</strong> ${rhythm} - ${rhythmDescription}</p>
+        <p><strong>Play Style:</strong> ${playStyle} - ${playStyleDescription}</p>
+        <p><strong>String Challenge:</strong> ${stringChallenge} - ${stringChallengeDescription}</p>
+    `;
+}
+
+// Utility function to get a random element from an array or object
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
+   
+
+
+
+
+    </script>
+</body>
+</html>
