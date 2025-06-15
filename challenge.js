@@ -198,29 +198,34 @@ function getRandom(arr) {
       { id: "playStyleSelect",    label: "Play Style",         data: playStyle,       meta: playStyleMeta      },
     ];
   
-    cats.forEach(cat => {
-      const val = document.getElementById(cat.id).value;
-      if (cat.data) {
-        if (val === "random") {
-          const levels = getCheckedLevels(cat.id.replace("Select",""));
-          const pool = levels.length ? levels.flatMap(l => cat.data[l] || []) : [].concat(...Object.values(cat.data));
-          const pick = pool.length ? getRandom(pool) : "— none found —";
-          appendWithMeta(cat.label, pick, cat.meta);
-        } else {
-          appendWithMeta(cat.label, val, cat.meta);
-        }
+const container = document.getElementById("challengeOutput");
+  cats.forEach(cat => {
+    const val = document.getElementById(cat.id).value;
+    if (cat.data) {
+      if (val === "random") {
+        const levels = getCheckedLevels(cat.id.replace("Select", ""));
+        const pool = levels.length
+          ? levels.flatMap(l => cat.data[l] || [])
+          : [].concat(...Object.values(cat.data));
+        const pick = pool.length ? getRandom(pool) : "— none found —";
+        appendWithMeta(container, cat.label, pick, cat.meta);
       } else {
-        container.innerHTML += `<div class="challenge-block"><strong>${cat.label}:</strong> ${val}</div>`;
+        appendWithMeta(container, cat.label, val, cat.meta);
       }
-    });
-  }
+    } else {
+      // simple attribute dropdown
+      container.innerHTML += `
+        <div class="challenge-block">
+          <strong>${cat.label}:</strong> ${val}
+        </div>`;
+    }
+  });
   
   function appendWithMeta(label, choice, metaMap) {
     if (!choice || choice === "None") return;
-    const container = document.getElementById("challengeOutput");
     const meta = metaMap[choice] || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
     container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
   }
-  
+  }
