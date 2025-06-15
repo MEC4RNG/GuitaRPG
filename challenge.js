@@ -45,7 +45,7 @@ const guitarmanshipMeta = {
       example:     "Cycle through C–G–Am–F in time with a metronome at 60 BPM."
     },
     "Proper Finger Placement": {
-      description: "Keep fingertips curled, fretting just behind the rail for maximum clarity and minimal buzz."
+      description: "Keep fingertips curled, fretting just behind the rail for maximum clarity and minimal buzz.",
       // no example for this one
     },
     "Power Chord Basics": {
