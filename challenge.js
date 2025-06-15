@@ -38,7 +38,28 @@ const guitarmanship = {
       "Polytonal Concepts"
     ]
   };
-  
+
+const guitarmanshipMeta = {
+    "Open Chord Fluency": {
+      description: "Switch cleanly between all common open major and minor chords (C, A, G, E, D, Am, Em, Dm) without buzz or mute.",
+      example:     "Cycle through C–G–Am–F in time with a metronome at 60 BPM."
+    },
+    "Proper Finger Placement": {
+      description: "Keep fingertips curled, fretting just behind the rail for maximum clarity and minimal buzz."
+      // no example for this one
+    },
+    "Power Chord Basics": {
+      description: "Form and move two- and three-string power chords up and down the neck.",
+      example:     "Play an E5–G5–A5 riff on the low strings."
+    },
+    "Hammer-On & Pull-Off Foundations": {
+      description: "Execute single-string hammer-ons and pull-offs cleanly at slow and medium tempos."
+    },
+    "Simple Slides": {
+      description: "Slide into notes with control, maintaining pressure for a smooth pitch transition."
+    }
+    // …add more Level 1 items here if you like…
+  };
   //–– 2) Picking-Hand Techniques ––
   const pickingHand = {
     1: [ "Downstrokes", "Upstrokes", "Alternate Picking", "Rest Strokes", "Free Strokes" ],
@@ -204,28 +225,7 @@ const guitarmanship = {
   }
   
    
-  // Mastery Level 1 → Core Technique metadata
-const guitarmanshipMeta = {
-    "Open Chord Fluency": {
-      description: "Switch cleanly between all common open major and minor chords (C, A, G, E, D, Am, Em, Dm) without buzz or mute.",
-      example:     "Cycle through C–G–Am–F in time with a metronome at 60 BPM."
-    },
-    "Proper Finger Placement": {
-      description: "Keep fingertips curled, fretting just behind the rail for maximum clarity and minimal buzz."
-      // no example for this one
-    },
-    "Power Chord Basics": {
-      description: "Form and move two- and three-string power chords up and down the neck.",
-      example:     "Play an E5–G5–A5 riff on the low strings."
-    },
-    "Hammer-On & Pull-Off Foundations": {
-      description: "Execute single-string hammer-ons and pull-offs cleanly at slow and medium tempos."
-    },
-    "Simple Slides": {
-      description: "Slide into notes with control, maintaining pressure for a smooth pitch transition."
-    }
-    // …add more Level 1 items here if you like…
-  };
+
   
   /**
  * Append a single challenge line (with optional description & example) to the output container.
