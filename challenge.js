@@ -217,7 +217,7 @@ function getRandom(arr) {
   
   function appendWithMeta(label, choice, metaMap) {
     if (!choice || choice === "None") return;
-    const out = document.getElementById("challengeOutput");
+    const container = document.getElementById("challengeOutput");
     const meta = metaMap[choice] || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
