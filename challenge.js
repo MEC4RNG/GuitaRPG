@@ -177,12 +177,12 @@ function getRandom(arr) {
     ).map(cb => parseInt(cb.value, 10));
   }
   
-  function generateChallenge(challengeOutput) {
+  function generateChallenge(container) {
     challengeOutput.innerHTML = "";
   
     // Key
     const key = document.getElementById("keySelect").value;
-    challengeOutput.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${key}</div>`;
+    container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${key}</div>`;
   
     // categories
     const cats = [
@@ -210,7 +210,7 @@ function getRandom(arr) {
           appendWithMeta(cat.label, val, cat.meta);
         }
       } else {
-        challengeOutput.innerHTML += `<div class="challenge-block"><strong>${cat.label}:</strong> ${val}</div>`;
+        container.innerHTML += `<div class="challenge-block"><strong>${cat.label}:</strong> ${val}</div>`;
       }
     });
   }
@@ -221,6 +221,6 @@ function getRandom(arr) {
     const meta = metaMap[choice] || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
-    challengeOutput.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
+    container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
   }
   
