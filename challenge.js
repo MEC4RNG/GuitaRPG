@@ -37,9 +37,9 @@ const guitarmanship = {
       "Advanced Bebop Chromaticism",
       "Polytonal Concepts"
     ]
-  };
+};
     // Mastery Level 1 → Core Technique metadata
-    const guitarmanshipMeta = {
+const guitarmanshipMeta = {
     "Open Chord Fluency": {
       description: "Switch cleanly between all common open major and minor chords (C, A, G, E, D, Am, Em, Dm) without buzz or mute.",
       example:     "Cycle through C–G–Am–F in time with a metronome at 60 BPM."
@@ -59,7 +59,7 @@ const guitarmanship = {
       description: "Slide into notes with control, maintaining pressure for a smooth pitch transition."
     }
     // …add more Level 1 items here if you like…
-  };
+};
   //–– 2) Picking-Hand Techniques ––
   const pickingHand = {
     1: [ "Downstrokes", "Upstrokes", "Alternate Picking", "Rest Strokes", "Free Strokes" ],
@@ -140,7 +140,9 @@ const guitarmanship = {
 function getRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
-  
+
+const challengeOutput = document.getElementById("challengeOutput");
+
   window.addEventListener("DOMContentLoaded", () => {
     // map of select-IDs to data objects
     const config = {
@@ -177,12 +179,11 @@ function getRandom(arr) {
   }
   
   function generateChallenge() {
-    const outContainer = document.getElementById("challengeOutput");
-    outContainer.innerHTML = "";
+    challengeOutput.innerHTML = "";
   
     // Key
     const key = document.getElementById("keySelect").value;
-    outContainer.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${key}</div>`;
+    challengeOutput.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${key}</div>`;
   
     // categories
     const cats = [
@@ -210,7 +211,7 @@ function getRandom(arr) {
           appendWithMeta(cat.label, val, cat.meta);
         }
       } else {
-        outContainer.innerHTML += `<div class="challenge-block"><strong>${cat.label}:</strong> ${val}</div>`;
+        challengeOutput.innerHTML += `<div class="challenge-block"><strong>${cat.label}:</strong> ${val}</div>`;
       }
     });
   }
