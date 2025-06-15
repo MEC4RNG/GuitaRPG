@@ -177,7 +177,7 @@ function getRandom(arr) {
     ).map(cb => parseInt(cb.value, 10));
   }
   
-  function generateChallenge() {
+  function generateChallenge(challengeOutput) {
     challengeOutput.innerHTML = "";
   
     // Key
