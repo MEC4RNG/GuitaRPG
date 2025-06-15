@@ -141,7 +141,6 @@ function getRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
-const challengeOutput = document.getElementById("challengeOutput");
 
   window.addEventListener("DOMContentLoaded", () => {
     // map of select-IDs to data objects
@@ -168,8 +167,8 @@ const challengeOutput = document.getElementById("challengeOutput");
         sel.append(opt);
       });
     }
-  
-    document.getElementById("generateBtn").onclick = generateChallenge;
+    const challengeOutput = document.getElementById("challengeOutput");
+    document.getElementById("generateBtn").onclick = () => generateChallenge(challengeOutput);
   });
   
   function getCheckedLevels(categoryKey) {
@@ -222,6 +221,6 @@ const challengeOutput = document.getElementById("challengeOutput");
     const meta = metaMap[choice] || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
-    container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
+    challengeOutput.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
   }
   
