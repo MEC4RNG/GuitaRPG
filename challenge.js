@@ -38,8 +38,8 @@ const guitarmanship = {
       "Polytonal Concepts"
     ]
   };
-
-const guitarmanshipMeta = {
+    // Mastery Level 1 → Core Technique metadata
+    const guitarmanshipMeta = {
     "Open Chord Fluency": {
       description: "Switch cleanly between all common open major and minor chords (C, A, G, E, D, Am, Em, Dm) without buzz or mute.",
       example:     "Cycle through C–G–Am–F in time with a metronome at 60 BPM."
@@ -136,25 +136,25 @@ const guitarmanshipMeta = {
     "Flexibility",
   ];
   
-  // 4) Utility: pick a random element
-  function getRandom(arr) {
+// Utility: pick a random element
+function getRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
-
+  
   window.addEventListener("DOMContentLoaded", () => {
     // map of select-IDs to data objects
     const config = {
-      keySelect: [ "random", ...["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"] ],
+      keySelect: ["random", ...["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"]],
       attrPhysical: attributes,
-      attrMental:  attributes,
+      attrMental: attributes,
       guitarmanshipSelect: [].concat(...Object.values(guitarmanship)),
-      pickingSelect:      [].concat(...Object.values(pickingHand)),
-      frettingSelect:     [].concat(...Object.values(frettingHand)),
-      stringSelect:       [].concat(...Object.values(stringChallenge)),
+      pickingSelect: [].concat(...Object.values(pickingHand)),
+      frettingSelect: [].concat(...Object.values(frettingHand)),
+      stringSelect: [].concat(...Object.values(stringChallenge)),
       musicianshipSelect: [].concat(...Object.values(musicianship)),
-      scalesSelect:       [].concat(...Object.values(scales)),
-      rhythmSelect:       [].concat(...Object.values(rhythm)),
-      playStyleSelect:    [].concat(...Object.values(playStyle)),
+      scalesSelect: [].concat(...Object.values(scales)),
+      rhythmSelect: [].concat(...Object.values(rhythm)),
+      playStyleSelect: [].concat(...Object.values(playStyle)),
     };
   
     for (let [selectId, items] of Object.entries(config)) {
@@ -169,84 +169,58 @@ const guitarmanshipMeta = {
   
     document.getElementById("generateBtn").onclick = generateChallenge;
   });
-
+  
   function getCheckedLevels(categoryKey) {
-    // e.g. categoryKey = "guitarmanship"
     return Array.from(
       document.querySelectorAll(`input[data-category="${categoryKey}"]:checked`)
     ).map(cb => parseInt(cb.value, 10));
   }
-    
+  
   function generateChallenge() {
     const outContainer = document.getElementById("challengeOutput");
-    outContainer.innerHTML = "";                    // 1) clear previous results
+    outContainer.innerHTML = "";
   
-    // 2) Key (no meta)
+    // Key
     const key = document.getElementById("keySelect").value;
     outContainer.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${key}</div>`;
   
-    // 3) Our categories in order, wiring in the right meta map
+    // categories
     const cats = [
-      { id: "attrPhysical",   label: "Physical Attribute"   },
-      { id: "guitarmanshipSelect", label: "Guitarmanship",      meta: guitarmanshipMeta /* or whichever meta you like */ },
-      { id: "pickingSelect",      label: "Picking Hand",       meta: pickingHandMeta     },
-      { id: "frettingSelect",     label: "Fretting Hand",      meta: frettingHandMeta    },
-      { id: "stringSelect",       label: "String Challenge",   meta: stringChallengeMeta },
-      { id: "attrMental",         label: "Mental Attribute"    },
-      { id: "musicianshipSelect", label: "Musicianship",       meta: musicianshipMeta    },
-      { id: "scalesSelect",       label: "Scales & Modes",     meta: scalesAndModesMeta  },
-      { id: "rhythmSelect",       label: "Rhythm",             meta: rhythmMeta          },
-      { id: "playStyleSelect",    label: "Play Style",         meta: playStyleMeta       },
+      { id: "attrPhysical",   label: "Physical Attribute"                },
+      { id: "guitarmanshipSelect", label: "Guitarmanship",      data: guitarmanship, meta: guitarmanshipMeta },
+      { id: "pickingSelect",      label: "Picking Hand",       data: pickingHand,     meta: pickingHandMeta    },
+      { id: "frettingSelect",     label: "Fretting Hand",      data: frettingHand,    meta: frettingHandMeta   },
+      { id: "stringSelect",       label: "String Challenge",   data: stringChallenge, meta: stringChallengeMeta},
+      { id: "attrMental",         label: "Mental Attribute"                 },
+      { id: "musicianshipSelect", label: "Musicianship",       data: musicianship,    meta: musicianshipMeta   },
+      { id: "scalesSelect",       label: "Scales & Modes",     data: scales,          meta: scalesMeta         },
+      { id: "rhythmSelect",       label: "Rhythm",             data: rhythm,          meta: rhythmMeta         },
+      { id: "playStyleSelect",    label: "Play Style",         data: playStyle,       meta: playStyleMeta      },
     ];
   
     cats.forEach(cat => {
       const val = document.getElementById(cat.id).value;
-      if (cat.meta) {
-        // challenge category → use our helper
+      if (cat.data) {
         if (val === "random") {
-          // pick from levels or all...
           const levels = getCheckedLevels(cat.id.replace("Select",""));
-          const pool   = levels.length
-            ? levels.flatMap(l => cat.data[l] || [])
-            : [].concat(...Object.values(cat.data));
-          const pick   = pool.length ? getRandom(pool) : "— none found —";
+          const pool = levels.length ? levels.flatMap(l => cat.data[l] || []) : [].concat(...Object.values(cat.data));
+          const pick = pool.length ? getRandom(pool) : "— none found —";
           appendWithMeta(cat.label, pick, cat.meta);
         } else {
           appendWithMeta(cat.label, val, cat.meta);
         }
       } else {
-        // just an attribute dropdown
-        outContainer.innerHTML += `
-          <div class="challenge-block">
-            <strong>${cat.label}:</strong> ${val}
-          </div>`;
+        outContainer.innerHTML += `<div class="challenge-block"><strong>${cat.label}:</strong> ${val}</div>`;
       }
     });
   }
   
-   
-
-  
-  /**
- * Append a single challenge line (with optional description & example) to the output container.
- *
- * @param {string} label   – e.g. "Mastery Level 1"
- * @param {string} choice  – the selected technique name
- * @param {object} metaMap – metadata map for that category
- */
-function appendWithMeta(label, choice, metaMap) {
+  function appendWithMeta(label, choice, metaMap) {
     if (!choice || choice === "None") return;
-  
+    const out = document.getElementById("challengeOutput");
     const meta = metaMap[choice] || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
-  
-    challengeOutput.innerHTML += `
-      <div class="challenge-block">
-        <strong>${label}:</strong> ${choice}
-        ${desc}
-        ${ex}
-      </div>
-    `;
+    out.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
   }
   
