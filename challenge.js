@@ -222,6 +222,6 @@ const challengeOutput = document.getElementById("challengeOutput");
     const meta = metaMap[choice] || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
-    out.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
+    container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
   }
   
