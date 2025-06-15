@@ -59,6 +59,14 @@ const guitarmanshipMeta = {
       description: "Slide into notes with control, maintaining pressure for a smooth pitch transition."
     }
     // …add more Level 1 items here if you like…
+    
+const pickingHandMeta       = {};
+const frettingHandMeta       = {};
+const stringChallengeMeta    = {};
+const musicianshipMeta       = {};
+const scalesMeta             = {};
+const rhythmMeta             = {};
+const playStyleMeta          = {};
 };
   //–– 2) Picking-Hand Techniques ––
   const pickingHand = {
