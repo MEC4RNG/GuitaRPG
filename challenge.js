@@ -1,21 +1,106 @@
 // challenge.js
 
-// 1) Guitarmanship challenges by mastery level
+//–– 1) Guitarmanship (Mastery Level 1–5) ––
 const guitarmanship = {
-    1: [ "Fretboard Memorization", "CAGED System", "Interval Studies" ],
-    2: [ /* level-2 items */ ],
-    3: [ /* … */ ],
-    4: [ /* … */ ],
-    5: [ /* … */ ],
-  };
-  
-  // 2) Picking Hand, Fretting Hand, String Challenge, etc.
-  const pickingHand = {
-    1: [ "Downstrokes", "Upstrokes", "Alternate Picking" ],
-    2: [ /* … */ ],
-    // …
-  };
-  // Repeat for frettingHand, stringChallenge, musicianship, scales, rhythm, playStyle
+  1: [
+    "Open Chords (Major & Minor)",
+    "Power Chords",
+    "Barre Chords",
+    "CAGED System",
+    "Interval Studies"
+  ],
+  2: [
+    "Fretboard Memorization",
+    "Scale Box Shapes",
+    "Chord Inversions",
+    "Pentatonic Scale Variations",
+    "Blues Scale Extensions"
+  ],
+  3: [
+    "Diatonic Harmony (Maj/Min Keys)",
+    "Modal Interchange Basics",
+    "Arpeggio Sequences",
+    "Approach Notes (Jazz)",
+    "Melodic Minor Shapes"
+  ],
+  4: [
+    "Hybrid Scales & Passing Chords",
+    "Voice Leading",
+    "Chord Substitutions",
+    "Extended Chords (9th, 11th, 13th)",
+    "Neoclassical Runs"
+  ],
+  5: [
+    "Modal Interchange Advanced",
+    "Counterpoint",
+    "Exotic Scales (Persian, Hungarian, Byzantine)",
+    "Advanced Bebop Chromaticism",
+    "Polytonal Concepts"
+  ]
+};
+
+//–– 2) Picking-Hand Techniques ––
+const pickingHand = {
+  1: [ "Downstrokes", "Upstrokes", "Alternate Picking", "Rest Strokes", "Free Strokes" ],
+  2: [ "Fingerpicking", "Palm Muting", "Hybrid Picking", "Economy Picking", "Chicken Picking" ],
+  3: [ "Tremolo Picking", "Rake Picking", "Fingerstyle Tremolo", "Pick Scrape", "Pinch Harmonics" ],
+  4: [ "Sweep Picking", "Flatpicking", "Slap and Pop", "Artificial Harmonics", "Tapping (with pick)" ],
+  5: [ "Gypsy Picking", "Advanced Hybrid Picking", "String Skipping", "Harp Harmonics", "Classical Fingerstyle Techniques" ]
+};
+
+//–– 3) Fretting-Hand Techniques ––
+const frettingHand = {
+  1: [ "Finger Placement", "Hammer-ons", "Pull-offs", "Sliding", "Basic Chords" ],
+  2: [ "Legato", "Vibrato", "Bending", "Barre Chords", "Double Stops" ],
+  3: [ "Tapping (two-handed)", "Legato Runs", "Chords w/ Open Strings", "Fret-Hand Muting", "Chord Inversions" ],
+  4: [ "Advanced Bends (pre-bends, release)", "Artificial Harmonics", "Microtonal Bending", "Stretching for Wide Intervals", "Chord-Melody Playing" ],
+  5: [ "Finger Independence Exercises", "Counterpoint Two-Voice", "Neoclassical Fingering", "Hybrid Scales & Chords", "Classical Fingerstyle" ]
+};
+
+//–– 4) String Challenges ––
+const stringChallenge = {
+  1: [ "Single String", "Single String Pentatonic", "Single String Arpeggios", "Single String Melodies", "Single String Chord Voicings" ],
+  2: [ "Adjacent Strings Only", "Non-Adjacent Strings", "Double Stops", "Two Strings for Chords" ],
+  3: [ "Low Strings Only", "High Strings Only", "Odd Strings Only", "Even Strings Only" ],
+  4: [ "Skip Every Other String", "Skip Two Strings", "One String Rhythm + Another Lead", "Chord on One String, Melody on Another" ],
+  5: [ "Hybrid Picking Non-Adjacent", "Fingerpicking on Non-Adjacent", "Changing Strings Each Bar", "Single String per Measure", "Blended Freeform" ]
+};
+
+//–– 5) Musicianship (the “Mental” Mastery 1–5) ––
+const musicianship = {
+  1: [ "Basic Chord Progression (I–IV–V)", "Triad Construction", "Interval Identification", "Scale-Degree Ear Training" ],
+  2: [ "Diatonic Harmony", "Secondary Dominants", "Modal Basics", "Rhythmic Subdivisions" ],
+  3: [ "Chord Substitutions", "Modal Interchange", "Polyrhythms", "Metric Modulation" ],
+  4: [ "Advanced Voice Leading", "Counterpoint 2-Part", "Polytonality", "Extended Modes" ],
+  5: [ "Atonal & Serial Techniques", "Advanced Modulation Schemes", "Metric Modulation Mastery", "Rhythmic Displacement" ]
+};
+
+//–– 6) Scales & Modes ––
+const scales = {
+  1: [ "Major (Ionian)", "Natural Minor (Aeolian)", "Pentatonic Major", "Pentatonic Minor", "Blues Scale" ],
+  2: [ "Harmonic Minor", "Melodic Minor", "Dorian", "Mixolydian", "Lydian" ],
+  3: [ "Phrygian", "Locrian", "Whole-Tone", "Octatonic (Half-Whole)", "Diminished (Whole-Half)" ],
+  4: [ "Bebop Major", "Bebop Dominant", "Bebop Minor", "Hungarian Minor", "Persian Scale" ],
+  5: [ "Enigmatic", "Byzantine", "Arabian", "In Sen", "Hirajoshi" ]
+};
+
+//–– 7) Rhythm ––
+const rhythm = {
+  1: [ "Downstrokes", "Upstrokes", "Quarter Notes", "Eighth Notes", "Alternate Picking" ],
+  2: [ "Syncopation", "Backbeat Emphasis", "Shuffle", "Swing Eighths", "Triplet Feel" ],
+  3: [ "Odd Time (5/4, 7/8)", "Gallop Rhythm", "Ghost Notes", "Dead Notes", "Percussive Strumming" ],
+  4: [ "Polyrhythms", "Cross-Rhythms", "Metric Modulation", "Chord Anticipation", "Rumba Flamenca" ],
+  5: [ "Djent Groove", "Hybrid Rhythms", "Displaced Rhythms", "Tremolo Strumming", "Ska Rhythm" ]
+};
+
+//–– 8) Play Styles ––
+const playStyle = {
+  1: [ "Folk", "Blues", "Pop", "Rhythm Guitar", "Lead Guitar" ],
+  2: [ "Classical", "Country", "Rock", "Reggae", "Bossa Nova" ],
+  3: [ "Gypsy Jazz", "Jazz Fusion", "Blues-Rock", "Percussive Fingerstyle", "Post-Rock" ],
+  4: [ "Flamenco", "Flamenco Rumba", "Slide Guitar", "Ambient/Soundscapes", "Math Rock" ],
+  5: [ "Metal", "Neoclassical", "Avant-Garde/Noise", "Djent", "Progressive Rock/Metal" ]
+};
   
   // 3) Attributes (same for both columns)
   const attributes = [
