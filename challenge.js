@@ -45,7 +45,7 @@ const guitarmanshipMeta = {
       example:     "Cycle through C–G–Am–F in time with a metronome at 60 BPM."
     },
     "Proper Finger Placement": {
-      description: "Keep fingertips curled, fretting just behind the rail for maximum clarity and minimal buzz.",
+      description: "Keep fingertips curled, fretting just behind the rail for maximum clarity and minimal buzz."
       // no example for this one
     },
     "Power Chord Basics": {
@@ -143,6 +143,7 @@ function getRandom(arr) {
 
 
   window.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("challengeOutput");
     // map of select-IDs to data objects
     const config = {
       keySelect: ["random", ...["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"]],
@@ -167,7 +168,6 @@ function getRandom(arr) {
         sel.append(opt);
       });
     }
-    const challengeOutput = document.getElementById("challengeOutput");
     document.getElementById("generateBtn").onclick = () => generateChallenge(challengeOutput);
   });
   
@@ -198,7 +198,6 @@ function getRandom(arr) {
       { id: "playStyleSelect",    label: "Play Style",         data: playStyle,       meta: playStyleMeta      },
     ];
   
-const container = document.getElementById("challengeOutput");
   cats.forEach(cat => {
     const val = document.getElementById(cat.id).value;
     if (cat.data) {
@@ -223,7 +222,7 @@ const container = document.getElementById("challengeOutput");
   
   function appendWithMeta(label, choice, metaMap) {
     if (!choice || choice === "None") return;
-    const meta = metaMap[choice] || {};
+    const meta = (metaMap && metaMap[choice]) || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
     container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
