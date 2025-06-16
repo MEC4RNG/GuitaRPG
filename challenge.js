@@ -243,16 +243,16 @@ const guitarmanship = {
     // Build a map of select-IDs → their data arrays
     const config = {
       keySelect:      ["random", ...Object.keys(guitarmanship).flatMap(_=>[])], // we'll override below
-      attrPhysical: ["random", ...attributes],
-      attrMental:   ["random", ...attributes],
-      guitarmanshipSelect: ["random", ...[].concat(...Object.values(guitarmanship))],
-      pickingSelect:       ["random", ...[].concat(...Object.values(pickingHand))],
-      frettingSelect:      ["random", ...[].concat(...Object.values(frettingHand))],
-      stringSelect:        ["random", ...[].concat(...Object.values(stringChallenge))],
-      musicianshipSelect:  ["random", ...[].concat(...Object.values(musicianship))],
-      scalesSelect:        ["random", ...[].concat(...Object.values(scales))],
-      rhythmSelect:        ["random", ...[].concat(...Object.values(rhythm))],
-      playStyleSelect:     ["random", ...[].concat(...Object.values(playStyle))],
+      attrPhysical: ["random", …attributes],
+      attrMental:   ["random", …attributes],
+      guitarmanshipSelect: ["random", …[].concat(...Object.values(guitarmanship))],
+      pickingSelect:       ["random", …[].concat(...Object.values(pickingHand))],
+      frettingSelect:      ["random", …[].concat(...Object.values(frettingHand))],
+      stringSelect:        ["random", …[].concat(...Object.values(stringChallenge))],
+      musicianshipSelect:  ["random", …[].concat(...Object.values(musicianship))],
+      scalesSelect:        ["random", …[].concat(...Object.values(scales))],
+      rhythmSelect:        ["random", …[].concat(...Object.values(rhythm))],
+      playStyleSelect:     ["random", …[].concat(...Object.values(playStyle))],
     };
   
     // Replace the “random” list for keySelect explicitly:
