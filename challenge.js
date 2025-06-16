@@ -228,7 +228,7 @@ function getRandom(arr) {
     }
   });
   
-  function appendWithMeta(label, choice, metaMap) {
+  function appendWithMeta(container, label, choice, metaMap) {
     if (!choice || choice === "None") return;
     const meta = (metaMap && metaMap[choice]) || {};
     const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
