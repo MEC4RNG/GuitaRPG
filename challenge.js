@@ -187,7 +187,7 @@ function getRandom(arr) {
   
   function generateChallenge(container) {
     container.innerHTML = "";
-  
+  }
     // Key
     const key = document.getElementById("keySelect").value;
     container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${key}</div>`;
