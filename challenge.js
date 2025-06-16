@@ -235,4 +235,3 @@ function getRandom(arr) {
     const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
     container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${choice}${desc}${ex}</div>`;
   }
-  }
