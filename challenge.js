@@ -152,6 +152,7 @@ function getRandom(arr) {
 
   window.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("challengeOutput");
+    document.getElementById("generateBtn").onclick = () => generateChallenge(challengeOutput);
     // map of select-IDs to data objects
     const config = {
       keySelect: ["random", ...["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"]],
@@ -176,7 +177,6 @@ function getRandom(arr) {
         sel.append(opt);
       });
     }
-    document.getElementById("generateBtn").onclick = () => generateChallenge(challengeOutput);
   });
   
   function getCheckedLevels(categoryKey) {
