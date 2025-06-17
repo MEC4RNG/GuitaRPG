@@ -205,8 +205,8 @@ const guitarmanship = {
   window.addEventListener("DOMContentLoaded", () => {
     console.log("🎸 challenge.js loaded");
     populateSimple("keySelect", keys);
-    populateSimple("attrPhysical", Object.keys(physicalAttributes));
-    populateSimple("attrMental",   Object.keys(mentalAttributes));
+    populateSimple("attrPhysical", ["Random", ...Object.keys(physicalAttributes)]);
+    populateSimple("attrMental",   ["Random", ...Object.keys(mentalAttributes)]);
     // Bind each dropdown to its master‐level checkboxes
     bindFilter("guitarmanshipSelect", guitarmanship);
     bindFilter("pickingSelect",      pickingHand);
