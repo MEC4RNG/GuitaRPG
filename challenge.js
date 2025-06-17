@@ -147,19 +147,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
   // Replace the “random” list for keySelect explicitly:
   config.keySelect = ["random","A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
 
-  // Populate each <select> (clearing any old <option> first)
-  Object.entries(config).forEach(([selectId, items])=>{
-    const sel = document.getElementById(selectId);
-    if (!sel) return;
-    sel.innerHTML = "";  // clear out any static options
-    items.forEach(item=>{
-      const opt = document.createElement("option");
-      opt.value = item;
-      opt.textContent = item;
-      sel.append(opt);
-    });
-  });
-});
 
 function getCheckedLevels(categoryKey) {
   return Array.from(
