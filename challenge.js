@@ -118,16 +118,32 @@ window.addEventListener("DOMContentLoaded", ()=>{
     keySelect:      ["random", ...Object.keys(guitarmanship).flatMap(_=>[])], // we'll override below
     attrPhysical:   attributes,
     attrMental:     attributes,
-    guitarmanshipSelect: [].concat(...Object.values(guitarmanship)),
-    pickingSelect:       [].concat(...Object.values(pickingHand)),
-    frettingSelect:      [].concat(...Object.values(frettingHand)),
-    stringSelect:        [].concat(...Object.values(stringChallenge)),
-    musicianshipSelect:  [].concat(...Object.values(musicianship)),
-    scalesSelect:        [].concat(...Object.values(scales)),
-    rhythmSelect:        [].concat(...Object.values(rhythm)),
-    playStyleSelect:     [].concat(...Object.values(playStyle))
+    guitarmanshipSelect: ["random", …[].concat(...Object.values(guitarmanship))],
+    pickingSelect:       ["random", …[].concat(...Object.values(pickingHand))],
+    frettingSelect:      ["random", …[].concat(...Object.values(frettingHand))],
+    stringSelect:        ["random", …[].concat(...Object.values(stringChallenge))],
+    musicianshipSelect:  ["random", …[].concat(...Object.values(musicianship))],
+    scalesSelect:        ["random", …[].concat(...Object.values(scales))],
+    rhythmSelect:        ["random", …[].concat(...Object.values(rhythm))],
+    playStyleSelect:     ["random", …[].concat(...Object.values(playStyle))],
   };
 
+  for (let [selectId, items] of Object.entries(config)) {
+    const sel = document.getElementById(selectId);
+    sel.innerHTML = "";               // clear any old options
+    items.forEach(item => {          // now append “random” + your items
+      const opt = document.createElement("option");
+      opt.value = item;
+      opt.textContent = item;
+      sel.append(opt);
+    });
+  }
+
+  document.getElementById("generateBtn")
+          .onclick = () => generateChallenge(
+                       document.getElementById("challengeOutput")
+                     );
+});
   // Replace the “random” list for keySelect explicitly:
   config.keySelect = ["random","A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
 
