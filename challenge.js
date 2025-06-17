@@ -1,5 +1,84 @@
 // challenge.js
 
+const keys = [
+    "Random","A","A#","B","C","C#","D","D#","E","F","F#","G","G#"
+  ];
+  
+  const physicalAttributes = {
+    "Dexterity": {
+      description:
+        "Alternate fingering patterns (e.g. C–Am–F–G with different voicings); " +
+        "String-skipping exercises; Chromatic fingertip drills (1–2–3–4 on each string)"
+    },
+    "Strength": {
+      description:
+        "Barre-chord conditioning (long holds, shifting shapes); " +
+        "Sustained bends and vibrato (hold for counts); " +
+        "Long-form practice pieces (15+ minute runs without break)"
+    },
+    "Precision": {
+      description:
+        "Targeted fret-hand muting (ghost-note drills); " +
+        "Pinpoint picking on single strings; " +
+        "Slow-tempo metronome practice with increasing subdivisions"
+    },
+    "Coordination": {
+      description:
+        "Hybrid-picking vs. strict flat-picking switches; " +
+        "Finger-style vs. pick toggles; " +
+        "Two-hand tapping patterns"
+    },
+    "Rhythm": {
+      description:
+        "Dynamic palm-mute vs. open strum transitions; " +
+        "Polyrhythm drills (3:2, 5:4 against a click); " +
+        "Accent-shift practice"
+    },
+    "Flexibility": {
+      description:
+        "Rapid position shifts (e.g., shift across 5 frets in one move); " +
+        "Alternate tunings workout; " +
+        "Quick style-switch (folk ↔ funk ↔ metal) within a single jam"
+    }
+  };
+  
+  const mentalAttributes = {
+    "Theory": {
+      description:
+        "Chord–scale relationships (e.g. ii–V–I in every key); " +
+        "Interval recognition on the neck; " +
+        "Modal application (e.g. Dorian over minor vamp)"
+    },
+    "Emotion": {
+      description:
+        "Crafting tension/release via chord progressions; " +
+        "Dynamics shading (pp → ff in a solo); " +
+        "Melodic contour writing"
+    },
+    "Creativity": {
+      description:
+        "Riff-writing prompts (use only one string, or only three notes); " +
+        "Thematic development; Call-and-response solos"
+    },
+    "Aural": {
+      description:
+        "Singing intervals before playing them; " +
+        "Transcribing short licks by ear; " +
+        "Harmonic dictation"
+    },
+    "Focus": {
+      description:
+        "Structured practice sessions (warm-up → technique → repertoire); " +
+        "Goal-setting; Mental rehearsal away from the guitar"
+    },
+    "Adaptability": {
+      description:
+        "Reacting to backing-track changes in real time; " +
+        "Genre-jump improvisation; " +
+        "Spontaneous motif development"
+    }
+  };
+
 //–– 1) Guitarmanship (Mastery Level 1–5) ––
 const guitarmanship = {
     1: [ "Open Chord Fluency", "Proper Finger Placement", "Power Chord Basics", "Hammer-Ons & Pull-Offs", "Simple Slides" ],
@@ -109,11 +188,25 @@ const guitarmanship = {
   
   // Utility
   function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function populateSimple(id, items) {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = "";
+    items.forEach(val => {
+      const opt = document.createElement("option");
+      opt.value = val.toLowerCase() === "random" ? "random" : val;
+      opt.textContent = val;
+      sel.append(opt);
+    });
+  }
   
   //–– 10) On load: populate every select with “Random” + all items, then wire up filtering & button
   window.addEventListener("DOMContentLoaded", () => {
     console.log("🎸 challenge.js loaded");
-  
+    populateSimple("keySelect", keys);
+    populateSimple("attrPhysical", Object.keys(physicalAttributes));
+    populateSimple("attrMental",   Object.keys(mentalAttributes));
     // Bind each dropdown to its master‐level checkboxes
     bindFilter("guitarmanshipSelect", guitarmanship);
     bindFilter("pickingSelect",      pickingHand);
@@ -131,7 +224,8 @@ const guitarmanship = {
       generateChallenge(out);
     };
   });
-  
+
+
   
   /**
    * Rebuilds the <select> options for `selectId` based on checked levels.
@@ -190,12 +284,12 @@ const guitarmanship = {
   
     // 2) All our categories, in order
     const cats = [
-      { id: "attrPhysical",        label: "Physical Attribute" },
+      { id: "attrPhysical",        label: "Physical Attribute", data: null, meta: physicalAttributes },
       { id: "guitarmanshipSelect", label: "Guitarmanship",   data: guitarmanship,   meta: guitarmanshipMeta   },
       { id: "pickingSelect",       label: "Picking Hand",    data: pickingHand,     meta: pickingHandMeta      },
       { id: "frettingSelect",      label: "Fretting Hand",   data: frettingHand,    meta: frettingHandMeta     },
       { id: "stringSelect",        label: "String Challenge",data: stringChallenge, meta: stringChallengeMeta },
-      { id: "attrMental",          label: "Mental Attribute" },
+      { id: "attrMental",          label: "Mental Attribute", data: null,            meta: mentalAttributes   },
       { id: "musicianshipSelect",  label: "Musicianship",    data: musicianship,    meta: musicianshipMeta     },
       { id: "scalesSelect",        label: "Scales & Modes",  data: scales,          meta: scalesMeta           },
       { id: "rhythmSelect",        label: "Rhythm",          data: rhythm,          meta: rhythmMeta           },
