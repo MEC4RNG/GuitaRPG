@@ -168,9 +168,10 @@ const guitarmanship = {
     // wire your button
     document.getElementById("generateBtn").onclick = () => {
         console.log("Generate Challenge button clicked");
-         generateChallenge(document.getElementById("challengeOutput"));
-    };
-  });
+        const out = document.getElementById("challengeOutput");
+        generateChallenge(out);
+      };
+    });
   
   //–– 11) Actual generation + metadata append
   function generateChallenge(container){
