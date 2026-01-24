@@ -79,8 +79,8 @@ const keys = [
     }
   };
 
-//–– 1) Guitarmanship (Mastery Level 1–5) ––
-const guitarmanship = {
+  //–– 1) Guitarmanship (Mastery Level 1–5) ––
+  const guitarmanship = {
     1: [ "Open Chord Fluency", "Proper Finger Placement", "Power Chord Basics", "Hammer-Ons & Pull-Offs", "Simple Slides" ],
     2: [ "Fretboard Memorization", "Scale Box Shapes", "Chord Inversions", "Pentatonic Scale Variations", "Blues Scale Extensions" ],
     3: [ "Diatonic Harmony (Maj/Min Keys)", "Modal Interchange Basics", "Arpeggio Sequences", "Approach Notes (Jazz)", "Melodic Minor Shapes" ],
@@ -200,6 +200,17 @@ const guitarmanship = {
       sel.append(opt);
     });
   }
+
+  // Random/random helper
+  function isRandomValue(v) {
+  return String(v ?? "").trim().toLowerCase() === "random";
+  }
+
+  function getRandomFromList(list) {
+  const pool = list.filter(x => !isRandomValue(x));
+  return pool[Math.floor(Math.random() * pool.length)];
+  }
+
   
   //–– 10) On load: populate every select with “Random” + all items, then wire up filtering & button
   window.addEventListener("DOMContentLoaded", () => {
@@ -280,12 +291,9 @@ const guitarmanship = {
 
   // 1) Key (handle random)
   const keyVal = document.getElementById("keySelect").value;
-  const keyPick =
-    keyVal === "random" || keyVal === "Random"
-      ? getRandom(keys.filter(k => k.toLowerCase() !== "random"))
-      : keyVal;
+  const keyOut = isRandomValue(keyVal) ? getRandomFromList(KEYS) : keyVal;
+  container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyOut}</div>`;
 
-  container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyPick}</div>`;
 
   // 2) All our categories, in order
   const cats = [
@@ -301,77 +309,65 @@ const guitarmanship = {
     { id: "playStyleSelect",     label: "Play Style",         data: playStyle,       meta: playStyleMeta },
   ];
 
-  cats.forEach(cat => {
-    const el = document.getElementById(cat.id);
-    if (!el) return;
+ cats.forEach(cat => {
+  const el = document.getElementById(cat.id);
+  if (!el) return;
 
-    const val = el.value;
+  const val = (el.value ?? "").trim();
+  const isRandom = val.toLowerCase() === "random";
 
-    // A) Attribute selectors (physical/mental): use meta dictionaries
-    if (!cat.data) {
-      let pick = val;
-
-      if (val === "random" || val === "Random") {
-        const options = Object.keys(cat.meta || {});
-        pick = options.length ? getRandom(options) : "— none found —";
-      }
-
-      appendWithMeta(container, cat.label, pick, cat.meta);
-      return;
-    }
-
-    // B) Skill categories (guitarmanship, etc.)
+  // A) Attribute selectors (physical/mental): pick from meta keys if Random
+  if (!cat.data) {
     let pick = val;
 
-    if (val === "random" || val === "Random") {
-      const catKey = cat.id.replace("Select", "");
-      const levels = Array.from(
-        document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
-      ).map(cb => parseInt(cb.value, 10));
-
-      const pool = levels.length
-        ? levels.flatMap(l => cat.data[l] || [])
-        : [].concat(...Object.values(cat.data));
-
-      pick = pool.length ? getRandom(pool) : "— none found —";
+    if (isRandom) {
+      const options = Object.keys(cat.meta || {}).filter(k => k.toLowerCase() !== "random");
+      pick = options.length ? getRandom(options) : "— none found —";
     }
 
     appendWithMeta(container, cat.label, pick, cat.meta);
+    return;
+  }
+
+  // B) Skill categories (guitarmanship, etc.): pick from level pool if Random
+  let pick = val;
+
+  if (isRandom) {
+    const catKey = cat.id.replace("Select", "");
+    const levels = Array.from(
+      document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
+    ).map(cb => parseInt(cb.value, 10)).filter(n => Number.isFinite(n));
+
+    const pool = levels.length
+      ? levels.flatMap(l => cat.data[l] || [])
+      : [].concat(...Object.values(cat.data));
+
+    pick = pool.length ? getRandom(pool) : "— none found —";
+  }
+
+  appendWithMeta(container, cat.label, pick, cat.meta);
   });
-}
 
-function appendWithMeta(container, label, choice, metaMap) {
-  if (!choice || choice === "— none found —") return;
 
-  const meta = (metaMap && metaMap[choice]) || {};
+  function appendWithMeta(container, label, choice, metaMap) {
+  if (!container) return;
+
+  const c = (choice ?? "").toString().trim();
+  if (!c) return;
+
+  // don’t render sentinel / Random
+  if (c === "— none found —") return;
+  if (c.toLowerCase() === "random") return;
+
+  const meta = (metaMap && metaMap[c]) || {};
   const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
   const ex   = meta.example ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
 
   container.innerHTML += `
     <div class="challenge-block">
-      <strong>${label}:</strong> ${choice}
+      <strong>${label}:</strong> ${c}
       ${desc}
       ${ex}
     </div>
   `;
-}
-
-  
-  /**
-   * Renders one line of challenge + optional description/example.
-   */
-  function appendWithMeta(container, label, choice, metaMap) {
-    if (!choice || choice === "random") return;
-    const meta = (metaMap && metaMap[choice]) || {};
-    const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
-    const ex   = meta.example     ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
-    container.innerHTML += `
-      <div class="challenge-block">
-        <strong>${label}:</strong> ${choice}
-        ${desc}
-        ${ex}
-      </div>
-    `;
-  }
-  
-
+}}
