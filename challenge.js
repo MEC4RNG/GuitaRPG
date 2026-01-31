@@ -282,7 +282,10 @@ const keys = [
     // initial population
     populateByLevels(selectId, dataObj);
   }
-  
+  function isRandomValue(v) {
+  return String(v || "").trim().toLowerCase() === "random";
+  }
+
   /**
    * Actually generate and render the challenge.
    */
@@ -364,3 +367,4 @@ const keys = [
     </div>
   `;
 }
+
