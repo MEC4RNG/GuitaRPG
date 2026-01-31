@@ -189,34 +189,22 @@ const keys = [
   // Utility
   function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-  function populateSimple(selectId, values) {
-  const sel = document.getElementById(selectId);
-  if (!sel) return;
-
-  // Clear any dynamically-added options (keep the first option if it's already "Random")
-  // If you prefer to fully clear, change to: sel.innerHTML = "";
-  // Here, we'll keep the first option if it exists.
-  const keepFirst = sel.options.length > 0 ? sel.options[0] : null;
-  sel.innerHTML = "";
-  if (keepFirst) sel.appendChild(keepFirst);
-
-  values.forEach(val => {
-    // Skip adding "Random" if the HTML already provides it
-    if (String(val).trim().toLowerCase() === "random" && sel.options.length > 0) return;
-
-    const opt = document.createElement("option");
-    opt.value = val;         // <— keep the actual word "Random", not "random"
-    opt.textContent = val;
-    sel.appendChild(opt);
-  });
+  function populateSimple(id, items) {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = "";
+    items.forEach(val => {
+      const opt = document.createElement("option");
+      opt.value = val.toLowerCase() === "random" ? "random" : val;
+      opt.textContent = val;
+      sel.append(opt);
+    });
   }
-
 
   // Random/random helper
   function isRandomValue(v) {
-  return String(v || "").trim().toLowerCase() === "random";
+  return String(v ?? "").trim().toLowerCase() === "random";
   }
-
 
   function getRandomFromList(list) {
   const pool = list.filter(x => !isRandomValue(x));
@@ -225,101 +213,140 @@ const keys = [
 
   
   //–– 10) On load: populate every select with “Random” + all items, then wire up filtering & button
-  window.addEventListener("DOMContentLoaded", () => {
-    console.log("🎸 challenge.js loaded");
-    populateSimple("keySelect", keys);
-    populateSimple("attrPhysical", ["Random", ...Object.keys(physicalAttributes)]);
-    populateSimple("attrMental",   ["Random", ...Object.keys(mentalAttributes)]);
-    // Bind each dropdown to its master‐level checkboxes
-    bindFilter("guitarmanshipSelect", guitarmanship);
-    bindFilter("pickingSelect",      pickingHand);
-    bindFilter("frettingSelect",     frettingHand);
-    bindFilter("stringSelect",       stringChallenge);
-    bindFilter("musicianshipSelect", musicianship);
-    bindFilter("scalesSelect",       scales);
-    bindFilter("rhythmSelect",       rhythm);
-    bindFilter("playStyleSelect",    playStyle);
-  
-    // Wire up the Generate Challenge button
-    document.getElementById("generateBtn").onclick = () => {
-      console.log("🔀 Generate Challenge button clicked");
-      const out = document.getElementById("challengeOutput");
-      generateChallenge(out);
-    };
+  // -----------------------------
+// DOM + wiring
+// -----------------------------
+
+// Treat "Random" and "random" the same
+function isRandomValue(v) {
+  return String(v ?? "").trim().toLowerCase() === "random";
+}
+
+// Keys used ONLY for random selection (does NOT overwrite your HTML labels)
+const KEY_POOL = ["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
+
+// Attribute meta (use your existing objects from the top of the file)
+// If your file already has physicalAttributes / mentalAttributes objects,
+// these convert them into meta maps expected by appendWithMeta.
+const attrPhysicalMeta = Object.fromEntries(
+  Object.entries(physicalAttributes || {}).map(([k, v]) => [k, { description: v.description }])
+);
+const attrMentalMeta = Object.fromEntries(
+  Object.entries(mentalAttributes || {}).map(([k, v]) => [k, { description: v.description }])
+);
+
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("🎸 challenge.js loaded");
+
+  // Populate + bind mastery filtering for skill dropdowns
+  bindFilter("guitarmanshipSelect", guitarmanship);
+  bindFilter("pickingSelect", pickingHand);
+  bindFilter("frettingSelect", frettingHand);
+  bindFilter("stringSelect", stringChallenge);
+  bindFilter("musicianshipSelect", musicianship);
+  bindFilter("scalesSelect", scales);
+  bindFilter("rhythmSelect", rhythm);
+  bindFilter("playStyleSelect", playStyle);
+
+  // Wire button
+  const btn = document.getElementById("generateBtn");
+  if (!btn) {
+    console.error("generateBtn not found");
+    return;
+  }
+
+  btn.onclick = () => {
+    console.log("🔀 Generate Challenge button clicked");
+    const out = document.getElementById("challengeOutput");
+    if (!out) {
+      console.error("challengeOutput not found");
+      return;
+    }
+    generateChallenge(out);
+  };
+});
+
+// -----------------------------
+// Filtering population helpers
+// -----------------------------
+
+function populateByLevels(selectId, dataObj) {
+  const sel = document.getElementById(selectId);
+  if (!sel) {
+    console.warn(`populateByLevels: select not found: ${selectId}`);
+    return;
+  }
+
+  // Always rebuild from scratch
+  sel.innerHTML = "";
+
+  // Always include Random as first option
+  const optRandom = document.createElement("option");
+  optRandom.value = "Random";
+  optRandom.textContent = "Random";
+  sel.appendChild(optRandom);
+
+  // Which mastery levels are checked?
+  const catKey = selectId.replace("Select", ""); // e.g. "guitarmanship"
+  const checkedLevels = Array.from(
+    document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
+  )
+    .map(cb => parseInt(cb.value, 10))
+    .filter(n => Number.isFinite(n));
+
+  // Build pool
+  const pool = checkedLevels.length
+    ? checkedLevels.flatMap(lvl => dataObj[lvl] || [])
+    : [].concat(...Object.values(dataObj));
+
+  // Fill dropdown
+  pool.forEach(val => {
+    const opt = document.createElement("option");
+    opt.value = val;
+    opt.textContent = val;
+    sel.appendChild(opt);
   });
+}
 
+function bindFilter(selectId, dataObj) {
+  const catKey = selectId.replace("Select", "");
 
-  
-  /**
-   * Rebuilds the <select> options for `selectId` based on checked levels.
-   */
-  function populateByLevels(selectId, dataObj) {
-    const sel = document.getElementById(selectId);
-    if (!sel) return;
-  
-    // figure out which mastery levels are checked
-    const catKey = selectId.replace("Select", "");
-    const levels = Array.from(
-      document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
-    ).map(cb => parseInt(cb.value, 10));
-  
-    // build the pool from those levels (or all if none)
-    const pool = levels.length
-      ? levels.flatMap(l => dataObj[l] || [])
-      : [].concat(...Object.values(dataObj));
-  
-    // repopulate the <select>
-    sel.innerHTML = '<option value="random">Random</option>';
-    pool.forEach(item => {
-      const opt = document.createElement("option");
-      opt.value = item;
-      opt.textContent = item;
-      sel.append(opt);
-    });
-  }
-  
-  /**
-   * Sets up a listener on the checkboxes for this category, then does an initial fill.
-   */
-  function bindFilter(selectId, dataObj) {
-    const sel = document.getElementById(selectId);
-    if (!sel) return;
-  
-    // listen for checkbox changes
-    const catKey = selectId.replace("Select", "");
-    document
-      .querySelectorAll(`input[data-category="${catKey}"]`)
-      .forEach(cb => cb.addEventListener("change", () => populateByLevels(selectId, dataObj)));
-  
-    // initial population
-    populateByLevels(selectId, dataObj);
-  }
-  
-  /**
-   * Actually generate and render the challenge.
-   */
-  function generateChallenge(container) {
+  // When checkboxes change, rebuild options
+  Array.from(document.querySelectorAll(`input[data-category="${catKey}"]`))
+    .forEach(cb => cb.addEventListener("change", () => populateByLevels(selectId, dataObj)));
+
+  // Initial fill
+  populateByLevels(selectId, dataObj);
+}
+
+// -----------------------------
+// Challenge generation
+// -----------------------------
+
+function generateChallenge(container) {
   container.innerHTML = "";
 
-  // 1) Key (handle Random properly)
+  // --- Key ---
   const keyEl = document.getElementById("keySelect");
-  const keyVal = keyEl ? keyEl.value : "— none found —";
+  if (!keyEl) {
+    console.error("keySelect not found");
+    return;
+  }
 
-  const keyPick =
-    (keyVal || "").toLowerCase() === "random"
-      ? getRandom(keys.filter(k => (k || "").toLowerCase() !== "random"))
-      : keyVal;
+  let keyPick = keyEl.value;
+  if (isRandomValue(keyPick)) {
+    keyPick = KEY_POOL.length ? getRandom(KEY_POOL) : "— none found —";
+  }
 
   container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyPick}</div>`;
 
-  // 2) All our categories, in order
   const cats = [
-    { id: "attrPhysical",        label: "Physical Attribute", data: null, meta: physicalAttributes },
+    { id: "attrPhysical",        label: "Physical Attribute", meta: attrPhysicalMeta },
     { id: "guitarmanshipSelect", label: "Guitarmanship",      data: guitarmanship,   meta: guitarmanshipMeta },
     { id: "pickingSelect",       label: "Picking Hand",       data: pickingHand,     meta: pickingHandMeta },
     { id: "frettingSelect",      label: "Fretting Hand",      data: frettingHand,    meta: frettingHandMeta },
     { id: "stringSelect",        label: "String Challenge",   data: stringChallenge, meta: stringChallengeMeta },
-    { id: "attrMental",          label: "Mental Attribute",   data: null,            meta: mentalAttributes },
+    { id: "attrMental",          label: "Mental Attribute",   meta: attrMentalMeta },
     { id: "musicianshipSelect",  label: "Musicianship",       data: musicianship,    meta: musicianshipMeta },
     { id: "scalesSelect",        label: "Scales & Modes",     data: scales,          meta: scalesMeta },
     { id: "rhythmSelect",        label: "Rhythm",             data: rhythm,          meta: rhythmMeta },
@@ -332,27 +359,26 @@ const keys = [
 
     const val = el.value;
 
-    // A) Attribute selectors (physical/mental): random should pick a real attribute
+    // A) Attributes (no cat.data): Random picks from meta keys
     if (!cat.data) {
       let pick = val;
-
-      if ((val || "").toLowerCase() === "random") {
+      if (isRandomValue(val)) {
         const options = Object.keys(cat.meta || {});
         pick = options.length ? getRandom(options) : "— none found —";
       }
-
       appendWithMeta(container, cat.label, pick, cat.meta);
       return;
     }
 
-    // B) Skill categories
+    // B) Skill categories: Random picks from checked levels (or full list)
     let pick = val;
-
-    if ((val || "").toLowerCase() === "random") {
+    if (isRandomValue(val)) {
       const catKey = cat.id.replace("Select", "");
       const levels = Array.from(
         document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
-      ).map(cb => parseInt(cb.value, 10));
+      )
+        .map(cb => parseInt(cb.value, 10))
+        .filter(n => Number.isFinite(n));
 
       const pool = levels.length
         ? levels.flatMap(l => cat.data[l] || [])
@@ -365,13 +391,12 @@ const keys = [
   });
 }
 
+// -----------------------------
+// Rendering
+// -----------------------------
 
-
- function appendWithMeta(container, label, choice, metaMap) {
-  if (!choice || choice === "— none found —") return;
-
-  // If something slipped through as "random", don't render it
-  if ((choice || "").toLowerCase() === "random") return;
+function appendWithMeta(container, label, choice, metaMap) {
+  if (!choice || isRandomValue(choice) || choice === "— none found —") return;
 
   const meta = (metaMap && metaMap[choice]) || {};
   const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
@@ -385,8 +410,3 @@ const keys = [
     </div>
   `;
 }
-
- }}
-
-
-
