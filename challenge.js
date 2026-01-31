@@ -350,24 +350,17 @@ const keys = [
 
 
   function appendWithMeta(container, label, choice, metaMap) {
-  if (!container) return;
+  if (!choice || isRandomValue(choice) || choice === "— none found —") return;
 
-  const c = (choice ?? "").toString().trim();
-  if (!c) return;
-
-  // don’t render sentinel / Random
-  if (c === "— none found —") return;
-  if (c.toLowerCase() === "random") return;
-
-  const meta = (metaMap && metaMap[c]) || {};
+  const meta = (metaMap && metaMap[choice]) || {};
   const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
   const ex   = meta.example ? `<div class="example"><em>Example:</em> ${meta.example}</div>` : "";
 
   container.innerHTML += `
     <div class="challenge-block">
-      <strong>${label}:</strong> ${c}
+      <strong>${label}:</strong> ${choice}
       ${desc}
       ${ex}
     </div>
   `;
-}}
+}
