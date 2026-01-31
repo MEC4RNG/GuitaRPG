@@ -189,17 +189,28 @@ const keys = [
   // Utility
   function getRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-  function populateSimple(id, items) {
-    const sel = document.getElementById(id);
-    if (!sel) return;
-    sel.innerHTML = "";
-    items.forEach(val => {
-      const opt = document.createElement("option");
-      opt.value = val.toLowerCase() === "random" ? "random" : val;
-      opt.textContent = val;
-      sel.append(opt);
-    });
+  function populateSimple(selectId, values) {
+  const sel = document.getElementById(selectId);
+  if (!sel) return;
+
+  // Clear any dynamically-added options (keep the first option if it's already "Random")
+  // If you prefer to fully clear, change to: sel.innerHTML = "";
+  // Here, we'll keep the first option if it exists.
+  const keepFirst = sel.options.length > 0 ? sel.options[0] : null;
+  sel.innerHTML = "";
+  if (keepFirst) sel.appendChild(keepFirst);
+
+  values.forEach(val => {
+    // Skip adding "Random" if the HTML already provides it
+    if (String(val).trim().toLowerCase() === "random" && sel.options.length > 0) return;
+
+    const opt = document.createElement("option");
+    opt.value = val;         // <— keep the actual word "Random", not "random"
+    opt.textContent = val;
+    sel.appendChild(opt);
+  });
   }
+
 
   // Random/random helper
   function isRandomValue(v) {
@@ -367,4 +378,5 @@ const keys = [
     </div>
   `;
 }
+
 
