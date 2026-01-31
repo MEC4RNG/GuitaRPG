@@ -301,35 +301,29 @@ const keys = [
   function generateChallenge(container) {
   container.innerHTML = "";
 
-  // --- Key (now truly randomizes) ---
+  // 1) Key (handle Random properly)
   const keyEl = document.getElementById("keySelect");
-  if (!keyEl) return;
+  const keyVal = keyEl ? keyEl.value : "— none found —";
 
-  let keyPick = keyEl.value;
+  const keyPick =
+    (keyVal || "").toLowerCase() === "random"
+      ? getRandom(keys.filter(k => (k || "").toLowerCase() !== "random"))
+      : keyVal;
 
-  if (isRandomValue(keyPick)) {
-    const keyPool = (keys || []).filter(k => !isRandomValue(k));
-    keyPick = keyPool.length ? getRandom(keyPool) : "— none found —";
-  }
+  container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyPick}</div>`;
 
-  container.innerHTML += `
-    <div class="challenge-block">
-      <strong>Key:</strong> ${keyPick}
-    </div>
-  `;
-
-  // --- Categories ---
+  // 2) All our categories, in order
   const cats = [
-    { id: "attrPhysical",         label: "Physical Attribute", meta: attrPhysicalMeta },
-    { id: "guitarmanshipSelect",  label: "Guitarmanship",      data: guitarmanship,   meta: guitarmanshipMeta },
-    { id: "pickingSelect",        label: "Picking Hand",       data: pickingHand,     meta: pickingHandMeta },
-    { id: "frettingSelect",       label: "Fretting Hand",      data: frettingHand,    meta: frettingHandMeta },
-    { id: "stringSelect",         label: "String Challenge",   data: stringChallenge, meta: stringChallengeMeta },
-    { id: "attrMental",           label: "Mental Attribute",   meta: attrMentalMeta },
-    { id: "musicianshipSelect",   label: "Musicianship",       data: musicianship,    meta: musicianshipMeta },
-    { id: "scalesSelect",         label: "Scales & Modes",     data: scales,          meta: scalesMeta },
-    { id: "rhythmSelect",         label: "Rhythm",             data: rhythm,          meta: rhythmMeta },
-    { id: "playStyleSelect",      label: "Play Style",         data: playStyle,       meta: playStyleMeta },
+    { id: "attrPhysical",        label: "Physical Attribute", data: null, meta: physicalAttributes },
+    { id: "guitarmanshipSelect", label: "Guitarmanship",      data: guitarmanship,   meta: guitarmanshipMeta },
+    { id: "pickingSelect",       label: "Picking Hand",       data: pickingHand,     meta: pickingHandMeta },
+    { id: "frettingSelect",      label: "Fretting Hand",      data: frettingHand,    meta: frettingHandMeta },
+    { id: "stringSelect",        label: "String Challenge",   data: stringChallenge, meta: stringChallengeMeta },
+    { id: "attrMental",          label: "Mental Attribute",   data: null,            meta: mentalAttributes },
+    { id: "musicianshipSelect",  label: "Musicianship",       data: musicianship,    meta: musicianshipMeta },
+    { id: "scalesSelect",        label: "Scales & Modes",     data: scales,          meta: scalesMeta },
+    { id: "rhythmSelect",        label: "Rhythm",             data: rhythm,          meta: rhythmMeta },
+    { id: "playStyleSelect",     label: "Play Style",         data: playStyle,       meta: playStyleMeta },
   ];
 
   cats.forEach(cat => {
@@ -338,11 +332,11 @@ const keys = [
 
     const val = el.value;
 
-    // A) Attribute selectors (no cat.data)
+    // A) Attribute selectors (physical/mental): random should pick a real attribute
     if (!cat.data) {
       let pick = val;
 
-      if (isRandomValue(val)) {
+      if ((val || "").toLowerCase() === "random") {
         const options = Object.keys(cat.meta || {});
         pick = options.length ? getRandom(options) : "— none found —";
       }
@@ -354,9 +348,8 @@ const keys = [
     // B) Skill categories
     let pick = val;
 
-    if (isRandomValue(val)) {
+    if ((val || "").toLowerCase() === "random") {
       const catKey = cat.id.replace("Select", "");
-
       const levels = Array.from(
         document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
       ).map(cb => parseInt(cb.value, 10));
@@ -370,30 +363,15 @@ const keys = [
 
     appendWithMeta(container, cat.label, pick, cat.meta);
   });
-  }
-
-  // B) Skill categories (guitarmanship, etc.): pick from level pool if Random
-  let pick = val;
-
-  if (isRandom) {
-    const catKey = cat.id.replace("Select", "");
-    const levels = Array.from(
-      document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
-    ).map(cb => parseInt(cb.value, 10)).filter(n => Number.isFinite(n));
-
-    const pool = levels.length
-      ? levels.flatMap(l => cat.data[l] || [])
-      : [].concat(...Object.values(cat.data));
-
-    pick = pool.length ? getRandom(pool) : "— none found —";
-  }
-
-  appendWithMeta(container, cat.label, pick, cat.meta);
-  });
+}
 
 
-  function appendWithMeta(container, label, choice, metaMap) {
-  if (!choice || isRandomValue(choice) || choice === "— none found —") return;
+
+ function appendWithMeta(container, label, choice, metaMap) {
+  if (!choice || choice === "— none found —") return;
+
+  // If something slipped through as "random", don't render it
+  if ((choice || "").toLowerCase() === "random") return;
 
   const meta = (metaMap && metaMap[choice]) || {};
   const desc = meta.description ? `<div class="desc">${meta.description}</div>` : "";
@@ -406,6 +384,9 @@ const keys = [
       ${ex}
     </div>
   `;
+}
+
  }}
+
 
 
