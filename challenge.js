@@ -287,12 +287,12 @@ function populateKeySelect() {
 // Attribute meta (use your existing objects from the top of the file)
 // If your file already has physicalAttributes / mentalAttributes objects,
 // these convert them into meta maps expected by appendWithMeta.
-const attrPhysicalMeta = Object.fromEntries(
-  Object.entries(physicalAttributes || {}).map(([k, v]) => [k, { description: v.description }])
-);
-const attrMentalMeta = Object.fromEntries(
-  Object.entries(mentalAttributes || {}).map(([k, v]) => [k, { description: v.description }])
-);
+//const attrPhysicalMeta = Object.fromEntries(
+  //Object.entries(physicalAttributes || {}).map(([k, v]) => [k, { description: v.description }])
+//);
+//const attrMentalMeta = Object.fromEntries(
+  //Object.entries(mentalAttributes || {}).map(([k, v]) => [k, { description: v.description }])
+//);
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("🎸 challenge.js loaded");
@@ -545,6 +545,7 @@ function appendLine(container, label, value) {
     //</div>
   //`;
 //}
+
 
 
 
