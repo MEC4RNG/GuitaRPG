@@ -1,8 +1,24 @@
 // challenge.js
 
-const keys = [
-    "A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G","G#/Ab"
-  ];
+// Key definitions: internal value → display label
+const KEY_MAP = {
+  "A":  "A",
+  "A#": "A#/Bb",
+  "B":  "B",
+  "C":  "C",
+  "C#": "C#/Db",
+  "D":  "D",
+  "D#": "D#/Eb",
+  "E":  "E",
+  "F":  "F",
+  "F#": "F#/Gb",
+  "G":  "G",
+  "G#": "G#/Ab"
+};
+
+// Used ONLY for random selection
+const KEY_POOL = Object.keys(KEY_MAP);
+
   
   const physicalAttributes = {
     "Dexterity": {
@@ -364,37 +380,52 @@ function bindFilter(selectId, dataObj) {
   populateByLevels(selectId, dataObj);
 }
 
+function pickFromSelect(selectId) {
+  const sel = document.getElementById(selectId);
+  if (!sel) throw new Error(`Missing select: ${selectId}`);
+
+  const current = sel.value;
+
+  // If user chose a real value, return it
+  if (!isRandomValue(current)) return current;
+
+  // Otherwise pick randomly from the *existing options* (excluding Random)
+  const choices = Array.from(sel.options)
+    .map(o => o.value)
+    .filter(v => !isRandomValue(v));
+
+  return choices.length ? choices[Math.floor(Math.random() * choices.length)] : "— none found —";
+}
+
 // -----------------------------
 // Challenge generation
 // -----------------------------
 
 function generateChallenge(container) {
-  if (!container) {
-    console.error("challengeOutput container not found");
-    return;
-  }
+  const lines = [];
 
-  container.innerHTML = "";
+  // Key (uses whatever values exist in the keySelect options)
+  const keyPick = pickFromSelect("keySelect");
+  lines.push(`Key: ${keyPick}`);
 
-  // --- Key ---
-  const keyEl = document.getElementById("keySelect");
-  if (!keyEl) {
-    console.error("keySelect not found");
-    return;
-  }
+  // Physical column
+  lines.push(`Physical Attribute: ${pickFromSelect("attrPhysical")}`);
+  lines.push(`Guitarmanship: ${pickFromSelect("guitarmanshipSelect")}`);
+  lines.push(`Picking Hand: ${pickFromSelect("pickingSelect")}`);
+  lines.push(`Fretting Hand: ${pickFromSelect("frettingSelect")}`);
+  lines.push(`String Challenge: ${pickFromSelect("stringSelect")}`);
 
-  let keyPick = keyEl.value;
+  // Mental column
+  lines.push(`Mental Attribute: ${pickFromSelect("attrMental")}`);
+  lines.push(`Musicianship: ${pickFromSelect("musicianshipSelect")}`);
+  lines.push(`Scales & Modes: ${pickFromSelect("scalesSelect")}`);
+  lines.push(`Rhythm: ${pickFromSelect("rhythmSelect")}`);
+  lines.push(`Play Style: ${pickFromSelect("playStyleSelect")}`);
 
-  // Treat Random/random the same
-  if (isRandomValue(keyPick)) {
-    keyPick = KEY_POOL.length ? getRandom(KEY_POOL) : "— none found —";
-  }
+  // Tight output (no extra spacing blocks)
+  container.textContent = lines.join("\n");
+}
 
-  container.innerHTML += `
-    <div class="challenge-block">
-      <strong>Key:</strong> ${keyPick}
-    </div>
-  `;
 
 
   const cats = [
@@ -467,6 +498,7 @@ function appendWithMeta(container, label, choice, metaMap) {
     </div>
   `;
 }
+
 
 
 
