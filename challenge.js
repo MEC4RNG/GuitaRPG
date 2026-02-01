@@ -222,8 +222,53 @@ function isRandomValue(v) {
   return String(v ?? "").trim().toLowerCase() === "random";
 }
 
-// Keys used ONLY for random selection (does NOT overwrite your HTML labels)
-const KEY_POOL = ["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"];
+// --- Keys (value vs label) ---
+const KEY_OPTIONS = [
+  { value: "Random", label: "Random" },
+  { value: "A",  label: "A" },
+  { value: "A#", label: "A# / Bb" },
+  { value: "B",  label: "B" },
+  { value: "C",  label: "C" },
+  { value: "C#", label: "C# / Db" },
+  { value: "D",  label: "D" },
+  { value: "D#", label: "D# / Eb" },
+  { value: "E",  label: "E" },
+  { value: "F",  label: "F" },
+  { value: "F#", label: "F# / Gb" },
+  { value: "G",  label: "G" },
+  { value: "G#", label: "G# / Ab" },
+];
+
+// Pool used ONLY for random selection (excludes Random)
+const KEY_POOL = KEY_OPTIONS
+  .map(k => k.value)
+  .filter(v => String(v).toLowerCase() !== "random");
+
+function isRandomValue(v) {
+  return String(v ?? "").trim().toLowerCase() === "random";
+}
+
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function populateKeySelect() {
+  const sel = document.getElementById("keySelect");
+  if (!sel) {
+    console.error("keySelect not found in HTML");
+    return;
+  }
+
+  sel.innerHTML = ""; // clear then repopulate
+
+  KEY_OPTIONS.forEach(k => {
+    const opt = document.createElement("option");
+    opt.value = k.value;       // value stays clean (A#, C#, etc.)
+    opt.textContent = k.label; // label can be "A# / Bb"
+    sel.appendChild(opt);
+  });
+}
+
 
 // Attribute meta (use your existing objects from the top of the file)
 // If your file already has physicalAttributes / mentalAttributes objects,
@@ -237,6 +282,8 @@ const attrMentalMeta = Object.fromEntries(
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log("🎸 challenge.js loaded");
+
+  populateKeySelect();
 
   // Populate + bind mastery filtering for skill dropdowns
   bindFilter("guitarmanshipSelect", guitarmanship);
@@ -324,6 +371,11 @@ function bindFilter(selectId, dataObj) {
 // -----------------------------
 
 function generateChallenge(container) {
+  if (!container) {
+    console.error("challengeOutput container not found");
+    return;
+  }
+
   container.innerHTML = "";
 
   // --- Key ---
@@ -335,10 +387,9 @@ function generateChallenge(container) {
 
   let keyPick = keyEl.value;
 
+  // Treat Random/random the same
   if (isRandomValue(keyPick)) {
-    keyPick = KEY_POOL.length
-      ? getRandom(KEY_POOL)
-      : "— none found —";
+    keyPick = KEY_POOL.length ? getRandom(KEY_POOL) : "— none found —";
   }
 
   container.innerHTML += `
