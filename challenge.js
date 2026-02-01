@@ -297,9 +297,12 @@ const attrMentalMeta = Object.fromEntries(
 window.addEventListener("DOMContentLoaded", () => {
   console.log("🎸 challenge.js loaded");
 
+  // 1) Populate Key + Attribute dropdowns from JS
   populateKeySelect();
+  populateAttributeSelect("attrPhysical", physicalAttributes);
+  populateAttributeSelect("attrMental", mentalAttributes);
 
-  // Populate + bind mastery filtering for skill dropdowns
+  // 2) Populate + bind mastery filtering for skill dropdowns
   bindFilter("guitarmanshipSelect", guitarmanship);
   bindFilter("pickingSelect", pickingHand);
   bindFilter("frettingSelect", frettingHand);
@@ -309,7 +312,7 @@ window.addEventListener("DOMContentLoaded", () => {
   bindFilter("rhythmSelect", rhythm);
   bindFilter("playStyleSelect", playStyle);
 
-  // Wire button
+  // 3) Wire button
   const btn = document.getElementById("generateBtn");
   if (!btn) {
     console.error("generateBtn not found");
@@ -328,9 +331,76 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // -----------------------------
-// Filtering population helpers
+// Random helpers
+// -----------------------------
+function isRandomValue(v) {
+  return String(v ?? "").trim().toLowerCase() === "random";
+}
+
+// -----------------------------
+// Key + Attribute population
 // -----------------------------
 
+// If you want the output to read "A# / Bb", set label/value to that exact string.
+// (This also prevents the "A#" vs "A# / Bb" mismatch you noticed.)
+const KEY_OPTIONS = [
+  "Random",
+  "A",
+  "A# / Bb",
+  "B",
+  "C",
+  "C# / Db",
+  "D",
+  "D# / Eb",
+  "E",
+  "F",
+  "F# / Gb",
+  "G",
+  "G# / Ab",
+];
+
+function populateKeySelect() {
+  const sel = document.getElementById("keySelect");
+  if (!sel) {
+    console.warn("populateKeySelect: keySelect not found");
+    return;
+  }
+  sel.innerHTML = "";
+  KEY_OPTIONS.forEach(label => {
+    const opt = document.createElement("option");
+    opt.value = label;       // value matches label so output matches what user sees
+    opt.textContent = label;
+    sel.appendChild(opt);
+  });
+}
+
+function populateAttributeSelect(selectId, metaObj) {
+  const sel = document.getElementById(selectId);
+  if (!sel) {
+    console.warn(`populateAttributeSelect: select not found: ${selectId}`);
+    return;
+  }
+
+  sel.innerHTML = "";
+
+  // Always include Random first
+  const optRandom = document.createElement("option");
+  optRandom.value = "Random";
+  optRandom.textContent = "Random";
+  sel.appendChild(optRandom);
+
+  // Then the attribute keys (Dexterity, Theory, etc.)
+  Object.keys(metaObj || {}).forEach(k => {
+    const opt = document.createElement("option");
+    opt.value = k;
+    opt.textContent = k;
+    sel.appendChild(opt);
+  });
+}
+
+// -----------------------------
+// Filtering population helpers
+// -----------------------------
 function populateByLevels(selectId, dataObj) {
   const sel = document.getElementById(selectId);
   if (!sel) {
@@ -338,24 +408,25 @@ function populateByLevels(selectId, dataObj) {
     return;
   }
 
-  // Always rebuild from scratch
   sel.innerHTML = "";
 
-  // Always include Random as first option
+  // Always include Random first
   const optRandom = document.createElement("option");
   optRandom.value = "Random";
   optRandom.textContent = "Random";
   sel.appendChild(optRandom);
 
+  // Determine checkbox group name from selectId (guitarmanshipSelect -> guitarmanship)
+  const catKey = selectId.replace("Select", "");
+
   // Which mastery levels are checked?
-  const catKey = selectId.replace("Select", ""); // e.g. "guitarmanship"
   const checkedLevels = Array.from(
     document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
   )
     .map(cb => parseInt(cb.value, 10))
     .filter(n => Number.isFinite(n));
 
-  // Build pool
+  // Build pool based on checked levels (or all levels if none checked)
   const pool = checkedLevels.length
     ? checkedLevels.flatMap(lvl => dataObj[lvl] || [])
     : [].concat(...Object.values(dataObj));
@@ -389,95 +460,51 @@ function pickFromSelect(selectId) {
   // If user chose a real value, return it
   if (!isRandomValue(current)) return current;
 
-  // Otherwise pick randomly from the *existing options* (excluding Random)
+  // Otherwise pick randomly from existing options (excluding Random)
   const choices = Array.from(sel.options)
     .map(o => o.value)
     .filter(v => !isRandomValue(v));
 
-  return choices.length ? choices[Math.floor(Math.random() * choices.length)] : "— none found —";
+  return choices.length
+    ? choices[Math.floor(Math.random() * choices.length)]
+    : "— none found —";
 }
 
 // -----------------------------
-// Challenge generation
+// Generate Challenge (text only)
 // -----------------------------
-
 function generateChallenge(container) {
-  const lines = [];
+  container.innerHTML = "";
 
-  // Key (uses whatever values exist in the keySelect options)
+  // Key
   const keyPick = pickFromSelect("keySelect");
-  lines.push(`Key: ${keyPick}`);
+  container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyPick}</div>`;
 
-  // Physical column
-  lines.push(`Physical Attribute: ${pickFromSelect("attrPhysical")}`);
-  lines.push(`Guitarmanship: ${pickFromSelect("guitarmanshipSelect")}`);
-  lines.push(`Picking Hand: ${pickFromSelect("pickingSelect")}`);
-  lines.push(`Fretting Hand: ${pickFromSelect("frettingSelect")}`);
-  lines.push(`String Challenge: ${pickFromSelect("stringSelect")}`);
+  // Physical + Mental attributes
+  const physAttr = pickFromSelect("attrPhysical");
+  const mentAttr = pickFromSelect("attrMental");
 
-  // Mental column
-  lines.push(`Mental Attribute: ${pickFromSelect("attrMental")}`);
-  lines.push(`Musicianship: ${pickFromSelect("musicianshipSelect")}`);
-  lines.push(`Scales & Modes: ${pickFromSelect("scalesSelect")}`);
-  lines.push(`Rhythm: ${pickFromSelect("rhythmSelect")}`);
-  lines.push(`Play Style: ${pickFromSelect("playStyleSelect")}`);
+  container.innerHTML += `<div class="challenge-block"><strong>Physical Attribute:</strong> ${physAttr}</div>`;
+  container.innerHTML += `<div class="challenge-block"><strong>Mental Attribute:</strong> ${mentAttr}</div>`;
 
-  // Tight output (no extra spacing blocks)
-  container.textContent = lines.join("\n");
-}
-
-
-
-  const cats = [
-    { id: "attrPhysical",        label: "Physical Attribute", meta: attrPhysicalMeta },
-    { id: "guitarmanshipSelect", label: "Guitarmanship",      data: guitarmanship,   meta: guitarmanshipMeta },
-    { id: "pickingSelect",       label: "Picking Hand",       data: pickingHand,     meta: pickingHandMeta },
-    { id: "frettingSelect",      label: "Fretting Hand",      data: frettingHand,    meta: frettingHandMeta },
-    { id: "stringSelect",        label: "String Challenge",   data: stringChallenge, meta: stringChallengeMeta },
-    { id: "attrMental",          label: "Mental Attribute",   meta: attrMentalMeta },
-    { id: "musicianshipSelect",  label: "Musicianship",       data: musicianship,    meta: musicianshipMeta },
-    { id: "scalesSelect",        label: "Scales & Modes",     data: scales,          meta: scalesMeta },
-    { id: "rhythmSelect",        label: "Rhythm",             data: rhythm,          meta: rhythmMeta },
-    { id: "playStyleSelect",     label: "Play Style",         data: playStyle,       meta: playStyleMeta },
+  // Skills (respect mastery filtering because pickFromSelect pulls from current dropdown options)
+  const skills = [
+    ["Guitarmanship", "guitarmanshipSelect"],
+    ["Picking Hand", "pickingSelect"],
+    ["Fretting Hand", "frettingSelect"],
+    ["String Challenge", "stringSelect"],
+    ["Musicianship", "musicianshipSelect"],
+    ["Scales & Modes", "scalesSelect"],
+    ["Rhythm", "rhythmSelect"],
+    ["Play Style", "playStyleSelect"],
   ];
 
-  cats.forEach(cat => {
-    const el = document.getElementById(cat.id);
-    if (!el) return;
-
-    const val = el.value;
-
-    // A) Attributes (no cat.data): Random picks from meta keys
-    if (!cat.data) {
-      let pick = val;
-      if (isRandomValue(val)) {
-        const options = Object.keys(cat.meta || {});
-        pick = options.length ? getRandom(options) : "— none found —";
-      }
-      appendWithMeta(container, cat.label, pick, cat.meta);
-      return;
-    }
-
-    // B) Skill categories: Random picks from checked levels (or full list)
-    let pick = val;
-    if (isRandomValue(val)) {
-      const catKey = cat.id.replace("Select", "");
-      const levels = Array.from(
-        document.querySelectorAll(`input[data-category="${catKey}"]:checked`)
-      )
-        .map(cb => parseInt(cb.value, 10))
-        .filter(n => Number.isFinite(n));
-
-      const pool = levels.length
-        ? levels.flatMap(l => cat.data[l] || [])
-        : [].concat(...Object.values(cat.data));
-
-      pick = pool.length ? getRandom(pool) : "— none found —";
-    }
-
-    appendWithMeta(container, cat.label, pick, cat.meta);
+  skills.forEach(([label, selectId]) => {
+    const pick = pickFromSelect(selectId);
+    container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${pick}</div>`;
   });
 }
+
 
 // -----------------------------
 // Rendering
@@ -498,6 +525,7 @@ function appendWithMeta(container, label, choice, metaMap) {
     </div>
   `;
 }
+
 
 
 
