@@ -263,7 +263,6 @@ function populateKeySelect() {
 
   KEY_OPTIONS.forEach(k => {
     const opt = document.createElement("option");
-    opt.value = k.value;       // value stays clean (A#, C#, etc.)
     opt.textContent = k.label; // label can be "A# / Bb"
     sel.appendChild(opt);
   });
@@ -469,4 +468,5 @@ function appendWithMeta(container, label, choice, metaMap) {
     </div>
   `;
 }
+
 
