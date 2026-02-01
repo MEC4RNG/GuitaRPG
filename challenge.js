@@ -476,18 +476,28 @@ function pickFromSelect(selectId) {
 function generateChallenge(container) {
   container.innerHTML = "";
 
+  // Helper to render one line (skips empty/Random/none)
+  function appendLine(label, value) {
+    if (!value || isRandomValue(value) || value === "— none found —") return;
+
+    container.innerHTML += `
+      <div class="challenge-block">
+        <strong>${label}:</strong> ${value}
+      </div>
+    `;
+  }
+
   // Key
   const keyPick = pickFromSelect("keySelect");
-  container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyPick}</div>`;
+  appendLine("Key", keyPick);
 
-  // Physical + Mental attributes
+  // Physical + Mental Attributes
   const physAttr = pickFromSelect("attrPhysical");
   const mentAttr = pickFromSelect("attrMental");
+  appendLine("Physical Attribute", physAttr);
+  appendLine("Mental Attribute", mentAttr);
 
-  container.innerHTML += `<div class="challenge-block"><strong>Physical Attribute:</strong> ${physAttr}</div>`;
-  container.innerHTML += `<div class="challenge-block"><strong>Mental Attribute:</strong> ${mentAttr}</div>`;
-
-  // Skills (respect mastery filtering because pickFromSelect pulls from current dropdown options)
+  // Skills (pulls from the CURRENT dropdown options, so mastery filters are honored)
   const skills = [
     ["Guitarmanship", "guitarmanshipSelect"],
     ["Picking Hand", "pickingSelect"],
@@ -501,14 +511,24 @@ function generateChallenge(container) {
 
   skills.forEach(([label, selectId]) => {
     const pick = pickFromSelect(selectId);
-    container.innerHTML += `<div class="challenge-block"><strong>${label}:</strong> ${pick}</div>`;
+    appendLine(label, pick);
   });
 }
+
 
 
 // -----------------------------
 // Rendering
 // -----------------------------
+function appendLine(container, label, value) {
+  if (!value || isRandomValue(value) || value === "— none found —") return;
+
+  container.innerHTML += `
+    <div class="challenge-block">
+      <strong>${label}:</strong> ${value}
+    </div>
+  `;
+}
 
 //function appendWithMeta(container, label, choice, metaMap) {
   //if (!choice || isRandomValue(choice) || choice === "— none found —") return;
@@ -525,6 +545,7 @@ function generateChallenge(container) {
     //</div>
   //`;
 //}
+
 
 
 
