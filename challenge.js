@@ -1,7 +1,7 @@
 // challenge.js
 
 const keys = [
-    "Random","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G","G#/Ab"
+    "A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G","G#/Ab"
   ];
   
   const physicalAttributes = {
@@ -224,7 +224,6 @@ function isRandomValue(v) {
 
 // --- Keys (value vs label) ---
 const KEY_OPTIONS = [
-  { value: "Random", label: "Random" },
   { value: "A",  label: "A" },
   { value: "A#/Bb", label: "A# / Bb" },
   { value: "B",  label: "B" },
@@ -468,5 +467,6 @@ function appendWithMeta(container, label, choice, metaMap) {
     </div>
   `;
 }
+
 
 
