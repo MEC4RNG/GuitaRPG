@@ -1,7 +1,7 @@
 // challenge.js
 
 const keys = [
-    "Random","A","A#","B","C","C#","D","D#","E","F","F#","G","G#"
+    "Random","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G","G#/Ab"
   ];
   
   const physicalAttributes = {
@@ -226,17 +226,17 @@ function isRandomValue(v) {
 const KEY_OPTIONS = [
   { value: "Random", label: "Random" },
   { value: "A",  label: "A" },
-  { value: "A#", label: "A# / Bb" },
+  { value: "A#/Bb", label: "A# / Bb" },
   { value: "B",  label: "B" },
   { value: "C",  label: "C" },
-  { value: "C#", label: "C# / Db" },
+  { value: "C#/Db", label: "C# / Db" },
   { value: "D",  label: "D" },
-  { value: "D#", label: "D# / Eb" },
+  { value: "D#/Eb", label: "D# / Eb" },
   { value: "E",  label: "E" },
   { value: "F",  label: "F" },
-  { value: "F#", label: "F# / Gb" },
+  { value: "F#/Gb", label: "F# / Gb" },
   { value: "G",  label: "G" },
-  { value: "G#", label: "G# / Ab" },
+  { value: "G#/Ab", label: "G# / Ab" },
 ];
 
 // Pool used ONLY for random selection (excludes Random)
@@ -469,3 +469,4 @@ function appendWithMeta(container, label, choice, metaMap) {
     </div>
   `;
 }
+
