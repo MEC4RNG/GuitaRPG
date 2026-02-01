@@ -334,11 +334,19 @@ function generateChallenge(container) {
   }
 
   let keyPick = keyEl.value;
+
   if (isRandomValue(keyPick)) {
-    keyPick = KEY_POOL.length ? getRandom(KEY_POOL) : "— none found —";
+    keyPick = KEY_POOL.length
+      ? getRandom(KEY_POOL)
+      : "— none found —";
   }
 
-  container.innerHTML += `<div class="challenge-block"><strong>Key:</strong> ${keyPick}</div>`;
+  container.innerHTML += `
+    <div class="challenge-block">
+      <strong>Key:</strong> ${keyPick}
+    </div>
+  `;
+
 
   const cats = [
     { id: "attrPhysical",        label: "Physical Attribute", meta: attrPhysicalMeta },
