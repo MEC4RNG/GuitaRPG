@@ -1,0 +1,30 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# testing
+/coverage/
+/playwright-report/
+/test-results/
+
+# local env files
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# operating systems / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
