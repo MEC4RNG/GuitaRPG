@@ -27,11 +27,26 @@ export default function Home() {
         <div className="hero__signal" aria-label="Core loop">
           <span className="hero__signal-label">CORE LOOP</span>
           <ol>
-            <li><strong>01</strong><span>Generate</span></li>
-            <li><strong>02</strong><span>Practice</span></li>
-            <li><strong>03</strong><span>Complete</span></li>
-            <li><strong>04</strong><span>Progress</span></li>
-            <li><strong>05</strong><span>Adapt</span></li>
+            <li>
+              <strong>01</strong>
+              <span>Generate</span>
+            </li>
+            <li>
+              <strong>02</strong>
+              <span>Practice</span>
+            </li>
+            <li>
+              <strong>03</strong>
+              <span>Complete</span>
+            </li>
+            <li>
+              <strong>04</strong>
+              <span>Progress</span>
+            </li>
+            <li>
+              <strong>05</strong>
+              <span>Adapt</span>
+            </li>
           </ol>
         </div>
       </section>
