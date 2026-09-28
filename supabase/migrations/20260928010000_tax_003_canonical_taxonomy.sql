@@ -1023,4 +1023,59 @@ grant execute on function private.seed_taxonomy_v1() to service_role;
 
 select private.seed_taxonomy_v1();
 
+do $
+declare
+  entity_count integer;
+  relationship_count integer;
+  mapping_count integer;
+  mapping_target_count integer;
+  invalid_skill_domain_count integer;
+begin
+  select count(*) into entity_count
+    from public.taxonomy_entities;
+
+  select count(*) into relationship_count
+    from public.taxonomy_relationships
+    where relationship_type = 'BELONGS_TO';
+
+  select count(*) into mapping_count
+    from private.taxonomy_legacy_mappings;
+
+  select count(*) into mapping_target_count
+    from private.taxonomy_legacy_mapping_targets;
+
+  select count(*) into invalid_skill_domain_count
+  from (
+    select e.id
+    from public.taxonomy_entities e
+    left join public.taxonomy_relationships r
+      on r.source_entity_id = e.id
+      and r.relationship_type = 'BELONGS_TO'
+    where e.kind = 'SKILL'
+    group by e.id
+    having count(r.id) <> 1
+  ) invalid_skills;
+
+  if entity_count <> 196 then
+    raise exception 'TAX-003 expected 196 canonical entities, found %', entity_count;
+  end if;
+
+  if relationship_count <> 72 then
+    raise exception 'TAX-003 expected 72 BELONGS_TO relationships, found %', relationship_count;
+  end if;
+
+  if mapping_count <> 207 then
+    raise exception 'TAX-003 expected 207 legacy mappings, found %', mapping_count;
+  end if;
+
+  if mapping_target_count <> 238 then
+    raise exception 'TAX-003 expected 238 legacy mapping targets, found %', mapping_target_count;
+  end if;
+
+  if invalid_skill_domain_count <> 0 then
+    raise exception 'TAX-003 found % Skills without exactly one Domain', invalid_skill_domain_count;
+  end if;
+end;
+$;
+
 commit;
