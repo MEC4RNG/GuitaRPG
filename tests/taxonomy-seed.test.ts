@@ -266,4 +266,12 @@ describe("TAX-003 canonical taxonomy seed", () => {
     expect(migration).toContain("relationship would create a cycle");
     expect(migration).toContain("taxonomy_one_primary_domain_per_skill_idx");
   });
+
+  it("makes the remote migration fail atomically if seed counts are incomplete", () => {
+    expect(migration).toContain("TAX-003 expected 196 canonical entities");
+    expect(migration).toContain("TAX-003 expected 72 BELONGS_TO relationships");
+    expect(migration).toContain("TAX-003 expected 207 legacy mappings");
+    expect(migration).toContain("TAX-003 expected 238 legacy mapping targets");
+    expect(migration).toContain("Skills without exactly one Domain");
+  });
 });
