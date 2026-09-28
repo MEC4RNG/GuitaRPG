@@ -1023,7 +1023,7 @@ grant execute on function private.seed_taxonomy_v1() to service_role;
 
 select private.seed_taxonomy_v1();
 
-do $
+do $$
 declare
   entity_count integer;
   relationship_count integer;
@@ -1076,6 +1076,6 @@ begin
     raise exception 'TAX-003 found % Skills without exactly one Domain', invalid_skill_domain_count;
   end if;
 end;
-$;
+$$;
 
 commit;
