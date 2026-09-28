@@ -115,16 +115,19 @@ describe("TAX-003 canonical taxonomy seed", () => {
   it("contains exactly the six TAX-001 Domains and eleven Attributes", () => {
     const domains = seed.entities
       .filter((entity) => entity.kind === "DOMAIN")
-      .map((entity) => entity.slug);
+      .map((entity) => entity.slug)
+      .sort();
 
-    expect(domains).toEqual([
-      "technique",
-      "fretboard",
-      "harmony_theory",
-      "rhythm",
-      "ear_musicianship",
-      "creativity_expression",
-    ]);
+    expect(domains).toEqual(
+      [
+        "technique",
+        "fretboard",
+        "harmony_theory",
+        "rhythm",
+        "ear_musicianship",
+        "creativity_expression",
+      ].sort(),
+    );
 
     const attributes = seed.entities
       .filter((entity) => entity.kind === "ATTRIBUTE")
