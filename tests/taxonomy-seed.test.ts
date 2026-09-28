@@ -71,7 +71,10 @@ const baseMigration = read("supabase/migrations/20260928010000_tax_003_canonical
 const tuningRemediationMigration = read(
   "supabase/migrations/20260928015000_tax_003_r1_tuning_contexts.sql",
 );
-const migration = `${baseMigration}\n${tuningRemediationMigration}`;
+const questConstraintRemediationMigration = read(
+  "supabase/migrations/20260928035000_tax_003_r2_quest_constraints.sql",
+);
+const migration = `${baseMigration}\n${tuningRemediationMigration}\n${questConstraintRemediationMigration}`;
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
@@ -79,12 +82,12 @@ const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
 describe("TAX-003 canonical taxonomy seed", () => {
   it("seeds the canonical v1 inventory with stable unique identities", () => {
     expect(seed.counts).toMatchObject({
-      entities: 199,
+      entities: 216,
       domains: 6,
       skills: 72,
       concepts: 64,
       contexts: 31,
-      constraints: 13,
+      constraints: 30,
       attributes: 11,
       tags: 2,
       relationships: 72,

@@ -7,6 +7,14 @@ const migration = read("supabase/migrations/20260928030000_qst_002_quest_persist
 const databaseTest = read("supabase/tests/database/quest_persistence_rls.test.sql");
 
 describe("QST-002 Quest persistence implementation", () => {
+  it("resolves every fixture Constraint to an active canonical taxonomy entity", () => {
+    const fixtures = JSON.parse(read("domain/quest/phase0-quest-fixtures.json")) as Array<{ constraints: Array<{ slug: string }> }>;
+    const taxonomy = JSON.parse(read("domain/taxonomy/canonical-taxonomy.json")) as { entities: Array<{ kind: string; slug: string; lifecycle: string }> };
+    const canonical = new Set(taxonomy.entities.filter((entity) => entity.kind === "CONSTRAINT" && entity.lifecycle === "ACTIVE").map((entity) => entity.slug));
+    const fixtureSlugs = new Set(fixtures.flatMap((fixture) => fixture.constraints.map((constraint) => constraint.slug)));
+    expect(fixtureSlugs).toHaveLength(20);
+    for (const slug of fixtureSlugs) expect(canonical).toContain(slug);
+  });
   it("creates immutable player-owned Quest and composition tables", () => {
     for (const table of [
       "quests",

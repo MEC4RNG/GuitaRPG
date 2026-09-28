@@ -30,12 +30,12 @@
     "AFFECTS"
   ],
   "counts": {
-    "entities": 199,
+    "entities": 216,
     "domains": 6,
     "skills": 72,
     "concepts": 64,
     "contexts": 31,
-    "constraints": 13,
+    "constraints": 30,
     "attributes": 11,
     "tags": 2,
     "relationships": 72,
@@ -55,6 +55,23 @@
         "legacy_derived": false
       }
     },
+    { "id": "50000000-0000-4000-8000-000000000014", "kind": "CONSTRAINT", "slug": "borrowed_chord_count", "name": "Borrowed Chord Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000015", "kind": "CONSTRAINT", "slug": "fret_range", "name": "Fret Range", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000016", "kind": "CONSTRAINT", "slug": "modulation_count", "name": "Modulation Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000017", "kind": "CONSTRAINT", "slug": "output_length", "name": "Output Length", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000018", "kind": "CONSTRAINT", "slug": "phrase_length", "name": "Phrase Length", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000019", "kind": "CONSTRAINT", "slug": "pitch_count", "name": "Pitch Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000020", "kind": "CONSTRAINT", "slug": "practice_duration", "name": "Practice Duration", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000021", "kind": "CONSTRAINT", "slug": "prompt_count", "name": "Prompt Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000022", "kind": "CONSTRAINT", "slug": "ratio", "name": "Ratio", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000023", "kind": "CONSTRAINT", "slug": "response_count", "name": "Response Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000024", "kind": "CONSTRAINT", "slug": "source_note_count", "name": "Source Note Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000025", "kind": "CONSTRAINT", "slug": "source_phrase_count", "name": "Source Phrase Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000026", "kind": "CONSTRAINT", "slug": "string_set", "name": "String Set", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000027", "kind": "CONSTRAINT", "slug": "target_tempo", "name": "Target Tempo", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000028", "kind": "CONSTRAINT", "slug": "time_limit", "name": "Time Limit", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000029", "kind": "CONSTRAINT", "slug": "top_voice_motion", "name": "Top Voice Motion", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
+    { "id": "50000000-0000-4000-8000-000000000030", "kind": "CONSTRAINT", "slug": "variation_count", "name": "Variation Count", "lifecycle": "ACTIVE", "metadata": { "source": "QST-001", "legacy_derived": false } },
     {
       "id": "10000000-0000-4000-8000-000000000005",
       "kind": "DOMAIN",

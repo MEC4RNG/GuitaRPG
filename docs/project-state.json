@@ -5,7 +5,7 @@
   "phase": {
     "id": 2,
     "name": "Core Quest Loop",
-    "status": "BLOCKED"
+    "status": "IN_PROGRESS"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -21,7 +21,7 @@
   "active_ticket": {
     "id": "QST-002",
     "title": "Quest Runtime & Schema Implementation",
-    "status": "BLOCKED"
+    "status": "IN_PROGRESS"
   },
   "next_ticket": {
     "id": "DIF-002",
@@ -36,7 +36,7 @@
   "next_phase": {
     "id": 2,
     "name": "Core Quest Loop",
-    "status": "BLOCKED",
+    "status": "IN_PROGRESS",
     "authorized_to_start": true
   },
   "authority_files": [
@@ -45,5 +45,5 @@
     "docs/architecture/DATA-001-persistence-identity-security-contract.md",
     "docs/tickets/QST-002.md"
   ],
-  "execution_status": "QST_002_BLOCKED_TAXONOMY_CONSTRAINT_REMEDIATION_REQUIRED"
+  "execution_status": "QST_002_RESUMED_AFTER_TAX_003_R2"
 }

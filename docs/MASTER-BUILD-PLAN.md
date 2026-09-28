@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 2 — Core Quest Loop — BLOCKED
+**Current phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,9 +145,9 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 2 — Core Quest Loop — BLOCKED
+**Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Last terminal ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Active ticket:** `QST-002 — Quest Runtime & Schema Implementation` — BLOCKED
+**Active ticket:** `QST-002 — Quest Runtime & Schema Implementation` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
