@@ -197,9 +197,7 @@ describe("DIF-001 difficulty model contract", () => {
   it("bounds context novelty and keeps it out of proficiency", () => {
     const novel = fixtures.personal_evaluations.find((item) => item.id === "PDIFF-006");
 
-    const modifier = novel?.evaluation.modifiers.find(
-      (item) => item.kind === "CONTEXT_NOVELTY",
-    );
+    const modifier = novel?.evaluation.modifiers.find((item) => item.kind === "CONTEXT_NOVELTY");
 
     expect(novel?.evaluation.status).toBe("PROVISIONAL");
     expect(modifier?.personal_band_delta).toBeLessThanOrEqual(
