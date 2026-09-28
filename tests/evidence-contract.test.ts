@@ -88,6 +88,21 @@ describe("EVD-001 completion and evidence contract", () => {
     }
   });
 
+  it("derives ATTEMPTED and PARTIAL consistently from required criteria", () => {
+    for (const result of fixtures.results.filter((item) => item.outcome === "ATTEMPTED")) {
+      expect(result.meaningful_attempt, result.id).toBe(true);
+      const states = result.required_criteria.map((criterion) => result.criterion_results[criterion]);
+      expect(states, result.id).not.toContain("MET");
+    }
+
+    for (const result of fixtures.results.filter((item) => item.outcome === "PARTIAL")) {
+      expect(result.meaningful_attempt, result.id).toBe(true);
+      const states = result.required_criteria.map((criterion) => result.criterion_results[criterion]);
+      expect(states, result.id).toContain("MET");
+      expect(states.every((state) => state === "MET"), result.id).toBe(false);
+    }
+  });
+
   it("allows valid SELF evidence to support a cleared Result", () => {
     const selfClear = fixtures.results.find((item) => item.id === "EVD-FIX-005");
 
