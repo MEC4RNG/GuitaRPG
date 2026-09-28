@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { AppShell } from "@/components/app-shell";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "GuitaRPG",
-  description: "Turn guitar practice into structured quests.",
+  title: {
+    default: "GuitaRPG",
+    template: "%s · GuitaRPG",
+  },
+  description: "A guitar practice RPG that turns musical development into generated quests.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }
