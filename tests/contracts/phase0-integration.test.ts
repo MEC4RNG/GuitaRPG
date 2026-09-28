@@ -221,9 +221,7 @@ describe("REL-001 Phase 0 contract integration", () => {
       const objectiveMetrics = new Set(
         quest?.objective.criteria.map((criterion) => criterion.metric) ?? [],
       );
-      expect([...result.required_criteria].sort(), result.id).toEqual(
-        [...objectiveMetrics].sort(),
-      );
+      expect([...result.required_criteria].sort(), result.id).toEqual([...objectiveMetrics].sort());
 
       for (const item of result.evidence) {
         if (result.required_criteria.includes(item.criterion)) {
@@ -299,9 +297,7 @@ describe("REL-001 Phase 0 contract integration", () => {
     );
     expect(typeof durationEvidence?.observed_or_asserted_value).toBe("number");
 
-    const completedMinutes = Math.floor(
-      Number(durationEvidence?.observed_or_asserted_value) / 60,
-    );
+    const completedMinutes = Math.floor(Number(durationEvidence?.observed_or_asserted_value) / 60);
     const xp =
       completedMinutes * progression.xp_policy.practice_xp_per_completed_minute +
       progression.xp_policy.outcome_bonus[result?.outcome ?? "ABANDONED"];
