@@ -5,12 +5,8 @@ import { describe, expect, it } from "vitest";
 
 const root = resolve(import.meta.dirname, "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
-const migration = read(
-  "supabase/migrations/20260928020000_ply_002_player_persistence.sql",
-);
-const databaseTest = read(
-  "supabase/tests/database/player_persistence_rls.test.sql",
-);
+const migration = read("supabase/migrations/20260928020000_ply_002_player_persistence.sql");
+const databaseTest = read("supabase/tests/database/player_persistence_rls.test.sql");
 
 describe("PLY-002 Player persistence implementation", () => {
   it("creates the Player-authored and system-derived persistence layers", () => {
@@ -24,9 +20,7 @@ describe("PLY-002 Player persistence implementation", () => {
       "player_attribute_states",
     ]) {
       expect(migration, table).toContain(`create table public.${table}`);
-      expect(migration, table).toContain(
-        `alter table public.${table} enable row level security`,
-      );
+      expect(migration, table).toContain(`alter table public.${table} enable row level security`);
     }
   });
 
@@ -76,9 +70,7 @@ describe("PLY-002 Player persistence implementation", () => {
 
   it("stores tuning as Context preference rather than duplicating Skills", () => {
     expect(migration).toContain("tuning_context_id uuid not null");
-    expect(migration).toContain(
-      "tuning_context_id must reference a CONTEXT taxonomy entity",
-    );
+    expect(migration).toContain("tuning_context_id must reference a CONTEXT taxonomy entity");
     expect(migration).toContain("primary key (player_id, skill_id)");
     expect(migration).not.toMatch(/player_skill_states[\s\S]{0,500}tuning_context_id/);
   });
@@ -101,7 +93,11 @@ describe("PLY-002 Player persistence implementation", () => {
     expect(databaseTest).toContain("set local role service_role");
     expect(databaseTest).toContain("non-owner cannot read another Player profile");
     expect(databaseTest).toContain("owner cannot directly mutate derived Skill state");
-    expect(databaseTest).toContain("anonymous Auth user receives the same owner-isolated Player model");
-    expect(databaseTest).toContain("deleting Auth identity cascades Player-owned and derived persistence");
+    expect(databaseTest).toContain(
+      "anonymous Auth user receives the same owner-isolated Player model",
+    );
+    expect(databaseTest).toContain(
+      "deleting Auth identity cascades Player-owned and derived persistence",
+    );
   });
 });
