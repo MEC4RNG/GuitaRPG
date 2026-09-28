@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -60,22 +60,28 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("records DATA-002 as terminal and leaves no active ticket", () => {
-    const ticket = read("docs/tickets/DATA-002.md");
+  it("keeps DATA-002 terminal while TAX-003 is the active ticket", () => {
+    const dataTicket = read("docs/tickets/DATA-002.md");
+    const taxonomyTicket = read("docs/tickets/TAX-003.md");
 
     expect(state.last_terminal_ticket).toMatchObject({
       id: "DATA-002",
       status: "COMPLETE",
     });
-    expect(ticket).toContain("**Status:** COMPLETE");
-    expect(ticket).toContain("**DATA-002 — COMPLETE**");
-    expect(state.active_ticket).toBeNull();
+    expect(dataTicket).toContain("**DATA-002 — COMPLETE**");
+
+    expect(state.active_ticket).toMatchObject({
+      id: "TAX-003",
+      status: "VALIDATING",
+      code_ci_complete: false,
+    });
+    expect(taxonomyTicket).toContain("**Status:** VALIDATING");
   });
 
-  it("does not authorize TAX-003 until the user explicitly proceeds", () => {
-    expect(state.next_ticket.id).toBe("TAX-003");
+  it("does not authorize PLY-002 while TAX-003 is non-terminal", () => {
+    expect(state.next_ticket.id).toBe("PLY-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("Do **not** start TAX-003 until the user explicitly authorizes");
+    expect(plan).toContain("Do **not** begin PLY-002 until the user explicitly authorizes");
   });
 
   it("provides Codex-facing repository instructions", () => {
