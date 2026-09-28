@@ -39,7 +39,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
 
   it("declares the repository operating authority", () => {
     expect(state.project).toBe("GuitaRPG");
-    expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "BLOCKED" });
+    expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "IN_PROGRESS" });
     expect(state.production_development_branch).toBe("v1-production");
     expect(plan).toContain("# GuitaRPG Master Build Plan");
     expect(plan).toContain("## 12. Chat ↔ Codex operating model");
@@ -64,7 +64,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "QST-002", status: "BLOCKED" });
+    expect(state.active_ticket).toMatchObject({ id: "QST-002", status: "IN_PROGRESS" });
     expect(playerTicket).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/ONB-001.md")).toContain(
       "**COMPLETE — ONBOARDING AND CALIBRATION FOUNDATION VERIFIED**",
@@ -74,7 +74,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
   it("authorizes only QST-002 in Phase 2", () => {
     expect(state.next_ticket.id).toBe("DIF-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("QST-002 — Quest Runtime & Schema Implementation` — BLOCKED");
+    expect(plan).toContain("QST-002 — Quest Runtime & Schema Implementation` — IN PROGRESS");
     expect(plan).toContain("Do **not** begin DIF-002 or any later Phase 2 ticket.");
   });
 

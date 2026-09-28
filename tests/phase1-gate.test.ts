@@ -85,8 +85,8 @@ describe("P1-GATE-001 durable integration invariants", () => {
       expect(state.active_ticket).toBeNull();
       expect(state.next_ticket).toMatchObject({ id: "QST-002", authorized_to_start: false });
     } else {
-      expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "BLOCKED" });
-      expect(state.active_ticket).toMatchObject({ id: "QST-002", status: "BLOCKED" });
+      expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "IN_PROGRESS" });
+      expect(state.active_ticket).toMatchObject({ id: "QST-002", status: "IN_PROGRESS" });
     }
   });
 
