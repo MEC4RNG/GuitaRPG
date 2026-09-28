@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "ticket": "DIF-001",
+  "dimensions": [
+    "TECHNIQUE",
+    "FRETBOARD",
+    "THEORY",
+    "RHYTHM",
+    "CREATIVE",
+    "TEMPO",
+    "CONSTRAINT"
+  ],
+  "absolute_levels": {
+    "I": {
+      "min_score": 0,
+      "max_score": 19,
+      "label": "Foundation demand"
+    },
+    "II": {
+      "min_score": 20,
+      "max_score": 39,
+      "label": "Developing demand"
+    },
+    "III": {
+      "min_score": 40,
+      "max_score": 59,
+      "label": "Functional demand"
+    },
+    "IV": {
+      "min_score": 60,
+      "max_score": 79,
+      "label": "Advanced demand"
+    },
+    "V": {
+      "min_score": 80,
+      "max_score": 100,
+      "label": "Expert / mastery-grade demand"
+    }
+  },
+  "personal_levels": {
+    "I": "Very Comfortable",
+    "II": "Comfortable",
+    "III": "Target Challenge",
+    "IV": "Stretch",
+    "V": "Overreach"
+  },
+  "evaluation_statuses": [
+    "UNKNOWN",
+    "PROVISIONAL",
+    "RESOLVED"
+  ],
+  "uncertainty_levels": [
+    "LOW",
+    "MODERATE",
+    "HIGH"
+  ],
+  "demand_sources": [
+    "COMPUTED",
+    "CURATED",
+    "HYBRID"
+  ],
+  "model_version": "DIF_V1",
+  "modifier_bounds": {
+    "readiness_max_personal_band_increase": 1,
+    "context_novelty_max_personal_band_increase": 1
+  },
+  "invariants": {
+    "skill_has_inherent_difficulty": false,
+    "quest_absolute_demand_is_player_independent": true,
+    "personal_difficulty_is_quest_property": false,
+    "unrated_primary_can_resolve_personal_difficulty": false,
+    "unknown_status_requires_null_level": true,
+    "xp_is_personal_difficulty_input": false,
+    "character_level_is_personal_difficulty_input": false,
+    "confidence_directly_changes_capability": false,
+    "readiness_changes_historical_proficiency": false,
+    "verification_changes_absolute_demand": false,
+    "reward_is_defined_by_difficulty": false
+  }
+}

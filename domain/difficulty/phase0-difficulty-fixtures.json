@@ -1,0 +1,669 @@
+{
+  "schema_version": 1,
+  "ticket": "DIF-001",
+  "absolute_profiles": [
+    {
+      "quest_slug": "dorian_crossroads",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": true,
+          "level": "III",
+          "score": 56,
+          "basis": [
+            "hybrid_picking",
+            "multi_string_execution"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": true,
+          "level": "III",
+          "score": 48,
+          "basis": [
+            "frets_5_12",
+            "strings_2_5",
+            "scale_mapping"
+          ]
+        },
+        "THEORY": {
+          "applicable": true,
+          "level": "II",
+          "score": 34,
+          "basis": [
+            "dorian_application"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": true,
+          "level": "III",
+          "score": 52,
+          "basis": [
+            "syncopated_eighths"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_generative_requirement"
+          ]
+        },
+        "TEMPO": {
+          "applicable": true,
+          "level": "III",
+          "score": 45,
+          "basis": [
+            "target_90_bpm"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "III",
+          "score": 51,
+          "basis": [
+            "string_set",
+            "fret_range",
+            "tempo"
+          ]
+        }
+      },
+      "overall": {
+        "level": "III",
+        "score": 54
+      }
+    },
+    {
+      "quest_slug": "triad_builder",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "knowledge_quest"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "abstract_construction"
+          ]
+        },
+        "THEORY": {
+          "applicable": true,
+          "level": "II",
+          "score": 36,
+          "basis": [
+            "major_minor_triad_construction"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_rhythmic_performance"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "deterministic_answers"
+          ]
+        },
+        "TEMPO": {
+          "applicable": true,
+          "level": "II",
+          "score": 28,
+          "basis": [
+            "three_minute_limit"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "II",
+          "score": 22,
+          "basis": [
+            "ten_prompts",
+            "time_limit"
+          ]
+        }
+      },
+      "overall": {
+        "level": "II",
+        "score": 35
+      }
+    },
+    {
+      "quest_slug": "inversion_hunt",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": true,
+          "level": "I",
+          "score": 14,
+          "basis": [
+            "basic_chord_execution"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": true,
+          "level": "II",
+          "score": 37,
+          "basis": [
+            "six_inversions",
+            "first_12_frets"
+          ]
+        },
+        "THEORY": {
+          "applicable": true,
+          "level": "II",
+          "score": 25,
+          "basis": [
+            "triad_inversion_knowledge"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_time_grid_requirement"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "discovery_not_creation"
+          ]
+        },
+        "TEMPO": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_target_pace"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "II",
+          "score": 24,
+          "basis": [
+            "fret_range"
+          ]
+        }
+      },
+      "overall": {
+        "level": "II",
+        "score": 36
+      }
+    },
+    {
+      "quest_slug": "metric_modulation_shift",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": true,
+          "level": "II",
+          "score": 32,
+          "basis": [
+            "execution_control"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_fretboard_navigation_requirement"
+          ]
+        },
+        "THEORY": {
+          "applicable": true,
+          "level": "III",
+          "score": 48,
+          "basis": [
+            "metric_modulation_understanding"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": true,
+          "level": "V",
+          "score": 89,
+          "basis": [
+            "metric_modulation_transitions",
+            "pulse_reinterpretation"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "prescribed_performance"
+          ]
+        },
+        "TEMPO": {
+          "applicable": true,
+          "level": "III",
+          "score": 44,
+          "basis": [
+            "maintain_and_reinterpret_pulse"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "IV",
+          "score": 63,
+          "basis": [
+            "four_transitions",
+            "return_to_original_pulse"
+          ]
+        }
+      },
+      "overall": {
+        "level": "V",
+        "score": 83
+      }
+    },
+    {
+      "quest_slug": "motif_forge",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": true,
+          "level": "I",
+          "score": 12,
+          "basis": [
+            "execution_is_secondary"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": true,
+          "level": "I",
+          "score": 18,
+          "basis": [
+            "small_source_material"
+          ]
+        },
+        "THEORY": {
+          "applicable": true,
+          "level": "I",
+          "score": 16,
+          "basis": [
+            "basic_melodic_material"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": true,
+          "level": "I",
+          "score": 15,
+          "basis": [
+            "no_fixed_complex_grid"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": true,
+          "level": "III",
+          "score": 54,
+          "basis": [
+            "three_distinct_variations"
+          ]
+        },
+        "TEMPO": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_target_pace"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "II",
+          "score": 35,
+          "basis": [
+            "four_note_source",
+            "three_variations"
+          ]
+        }
+      },
+      "overall": {
+        "level": "II",
+        "score": 38
+      }
+    },
+    {
+      "quest_slug": "interval_echo",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "identification_task"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_fretboard_requirement"
+          ]
+        },
+        "THEORY": {
+          "applicable": true,
+          "level": "II",
+          "score": 23,
+          "basis": [
+            "interval_categories"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "melodic_interval_identification"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "deterministic_identification"
+          ]
+        },
+        "TEMPO": {
+          "applicable": true,
+          "level": "I",
+          "score": 18,
+          "basis": [
+            "prompt_pacing"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "II",
+          "score": 25,
+          "basis": [
+            "nine_of_twelve_threshold"
+          ]
+        }
+      },
+      "overall": {
+        "level": "II",
+        "score": 31
+      }
+    },
+    {
+      "quest_slug": "alternate_precision_gate",
+      "model_version": "DIF_V1",
+      "source": "CURATED",
+      "dimensions": {
+        "TECHNIQUE": {
+          "applicable": true,
+          "level": "II",
+          "score": 38,
+          "basis": [
+            "alternate_picking",
+            "two_string_cycle"
+          ]
+        },
+        "FRETBOARD": {
+          "applicable": true,
+          "level": "I",
+          "score": 10,
+          "basis": [
+            "two_fixed_strings"
+          ]
+        },
+        "THEORY": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "no_theory_requirement"
+          ]
+        },
+        "RHYTHM": {
+          "applicable": true,
+          "level": "II",
+          "score": 29,
+          "basis": [
+            "eighth_note_consistency"
+          ]
+        },
+        "CREATIVE": {
+          "applicable": false,
+          "level": null,
+          "score": null,
+          "basis": [
+            "prescribed_pattern"
+          ]
+        },
+        "TEMPO": {
+          "applicable": true,
+          "level": "III",
+          "score": 43,
+          "basis": [
+            "target_100_bpm"
+          ]
+        },
+        "CONSTRAINT": {
+          "applicable": true,
+          "level": "II",
+          "score": 28,
+          "basis": [
+            "eight_clean_cycles",
+            "two_strings"
+          ]
+        }
+      },
+      "overall": {
+        "level": "II",
+        "score": 39
+      }
+    }
+  ],
+  "personal_evaluations": [
+    {
+      "id": "PDIFF-001",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "UNRATED",
+          "visible_level": null,
+          "readiness_status": "UNKNOWN",
+          "confidence_score": 0
+        },
+        "secondary_coverage": "UNKNOWN",
+        "context_novelty": "UNKNOWN"
+      },
+      "evaluation": {
+        "status": "UNKNOWN",
+        "personal_level": null,
+        "uncertainty": "HIGH",
+        "modifiers": [],
+        "rationale": [
+          "primary_skill_unrated"
+        ]
+      }
+    },
+    {
+      "id": "PDIFF-002",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "ESTIMATED",
+          "visible_level": "III",
+          "readiness_status": "MODERATE",
+          "confidence_score": 35
+        },
+        "secondary_coverage": "PARTIAL",
+        "context_novelty": "LOW"
+      },
+      "evaluation": {
+        "status": "PROVISIONAL",
+        "personal_level": "III",
+        "uncertainty": "HIGH",
+        "modifiers": [],
+        "rationale": [
+          "estimated_primary_skill",
+          "partial_secondary_coverage"
+        ]
+      }
+    },
+    {
+      "id": "PDIFF-003",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "ESTABLISHED",
+          "visible_level": "III",
+          "readiness_status": "HIGH",
+          "confidence_score": 82
+        },
+        "secondary_coverage": "ESTABLISHED",
+        "context_novelty": "LOW"
+      },
+      "evaluation": {
+        "status": "RESOLVED",
+        "personal_level": "III",
+        "uncertainty": "LOW",
+        "modifiers": [],
+        "rationale": [
+          "demand_matches_effective_capacity"
+        ]
+      }
+    },
+    {
+      "id": "PDIFF-004",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "ESTABLISHED",
+          "visible_level": "III",
+          "readiness_status": "LOW",
+          "confidence_score": 82
+        },
+        "secondary_coverage": "ESTABLISHED",
+        "context_novelty": "LOW"
+      },
+      "evaluation": {
+        "status": "RESOLVED",
+        "personal_level": "IV",
+        "uncertainty": "LOW",
+        "modifiers": [
+          {
+            "kind": "READINESS",
+            "personal_band_delta": 1,
+            "changes_proficiency": false
+          }
+        ],
+        "rationale": [
+          "low_readiness_increases_current_challenge"
+        ]
+      }
+    },
+    {
+      "id": "PDIFF-005",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "ESTABLISHED",
+          "visible_level": "V",
+          "readiness_status": "HIGH",
+          "confidence_score": 91
+        },
+        "secondary_coverage": "ESTABLISHED",
+        "context_novelty": "LOW"
+      },
+      "evaluation": {
+        "status": "RESOLVED",
+        "personal_level": "II",
+        "uncertainty": "LOW",
+        "modifiers": [],
+        "rationale": [
+          "quest_below_demonstrated_capacity"
+        ]
+      }
+    },
+    {
+      "id": "PDIFF-006",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "ESTABLISHED",
+          "visible_level": "III",
+          "readiness_status": "HIGH",
+          "confidence_score": 80
+        },
+        "secondary_coverage": "ESTABLISHED",
+        "context_novelty": "HIGH"
+      },
+      "evaluation": {
+        "status": "PROVISIONAL",
+        "personal_level": "IV",
+        "uncertainty": "MODERATE",
+        "modifiers": [
+          {
+            "kind": "CONTEXT_NOVELTY",
+            "personal_band_delta": 1,
+            "changes_proficiency": false
+          }
+        ],
+        "rationale": [
+          "unfamiliar_context_increases_current_challenge"
+        ]
+      }
+    },
+    {
+      "id": "PDIFF-007",
+      "quest_slug": "dorian_crossroads",
+      "player_state": {
+        "primary_skill": {
+          "assessment_status": "ESTABLISHED",
+          "visible_level": "III",
+          "readiness_status": "HIGH",
+          "confidence_score": 84
+        },
+        "secondary_coverage": "UNRATED_REQUIRED_CAPABILITY",
+        "context_novelty": "LOW"
+      },
+      "evaluation": {
+        "status": "PROVISIONAL",
+        "personal_level": "IV",
+        "uncertainty": "HIGH",
+        "modifiers": [
+          {
+            "kind": "SUPPORTING_SKILL_BOTTLENECK",
+            "personal_band_delta": 1,
+            "changes_proficiency": false
+          }
+        ],
+        "rationale": [
+          "supporting_skill_uncertainty_and_bottleneck"
+        ]
+      }
+    }
+  ]
+}
