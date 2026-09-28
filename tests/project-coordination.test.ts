@@ -74,11 +74,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
 
     expect(state.active_ticket).toMatchObject({
       id: "TAX-003-R1",
-      status: "VALIDATING",
-      code_ci_complete: false,
-      database_ci_complete: false,
+      status: "BLOCKED",
+      code_ci_complete: true,
+      database_ci_complete: true,
     });
-    expect(remediationTicket).toContain("**Status:** VALIDATING");
+    expect(remediationTicket).toContain("**Status:** BLOCKED");
     expect(playerTicket).toContain("**Status:** BLOCKED");
   });
 

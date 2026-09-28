@@ -21,11 +21,22 @@
   "active_ticket": {
     "id": "TAX-003-R1",
     "title": "Canonical Tuning Context Remediation",
-    "status": "VALIDATING",
+    "status": "BLOCKED",
     "parent_ticket": "TAX-003",
     "blocks": "PLY-002",
-    "code_ci_complete": false,
-    "database_ci_complete": false,
+    "blocker": "Staging migration evidence required",
+    "code_ci_complete": true,
+    "code_validation": {
+      "head": "5d74cabf3cbcee6eaa7043bf263b4df877494f6d",
+      "github_actions_run_id": 36434960088,
+      "conclusion": "success"
+    },
+    "database_ci_complete": true,
+    "database_validation": {
+      "github_actions_run_id": 36433592618,
+      "conclusion": "success",
+      "pgtap_assertions": "42/42"
+    },
     "staging_migration_complete": false,
     "pending_migration": "20260928015000_tax_003_r1_tuning_contexts.sql",
     "staging_project_ref": "vwvuaasgczsmeskhjrsb"
@@ -42,15 +53,20 @@
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
-    "docs/architecture/ADR-001-production-architecture.md",
-    "docs/phase1-product-foundation.md",
-    "docs/tickets/TAX-003.md"
+    "docs/architecture/TAX-001-canonical-musical-taxonomy-contract.md",
+    "docs/architecture/PLY-001-player-development-state-contract.md",
+    "docs/tickets/TAX-003-R1.md",
+    "docs/tickets/PLY-002.md"
   ],
-  "execution_status": "TAX_003_R1_VALIDATING",
+  "execution_status": "TAX_003_R1_AWAITING_STAGING_MIGRATION",
   "blocked_ticket": {
     "id": "PLY-002",
     "title": "Player Profile & Development Persistence",
     "status": "BLOCKED",
-    "reason": "TAX-003-R1 canonical tuning Context remediation must complete first"
+    "reason": "TAX-003-R1 staging migration must complete first",
+    "code_ci_complete": true,
+    "database_ci_complete": true,
+    "staging_migration_complete": false,
+    "pending_migration": "20260928020000_ply_002_player_persistence.sql"
   }
 }

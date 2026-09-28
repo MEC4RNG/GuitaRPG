@@ -921,14 +921,17 @@ Current gate status:
 
 TAX-003-R1 is the active blocking remediation discovered during PLY-002 validation.
 
-Complete only TAX-003-R1:
+Its repository and fresh-database gates are green.
 
-1. add Standard Tuning, DADGAD, and Drop D as canonical Tuning Contexts
-2. preserve all existing TAX-003 identities/history
-3. validate the forward-only remediation on a fresh database
-4. apply only the expected TAX-003-R1 migration to staging
-5. verify remote migration history
-6. resume PLY-002 only after TAX-003-R1 is terminal COMPLETE
+Complete only TAX-003-R1 staging acceptance:
+
+1. preserve all existing TAX-003 identities/history
+2. apply only `20260928015000_tax_003_r1_tuning_contexts.sql` to staging
+3. do not apply `20260928020000_ply_002_player_persistence.sql` yet
+4. verify remote migration history contains TAX-003-R1
+5. restore the PLY migration locally unchanged
+6. verify the final dry-run shows only PLY-002 pending
+7. resume PLY-002 only after TAX-003-R1 is terminal COMPLETE
 
 PLY-002 remains blocked, not abandoned.
 
