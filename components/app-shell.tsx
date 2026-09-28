@@ -28,7 +28,13 @@ export function AppShell({ children }: AppShellProps) {
       <div className="app-shell__workspace">
         <header className="topbar">
           <div>
-            <span className="topbar__eyebrow">{surface === "lab" ? "PRACTICE LAB" : surface === "codex" ? "CODEX" : "INSTRUMENT HUD"}</span>
+            <span className="topbar__eyebrow">
+              {surface === "lab"
+                ? "PRACTICE LAB"
+                : surface === "codex"
+                  ? "CODEX"
+                  : "INSTRUMENT HUD"}
+            </span>
             <strong>{current.label}</strong>
           </div>
           <div className="topbar__status" aria-label="Application status">
