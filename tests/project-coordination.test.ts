@@ -70,9 +70,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       id: "TAX-003",
       status: "COMPLETE",
     });
-    expect(taxonomyTicket).toContain(
-      "**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**",
-    );
+    expect(taxonomyTicket).toContain("**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**");
 
     expect(state.active_ticket).toMatchObject({
       id: "TAX-003-R1",
