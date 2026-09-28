@@ -51,13 +51,23 @@ function sourceOccurrences() {
     const value = extractLegacyData(category);
 
     if (Array.isArray(value)) {
-      for (const item of value) rows.push({ source: category, level: null, value: String(item) });
+      for (const item of value) {
+        rows.push({
+          source: category,
+          level: null,
+          value: String(item),
+        });
+      }
       continue;
     }
 
     for (const [level, items] of Object.entries(value as Record<string, unknown[]>)) {
       for (const item of items) {
-        rows.push({ source: category, level: Number(level), value: String(item) });
+        rows.push({
+          source: category,
+          level: Number(level),
+          value: String(item),
+        });
       }
     }
   }
@@ -84,9 +94,7 @@ describe("TAX-002 legacy normalization", () => {
     const key = (value: string, sourceName: string, level: number | null) =>
       `${value}::${sourceName}::${level ?? "null"}`;
 
-    const sourceKeys = sourceRows
-      .map((row) => key(row.value, row.source, row.level))
-      .sort();
+    const sourceKeys = sourceRows.map((row) => key(row.value, row.source, row.level)).sort();
 
     const manifestKeys = manifest.entries
       .flatMap((entry) =>
@@ -122,9 +130,10 @@ describe("TAX-002 legacy normalization", () => {
     for (const entry of manifest.entries) {
       for (const target of entry.targets) {
         if (target.kind === "SKILL") {
-          expect(domains.has(target.domain ?? ""), `${entry.legacy_value} -> ${target.slug}`).toBe(
-            true,
-          );
+          expect(
+            domains.has(target.domain ?? ""),
+            `${entry.legacy_value} -> ${target.slug}`,
+          ).toBe(true);
         }
       }
     }
