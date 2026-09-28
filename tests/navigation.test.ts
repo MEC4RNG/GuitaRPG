@@ -18,23 +18,19 @@ describe("UX-002 application navigation", () => {
       "SYSTEM",
     ]);
 
-    expect(NAVIGATION_GROUPS.find((group) => group.label === "PLAY")?.items.map((item) => item.label)).toEqual([
-      "Home",
-      "Generate",
-      "Training",
-    ]);
+    expect(
+      NAVIGATION_GROUPS.find((group) => group.label === "PLAY")?.items.map((item) => item.label),
+    ).toEqual(["Home", "Generate", "Training"]);
     expect(
       NAVIGATION_GROUPS.find((group) => group.label === "DEVELOPMENT")?.items.map(
         (item) => item.label,
       ),
     ).toEqual(["Character", "Skills", "History"]);
-    expect(NAVIGATION_GROUPS.find((group) => group.label === "LEARN")?.items.map((item) => item.label)).toEqual([
-      "Codex",
-    ]);
     expect(
-      NAVIGATION_GROUPS.find((group) => group.label === "SYSTEM")?.items.map(
-        (item) => item.label,
-      ),
+      NAVIGATION_GROUPS.find((group) => group.label === "LEARN")?.items.map((item) => item.label),
+    ).toEqual(["Codex"]);
+    expect(
+      NAVIGATION_GROUPS.find((group) => group.label === "SYSTEM")?.items.map((item) => item.label),
     ).toEqual(["Profile", "Settings"]);
   });
 
