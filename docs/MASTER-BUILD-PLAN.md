@@ -153,7 +153,7 @@ If implementation reveals that a contract is wrong or incomplete:
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, TAX-003-R1 `20260928015000`, and PLY-002 `20260928020000` applied and verified
-**Next planned ticket after PLY-002:** `ONB-001 — Onboarding & Calibration Foundation`  
+**Next planned ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -245,8 +245,8 @@ Known ticket sequence:
 1. `UX-002 — Application Shell & Navigation` — COMPLETE
 2. `DATA-002 — Supabase Runtime & Migration Foundation` — COMPLETE
 3. `TAX-003 — Canonical Taxonomy Seed Implementation` — COMPLETE
-4. `PLY-002 — Player Profile & Development Persistence`
-5. `ONB-001 — Onboarding & Calibration Foundation`
+4. `PLY-002 — Player Profile & Development Persistence` — COMPLETE
+5. `ONB-001 — Onboarding & Calibration Foundation` — VALIDATING
 6. `P1-GATE-001 — Product Foundation Integration Gate`
 
 Dependency shape:
@@ -921,10 +921,11 @@ Current gate status:
 PLY-002 is terminal COMPLETE. Its repository CI, fresh-database pgTAP suite, and staging
 migration acceptance all pass.
 
-The next planned ticket is ONB-001, but no new ticket is active. Await explicit user
-authorization before beginning ONB-001.
+ONB-001 is the active authorized ticket and has not reached terminal completion.
+P1-GATE-001 is the next planned ticket and remains unauthorized pending ONB-001
+completion and explicit user authorization.
 
-Do **not** begin ONB-001.
+Do **not** begin P1-GATE-001.
 
 ---
 

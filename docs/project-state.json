@@ -26,10 +26,10 @@
     "staging_migration_complete": null
   },
   "next_ticket": {
-    "id": "ONB-001",
-    "title": "Onboarding & Calibration Foundation",
+    "id": "P1-GATE-001",
+    "title": "Product Foundation Integration Gate",
     "authorized_to_start": false,
-    "condition": "PLY-002 must be terminal COMPLETE and user must authorize proceeding"
+    "condition": "ONB-001 must be terminal COMPLETE and the user must explicitly authorize P1-GATE-001"
   },
   "phase_gate": {
     "id": "P1-GATE-001",

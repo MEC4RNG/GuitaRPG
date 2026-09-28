@@ -23,8 +23,6 @@ type ProjectState = {
   active_ticket: null | {
     id: string;
     status: string;
-    code_ci_complete: boolean;
-    database_ci_complete?: boolean;
   };
   next_ticket: {
     id: string;
@@ -61,7 +59,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("records PLY-002 terminal after staging migration acceptance", () => {
+  it("records PLY-002 terminal while ONB-001 validates", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -73,16 +71,20 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({
+      id: "ONB-001",
+      status: "VALIDATING",
+    });
     expect(playerTicket).toContain("**Status:** COMPLETE");
     expect(playerTicket).toContain("**COMPLETE — STAGING PLAYER PERSISTENCE MIGRATION VERIFIED**");
   });
 
-  it("keeps ONB-001 unauthorized after PLY-002 completion", () => {
-    expect(state.next_ticket.id).toBe("ONB-001");
+  it("keeps P1-GATE-001 unauthorized while ONB-001 validates", () => {
+    expect(state.next_ticket.id).toBe("P1-GATE-001");
     expect(state.next_ticket.authorized_to_start).toBe(false);
     expect(plan).toContain("PLY-002 is terminal COMPLETE.");
-    expect(plan).toContain("Do **not** begin ONB-001.");
+    expect(plan).toContain("ONB-001 is the active authorized ticket");
+    expect(plan).toContain("Do **not** begin P1-GATE-001.");
   });
 
   it("provides Codex-facing repository instructions", () => {
