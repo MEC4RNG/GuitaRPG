@@ -2,7 +2,7 @@
   "schema_version": 1,
   "ticket": "P0-GATE-001",
   "gate_version": "P0_GATE_V1",
-  "decision": "PENDING_VALIDATION",
+  "decision": "PASS",
   "required_tickets": [
     "FND-001",
     "FND-002",
@@ -64,6 +64,20 @@
   ],
   "authorization_on_pass": {
     "phase": "PHASE_1_PRODUCT_FOUNDATION",
-    "authorized": false
+    "authorized": true,
+    "authorized_at_gate": "P0-GATE-001"
+  },
+  "validation_evidence": {
+    "validating_commit": "51a5e70bac24bdf70fa65921dace146b13096802",
+    "github_actions_run_id": 36368452243,
+    "conclusion": "success",
+    "checks": {
+      "dependency_install": "PASS",
+      "format_check": "PASS",
+      "lint": "PASS",
+      "strict_typecheck": "PASS",
+      "all_unit_and_contract_tests": "PASS",
+      "production_build": "PASS"
+    }
   }
 }

@@ -53,10 +53,10 @@ describe("P0-GATE-001 Phase 0 integration gate", () => {
     expect(manifest.external_evidence.vercel_deployment_state).toBe("READY_USER_CONFIRMED");
   });
 
-  it("keeps the gate pending until the validating commit itself passes CI", () => {
-    expect(manifest.decision).toBe("PENDING_VALIDATION");
+  it("records a passed gate only after the validating commit succeeds", () => {
+    expect(manifest.decision).toBe("PASS");
     expect(manifest.authorization_on_pass.phase).toBe("PHASE_1_PRODUCT_FOUNDATION");
-    expect(manifest.authorization_on_pass.authorized).toBe(false);
+    expect(manifest.authorization_on_pass.authorized).toBe(true);
   });
 
   it("keeps the dedicated semantic contract command wired to integration and UX tests", () => {

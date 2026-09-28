@@ -1,6 +1,6 @@
 # P0-GATE-001 — Phase 0 Integration Gate
 
-**Status:** VALIDATING  
+**Status:** COMPLETE  
 **Date:** 2026-09-27  
 **Authority:** Phase 0 — Architecture & Contracts
 
@@ -8,69 +8,95 @@
 
 Determine whether the completed Phase 0 architecture, persistence/security, taxonomy, Player, Quest, Difficulty, Evidence, Progression, UX, and contract-test work is coherent enough to authorize Phase 1 implementation.
 
-## Prerequisites audited
+## Prerequisites
 
-- FND-001 — COMPLETE
-- FND-002 — COMPLETE
-- DATA-001 — COMPLETE
-- TAX-001 — COMPLETE
-- TAX-002 — COMPLETE
-- PLY-001 — COMPLETE
-- QST-001 — COMPLETE
-- DIF-001 — COMPLETE
-- EVD-001 — COMPLETE
-- PROG-001 — COMPLETE
-- UX-001 — COMPLETE
-- REL-001 — COMPLETE
+All required Phase 0 tickets are terminal COMPLETE:
+
+- FND-001
+- FND-002
+- DATA-001
+- TAX-001
+- TAX-002
+- PLY-001
+- QST-001
+- DIF-001
+- EVD-001
+- PROG-001
+- UX-001
+- REL-001
 
 ## Reconciliation performed
 
-The gate audit found a stale contradiction in `FND-002`: its header and acceptance table already marked the ticket complete/staging PASS, but an older terminal paragraph still said the Vercel connection was blocked.
+The gate audit found and corrected one stale bookkeeping contradiction in `FND-002`.
 
-That stale paragraph has been corrected.
-
-Recorded deployment evidence:
+Its accepted state is now internally consistent:
 
 - Vercel project: `guitarpg`
 - tracked branch: `v1-production`
 - deployment state: user-confirmed **Ready**
 - exact Vercel URL: not captured in repository
-- legacy `main` remains preserved
+- staging requirement: satisfied
 
 ## Repository boundary evidence
 
-At gate opening:
+At gate validation:
 
 - legacy `main` head: `f0cf216aebc483b5e32c7402962dc396ead725cc`
-- production-development work remains isolated on `v1-production`
+- validating `v1-production` commit: `51a5e70bac24bdf70fa65921dace146b13096802`
 
-No production cutover is authorized by this gate.
+Production-development work remains isolated from the legacy `main` branch.
+
+This gate does **not** authorize production cutover or replacement of the existing GitHub Pages site.
 
 ## Semantic integration evidence
 
-REL-001 already proves the executable semantic chain:
+The executable Phase 0 chain is:
 
 Taxonomy → Player → Quest → Difficulty → Evidence → Progression
 
-UX-001 adds the machine-readable/interface contract and passes within the shared contract test command.
+The UX design-system contract is also included in the dedicated contract suite.
 
-The Phase 0 reference flow remains `DORIAN_CROSSROADS`.
+The stable cross-contract reference remains `DORIAN_CROSSROADS`.
 
-## Gate validation requirements
+## Validation evidence
 
-The validating commit must pass:
+GitHub Actions run:
 
-- dependency installation
-- formatting
-- lint
-- strict TypeScript typecheck
-- all unit/contract/integration tests
-- Next.js production build
+`36368452243`
 
-The gate is intentionally not marked COMPLETE until that commit succeeds.
+Validating commit:
 
-## Current disposition
+`51a5e70bac24bdf70fa65921dace146b13096802`
 
-**VALIDATING — CI EVIDENCE REQUIRED**
+Results:
 
-If the validating commit passes the full gate, Phase 1 Product Foundation is authorized.
+- dependency installation: PASS
+- formatting: PASS
+- lint: PASS
+- strict TypeScript typecheck: PASS
+- all unit/contract/integration tests: PASS
+- Next.js production build: PASS
+
+## Gate decision
+
+**PASS**
+
+No unresolved Phase 0 blocker remains.
+
+The architecture and contracts are sufficiently coherent to begin implementation against them.
+
+## Authorization
+
+**Phase 1 — Product Foundation is AUTHORIZED.**
+
+Phase 1 implementation must preserve the accepted Phase 0 contracts unless a later explicit remediation/ADR supersedes them.
+
+Production cutover remains separately gated.
+
+## Terminal disposition
+
+**P0-GATE-001 — COMPLETE / PASS**
+
+Phase 0 is closed.
+
+Next authorized work: **Phase 1 — Product Foundation**.
