@@ -28,7 +28,7 @@ Implement:
 - local/test-safe configuration
 - no service-role leakage
 
-Status: IN PROGRESS.
+Status: BLOCKED — code/CI complete; external staging Supabase project, Vercel public environment values, and remote migration evidence required.
 
 This ticket requires an external Supabase project connection before deployment-level acceptance.
 
