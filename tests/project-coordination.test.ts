@@ -68,18 +68,14 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       status: "COMPLETE",
     });
     expect(taxonomyTicket).toContain("**Status:** COMPLETE");
-    expect(taxonomyTicket).toContain(
-      "**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**",
-    );
+    expect(taxonomyTicket).toContain("**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**");
     expect(state.active_ticket).toBeNull();
   });
 
   it("does not authorize PLY-002 until the user explicitly proceeds", () => {
     expect(state.next_ticket.id).toBe("PLY-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain(
-      "Do **not** begin PLY-002 until the user explicitly authorizes",
-    );
+    expect(plan).toContain("Do **not** begin PLY-002 until the user explicitly authorizes");
   });
 
   it("provides Codex-facing repository instructions", () => {
