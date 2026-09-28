@@ -146,14 +146,13 @@ If implementation reveals that a contract is wrong or incomplete:
 ## 5. Current execution state
 
 **Phase:** Phase 1 — Product Foundation  
-**Last terminal implementation ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation`  
-**Active remediation:** `TAX-003-R1 — Canonical Tuning Context Remediation`  
-**Blocked ticket:** `PLY-002 — Player Profile & Development Persistence`  
+**Last terminal implementation ticket:** `TAX-003-R1 — Canonical Tuning Context Remediation`
+**Active ticket:** `PLY-002 — Player Profile & Development Persistence` — BLOCKED on its staging migration evidence
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** DATA-002 `20260928000000` and TAX-003 `20260928010000` applied and verified  
+**Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, and TAX-003-R1 `20260928015000` applied and verified
 **Next planned ticket after PLY-002:** `ONB-001 — Onboarding & Calibration Foundation`  
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -919,21 +918,13 @@ Current gate status:
 
 ## 24. Immediate next execution
 
-TAX-003-R1 is the active blocking remediation discovered during PLY-002 validation.
+TAX-003-R1 is terminal COMPLETE. Its three canonical Tuning Contexts are applied to
+staging, and PLY-002 is again the active ticket.
 
-Its repository and fresh-database gates are green.
+PLY-002 repository/fresh-database validation is complete. Its only remaining acceptance
+is applying and verifying `20260928020000_ply_002_player_persistence.sql` on staging.
 
-Complete only TAX-003-R1 staging acceptance:
-
-1. preserve all existing TAX-003 identities/history
-2. apply only `20260928015000_tax_003_r1_tuning_contexts.sql` to staging
-3. do not apply `20260928020000_ply_002_player_persistence.sql` yet
-4. verify remote migration history contains TAX-003-R1
-5. restore the PLY migration locally unchanged
-6. verify the final dry-run shows only PLY-002 pending
-7. resume PLY-002 only after TAX-003-R1 is terminal COMPLETE
-
-PLY-002 remains blocked, not abandoned.
+Do not begin that migration without explicit user authorization for PLY-002.
 
 Do **not** begin ONB-001.
 
