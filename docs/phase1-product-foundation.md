@@ -28,7 +28,9 @@ Implement:
 - local/test-safe configuration
 - no service-role leakage
 
-This ticket may require an external Supabase project connection before deployment-level acceptance.
+Status: IN PROGRESS.
+
+This ticket requires an external Supabase project connection before deployment-level acceptance.
 
 ### TAX-003 — Canonical Taxonomy Seed Implementation
 

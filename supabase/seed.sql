@@ -1,0 +1,3 @@
+-- DATA-002 intentionally seeds no product data.
+-- TAX-003 owns canonical musical taxonomy seed implementation.
+-- Player-owned data must never be committed as seed data.

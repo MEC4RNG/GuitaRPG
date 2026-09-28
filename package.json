@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=20.19.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "dev": "next dev",
@@ -18,12 +18,19 @@
     "test:e2e": "playwright test",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
     "test:contracts": "vitest run tests/legacy-normalization.test.ts tests/player-state-contract.test.ts tests/quest-contract.test.ts tests/difficulty-contract.test.ts tests/evidence-contract.test.ts tests/progression-contract.test.ts tests/design-system-contract.test.ts tests/contracts/phase0-integration.test.ts",
-    "test:phase0-gate": "vitest run tests/phase0-gate.test.ts"
+    "test:phase0-gate": "vitest run tests/phase0-gate.test.ts",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "db:reset": "supabase db reset --local",
+    "db:test": "supabase test db",
+    "db:types": "supabase gen types typescript --local > lib/supabase/database.types.ts"
   },
   "dependencies": {
     "next": "16.3.6",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.2"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
@@ -37,6 +44,7 @@
     "prettier": "3.9.9",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.2",
-    "vitest": "5.0.2"
+    "vitest": "5.0.2",
+    "supabase": "2.117.0"
   }
 }
