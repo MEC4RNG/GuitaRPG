@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "ticket": "REL-001",
+  "framework_version": "REL_V1",
+  "semantic_contracts": [
+    {
+      "ticket": "TAX-002",
+      "artifact": "domain/taxonomy/legacy-normalization.json",
+      "contract_test": "tests/legacy-normalization.test.ts"
+    },
+    {
+      "ticket": "PLY-001",
+      "artifact": "domain/player/player-state-contract.json",
+      "contract_test": "tests/player-state-contract.test.ts"
+    },
+    {
+      "ticket": "QST-001",
+      "artifact": "domain/quest/quest-contract.json",
+      "fixture": "domain/quest/phase0-quest-fixtures.json",
+      "contract_test": "tests/quest-contract.test.ts"
+    },
+    {
+      "ticket": "DIF-001",
+      "artifact": "domain/difficulty/difficulty-contract.json",
+      "fixture": "domain/difficulty/phase0-difficulty-fixtures.json",
+      "contract_test": "tests/difficulty-contract.test.ts"
+    },
+    {
+      "ticket": "EVD-001",
+      "artifact": "domain/evidence/evidence-contract.json",
+      "fixture": "domain/evidence/phase0-evidence-fixtures.json",
+      "contract_test": "tests/evidence-contract.test.ts"
+    },
+    {
+      "ticket": "PROG-001",
+      "artifact": "domain/progression/progression-contract.json",
+      "fixture": "domain/progression/phase0-progression-fixtures.json",
+      "contract_test": "tests/progression-contract.test.ts"
+    }
+  ],
+  "shared_loader": "tests/contracts/fixture-loader.ts",
+  "integration_test": "tests/contracts/phase0-integration.test.ts",
+  "stable_reference_fixture": "domain/contracts/phase0-reference-fixture.json",
+  "required_cross_contract_invariants": [
+    "LEVEL_SYMBOLS_ALIGN",
+    "READINESS_ENUMS_ALIGN",
+    "ATTRIBUTE_STATUS_ENUMS_ALIGN",
+    "VERIFICATION_MODES_ALIGN",
+    "QUEST_REFERENCES_RESOLVE",
+    "EVIDENCE_CRITERIA_RESOLVE",
+    "EVIDENCE_MODES_ALLOWED_BY_QUEST",
+    "DORIAN_CROSSROADS_STABLE",
+    "DORIAN_TAXONOMY_REFERENCES_RESOLVE",
+    "DORIAN_CLEAR_FLOWS_TO_XP_V1",
+    "NO_XP_TO_SKILL_SHORTCUT",
+    "INACTIVITY_DOES_NOT_ERASE_PROFICIENCY"
+  ]
+}

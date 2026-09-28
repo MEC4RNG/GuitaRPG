@@ -125,7 +125,8 @@
     "verification_profile": {
       "allowed_modes": [
         "SELF",
-        "SESSION"
+        "SESSION",
+        "AUDIO_ASSISTED"
       ],
       "recommended_mode": "SESSION",
       "verification_required_for_clear": false
@@ -230,7 +231,8 @@
     "verification_profile": {
       "allowed_modes": [
         "SELF",
-        "SESSION"
+        "SESSION",
+        "AUDIO_ASSISTED"
       ],
       "recommended_mode": "SESSION",
       "verification_required_for_clear": false
@@ -651,7 +653,8 @@
     "verification_profile": {
       "allowed_modes": [
         "SELF",
-        "SESSION"
+        "SESSION",
+        "DIRECT_AUDIO"
       ],
       "recommended_mode": "SESSION",
       "verification_required_for_clear": false

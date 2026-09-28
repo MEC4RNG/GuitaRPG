@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "ticket": "REL-001",
+  "reference_id": "DORIAN_CROSSROADS",
+  "quest": {
+    "slug": "dorian_crossroads",
+    "fixture_id": "QFIX-TECH-001",
+    "title": "DORIAN CROSSROADS",
+    "primary_domain": "technique",
+    "primary_skill": "hybrid_picking",
+    "secondary_skills": [
+      "scale_mapping",
+      "syncopation_control"
+    ],
+    "concepts": [
+      "dorian",
+      "eighth_note_subdivision",
+      "syncopation"
+    ],
+    "tonal_center_pitch_class": "E",
+    "objective_metrics": [
+      "practice_duration",
+      "target_tempo",
+      "constraint_compliance"
+    ],
+    "target_tempo_bpm": 90,
+    "required_practice_seconds": 600
+  },
+  "taxonomy_references": [
+    {
+      "kind": "SKILL",
+      "slug": "hybrid_picking"
+    },
+    {
+      "kind": "SKILL",
+      "slug": "scale_mapping"
+    },
+    {
+      "kind": "SKILL",
+      "slug": "syncopation_control"
+    },
+    {
+      "kind": "CONCEPT",
+      "slug": "dorian"
+    },
+    {
+      "kind": "CONCEPT",
+      "slug": "eighth_note_subdivision"
+    },
+    {
+      "kind": "CONCEPT",
+      "slug": "syncopation"
+    },
+    {
+      "kind": "CONTEXT",
+      "slug": "tonal_center"
+    }
+  ],
+  "difficulty": {
+    "absolute_profile_quest_slug": "dorian_crossroads",
+    "expected_overall_level": "III",
+    "personal_evaluation_ids": [
+      "PDIFF-001",
+      "PDIFF-002",
+      "PDIFF-003",
+      "PDIFF-004",
+      "PDIFF-005",
+      "PDIFF-006",
+      "PDIFF-007"
+    ]
+  },
+  "evidence": {
+    "clear_result_id": "EVD-FIX-001",
+    "partial_result_id": "EVD-FIX-002"
+  },
+  "progression": {
+    "xp_model_version": "XP_V1",
+    "clear_result_expected_xp": 15,
+    "mastery_from_single_clear": false
+  }
+}
