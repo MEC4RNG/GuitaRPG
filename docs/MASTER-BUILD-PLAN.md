@@ -146,13 +146,13 @@ If implementation reveals that a contract is wrong or incomplete:
 ## 5. Current execution state
 
 **Phase:** Phase 1 — Product Foundation  
-**Last terminal implementation ticket:** `UX-002 — Application Shell & Navigation`  
-**Active ticket:** `DATA-002 — Supabase Runtime & Migration Foundation`  
-**DATA-002 disposition:** BLOCKED only on remote Supabase link/migration evidence  
+**Last terminal implementation ticket:** `DATA-002 — Supabase Runtime & Migration Foundation`  
+**Active ticket:** none — awaiting explicit authorization  
+**DATA-002 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remaining DATA-002 work:** local CLI link → dry-run → migration push → migration-history verification  
-**Next ticket after DATA-002 completes:** `TAX-003 — Canonical Taxonomy Seed Implementation`  
+**Remote migration:** `20260928000000_data_002_persistence_foundation.sql` applied and verified  
+**Next planned ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation`  
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -242,7 +242,7 @@ Turn Phase 0 contracts into the durable application substrate needed by the core
 Known ticket sequence:
 
 1. `UX-002 — Application Shell & Navigation` — COMPLETE
-2. `DATA-002 — Supabase Runtime & Migration Foundation` — ACTIVE / BLOCKED ON REMOTE MIGRATION EVIDENCE
+2. `DATA-002 — Supabase Runtime & Migration Foundation` — COMPLETE
 3. `TAX-003 — Canonical Taxonomy Seed Implementation`
 4. `PLY-002 — Player Profile & Development Persistence`
 5. `ONB-001 — Onboarding & Calibration Foundation`
@@ -917,20 +917,11 @@ Current gate status:
 
 ## 24. Immediate next execution
 
-Do **not** start TAX-003 yet.
+DATA-002 is COMPLETE.
 
-Finish DATA-002:
+Do **not** start TAX-003 until the user explicitly authorizes the next ticket.
 
-1. link local Supabase CLI to `vwvuaasgczsmeskhjrsb`
-2. run remote migration dry-run
-3. confirm only expected DATA-002 migration is pending
-4. apply migration
-5. verify migration history / remote database health
-6. update DATA-002 evidence
-7. validate repository state
-8. mark DATA-002 COMPLETE only if evidence supports it
-
-After the user authorizes the next ticket:
+Next planned ticket:
 
 `TAX-003 — Canonical Taxonomy Seed Implementation`
 

@@ -1,6 +1,6 @@
 # DATA-002 — Supabase Runtime & Migration Foundation
 
-**Status:** BLOCKED  
+**Status:** COMPLETE  
 **Phase:** 1 — Product Foundation  
 **Date:** 2026-09-27  
 **Depends on:** P0-GATE-001, DATA-001, FND-002
@@ -41,19 +41,17 @@ Browser/user-context clients receive only:
 
 ## External acceptance status
 
-Supabase staging project created.
+Supabase staging project acceptance is complete.
 
 - project ref: `vwvuaasgczsmeskhjrsb`
 - Vercel Production `NEXT_PUBLIC_SUPABASE_URL`: configured
 - Vercel Production `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: configured
 - Vercel deployment after configuration: user-confirmed redeployed
-
-Remaining external evidence:
-
-1. link the local CLI to `vwvuaasgczsmeskhjrsb`
-2. preview the pending migration with `supabase db push --dry-run`
-3. apply the DATA-002 migration with `supabase db push`
-4. verify remote migration history / database health
+- Supabase CLI linked to `vwvuaasgczsmeskhjrsb`: PASS
+- remote migration dry-run showed only `20260928000000_data_002_persistence_foundation.sql`: PASS
+- DATA-002 migration applied successfully: PASS
+- local/remote migration history both report version `20260928000000`: PASS
+- final remote dry-run reports the database is up to date: PASS
 
 ## Validation evidence
 
@@ -70,13 +68,24 @@ Validated implementation head: `905a4fbc3d78a63d85b2710398d0371f7be73250`
 - public env parser / partial-config failure tests: PASS
 - migration/security foundation tests: PASS
 
-## Current disposition
+## Local execution note
 
-**BLOCKED — REMOTE SUPABASE LINK / MIGRATION EVIDENCE REQUIRED**
+Codex completed the remote migration workflow from a local environment running Node
+`20.18.0`. Project-targeted tests could not be rerun there because this repository
+requires Node 22+. No dependency vulnerabilities were reported by `npm install`.
 
-The implementation is code-complete and the staging project + Vercel public runtime
-configuration now exist. DATA-002 remains non-terminal only until the local CLI is
-linked and the source-controlled migration is applied successfully.
+Pre-existing untracked `package-lock.json` and `supabase/.temp/` were preserved.
 
-Do not proceed to TAX-003 as terminal Phase 1 work until this external acceptance
-evidence is captured.
+This does not weaken acceptance: the implementation itself had already passed the
+repository CI suite on Node 22, and the completion step changed remote migration state
+plus documentation rather than application code.
+
+## Terminal disposition
+
+**DATA-002 — COMPLETE**
+
+Code/CI acceptance and staging migration acceptance are both satisfied.
+
+Next Phase 1 implementation ticket: **TAX-003 — Canonical Taxonomy Seed Implementation**.
+
+TAX-003 still requires explicit user authorization before execution begins.

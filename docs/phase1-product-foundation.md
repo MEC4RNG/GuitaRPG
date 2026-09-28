@@ -28,9 +28,11 @@ Implement:
 - local/test-safe configuration
 - no service-role leakage
 
-Status: BLOCKED — code/CI complete; staging project + Vercel public environment values are configured; local CLI link and remote migration evidence remain.
+Status: COMPLETE.
 
-This ticket requires an external Supabase project connection before deployment-level acceptance.
+The staging Supabase project is linked, the DATA-002 baseline migration is applied,
+local/remote migration history agrees on `20260928000000`, and the final dry-run
+reports the remote database is up to date.
 
 ### TAX-003 — Canonical Taxonomy Seed Implementation
 

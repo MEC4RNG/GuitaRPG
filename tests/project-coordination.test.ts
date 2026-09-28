@@ -20,7 +20,7 @@ type ProjectState = {
     id: string;
     status: string;
   };
-  active_ticket: {
+  active_ticket: null | {
     id: string;
     status: string;
     code_ci_complete: boolean;
@@ -60,24 +60,22 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("points to a real active ticket with matching status", () => {
-    const path = resolve(root, `docs/tickets/${state.active_ticket.id}.md`);
-    expect(existsSync(path)).toBe(true);
+  it("records DATA-002 as terminal and leaves no active ticket", () => {
+    const ticket = read("docs/tickets/DATA-002.md");
 
-    const ticket = read(`docs/tickets/${state.active_ticket.id}.md`);
-    expect(ticket).toContain(`**Status:** ${state.active_ticket.status}`);
-    expect(ticket).toContain("BLOCKED — REMOTE SUPABASE LINK / MIGRATION EVIDENCE REQUIRED");
-    expect(state.active_ticket.code_ci_complete).toBe(true);
-  });
-
-  it("does not authorize the dependency-blocked next ticket", () => {
     expect(state.last_terminal_ticket).toMatchObject({
-      id: "UX-002",
+      id: "DATA-002",
       status: "COMPLETE",
     });
+    expect(ticket).toContain("**Status:** COMPLETE");
+    expect(ticket).toContain("**DATA-002 — COMPLETE**");
+    expect(state.active_ticket).toBeNull();
+  });
+
+  it("does not authorize TAX-003 until the user explicitly proceeds", () => {
     expect(state.next_ticket.id).toBe("TAX-003");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("Do **not** start TAX-003 yet.");
+    expect(plan).toContain("Do **not** start TAX-003 until the user explicitly authorizes");
   });
 
   it("provides Codex-facing repository instructions", () => {

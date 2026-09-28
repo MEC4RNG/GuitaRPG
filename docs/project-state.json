@@ -14,31 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "UX-002",
-    "title": "Application Shell & Navigation",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "DATA-002",
     "title": "Supabase Runtime & Migration Foundation",
-    "status": "BLOCKED",
-    "blocker": "Remote Supabase CLI link and migration evidence required",
-    "code_ci_complete": true,
-    "staging_project_ref": "vwvuaasgczsmeskhjrsb",
-    "vercel_public_env_configured": true,
-    "vercel_redeployed": true,
-    "remaining": [
-      "Link local Supabase CLI to staging project",
-      "Run supabase db push --dry-run",
-      "Apply expected DATA-002 migration",
-      "Verify remote migration history and database health"
-    ]
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "TAX-003",
     "title": "Canonical Taxonomy Seed Implementation",
     "authorized_to_start": false,
-    "condition": "DATA-002 must be terminal COMPLETE and user must authorize proceeding"
+    "condition": "DATA-002 is COMPLETE; explicit user authorization is still required"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -49,5 +34,6 @@
     "docs/architecture/ADR-001-production-architecture.md",
     "docs/phase1-product-foundation.md",
     "docs/tickets/DATA-002.md"
-  ]
+  ],
+  "execution_status": "AWAITING_NEXT_TICKET_AUTHORIZATION"
 }
