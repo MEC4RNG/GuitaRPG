@@ -130,10 +130,9 @@ describe("TAX-002 legacy normalization", () => {
     for (const entry of manifest.entries) {
       for (const target of entry.targets) {
         if (target.kind === "SKILL") {
-          expect(
-            domains.has(target.domain ?? ""),
-            `${entry.legacy_value} -> ${target.slug}`,
-          ).toBe(true);
+          expect(domains.has(target.domain ?? ""), `${entry.legacy_value} -> ${target.slug}`).toBe(
+            true,
+          );
         }
       }
     }
