@@ -1,0 +1,4276 @@
+{
+  "schema_version": 1,
+  "ticket": "TAX-002",
+  "source_file": "challenge.js",
+  "source_branch": "main",
+  "source_categories": [
+    "keys",
+    "physicalAttributeList",
+    "mentalAttributeList",
+    "guitarmanship",
+    "pickingHand",
+    "frettingHand",
+    "stringChallenge",
+    "musicianship",
+    "scales",
+    "rhythm",
+    "playStyle"
+  ],
+  "source_occurrence_count": 216,
+  "unique_legacy_value_count": 207,
+  "duplicate_legacy_value_count": 9,
+  "allowed_dispositions": [
+    "KEEP",
+    "RENAME",
+    "MERGE",
+    "SPLIT",
+    "RECLASSIFY",
+    "DEFER",
+    "REMOVE"
+  ],
+  "entries": [
+    {
+      "legacy_value": "A",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "A"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "A# / Bb",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "A#/Bb"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Adaptability",
+      "source_occurrences": [
+        {
+          "source": "mentalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "REMOVE",
+      "targets": [],
+      "notes": "Too broad to function as a canonical v1 musical Attribute; adaptability may emerge through evidence variety rather than a direct stat."
+    },
+    {
+      "legacy_value": "Adjacent Strings Only",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "adjacent_strings_only",
+          "name": "Adjacent Strings Only"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Advanced Bebop Chromaticism",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "bebop_chromaticism",
+          "name": "Bebop Chromaticism"
+        }
+      ],
+      "notes": "Advanced removed from identity."
+    },
+    {
+      "legacy_value": "Advanced Bends (pre-bends, release)",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "bending",
+          "name": "Bending",
+          "domain": "technique"
+        },
+        {
+          "kind": "TAG",
+          "slug": "bend_variants",
+          "name": "Bend Variants"
+        }
+      ],
+      "notes": "Pre-bend/release become technique variants/Quest parameters; Advanced is removed."
+    },
+    {
+      "legacy_value": "Advanced Hybrid Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "hybrid_picking",
+          "name": "Hybrid Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Advanced is Quest/player demand, not a second Skill."
+    },
+    {
+      "legacy_value": "Advanced Modulation Schemes",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "modulation_application",
+          "name": "Modulation Application",
+          "domain": "harmony_theory"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "modulation",
+          "name": "Modulation"
+        }
+      ],
+      "notes": "Advanced removed; separates device from application."
+    },
+    {
+      "legacy_value": "Advanced Voice Leading",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "voice_leading",
+          "name": "Voice Leading",
+          "domain": "harmony_theory"
+        }
+      ],
+      "notes": "Advanced becomes Quest demand."
+    },
+    {
+      "legacy_value": "Alternate Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 1
+        },
+        {
+          "source": "rhythm",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "alternate_picking",
+          "name": "Alternate Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "One canonical technique Skill; Rhythm duplicate merges here."
+    },
+    {
+      "legacy_value": "Ambient/Soundscapes",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "ambient_soundscapes",
+          "name": "Ambient / Soundscapes"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Approach Notes (Jazz)",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "approach_notes",
+          "name": "Approach Notes"
+        },
+        {
+          "kind": "CONTEXT",
+          "slug": "jazz",
+          "name": "Jazz"
+        }
+      ],
+      "notes": "Musical device separated from style context."
+    },
+    {
+      "legacy_value": "Arabian",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "arabian_scale",
+          "name": "Arabian"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Arpeggio Sequences",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "arpeggio_sequencing",
+          "name": "Arpeggio Sequencing",
+          "domain": "fretboard"
+        }
+      ],
+      "notes": "Trainable application Skill."
+    },
+    {
+      "legacy_value": "Artificial Harmonics",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 4
+        },
+        {
+          "source": "frettingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "artificial_harmonics",
+          "name": "Artificial Harmonics",
+          "domain": "technique"
+        }
+      ],
+      "notes": "One canonical Skill shared by picking/fretting legacy occurrences."
+    },
+    {
+      "legacy_value": "Atonal & Serial Techniques",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "atonality",
+          "name": "Atonality"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "serialism",
+          "name": "Serialism"
+        }
+      ],
+      "notes": "Compound theory label becomes distinct Concepts."
+    },
+    {
+      "legacy_value": "Aural",
+      "source_occurrences": [
+        {
+          "source": "mentalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "ear",
+          "name": "Ear"
+        }
+      ],
+      "notes": "Production terminology uses Ear."
+    },
+    {
+      "legacy_value": "Avant-Garde/Noise",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "avant_garde_noise",
+          "name": "Avant-Garde / Noise"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "B",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "B"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Backbeat Emphasis",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "backbeat_placement",
+          "name": "Backbeat Placement",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Trainable placement Skill."
+    },
+    {
+      "legacy_value": "Barre Chords",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "barre_chord_fretting",
+          "name": "Barre-Chord Fretting",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Basic Chord Progression (I–IV–V)",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "i_iv_v_progression",
+          "name": "I–IV–V Progression"
+        }
+      ],
+      "notes": "Basic removed from identity."
+    },
+    {
+      "legacy_value": "Basic Chords",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "basic_chord_fretting",
+          "name": "Basic Chord Fretting",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Legacy phrase describes execution ability, not a chord Concept."
+    },
+    {
+      "legacy_value": "Bebop Dominant",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "bebop_dominant",
+          "name": "Bebop Dominant"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Bebop Major",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "bebop_major",
+          "name": "Bebop Major"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Bebop Minor",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "bebop_minor",
+          "name": "Bebop Minor"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Bending",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "bending",
+          "name": "Bending",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Blended Freeform",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "REMOVE",
+      "targets": [],
+      "notes": "Too vague to normalize as taxonomy; freeform behavior belongs to generator/Quest-mode design."
+    },
+    {
+      "legacy_value": "Blues",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "blues",
+          "name": "Blues"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Blues Scale",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "blues_scale",
+          "name": "Blues Scale"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Blues Scale Extensions",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scale_application",
+          "name": "Scale Application",
+          "domain": "harmony_theory"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "blues_scale",
+          "name": "Blues Scale"
+        }
+      ],
+      "notes": "Extension/application becomes Quest demand rather than a standalone entity."
+    },
+    {
+      "legacy_value": "Blues-Rock",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "blues_rock",
+          "name": "Blues-Rock"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Bossa Nova",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "bossa_nova",
+          "name": "Bossa Nova"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Byzantine",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "byzantine",
+          "name": "Byzantine"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "C",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "C"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "C# / Db",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "C#/Db"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Changing Strings Each Bar",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "change_strings_each_bar",
+          "name": "Change Strings Each Bar"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Chicken Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "chicken_picking",
+          "name": "Chicken Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Chord Anticipation",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "harmonic_anticipation",
+          "name": "Harmonic Anticipation"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "anticipation_placement",
+          "name": "Anticipation Placement",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Harmony/rhythm device + timing ability."
+    },
+    {
+      "legacy_value": "Chord Inversions",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 2
+        },
+        {
+          "source": "frettingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "chord_inversion_navigation",
+          "name": "Chord Inversion Navigation",
+          "domain": "fretboard"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "chord_inversion",
+          "name": "Chord Inversion"
+        }
+      ],
+      "notes": "Separates ability to locate/apply inversions from inversion structure; both duplicate source occurrences share this mapping."
+    },
+    {
+      "legacy_value": "Chord on One String, Melody on Another",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "DEFER",
+      "targets": [],
+      "notes": "Compound arrangement/Quest-template pattern, not a canonical taxonomy entity."
+    },
+    {
+      "legacy_value": "Chord Substitutions",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 4
+        },
+        {
+          "source": "musicianship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "chord_substitution_application",
+          "name": "Chord Substitution Application",
+          "domain": "harmony_theory"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "chord_substitution",
+          "name": "Chord Substitution"
+        }
+      ],
+      "notes": "Separates knowledge/device from application; duplicate source occurrence shares mapping."
+    },
+    {
+      "legacy_value": "Chord-Melody Playing",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "chord_melody_playing",
+          "name": "Chord-Melody Playing",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Chords w/ Open Strings",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "open_string_chord_voicing",
+          "name": "Open-String Chord Voicing",
+          "domain": "fretboard"
+        }
+      ],
+      "notes": "Normalizes voicing/application ability."
+    },
+    {
+      "legacy_value": "Classical",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "classical",
+          "name": "Classical"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Classical Fingerstyle",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "classical_fingerstyle",
+          "name": "Classical Fingerstyle",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical technique Skill."
+    },
+    {
+      "legacy_value": "Classical Fingerstyle Techniques",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "classical_fingerstyle",
+          "name": "Classical Fingerstyle",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Normalizes broad legacy label."
+    },
+    {
+      "legacy_value": "Coordination",
+      "source_occurrences": [
+        {
+          "source": "physicalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "coordination",
+          "name": "Coordination"
+        }
+      ],
+      "notes": "Canonical Physical Attribute."
+    },
+    {
+      "legacy_value": "Counterpoint",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "counterpoint_application",
+          "name": "Counterpoint Application",
+          "domain": "harmony_theory"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "counterpoint",
+          "name": "Counterpoint"
+        }
+      ],
+      "notes": "Separates musical system from ability."
+    },
+    {
+      "legacy_value": "Counterpoint 2-Part",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "two_voice_independence",
+          "name": "Two-Voice Independence",
+          "domain": "creativity_expression"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "counterpoint",
+          "name": "Counterpoint"
+        }
+      ],
+      "notes": "Two-part execution + Concept."
+    },
+    {
+      "legacy_value": "Counterpoint Two-Voice",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "two_voice_independence",
+          "name": "Two-Voice Independence",
+          "domain": "creativity_expression"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "counterpoint",
+          "name": "Counterpoint"
+        }
+      ],
+      "notes": "Separates execution/arrangement ability from Counterpoint Concept."
+    },
+    {
+      "legacy_value": "Country",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "country",
+          "name": "Country"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Creativity",
+      "source_occurrences": [
+        {
+          "source": "mentalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "creativity",
+          "name": "Creativity"
+        }
+      ],
+      "notes": "Canonical Musical Attribute."
+    },
+    {
+      "legacy_value": "Cross-Rhythms",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "cross_rhythm",
+          "name": "Cross-Rhythm"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "cross_rhythm_performance",
+          "name": "Cross-Rhythm Performance",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Concept + application Skill."
+    },
+    {
+      "legacy_value": "D",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "D"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "D# / Eb",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "D#/Eb"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Dead Notes",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "dead_note_articulation",
+          "name": "Dead-Note Articulation",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Trainable articulation Skill."
+    },
+    {
+      "legacy_value": "Dexterity",
+      "source_occurrences": [
+        {
+          "source": "physicalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "dexterity",
+          "name": "Dexterity"
+        }
+      ],
+      "notes": "Canonical Physical Attribute."
+    },
+    {
+      "legacy_value": "Diatonic Harmony",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "diatonic_harmony",
+          "name": "Diatonic Harmony"
+        }
+      ],
+      "notes": "Canonical Concept; merges with parenthetical guitarmanship variant."
+    },
+    {
+      "legacy_value": "Diatonic Harmony (Maj/Min Keys)",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "diatonic_harmony",
+          "name": "Diatonic Harmony"
+        }
+      ],
+      "notes": "Parenthetical key scope becomes context rather than identity."
+    },
+    {
+      "legacy_value": "Diminished (Whole-Half)",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "diminished_whole_half",
+          "name": "Diminished (Whole-Half)"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Displaced Rhythms",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "rhythmic_displacement",
+          "name": "Rhythmic Displacement"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "rhythmic_displacement_control",
+          "name": "Rhythmic Displacement Control",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Normalized to Rhythmic Displacement semantics."
+    },
+    {
+      "legacy_value": "Djent",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "djent",
+          "name": "Djent"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Djent Groove",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "djent",
+          "name": "Djent"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "djent_groove",
+          "name": "Djent Groove"
+        }
+      ],
+      "notes": "Style context separated from pattern concept."
+    },
+    {
+      "legacy_value": "Dorian",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "dorian",
+          "name": "Dorian"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Double Stops",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 2
+        },
+        {
+          "source": "stringChallenge",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "double_stop_execution",
+          "name": "Double-Stop Execution",
+          "domain": "technique"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "double_stop",
+          "name": "Double Stop"
+        },
+        {
+          "kind": "CONSTRAINT",
+          "slug": "double_stop_texture",
+          "name": "Double-Stop Texture"
+        }
+      ],
+      "notes": "Same legacy label served fretting and string-challenge roles; production semantics separate ability, material, and restriction."
+    },
+    {
+      "legacy_value": "Downstrokes",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 1
+        },
+        {
+          "source": "rhythm",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "downstroke_picking",
+          "name": "Downstroke Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical technique Skill; duplicate Rhythm occurrence merges here."
+    },
+    {
+      "legacy_value": "E",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "E"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Economy Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "economy_picking",
+          "name": "Economy Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Eighth Notes",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "eighth_note_subdivision",
+          "name": "Eighth-Note Subdivision"
+        }
+      ],
+      "notes": "Rhythmic material."
+    },
+    {
+      "legacy_value": "Emotion",
+      "source_occurrences": [
+        {
+          "source": "mentalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "expression",
+          "name": "Expression"
+        }
+      ],
+      "notes": "Production terminology uses Expression rather than Emotion."
+    },
+    {
+      "legacy_value": "Enigmatic",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "enigmatic",
+          "name": "Enigmatic"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Even Strings Only",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "even_strings_only",
+          "name": "Even Strings Only"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Exotic Scales (Persian, Hungarian, Byzantine)",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "TAG",
+          "slug": "exotic_scale_family",
+          "name": "Exotic Scale Family"
+        }
+      ],
+      "notes": "Legacy collection label becomes editorial/grouping metadata; named scales remain individual Concepts."
+    },
+    {
+      "legacy_value": "Extended Chords (9th, 11th, 13th)",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "extended_chords",
+          "name": "Extended Chords"
+        }
+      ],
+      "notes": "Specific extension examples become Concept metadata/examples."
+    },
+    {
+      "legacy_value": "Extended Modes",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "DEFER",
+      "targets": [],
+      "notes": "Underspecified collection label; specific modes should be canonical Concepts instead."
+    },
+    {
+      "legacy_value": "F",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "F"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "F# / Gb",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "F#/Gb"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Finger Independence Exercises",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "finger_independence",
+          "name": "Finger Independence",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Exercise wording removed from Skill identity."
+    },
+    {
+      "legacy_value": "Finger Placement",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "finger_placement",
+          "name": "Finger Placement",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Fingerpicking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "fingerstyle",
+          "name": "Fingerstyle",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Broad fingerstyle execution Skill."
+    },
+    {
+      "legacy_value": "Fingerpicking on Non-Adjacent",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "fingerstyle",
+          "name": "Fingerstyle",
+          "domain": "technique"
+        },
+        {
+          "kind": "CONSTRAINT",
+          "slug": "non_adjacent_strings_only",
+          "name": "Non-Adjacent Strings Only"
+        }
+      ],
+      "notes": "Technique + restriction."
+    },
+    {
+      "legacy_value": "Fingerstyle Tremolo",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "fingerstyle_tremolo",
+          "name": "Fingerstyle Tremolo",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Flamenco",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "flamenco",
+          "name": "Flamenco"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Flamenco Rumba",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "flamenco_rumba",
+          "name": "Flamenco Rumba"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Flatpicking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "flatpicking",
+          "name": "Flatpicking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Flexibility",
+      "source_occurrences": [
+        {
+          "source": "physicalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "dexterity",
+          "name": "Dexterity"
+        }
+      ],
+      "notes": "Standalone flexibility stat is not retained; relevant range/fingering capability contributes through Skills and Dexterity."
+    },
+    {
+      "legacy_value": "Focus",
+      "source_occurrences": [
+        {
+          "source": "mentalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "REMOVE",
+      "targets": [],
+      "notes": "Not retained as a canonical musical Attribute; focus may be session UX/behavioral metadata later."
+    },
+    {
+      "legacy_value": "Folk",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "folk",
+          "name": "Folk"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Free Strokes",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "free_stroke",
+          "name": "Free Stroke",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Fret-Hand Muting",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "fret_hand_muting",
+          "name": "Fret-Hand Muting",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Fretboard Memorization",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "note_location",
+          "name": "Note Location",
+          "domain": "fretboard"
+        }
+      ],
+      "notes": "Production Skill describes demonstrable fretboard note-location ability."
+    },
+    {
+      "legacy_value": "G",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "G"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "G# / Ab",
+      "source_occurrences": [
+        {
+          "source": "keys",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "name": "Tonal Center",
+          "parameters": {
+            "pitch_class": "G#/Ab"
+          }
+        }
+      ],
+      "notes": "Legacy key selector becomes a tonal-center/key Context value; enharmonic spelling is presentation metadata."
+    },
+    {
+      "legacy_value": "Gallop Rhythm",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "gallop_rhythm",
+          "name": "Gallop Rhythm"
+        }
+      ],
+      "notes": "Rhythm-pattern Concept."
+    },
+    {
+      "legacy_value": "Ghost Notes",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "ghost_note_articulation",
+          "name": "Ghost-Note Articulation",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Trainable articulation/placement Skill."
+    },
+    {
+      "legacy_value": "Gypsy Jazz",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "gypsy_jazz",
+          "name": "Gypsy Jazz"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Gypsy Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "gypsy_jazz_picking",
+          "name": "Gypsy Jazz Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Clarifies the established style-specific picking approach."
+    },
+    {
+      "legacy_value": "Hammer-ons",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "hammer_on",
+          "name": "Hammer-On",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Hammer-Ons & Pull-Offs",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "hammer_on",
+          "name": "Hammer-On",
+          "domain": "technique"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "pull_off",
+          "name": "Pull-Off",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Compound legacy label becomes two independently trainable Skills."
+    },
+    {
+      "legacy_value": "Harmonic Minor",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "harmonic_minor",
+          "name": "Harmonic Minor"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Harp Harmonics",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "harp_harmonics",
+          "name": "Harp Harmonics",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "High Strings Only",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "high_strings_only",
+          "name": "High Strings Only"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Hirajoshi",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "hirajoshi",
+          "name": "Hirajoshi"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Hungarian Minor",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "hungarian_minor",
+          "name": "Hungarian Minor"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Hybrid Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "hybrid_picking",
+          "name": "Hybrid Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Hybrid Picking Non-Adjacent",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "hybrid_picking",
+          "name": "Hybrid Picking",
+          "domain": "technique"
+        },
+        {
+          "kind": "CONSTRAINT",
+          "slug": "non_adjacent_strings_only",
+          "name": "Non-Adjacent Strings Only"
+        }
+      ],
+      "notes": "Technique + restriction."
+    },
+    {
+      "legacy_value": "Hybrid Rhythms",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "DEFER",
+      "targets": [],
+      "notes": "Too vague to serve as a canonical Concept; future Quest must name the actual rhythmic combination."
+    },
+    {
+      "legacy_value": "Hybrid Scales & Chords",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "DEFER",
+      "targets": [],
+      "notes": "Underspecified compound legacy label; should be expressed as specific Skills + Concepts by Quest composition rather than minted as one entity."
+    },
+    {
+      "legacy_value": "Hybrid Scales & Passing Chords",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "passing_chords",
+          "name": "Passing Chords"
+        }
+      ],
+      "notes": "Passing Chords retained; 'Hybrid Scales' is underspecified and deferred rather than minted as a vague canonical entity."
+    },
+    {
+      "legacy_value": "In Sen",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "in_sen",
+          "name": "In Sen"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Interval Identification",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "interval_recognition",
+          "name": "Interval Recognition",
+          "domain": "ear_musicianship"
+        }
+      ],
+      "notes": "Canonical ear-training terminology."
+    },
+    {
+      "legacy_value": "Jazz Fusion",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "jazz_fusion",
+          "name": "Jazz Fusion"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Lead Guitar",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "playing_role_lead_guitar",
+          "name": "Lead Guitar"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Legato",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "legato",
+          "name": "Legato",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Legato Runs",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "legato",
+          "name": "Legato",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Run complexity belongs to Quest demand."
+    },
+    {
+      "legacy_value": "Locrian",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "locrian",
+          "name": "Locrian"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Low Strings Only",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "low_strings_only",
+          "name": "Low Strings Only"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Lydian",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "lydian",
+          "name": "Lydian"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Major (Ionian)",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "major_scale",
+          "name": "Major Scale"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "ionian",
+          "name": "Ionian"
+        }
+      ],
+      "notes": "Legacy label conflated tonal major and modal Ionian; production preserves both semantics."
+    },
+    {
+      "legacy_value": "Math Rock",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "math_rock",
+          "name": "Math Rock"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Melodic Minor",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "melodic_minor",
+          "name": "Melodic Minor"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Melodic Minor Shapes",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scale_mapping",
+          "name": "Scale Mapping",
+          "domain": "fretboard"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "melodic_minor",
+          "name": "Melodic Minor"
+        }
+      ],
+      "notes": "Fretboard ability separated from scale material."
+    },
+    {
+      "legacy_value": "Metal",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "metal",
+          "name": "Metal"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Metric Modulation",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 3
+        },
+        {
+          "source": "rhythm",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "metric_modulation",
+          "name": "Metric Modulation"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "metric_modulation_performance",
+          "name": "Metric Modulation Performance",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Concept + trainable execution; duplicate Rhythm occurrence shares mapping."
+    },
+    {
+      "legacy_value": "Metric Modulation Mastery",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "metric_modulation",
+          "name": "Metric Modulation"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "metric_modulation_performance",
+          "name": "Metric Modulation Performance",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Mastery is player proficiency, not taxonomy identity."
+    },
+    {
+      "legacy_value": "Microtonal Bending",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "microtonal_bending",
+          "name": "Microtonal Bending",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Mixolydian",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "mixolydian",
+          "name": "Mixolydian"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Modal Basics",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "modal_application",
+          "name": "Modal Application",
+          "domain": "harmony_theory"
+        }
+      ],
+      "notes": "Basics removed; ability is applying modal material."
+    },
+    {
+      "legacy_value": "Modal Interchange",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "modal_interchange",
+          "name": "Modal Interchange"
+        }
+      ],
+      "notes": "Canonical Concept."
+    },
+    {
+      "legacy_value": "Modal Interchange Advanced",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "modal_interchange",
+          "name": "Modal Interchange"
+        }
+      ],
+      "notes": "Advanced removed from identity; difficulty belongs to Quest demand."
+    },
+    {
+      "legacy_value": "Modal Interchange Basics",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "modal_interchange",
+          "name": "Modal Interchange"
+        }
+      ],
+      "notes": "Basics removed from identity; difficulty belongs to the Quest."
+    },
+    {
+      "legacy_value": "Natural Minor (Aeolian)",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "natural_minor",
+          "name": "Natural Minor"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "aeolian",
+          "name": "Aeolian"
+        }
+      ],
+      "notes": "Legacy label conflated tonal natural minor and modal Aeolian."
+    },
+    {
+      "legacy_value": "Neoclassical",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "neoclassical",
+          "name": "Neoclassical"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Neoclassical Fingering",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scalar_fingering",
+          "name": "Scalar Fingering",
+          "domain": "technique"
+        },
+        {
+          "kind": "CONTEXT",
+          "slug": "neoclassical",
+          "name": "Neoclassical"
+        }
+      ],
+      "notes": "Technique separated from style context."
+    },
+    {
+      "legacy_value": "Neoclassical Runs",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scalar_sequence_execution",
+          "name": "Scalar Sequence Execution",
+          "domain": "technique"
+        },
+        {
+          "kind": "CONTEXT",
+          "slug": "neoclassical",
+          "name": "Neoclassical"
+        }
+      ],
+      "notes": "Execution ability separated from style."
+    },
+    {
+      "legacy_value": "Non-Adjacent Strings",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "non_adjacent_strings_only",
+          "name": "Non-Adjacent Strings Only"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Octatonic (Half-Whole)",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "octatonic_half_whole",
+          "name": "Octatonic (Half-Whole)"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Odd Strings Only",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "odd_strings_only",
+          "name": "Odd Strings Only"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Odd Time (5/4, 7/8)",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "odd_meter_fluency",
+          "name": "Odd-Meter Fluency",
+          "domain": "rhythm"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "meter_5_4",
+          "name": "5/4"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "meter_7_8",
+          "name": "7/8"
+        }
+      ],
+      "notes": "Ability separated from specific meter Concepts."
+    },
+    {
+      "legacy_value": "One String Rhythm + Another Lead",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "DEFER",
+      "targets": [],
+      "notes": "Compound arrangement/Quest-template pattern, not a canonical taxonomy entity."
+    },
+    {
+      "legacy_value": "Open Chord Fluency",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "open_chord_fluency",
+          "name": "Open Chord Fluency",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Trainable chord-execution Skill."
+    },
+    {
+      "legacy_value": "Palm Muting",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "palm_muting",
+          "name": "Palm Muting",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Pentatonic Major",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "major_pentatonic",
+          "name": "Pentatonic Major"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Pentatonic Minor",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "minor_pentatonic",
+          "name": "Pentatonic Minor"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Pentatonic Scale Variations",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scale_mapping",
+          "name": "Scale Mapping",
+          "domain": "fretboard"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "pentatonic_scale_family",
+          "name": "Pentatonic Scale Family"
+        }
+      ],
+      "notes": "Legacy phrase combines fretboard application with scale material."
+    },
+    {
+      "legacy_value": "Percussive Fingerstyle",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "percussive_fingerstyle",
+          "name": "Percussive Fingerstyle"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Percussive Strumming",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "percussive_strumming",
+          "name": "Percussive Strumming",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical technique Skill."
+    },
+    {
+      "legacy_value": "Persian Scale",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "persian_scale",
+          "name": "Persian Scale"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Phrygian",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "phrygian",
+          "name": "Phrygian"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    },
+    {
+      "legacy_value": "Pick Scrape",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "pick_scrape",
+          "name": "Pick Scrape",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Pinch Harmonics",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "pinch_harmonics",
+          "name": "Pinch Harmonics",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Polyrhythms",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 3
+        },
+        {
+          "source": "rhythm",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "polyrhythm",
+          "name": "Polyrhythm"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "polyrhythm_performance",
+          "name": "Polyrhythm Performance",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Concept + trainable execution; duplicate Rhythm occurrence shares mapping."
+    },
+    {
+      "legacy_value": "Polytonal Concepts",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "polytonality",
+          "name": "Polytonality"
+        }
+      ],
+      "notes": "Normalized terminology."
+    },
+    {
+      "legacy_value": "Polytonality",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "polytonality",
+          "name": "Polytonality"
+        }
+      ],
+      "notes": "Canonical Concept."
+    },
+    {
+      "legacy_value": "Pop",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "pop",
+          "name": "Pop"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Post-Rock",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "post_rock",
+          "name": "Post-Rock"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Power Chord Basics",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "power_chord_fretting",
+          "name": "Power Chord Fretting",
+          "domain": "technique"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "power_chord",
+          "name": "Power Chord"
+        }
+      ],
+      "notes": "Removes 'Basics' difficulty from identity and separates execution from musical object."
+    },
+    {
+      "legacy_value": "Precision",
+      "source_occurrences": [
+        {
+          "source": "physicalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "precision",
+          "name": "Precision"
+        }
+      ],
+      "notes": "Canonical Physical Attribute."
+    },
+    {
+      "legacy_value": "Progressive Rock/Metal",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "progressive_rock_metal",
+          "name": "Progressive Rock / Metal"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Proper Finger Placement",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "finger_placement",
+          "name": "Finger Placement",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Same capability as the fretting-hand Finger Placement entry."
+    },
+    {
+      "legacy_value": "Pull-offs",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "pull_off",
+          "name": "Pull-Off",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Quarter Notes",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "quarter_note_subdivision",
+          "name": "Quarter-Note Subdivision"
+        }
+      ],
+      "notes": "Rhythmic material."
+    },
+    {
+      "legacy_value": "Rake Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "rake_picking",
+          "name": "Rake Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Reggae",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "reggae",
+          "name": "Reggae"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Rest Strokes",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "rest_stroke",
+          "name": "Rest Stroke",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Rhythm",
+      "source_occurrences": [
+        {
+          "source": "physicalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "rhythm",
+          "name": "Rhythm"
+        }
+      ],
+      "notes": "Moves from selectable Physical Attribute to derived Musical Attribute."
+    },
+    {
+      "legacy_value": "Rhythm Guitar",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "playing_role_rhythm_guitar",
+          "name": "Rhythm Guitar"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Rhythmic Displacement",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "rhythmic_displacement",
+          "name": "Rhythmic Displacement"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "rhythmic_displacement_control",
+          "name": "Rhythmic Displacement Control",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Concept + application Skill."
+    },
+    {
+      "legacy_value": "Rhythmic Subdivisions",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "subdivision_control",
+          "name": "Subdivision Control",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Trainable rhythm Skill."
+    },
+    {
+      "legacy_value": "Rock",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "rock",
+          "name": "Rock"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Rumba Flamenca",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "flamenco_rumba",
+          "name": "Flamenco Rumba"
+        }
+      ],
+      "notes": "Style-specific rhythm becomes Context; merges with playStyle Flamenco Rumba."
+    },
+    {
+      "legacy_value": "Scale Box Shapes",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scale_mapping",
+          "name": "Scale Mapping",
+          "domain": "fretboard"
+        }
+      ],
+      "notes": "Shape knowledge is represented by the broader Scale Mapping Skill."
+    },
+    {
+      "legacy_value": "Scale-Degree Ear Training",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "scale_degree_recognition",
+          "name": "Scale-Degree Recognition",
+          "domain": "ear_musicianship"
+        }
+      ],
+      "notes": "Exercise wording removed from identity."
+    },
+    {
+      "legacy_value": "Secondary Dominants",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "secondary_dominant",
+          "name": "Secondary Dominant"
+        }
+      ],
+      "notes": "Canonical singular Concept identity."
+    },
+    {
+      "legacy_value": "Shuffle",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "shuffle_feel",
+          "name": "Shuffle Feel"
+        }
+      ],
+      "notes": "Rhythmic feel Concept."
+    },
+    {
+      "legacy_value": "Simple Slides",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "sliding",
+          "name": "Sliding",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Difficulty adjective removed; merges with Sliding."
+    },
+    {
+      "legacy_value": "Single String",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "single_string_only",
+          "name": "Single String Only"
+        }
+      ],
+      "notes": "Constraint, not Skill."
+    },
+    {
+      "legacy_value": "Single String Arpeggios",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "single_string_only",
+          "name": "Single String Only"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "arpeggio",
+          "name": "Arpeggio"
+        }
+      ],
+      "notes": "Compound challenge becomes constraint + Concept."
+    },
+    {
+      "legacy_value": "Single String Chord Voicings",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "DEFER",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "single_string_only",
+          "name": "Single String Only"
+        }
+      ],
+      "notes": "Original wording is musically ambiguous for simultaneous voicing; retain single-string restriction and rewrite objective during Quest migration."
+    },
+    {
+      "legacy_value": "Single String Melodies",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "single_string_only",
+          "name": "Single String Only"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "melody",
+          "name": "Melody"
+        }
+      ],
+      "notes": "Compound challenge becomes constraint + musical material."
+    },
+    {
+      "legacy_value": "Single String Pentatonic",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "single_string_only",
+          "name": "Single String Only"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "pentatonic_scale_family",
+          "name": "Pentatonic Scale Family"
+        }
+      ],
+      "notes": "Compound challenge becomes constraint + Concept."
+    },
+    {
+      "legacy_value": "Single String per Measure",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "single_string_per_measure",
+          "name": "Single String per Measure"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Ska Rhythm",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "ska",
+          "name": "Ska"
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "ska_offbeat_rhythm",
+          "name": "Ska Offbeat Rhythm"
+        }
+      ],
+      "notes": "Style context separated from rhythm pattern."
+    },
+    {
+      "legacy_value": "Skip Every Other String",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "skip_every_other_string",
+          "name": "Skip Every Other String"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Skip Two Strings",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "skip_two_strings",
+          "name": "Skip Two Strings"
+        }
+      ],
+      "notes": "Legacy string challenge becomes a reusable execution Constraint."
+    },
+    {
+      "legacy_value": "Slap and Pop",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "slap_and_pop",
+          "name": "Slap and Pop",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Slide Guitar",
+      "source_occurrences": [
+        {
+          "source": "playStyle",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RECLASSIFY",
+      "targets": [
+        {
+          "kind": "CONTEXT",
+          "slug": "slide_guitar",
+          "name": "Slide Guitar"
+        }
+      ],
+      "notes": "Legacy play style becomes a Style/Playing-Role Context."
+    },
+    {
+      "legacy_value": "Sliding",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "sliding",
+          "name": "Sliding",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Strength",
+      "source_occurrences": [
+        {
+          "source": "physicalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "MERGE",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "endurance",
+          "name": "Endurance"
+        },
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "control",
+          "name": "Control"
+        }
+      ],
+      "notes": "Standalone Strength is removed; relevant physical capacity is represented through Endurance/Control contributions from specific Skills."
+    },
+    {
+      "legacy_value": "Stretching for Wide Intervals",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "wide_interval_fretting",
+          "name": "Wide-Interval Fretting",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Trainable physical execution ability."
+    },
+    {
+      "legacy_value": "String Skipping",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "string_skipping",
+          "name": "String Skipping",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Sweep Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "sweep_picking",
+          "name": "Sweep Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Swing Eighths",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "swing_eighths",
+          "name": "Swing Eighths"
+        }
+      ],
+      "notes": "Rhythmic feel Concept."
+    },
+    {
+      "legacy_value": "Syncopation",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "syncopation",
+          "name": "Syncopation"
+        },
+        {
+          "kind": "SKILL",
+          "slug": "syncopation_control",
+          "name": "Syncopation Control",
+          "domain": "rhythm"
+        }
+      ],
+      "notes": "Rhythmic device + application Skill."
+    },
+    {
+      "legacy_value": "Tapping (two-handed)",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "two_hand_tapping",
+          "name": "Two-Hand Tapping",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical execution name."
+    },
+    {
+      "legacy_value": "Tapping (with pick)",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "pick_tapping",
+          "name": "Pick Tapping",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical execution name."
+    },
+    {
+      "legacy_value": "Theory",
+      "source_occurrences": [
+        {
+          "source": "mentalAttributeList",
+          "level": null
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "ATTRIBUTE",
+          "slug": "theory",
+          "name": "Theory"
+        }
+      ],
+      "notes": "Canonical Musical Attribute."
+    },
+    {
+      "legacy_value": "Tremolo Picking",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "tremolo_picking",
+          "name": "Tremolo Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical picking/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Tremolo Strumming",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 5
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "tremolo_strumming",
+          "name": "Tremolo Strumming",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical technique Skill."
+    },
+    {
+      "legacy_value": "Triad Construction",
+      "source_occurrences": [
+        {
+          "source": "musicianship",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "triad_construction",
+          "name": "Triad Construction",
+          "domain": "harmony_theory"
+        }
+      ],
+      "notes": "Canonical theory Skill."
+    },
+    {
+      "legacy_value": "Triplet Feel",
+      "source_occurrences": [
+        {
+          "source": "rhythm",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "triplet_feel",
+          "name": "Triplet Feel"
+        }
+      ],
+      "notes": "Rhythmic feel Concept."
+    },
+    {
+      "legacy_value": "Two Strings for Chords",
+      "source_occurrences": [
+        {
+          "source": "stringChallenge",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "SPLIT",
+      "targets": [
+        {
+          "kind": "CONSTRAINT",
+          "slug": "string_count",
+          "name": "String Count",
+          "parameters": {
+            "count": 2
+          }
+        },
+        {
+          "kind": "CONCEPT",
+          "slug": "chord_voicing",
+          "name": "Chord Voicing"
+        }
+      ],
+      "notes": "Parameterized string restriction + Concept."
+    },
+    {
+      "legacy_value": "Upstrokes",
+      "source_occurrences": [
+        {
+          "source": "pickingHand",
+          "level": 1
+        },
+        {
+          "source": "rhythm",
+          "level": 1
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "upstroke_picking",
+          "name": "Upstroke Picking",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical technique Skill; duplicate Rhythm occurrence merges here."
+    },
+    {
+      "legacy_value": "Vibrato",
+      "source_occurrences": [
+        {
+          "source": "frettingHand",
+          "level": 2
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "RENAME",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "vibrato",
+          "name": "Vibrato",
+          "domain": "technique"
+        }
+      ],
+      "notes": "Canonical fretting/execution Skill; legacy level is provenance only."
+    },
+    {
+      "legacy_value": "Voice Leading",
+      "source_occurrences": [
+        {
+          "source": "guitarmanship",
+          "level": 4
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "SKILL",
+          "slug": "voice_leading",
+          "name": "Voice Leading",
+          "domain": "harmony_theory"
+        }
+      ],
+      "notes": "Canonical Harmony & Theory Skill."
+    },
+    {
+      "legacy_value": "Whole-Tone",
+      "source_occurrences": [
+        {
+          "source": "scales",
+          "level": 3
+        }
+      ],
+      "legacy_levels_are_provenance_only": true,
+      "disposition": "KEEP",
+      "targets": [
+        {
+          "kind": "CONCEPT",
+          "slug": "whole_tone",
+          "name": "Whole-Tone"
+        }
+      ],
+      "notes": "Scale/mode material is a Concept; prototype level is not retained as inherent difficulty."
+    }
+  ]
+}
