@@ -60,31 +60,26 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("keeps DATA-002 terminal while TAX-003 is the active ticket", () => {
-    const dataTicket = read("docs/tickets/DATA-002.md");
+  it("records TAX-003 as terminal and leaves no active ticket", () => {
     const taxonomyTicket = read("docs/tickets/TAX-003.md");
 
     expect(state.last_terminal_ticket).toMatchObject({
-      id: "DATA-002",
+      id: "TAX-003",
       status: "COMPLETE",
     });
-    expect(dataTicket).toContain("**DATA-002 — COMPLETE**");
-
-    expect(state.active_ticket).toMatchObject({
-      id: "TAX-003",
-      status: "BLOCKED",
-      code_ci_complete: true,
-    });
-    expect(taxonomyTicket).toContain("**Status:** BLOCKED");
+    expect(taxonomyTicket).toContain("**Status:** COMPLETE");
     expect(taxonomyTicket).toContain(
-      "BLOCKED — REMOTE TAX-003 STAGING MIGRATION EVIDENCE REQUIRED",
+      "**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**",
     );
+    expect(state.active_ticket).toBeNull();
   });
 
-  it("does not authorize PLY-002 while TAX-003 is non-terminal", () => {
+  it("does not authorize PLY-002 until the user explicitly proceeds", () => {
     expect(state.next_ticket.id).toBe("PLY-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("Do **not** begin PLY-002 until the user explicitly authorizes");
+    expect(plan).toContain(
+      "Do **not** begin PLY-002 until the user explicitly authorizes",
+    );
   });
 
   it("provides Codex-facing repository instructions", () => {

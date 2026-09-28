@@ -146,13 +146,14 @@ If implementation reveals that a contract is wrong or incomplete:
 ## 5. Current execution state
 
 **Phase:** Phase 1 — Product Foundation  
-**Last terminal implementation ticket:** `DATA-002 — Supabase Runtime & Migration Foundation`  
-**Active ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation` — BLOCKED on staging migration evidence  
+**Last terminal implementation ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation`  
+**Active ticket:** none — awaiting explicit authorization  
 **DATA-002 disposition:** COMPLETE  
+**TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migration:** `20260928000000_data_002_persistence_foundation.sql` applied and verified  
-**Next planned ticket after TAX-003:** `PLY-002 — Player Profile & Development Persistence`  
+**Remote migrations:** DATA-002 `20260928000000` and TAX-003 `20260928010000` applied and verified  
+**Next planned ticket:** `PLY-002 — Player Profile & Development Persistence`  
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -243,7 +244,7 @@ Known ticket sequence:
 
 1. `UX-002 — Application Shell & Navigation` — COMPLETE
 2. `DATA-002 — Supabase Runtime & Migration Foundation` — COMPLETE
-3. `TAX-003 — Canonical Taxonomy Seed Implementation`
+3. `TAX-003 — Canonical Taxonomy Seed Implementation` — COMPLETE
 4. `PLY-002 — Player Profile & Development Persistence`
 5. `ONB-001 — Onboarding & Calibration Foundation`
 6. `P1-GATE-001 — Product Foundation Integration Gate`
@@ -917,17 +918,13 @@ Current gate status:
 
 ## 24. Immediate next execution
 
-TAX-003 repository implementation is code-complete and CI-green.
+TAX-003 is COMPLETE.
 
-Finish only the staging acceptance:
+No ticket is currently active.
 
-1. synchronize the local checkout safely
-2. run `npx supabase db push --dry-run`
-3. confirm only `20260928010000_tax_003_canonical_taxonomy.sql` is pending
-4. apply it with `npx supabase db push`
-5. verify local/remote migration history
-6. run a final dry-run and confirm the remote database is up to date
-7. record non-sensitive evidence and close TAX-003 only if all checks pass
+Next planned ticket:
+
+`PLY-002 — Player Profile & Development Persistence`
 
 Do **not** begin PLY-002 until the user explicitly authorizes the next ticket.
 

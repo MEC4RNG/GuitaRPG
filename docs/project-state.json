@@ -18,26 +18,12 @@
     "title": "Canonical Taxonomy Seed Implementation",
     "status": "COMPLETE"
   },
-  "active_ticket": {
-    "id": "TAX-003",
-    "title": "Canonical Taxonomy Seed Implementation",
-    "status": "COMPLETE",
-    "blocker": null,
-    "code_ci_complete": true,
-    "code_validation": {
-      "head": "b889bb2f83a7b7685e26f7d12803af73cce8d25b",
-      "github_actions_run_id": 36428310431,
-      "conclusion": "success"
-    },
-    "staging_migration_complete": true,
-    "pending_migration": null,
-    "staging_project_ref": "vwvuaasgczsmeskhjrsb"
-  },
+  "active_ticket": null,
   "next_ticket": {
     "id": "PLY-002",
     "title": "Player Profile & Development Persistence",
     "authorized_to_start": false,
-    "condition": "TAX-003 must be terminal COMPLETE and user must authorize proceeding"
+    "condition": "TAX-003 is COMPLETE; explicit user authorization is still required"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -47,7 +33,7 @@
     "docs/MASTER-BUILD-PLAN.md",
     "docs/architecture/ADR-001-production-architecture.md",
     "docs/phase1-product-foundation.md",
-    "docs/tickets/DATA-002.md"
+    "docs/tickets/TAX-003.md"
   ],
-  "execution_status": "TAX_003_COMPLETE"
+  "execution_status": "AWAITING_NEXT_TICKET_AUTHORIZATION"
 }

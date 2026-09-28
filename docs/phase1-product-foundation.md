@@ -36,7 +36,11 @@ reports the remote database is up to date.
 
 ### TAX-003 — Canonical Taxonomy Seed Implementation
 
-Status: BLOCKED — repository implementation/CI complete; staging migration evidence remains.
+Status: COMPLETE.
+
+The canonical taxonomy migration is applied to staging. Local/remote migration history
+includes DATA-002 `20260928000000` and TAX-003 `20260928010000`, and the final
+dry-run reports staging is up to date.
 
 Turn TAX-001/TAX-002 into production seed data:
 
