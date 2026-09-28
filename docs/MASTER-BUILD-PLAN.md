@@ -924,7 +924,7 @@ staging, and PLY-002 is again the active ticket.
 PLY-002 repository/fresh-database validation is complete. Its only remaining acceptance
 is applying and verifying `20260928020000_ply_002_player_persistence.sql` on staging.
 
-Do not begin that migration without explicit user authorization for PLY-002.
+PLY-002 is the active authorized ticket. Complete only its staging migration acceptance.
 
 Do **not** begin ONB-001.
 
