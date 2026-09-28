@@ -39,17 +39,21 @@ Browser/user-context clients receive only:
 
 `SUPABASE_SECRET_KEY` is documented as server-only but is not consumed by application code in this ticket.
 
-## External acceptance still required
+## External acceptance status
 
-DATA-002 cannot prove a remote migration/deployment until a Supabase staging project exists and is linked.
+Supabase staging project created.
 
-Required external evidence:
+- project ref: `vwvuaasgczsmeskhjrsb`
+- Vercel Production `NEXT_PUBLIC_SUPABASE_URL`: configured
+- Vercel Production `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: configured
+- Vercel deployment after configuration: user-confirmed redeployed
 
-1. create/select a staging Supabase project
-2. set the matching project URL and publishable key in Vercel for `v1-production`
-3. link the local CLI/project reference
-4. apply the DATA-002 migration
-5. confirm the remote database is healthy and the application preview still builds/runs
+Remaining external evidence:
+
+1. link the local CLI to `vwvuaasgczsmeskhjrsb`
+2. preview the pending migration with `supabase db push --dry-run`
+3. apply the DATA-002 migration with `supabase db push`
+4. verify remote migration history / database health
 
 ## Validation evidence
 
@@ -68,11 +72,11 @@ Validated implementation head: `905a4fbc3d78a63d85b2710398d0371f7be73250`
 
 ## Current disposition
 
-**BLOCKED — EXTERNAL SUPABASE STAGING PROJECT / REMOTE MIGRATION EVIDENCE REQUIRED**
+**BLOCKED — REMOTE SUPABASE LINK / MIGRATION EVIDENCE REQUIRED**
 
-The implementation is code-complete. DATA-002 remains non-terminal until the staging
-Supabase project is created/linked, the public runtime variables are configured in
-Vercel, and the source-controlled migration is applied successfully.
+The implementation is code-complete and the staging project + Vercel public runtime
+configuration now exist. DATA-002 remains non-terminal only until the local CLI is
+linked and the source-controlled migration is applied successfully.
 
 Do not proceed to TAX-003 as terminal Phase 1 work until this external acceptance
 evidence is captured.
