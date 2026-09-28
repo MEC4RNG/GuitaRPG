@@ -51,11 +51,28 @@ Required external evidence:
 4. apply the DATA-002 migration
 5. confirm the remote database is healthy and the application preview still builds/runs
 
+## Validation evidence
+
+GitHub Actions run: `36370201177`
+
+Validated implementation head: `905a4fbc3d78a63d85b2710398d0371f7be73250`
+
+- dependency installation: PASS
+- format check: PASS
+- lint: PASS
+- strict TypeScript typecheck: PASS
+- all unit/contract/regression tests: PASS
+- Next.js production build with Supabase env absent: PASS
+- public env parser / partial-config failure tests: PASS
+- migration/security foundation tests: PASS
+
 ## Current disposition
 
-**VALIDATING — CODE/CI EVIDENCE PENDING**
+**BLOCKED — EXTERNAL SUPABASE STAGING PROJECT / REMOTE MIGRATION EVIDENCE REQUIRED**
 
-After CI passes, the ticket will be either:
+The implementation is code-complete. DATA-002 remains non-terminal until the staging
+Supabase project is created/linked, the public runtime variables are configured in
+Vercel, and the source-controlled migration is applied successfully.
 
-- COMPLETE if remote project evidence is available, or
-- BLOCKED only on the external Supabase project/link if code acceptance is otherwise green.
+Do not proceed to TAX-003 as terminal Phase 1 work until this external acceptance
+evidence is captured.
