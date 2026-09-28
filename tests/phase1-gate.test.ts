@@ -76,13 +76,18 @@ describe("P1-GATE-001 durable integration invariants", () => {
     }
 
     expect(state.phase_gate.status).toBe("PASS");
-    expect(state.phase).toEqual({ id: 1, name: "Product Foundation", status: "COMPLETE" });
     expect(state.last_terminal_ticket).toMatchObject({
       id: "P1-GATE-001",
       status: "COMPLETE",
     });
-    expect(state.active_ticket).toBeNull();
-    expect(state.next_ticket).toMatchObject({ id: "QST-002", authorized_to_start: false });
+    if (state.phase.id === 1) {
+      expect(state.phase).toEqual({ id: 1, name: "Product Foundation", status: "COMPLETE" });
+      expect(state.active_ticket).toBeNull();
+      expect(state.next_ticket).toMatchObject({ id: "QST-002", authorized_to_start: false });
+    } else {
+      expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "BLOCKED" });
+      expect(state.active_ticket).toMatchObject({ id: "QST-002", status: "BLOCKED" });
+    }
   });
 
   it("preserves the stable Phase 0 cross-contract reference", () => {

@@ -3,9 +3,9 @@
   "plan_version": "1.0",
   "project": "GuitaRPG",
   "phase": {
-    "id": 1,
-    "name": "Product Foundation",
-    "status": "COMPLETE"
+    "id": 2,
+    "name": "Core Quest Loop",
+    "status": "BLOCKED"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -18,12 +18,16 @@
     "title": "Product Foundation Integration Gate",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "QST-002",
-    "title": "Quest runtime/schema implementation",
+    "title": "Quest Runtime & Schema Implementation",
+    "status": "BLOCKED"
+  },
+  "next_ticket": {
+    "id": "DIF-002",
+    "title": "Absolute Quest-demand evaluator",
     "authorized_to_start": false,
-    "condition": "P1-GATE-001 passed; explicit user authorization is still required before Phase 2 begins"
+    "condition": "QST-002 must be terminal COMPLETE and explicit user authorization is required before DIF-002"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -32,14 +36,14 @@
   "next_phase": {
     "id": 2,
     "name": "Core Quest Loop",
-    "status": "PLANNED",
-    "authorized_to_start": false
+    "status": "BLOCKED",
+    "authorized_to_start": true
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
-    "docs/architecture/PLY-001-player-development-state-contract.md",
-    "docs/tickets/ONB-001.md",
-    "docs/tickets/P1-GATE-001.md"
+    "docs/architecture/QST-001-canonical-quest-contract.md",
+    "docs/architecture/DATA-001-persistence-identity-security-contract.md",
+    "docs/tickets/QST-002.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_QST_002_AUTHORIZATION"
+  "execution_status": "QST_002_BLOCKED_TAXONOMY_CONSTRAINT_REMEDIATION_REQUIRED"
 }

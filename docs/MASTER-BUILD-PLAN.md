@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 1 — Product Foundation — COMPLETE; Phase 2 remains planned and unauthorized  
+**Current phase:** Phase 2 — Core Quest Loop — BLOCKED
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,15 +145,15 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 1 — Product Foundation — COMPLETE  
+**Phase:** Phase 2 — Core Quest Loop — BLOCKED
 **Last terminal ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Active ticket:** none
+**Active ticket:** `QST-002 — Quest Runtime & Schema Implementation` — BLOCKED
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, TAX-003-R1 `20260928015000`, and PLY-002 `20260928020000` applied and verified
-**Next planned ticket:** `QST-002 — Quest runtime/schema implementation` — unauthorized
+**Next planned ticket:** `DIF-002 — Absolute Quest-demand evaluator` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -924,10 +924,11 @@ migration acceptance all pass.
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
-Phase 2 — Core Quest Loop is next. `QST-002` is the dependency-first planned ticket,
-but it remains unauthorized pending explicit user authorization.
+Phase 2 — Core Quest Loop is blocked in `QST-002`: QST-001 fixture Constraint
+Definitions are absent from the accepted TAX-003 taxonomy. An explicit taxonomy
+remediation is required before QST-002 can complete.
 
-Do **not** begin Phase 2 or QST-002.
+Do **not** begin DIF-002 or any later Phase 2 ticket.
 
 ---
 
