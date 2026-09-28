@@ -89,11 +89,7 @@ function contrast(foreground: string, background: string) {
 
 describe("UX-001 hybrid design-system contract", () => {
   it("defines the three approved product surfaces", () => {
-    expect(Object.keys(contract.surfaces)).toEqual([
-      "INSTRUMENT_HUD",
-      "CODEX",
-      "PRACTICE_LAB",
-    ]);
+    expect(Object.keys(contract.surfaces)).toEqual(["INSTRUMENT_HUD", "CODEX", "PRACTICE_LAB"]);
   });
 
   it("keeps primary and muted text readable against each surface background", () => {
@@ -216,8 +212,9 @@ describe("UX-001 hybrid design-system contract", () => {
   it("keeps the color and interaction invariants explicit", () => {
     expect(contract.interaction_rules.color_is_never_only_state_signal).toBe(true);
     expect(contract.interaction_rules.disabled_controls_require_non_color_cue).toBe(true);
-    expect(contract.interaction_rules.destructive_actions_require_explicit_label_or_confirmation_when_irreversible).toBe(
-      true,
-    );
+    expect(
+      contract.interaction_rules
+        .destructive_actions_require_explicit_label_or_confirmation_when_irreversible,
+    ).toBe(true);
   });
 });
