@@ -147,7 +147,8 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Last terminal ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Active ticket:** `QST-002 — Quest Runtime & Schema Implementation` — IN PROGRESS
+**Last terminal ticket:** `QST-002 — Quest Runtime & Schema Implementation` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -924,9 +925,8 @@ migration acceptance all pass.
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
-Phase 2 — Core Quest Loop is blocked in `QST-002`: QST-001 fixture Constraint
-Definitions are absent from the accepted TAX-003 taxonomy. An explicit taxonomy
-remediation is required before QST-002 can complete.
+QST-002 is terminal COMPLETE. Phase 2 remains IN PROGRESS; `DIF-002` is next
+but requires explicit user authorization.
 
 Do **not** begin DIF-002 or any later Phase 2 ticket.
 
