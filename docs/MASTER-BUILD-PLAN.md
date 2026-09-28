@@ -147,13 +147,13 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 1 — Product Foundation  
 **Last terminal implementation ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation`  
-**Active ticket:** none — awaiting explicit authorization  
+**Active ticket:** `PLY-002 — Player Profile & Development Persistence`  
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** DATA-002 `20260928000000` and TAX-003 `20260928010000` applied and verified  
-**Next planned ticket:** `PLY-002 — Player Profile & Development Persistence`  
+**Next planned ticket after PLY-002:** `ONB-001 — Onboarding & Calibration Foundation`  
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -918,15 +918,20 @@ Current gate status:
 
 ## 24. Immediate next execution
 
-TAX-003 is COMPLETE.
+PLY-002 is authorized and active.
 
-No ticket is currently active.
+Complete only PLY-002:
 
-Next planned ticket:
+1. implement Player-authored and derived persistence
+2. enforce DATA-001 grants/RLS and immutable ownership
+3. bootstrap new/anonymous Auth users to valid PLY-001 starting state
+4. add executable pgTAP owner/non-owner/derived-write/deletion tests
+5. pass repository CI and fresh-database CI
+6. dry-run and apply only the expected PLY-002 migration to staging
+7. verify migration history and remote health
+8. close PLY-002 only when all evidence passes
 
-`PLY-002 — Player Profile & Development Persistence`
-
-Do **not** begin PLY-002 until the user explicitly authorizes the next ticket.
+Do **not** begin ONB-001 until the user explicitly authorizes the next ticket.
 
 ---
 

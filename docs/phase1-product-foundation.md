@@ -53,6 +53,8 @@ Turn TAX-001/TAX-002 into production seed data:
 
 ### PLY-002 — Player Profile & Development Persistence
 
+Status: IN PROGRESS.
+
 Implement the durable Player substrate defined by PLY-001:
 
 - profile/preferences

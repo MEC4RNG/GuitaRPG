@@ -18,12 +18,22 @@
     "title": "Canonical Taxonomy Seed Implementation",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "PLY-002",
     "title": "Player Profile & Development Persistence",
+    "status": "VALIDATING",
+    "blocker": null,
+    "code_ci_complete": false,
+    "database_ci_complete": false,
+    "staging_migration_complete": false,
+    "pending_migration": "20260928020000_ply_002_player_persistence.sql",
+    "staging_project_ref": "vwvuaasgczsmeskhjrsb"
+  },
+  "next_ticket": {
+    "id": "ONB-001",
+    "title": "Onboarding & Calibration Foundation",
     "authorized_to_start": false,
-    "condition": "TAX-003 is COMPLETE; explicit user authorization is still required"
+    "condition": "PLY-002 must be terminal COMPLETE and user must authorize proceeding"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -35,5 +45,5 @@
     "docs/phase1-product-foundation.md",
     "docs/tickets/TAX-003.md"
   ],
-  "execution_status": "AWAITING_NEXT_TICKET_AUTHORIZATION"
+  "execution_status": "PLY_002_VALIDATING"
 }
