@@ -70,7 +70,9 @@ describe("PLY-002 Player persistence implementation", () => {
 
   it("stores tuning as Context preference rather than duplicating Skills", () => {
     expect(migration).toContain("tuning_context_id uuid not null");
-    expect(migration).toContain("tuning_context_id must reference a TUNING Context taxonomy entity");
+    expect(migration).toContain(
+      "tuning_context_id must reference a TUNING Context taxonomy entity",
+    );
     expect(migration).toContain("primary key (player_id, skill_id)");
     expect(migration).not.toMatch(/player_skill_states[\s\S]{0,500}tuning_context_id/);
   });
