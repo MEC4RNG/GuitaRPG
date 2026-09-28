@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "ticket": "PROG-001",
+  "cases": [
+    {
+      "id": "PROG-FIX-001",
+      "description": "Meaningful ATTEMPTED practice earns effort XP.",
+      "input": {
+        "eligible_practice_seconds": 600,
+        "outcome": "ATTEMPTED",
+        "meaningful_attempt": true,
+        "personal_difficulty": "III"
+      },
+      "expected": {
+        "xp_award": 11,
+        "exposure_increases": true,
+        "proficiency_direction": "NON_POSITIVE_OR_NEUTRAL",
+        "direct_level_promotion": false
+      }
+    },
+    {
+      "id": "PROG-FIX-002",
+      "description": "PARTIAL practice earns more outcome bonus than ATTEMPTED.",
+      "input": {
+        "eligible_practice_seconds": 600,
+        "outcome": "PARTIAL",
+        "meaningful_attempt": true,
+        "personal_difficulty": "III"
+      },
+      "expected": {
+        "xp_award": 13,
+        "exposure_increases": true,
+        "proficiency_direction": "MIXED_OR_POSITIVE",
+        "direct_level_promotion": false
+      }
+    },
+    {
+      "id": "PROG-FIX-003",
+      "description": "15-minute CLEARED Quest follows XP_V1.",
+      "input": {
+        "eligible_practice_seconds": 900,
+        "outcome": "CLEARED",
+        "meaningful_attempt": true,
+        "personal_difficulty": "III"
+      },
+      "expected": {
+        "xp_award": 20,
+        "exposure_increases": true,
+        "proficiency_direction": "POSITIVE",
+        "direct_mastery": false
+      }
+    },
+    {
+      "id": "PROG-FIX-004",
+      "description": "SELF clear remains valid but increases certainty less than high-confidence verification.",
+      "input": {
+        "outcome": "CLEARED",
+        "personal_difficulty": "III",
+        "evidence_confidence": "MODERATE",
+        "verification_mode": "SELF"
+      },
+      "expected": {
+        "proficiency_direction": "POSITIVE",
+        "confidence_delta_class": "MODERATE",
+        "outcome_remains": "CLEARED"
+      }
+    },
+    {
+      "id": "PROG-FIX-005",
+      "description": "High-confidence app evidence raises model confidence faster without changing the meaning of CLEARED.",
+      "input": {
+        "outcome": "CLEARED",
+        "personal_difficulty": "III",
+        "evidence_confidence": "HIGH",
+        "verification_mode": "APP_VERIFIED"
+      },
+      "expected": {
+        "proficiency_direction": "POSITIVE",
+        "confidence_delta_class": "HIGHER_THAN_PROG_FIX_004",
+        "outcome_remains": "CLEARED"
+      }
+    },
+    {
+      "id": "PROG-FIX-006",
+      "description": "Very Comfortable clear is weak proficiency evidence.",
+      "input": {
+        "outcome": "CLEARED",
+        "personal_difficulty": "I",
+        "evidence_confidence": "HIGH"
+      },
+      "expected": {
+        "proficiency_direction": "POSITIVE",
+        "proficiency_information": "LOW"
+      }
+    },
+    {
+      "id": "PROG-FIX-007",
+      "description": "Target Challenge clear is stronger proficiency evidence than a Very Comfortable clear.",
+      "input": {
+        "outcome": "CLEARED",
+        "personal_difficulty": "III",
+        "evidence_confidence": "HIGH"
+      },
+      "expected": {
+        "proficiency_direction": "POSITIVE",
+        "proficiency_information": "HIGHER_THAN_PROG_FIX_006"
+      }
+    },
+    {
+      "id": "PROG-FIX-008",
+      "description": "Overreach non-clear should not punish challenge-seeking.",
+      "input": {
+        "outcome": "ATTEMPTED",
+        "personal_difficulty": "V",
+        "evidence_confidence": "HIGH"
+      },
+      "expected": {
+        "proficiency_direction": "NEUTRAL_OR_WEAK_NEGATIVE",
+        "strong_negative_allowed": false
+      }
+    },
+    {
+      "id": "PROG-FIX-009",
+      "description": "Repeated high-confidence non-clear below current capacity is meaningful negative evidence.",
+      "input": {
+        "outcome": "ATTEMPTED",
+        "personal_difficulty": "I",
+        "evidence_confidence": "HIGH",
+        "repeated_pattern": true
+      },
+      "expected": {
+        "proficiency_direction": "NEGATIVE",
+        "single_result_forced_demotion": false
+      }
+    },
+    {
+      "id": "PROG-FIX-010",
+      "description": "First informative evidence can estimate an UNRATED Skill but cannot establish it.",
+      "input": {
+        "prior_assessment_status": "UNRATED",
+        "outcome": "CLEARED",
+        "personal_difficulty": "UNKNOWN",
+        "evidence_confidence": "HIGH",
+        "informative_result_count_after": 1
+      },
+      "expected": {
+        "assessment_status_after": "ESTIMATED",
+        "established_allowed": false,
+        "level_v_established_allowed": false
+      }
+    },
+    {
+      "id": "PROG-FIX-011",
+      "description": "Inactivity lowers readiness without changing historical proficiency.",
+      "input": {
+        "assessment_status": "ESTABLISHED",
+        "proficiency_score_before": 57,
+        "visible_level_before": "III",
+        "days_since_meaningful_practice": 61
+      },
+      "expected": {
+        "proficiency_score_after": 57,
+        "visible_level_after": "III",
+        "readiness_status_after": "LOW"
+      }
+    },
+    {
+      "id": "PROG-FIX-012",
+      "description": "Repeated identical easy clears continue to reward effort but have diminishing proficiency information.",
+      "input": {
+        "repeated_same_quest_count": 12,
+        "personal_difficulty": "I",
+        "outcome": "CLEARED",
+        "eligible_practice_seconds_each": 600
+      },
+      "expected": {
+        "xp_each_session": 15,
+        "proficiency_information_trend": "DIMINISHING",
+        "exposure_increases_each_session": true
+      }
+    },
+    {
+      "id": "PROG-FIX-013",
+      "description": "Broad Attribute state does not treat unrated Skills as zero.",
+      "input": {
+        "attribute": "Precision",
+        "contributing_skills": [
+          {
+            "skill": "alternate_picking",
+            "status": "ESTABLISHED",
+            "score": 62,
+            "confidence": 78
+          },
+          {
+            "skill": "string_crossing",
+            "status": "UNRATED",
+            "score": null,
+            "confidence": 0
+          }
+        ]
+      },
+      "expected": {
+        "unrated_contribution_is_zero_score": false,
+        "attribute_status": "ESTIMATED",
+        "attribute_changes_more_slowly_than_skill": true
+      }
+    }
+  ]
+}
