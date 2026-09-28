@@ -161,10 +161,9 @@ describe("QST-001 canonical Quest contract", () => {
 
   it("uses only declared verification and demand values", () => {
     for (const fixture of fixtures) {
-      expect(
-        contract.difficulty_levels,
-        fixture.identity.slug,
-      ).toContain(fixture.difficulty_profile.declared_overall_demand);
+      expect(contract.difficulty_levels, fixture.identity.slug).toContain(
+        fixture.difficulty_profile.declared_overall_demand,
+      );
       expect(fixture.difficulty_profile.computation_status, fixture.identity.slug).toBe(
         "ILLUSTRATIVE_PENDING_DIF_001",
       );
