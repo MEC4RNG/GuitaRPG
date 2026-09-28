@@ -15,7 +15,7 @@ Phase 1 establishes the application frame, persistence/runtime boundary, canonic
 
 Implement the responsive AppShell, approved information architecture, surface modes, and primary routes.
 
-Status: IN PROGRESS / first Phase 1 ticket.
+Status: COMPLETE.
 
 ### DATA-002 — Supabase Runtime & Migration Foundation
 
