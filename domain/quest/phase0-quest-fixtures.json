@@ -1,0 +1,2412 @@
+[
+  {
+    "identity": {
+      "id": "QFIX-TECH-001",
+      "slug": "dorian_crossroads",
+      "title": "DORIAN CROSSROADS",
+      "schema_version": 1,
+      "type": "TECHNIQUE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "technique",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": {
+        "kind": "TONAL_CENTER",
+        "pitch_class": "E"
+      },
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "hybrid_picking",
+        "name": "Hybrid Picking",
+        "domain": "technique",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [
+        {
+          "slug": "scale_mapping",
+          "name": "Scale Mapping",
+          "domain": "fretboard",
+          "role": "SECONDARY_SKILL"
+        },
+        {
+          "slug": "syncopation_control",
+          "name": "Syncopation Control",
+          "domain": "rhythm",
+          "role": "SECONDARY_SKILL"
+        }
+      ],
+      "required_techniques": [],
+      "estimated_minutes": 10,
+      "meter": "4/4"
+    },
+    "concepts": [
+      {
+        "slug": "dorian",
+        "name": "Dorian"
+      },
+      {
+        "slug": "eighth_note_subdivision",
+        "name": "Eighth-Note Subdivision"
+      },
+      {
+        "slug": "syncopation",
+        "name": "Syncopation"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "string_set",
+        "name": "String Set",
+        "parameters": {
+          "strings": [
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      {
+        "slug": "fret_range",
+        "name": "Fret Range",
+        "parameters": {
+          "min": 5,
+          "max": 12
+        }
+      },
+      {
+        "slug": "target_tempo",
+        "name": "Target Tempo",
+        "parameters": {
+          "bpm": 90
+        }
+      }
+    ],
+    "objective": {
+      "kind": "SUSTAINED_PERFORMANCE",
+      "summary": "Play an E Dorian hybrid-picking line across strings 2–5 with syncopated eighth-note placement at 90 BPM for 10 minutes of focused practice.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "practice_duration",
+          "operator": "GTE",
+          "value": 600,
+          "unit": "seconds"
+        },
+        {
+          "metric": "target_tempo",
+          "operator": "EQ",
+          "value": 90,
+          "unit": "bpm"
+        },
+        {
+          "metric": "constraint_compliance",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 60,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-TECH-002",
+      "slug": "alternate_precision_gate",
+      "title": "ALTERNATE PRECISION GATE",
+      "schema_version": 1,
+      "type": "TECHNIQUE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "technique",
+      "generation_mode": "QUICK"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "alternate_picking",
+        "name": "Alternate Picking",
+        "domain": "technique",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 6
+    },
+    "concepts": [
+      {
+        "slug": "eighth_note_subdivision",
+        "name": "Eighth-Note Subdivision"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "string_set",
+        "name": "String Set",
+        "parameters": {
+          "strings": [
+            3,
+            4
+          ]
+        }
+      },
+      {
+        "slug": "target_tempo",
+        "name": "Target Tempo",
+        "parameters": {
+          "bpm": 100
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CLEAN_REPETITIONS",
+      "summary": "Complete eight clean two-string alternate-picking cycles at 100 BPM.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "clean_repetitions",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "repetitions"
+        },
+        {
+          "metric": "target_tempo",
+          "operator": "EQ",
+          "value": 100,
+          "unit": "bpm"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 36,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-TECH-003",
+      "slug": "sweep_arpeggio_ladder",
+      "title": "SWEEP ARPEGGIO LADDER",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "technique",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "sweep_picking",
+        "name": "Sweep Picking",
+        "domain": "technique",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [
+        {
+          "slug": "arpeggio_sequencing",
+          "name": "Arpeggio Sequencing",
+          "domain": "fretboard",
+          "role": "SECONDARY_SKILL"
+        }
+      ],
+      "required_techniques": [],
+      "estimated_minutes": 12
+    },
+    "concepts": [
+      {
+        "slug": "arpeggio",
+        "name": "Arpeggio"
+      },
+      {
+        "slug": "major_triad",
+        "name": "Major Triad"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "string_count",
+        "name": "String Count",
+        "parameters": {
+          "count": 5
+        }
+      },
+      {
+        "slug": "target_tempo",
+        "name": "Target Tempo",
+        "parameters": {
+          "bpm": 80
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CLEAN_REPETITIONS",
+      "summary": "Perform five ascending/descending five-string major-triad arpeggio cycles at 80 BPM.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "clean_repetitions",
+          "operator": "GTE",
+          "value": 5,
+          "unit": "repetitions"
+        },
+        {
+          "metric": "target_tempo",
+          "operator": "EQ",
+          "value": 80,
+          "unit": "bpm"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 72,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "IV",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-TECH-004",
+      "slug": "bend_vibrato_phrase",
+      "title": "BEND & RELEASE",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "technique",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": {
+        "slug": "blues",
+        "name": "Blues"
+      },
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "bending",
+        "name": "Bending",
+        "domain": "technique",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [
+        {
+          "slug": "vibrato",
+          "name": "Vibrato",
+          "domain": "technique",
+          "role": "SECONDARY_SKILL"
+        }
+      ],
+      "required_techniques": [],
+      "estimated_minutes": 8
+    },
+    "concepts": [
+      {
+        "slug": "minor_pentatonic",
+        "name": "Minor Pentatonic"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "phrase_length",
+        "name": "Phrase Length",
+        "parameters": {
+          "bars": 4
+        }
+      }
+    ],
+    "objective": {
+      "kind": "PERFORMANCE",
+      "summary": "Perform a four-bar blues phrase using controlled bends followed by vibrato.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "completed_phrases",
+          "operator": "GTE",
+          "value": 4,
+          "unit": "phrases"
+        },
+        {
+          "metric": "constraint_compliance",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 48,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-FRET-001",
+      "slug": "inversion_hunt",
+      "title": "INVERSION HUNT",
+      "schema_version": 1,
+      "type": "EXPLORATION",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "fretboard",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": {
+        "kind": "TONAL_CENTER",
+        "pitch_class": "C"
+      },
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "chord_inversion_navigation",
+        "name": "Chord Inversion Navigation",
+        "domain": "fretboard",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 10
+    },
+    "concepts": [
+      {
+        "slug": "chord_inversion",
+        "name": "Chord Inversion"
+      },
+      {
+        "slug": "major_triad",
+        "name": "Major Triad"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "fret_range",
+        "name": "Fret Range",
+        "parameters": {
+          "min": 0,
+          "max": 12
+        }
+      }
+    ],
+    "objective": {
+      "kind": "DISCOVERY_COUNT",
+      "summary": "Locate and play at least six C-major triad inversions within the first 12 frets.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "distinct_positions",
+          "operator": "GTE",
+          "value": 6,
+          "unit": "positions"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 60,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-FRET-002",
+      "slug": "single_string_scale_map",
+      "title": "ONE-STRING MAP",
+      "schema_version": 1,
+      "type": "EXPLORATION",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "fretboard",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": {
+        "kind": "TONAL_CENTER",
+        "pitch_class": "G"
+      },
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "scale_mapping",
+        "name": "Scale Mapping",
+        "domain": "fretboard",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 6
+    },
+    "concepts": [
+      {
+        "slug": "major_scale",
+        "name": "Major Scale"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "single_string_only",
+        "name": "Single String Only",
+        "parameters": {
+          "string": 2
+        }
+      },
+      {
+        "slug": "fret_range",
+        "name": "Fret Range",
+        "parameters": {
+          "min": 0,
+          "max": 12
+        }
+      }
+    ],
+    "objective": {
+      "kind": "DISCOVERY_COUNT",
+      "summary": "Map the G major scale on string 2 from open position through fret 12.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_scale_degrees",
+          "operator": "GTE",
+          "value": 7,
+          "unit": "notes"
+        },
+        {
+          "metric": "constraint_compliance",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 36,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "I",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-FRET-003",
+      "slug": "interval_grid",
+      "title": "INTERVAL GRID",
+      "schema_version": 1,
+      "type": "KNOWLEDGE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "fretboard",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "note_location",
+        "name": "Note Location",
+        "domain": "fretboard",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [
+        {
+          "slug": "interval_mapping",
+          "name": "Interval Mapping",
+          "domain": "fretboard",
+          "role": "SECONDARY_SKILL"
+        }
+      ],
+      "required_techniques": [],
+      "estimated_minutes": 7
+    },
+    "concepts": [
+      {
+        "slug": "perfect_fifth",
+        "name": "Perfect Fifth"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "fret_range",
+        "name": "Fret Range",
+        "parameters": {
+          "min": 0,
+          "max": 12
+        }
+      }
+    ],
+    "objective": {
+      "kind": "IDENTIFICATION",
+      "summary": "Identify ten perfect-fifth locations from prompted roots within the first 12 frets.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_answers",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "answers"
+        },
+        {
+          "metric": "total_prompts",
+          "operator": "EQ",
+          "value": 10,
+          "unit": "prompts"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 42,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION",
+        "APP_VERIFIED"
+      ],
+      "recommended_mode": "APP_VERIFIED",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-FRET-004",
+      "slug": "arpeggio_route",
+      "title": "ARPEGGIO ROUTE",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "fretboard",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "arpeggio_sequencing",
+        "name": "Arpeggio Sequencing",
+        "domain": "fretboard",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 10
+    },
+    "concepts": [
+      {
+        "slug": "minor_triad",
+        "name": "Minor Triad"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "fret_range",
+        "name": "Fret Range",
+        "parameters": {
+          "min": 5,
+          "max": 12
+        }
+      },
+      {
+        "slug": "non_adjacent_strings_only",
+        "name": "Non-Adjacent Strings Only",
+        "parameters": {}
+      }
+    ],
+    "objective": {
+      "kind": "CLEAN_REPETITIONS",
+      "summary": "Connect minor-triad arpeggio tones through frets 5–12 using non-adjacent strings.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "clean_repetitions",
+          "operator": "GTE",
+          "value": 6,
+          "unit": "repetitions"
+        },
+        {
+          "metric": "constraint_compliance",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 60,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-HARM-001",
+      "slug": "triad_builder",
+      "title": "TRIAD BUILDER",
+      "schema_version": 1,
+      "type": "KNOWLEDGE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "harmony_theory",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "triad_construction",
+        "name": "Triad Construction",
+        "domain": "harmony_theory",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 5
+    },
+    "concepts": [
+      {
+        "slug": "major_triad",
+        "name": "Major Triad"
+      },
+      {
+        "slug": "minor_triad",
+        "name": "Minor Triad"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "time_limit",
+        "name": "Time Limit",
+        "parameters": {
+          "seconds": 180
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CONSTRUCTION",
+      "summary": "Construct ten prompted major or minor triads within three minutes.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_answers",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "answers"
+        },
+        {
+          "metric": "time_elapsed",
+          "operator": "LTE",
+          "value": 180,
+          "unit": "seconds"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 30,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION",
+        "APP_VERIFIED"
+      ],
+      "recommended_mode": "APP_VERIFIED",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-HARM-002",
+      "slug": "voice_leading_path",
+      "title": "VOICE-LEADING PATH",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "harmony_theory",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": {
+        "kind": "TONAL_CENTER",
+        "pitch_class": "D"
+      },
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "voice_leading",
+        "name": "Voice Leading",
+        "domain": "harmony_theory",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 10
+    },
+    "concepts": [
+      {
+        "slug": "i_iv_v_progression",
+        "name": "I–IV–V Progression"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "top_voice_motion",
+        "name": "Top Voice Motion",
+        "parameters": {
+          "max_semitones": 2
+        }
+      }
+    ],
+    "objective": {
+      "kind": "PERFORMANCE",
+      "summary": "Voice-lead a D I–IV–V progression while keeping each top-voice move within two semitones.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "completed_cycles",
+          "operator": "GTE",
+          "value": 4,
+          "unit": "cycles"
+        },
+        {
+          "metric": "constraint_compliance",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 60,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-HARM-003",
+      "slug": "secondary_dominant_map",
+      "title": "SECONDARY DOMINANT MAP",
+      "schema_version": 1,
+      "type": "KNOWLEDGE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "harmony_theory",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "modulation_application",
+        "name": "Modulation Application",
+        "domain": "harmony_theory",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 8
+    },
+    "concepts": [
+      {
+        "slug": "secondary_dominant",
+        "name": "Secondary Dominant"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "response_count",
+        "name": "Response Count",
+        "parameters": {
+          "count": 8
+        }
+      }
+    ],
+    "objective": {
+      "kind": "IDENTIFICATION",
+      "summary": "Identify or construct eight valid secondary-dominant resolutions.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_answers",
+          "operator": "GTE",
+          "value": 6,
+          "unit": "answers"
+        },
+        {
+          "metric": "total_prompts",
+          "operator": "EQ",
+          "value": 8,
+          "unit": "prompts"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 48,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION",
+        "APP_VERIFIED"
+      ],
+      "recommended_mode": "APP_VERIFIED",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-HARM-004",
+      "slug": "modal_interchange_lab",
+      "title": "BORROWED COLOR",
+      "schema_version": 1,
+      "type": "CREATIVE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "harmony_theory",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": {
+        "kind": "TONAL_CENTER",
+        "pitch_class": "C"
+      },
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "chord_substitution_application",
+        "name": "Chord Substitution Application",
+        "domain": "harmony_theory",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 15
+    },
+    "concepts": [
+      {
+        "slug": "modal_interchange",
+        "name": "Modal Interchange"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "borrowed_chord_count",
+        "name": "Borrowed Chord Count",
+        "parameters": {
+          "min": 2
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CREATIVE_OUTPUT",
+      "summary": "Create an eight-bar progression in C using at least two borrowed chords.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "output_length",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "bars"
+        },
+        {
+          "metric": "borrowed_chords_used",
+          "operator": "GTE",
+          "value": 2,
+          "unit": "chords"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 90,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-RHY-001",
+      "slug": "syncopation_lock",
+      "title": "SYNCOPATION LOCK",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "rhythm",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "syncopation_control",
+        "name": "Syncopation Control",
+        "domain": "rhythm",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 7
+    },
+    "concepts": [
+      {
+        "slug": "syncopation",
+        "name": "Syncopation"
+      },
+      {
+        "slug": "eighth_note_subdivision",
+        "name": "Eighth-Note Subdivision"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "target_tempo",
+        "name": "Target Tempo",
+        "parameters": {
+          "bpm": 85
+        }
+      }
+    ],
+    "objective": {
+      "kind": "SUSTAINED_PERFORMANCE",
+      "summary": "Maintain a syncopated eighth-note pattern at 85 BPM for 90 seconds.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "continuous_duration",
+          "operator": "GTE",
+          "value": 90,
+          "unit": "seconds"
+        },
+        {
+          "metric": "target_tempo",
+          "operator": "EQ",
+          "value": 85,
+          "unit": "bpm"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 42,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-RHY-002",
+      "slug": "odd_meter_loop",
+      "title": "SEVEN-EIGHT CIRCUIT",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "rhythm",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "odd_meter_fluency",
+        "name": "Odd-Meter Fluency",
+        "domain": "rhythm",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 10
+    },
+    "concepts": [
+      {
+        "slug": "meter_7_8",
+        "name": "7/8"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "target_tempo",
+        "name": "Target Tempo",
+        "parameters": {
+          "bpm": 110
+        }
+      }
+    ],
+    "objective": {
+      "kind": "SUSTAINED_PERFORMANCE",
+      "summary": "Perform a repeating 7/8 phrase at 110 BPM for 16 measures.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "completed_measures",
+          "operator": "GTE",
+          "value": 16,
+          "unit": "measures"
+        },
+        {
+          "metric": "target_tempo",
+          "operator": "EQ",
+          "value": 110,
+          "unit": "bpm"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 60,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-RHY-003",
+      "slug": "polyrhythm_bridge",
+      "title": "POLYRHYTHM BRIDGE",
+      "schema_version": 1,
+      "type": "TECHNIQUE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "rhythm",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "polyrhythm_performance",
+        "name": "Polyrhythm Performance",
+        "domain": "rhythm",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 12
+    },
+    "concepts": [
+      {
+        "slug": "polyrhythm",
+        "name": "Polyrhythm"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "ratio",
+        "name": "Rhythmic Ratio",
+        "parameters": {
+          "left": 3,
+          "right": 2
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CLEAN_REPETITIONS",
+      "summary": "Maintain a 3:2 polyrhythmic relationship for eight complete cycles.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "clean_repetitions",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "cycles"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 72,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "IV",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-RHY-004",
+      "slug": "metric_modulation_shift",
+      "title": "METRIC SHIFT",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "rhythm",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "metric_modulation_performance",
+        "name": "Metric Modulation Performance",
+        "domain": "rhythm",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 15
+    },
+    "concepts": [
+      {
+        "slug": "metric_modulation",
+        "name": "Metric Modulation"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "modulation_count",
+        "name": "Modulation Count",
+        "parameters": {
+          "count": 4
+        }
+      }
+    ],
+    "objective": {
+      "kind": "PERFORMANCE",
+      "summary": "Execute four clean metric-modulation transitions and return to the original pulse.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "successful_transitions",
+          "operator": "GTE",
+          "value": 4,
+          "unit": "transitions"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 90,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "V",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-EAR-001",
+      "slug": "interval_echo",
+      "title": "INTERVAL ECHO",
+      "schema_version": 1,
+      "type": "KNOWLEDGE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "ear_musicianship",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "interval_recognition",
+        "name": "Interval Recognition",
+        "domain": "ear_musicianship",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 8
+    },
+    "concepts": [
+      {
+        "slug": "interval",
+        "name": "Interval"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "prompt_count",
+        "name": "Prompt Count",
+        "parameters": {
+          "count": 12
+        }
+      }
+    ],
+    "objective": {
+      "kind": "IDENTIFICATION",
+      "summary": "Identify at least nine of twelve melodic interval prompts.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_answers",
+          "operator": "GTE",
+          "value": 9,
+          "unit": "answers"
+        },
+        {
+          "metric": "total_prompts",
+          "operator": "EQ",
+          "value": 12,
+          "unit": "prompts"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 48,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION",
+        "APP_VERIFIED"
+      ],
+      "recommended_mode": "APP_VERIFIED",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-EAR-002",
+      "slug": "scale_degree_call",
+      "title": "DEGREE CALL",
+      "schema_version": 1,
+      "type": "KNOWLEDGE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "ear_musicianship",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "scale_degree_recognition",
+        "name": "Scale-Degree Recognition",
+        "domain": "ear_musicianship",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 8
+    },
+    "concepts": [
+      {
+        "slug": "major_scale",
+        "name": "Major Scale"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "prompt_count",
+        "name": "Prompt Count",
+        "parameters": {
+          "count": 10
+        }
+      }
+    ],
+    "objective": {
+      "kind": "IDENTIFICATION",
+      "summary": "Identify eight of ten scale-degree prompts relative to a supplied tonic.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_answers",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "answers"
+        },
+        {
+          "metric": "total_prompts",
+          "operator": "EQ",
+          "value": 10,
+          "unit": "prompts"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 48,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION",
+        "APP_VERIFIED"
+      ],
+      "recommended_mode": "APP_VERIFIED",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-EAR-003",
+      "slug": "phrase_transcription",
+      "title": "FOUR-BAR TRANSCRIBE",
+      "schema_version": 1,
+      "type": "PERFORMANCE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "ear_musicianship",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "transcription",
+        "name": "Transcription",
+        "domain": "ear_musicianship",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 15
+    },
+    "concepts": [
+      {
+        "slug": "melody",
+        "name": "Melody"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "phrase_length",
+        "name": "Phrase Length",
+        "parameters": {
+          "bars": 4
+        }
+      }
+    ],
+    "objective": {
+      "kind": "TRANSCRIPTION",
+      "summary": "Transcribe a four-bar single-note phrase by ear.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "transcribed_length",
+          "operator": "GTE",
+          "value": 4,
+          "unit": "bars"
+        },
+        {
+          "metric": "self_checked_complete",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 90,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "III",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-EAR-004",
+      "slug": "rhythm_echo",
+      "title": "RHYTHM ECHO",
+      "schema_version": 1,
+      "type": "EXPLORATION",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "ear_musicianship",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "rhythmic_recognition",
+        "name": "Rhythmic Recognition",
+        "domain": "ear_musicianship",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 8
+    },
+    "concepts": [
+      {
+        "slug": "syncopation",
+        "name": "Syncopation"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "prompt_count",
+        "name": "Prompt Count",
+        "parameters": {
+          "count": 8
+        }
+      }
+    ],
+    "objective": {
+      "kind": "IDENTIFICATION",
+      "summary": "Reproduce or notate six of eight short rhythmic prompts.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "correct_answers",
+          "operator": "GTE",
+          "value": 6,
+          "unit": "answers"
+        },
+        {
+          "metric": "total_prompts",
+          "operator": "EQ",
+          "value": 8,
+          "unit": "prompts"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 48,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION",
+        "APP_VERIFIED"
+      ],
+      "recommended_mode": "APP_VERIFIED",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-CRE-001",
+      "slug": "motif_forge",
+      "title": "MOTIF FORGE",
+      "schema_version": 1,
+      "type": "CREATIVE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "creativity_expression",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "motif_development",
+        "name": "Motif Development",
+        "domain": "creativity_expression",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 12
+    },
+    "concepts": [
+      {
+        "slug": "melody",
+        "name": "Melody"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "source_note_count",
+        "name": "Source Note Count",
+        "parameters": {
+          "max": 4
+        }
+      },
+      {
+        "slug": "variation_count",
+        "name": "Variation Count",
+        "parameters": {
+          "min": 3
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CREATIVE_OUTPUT",
+      "summary": "Create one four-note motif and develop it into at least three distinct variations.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "variations_created",
+          "operator": "GTE",
+          "value": 3,
+          "unit": "variations"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 72,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-CRE-002",
+      "slug": "phrasing_contrast",
+      "title": "THREE FEELINGS",
+      "schema_version": 1,
+      "type": "CREATIVE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "creativity_expression",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "phrasing",
+        "name": "Phrasing",
+        "domain": "creativity_expression",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 8
+    },
+    "concepts": [
+      {
+        "slug": "melody",
+        "name": "Melody"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "source_phrase_count",
+        "name": "Source Phrase Count",
+        "parameters": {
+          "count": 1
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CREATIVE_OUTPUT",
+      "summary": "Perform the same short phrase three times with clearly contrasting articulation and dynamics.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "distinct_interpretations",
+          "operator": "GTE",
+          "value": 3,
+          "unit": "interpretations"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 48,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-CRE-003",
+      "slug": "limited_note_improv",
+      "title": "THREE-NOTE STORY",
+      "schema_version": 1,
+      "type": "CREATIVE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "creativity_expression",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": {
+        "slug": "blues",
+        "name": "Blues"
+      },
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "improvisation",
+        "name": "Improvisation",
+        "domain": "creativity_expression",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 5
+    },
+    "concepts": [
+      {
+        "slug": "minor_pentatonic",
+        "name": "Minor Pentatonic"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "pitch_count",
+        "name": "Pitch Count",
+        "parameters": {
+          "max": 3
+        }
+      },
+      {
+        "slug": "practice_duration",
+        "name": "Practice Duration",
+        "parameters": {
+          "seconds": 300
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CREATIVE_OUTPUT",
+      "summary": "Improvise for five minutes using no more than three pitch classes.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "practice_duration",
+          "operator": "GTE",
+          "value": 300,
+          "unit": "seconds"
+        },
+        {
+          "metric": "constraint_compliance",
+          "operator": "EQ",
+          "value": true,
+          "unit": "boolean"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 30,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "II",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  },
+  {
+    "identity": {
+      "id": "QFIX-CRE-004",
+      "slug": "two_voice_sketch",
+      "title": "TWO-VOICE SKETCH",
+      "schema_version": 1,
+      "type": "CREATIVE",
+      "origin": "SYSTEM_FIXTURE"
+    },
+    "purpose": {
+      "reason": "DEVELOP_SKILL",
+      "primary_domain": "creativity_expression",
+      "generation_mode": "TRAINING"
+    },
+    "musical_context": {
+      "tuning": null,
+      "tonal_center": null,
+      "style": null,
+      "playing_role": null,
+      "accompaniment": null
+    },
+    "execution": {
+      "primary_skill": {
+        "slug": "two_voice_independence",
+        "name": "Two-Voice Independence",
+        "domain": "creativity_expression",
+        "role": "PRIMARY_SKILL"
+      },
+      "secondary_skills": [],
+      "required_techniques": [],
+      "estimated_minutes": 18
+    },
+    "concepts": [
+      {
+        "slug": "counterpoint",
+        "name": "Counterpoint"
+      }
+    ],
+    "constraints": [
+      {
+        "slug": "output_length",
+        "name": "Output Length",
+        "parameters": {
+          "bars": 8
+        }
+      }
+    ],
+    "objective": {
+      "kind": "CREATIVE_OUTPUT",
+      "summary": "Compose or improvise an eight-bar two-voice guitar sketch with independently moving lines.",
+      "clear_rule": "ALL_CRITERIA",
+      "criteria": [
+        {
+          "metric": "output_length",
+          "operator": "GTE",
+          "value": 8,
+          "unit": "bars"
+        },
+        {
+          "metric": "independent_voices",
+          "operator": "EQ",
+          "value": 2,
+          "unit": "voices"
+        }
+      ]
+    },
+    "completion_contract": {
+      "attempt_rule": "MEANINGFUL_ACTIVITY",
+      "minimum_attempt_seconds": 108,
+      "clear_rule": "ALL_OBJECTIVE_CRITERIA",
+      "mastery_claimed": false
+    },
+    "verification_profile": {
+      "allowed_modes": [
+        "SELF",
+        "SESSION"
+      ],
+      "recommended_mode": "SESSION",
+      "verification_required_for_clear": false
+    },
+    "difficulty_profile": {
+      "declared_overall_demand": "IV",
+      "computation_status": "ILLUSTRATIVE_PENDING_DIF_001"
+    },
+    "rewards": {
+      "policy": "STANDARD_PRACTICE",
+      "fixed_xp": null,
+      "progression_effects_embedded": false
+    },
+    "metadata": {
+      "fixture": true,
+      "generated_at": "2026-09-27T00:00:00Z",
+      "player_specific": false
+    }
+  }
+]

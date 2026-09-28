@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "ticket": "QST-001",
+  "quest_types": [
+    "TECHNIQUE",
+    "PERFORMANCE",
+    "EXPLORATION",
+    "CREATIVE",
+    "KNOWLEDGE"
+  ],
+  "primary_domains": [
+    "technique",
+    "fretboard",
+    "harmony_theory",
+    "rhythm",
+    "ear_musicianship",
+    "creativity_expression"
+  ],
+  "skill_roles": [
+    "PRIMARY_SKILL",
+    "SECONDARY_SKILL",
+    "REQUIRED_TECHNIQUE"
+  ],
+  "generation_modes": [
+    "QUICK",
+    "CUSTOM",
+    "TRAINING",
+    "DAILY",
+    "CALIBRATION",
+    "CAMPAIGN"
+  ],
+  "purpose_reasons": [
+    "DEVELOP_SKILL",
+    "REFRESH_SKILL",
+    "EXPLORE",
+    "APPLY_CONCEPT",
+    "CREATE",
+    "ASSESS"
+  ],
+  "objective_rules": {
+    "clear_rules": [
+      "ALL_CRITERIA"
+    ],
+    "criterion_operators": [
+      "EQ",
+      "GTE",
+      "LTE"
+    ],
+    "objective_summary_is_authoritative": false,
+    "criteria_are_authoritative": true
+  },
+  "verification_modes": [
+    "SELF",
+    "SESSION",
+    "AUDIO_ASSISTED",
+    "DIRECT_AUDIO",
+    "APP_VERIFIED"
+  ],
+  "difficulty_levels": [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V"
+  ],
+  "invariants": {
+    "exactly_one_primary_skill": true,
+    "maximum_secondary_skills": 2,
+    "minimum_concepts": 1,
+    "minimum_constraints": 1,
+    "maximum_normal_constraints": 3,
+    "maximum_style_contexts": 1,
+    "quest_outcome_embedded": false,
+    "session_result_embedded": false,
+    "reflection_embedded": false,
+    "progression_effects_embedded": false,
+    "completion_claims_mastery": false,
+    "verification_required_for_clear": false,
+    "fixed_xp_allowed_before_prog_001": false
+  },
+  "containers": [
+    "identity",
+    "purpose",
+    "musical_context",
+    "execution",
+    "concepts",
+    "constraints",
+    "objective",
+    "completion_contract",
+    "verification_profile",
+    "difficulty_profile",
+    "rewards",
+    "metadata"
+  ]
+}
