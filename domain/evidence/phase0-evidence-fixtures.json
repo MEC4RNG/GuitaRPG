@@ -178,7 +178,7 @@
       ],
       "criterion_results": {
         "correct_answers": "NOT_MET",
-        "time_elapsed": "MET"
+        "time_elapsed": "NOT_MET"
       },
       "evidence": [
         {
@@ -196,8 +196,8 @@
           "evidence_id": "E10",
           "criterion": "time_elapsed",
           "verification_mode": "SESSION",
-          "criterion_state": "MET",
-          "observed_or_asserted_value": 170,
+          "criterion_state": "NOT_MET",
+          "observed_or_asserted_value": 190,
           "unit": "seconds",
           "confidence": "HIGH",
           "source_authority": "SESSION_SYSTEM",
@@ -211,7 +211,7 @@
         ],
         "confidence": "HIGH"
       },
-      "notes": "APP_VERIFIED can prove an unsuccessful objective result; outcome remains independent."
+      "notes": "APP_VERIFIED can prove a meaningful attempt with no required criterion met."
     },
     {
       "id": "EVD-FIX-005",
@@ -301,15 +301,15 @@
       ],
       "criterion_results": {
         "clean_repetitions": "UNKNOWN",
-        "target_tempo": "MET"
+        "target_tempo": "NOT_MET"
       },
       "evidence": [
         {
           "evidence_id": "E14",
           "criterion": "target_tempo",
           "verification_mode": "AUDIO_ASSISTED",
-          "criterion_state": "MET",
-          "observed_or_asserted_value": 100,
+          "criterion_state": "NOT_MET",
+          "observed_or_asserted_value": 94,
           "unit": "bpm",
           "confidence": "HIGH",
           "source_authority": "AUDIO_ANALYZER",
@@ -333,7 +333,7 @@
         ],
         "confidence": "MIXED"
       },
-      "notes": "Unsupported cleanliness judgment stays UNKNOWN rather than being guessed."
+      "notes": "Unsupported cleanliness judgment stays UNKNOWN; no required criterion is MET."
     },
     {
       "id": "EVD-FIX-008",
