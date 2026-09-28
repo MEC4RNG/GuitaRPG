@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "ticket": "P0-GATE-001",
+  "gate_version": "P0_GATE_V1",
+  "decision": "PENDING_VALIDATION",
+  "required_tickets": [
+    "FND-001",
+    "FND-002",
+    "DATA-001",
+    "TAX-001",
+    "TAX-002",
+    "PLY-001",
+    "QST-001",
+    "DIF-001",
+    "EVD-001",
+    "PROG-001",
+    "UX-001",
+    "REL-001"
+  ],
+  "required_artifacts": [
+    "docs/architecture/ADR-001-production-architecture.md",
+    "docs/architecture/DATA-001-persistence-identity-security-contract.md",
+    "docs/architecture/TAX-001-canonical-musical-taxonomy-contract.md",
+    "docs/architecture/TAX-002-legacy-generator-normalization.md",
+    "docs/architecture/PLY-001-player-development-state-contract.md",
+    "docs/architecture/QST-001-canonical-quest-contract.md",
+    "docs/architecture/DIF-001-difficulty-model-contract.md",
+    "docs/architecture/EVD-001-completion-evidence-contract.md",
+    "docs/architecture/PROG-001-progression-contract.md",
+    "docs/architecture/UX-001-hybrid-design-system-contract.md",
+    "docs/architecture/REL-001-contract-test-fixture-framework.md",
+    "domain/contracts/phase0-contract-manifest.json",
+    "domain/contracts/phase0-reference-fixture.json",
+    "domain/taxonomy/legacy-normalization.json",
+    "domain/player/player-state-contract.json",
+    "domain/quest/quest-contract.json",
+    "domain/quest/phase0-quest-fixtures.json",
+    "domain/difficulty/difficulty-contract.json",
+    "domain/difficulty/phase0-difficulty-fixtures.json",
+    "domain/evidence/evidence-contract.json",
+    "domain/evidence/phase0-evidence-fixtures.json",
+    "domain/progression/progression-contract.json",
+    "domain/progression/phase0-progression-fixtures.json",
+    "domain/ux/design-system-contract.json",
+    "app/design-tokens.css",
+    "tests/contracts/phase0-integration.test.ts",
+    "tests/design-system-contract.test.ts"
+  ],
+  "external_evidence": {
+    "legacy_main_head": "f0cf216aebc483b5e32c7402962dc396ead725cc",
+    "legacy_main_preserved": true,
+    "vercel_project": "guitarpg",
+    "vercel_branch": "v1-production",
+    "vercel_deployment_state": "READY_USER_CONFIRMED",
+    "vercel_url_captured_in_repo": false
+  },
+  "ci_requirements": [
+    "dependency_install",
+    "format_check",
+    "lint",
+    "strict_typecheck",
+    "all_unit_and_contract_tests",
+    "production_build"
+  ],
+  "authorization_on_pass": {
+    "phase": "PHASE_1_PRODUCT_FOUNDATION",
+    "authorized": false
+  }
+}
