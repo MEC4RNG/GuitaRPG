@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  getOptionalSupabasePublicEnv,
-  parseSupabasePublicEnv,
-} from "@/lib/supabase/env";
+import { getOptionalSupabasePublicEnv, parseSupabasePublicEnv } from "@/lib/supabase/env";
 
 describe("DATA-002 Supabase environment contract", () => {
   it("accepts the hosted HTTPS project boundary", () => {
