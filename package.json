@@ -23,7 +23,8 @@
     "supabase:stop": "supabase stop",
     "db:reset": "supabase db reset --local",
     "db:test": "supabase test db",
-    "db:types": "supabase gen types typescript --local > lib/supabase/database.types.ts"
+    "db:types": "supabase gen types typescript --local > lib/supabase/database.types.ts",
+    "test:taxonomy": "vitest run tests/legacy-normalization.test.ts tests/taxonomy-seed.test.ts"
   },
   "dependencies": {
     "next": "16.3.6",

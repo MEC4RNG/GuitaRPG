@@ -36,6 +36,8 @@ reports the remote database is up to date.
 
 ### TAX-003 — Canonical Taxonomy Seed Implementation
 
+Status: IN PROGRESS.
+
 Turn TAX-001/TAX-002 into production seed data:
 
 - six Domains

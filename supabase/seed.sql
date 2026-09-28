@@ -1,3 +1,5 @@
--- DATA-002 intentionally seeds no product data.
--- TAX-003 owns canonical musical taxonomy seed implementation.
--- Player-owned data must never be committed as seed data.
+-- TAX-003 canonical taxonomy seed.
+-- Migrations install the schema and seed function; local resets may safely re-run this seed.
+-- Player-owned data must never be committed here.
+
+select private.seed_taxonomy_v1();

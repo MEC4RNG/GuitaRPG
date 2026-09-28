@@ -18,12 +18,19 @@
     "title": "Supabase Runtime & Migration Foundation",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "TAX-003",
     "title": "Canonical Taxonomy Seed Implementation",
+    "status": "VALIDATING",
+    "blocker": null,
+    "code_ci_complete": false,
+    "staging_migration_complete": false
+  },
+  "next_ticket": {
+    "id": "PLY-002",
+    "title": "Player Profile & Development Persistence",
     "authorized_to_start": false,
-    "condition": "DATA-002 is COMPLETE; explicit user authorization is still required"
+    "condition": "TAX-003 must be terminal COMPLETE and user must authorize proceeding"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -35,5 +42,5 @@
     "docs/phase1-product-foundation.md",
     "docs/tickets/DATA-002.md"
   ],
-  "execution_status": "AWAITING_NEXT_TICKET_AUTHORIZATION"
+  "execution_status": "TAX_003_VALIDATING"
 }
