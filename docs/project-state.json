@@ -14,31 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "TAX-003-R1",
-    "title": "Canonical Tuning Context Remediation",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "PLY-002",
     "title": "Player Profile & Development Persistence",
-    "status": "BLOCKED",
-    "blocker": "Staging PLY-002 migration evidence required",
-    "code_ci_complete": true,
-    "code_validation": {
-      "head": "5d74cabf3cbcee6eaa7043bf263b4df877494f6d",
-      "github_actions_run_id": 36434960088,
-      "conclusion": "success"
-    },
-    "database_ci_complete": true,
-    "database_validation": {
-      "github_actions_run_id": 36433592618,
-      "conclusion": "success",
-      "pgtap_assertions": "42/42"
-    },
-    "staging_migration_complete": false,
-    "pending_migration": "20260928020000_ply_002_player_persistence.sql",
-    "staging_project_ref": "vwvuaasgczsmeskhjrsb"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "ONB-001",
     "title": "Onboarding & Calibration Foundation",
@@ -50,9 +30,7 @@
     "status": "FUTURE"
   },
   "authority_files": [
-    "docs/MASTER-BUILD-PLAN.md",
-    "docs/architecture/PLY-001-player-development-state-contract.md",
-    "docs/tickets/PLY-002.md"
+    "docs/MASTER-BUILD-PLAN.md"
   ],
-  "execution_status": "PLY_002_AWAITING_STAGING_MIGRATION"
+  "execution_status": "AWAITING_EXPLICIT_ONB_001_AUTHORIZATION"
 }

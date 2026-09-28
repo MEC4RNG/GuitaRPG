@@ -61,32 +61,27 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("records TAX-003-R1 terminal while PLY-002 awaits only its staging migration", () => {
+  it("records PLY-002 terminal after staging migration acceptance", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
     expect(state.last_terminal_ticket).toMatchObject({
-      id: "TAX-003-R1",
+      id: "PLY-002",
       status: "COMPLETE",
     });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({
-      id: "PLY-002",
-      status: "BLOCKED",
-      code_ci_complete: true,
-      database_ci_complete: true,
-    });
-    expect(playerTicket).toContain("**Status:** BLOCKED");
-    expect(playerTicket).toContain("**BLOCKED — PLY-002 STAGING MIGRATION EVIDENCE REQUIRED**");
+    expect(state.active_ticket).toBeNull();
+    expect(playerTicket).toContain("**Status:** COMPLETE");
+    expect(playerTicket).toContain("**COMPLETE — STAGING PLAYER PERSISTENCE MIGRATION VERIFIED**");
   });
 
-  it("keeps ONB-001 unauthorized while PLY-002 is non-terminal", () => {
+  it("keeps ONB-001 unauthorized after PLY-002 completion", () => {
     expect(state.next_ticket.id).toBe("ONB-001");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("PLY-002 repository/fresh-database validation is complete.");
+    expect(plan).toContain("PLY-002 is terminal COMPLETE.");
     expect(plan).toContain("Do **not** begin ONB-001.");
   });
 

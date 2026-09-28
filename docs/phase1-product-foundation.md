@@ -53,7 +53,7 @@ Turn TAX-001/TAX-002 into production seed data:
 
 ### PLY-002 — Player Profile & Development Persistence
 
-Status: BLOCKED — implementation/CI, fresh-database tests, and TAX-003-R1 staging remediation pass; PLY-002 staging migration evidence remains.
+Status: COMPLETE — repository CI, fresh-database pgTAP validation, and staging migration acceptance pass.
 
 Implement the durable Player substrate defined by PLY-001:
 

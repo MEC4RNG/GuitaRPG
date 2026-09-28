@@ -146,13 +146,13 @@ If implementation reveals that a contract is wrong or incomplete:
 ## 5. Current execution state
 
 **Phase:** Phase 1 — Product Foundation  
-**Last terminal implementation ticket:** `TAX-003-R1 — Canonical Tuning Context Remediation`
-**Active ticket:** `PLY-002 — Player Profile & Development Persistence` — BLOCKED on its staging migration evidence
+**Last terminal implementation ticket:** `PLY-002 — Player Profile & Development Persistence`
+**Active ticket:** none — awaiting explicit authorization for `ONB-001`
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, and TAX-003-R1 `20260928015000` applied and verified
+**Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, TAX-003-R1 `20260928015000`, and PLY-002 `20260928020000` applied and verified
 **Next planned ticket after PLY-002:** `ONB-001 — Onboarding & Calibration Foundation`  
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -918,13 +918,11 @@ Current gate status:
 
 ## 24. Immediate next execution
 
-TAX-003-R1 is terminal COMPLETE. Its three canonical Tuning Contexts are applied to
-staging, and PLY-002 is again the active ticket.
+PLY-002 is terminal COMPLETE. Its repository CI, fresh-database pgTAP suite, and staging
+migration acceptance all pass.
 
-PLY-002 repository/fresh-database validation is complete. Its only remaining acceptance
-is applying and verifying `20260928020000_ply_002_player_persistence.sql` on staging.
-
-PLY-002 is the active authorized ticket. Complete only its staging migration acceptance.
+The next planned ticket is ONB-001, but no new ticket is active. Await explicit user
+authorization before beginning ONB-001.
 
 Do **not** begin ONB-001.
 
