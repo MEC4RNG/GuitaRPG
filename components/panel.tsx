@@ -8,7 +8,9 @@ type PanelProps = {
 
 export function Panel({ children, className = "", raised = false }: PanelProps) {
   return (
-    <section className={["panel", raised ? "panel--raised" : "", className].filter(Boolean).join(" ")}>
+    <section
+      className={["panel", raised ? "panel--raised" : "", className].filter(Boolean).join(" ")}
+    >
       {children}
     </section>
   );
