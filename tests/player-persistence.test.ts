@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const root = resolve(import.meta.dirname, "..");
-const read = (path: string) => readFileSync(resolve(root, path), "utf8");
+const read = (path: string) => readFileSync(resolve(root, path), "utf8").replaceAll("\r\n", "\n");
 const migration = read("supabase/migrations/20260928020000_ply_002_player_persistence.sql");
 const databaseTest = read("supabase/tests/database/player_persistence_rls.test.sql");
 

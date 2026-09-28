@@ -59,7 +59,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("records ONB-001 terminal before the unauthorized Phase 1 gate", () => {
+  it("records ONB-001 terminal before the active Phase 1 gate", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -71,18 +71,21 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({
+      id: "P1-GATE-001",
+      status: "VALIDATING",
+    });
     expect(playerTicket).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/ONB-001.md")).toContain(
       "**COMPLETE — ONBOARDING AND CALIBRATION FOUNDATION VERIFIED**",
     );
   });
 
-  it("keeps P1-GATE-001 unauthorized after ONB-001 completion", () => {
+  it("records P1-GATE-001 authorization without authorizing Phase 2", () => {
     expect(state.next_ticket.id).toBe("P1-GATE-001");
-    expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("ONB-001 is terminal COMPLETE.");
-    expect(plan).toContain("Do **not** begin P1-GATE-001.");
+    expect(state.next_ticket.authorized_to_start).toBe(true);
+    expect(plan).toContain("P1-GATE-001 is explicitly authorized and currently VALIDATING.");
+    expect(plan).toContain("Do **not** begin Phase 2 or QST-002");
   });
 
   it("provides Codex-facing repository instructions", () => {

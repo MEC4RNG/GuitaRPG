@@ -147,13 +147,13 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 1 — Product Foundation  
 **Last terminal implementation ticket:** `ONB-001 — Onboarding & Calibration Foundation`
-**Active ticket:** none — awaiting explicit authorization for `P1-GATE-001`
+**Active ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — VALIDATING
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, TAX-003-R1 `20260928015000`, and PLY-002 `20260928020000` applied and verified
-**Next planned ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — unauthorized
+**Next planned ticket:** none while `P1-GATE-001` is active; Phase 2 remains unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -911,7 +911,7 @@ Each phase gate should verify:
 Current gate status:
 
 - `P0-GATE-001` — PASS
-- `P1-GATE-001` — FUTURE
+- `P1-GATE-001` — VALIDATING
 - later gates — FUTURE
 
 ---
@@ -922,10 +922,9 @@ PLY-002 is terminal COMPLETE. Its repository CI, fresh-database pgTAP suite, and
 migration acceptance all pass.
 
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites for the gate
-are terminal. P1-GATE-001 is next and remains unauthorized pending explicit user
-authorization.
+are terminal. P1-GATE-001 is explicitly authorized and currently VALIDATING.
 
-Do **not** begin P1-GATE-001.
+Do **not** begin Phase 2 or QST-002 while P1-GATE-001 is active.
 
 ---
 

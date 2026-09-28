@@ -18,21 +18,26 @@
     "title": "Onboarding & Calibration Foundation",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
+  "active_ticket": {
+    "id": "P1-GATE-001",
+    "title": "Product Foundation Integration Gate",
+    "status": "VALIDATING"
+  },
   "next_ticket": {
     "id": "P1-GATE-001",
     "title": "Product Foundation Integration Gate",
-    "authorized_to_start": false,
-    "condition": "ONB-001 must be terminal COMPLETE and the user must explicitly authorize P1-GATE-001"
+    "authorized_to_start": true,
+    "condition": "Explicitly authorized after ONB-001 reached terminal COMPLETE"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
-    "status": "FUTURE"
+    "status": "VALIDATING"
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
     "docs/architecture/PLY-001-player-development-state-contract.md",
-    "docs/tickets/ONB-001.md"
+    "docs/tickets/ONB-001.md",
+    "docs/tickets/P1-GATE-001.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_P1_GATE_001_AUTHORIZATION"
+  "execution_status": "VALIDATING_P1_GATE_001"
 }
