@@ -80,17 +80,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       database_ci_complete: true,
     });
     expect(playerTicket).toContain("**Status:** BLOCKED");
-    expect(playerTicket).toContain(
-      "**BLOCKED — PLY-002 STAGING MIGRATION EVIDENCE REQUIRED**",
-    );
+    expect(playerTicket).toContain("**BLOCKED — PLY-002 STAGING MIGRATION EVIDENCE REQUIRED**");
   });
 
   it("keeps ONB-001 unauthorized while PLY-002 is non-terminal", () => {
     expect(state.next_ticket.id).toBe("ONB-001");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain(
-      "PLY-002 repository/fresh-database validation is complete.",
-    );
+    expect(plan).toContain("PLY-002 repository/fresh-database validation is complete.");
     expect(plan).toContain("Do **not** begin ONB-001.");
   });
 
