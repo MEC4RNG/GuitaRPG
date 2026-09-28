@@ -118,9 +118,7 @@ describe("PROG-001 progression contract", () => {
   it("lets inactivity lower readiness without lowering proficiency", () => {
     const stale = fixtures.cases.find((item) => item.id === "PROG-FIX-011");
 
-    expect(stale?.expected.proficiency_score_after).toBe(
-      stale?.input.proficiency_score_before,
-    );
+    expect(stale?.expected.proficiency_score_after).toBe(stale?.input.proficiency_score_before);
     expect(stale?.expected.visible_level_after).toBe(stale?.input.visible_level_before);
     expect(stale?.expected.readiness_status_after).toBe("LOW");
     expect(contract.readiness.inactivity_changes_proficiency).toBe(false);
