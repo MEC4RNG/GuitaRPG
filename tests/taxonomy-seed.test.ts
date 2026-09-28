@@ -65,18 +65,11 @@ type SeedManifest = {
 const root = resolve(import.meta.dirname, "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
 
-const legacy = JSON.parse(
-  read("domain/taxonomy/legacy-normalization.json"),
-) as LegacyManifest;
-const seed = JSON.parse(
-  read("domain/taxonomy/canonical-taxonomy.json"),
-) as SeedManifest;
-const migration = read(
-  "supabase/migrations/20260928010000_tax_003_canonical_taxonomy.sql",
-);
+const legacy = JSON.parse(read("domain/taxonomy/legacy-normalization.json")) as LegacyManifest;
+const seed = JSON.parse(read("domain/taxonomy/canonical-taxonomy.json")) as SeedManifest;
+const migration = read("supabase/migrations/20260928010000_tax_003_canonical_taxonomy.sql");
 
-const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
 
 describe("TAX-003 canonical taxonomy seed", () => {
@@ -193,8 +186,7 @@ describe("TAX-003 canonical taxonomy seed", () => {
         mapping?.targets.map((target) => ({
           kind: target.kind,
           slug: target.slug,
-          parameters:
-            Object.keys(target.parameters).length > 0 ? target.parameters : undefined,
+          parameters: Object.keys(target.parameters).length > 0 ? target.parameters : undefined,
         })),
         legacyEntry.legacy_value,
       ).toEqual(
@@ -262,9 +254,7 @@ describe("TAX-003 canonical taxonomy seed", () => {
 
     for (const mapping of seed.legacy_mappings) {
       expect(migration, mapping.legacy_value).toContain(mapping.id);
-      expect(migration, mapping.legacy_value).toContain(
-        mapping.legacy_value.replaceAll("'", "''"),
-      );
+      expect(migration, mapping.legacy_value).toContain(mapping.legacy_value.replaceAll("'", "''"));
     }
   });
 
