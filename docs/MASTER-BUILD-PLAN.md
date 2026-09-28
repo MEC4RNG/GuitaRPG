@@ -147,7 +147,7 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 1 — Product Foundation  
 **Last terminal implementation ticket:** `PLY-002 — Player Profile & Development Persistence`
-**Active ticket:** none — awaiting explicit authorization for `ONB-001`
+**Active ticket:** `ONB-001 — Onboarding & Calibration Foundation` — VALIDATING
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  

@@ -15,8 +15,8 @@ export default function Home() {
           </p>
 
           <div className="hero__actions">
-            <Link className="action-button action-button--primary" href="/generate">
-              Open Generate
+            <Link className="action-button action-button--primary" href="/onboarding">
+              Set up your Player
             </Link>
             <Link className="action-button action-button--secondary" href="/training">
               Training

@@ -369,6 +369,80 @@ a {
   gap: var(--space-6);
 }
 
+.onboarding {
+  display: grid;
+  max-width: 52rem;
+  gap: var(--space-5);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-panel);
+  padding: clamp(1.5rem, 5vw, 3rem);
+}
+
+.onboarding h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 7vw, 4.5rem);
+  line-height: 0.95;
+}
+.onboarding > p,
+.onboarding fieldset p {
+  color: var(--surface-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.onboarding__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+.onboarding label {
+  display: grid;
+  gap: var(--space-2);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.onboarding input,
+.onboarding select {
+  min-height: var(--touch-target-min);
+  width: 100%;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  padding: 0 var(--space-3);
+  font: inherit;
+}
+.onboarding fieldset {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+.onboarding fieldset label {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  font-weight: 500;
+}
+.onboarding fieldset input {
+  width: 1.1rem;
+  min-height: 1.1rem;
+  margin-top: 0.15rem;
+  accent-color: var(--surface-accent);
+}
+.onboarding__loading {
+  color: var(--surface-muted);
+}
+
+@media (min-width: 48rem) {
+  .onboarding__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .onboarding__wide {
+    grid-column: 1 / -1;
+  }
+}
+
 .hero {
   position: relative;
   overflow: hidden;

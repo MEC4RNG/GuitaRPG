@@ -18,7 +18,13 @@
     "title": "Player Profile & Development Persistence",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
+  "active_ticket": {
+    "id": "ONB-001",
+    "title": "Onboarding & Calibration Foundation",
+    "status": "VALIDATING",
+    "blocker": null,
+    "staging_migration_complete": null
+  },
   "next_ticket": {
     "id": "ONB-001",
     "title": "Onboarding & Calibration Foundation",
@@ -30,7 +36,9 @@
     "status": "FUTURE"
   },
   "authority_files": [
-    "docs/MASTER-BUILD-PLAN.md"
+    "docs/MASTER-BUILD-PLAN.md",
+    "docs/architecture/PLY-001-player-development-state-contract.md",
+    "docs/tickets/ONB-001.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_ONB_001_AUTHORIZATION"
+  "execution_status": "ONB_001_VALIDATING"
 }
