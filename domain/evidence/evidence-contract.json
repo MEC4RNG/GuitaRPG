@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "ticket": "EVD-001",
+  "outcomes": [
+    "ABANDONED",
+    "ATTEMPTED",
+    "PARTIAL",
+    "CLEARED"
+  ],
+  "criterion_states": [
+    "MET",
+    "NOT_MET",
+    "UNKNOWN",
+    "NOT_EVALUATED"
+  ],
+  "verification_modes": [
+    "SELF",
+    "SESSION",
+    "AUDIO_ASSISTED",
+    "DIRECT_AUDIO",
+    "APP_VERIFIED"
+  ],
+  "evidence_confidence": [
+    "LOW",
+    "MODERATE",
+    "HIGH"
+  ],
+  "result_confidence_summary": [
+    "LOW",
+    "MODERATE",
+    "HIGH",
+    "MIXED"
+  ],
+  "source_authorities": [
+    "PLAYER",
+    "SESSION_SYSTEM",
+    "AUDIO_ANALYZER",
+    "DIRECT_AUDIO_ANALYZER",
+    "APP_GRADER"
+  ],
+  "reflection_values": [
+    "TOO_EASY",
+    "GOOD_CHALLENGE",
+    "TOO_HARD"
+  ],
+  "evidence_model_version": "EVD_V1",
+  "outcome_rules": {
+    "abandoned_when_meaningful_attempt_false": true,
+    "cleared_requires_all_required_criteria_met": true,
+    "partial_when_any_required_criterion_met_but_not_clear": true,
+    "attempted_when_meaningful_attempt_true_without_partial_or_clear": true
+  },
+  "invariants": {
+    "self_can_support_clear": true,
+    "verification_mode_determines_outcome": false,
+    "session_proves_musical_correctness": false,
+    "audio_proves_physical_technique": false,
+    "direct_audio_proves_physical_technique": false,
+    "app_verified_is_globally_strongest_mode": false,
+    "evidence_confidence_is_criterion_specific": true,
+    "mixed_verification_modes_allowed": true,
+    "mastery_is_result_outcome": false,
+    "result_embeds_proficiency_mutation": false,
+    "result_embeds_xp_mutation": false,
+    "raw_audio_retained_by_default": false
+  }
+}

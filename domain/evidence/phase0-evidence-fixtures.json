@@ -1,0 +1,419 @@
+{
+  "schema_version": 1,
+  "ticket": "EVD-001",
+  "results": [
+    {
+      "id": "EVD-FIX-001",
+      "quest_slug": "dorian_crossroads",
+      "meaningful_attempt": true,
+      "outcome": "CLEARED",
+      "required_criteria": [
+        "practice_duration",
+        "target_tempo",
+        "constraint_compliance"
+      ],
+      "criterion_results": {
+        "practice_duration": "MET",
+        "target_tempo": "MET",
+        "constraint_compliance": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "criterion": "practice_duration",
+          "verification_mode": "SESSION",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 612,
+          "unit": "seconds",
+          "confidence": "HIGH",
+          "source_authority": "SESSION_SYSTEM",
+          "evaluator_version": "SESSION_V1"
+        },
+        {
+          "evidence_id": "E2",
+          "criterion": "target_tempo",
+          "verification_mode": "SESSION",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 90,
+          "unit": "bpm",
+          "confidence": "HIGH",
+          "source_authority": "SESSION_SYSTEM",
+          "evaluator_version": "SESSION_V1"
+        },
+        {
+          "evidence_id": "E3",
+          "criterion": "constraint_compliance",
+          "verification_mode": "SELF",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": true,
+          "unit": "boolean",
+          "confidence": "MODERATE",
+          "source_authority": "PLAYER",
+          "evaluator_version": null
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "SESSION",
+          "SELF"
+        ],
+        "confidence": "MIXED"
+      },
+      "notes": "Valid self-reported clear with instrumented duration/tempo."
+    },
+    {
+      "id": "EVD-FIX-002",
+      "quest_slug": "dorian_crossroads",
+      "meaningful_attempt": true,
+      "outcome": "PARTIAL",
+      "required_criteria": [
+        "practice_duration",
+        "target_tempo",
+        "constraint_compliance"
+      ],
+      "criterion_results": {
+        "practice_duration": "MET",
+        "target_tempo": "NOT_MET",
+        "constraint_compliance": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E4",
+          "criterion": "practice_duration",
+          "verification_mode": "SESSION",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 605,
+          "unit": "seconds",
+          "confidence": "HIGH",
+          "source_authority": "SESSION_SYSTEM",
+          "evaluator_version": "SESSION_V1"
+        },
+        {
+          "evidence_id": "E5",
+          "criterion": "target_tempo",
+          "verification_mode": "AUDIO_ASSISTED",
+          "criterion_state": "NOT_MET",
+          "observed_or_asserted_value": 83,
+          "unit": "bpm",
+          "confidence": "HIGH",
+          "source_authority": "AUDIO_ANALYZER",
+          "evaluator_version": "PITCHTIME_V1"
+        },
+        {
+          "evidence_id": "E6",
+          "criterion": "constraint_compliance",
+          "verification_mode": "SELF",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": true,
+          "unit": "boolean",
+          "confidence": "MODERATE",
+          "source_authority": "PLAYER",
+          "evaluator_version": null
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "SESSION",
+          "AUDIO_ASSISTED",
+          "SELF"
+        ],
+        "confidence": "MIXED"
+      },
+      "notes": "High-confidence evidence can establish a non-clear."
+    },
+    {
+      "id": "EVD-FIX-003",
+      "quest_slug": "triad_builder",
+      "meaningful_attempt": true,
+      "outcome": "CLEARED",
+      "required_criteria": [
+        "correct_answers",
+        "time_elapsed"
+      ],
+      "criterion_results": {
+        "correct_answers": "MET",
+        "time_elapsed": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E7",
+          "criterion": "correct_answers",
+          "verification_mode": "APP_VERIFIED",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 9,
+          "unit": "answers",
+          "confidence": "HIGH",
+          "source_authority": "APP_GRADER",
+          "evaluator_version": "THEORY_GRADER_V1"
+        },
+        {
+          "evidence_id": "E8",
+          "criterion": "time_elapsed",
+          "verification_mode": "SESSION",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 147,
+          "unit": "seconds",
+          "confidence": "HIGH",
+          "source_authority": "SESSION_SYSTEM",
+          "evaluator_version": "SESSION_V1"
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "APP_VERIFIED",
+          "SESSION"
+        ],
+        "confidence": "HIGH"
+      },
+      "notes": "Deterministic app-graded Knowledge clear."
+    },
+    {
+      "id": "EVD-FIX-004",
+      "quest_slug": "triad_builder",
+      "meaningful_attempt": true,
+      "outcome": "ATTEMPTED",
+      "required_criteria": [
+        "correct_answers",
+        "time_elapsed"
+      ],
+      "criterion_results": {
+        "correct_answers": "NOT_MET",
+        "time_elapsed": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E9",
+          "criterion": "correct_answers",
+          "verification_mode": "APP_VERIFIED",
+          "criterion_state": "NOT_MET",
+          "observed_or_asserted_value": 3,
+          "unit": "answers",
+          "confidence": "HIGH",
+          "source_authority": "APP_GRADER",
+          "evaluator_version": "THEORY_GRADER_V1"
+        },
+        {
+          "evidence_id": "E10",
+          "criterion": "time_elapsed",
+          "verification_mode": "SESSION",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 170,
+          "unit": "seconds",
+          "confidence": "HIGH",
+          "source_authority": "SESSION_SYSTEM",
+          "evaluator_version": "SESSION_V1"
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "APP_VERIFIED",
+          "SESSION"
+        ],
+        "confidence": "HIGH"
+      },
+      "notes": "APP_VERIFIED can prove an unsuccessful objective result; outcome remains independent."
+    },
+    {
+      "id": "EVD-FIX-005",
+      "quest_slug": "motif_forge",
+      "meaningful_attempt": true,
+      "outcome": "CLEARED",
+      "required_criteria": [
+        "variations_created"
+      ],
+      "criterion_results": {
+        "variations_created": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E11",
+          "criterion": "variations_created",
+          "verification_mode": "SELF",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 3,
+          "unit": "variations",
+          "confidence": "MODERATE",
+          "source_authority": "PLAYER",
+          "evaluator_version": null
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "SELF"
+        ],
+        "confidence": "MODERATE"
+      },
+      "notes": "Creative SELF clear is legitimate."
+    },
+    {
+      "id": "EVD-FIX-006",
+      "quest_slug": "interval_echo",
+      "meaningful_attempt": true,
+      "outcome": "PARTIAL",
+      "required_criteria": [
+        "correct_answers",
+        "total_prompts"
+      ],
+      "criterion_results": {
+        "correct_answers": "NOT_MET",
+        "total_prompts": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E12",
+          "criterion": "correct_answers",
+          "verification_mode": "APP_VERIFIED",
+          "criterion_state": "NOT_MET",
+          "observed_or_asserted_value": 7,
+          "unit": "answers",
+          "confidence": "HIGH",
+          "source_authority": "APP_GRADER",
+          "evaluator_version": "EAR_GRADER_V1"
+        },
+        {
+          "evidence_id": "E13",
+          "criterion": "total_prompts",
+          "verification_mode": "APP_VERIFIED",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 12,
+          "unit": "prompts",
+          "confidence": "HIGH",
+          "source_authority": "APP_GRADER",
+          "evaluator_version": "EAR_GRADER_V1"
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "APP_VERIFIED"
+        ],
+        "confidence": "HIGH"
+      },
+      "notes": "One criterion met, one not met; PARTIAL."
+    },
+    {
+      "id": "EVD-FIX-007",
+      "quest_slug": "alternate_precision_gate",
+      "meaningful_attempt": true,
+      "outcome": "ATTEMPTED",
+      "required_criteria": [
+        "clean_repetitions",
+        "target_tempo"
+      ],
+      "criterion_results": {
+        "clean_repetitions": "UNKNOWN",
+        "target_tempo": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E14",
+          "criterion": "target_tempo",
+          "verification_mode": "AUDIO_ASSISTED",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 100,
+          "unit": "bpm",
+          "confidence": "HIGH",
+          "source_authority": "AUDIO_ANALYZER",
+          "evaluator_version": "PITCHTIME_V1"
+        },
+        {
+          "evidence_id": "E15",
+          "criterion": "clean_repetitions",
+          "verification_mode": "AUDIO_ASSISTED",
+          "criterion_state": "UNKNOWN",
+          "observed_or_asserted_value": null,
+          "unit": "repetitions",
+          "confidence": "LOW",
+          "source_authority": "AUDIO_ANALYZER",
+          "evaluator_version": "PITCHTIME_V1"
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "AUDIO_ASSISTED"
+        ],
+        "confidence": "MIXED"
+      },
+      "notes": "Unsupported cleanliness judgment stays UNKNOWN rather than being guessed."
+    },
+    {
+      "id": "EVD-FIX-008",
+      "quest_slug": "alternate_precision_gate",
+      "meaningful_attempt": false,
+      "outcome": "ABANDONED",
+      "required_criteria": [
+        "clean_repetitions",
+        "target_tempo"
+      ],
+      "criterion_results": {
+        "clean_repetitions": "NOT_EVALUATED",
+        "target_tempo": "NOT_EVALUATED"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E16",
+          "criterion": "practice_presence",
+          "verification_mode": "SESSION",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 12,
+          "unit": "seconds",
+          "confidence": "HIGH",
+          "source_authority": "SESSION_SYSTEM",
+          "evaluator_version": "SESSION_V1"
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "SESSION"
+        ],
+        "confidence": "HIGH"
+      },
+      "notes": "High-confidence session telemetry can verify that the attempt was abandoned early."
+    },
+    {
+      "id": "EVD-FIX-009",
+      "quest_slug": "single_string_scale_map",
+      "meaningful_attempt": true,
+      "outcome": "CLEARED",
+      "required_criteria": [
+        "correct_scale_degrees",
+        "constraint_compliance"
+      ],
+      "criterion_results": {
+        "correct_scale_degrees": "MET",
+        "constraint_compliance": "MET"
+      },
+      "evidence": [
+        {
+          "evidence_id": "E17",
+          "criterion": "correct_scale_degrees",
+          "verification_mode": "DIRECT_AUDIO",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": 7,
+          "unit": "notes",
+          "confidence": "HIGH",
+          "source_authority": "DIRECT_AUDIO_ANALYZER",
+          "evaluator_version": "MONO_PITCH_V1"
+        },
+        {
+          "evidence_id": "E18",
+          "criterion": "constraint_compliance",
+          "verification_mode": "SELF",
+          "criterion_state": "MET",
+          "observed_or_asserted_value": true,
+          "unit": "boolean",
+          "confidence": "MODERATE",
+          "source_authority": "PLAYER",
+          "evaluator_version": null
+        }
+      ],
+      "verification_summary": {
+        "modes_used": [
+          "DIRECT_AUDIO",
+          "SELF"
+        ],
+        "confidence": "MIXED"
+      },
+      "notes": "Direct audio verifies notes, not physical string choice by itself."
+    }
+  ]
+}
