@@ -23,7 +23,7 @@ insert into public.quests (
 select
   '43333333-3333-4333-8333-333333333333',
   '41111111-1111-4111-8111-111111111111',
-  'quest_persistence_test', 'QUEST PERSISTENCE TEST', 1, 'TECHNIQUE', 'TEST_FIXTURE',
+  'dorian_crossroads', 'DORIAN CROSSROADS', 1, 'TECHNIQUE', 'TEST_FIXTURE',
   (select id from public.taxonomy_entities where kind = 'DOMAIN' and slug = 'technique'),
   'DEVELOP_SKILL', 'TRAINING',
   (select id from public.taxonomy_entities where kind = 'SKILL' and slug = 'hybrid_picking'),
@@ -45,8 +45,13 @@ select '43333333-3333-4333-8333-333333333333', id, 1
 from public.taxonomy_entities where kind = 'CONCEPT' and slug = 'dorian';
 
 insert into public.quest_constraints (quest_id, constraint_id, ordinal, parameters)
-select '43333333-3333-4333-8333-333333333333', id, 1, '{"count":2}'
-from public.taxonomy_entities where kind = 'CONSTRAINT' and slug = 'string_count';
+select '43333333-3333-4333-8333-333333333333', id, ordinal, parameters::jsonb
+from (values
+  ('string_set', 1, '{"strings":[2,3,4,5]}'),
+  ('fret_range', 2, '{"min":5,"max":12}'),
+  ('target_tempo', 3, '{"bpm":90}')
+) as expected(slug, ordinal, parameters)
+join public.taxonomy_entities entity on entity.kind = 'CONSTRAINT' and entity.slug = expected.slug;
 
 insert into public.quest_objective_criteria (quest_id, ordinal, metric, operator, criterion_value, unit)
 values ('43333333-3333-4333-8333-333333333333', 1, 'target_tempo', 'EQ', '90', 'bpm');
@@ -59,7 +64,7 @@ reset role;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '41111111-1111-4111-8111-111111111111';
-select results_eq($$select slug from public.quests$$, $$values ('quest_persistence_test'::text)$$, 'owner sees only their immutable Quest');
+select results_eq($$select slug from public.quests$$, $$values ('dorian_crossroads'::text)$$, 'owner sees only their immutable Quest');
 select throws_ok($$update public.quests set title = 'changed' where id = '43333333-3333-4333-8333-333333333333'$$, '42501', null, 'owner cannot update immutable Quest rows');
 reset role;
 
