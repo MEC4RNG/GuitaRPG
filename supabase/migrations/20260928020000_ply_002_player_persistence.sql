@@ -195,27 +195,32 @@ set search_path = ''
 as $$
 declare
   actual_kind text;
+  actual_family text;
 begin
   if tg_table_name = 'player_tuning_preferences' then
-    select kind into actual_kind
+    select kind, metadata ->> 'context_family'
+      into actual_kind, actual_family
     from public.taxonomy_entities
     where id = new.tuning_context_id;
 
-    if actual_kind is distinct from 'CONTEXT' then
+    if actual_kind is distinct from 'CONTEXT'
+       or actual_family is distinct from 'TUNING' then
       raise exception using
         errcode = '23514',
-        message = 'tuning_context_id must reference a CONTEXT taxonomy entity';
+        message = 'tuning_context_id must reference a TUNING Context taxonomy entity';
     end if;
   elsif tg_table_name = 'player_setups' then
     if new.default_tuning_context_id is not null then
-      select kind into actual_kind
+      select kind, metadata ->> 'context_family'
+        into actual_kind, actual_family
       from public.taxonomy_entities
       where id = new.default_tuning_context_id;
 
-      if actual_kind is distinct from 'CONTEXT' then
+      if actual_kind is distinct from 'CONTEXT'
+         or actual_family is distinct from 'TUNING' then
         raise exception using
           errcode = '23514',
-          message = 'default_tuning_context_id must reference a CONTEXT taxonomy entity';
+          message = 'default_tuning_context_id must reference a TUNING Context taxonomy entity';
       end if;
     end if;
   elsif tg_table_name = 'player_goals' then

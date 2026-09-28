@@ -67,7 +67,13 @@ const read = (path: string) => readFileSync(resolve(root, path), "utf8");
 
 const legacy = JSON.parse(read("domain/taxonomy/legacy-normalization.json")) as LegacyManifest;
 const seed = JSON.parse(read("domain/taxonomy/canonical-taxonomy.json")) as SeedManifest;
-const migration = read("supabase/migrations/20260928010000_tax_003_canonical_taxonomy.sql");
+const baseMigration = read(
+  "supabase/migrations/20260928010000_tax_003_canonical_taxonomy.sql",
+);
+const tuningRemediationMigration = read(
+  "supabase/migrations/20260928015000_tax_003_r1_tuning_contexts.sql",
+);
+const migration = `${baseMigration}\n${tuningRemediationMigration}`;
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
@@ -75,11 +81,11 @@ const SLUG_RE = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
 describe("TAX-003 canonical taxonomy seed", () => {
   it("seeds the canonical v1 inventory with stable unique identities", () => {
     expect(seed.counts).toMatchObject({
-      entities: 196,
+      entities: 199,
       domains: 6,
       skills: 72,
       concepts: 64,
-      contexts: 28,
+      contexts: 31,
       constraints: 13,
       attributes: 11,
       tags: 2,
@@ -141,6 +147,22 @@ describe("TAX-003 canonical taxonomy seed", () => {
         "creativity",
         "expression",
       ].sort(),
+    );
+  });
+
+  it("includes the TAX-001 canonical tuning Contexts required by PLY-001", () => {
+    const tunings = seed.entities
+      .filter(
+        (entity) =>
+          entity.kind === "CONTEXT" &&
+          entity.metadata.context_family === "TUNING",
+      )
+      .map((entity) => entity.slug)
+      .sort();
+
+    expect(tunings).toEqual(["dadgad", "drop_d", "standard_tuning"]);
+    expect(tuningRemediationMigration).toContain(
+      "TAX-003-R1 expected 3 canonical tuning Contexts",
     );
   });
 
@@ -268,7 +290,10 @@ describe("TAX-003 canonical taxonomy seed", () => {
   });
 
   it("makes the remote migration fail atomically if seed counts are incomplete", () => {
-    expect(migration).toContain("TAX-003 expected 196 canonical entities");
+    expect(baseMigration).toContain("TAX-003 expected 196 canonical entities");
+    expect(tuningRemediationMigration).toContain(
+      "TAX-003-R1 expected 199 canonical entities",
+    );
     expect(migration).toContain("TAX-003 expected 72 BELONGS_TO relationships");
     expect(migration).toContain("TAX-003 expected 207 legacy mappings");
     expect(migration).toContain("TAX-003 expected 238 legacy mapping targets");

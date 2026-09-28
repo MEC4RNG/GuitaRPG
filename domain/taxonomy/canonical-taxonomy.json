@@ -4,7 +4,8 @@
   "authority": [
     "TAX-001",
     "TAX-002",
-    "DATA-001"
+    "DATA-001",
+    "PLY-001"
   ],
   "id_policy": "Frozen deterministic UUIDs assigned by TAX-003. Future taxonomy migrations must preserve existing IDs and allocate new IDs without renumbering.",
   "lifecycle_values": [
@@ -29,11 +30,11 @@
     "AFFECTS"
   ],
   "counts": {
-    "entities": 196,
+    "entities": 199,
     "domains": 6,
     "skills": 72,
     "concepts": 64,
-    "contexts": 28,
+    "contexts": 31,
     "constraints": 13,
     "attributes": 11,
     "tags": 2,
@@ -44,10 +45,21 @@
   },
   "entities": [
     {
-      "id": "10000000-0000-4000-8000-000000000001",
+      "id": "10000000-0000-4000-8000-000000000006",
       "kind": "DOMAIN",
-      "slug": "technique",
-      "name": "Technique",
+      "slug": "creativity_expression",
+      "name": "Creativity & Expression",
+      "lifecycle": "ACTIVE",
+      "metadata": {
+        "source": "TAX-001",
+        "legacy_derived": false
+      }
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000005",
+      "kind": "DOMAIN",
+      "slug": "ear_musicianship",
+      "name": "Ear & Musicianship",
       "lifecycle": "ACTIVE",
       "metadata": {
         "source": "TAX-001",
@@ -88,21 +100,10 @@
       }
     },
     {
-      "id": "10000000-0000-4000-8000-000000000005",
+      "id": "10000000-0000-4000-8000-000000000001",
       "kind": "DOMAIN",
-      "slug": "ear_musicianship",
-      "name": "Ear & Musicianship",
-      "lifecycle": "ACTIVE",
-      "metadata": {
-        "source": "TAX-001",
-        "legacy_derived": false
-      }
-    },
-    {
-      "id": "10000000-0000-4000-8000-000000000006",
-      "kind": "DOMAIN",
-      "slug": "creativity_expression",
-      "name": "Creativity & Expression",
+      "slug": "technique",
+      "name": "Technique",
       "lifecycle": "ACTIVE",
       "metadata": {
         "source": "TAX-001",
@@ -1755,6 +1756,27 @@
       }
     },
     {
+      "id": "40000000-0000-4000-8000-000000000030",
+      "kind": "CONTEXT",
+      "slug": "dadgad",
+      "name": "DADGAD",
+      "lifecycle": "ACTIVE",
+      "metadata": {
+        "source": "TAX-001",
+        "legacy_derived": false,
+        "context_family": "TUNING",
+        "string_count": 6,
+        "open_strings_low_to_high": [
+          "D2",
+          "A2",
+          "D3",
+          "G3",
+          "A3",
+          "D4"
+        ]
+      }
+    },
+    {
       "id": "40000000-0000-4000-8000-000000000008",
       "kind": "CONTEXT",
       "slug": "djent",
@@ -1763,6 +1785,27 @@
       "metadata": {
         "source": "TAX-002",
         "legacy_derived": true
+      }
+    },
+    {
+      "id": "40000000-0000-4000-8000-000000000031",
+      "kind": "CONTEXT",
+      "slug": "drop_d",
+      "name": "Drop D",
+      "lifecycle": "ACTIVE",
+      "metadata": {
+        "source": "TAX-001",
+        "legacy_derived": false,
+        "context_family": "TUNING",
+        "string_count": 6,
+        "open_strings_low_to_high": [
+          "D2",
+          "A2",
+          "D3",
+          "G3",
+          "B3",
+          "E4"
+        ]
       }
     },
     {
@@ -1972,6 +2015,27 @@
       "metadata": {
         "source": "TAX-002",
         "legacy_derived": true
+      }
+    },
+    {
+      "id": "40000000-0000-4000-8000-000000000029",
+      "kind": "CONTEXT",
+      "slug": "standard_tuning",
+      "name": "Standard Tuning",
+      "lifecycle": "ACTIVE",
+      "metadata": {
+        "source": "TAX-001",
+        "legacy_derived": false,
+        "context_family": "TUNING",
+        "string_count": 6,
+        "open_strings_low_to_high": [
+          "E2",
+          "A2",
+          "D3",
+          "G3",
+          "B3",
+          "E4"
+        ]
       }
     },
     {
@@ -7861,6 +7925,17 @@
           "slug": "whole_tone",
           "parameters": {}
         }
+      ]
+    }
+  ],
+  "remediations": [
+    {
+      "ticket": "TAX-003-R1",
+      "reason": "PLY-001 requires canonical tuning Contexts; TAX-003 v1 seed omitted the TAX-001 tuning examples.",
+      "added_context_slugs": [
+        "standard_tuning",
+        "dadgad",
+        "drop_d"
       ]
     }
   ]

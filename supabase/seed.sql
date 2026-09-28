@@ -3,3 +3,5 @@
 -- Player-owned data must never be committed here.
 
 select private.seed_taxonomy_v1();
+
+select private.seed_taxonomy_tuning_contexts_v1();

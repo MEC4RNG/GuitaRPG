@@ -19,14 +19,15 @@
     "status": "COMPLETE"
   },
   "active_ticket": {
-    "id": "PLY-002",
-    "title": "Player Profile & Development Persistence",
+    "id": "TAX-003-R1",
+    "title": "Canonical Tuning Context Remediation",
     "status": "VALIDATING",
-    "blocker": null,
+    "parent_ticket": "TAX-003",
+    "blocks": "PLY-002",
     "code_ci_complete": false,
     "database_ci_complete": false,
     "staging_migration_complete": false,
-    "pending_migration": "20260928020000_ply_002_player_persistence.sql",
+    "pending_migration": "20260928015000_tax_003_r1_tuning_contexts.sql",
     "staging_project_ref": "vwvuaasgczsmeskhjrsb"
   },
   "next_ticket": {
@@ -45,5 +46,11 @@
     "docs/phase1-product-foundation.md",
     "docs/tickets/TAX-003.md"
   ],
-  "execution_status": "PLY_002_VALIDATING"
+  "execution_status": "TAX_003_R1_VALIDATING",
+  "blocked_ticket": {
+    "id": "PLY-002",
+    "title": "Player Profile & Development Persistence",
+    "status": "BLOCKED",
+    "reason": "TAX-003-R1 canonical tuning Context remediation must complete first"
+  }
 }
