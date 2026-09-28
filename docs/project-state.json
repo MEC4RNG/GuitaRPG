@@ -14,17 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "PLY-002",
-    "title": "Player Profile & Development Persistence",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "ONB-001",
     "title": "Onboarding & Calibration Foundation",
-    "status": "VALIDATING",
-    "blocker": null,
-    "staging_migration_complete": null
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "P1-GATE-001",
     "title": "Product Foundation Integration Gate",
@@ -40,5 +34,5 @@
     "docs/architecture/PLY-001-player-development-state-contract.md",
     "docs/tickets/ONB-001.md"
   ],
-  "execution_status": "ONB_001_VALIDATING"
+  "execution_status": "AWAITING_EXPLICIT_P1_GATE_001_AUTHORIZATION"
 }

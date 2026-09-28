@@ -146,8 +146,8 @@ If implementation reveals that a contract is wrong or incomplete:
 ## 5. Current execution state
 
 **Phase:** Phase 1 — Product Foundation  
-**Last terminal implementation ticket:** `PLY-002 — Player Profile & Development Persistence`
-**Active ticket:** `ONB-001 — Onboarding & Calibration Foundation` — VALIDATING
+**Last terminal implementation ticket:** `ONB-001 — Onboarding & Calibration Foundation`
+**Active ticket:** none — awaiting explicit authorization for `P1-GATE-001`
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -246,7 +246,7 @@ Known ticket sequence:
 2. `DATA-002 — Supabase Runtime & Migration Foundation` — COMPLETE
 3. `TAX-003 — Canonical Taxonomy Seed Implementation` — COMPLETE
 4. `PLY-002 — Player Profile & Development Persistence` — COMPLETE
-5. `ONB-001 — Onboarding & Calibration Foundation` — VALIDATING
+5. `ONB-001 — Onboarding & Calibration Foundation` — COMPLETE
 6. `P1-GATE-001 — Product Foundation Integration Gate`
 
 Dependency shape:
@@ -921,9 +921,9 @@ Current gate status:
 PLY-002 is terminal COMPLETE. Its repository CI, fresh-database pgTAP suite, and staging
 migration acceptance all pass.
 
-ONB-001 is the active authorized ticket and has not reached terminal completion.
-P1-GATE-001 is the next planned ticket and remains unauthorized pending ONB-001
-completion and explicit user authorization.
+ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites for the gate
+are terminal. P1-GATE-001 is next and remains unauthorized pending explicit user
+authorization.
 
 Do **not** begin P1-GATE-001.
 
