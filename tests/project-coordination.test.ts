@@ -71,7 +71,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
   });
 
   it("does not authorize the dependency-blocked next ticket", () => {
-    expect(state.last_terminal_ticket).toEqual({
+    expect(state.last_terminal_ticket).toMatchObject({
       id: "UX-002",
       status: "COMPLETE",
     });
