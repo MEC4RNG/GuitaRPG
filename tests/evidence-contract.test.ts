@@ -106,7 +106,9 @@ describe("EVD-001 completion and evidence contract", () => {
 
   it("preserves UNKNOWN for unsupported audio judgments", () => {
     const audioAttempt = fixtures.results.find((item) => item.id === "EVD-FIX-007");
-    const cleanliness = audioAttempt?.evidence.find((item) => item.criterion === "clean_repetitions");
+    const cleanliness = audioAttempt?.evidence.find(
+      (item) => item.criterion === "clean_repetitions",
+    );
 
     expect(cleanliness?.verification_mode).toBe("AUDIO_ASSISTED");
     expect(cleanliness?.criterion_state).toBe("UNKNOWN");
