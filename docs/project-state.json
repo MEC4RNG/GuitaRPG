@@ -5,7 +5,7 @@
   "phase": {
     "id": 1,
     "name": "Product Foundation",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -14,24 +14,26 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "ONB-001",
-    "title": "Onboarding & Calibration Foundation",
+    "id": "P1-GATE-001",
+    "title": "Product Foundation Integration Gate",
     "status": "COMPLETE"
   },
-  "active_ticket": {
-    "id": "P1-GATE-001",
-    "title": "Product Foundation Integration Gate",
-    "status": "VALIDATING"
-  },
+  "active_ticket": null,
   "next_ticket": {
-    "id": "P1-GATE-001",
-    "title": "Product Foundation Integration Gate",
-    "authorized_to_start": true,
-    "condition": "Explicitly authorized after ONB-001 reached terminal COMPLETE"
+    "id": "QST-002",
+    "title": "Quest runtime/schema implementation",
+    "authorized_to_start": false,
+    "condition": "P1-GATE-001 passed; explicit user authorization is still required before Phase 2 begins"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
-    "status": "VALIDATING"
+    "status": "PASS"
+  },
+  "next_phase": {
+    "id": 2,
+    "name": "Core Quest Loop",
+    "status": "PLANNED",
+    "authorized_to_start": false
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
@@ -39,5 +41,5 @@
     "docs/tickets/ONB-001.md",
     "docs/tickets/P1-GATE-001.md"
   ],
-  "execution_status": "VALIDATING_P1_GATE_001"
+  "execution_status": "AWAITING_EXPLICIT_QST_002_AUTHORIZATION"
 }

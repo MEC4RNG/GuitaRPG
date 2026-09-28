@@ -42,7 +42,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     expect(state.phase).toEqual({
       id: 1,
       name: "Product Foundation",
-      status: "IN_PROGRESS",
+      status: "COMPLETE",
     });
     expect(state.production_development_branch).toBe("v1-production");
     expect(plan).toContain("# GuitaRPG Master Build Plan");
@@ -59,33 +59,27 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("records ONB-001 terminal before the active Phase 1 gate", () => {
+  it("records the Phase 1 gate as the last terminal ticket", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({
-      id: "ONB-001",
-      status: "COMPLETE",
-    });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "P1-GATE-001", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({
-      id: "P1-GATE-001",
-      status: "VALIDATING",
-    });
+    expect(state.active_ticket).toBeNull();
     expect(playerTicket).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/ONB-001.md")).toContain(
       "**COMPLETE — ONBOARDING AND CALIBRATION FOUNDATION VERIFIED**",
     );
   });
 
-  it("records P1-GATE-001 authorization without authorizing Phase 2", () => {
-    expect(state.next_ticket.id).toBe("P1-GATE-001");
-    expect(state.next_ticket.authorized_to_start).toBe(true);
-    expect(plan).toContain("P1-GATE-001 is explicitly authorized and currently VALIDATING.");
-    expect(plan).toContain("Do **not** begin Phase 2 or QST-002");
+  it("closes Phase 1 without authorizing Phase 2", () => {
+    expect(state.next_ticket.id).toBe("QST-002");
+    expect(state.next_ticket.authorized_to_start).toBe(false);
+    expect(plan).toContain("P1-GATE-001 is COMPLETE / PASS");
+    expect(plan).toContain("Do **not** begin Phase 2 or QST-002.");
   });
 
   it("provides Codex-facing repository instructions", () => {

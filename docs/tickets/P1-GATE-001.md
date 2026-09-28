@@ -1,6 +1,6 @@
 # P1-GATE-001 — Product Foundation Integration Gate
 
-**Status:** VALIDATING  
+**Status:** COMPLETE / PASS  
 **Phase:** 1 — Product Foundation  
 **Depends on:** UX-002, DATA-002, TAX-003, TAX-003-R1, PLY-002, ONB-001
 
@@ -40,11 +40,11 @@ Phase 2 implementation.
 | Onboarding creates a valid Player starting state | PLY-001, ONB-001 | ONB-001 | Current onboarding tests and source audit pass; no derived-state or XP write path exists | PASS | None |
 | Anonymous/permanent identity boundary is respected | DATA-001 | DATA-002, PLY-002, ONB-001 | Anonymous Auth uses the same Auth UUID trigger/bootstrap and Player tables; no parallel local profile exists | PASS | None |
 | Phase 0 contracts remain green | P0-GATE-001, REL-001 | Phase 0 contract suite | Current local full suite passes 119/119, including `DORIAN_CROSSROADS` | PASS | None |
-| Production build succeeds | Master Build Plan | Current application | Current local Node 24 production build passes; validation CI pending | BLOCKED | Await validation CI |
+| Production build succeeds | Master Build Plan | Current application | Current local Node 24 build passes; validation CI `36455165644` passes | PASS | None |
 | Required staging evidence exists | Master Build Plan | DATA-002 through PLY-002 | Fresh migration history and dry-run show all four versions matched and staging up to date | PASS | None |
 
-The remaining `BLOCKED` result is the required current-head validation CI, not a known
-implementation defect. The gate cannot become terminal PASS until that CI succeeds.
+Every Phase 1 exit criterion has supporting current or explicitly identified accepted
+evidence. No unresolved blocker remains.
 
 ## Audit findings
 
@@ -80,9 +80,10 @@ difficulty, or progression semantics.
 - strict TypeScript typecheck: PASS
 - tests: PASS — 18 files, 119 assertions
 - production build: PASS — all 11 application routes and root Proxy compiled
-- format: changed gate files pass targeted Prettier; repository-wide local check is
-  affected by the Windows CRLF checkout and protected untracked `package-lock.json`;
-  the required clean-checkout CI format result remains pending
+- format: PASS in clean-checkout validation CI; changed gate files also pass targeted
+  local Prettier. The repository-wide local check remains affected by Windows CRLF
+  checkout normalization and the protected untracked `package-lock.json`
+- validation CI: `36455165644` — PASS for `cd2af9d4f8c5f19de071657b7803b63258bee813`
 
 One gate-coordination repair made the PLY migration assertion normalize CRLF to LF
 before checking a multiline SQL grant. This removes a Windows-only false failure and
@@ -143,23 +144,28 @@ line-ending-independent SQL assertion described under application validation.
 
 ## Evidence
 
-- validating commit: pending creation
-- validation CI run: pending
-- terminal commit: pending
-- terminal CI run: pending
+- validating commit: `cd2af9d4f8c5f19de071657b7803b63258bee813`
+- validation CI run: `36455165644` — PASS
+- terminal commit: the commit containing this terminal gate record
+- terminal CI run: pending; terminal closure is not reportable until it succeeds
 - fresh database replay: not rerun locally (Docker unavailable); accepted workflow
   `36433592618` and 42/42 pgTAP assertions retained as the explicit baseline
 - staging migration history and dry-run: PASS — all four versions matched; remote up to date
 
 ## Gate decision
 
-**PENDING**
+**PASS**
 
 ## Terminal disposition
 
-Not terminal. Phase 1 remains IN PROGRESS while validation is underway.
+**P1-GATE-001 — COMPLETE / PASS**
+
+Phase 1 — Product Foundation is COMPLETE. This terminal disposition does not authorize
+Phase 2 or production cutover.
 
 ## Next planned unauthorized work
 
-Phase 2 and `QST-002 — Quest runtime/schema implementation` remain unauthorized.
-Production cutover remains unauthorized, and legacy `main` remains preserved.
+Phase 2 — Core Quest Loop is the next planned phase. Authority inspection confirms
+`QST-002 — Quest runtime/schema implementation` remains the dependency-first planned
+ticket. It is not authorized to start. Production cutover remains unauthorized, and
+legacy `main` remains preserved.
