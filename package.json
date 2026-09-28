@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"app/**/*.{ts,tsx,css}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.ts\" \"*.{json,ts,mjs,md}\"",
-    "format:check": "echo __GLOBALS__ && prettier app/globals.css && echo __PAGE__ && prettier app/page.tsx && echo __SHELL__ && prettier components/app-shell.tsx && echo __ICON__ && prettier components/navigation-icon.tsx && echo __PANEL__ && prettier components/panel.tsx && echo __TEST__ && prettier tests/navigation.test.ts && false",
+    "format:check": "prettier --check \"app/**/*.{ts,tsx,css}\" \"components/**/*.{ts,tsx}\" \"lib/**/*.ts\" \"tests/**/*.ts\" \"*.{json,ts,mjs,md}\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
