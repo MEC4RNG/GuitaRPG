@@ -147,7 +147,7 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 1 — Product Foundation  
 **Last terminal implementation ticket:** `DATA-002 — Supabase Runtime & Migration Foundation`  
-**Active ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation`  
+**Active ticket:** `TAX-003 — Canonical Taxonomy Seed Implementation` — BLOCKED on staging migration evidence  
 **DATA-002 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
@@ -917,18 +917,17 @@ Current gate status:
 
 ## 24. Immediate next execution
 
-TAX-003 is authorized and active.
+TAX-003 repository implementation is code-complete and CI-green.
 
-Complete only TAX-003:
+Finish only the staging acceptance:
 
-1. implement canonical taxonomy schema + frozen seed
-2. preserve TAX-002 legacy provenance
-3. validate canonical counts and DORIAN_CROSSROADS dependencies
-4. pass repository CI
-5. dry-run the staging migration
-6. apply it only if the dry-run shows the expected TAX-003 migration
-7. verify remote migration history and taxonomy state
-8. mark TAX-003 COMPLETE only when repository and staging evidence both pass
+1. synchronize the local checkout safely
+2. run `npx supabase db push --dry-run`
+3. confirm only `20260928010000_tax_003_canonical_taxonomy.sql` is pending
+4. apply it with `npx supabase db push`
+5. verify local/remote migration history
+6. run a final dry-run and confirm the remote database is up to date
+7. record non-sensitive evidence and close TAX-003 only if all checks pass
 
 Do **not** begin PLY-002 until the user explicitly authorizes the next ticket.
 

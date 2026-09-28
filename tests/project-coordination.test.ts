@@ -72,10 +72,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
 
     expect(state.active_ticket).toMatchObject({
       id: "TAX-003",
-      status: "VALIDATING",
-      code_ci_complete: false,
+      status: "BLOCKED",
+      code_ci_complete: true,
     });
-    expect(taxonomyTicket).toContain("**Status:** VALIDATING");
+    expect(taxonomyTicket).toContain("**Status:** BLOCKED");
+    expect(taxonomyTicket).toContain(
+      "BLOCKED — REMOTE TAX-003 STAGING MIGRATION EVIDENCE REQUIRED",
+    );
   });
 
   it("does not authorize PLY-002 while TAX-003 is non-terminal", () => {
