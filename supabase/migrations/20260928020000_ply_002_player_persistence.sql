@@ -206,15 +206,17 @@ begin
         errcode = '23514',
         message = 'tuning_context_id must reference a CONTEXT taxonomy entity';
     end if;
-  elsif tg_table_name = 'player_setups' and new.default_tuning_context_id is not null then
-    select kind into actual_kind
-    from public.taxonomy_entities
-    where id = new.default_tuning_context_id;
+  elsif tg_table_name = 'player_setups' then
+    if new.default_tuning_context_id is not null then
+      select kind into actual_kind
+      from public.taxonomy_entities
+      where id = new.default_tuning_context_id;
 
-    if actual_kind is distinct from 'CONTEXT' then
-      raise exception using
-        errcode = '23514',
-        message = 'default_tuning_context_id must reference a CONTEXT taxonomy entity';
+      if actual_kind is distinct from 'CONTEXT' then
+        raise exception using
+          errcode = '23514',
+          message = 'default_tuning_context_id must reference a CONTEXT taxonomy entity';
+      end if;
     end if;
   elsif tg_table_name = 'player_goals' then
     if new.domain_id is not null then
