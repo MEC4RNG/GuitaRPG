@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "ticket": "PLY-001",
+  "skill_assessment_statuses": [
+    "UNRATED",
+    "ESTIMATED",
+    "ESTABLISHED"
+  ],
+  "visible_skill_levels": [
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V"
+  ],
+  "readiness_statuses": [
+    "UNKNOWN",
+    "LOW",
+    "MODERATE",
+    "HIGH"
+  ],
+  "attribute_statuses": [
+    "UNASSESSED",
+    "ESTIMATED",
+    "ESTABLISHED"
+  ],
+  "experience_backgrounds": [
+    "NEW_TO_GUITAR",
+    "SOME_EXPERIENCE",
+    "EXPERIENCED",
+    "UNSPECIFIED"
+  ],
+  "onboarding_statuses": [
+    "NOT_STARTED",
+    "IN_PROGRESS",
+    "COMPLETE"
+  ],
+  "calibration_statuses": [
+    "NOT_STARTED",
+    "IN_PROGRESS",
+    "COMPLETE",
+    "SKIPPED"
+  ],
+  "challenge_preferences": [
+    "RELAXED",
+    "BALANCED",
+    "CHALLENGE",
+    "PUSH_ME"
+  ],
+  "invariants": {
+    "unrated_visible_level": null,
+    "unrated_proficiency_score": null,
+    "unrated_readiness_status": "UNKNOWN",
+    "new_character_level": 1,
+    "new_practice_xp": 0,
+    "proficiency_score_range": [
+      0,
+      100
+    ],
+    "confidence_score_range": [
+      0,
+      100
+    ],
+    "readiness_score_range": [
+      0,
+      100
+    ],
+    "xp_can_directly_promote_skill": false,
+    "inactivity_can_directly_lower_proficiency": false,
+    "concepts_receive_direct_proficiency": false,
+    "contexts_receive_direct_proficiency": false,
+    "constraints_receive_direct_proficiency": false,
+    "skills_are_duplicated_by_tuning": false
+  },
+  "representative_states": [
+    {
+      "id": "new_player",
+      "experience_background": "NEW_TO_GUITAR",
+      "character": {
+        "level": 1,
+        "practice_xp": 0
+      },
+      "skill": {
+        "assessment_status": "UNRATED",
+        "visible_level": null,
+        "proficiency_score": null,
+        "confidence_score": 0,
+        "readiness_status": "UNKNOWN",
+        "readiness_score": null,
+        "exposure_count": 0,
+        "evidence_count": 0,
+        "last_practiced_at": null
+      },
+      "attributes": {
+        "status": "UNASSESSED",
+        "score": null
+      },
+      "tuning_preferences": []
+    },
+    {
+      "id": "experienced_uncalibrated",
+      "experience_background": "EXPERIENCED",
+      "calibration_status": "SKIPPED",
+      "character": {
+        "level": 1,
+        "practice_xp": 0
+      },
+      "skill": {
+        "assessment_status": "UNRATED",
+        "visible_level": null,
+        "proficiency_score": null,
+        "confidence_score": 0,
+        "readiness_status": "UNKNOWN",
+        "readiness_score": null,
+        "exposure_count": 0,
+        "evidence_count": 0
+      }
+    },
+    {
+      "id": "calibrated_estimate",
+      "experience_background": "EXPERIENCED",
+      "calibration_status": "COMPLETE",
+      "skill": {
+        "assessment_status": "ESTIMATED",
+        "visible_level": "III",
+        "proficiency_score": 52,
+        "confidence_score": 35,
+        "readiness_status": "MODERATE",
+        "readiness_score": 58,
+        "exposure_count": 3,
+        "evidence_count": 3
+      }
+    },
+    {
+      "id": "stale_established",
+      "skill": {
+        "assessment_status": "ESTABLISHED",
+        "visible_level": "III",
+        "proficiency_score": 57,
+        "confidence_score": 78,
+        "readiness_status": "LOW",
+        "readiness_score": 24,
+        "exposure_count": 41,
+        "evidence_count": 24,
+        "last_practiced_at": "2026-07-28T12:00:00Z"
+      },
+      "note": "Low readiness does not erase established Level III proficiency."
+    },
+    {
+      "id": "uncertain_estimate",
+      "skill": {
+        "assessment_status": "ESTIMATED",
+        "visible_level": "II",
+        "proficiency_score": 36,
+        "confidence_score": 22,
+        "readiness_status": "MODERATE",
+        "readiness_score": 51,
+        "exposure_count": 6,
+        "evidence_count": 2
+      },
+      "note": "Sparse/conflicting evidence should remain qualified as estimated."
+    },
+    {
+      "id": "multi_tuning",
+      "tuning_preferences": [
+        {
+          "context_slug": "standard_tuning",
+          "is_default": false,
+          "rank": 2
+        },
+        {
+          "context_slug": "dadgad",
+          "is_default": true,
+          "rank": 1
+        }
+      ],
+      "skill_states_per_canonical_skill": 1,
+      "note": "Tuning context belongs on evidence/Quest context, not duplicated Skill identities."
+    }
+  ]
+}
