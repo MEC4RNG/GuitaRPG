@@ -24,6 +24,7 @@ type ProjectState = {
     id: string;
     status: string;
     code_ci_complete: boolean;
+    database_ci_complete?: boolean;
   };
   next_ticket: {
     id: string;
@@ -60,22 +61,34 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("records TAX-003 as terminal and leaves no active ticket", () => {
+  it("keeps TAX-003 terminal while TAX-003-R1 remediates PLY-002", () => {
     const taxonomyTicket = read("docs/tickets/TAX-003.md");
+    const remediationTicket = read("docs/tickets/TAX-003-R1.md");
+    const playerTicket = read("docs/tickets/PLY-002.md");
 
     expect(state.last_terminal_ticket).toMatchObject({
       id: "TAX-003",
       status: "COMPLETE",
     });
-    expect(taxonomyTicket).toContain("**Status:** COMPLETE");
-    expect(taxonomyTicket).toContain("**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**");
-    expect(state.active_ticket).toBeNull();
+    expect(taxonomyTicket).toContain(
+      "**COMPLETE — STAGING TAXONOMY MIGRATION VERIFIED**",
+    );
+
+    expect(state.active_ticket).toMatchObject({
+      id: "TAX-003-R1",
+      status: "VALIDATING",
+      code_ci_complete: false,
+      database_ci_complete: false,
+    });
+    expect(remediationTicket).toContain("**Status:** VALIDATING");
+    expect(playerTicket).toContain("**Status:** BLOCKED");
   });
 
-  it("does not authorize PLY-002 until the user explicitly proceeds", () => {
-    expect(state.next_ticket.id).toBe("PLY-002");
+  it("keeps ONB-001 unauthorized while the remediation blocks PLY-002", () => {
+    expect(state.next_ticket.id).toBe("ONB-001");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("Do **not** begin PLY-002 until the user explicitly authorizes");
+    expect(plan).toContain("PLY-002 remains blocked, not abandoned.");
+    expect(plan).toContain("Do **not** begin ONB-001.");
   });
 
   it("provides Codex-facing repository instructions", () => {
