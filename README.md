@@ -19,7 +19,7 @@ The production application uses:
 
 ### Requirements
 
-Node.js 20.19 or newer. CI currently validates with Node.js 22.
+Node.js 22 or newer. CI currently validates with Node.js 22.
 
 ### Local setup
 
@@ -52,6 +52,9 @@ npm run build
 npm run test:e2e
 ```
 
-## Architecture
+## Project authority
 
-See `docs/architecture/ADR-001-production-architecture.md`.
+- Master Build Plan: `docs/MASTER-BUILD-PLAN.md`
+- Current machine-readable execution state: `docs/project-state.json`
+- Codex/repository operating instructions: `AGENTS.md`
+- Production architecture: `docs/architecture/ADR-001-production-architecture.md`

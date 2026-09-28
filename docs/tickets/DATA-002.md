@@ -1,6 +1,6 @@
 # DATA-002 — Supabase Runtime & Migration Foundation
 
-**Status:** VALIDATING  
+**Status:** BLOCKED  
 **Phase:** 1 — Product Foundation  
 **Date:** 2026-09-27  
 **Depends on:** P0-GATE-001, DATA-001, FND-002
