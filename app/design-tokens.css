@@ -1,0 +1,104 @@
+:root {
+  color-scheme: dark;
+
+  /* Instrument HUD */
+  --hud-bg: #090c10;
+  --hud-surface: #11161c;
+  --hud-raised: #181f27;
+  --hud-border: #29323c;
+  --hud-text: #f3f5f7;
+  --hud-muted: #87929f;
+  --hud-blue: #3a86ff;
+  --hud-teal: #2ec4b6;
+  --hud-amber: #ffbe0b;
+  --hud-coral: #e85d5d;
+  --hud-violet: #9b5de5;
+
+  /* Codex */
+  --codex-bg: #11110f;
+  --codex-surface: #1c1b17;
+  --codex-raised: #25231e;
+  --codex-border: #37342c;
+  --codex-text: #f1ece1;
+  --codex-muted: #a6a096;
+  --codex-gold: #d6a84b;
+  --codex-rust: #c86042;
+  --codex-sage: #759b81;
+  --codex-indigo: #6476a8;
+
+  /* Practice Lab */
+  --lab-bg: #0b1016;
+  --lab-surface: #121922;
+  --lab-raised: #18212c;
+  --lab-border: #2a3542;
+  --lab-text: #f3f5f7;
+  --lab-muted: #91a0af;
+  --lab-info: #3a86ff;
+  --lab-positive: #2ec4b6;
+  --lab-warning: #ffbe0b;
+  --lab-negative: #e85d5d;
+  --lab-analysis: #9b5de5;
+
+  /* Shared semantic colors */
+  --semantic-success: #2ec4b6;
+  --semantic-warning: #ffbe0b;
+  --semantic-danger: #e85d5d;
+  --semantic-info: #3a86ff;
+  --semantic-estimated: #9b5de5;
+  --semantic-unrated: #87929f;
+
+  /* Typography */
+  --font-ui: Arial, Helvetica, system-ui, sans-serif;
+  --font-display: Arial, Helvetica, system-ui, sans-serif;
+  --font-data: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-codex: Georgia, "Times New Roman", serif;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shape */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+  --border-standard: 1px;
+  --border-emphasis: 2px;
+
+  /* Motion */
+  --motion-fast: 120ms;
+  --motion-standard: 180ms;
+  --motion-deliberate: 260ms;
+
+  /* Layout */
+  --app-max-width: 90rem;
+  --sidebar-width: 15.5rem;
+  --mobile-nav-height: 4rem;
+  --touch-target-min: 2.75rem;
+
+  /* FND-002 compatibility aliases */
+  --color-bg: var(--hud-bg);
+  --color-surface: var(--hud-surface);
+  --color-border: var(--hud-border);
+  --color-text: var(--hud-text);
+  --color-muted: var(--hud-muted);
+  --color-accent: var(--hud-teal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-standard: 0ms;
+    --motion-deliberate: 0ms;
+  }
+}

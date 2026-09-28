@@ -1,0 +1,404 @@
+{
+  "schema_version": 1,
+  "ticket": "UX-001",
+  "design_system_version": "UX_V1",
+  "identity": {
+    "product": "GuitaRPG",
+    "principle": "Play like Instrument HUD. Learn like Codex. Measure like Practice Lab.",
+    "anti_patterns": [
+      "NOVELTY_MEDIEVAL_FANTASY_UI",
+      "GENERIC_SAAS_DASHBOARD",
+      "COLOR_ONLY_STATE",
+      "DECORATION_OVER_PRACTICE_CLARITY"
+    ]
+  },
+  "surfaces": {
+    "INSTRUMENT_HUD": {
+      "purpose": "Play, Generate, Training, Quest, Practice Session",
+      "palette": {
+        "background": "#090C10",
+        "surface": "#11161C",
+        "raised": "#181F27",
+        "border": "#29323C",
+        "text": "#F3F5F7",
+        "muted": "#87929F",
+        "blue": "#3A86FF",
+        "teal": "#2EC4B6",
+        "amber": "#FFBE0B",
+        "coral": "#E85D5D",
+        "violet": "#9B5DE5"
+      },
+      "character": [
+        "dark",
+        "instrumental",
+        "focused",
+        "responsive",
+        "restrained"
+      ]
+    },
+    "CODEX": {
+      "purpose": "Codex, learning, reference, campaign educational content",
+      "palette": {
+        "background": "#11110F",
+        "surface": "#1C1B17",
+        "raised": "#25231E",
+        "border": "#37342C",
+        "text": "#F1ECE1",
+        "muted": "#A6A096",
+        "gold": "#D6A84B",
+        "rust": "#C86042",
+        "sage": "#759B81",
+        "indigo": "#6476A8"
+      },
+      "character": [
+        "warm",
+        "editorial",
+        "scholarly",
+        "tactile",
+        "restrained"
+      ]
+    },
+    "PRACTICE_LAB": {
+      "purpose": "Character, Skills, History, progress and analytics",
+      "palette": {
+        "background": "#0B1016",
+        "surface": "#121922",
+        "raised": "#18212C",
+        "border": "#2A3542",
+        "text": "#F3F5F7",
+        "muted": "#91A0AF",
+        "info": "#3A86FF",
+        "positive": "#2EC4B6",
+        "warning": "#FFBE0B",
+        "negative": "#E85D5D",
+        "analysis": "#9B5DE5"
+      },
+      "character": [
+        "clean",
+        "analytical",
+        "legible",
+        "data_forward",
+        "calm"
+      ]
+    }
+  },
+  "semantic_colors": {
+    "success": {
+      "color": "#2EC4B6",
+      "non_color_cue": "check icon or explicit success label"
+    },
+    "warning": {
+      "color": "#FFBE0B",
+      "non_color_cue": "warning icon or explicit warning label"
+    },
+    "danger": {
+      "color": "#E85D5D",
+      "non_color_cue": "alert icon or explicit danger/error label"
+    },
+    "info": {
+      "color": "#3A86FF",
+      "non_color_cue": "info icon or explicit informational label"
+    },
+    "estimated": {
+      "color": "#9B5DE5",
+      "non_color_cue": "Estimated text qualifier"
+    },
+    "unrated": {
+      "color": "#87929F",
+      "non_color_cue": "UNRATED label and dash/empty-value treatment"
+    }
+  },
+  "typography": {
+    "families": {
+      "ui": "Arial, Helvetica, system-ui, sans-serif",
+      "display": "Arial, Helvetica, system-ui, sans-serif",
+      "data": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+      "codex_body": "Georgia, 'Times New Roman', serif"
+    },
+    "scale_px": {
+      "xs": 12,
+      "sm": 14,
+      "base": 16,
+      "lg": 18,
+      "xl": 20,
+      "2xl": 24,
+      "3xl": 30,
+      "4xl": 36,
+      "display": 48
+    },
+    "minimum_body_px": 16,
+    "minimum_mobile_input_px": 16
+  },
+  "spacing_px": {
+    "0": 0,
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40,
+    "12": 48,
+    "16": 64
+  },
+  "radii_px": {
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "pill": 999
+  },
+  "borders_px": {
+    "standard": 1,
+    "emphasis": 2
+  },
+  "breakpoints_px": {
+    "sm": 640,
+    "md": 768,
+    "lg": 1024,
+    "xl": 1280
+  },
+  "layout": {
+    "max_content_width_px": 1440,
+    "sidebar_width_px": 248,
+    "mobile_nav_height_px": 64,
+    "minimum_touch_target_px": 44,
+    "desktop_sidebar_from_breakpoint": "lg",
+    "mobile_bottom_nav_below_breakpoint": "lg"
+  },
+  "motion": {
+    "durations_ms": {
+      "fast": 120,
+      "standard": 180,
+      "deliberate": 260
+    },
+    "reduced_motion": {
+      "must_be_supported": true,
+      "suppress_nonessential_transform_animation": true,
+      "suppress_nonessential_parallax": true,
+      "preserve_state_change_comprehension": true
+    }
+  },
+  "accessibility": {
+    "minimum_normal_text_contrast": 4.5,
+    "minimum_large_text_contrast": 3,
+    "visible_keyboard_focus_required": true,
+    "state_signal_requires_non_color_cue": true,
+    "icon_only_action_requires_accessible_name": true,
+    "progress_requires_text_or_accessible_value": true,
+    "reduced_motion_required": true,
+    "mobile_touch_target_min_px": 44
+  },
+  "navigation": {
+    "desktop": {
+      "PLAY": [
+        "Home",
+        "Generate",
+        "Training"
+      ],
+      "DEVELOPMENT": [
+        "Character",
+        "Skills",
+        "History"
+      ],
+      "LEARN": [
+        "Codex"
+      ],
+      "SYSTEM": [
+        "Profile",
+        "Settings"
+      ]
+    },
+    "mobile": {
+      "items": [
+        "Home",
+        "Generate",
+        "Skills",
+        "Profile"
+      ],
+      "universal_primary_action": "Generate",
+      "maximum_persistent_items_excluding_primary_action": 4
+    }
+  },
+  "components": [
+    {
+      "name": "AppShell",
+      "purpose": "Global responsive application frame",
+      "required_states": [
+        "desktop_sidebar",
+        "mobile_bottom_nav"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "CODEX",
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "Sidebar",
+      "purpose": "Desktop primary navigation",
+      "required_states": [
+        "default",
+        "active",
+        "focus_visible"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD"
+      ]
+    },
+    {
+      "name": "MobileNav",
+      "purpose": "Phone primary navigation with Generate as universal action",
+      "required_states": [
+        "default",
+        "active",
+        "focus_visible"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD"
+      ]
+    },
+    {
+      "name": "Panel",
+      "purpose": "Reusable grouped content container",
+      "required_states": [
+        "default",
+        "raised"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "CODEX",
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "QuestCard",
+      "purpose": "Scannable resolved Quest summary",
+      "required_states": [
+        "default",
+        "recommended",
+        "active",
+        "completed"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "CODEX"
+      ]
+    },
+    {
+      "name": "SkillBadge",
+      "purpose": "Canonical Skill identity and role",
+      "required_states": [
+        "primary",
+        "secondary",
+        "required_technique"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "DifficultyBadge",
+      "purpose": "Display I-V demand/personal difficulty with visible text",
+      "required_states": [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "unknown",
+        "provisional"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "ProgressBar",
+      "purpose": "Progress visualization with textual or accessible numeric value",
+      "required_states": [
+        "determinate",
+        "indeterminate"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "AttributeDisplay",
+      "purpose": "Broad derived Character Attribute display",
+      "required_states": [
+        "unassessed",
+        "estimated",
+        "established"
+      ],
+      "surface_variants": [
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "StatusChip",
+      "purpose": "Compact semantic state with non-color cue",
+      "required_states": [
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "neutral"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "CODEX",
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "MetricCard",
+      "purpose": "Analytics/progress metric with label, value, and context",
+      "required_states": [
+        "default",
+        "positive_delta",
+        "negative_delta",
+        "unknown"
+      ],
+      "surface_variants": [
+        "PRACTICE_LAB"
+      ]
+    },
+    {
+      "name": "ActionButton",
+      "purpose": "Primary/secondary/destructive action control",
+      "required_states": [
+        "default",
+        "hover",
+        "focus_visible",
+        "pressed",
+        "disabled"
+      ],
+      "surface_variants": [
+        "INSTRUMENT_HUD",
+        "CODEX",
+        "PRACTICE_LAB"
+      ]
+    }
+  ],
+  "interaction_rules": {
+    "color_is_never_only_state_signal": true,
+    "hover_is_never_required_for_information": true,
+    "mobile_core_loop_requires_no_hover": true,
+    "disabled_controls_require_non_color_cue": true,
+    "destructive_actions_require_explicit_label_or_confirmation_when_irreversible": true
+  },
+  "legacy_css_aliases": {
+    "--color-bg": "--hud-bg",
+    "--color-surface": "--hud-surface",
+    "--color-border": "--hud-border",
+    "--color-text": "--hud-text",
+    "--color-muted": "--hud-muted",
+    "--color-accent": "--hud-teal"
+  }
+}

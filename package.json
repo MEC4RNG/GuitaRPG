@@ -17,7 +17,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
-    "test:contracts": "vitest run tests/legacy-normalization.test.ts tests/player-state-contract.test.ts tests/quest-contract.test.ts tests/difficulty-contract.test.ts tests/evidence-contract.test.ts tests/progression-contract.test.ts tests/contracts/phase0-integration.test.ts"
+    "test:contracts": "vitest run tests/legacy-normalization.test.ts tests/player-state-contract.test.ts tests/quest-contract.test.ts tests/difficulty-contract.test.ts tests/evidence-contract.test.ts tests/progression-contract.test.ts tests/design-system-contract.test.ts tests/contracts/phase0-integration.test.ts"
   },
   "dependencies": {
     "next": "16.3.6",
