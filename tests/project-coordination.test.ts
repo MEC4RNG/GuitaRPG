@@ -28,6 +28,7 @@ type ProjectState = {
     id: string;
     authorized_to_start: boolean;
   };
+  execution_status: string;
 };
 
 const root = resolve(import.meta.dirname, "..");
@@ -76,6 +77,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
   it("keeps EVD-002 planned but unauthorized after SES-002", () => {
     expect(state.next_ticket.id).toBe("EVD-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_EVD_002_AUTHORIZATION");
     expect(plan).toContain("SES-002 are terminal COMPLETE");
     expect(plan).toContain("Do **not** begin EVD-002 or any later Phase 2 ticket.");
   });
