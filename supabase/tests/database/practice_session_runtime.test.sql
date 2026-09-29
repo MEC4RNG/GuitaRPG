@@ -19,7 +19,7 @@ select hasnt_column('public', 'practice_sessions', 'outcome', 'Session has no Re
 select hasnt_column('public', 'practice_sessions', 'xp', 'Session has no XP');
 select hasnt_column('public', 'practice_sessions', 'proficiency', 'Session has no proficiency');
 select hasnt_column('public', 'practice_sessions', 'mastery', 'Session has no mastery');
-select hasnt_table('public', 'quest_results', 'SES-001 creates no Result table');
+select has_table('public', 'quest_results', 'later EVD persistence remains separate from Session');
 
 insert into auth.users (id, email) values
   ('51111111-1111-4111-8111-111111111111', 'session-owner@example.com'),

@@ -56,7 +56,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate after SES-002 closes", () => {
+  it("preserves the Phase 1 gate while EVD-002 is active", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -65,7 +65,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({ id: "EVD-002", status: "IN_PROGRESS" });
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
     expect(playerTicket).toContain("**Status:** COMPLETE");
@@ -74,12 +74,12 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps EVD-002 planned but unauthorized after SES-002", () => {
-    expect(state.next_ticket.id).toBe("EVD-002");
+  it("keeps HIST-001 planned but unauthorized during EVD-002", () => {
+    expect(state.next_ticket.id).toBe("HIST-001");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_EVD_002_AUTHORIZATION");
+    expect(state.execution_status).toBe("EVD_002_IN_PROGRESS");
     expect(plan).toContain("SES-002 are terminal COMPLETE");
-    expect(plan).toContain("Do **not** begin EVD-002 or any later Phase 2 ticket.");
+    expect(plan).toContain("Do **not** begin HIST-001 or any later");
   });
 
   it("provides Codex-facing repository instructions", () => {

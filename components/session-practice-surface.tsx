@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 
 import { BrowserMetronome, canRunMetronome } from "@/lib/session/controls/metronome";
 import { BPM_MAX, BPM_MIN, DEFAULT_BPM } from "@/lib/session/controls/runtime";
@@ -274,7 +275,14 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
           >
             End Session
           </button>
-        ) : null}
+        ) : (
+          <Link
+            className="action-button action-button--primary"
+            href={`/session/${sessionId}/complete`}
+          >
+            Record Result
+          </Link>
+        )}
       </section>
 
       <section className="session-control-grid">
