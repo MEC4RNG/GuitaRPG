@@ -147,8 +147,8 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Last terminal ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `QST-002 — Quest Runtime & Schema Implementation` — COMPLETE
-**Active ticket:** `DIF-002 — Absolute Quest-Demand Evaluator` — IN PROGRESS
+**Last terminal ticket:** `DIF-002 — Absolute Quest-Demand Evaluator` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -925,8 +925,8 @@ migration acceptance all pass.
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
-QST-002 is terminal COMPLETE. Phase 2 remains IN PROGRESS; `DIF-002` is the
-active explicitly authorized ticket.
+QST-002 and DIF-002 are terminal COMPLETE. Phase 2 remains IN PROGRESS;
+`DIF-003` is next but requires explicit user authorization.
 
 Do **not** begin DIF-003 or any later Phase 2 ticket.
 

@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "QST-002",
-    "title": "Quest Runtime & Schema Implementation",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "DIF-002",
     "title": "Absolute Quest-Demand Evaluator",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "DIF-003",
     "title": "Player-relative difficulty resolver",
@@ -45,5 +41,5 @@
     "docs/architecture/DIF-001-difficulty-model-contract.md",
     "docs/tickets/DIF-002.md"
   ],
-  "execution_status": "IMPLEMENTING_DIF_002"
+  "execution_status": "AWAITING_EXPLICIT_DIF_003_AUTHORIZATION"
 }
