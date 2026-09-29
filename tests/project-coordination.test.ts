@@ -60,10 +60,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({
-      id: "QST-003-R1",
-      status: "COMPLETE",
-    });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "REL-002", status: "BLOCKED" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
@@ -78,14 +75,15 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("retains the REL-002 blocker after QST remediation closes", () => {
-    expect(state.next_ticket.id).toBe("REL-002");
+  it("routes the resumed REL-002 blocker to unauthorized onboarding remediation", () => {
+    expect(state.next_ticket.id).toBe("ONB-001-R1");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("AWAITING_REL_002_RESUMPTION");
+    expect(state.execution_status).toBe(
+      "REL_002_BLOCKED_AWAITING_EXPLICIT_ONB_001_R1_AUTHORIZATION",
+    );
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** BLOCKED");
-    expect(plan).toContain("REL-002 remains BLOCKED");
-    expect(plan).toContain("Await explicit authorization before resuming REL-002");
+    expect(plan).toContain("REL-002 — Core-loop integration tests` — BLOCKED");
   });
 
   it("provides Codex-facing repository instructions", () => {
