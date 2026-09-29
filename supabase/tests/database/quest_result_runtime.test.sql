@@ -98,7 +98,7 @@ select lives_ok($$select public.finalize_quest_result('75555555-5555-4555-8555-5
 select is((select outcome from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),'CLEARED','all MET derives CLEARED');
 select is((select meaningful_attempt from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),true,'meaningful attempt uses Quest threshold');
 select is(public.practice_session_active_seconds('75555555-5555-4555-8555-555555555551'),612::bigint,'DORIAN active duration is 612 seconds');
-select results_eq($$select metric||':'||criterion_state from public.quest_result_criteria where result_id=(select id from public.quest_results where session_id='75555555-5555-4555-8555-555555555551') order by quest_criterion_ordinal$$,$$values('practice_duration:MET'::text),('target_tempo:MET'::text),('constraint_compliance:MET'::text)$$,'DORIAN criterion states are exact');
+select results_eq($$select metric||':'||criterion_state from public.quest_result_criteria where result_id=(select id from public.quest_results where session_id='75555555-5555-4555-8555-555555555551') order by quest_criterion_ordinal$$,$$select * from (values('practice_duration:MET'::text),('target_tempo:MET'::text),('constraint_compliance:MET'::text)) expected(value)$$,'DORIAN criterion states are exact');
 select is((select source_authority from public.quest_result_evidence where criterion_metric='constraint_compliance'),'PLAYER','SELF persists as PLAYER');
 select is((select evidence_confidence from public.quest_result_evidence where criterion_metric='constraint_compliance'),'MODERATE','SELF confidence is system-assigned MODERATE');
 select is((select source_authority from public.quest_result_evidence where criterion_metric='practice_duration'),'SESSION_SYSTEM','duration evidence is trusted SESSION_SYSTEM');
@@ -106,7 +106,7 @@ select is((select observed_or_asserted_value from public.quest_result_evidence w
 select is((select observed_or_asserted_value from public.quest_result_evidence where criterion_metric='target_tempo'),'90'::jsonb,'latest persisted BPM is used');
 select like((select rationale from public.quest_result_evidence where criterion_metric='target_tempo'),'%not musical performance accuracy%','BPM evidence disclaims musical accuracy');
 select is((select confidence_summary from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),'MIXED','confidence summary is derived MIXED');
-select results_eq($$select unnest(verification_modes) from public.quest_results where session_id='75555555-5555-4555-8555-555555555551' order by 1$$,$$values('SELF'::text),('SESSION'::text)$$,'verification modes are derived');
+select results_eq($$select unnest(verification_modes) from public.quest_results where session_id='75555555-5555-4555-8555-555555555551' order by 1$$,$$select * from (values('SELF'::text),('SESSION'::text)) expected(value)$$,'verification modes are derived');
 select is((select reflection from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),'GOOD_CHALLENGE','allowed reflection persists');
 select is((select player_notes from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),'Focused on even accents.','Player notes persist');
 select throws_ok($$select public.finalize_quest_result('75555555-5555-4555-8555-555555555551','[{"ordinal":3,"observed_value":false}]')$$,'55000','RESULT_ALREADY_FINALIZED','duplicate/material refinalization is terminal and safe');
