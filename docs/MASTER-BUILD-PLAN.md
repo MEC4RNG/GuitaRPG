@@ -148,13 +148,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Last terminal ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `QST-002 — Quest Runtime & Schema Implementation` — COMPLETE
-**Active ticket:** none
+**Active ticket:** `DIF-002 — Absolute Quest-Demand Evaluator` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** DATA-002 `20260928000000`, TAX-003 `20260928010000`, TAX-003-R1 `20260928015000`, and PLY-002 `20260928020000` applied and verified
-**Next planned ticket:** `DIF-002 — Absolute Quest-demand evaluator` — unauthorized
+**Next planned ticket:** `DIF-003 — Player-relative difficulty resolver` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -925,10 +925,10 @@ migration acceptance all pass.
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
-QST-002 is terminal COMPLETE. Phase 2 remains IN PROGRESS; `DIF-002` is next
-but requires explicit user authorization.
+QST-002 is terminal COMPLETE. Phase 2 remains IN PROGRESS; `DIF-002` is the
+active explicitly authorized ticket.
 
-Do **not** begin DIF-002 or any later Phase 2 ticket.
+Do **not** begin DIF-003 or any later Phase 2 ticket.
 
 ---
 

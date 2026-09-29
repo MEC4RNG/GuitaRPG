@@ -18,12 +18,16 @@
     "title": "Quest Runtime & Schema Implementation",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "DIF-002",
-    "title": "Absolute Quest-demand evaluator",
+    "title": "Absolute Quest-Demand Evaluator",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "DIF-003",
+    "title": "Player-relative difficulty resolver",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before DIF-002"
+    "condition": "DIF-002 must be terminal COMPLETE and explicit user authorization is required before DIF-003"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -38,8 +42,8 @@
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
     "docs/architecture/QST-001-canonical-quest-contract.md",
-    "docs/architecture/DATA-001-persistence-identity-security-contract.md",
-    "docs/tickets/QST-002.md"
+    "docs/architecture/DIF-001-difficulty-model-contract.md",
+    "docs/tickets/DIF-002.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_DIF_002_AUTHORIZATION"
+  "execution_status": "IMPLEMENTING_DIF_002"
 }
