@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "EVD-002",
-    "title": "Result / Completion / Reflection",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "HIST-001",
     "title": "Persisted Quest / Session / Result History",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "REL-002",
     "title": "Core-loop integration tests",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "HIST_001_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_REL_002_AUTHORIZATION"
 }

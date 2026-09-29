@@ -147,8 +147,8 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `EVD-002 — Result / Completion / Reflection` — COMPLETE
-**Active ticket:** `HIST-001 — Persisted Quest / Session / Result History` — IN PROGRESS / AUTHORIZED
+**Last terminal ticket:** `HIST-001 — Persisted Quest / Session / Result History` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -926,11 +926,12 @@ ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are termi
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
 QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, and EVD-002 are terminal
-COMPLETE. Phase 2 remains IN PROGRESS and HIST-001 is the active authorized ticket.
-EVD-002 application CI, fresh database replay, staging migration, pgTAP, and DORIAN
-acceptance pass.
+COMPLETE. HIST-001 is terminal COMPLETE: its owner-safe, read-only Session history
+surface composes immutable Quest snapshots, SES lifecycle timing, and EVD Results.
+Phase 2 remains IN PROGRESS with no active ticket.
 
-Do **not** begin REL-002 or any later Phase 2 ticket.
+Await explicit authorization before beginning REL-002. Do **not** begin REL-002 or any
+later Phase 2 ticket.
 
 ---
 

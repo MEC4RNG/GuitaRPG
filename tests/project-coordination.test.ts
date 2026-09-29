@@ -56,16 +56,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate while HIST-001 is active", () => {
+  it("preserves the Phase 1 gate after HIST-001 closes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "EVD-002", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "HIST-001", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "HIST-001", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,13 +75,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps REL-002 planned but unauthorized during HIST-001", () => {
+  it("keeps REL-002 planned but unauthorized after HIST-001", () => {
     expect(state.next_ticket.id).toBe("REL-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("HIST_001_IN_PROGRESS");
-    expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** IN PROGRESS");
-    expect(plan).toContain("HIST-001 is the active authorized ticket");
-    expect(plan).toContain("Do **not** begin REL-002 or");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_REL_002_AUTHORIZATION");
+    expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
+    expect(plan).toContain("HIST-001 is terminal COMPLETE");
+    expect(plan).toContain("Await explicit authorization before beginning REL-002");
   });
 
   it("provides Codex-facing repository instructions", () => {
