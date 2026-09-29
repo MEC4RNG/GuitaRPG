@@ -10,6 +10,7 @@ insert into auth.users (id, email) values
   ('72222222-2222-4222-8222-222222222222', 'generated-other@example.com');
 
 create temporary table generated_quest_fixture (payload jsonb not null);
+grant select on generated_quest_fixture to authenticated;
 insert into generated_quest_fixture values ($json$
 {
   "identity":{"id":"73333333-3333-4333-8333-333333333333","slug":"dorian_generated_bridge","title":"Hybrid Picking: Dorian","schema_version":1,"type":"TECHNIQUE","origin":"QST_GEN_V1"},
