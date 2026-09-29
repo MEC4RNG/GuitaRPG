@@ -147,14 +147,14 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `QST-003-R1 — Production Generate / Quest Persistence / Session Entry Bridge` — BLOCKED
+**Last terminal ticket:** `QST-003-R1 — Production Generate / Quest Persistence / Session Entry Bridge` — COMPLETE
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R1 `20260929020000`; applied and verified
-**Next planned ticket:** `QST-003-R1 — staging acceptance resumption` — unauthorized pending an approved pgTAP runner
+**Next planned ticket:** `REL-002 — Core-Loop Integration Tests` — BLOCKED pending explicit resumed execution
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -928,14 +928,12 @@ and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, EVD-002, and HIST-001 are
 terminal COMPLETE. REL-002 remains BLOCKED pending resumed integration proof.
 QST-003-R1 implemented the production Generate / Quest persistence / Session-entry
-bridge, passed application and fresh-database CI, and applied its migration to staging.
-It is terminal BLOCKED only because this host lacks the Docker/Podman runner required
-for standard linked staging pgTAP and generated-Quest acceptance. Phase 2 remains IN
-PROGRESS with no active ticket.
+bridge, passed application and fresh-database CI, applied its migration to staging, and
+passed linked staging pgTAP/generated-Quest acceptance. Phase 2 remains IN PROGRESS
+with no active ticket.
 
-Await explicit resumption in an approved staging acceptance environment. Do **not**
-resume QST-003-R1 or REL-002, begin P2-GATE-001, or begin any later ticket without
-separate authorization.
+Await explicit authorization before resuming REL-002. Do **not** begin P2-GATE-001 or
+any later ticket without separate authorization.
 
 ---
 

@@ -60,7 +60,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "QST-003-R1", status: "BLOCKED" });
+    expect(state.last_terminal_ticket).toMatchObject({
+      id: "QST-003-R1",
+      status: "COMPLETE",
+    });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
@@ -75,15 +78,15 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("retains the QST remediation blocker while REL-002 remains blocked", () => {
-    expect(state.next_ticket.id).toBe("QST-003-R1");
+  it("retains the REL-002 blocker after QST remediation closes", () => {
+    expect(state.next_ticket.id).toBe("REL-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("QST_003_R1_BLOCKED_AWAITING_STAGING_PGTAP_ENVIRONMENT");
+    expect(state.execution_status).toBe("AWAITING_REL_002_RESUMPTION");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** BLOCKED");
     expect(plan).toContain("REL-002 remains BLOCKED");
     expect(plan).toContain(
-      "Await explicit resumption in an approved staging acceptance environment",
+      "Await explicit authorization before resuming REL-002",
     );
   });
 
