@@ -18,12 +18,16 @@
     "title": "Authenticated Onboarding Tuning Preference Persistence",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "REL-002",
     "title": "Core-Loop Integration Tests",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "P2-GATE-001",
+    "title": "Core Quest Loop Integration Gate",
     "authorized_to_start": false,
-    "condition": "REL-002 remains BLOCKED and requires explicit resumed execution"
+    "condition": "REL-002 must be terminal COMPLETE and P2-GATE-001 requires explicit authorization"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_REL_002_RESUMPTION"
+  "execution_status": "REL_002_IN_PROGRESS"
 }

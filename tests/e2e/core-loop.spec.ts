@@ -1,0 +1,66 @@
+import { expect, test } from "@playwright/test";
+
+test("new anonymous Player completes the production core loop", async ({ page }) => {
+  await page.goto("/onboarding");
+  await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible({
+    timeout: 15_000,
+  });
+  await page.getByLabel("Experience background").selectOption("SOME_EXPERIENCE");
+  await page.getByLabel("Typical session length (minutes)").fill("20");
+  await page.getByLabel("Challenge preference").selectOption("BALANCED");
+  await page.getByLabel("Preferred tuning").selectOption({ label: "Standard Tuning" });
+  await page.getByRole("button", { name: "Save and continue" }).click();
+  await expect(page.getByText("PLAYER READY")).toBeVisible();
+
+  await page.getByRole("link", { name: "Enter the app" }).click();
+  await page.getByRole("link", { name: /Go to Generate/ }).click();
+  await page.getByRole("button", { name: "Generate Quest" }).click();
+
+  const questHeading = page.locator("#generated-quest-title");
+  await expect(questHeading).toBeVisible();
+  const questTitle = await questHeading.innerText();
+  await expect(page.getByText(/Demand [IVX]+/)).toBeVisible();
+  await expect(page.getByText(/BPM|Not required/).first()).toBeVisible();
+  await page.getByRole("button", { name: "Start Practice" }).click();
+
+  await expect(page).toHaveURL(/\/session\/[0-9a-f-]+$/);
+  const sessionId = new URL(page.url()).pathname.split("/").at(-1);
+  expect(sessionId).toMatch(/^[0-9a-f-]{36}$/);
+  await expect(page.getByRole("heading", { name: questTitle })).toBeVisible();
+  await expect(page.getByText("ACTIVE", { exact: true })).toBeVisible();
+
+  await page.getByRole("button", { name: "+1 rep" }).click();
+  await expect(page.getByText("REPS").locator("..").getByText("1", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "End Session" }).click();
+  await expect(page.getByText("ENDED", { exact: true })).toBeVisible();
+
+  await page.getByRole("link", { name: "Record Result" }).click();
+  await expect(page).toHaveURL(`/session/${sessionId}/complete`);
+  await expect(page.getByRole("heading", { name: questTitle })).toBeVisible();
+  await expect(page.getByText(/recorded active seconds/)).toBeVisible();
+  await expect(page.getByLabel("Final Result")).toHaveCount(0);
+  await page.getByLabel("Challenge fit").selectOption("GOOD_CHALLENGE");
+  await page.getByLabel("Notes").fill("REL-002 browser integration");
+  await page.getByRole("button", { name: "Record Result" }).click();
+
+  const finalResult = page.getByLabel("Final Result");
+  await expect(finalResult).toBeVisible();
+  await expect(finalResult.getByText("ABANDONED", { exact: true })).toBeVisible();
+  await expect(page.getByText("Reflection: Good challenge")).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel("Final Result")).toHaveCount(1);
+
+  await page.getByRole("link", { name: "History" }).click();
+  const attempt = page.locator("article.history-attempt").filter({ hasText: questTitle });
+  await expect(attempt).toBeVisible();
+  await expect(attempt.getByText("ABANDONED", { exact: true })).toBeVisible();
+  await attempt.getByRole("link", { name: "View details" }).click();
+
+  await expect(page).toHaveURL(`/history/${sessionId}`);
+  await expect(page.getByRole("heading", { name: questTitle })).toBeVisible();
+  await expect(page.getByRole("definition").filter({ hasText: "ABANDONED" })).toBeVisible();
+  await expect(page.getByText("Good challenge", { exact: true })).toBeVisible();
+  await expect(page.getByText("REL-002 browser integration")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Quest criteria" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Evidence" })).toBeVisible();
+});
