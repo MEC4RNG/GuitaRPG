@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "PROG-002",
-    "title": "Practice XP Ledger and Character Level Derivation",
+    "id": "PROG-003",
+    "title": "Skill Evidence, Proficiency, and Confidence Implementation",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "PROG-003",
-    "title": "Skill Evidence, Proficiency, and Confidence Implementation",
+    "id": "PROG-004",
+    "title": "Readiness and Recency Implementation",
     "authorized_to_start": false,
-    "condition": "PROG-002 must complete and explicit user authorization is required before PROG-003"
+    "condition": "PROG-003 must complete and explicit user authorization is required before PROG-004"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
@@ -42,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_PROG_003_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_PROG_004_AUTHORIZATION"
 }
