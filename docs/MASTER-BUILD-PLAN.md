@@ -148,14 +148,14 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `PROG-003 — Skill Evidence, Proficiency, and Confidence Implementation` — COMPLETE
+**Last terminal ticket:** `PROG-004 — Readiness and Recency Implementation` — COMPLETE
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through ONB-001-R1 `20260929030000`; applied and verified
-**Next planned ticket:** `PROG-004 — Readiness/recency implementation` — unauthorized
+**Next planned ticket:** `PROG-005 — Character Attribute derivation` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -308,7 +308,7 @@ Expected work:
 
 - `PROG-002` — Practice XP ledger + Character Level derivation — COMPLETE
 - `PROG-003` — Skill evidence/proficiency/confidence implementation — COMPLETE
-- `PROG-004` — readiness/recency implementation
+- `PROG-004` — readiness/recency implementation — COMPLETE
 - `PROG-005` — Character Attribute derivation
 - Character / Skills progression views
 - correction/recomputation paths
@@ -927,11 +927,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS. PROG-003 is terminal COMPLETE: PROF_V1 and
-CONF_V1 convert finalized Result evidence into conservative, replayable Primary Skill
-estimates while supporting Skills remain exposure-only. XP/Character, readiness, and
-Attributes remain separate. PROG-004 remains unauthorized pending separate explicit
-approval. Production cutover remains unauthorized.
+Phase 3 — Progression is IN PROGRESS. PROG-004 is terminal COMPLETE: READY_V1 derives
+current Skill preparedness from rated proficiency and server-authoritative practice
+recency, with change-only audit history and deterministic replay. XP/Character,
+proficiency/confidence, and Attributes remain separate. PROG-005 remains unauthorized
+pending separate explicit approval. Production cutover remains unauthorized.
 
 ---
 

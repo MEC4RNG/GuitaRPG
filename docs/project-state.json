@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "PROG-003",
-    "title": "Skill Evidence, Proficiency, and Confidence Implementation",
+    "id": "PROG-004",
+    "title": "Readiness and Recency Implementation",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "PROG-004",
-    "title": "Readiness and Recency Implementation",
+    "id": "PROG-005",
+    "title": "Character Attribute Derivation",
     "authorized_to_start": false,
-    "condition": "PROG-003 must complete and explicit user authorization is required before PROG-004"
+    "condition": "PROG-004 must complete and explicit user authorization is required before PROG-005"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
@@ -42,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_PROG_004_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_PROG_005_AUTHORIZATION"
 }
