@@ -28,6 +28,7 @@ export const VERIFICATION_MODES = [
   "DIRECT_AUDIO",
   "APP_VERIFIED",
 ] as const;
+export type QuestType = (typeof QUEST_TYPES)[number];
 
 type JsonObject = Record<string, unknown>;
 export type Quest = JsonObject & {
@@ -62,6 +63,10 @@ export type Quest = JsonObject & {
   difficulty_profile: {
     declared_overall_demand: "I" | "II" | "III" | "IV" | "V";
     computation_status: string;
+    model_version?: string;
+    source?: string;
+    dimensions?: Record<string, unknown>;
+    overall?: { score: number; level: "I" | "II" | "III" | "IV" | "V"; [key: string]: unknown };
   };
   rewards: { policy: string; fixed_xp: null; progression_effects_embedded: false };
   metadata: JsonObject;
