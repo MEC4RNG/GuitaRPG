@@ -55,7 +55,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate after QST-003 becomes terminal", () => {
+  it("preserves the Phase 1 gate while SES-001 is active", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -64,18 +64,18 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({ id: "SES-001", status: "IN_PROGRESS" });
     expect(playerTicket).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/ONB-001.md")).toContain(
       "**COMPLETE — ONBOARDING AND CALIBRATION FOUNDATION VERIFIED**",
     );
   });
 
-  it("keeps SES-001 planned but unauthorized after QST-003", () => {
-    expect(state.next_ticket.id).toBe("SES-001");
+  it("keeps SES-002 planned but unauthorized during SES-001", () => {
+    expect(state.next_ticket.id).toBe("SES-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
     expect(plan).toContain("QST-003 are terminal COMPLETE");
-    expect(plan).toContain("Do **not** begin SES-001 or any later Phase 2 ticket.");
+    expect(plan).toContain("Do **not** begin SES-002 or any later Phase 2 ticket.");
   });
 
   it("provides Codex-facing repository instructions", () => {

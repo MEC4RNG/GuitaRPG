@@ -18,12 +18,16 @@
     "title": "Quick/Custom Quest generator v1",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "SES-001",
-    "title": "Practice Session runtime",
+    "title": "Practice Session Runtime",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "SES-002",
+    "title": "Core Practice Controls",
     "authorized_to_start": false,
-    "condition": "QST-003 must be terminal COMPLETE and explicit user authorization is required before SES-001"
+    "condition": "SES-001 must be terminal COMPLETE and explicit user authorization is required before SES-002"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_SES_001_AUTHORIZATION"
+  "execution_status": "SES_001_IN_PROGRESS"
 }
