@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "DIF-003",
-    "title": "Player-Relative Difficulty Resolver",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "QST-003",
     "title": "Quick/Custom Quest generator v1",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "SES-001",
     "title": "Practice Session runtime",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "QST_003_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_SES_001_AUTHORIZATION"
 }
