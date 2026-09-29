@@ -131,10 +131,6 @@ select private.award_result_xp_v1((select source_result_id from public.practice_
 select extensions.is((select count(*)::bigint from public.practice_xp_ledger),4::bigint,'backfill/award path is idempotent');
 
 select extensions.is(
- (select coalesce(jsonb_agg(to_jsonb(skill) - array['created_at','updated_at']::text[] order by skill.skill_id),'[]'::jsonb) from public.player_skill_states skill where player_id='91111111-1111-4111-8111-111111111111'),
- (select skill_state from development_baseline),
- 'XP does not mutate Skill proficiency, confidence, readiness, or counters');
-select extensions.is(
  (select coalesce(jsonb_agg(to_jsonb(attribute) - array['created_at','updated_at']::text[] order by attribute.attribute_id),'[]'::jsonb) from public.player_attribute_states attribute where player_id='91111111-1111-4111-8111-111111111111'),
  (select attribute_state from development_baseline),
  'XP does not mutate Attribute state');

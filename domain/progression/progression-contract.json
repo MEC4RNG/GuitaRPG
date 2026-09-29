@@ -34,6 +34,7 @@
     "grants_proficiency": false
   },
   "proficiency": {
+    "version": "PROF_V1",
     "bands": {
       "I": [0, 19],
       "II": [20, 39],
@@ -43,7 +44,40 @@
     },
     "max_absolute_score_delta_per_result": 8,
     "single_result_can_establish_level_v": false,
-    "single_result_can_establish_from_unrated": false
+    "single_result_can_establish_from_unrated": false,
+    "primary_demand": {
+      "relevant_dimension_weight": 0.65,
+      "overall_weight": 0.35,
+      "missing_dimension_fallback": "OVERALL"
+    },
+    "challenge_gap_bands": {
+      "VERY_COMFORTABLE_MAX": -50,
+      "COMFORTABLE_MAX": -20,
+      "TARGET_MAX": 15,
+      "STRETCH_MAX": 35,
+      "OVERREACH_MIN_EXCLUSIVE": 35
+    },
+    "raw_delta_by_challenge": {
+      "VERY_COMFORTABLE": { "ATTEMPTED": -4, "PARTIAL": -2, "CLEARED": 1 },
+      "COMFORTABLE": { "ATTEMPTED": -3, "PARTIAL": -1, "CLEARED": 2 },
+      "TARGET": { "ATTEMPTED": -2, "PARTIAL": 1, "CLEARED": 4 },
+      "STRETCH": { "ATTEMPTED": -1, "PARTIAL": 2, "CLEARED": 6 },
+      "OVERREACH": { "ATTEMPTED": 0, "PARTIAL": 2, "CLEARED": 5 }
+    },
+    "evidence_magnitude": { "LOW": 0.5, "MODERATE": 0.75, "HIGH": 1 },
+    "initial_outcome_adjustment": { "ATTEMPTED": -12, "PARTIAL": -6, "CLEARED": 0 },
+    "initial_score_cap": 79,
+    "repeated_easy_clear_factor": "max(0.25, 1 - 0.25 * prior_identical_easy_clears)",
+    "supporting_roles": "EXPOSURE_ONLY",
+    "established_boundary_supporting_events": 2
+  },
+  "confidence": {
+    "version": "CONF_V1",
+    "gain": { "LOW": 10, "MODERATE": 20, "HIGH": 25 },
+    "mixed_maps_to": "MODERATE",
+    "repeated_easy_clear_attenuation": "PROF_V1_REPETITION_FACTOR",
+    "recent_contradiction_window": 5,
+    "contradiction_rule": "at least one positive and at least one negative informative direction"
   },
   "establishment": {
     "minimum_informative_results": 3,
