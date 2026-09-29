@@ -10,10 +10,8 @@ describe("ONB-001 onboarding foundation", () => {
 
   it("uses the existing Player profile lifecycle without writing derived state", () => {
     expect(flow).toContain('onboarding_status: "IN_PROGRESS"');
-    expect(flow).toContain('onboarding_status: "COMPLETE"');
-    expect(flow).toContain("calibration_status: calibration");
-    expect(flow).toContain("player_tuning_preferences");
-    expect(flow).toContain("player_goals");
+    expect(flow).toContain("completeOnboarding");
+    expect(flow).toContain("calibrationStatus: calibration");
     expect(flow).not.toContain("player_skill_states");
     expect(flow).not.toContain("player_character_states");
     expect(flow).not.toContain("player_attribute_states");
@@ -27,6 +25,6 @@ describe("ONB-001 onboarding foundation", () => {
 
   it("uses anonymous Auth rather than a local-only guest profile", () => {
     expect(flow).toContain("signInAnonymously");
-    expect(flow).toContain("player_id: playerId");
+    expect(flow).not.toContain("player_id: playerId");
   });
 });

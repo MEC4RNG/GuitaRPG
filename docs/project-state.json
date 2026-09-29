@@ -18,12 +18,16 @@
     "title": "Core-Loop Integration Tests",
     "status": "BLOCKED"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "ONB-001-R1",
     "title": "Authenticated Onboarding Tuning Preference Persistence",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "REL-002",
+    "title": "Core-Loop Integration Tests",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before ONB-001-R1"
+    "condition": "ONB-001-R1 must be terminal COMPLETE and REL-002 requires explicit resumed execution"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "REL_002_BLOCKED_AWAITING_EXPLICIT_ONB_001_R1_AUTHORIZATION"
+  "execution_status": "ONB_001_R1_IN_PROGRESS"
 }

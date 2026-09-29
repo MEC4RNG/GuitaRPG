@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { completeOnboarding, type OnboardingRpcClient } from "@/lib/onboarding/completion";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type Tuning = { id: string; display_name: string; slug: string };
@@ -20,7 +21,6 @@ export function OnboardingFlow() {
   const [ready, setReady] = useState(false);
   const [complete, setComplete] = useState(false);
   const [message, setMessage] = useState("");
-  const [playerId, setPlayerId] = useState<string>();
   const [tunings, setTunings] = useState<Tuning[]>([]);
   const [experience, setExperience] = useState("UNSPECIFIED");
   const [minutes, setMinutes] = useState("20");
@@ -41,7 +41,6 @@ export function OnboardingFlow() {
         setMessage("We could not create a private Player session. Please try again.");
         return;
       }
-      setPlayerId(data.user.id);
       const [profileResult, tuningResult] = await Promise.all([
         supabase
           .from("player_profiles")
@@ -80,37 +79,19 @@ export function OnboardingFlow() {
   }, []);
 
   const finish = async () => {
-    if (!playerId) return;
+    if (!tuningId) return setMessage("Choose a preferred tuning before continuing.");
     setMessage("Saving your Player setup…");
-    const supabase = db();
-    const profileUpdate = await supabase
-      .from("player_profiles")
-      .update({
-        experience_background: experience,
-        typical_session_minutes: Number(minutes) || null,
-        challenge_preference: challenge,
-        onboarding_status: "COMPLETE",
-        calibration_status: calibration,
-      })
-      .eq("player_id", playerId);
-    if (profileUpdate.error) return setMessage(profileUpdate.error.message);
-    if (tuningId) {
-      const tuningUpdate = await supabase
-        .from("player_tuning_preferences")
-        .upsert(
-          { player_id: playerId, tuning_context_id: tuningId, rank: 1, is_default: true },
-          { onConflict: "player_id,tuning_context_id" },
-        );
-      if (tuningUpdate.error) return setMessage(tuningUpdate.error.message);
-    }
-    if (goal.trim()) {
-      const goalResult = await supabase
-        .from("player_goals")
-        .insert({ player_id: playerId, objective: goal.trim(), priority: 100, is_active: true });
-      if (goalResult.error) return setMessage(goalResult.error.message);
-    }
-    setComplete(true);
+    const result = await completeOnboarding(db() as OnboardingRpcClient, {
+      experienceBackground: experience,
+      typicalSessionMinutes: Number(minutes) || null,
+      challengePreference: challenge,
+      calibrationStatus: calibration,
+      tuningContextId: tuningId,
+      goal,
+    });
+    if (!result.complete) return setMessage(result.error);
     setMessage("");
+    setComplete(true);
   };
 
   if (!ready) return <p className="onboarding__loading">Preparing your private Player setup…</p>;

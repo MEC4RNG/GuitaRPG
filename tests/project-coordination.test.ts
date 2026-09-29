@@ -56,7 +56,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate after REL-002 blocks", () => {
+  it("preserves the Phase 1 gate while the authorized remediation executes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -65,7 +65,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toEqual({
+      id: "ONB-001-R1",
+      title: "Authenticated Onboarding Tuning Preference Persistence",
+      status: "IN_PROGRESS",
+    });
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,12 +79,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("routes the resumed REL-002 blocker to unauthorized onboarding remediation", () => {
-    expect(state.next_ticket.id).toBe("ONB-001-R1");
+  it("keeps REL-002 unauthorized while onboarding remediation is active", () => {
+    expect(state.next_ticket.id).toBe("REL-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe(
-      "REL_002_BLOCKED_AWAITING_EXPLICIT_ONB_001_R1_AUTHORIZATION",
-    );
+    expect(state.execution_status).toBe("ONB_001_R1_IN_PROGRESS");
+    expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** IN PROGRESS");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** BLOCKED");
     expect(plan).toContain("REL-002 — Core-loop integration tests` — BLOCKED");
