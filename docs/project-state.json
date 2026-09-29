@@ -18,12 +18,16 @@
     "title": "Result / Completion / Reflection",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "HIST-001",
     "title": "Persisted Quest / Session / Result History",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "REL-002",
+    "title": "Core-loop integration tests",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before HIST-001"
+    "condition": "Explicit user authorization is required before REL-002"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_HIST_001_AUTHORIZATION"
+  "execution_status": "HIST_001_IN_PROGRESS"
 }

@@ -841,6 +841,104 @@ a {
   max-width: 48rem;
 }
 
+.history-stack,
+.history-stack__items,
+.history-detail {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.history-attempt,
+.history-detail__section {
+  display: grid;
+  gap: var(--space-4);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-panel);
+  padding: var(--space-5);
+}
+
+.history-attempt__summary {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.history-attempt h2,
+.history-detail h2 {
+  margin: var(--space-2) 0;
+}
+
+.history-attempt p,
+.history-detail p {
+  color: var(--surface-muted);
+  line-height: 1.6;
+}
+
+.history-status {
+  flex: 0 0 auto;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-pill);
+  color: var(--surface-accent);
+  padding: 0.35rem 0.6rem;
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.history-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.history-meta div {
+  min-width: 0;
+  border-top: 1px solid var(--surface-border);
+  padding-top: var(--space-2);
+}
+
+.history-meta dt {
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.history-meta dd {
+  margin: var(--space-1) 0 0;
+  overflow-wrap: anywhere;
+  font-size: 0.88rem;
+}
+
+.history-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-list li {
+  display: grid;
+  gap: var(--space-1);
+  border-top: 1px solid var(--surface-border);
+  padding-top: var(--space-3);
+}
+
+.history-list strong {
+  color: var(--surface-accent);
+  font-size: 0.82rem;
+}
+
+.history-list span,
+.history-note {
+  overflow-wrap: anywhere;
+}
+
 .app-shell--codex .page-header h1,
 .app-shell--codex .panel h2 {
   font-family: var(--font-codex);
@@ -881,6 +979,10 @@ a {
 
   .session-dashboard {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .history-meta {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

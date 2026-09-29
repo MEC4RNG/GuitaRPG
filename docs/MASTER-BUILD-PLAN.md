@@ -148,13 +148,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `EVD-002 — Result / Completion / Reflection` — COMPLETE
-**Active ticket:** none
+**Active ticket:** `HIST-001 — Persisted Quest / Session / Result History` — IN PROGRESS / AUTHORIZED
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through EVD-002 `20260929010000`; applied and verified
-**Next planned ticket:** `HIST-001 — Persisted Quest / Session / Result History` — unauthorized
+**Next planned ticket:** `REL-002 — Core-loop integration tests` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -926,11 +926,11 @@ ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are termi
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
 QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, and EVD-002 are terminal
-COMPLETE. Phase 2 remains IN PROGRESS with no active ticket. EVD-002 application CI,
-fresh database replay, staging migration, pgTAP, and DORIAN acceptance pass.
+COMPLETE. Phase 2 remains IN PROGRESS and HIST-001 is the active authorized ticket.
+EVD-002 application CI, fresh database replay, staging migration, pgTAP, and DORIAN
+acceptance pass.
 
-Await explicit authorization before beginning HIST-001. Do **not** begin HIST-001 or
-any later Phase 2 ticket.
+Do **not** begin REL-002 or any later Phase 2 ticket.
 
 ---
 

@@ -54,6 +54,7 @@ describe("UX-002 application navigation", () => {
     expect(getSurfaceForPath("/character")).toBe("lab");
     expect(getSurfaceForPath("/skills")).toBe("lab");
     expect(getSurfaceForPath("/history")).toBe("lab");
+    expect(getSurfaceForPath("/history/attempt-1")).toBe("lab");
     expect(getSurfaceForPath("/codex")).toBe("codex");
     expect(getSurfaceForPath("/profile")).toBe("hud");
     expect(getSurfaceForPath("/settings")).toBe("hud");
@@ -63,6 +64,7 @@ describe("UX-002 application navigation", () => {
     expect(isRouteActive("/skills/alternate-picking", "/skills")).toBe(true);
     expect(isRouteActive("/quest/0247", "/")).toBe(false);
     expect(getNavigationItem("/codex/dorian").label).toBe("Codex");
+    expect(getNavigationItem("/history/attempt-1").label).toBe("History");
   });
 
   it("uses unique route destinations", () => {
