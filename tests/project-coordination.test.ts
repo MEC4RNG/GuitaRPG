@@ -24,7 +24,7 @@ type ProjectState = {
     id: string;
     status: string;
   };
-  next_ticket: {
+  next_ticket: null | {
     id: string;
     authorized_to_start: boolean;
   };
@@ -56,7 +56,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate after REL-002 completes", () => {
+  it("preserves the completed Phase 2 prerequisites while the gate runs", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -65,7 +65,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toEqual({
+      id: "P2-GATE-001",
+      title: "Core Quest Loop Integration Gate",
+      status: "IN_PROGRESS",
+    });
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,10 +79,9 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps P2-GATE-001 unauthorized after REL-002 completion", () => {
-    expect(state.next_ticket.id).toBe("P2-GATE-001");
-    expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_P2_GATE_001_AUTHORIZATION");
+  it("records P2-GATE-001 as the sole active authorized work", () => {
+    expect(state.next_ticket).toBeNull();
+    expect(state.execution_status).toBe("P2_GATE_001_IN_PROGRESS");
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** COMPLETE");

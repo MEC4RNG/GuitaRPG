@@ -13,7 +13,7 @@ type ProjectState = {
   };
   last_terminal_ticket: { id: string; status: string };
   active_ticket: null | { id: string; status: string };
-  next_ticket: { id: string; authorized_to_start: boolean };
+  next_ticket: null | { id: string; authorized_to_start: boolean };
   phase_gate: { id: string; status: string };
 };
 
@@ -85,8 +85,10 @@ describe("P1-GATE-001 durable integration invariants", () => {
       expect(["COMPLETE", "BLOCKED"]).toContain(state.last_terminal_ticket.status);
       if (state.active_ticket) {
         expect(state.active_ticket.status).toBe("IN_PROGRESS");
+        expect(state.next_ticket).toBeNull();
+      } else {
+        expect(state.next_ticket?.authorized_to_start).toBe(false);
       }
-      expect(state.next_ticket.authorized_to_start).toBe(false);
     }
   });
 

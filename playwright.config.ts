@@ -18,6 +18,11 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "mobile-chromium",
+      testMatch: "**/core-loop.spec.ts",
+      use: { ...devices["Pixel 7"] },
+    },
   ],
   webServer: {
     command: `npm run start -- -p ${port}`,

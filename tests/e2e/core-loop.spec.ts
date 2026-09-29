@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("new anonymous Player completes the production core loop", async ({ page }) => {
+test("new anonymous Player completes the production core loop", async ({ page, isMobile }) => {
   await page.goto("/onboarding");
   await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible({
     timeout: 15_000,
@@ -50,7 +50,11 @@ test("new anonymous Player completes the production core loop", async ({ page })
   await page.reload();
   await expect(page.getByLabel("Final Result")).toHaveCount(1);
 
-  await page.getByRole("link", { name: "History" }).click();
+  if (isMobile) {
+    await page.goto("/history");
+  } else {
+    await page.getByRole("link", { name: "History" }).click();
+  }
   const attempt = page.locator("article.history-attempt").filter({ hasText: questTitle });
   await expect(attempt).toBeVisible();
   await expect(attempt.getByText("ABANDONED", { exact: true })).toBeVisible();
