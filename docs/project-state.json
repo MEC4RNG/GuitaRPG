@@ -3,9 +3,9 @@
   "plan_version": "1.0",
   "project": "GuitaRPG",
   "phase": {
-    "id": 2,
-    "name": "Core Quest Loop",
-    "status": "COMPLETE"
+    "id": 3,
+    "name": "Progression",
+    "status": "IN_PROGRESS"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -18,12 +18,16 @@
     "title": "Core Quest Loop Integration Gate",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "PROG-002",
     "title": "Practice XP Ledger and Character Level Derivation",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "PROG-003",
+    "title": "Skill Evidence, Proficiency, and Confidence Implementation",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before PROG-002"
+    "condition": "PROG-002 must complete and explicit user authorization is required before PROG-003"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
@@ -32,8 +36,8 @@
   "next_phase": {
     "id": 3,
     "name": "Progression",
-    "status": "PLANNED",
-    "authorized_to_start": false
+    "status": "IN_PROGRESS",
+    "authorized_to_start": true
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_PROG_002_AUTHORIZATION"
+  "execution_status": "PROG_002_IN_PROGRESS"
 }

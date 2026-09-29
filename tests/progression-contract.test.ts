@@ -8,6 +8,14 @@ type ProgressionContract = {
     practice_xp_per_completed_minute: number;
     outcome_bonus: Record<string, number>;
   };
+  character_curve: {
+    version: string;
+    threshold_formula: string;
+    level_one_threshold: number;
+    sample_thresholds: Record<string, number>;
+    scientifically_calibrated: boolean;
+    grants_proficiency: boolean;
+  };
   proficiency: {
     bands: Record<string, [number, number]>;
     max_absolute_score_delta_per_result: number;
@@ -72,6 +80,16 @@ describe("PROG-001 progression contract", () => {
     expect(contract.invariants.xp_directly_changes_skill_proficiency).toBe(false);
     expect(contract.invariants.character_level_grants_skill_level).toBe(false);
     expect(contract.invariants.xp_directly_changes_attributes).toBe(false);
+  });
+
+  it("defines the transparent, versioned, monotonic CHAR_V1 curve", () => {
+    expect(contract.character_curve.version).toBe("CHAR_V1");
+    expect(contract.character_curve.level_one_threshold).toBe(0);
+    expect(Object.values(contract.character_curve.sample_thresholds)).toEqual([
+      0, 100, 400, 900, 1600,
+    ]);
+    expect(contract.character_curve.scientifically_calibrated).toBe(false);
+    expect(contract.character_curve.grants_proficiency).toBe(false);
   });
 
   it("prevents single-result mastery inflation", () => {

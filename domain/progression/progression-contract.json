@@ -19,28 +19,27 @@
     },
     "meaningful_attempt_required_for_bonus": true
   },
+  "character_curve": {
+    "version": "CHAR_V1",
+    "threshold_formula": "100 * (level - 1)^2",
+    "level_one_threshold": 0,
+    "sample_thresholds": {
+      "1": 0,
+      "2": 100,
+      "3": 400,
+      "4": 900,
+      "5": 1600
+    },
+    "scientifically_calibrated": false,
+    "grants_proficiency": false
+  },
   "proficiency": {
     "bands": {
-      "I": [
-        0,
-        19
-      ],
-      "II": [
-        20,
-        39
-      ],
-      "III": [
-        40,
-        59
-      ],
-      "IV": [
-        60,
-        79
-      ],
-      "V": [
-        80,
-        100
-      ]
+      "I": [0, 19],
+      "II": [20, 39],
+      "III": [40, 59],
+      "IV": [60, 79],
+      "V": [80, 100]
     },
     "max_absolute_score_delta_per_result": 8,
     "single_result_can_establish_level_v": false,
@@ -52,12 +51,7 @@
     "minimum_confidence_score": 60
   },
   "readiness": {
-    "statuses": [
-      "UNKNOWN",
-      "LOW",
-      "MODERATE",
-      "HIGH"
-    ],
+    "statuses": ["UNKNOWN", "LOW", "MODERATE", "HIGH"],
     "default_recency_anchors_days": {
       "HIGH_MAX": 7,
       "MODERATE_MAX": 30
@@ -65,11 +59,7 @@
     "inactivity_changes_proficiency": false
   },
   "attributes": {
-    "statuses": [
-      "UNASSESSED",
-      "ESTIMATED",
-      "ESTABLISHED"
-    ],
+    "statuses": ["UNASSESSED", "ESTIMATED", "ESTABLISHED"],
     "xp_is_input": false,
     "unrated_skill_treated_as_zero": false,
     "derived_from_affects_relationships": true

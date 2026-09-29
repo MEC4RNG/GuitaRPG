@@ -122,7 +122,8 @@ set local role postgres;
 
 select extensions.is((select resolved_snapshot->'identity'->>'id' from public.quests where id='83333333-3333-4333-8333-333333333333'),'83333333-3333-4333-8333-333333333333','Quest snapshot identity remains unchanged');
 select extensions.is((select count(*)::bigint from public.player_skill_states where player_id='81111111-1111-4111-8111-111111111111'),(select skill_count from progression_baseline),'core loop creates no proficiency mutation');
-select extensions.is((select count(*)::bigint from public.player_character_states where player_id='81111111-1111-4111-8111-111111111111'),(select character_count from progression_baseline),'core loop creates no Character Level mutation');
+select extensions.is((select practice_xp from public.player_character_states where player_id='81111111-1111-4111-8111-111111111111'),28::bigint,'core loop awards only XP_V1 engagement progression');
+select extensions.is((select character_level from public.player_character_states where player_id='81111111-1111-4111-8111-111111111111'),1,'core loop derives CHAR_V1 without proficiency authority');
 select extensions.is((select count(*)::bigint from public.player_attribute_states where player_id='81111111-1111-4111-8111-111111111111'),(select attribute_count from progression_baseline),'core loop creates no Attribute mutation');
 select set_config('request.jwt.claim.sub','',true);
 delete from auth.users where id='81111111-1111-4111-8111-111111111111';

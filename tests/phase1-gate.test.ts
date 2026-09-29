@@ -67,9 +67,11 @@ describe("P1-GATE-001 durable integration invariants", () => {
 
     if (state.phase_gate.id === "P2-GATE-001") {
       expect(state.phase_gate.status).toBe("PASS");
-      expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
-      expect(state.active_ticket).toBeNull();
-      expect(state.next_ticket).toMatchObject({ id: "PROG-002", authorized_to_start: false });
+      expect(state.phase.id).toBeGreaterThanOrEqual(2);
+      if (state.phase.id === 2) {
+        expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
+      }
+      expect(state.next_ticket?.authorized_to_start).toBe(false);
       return;
     }
 

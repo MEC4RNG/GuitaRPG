@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 2 — Core Quest Loop — COMPLETE; Phase 3 — Progression — PLANNED
+**Current phase:** Phase 3 — Progression — IN PROGRESS
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,17 +145,17 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 2 — Core Quest Loop — COMPLETE
+**Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE
-**Active ticket:** none
+**Active ticket:** `PROG-002 — Practice XP Ledger and Character Level Derivation` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through ONB-001-R1 `20260929030000`; applied and verified
-**Next planned ticket:** `PROG-002 — Practice XP ledger + Character Level derivation` — unauthorized pending explicit authorization
+**Next planned ticket:** `PROG-003 — Skill evidence/proficiency/confidence implementation` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -927,8 +927,10 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression remains PLANNED. Await explicit authorization before PROG-002.
-Do **not** begin progression implementation or authorize production cutover.
+Phase 3 — Progression is IN PROGRESS with only PROG-002 authorized. PROG-002 implements
+the XP_V1 ledger and CHAR_V1 Character projection without Skill proficiency, readiness,
+or Attribute mutation. PROG-003 remains unauthorized pending separate explicit approval.
+Production cutover remains unauthorized.
 
 ---
 
