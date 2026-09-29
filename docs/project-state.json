@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "HIST-001",
-    "title": "Persisted Quest / Session / Result History",
-    "status": "COMPLETE"
+    "id": "REL-002",
+    "title": "Core-Loop Integration Tests",
+    "status": "BLOCKED"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "REL-002",
-    "title": "Core-loop integration tests",
+    "id": "QST-003-R1",
+    "title": "Production Generate / Quest Persistence / Session Entry Bridge",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before REL-002"
+    "condition": "Explicit user authorization is required before QST-003-R1"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -42,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_REL_002_AUTHORIZATION"
+  "execution_status": "REL_002_BLOCKED_AWAITING_EXPLICIT_QST_003_R1_AUTHORIZATION"
 }

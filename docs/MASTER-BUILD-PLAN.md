@@ -147,14 +147,14 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `HIST-001 — Persisted Quest / Session / Result History` — COMPLETE
+**Last terminal ticket:** `REL-002 — Core-loop integration tests` — BLOCKED
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through EVD-002 `20260929010000`; applied and verified
-**Next planned ticket:** `REL-002 — Core-loop integration tests` — unauthorized
+**Next planned ticket:** `QST-003-R1 — Production Generate / Quest Persistence / Session Entry Bridge` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -925,13 +925,17 @@ migration acceptance all pass.
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
-QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, and EVD-002 are terminal
-COMPLETE. HIST-001 is terminal COMPLETE: its owner-safe, read-only Session history
-surface composes immutable Quest snapshots, SES lifecycle timing, and EVD Results.
-Phase 2 remains IN PROGRESS with no active ticket.
+QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, EVD-002, and HIST-001 are
+terminal COMPLETE. REL-002 is terminal BLOCKED: `/generate` remains a placeholder,
+and the production application has no generated-Quest persistence or
+persisted-Quest-to-Session-start bridge. Existing subsystem evidence remains valid,
+but it cannot prove the user-accessible core loop. Phase 2 remains IN PROGRESS with
+no active ticket.
 
-Await explicit authorization before beginning REL-002. Do **not** begin REL-002 or any
-later Phase 2 ticket.
+Await explicit authorization before beginning `QST-003-R1`, the narrow production
+Generate / Quest persistence / Session-entry remediation. Do **not** begin that
+remediation, resume REL-002, begin P2-GATE-001, or begin any later ticket without
+separate authorization.
 
 ---
 
