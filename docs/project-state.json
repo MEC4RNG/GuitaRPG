@@ -14,20 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "ONB-001-R1",
-    "title": "Authenticated Onboarding Tuning Preference Persistence",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "REL-002",
     "title": "Core-Loop Integration Tests",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "P2-GATE-001",
     "title": "Core Quest Loop Integration Gate",
     "authorized_to_start": false,
-    "condition": "REL-002 must be terminal COMPLETE and P2-GATE-001 requires explicit authorization"
+    "condition": "Explicit user authorization is required before P2-GATE-001"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "REL_002_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_P2_GATE_001_AUTHORIZATION"
 }

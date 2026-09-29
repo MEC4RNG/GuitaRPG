@@ -147,14 +147,14 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `ONB-001-R1 — Authenticated Onboarding Tuning Preference Persistence` — COMPLETE
-**Active ticket:** `REL-002 — Core-loop integration tests` — IN PROGRESS
+**Last terminal ticket:** `REL-002 — Core-loop integration tests` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through ONB-001-R1 `20260929030000`; applied and verified
-**Next planned ticket:** `P2-GATE-001 — Core Quest Loop integration gate` — unauthorized pending REL-002 completion and explicit authorization
+**Next planned ticket:** `P2-GATE-001 — Core Quest Loop integration gate` — unauthorized pending explicit authorization
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 

@@ -56,16 +56,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate while REL-002 executes", () => {
+  it("preserves the Phase 1 gate after REL-002 completes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "ONB-001-R1", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "REL-002", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "REL-002", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,14 +75,14 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps P2-GATE-001 unauthorized while REL-002 is active", () => {
+  it("keeps P2-GATE-001 unauthorized after REL-002 completion", () => {
     expect(state.next_ticket.id).toBe("P2-GATE-001");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("REL_002_IN_PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_P2_GATE_001_AUTHORIZATION");
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
-    expect(read("docs/tickets/REL-002.md")).toContain("**Status:** IN PROGRESS");
-    expect(plan).toContain("REL-002 — Core-loop integration tests` — IN PROGRESS");
+    expect(read("docs/tickets/REL-002.md")).toContain("**Status:** COMPLETE");
+    expect(plan).toContain("REL-002 — Core-loop integration tests` — COMPLETE");
   });
 
   it("provides Codex-facing repository instructions", () => {
