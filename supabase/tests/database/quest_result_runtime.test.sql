@@ -104,7 +104,7 @@ select is((select evidence_confidence from public.quest_result_evidence where cr
 select is((select source_authority from public.quest_result_evidence where criterion_metric='practice_duration'),'SESSION_SYSTEM','duration evidence is trusted SESSION_SYSTEM');
 select is((select observed_or_asserted_value from public.quest_result_evidence where criterion_metric='practice_duration'),'612'::jsonb,'duration observation is authoritative');
 select is((select observed_or_asserted_value from public.quest_result_evidence where criterion_metric='target_tempo'),'90'::jsonb,'latest persisted BPM is used');
-select like((select rationale from public.quest_result_evidence where criterion_metric='target_tempo'),'%not musical performance accuracy%','BPM evidence disclaims musical accuracy');
+select is((select position('not musical performance accuracy' in rationale)>0 from public.quest_result_evidence where criterion_metric='target_tempo'),true,'BPM evidence disclaims musical accuracy');
 select is((select confidence_summary from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),'MIXED','confidence summary is derived MIXED');
 select results_eq($$select unnest(verification_modes) from public.quest_results where session_id='75555555-5555-4555-8555-555555555551' order by 1$$,$$select * from (values('SELF'::text),('SESSION'::text)) expected(value)$$,'verification modes are derived');
 select is((select reflection from public.quest_results where session_id='75555555-5555-4555-8555-555555555551'),'GOOD_CHALLENGE','allowed reflection persists');

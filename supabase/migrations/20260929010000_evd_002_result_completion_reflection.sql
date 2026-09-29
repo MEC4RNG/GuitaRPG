@@ -114,8 +114,8 @@ begin
     end if;
   end loop;
   if exists (
-    select 1 from jsonb_array_elements(p_inputs) item
-    group by (item->>'ordinal')::smallint having count(*)>1
+    select 1 from jsonb_array_elements(p_inputs) as duplicate_entry
+    group by (duplicate_entry->>'ordinal')::smallint having count(*)>1
   ) then raise exception using errcode='23505', message='Duplicate SELF criterion ordinal'; end if;
 end; $$;
 
