@@ -1,14 +1,14 @@
 begin;
 
 create extension if not exists pgtap with schema extensions;
-select * from no_plan();
+select * from extensions.no_plan();
 
-select has_table('public', 'quests', 'quests exists');
-select has_table('public', 'quest_skill_roles', 'quest_skill_roles exists');
-select has_table('public', 'quest_concepts', 'quest_concepts exists');
-select has_table('public', 'quest_contexts', 'quest_contexts exists');
-select has_table('public', 'quest_constraints', 'quest_constraints exists');
-select has_table('public', 'quest_objective_criteria', 'quest_objective_criteria exists');
+select extensions.has_table('public', 'quests', 'quests exists');
+select extensions.has_table('public', 'quest_skill_roles', 'quest_skill_roles exists');
+select extensions.has_table('public', 'quest_concepts', 'quest_concepts exists');
+select extensions.has_table('public', 'quest_contexts', 'quest_contexts exists');
+select extensions.has_table('public', 'quest_constraints', 'quest_constraints exists');
+select extensions.has_table('public', 'quest_objective_criteria', 'quest_objective_criteria exists');
 
 insert into auth.users (id, email) values
   ('41111111-1111-4111-8111-111111111111', 'quest-owner@example.com'),
@@ -59,21 +59,21 @@ values ('43333333-3333-4333-8333-333333333333', 1, 'target_tempo', 'EQ', '90', '
 set constraints all immediate;
 
 set local role anon;
-select throws_ok($$select * from public.quests$$, '42501', null, 'anonymous role cannot read private Quests');
+select extensions.throws_ok($$select * from public.quests$$, '42501', null, 'anonymous role cannot read private Quests');
 reset role;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '41111111-1111-4111-8111-111111111111';
-select results_eq($$select slug from public.quests$$, $$values ('dorian_crossroads'::text)$$, 'owner sees only their immutable Quest');
-select throws_ok($$update public.quests set title = 'changed' where id = '43333333-3333-4333-8333-333333333333'$$, '42501', null, 'owner cannot update immutable Quest rows');
+select extensions.results_eq($$select slug from public.quests$$, $$values ('dorian_crossroads'::text)$$, 'owner sees only their immutable Quest');
+select extensions.throws_ok($$update public.quests set title = 'changed' where id = '43333333-3333-4333-8333-333333333333'$$, '42501', null, 'owner cannot update immutable Quest rows');
 reset role;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '42222222-2222-4222-8222-222222222222';
-select results_eq($$select count(*)::bigint from public.quests$$, array[0::bigint], 'non-owner cannot read another Player Quest');
+select extensions.results_eq($$select count(*)::bigint from public.quests$$, array[0::bigint], 'non-owner cannot read another Player Quest');
 reset role;
 
-select throws_ok(
+select extensions.throws_ok(
   $$insert into public.quest_concepts (quest_id, concept_id, ordinal)
       select '43333333-3333-4333-8333-333333333333', id, 2
       from public.taxonomy_entities where kind = 'SKILL' and slug = 'alternate_picking'$$,
@@ -81,7 +81,7 @@ select throws_ok(
 );
 
 delete from auth.users where id = '41111111-1111-4111-8111-111111111111';
-select is((select count(*)::bigint from public.quests where id = '43333333-3333-4333-8333-333333333333'), 0::bigint, 'deleting Auth identity cascades Quest persistence');
+select extensions.is((select count(*)::bigint from public.quests where id = '43333333-3333-4333-8333-333333333333'), 0::bigint, 'deleting Auth identity cascades Quest persistence');
 
-select * from finish();
+select * from extensions.finish();
 rollback;
