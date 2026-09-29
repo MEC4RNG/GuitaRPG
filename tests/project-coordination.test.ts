@@ -85,9 +85,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** BLOCKED");
     expect(plan).toContain("REL-002 remains BLOCKED");
-    expect(plan).toContain(
-      "Await explicit authorization before resuming REL-002",
-    );
+    expect(plan).toContain("Await explicit authorization before resuming REL-002");
   });
 
   it("provides Codex-facing repository instructions", () => {
