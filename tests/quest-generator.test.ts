@@ -150,9 +150,16 @@ describe("QST-003 Quick/Custom Quest generator", () => {
       expect(generateQuickQuest({ seed: type, quest_type: type }).quest.identity.type).toBe(type);
   });
 
-  it("is deterministic for the same seed/request/version and diverse across controlled seeds", () => {
+  it("keeps musical seed reproducibility separate from default UUID identity", () => {
     const first = generateQuickQuest({ seed: "repeat" }).quest;
-    expect(generateQuickQuest({ seed: "repeat" }).quest).toEqual(first);
+    const second = generateQuickQuest({ seed: "repeat" }).quest;
+    expect(first.identity.id).toMatch(/^[0-9a-f-]{36}$/i);
+    expect(second.identity.id).toMatch(/^[0-9a-f-]{36}$/i);
+    expect(second.identity.id).not.toBe(first.identity.id);
+    expect(second.identity.slug).not.toBe(first.identity.slug);
+    expect(second.execution).toEqual(first.execution);
+    expect(second.constraints).toEqual(first.constraints);
+    expect(second.objective).toEqual(first.objective);
     const compositions = new Set(
       Array.from({ length: 20 }, (_, seed) => {
         const quest = generateQuickQuest({ seed }).quest;
@@ -160,6 +167,17 @@ describe("QST-003 Quick/Custom Quest generator", () => {
       }),
     );
     expect(compositions.size).toBeGreaterThan(3);
+  });
+
+  it("reproduces full output with a valid explicit UUID and rejects invalid identities", () => {
+    const input = {
+      seed: "identity",
+      id: "11111111-1111-4111-8111-111111111111",
+    } as const;
+    expect(generateQuickQuest(input)).toEqual(generateQuickQuest(input));
+    expect(() => generateQuickQuest({ ...input, id: "not-a-uuid" })).toThrowError(
+      expect.objectContaining({ code: "INVALID_QUEST_IDENTITY" }),
+    );
   });
 
   it("preserves explicit valid Custom values and propagates tempo into criteria", () => {
@@ -241,10 +259,13 @@ describe("QST-003 Quick/Custom Quest generator", () => {
 
   it("keeps identity, title, and unrelated Player-like caller data outside difficulty semantics", () => {
     const base = { seed: "identity", primary_skill: "syncopation_control" } as const;
-    const first = generateCustomQuest({ ...base, id: "one" }).quest;
+    const first = generateCustomQuest({
+      ...base,
+      id: "11111111-1111-4111-8111-111111111111",
+    }).quest;
     const second = generateCustomQuest({
       ...base,
-      id: "two",
+      id: "22222222-2222-4222-8222-222222222222",
       ...({ proficiency: 100, readiness: "LOW", xp: 999 } as object),
     }).quest;
     expect(first.identity.id).not.toBe(second.identity.id);

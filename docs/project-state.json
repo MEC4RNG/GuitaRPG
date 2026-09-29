@@ -18,12 +18,15 @@
     "title": "Core-Loop Integration Tests",
     "status": "BLOCKED"
   },
-  "active_ticket": null,
+  "active_ticket": {
+    "id": "QST-003-R1",
+    "status": "IN_PROGRESS"
+  },
   "next_ticket": {
     "id": "QST-003-R1",
     "title": "Production Generate / Quest Persistence / Session Entry Bridge",
-    "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before QST-003-R1"
+    "authorized_to_start": true,
+    "condition": "QST-003-R1 is explicitly authorized and in progress"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -42,5 +45,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "REL_002_BLOCKED_AWAITING_EXPLICIT_QST_003_R1_AUTHORIZATION"
+  "execution_status": "QST_003_R1_IN_PROGRESS"
 }

@@ -38,6 +38,19 @@ const stableToken = (value: string): string => {
   return (hash >>> 0).toString(36).padStart(7, "0");
 };
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function persistenceIdentity(explicitId?: string) {
+  const id = explicitId ?? globalThis.crypto.randomUUID();
+  if (!UUID_PATTERN.test(id))
+    throw new QuestGenerationError(
+      "INVALID_QUEST_IDENTITY",
+      "Generated Quest identity must be a UUID for durable persistence",
+      { id },
+    );
+  return id;
+}
+
 function templateForCustom(input: CustomQuestInput): GeneratorTemplate {
   const domain = skillDomain(input.primary_skill);
   if (!domain || !activeEntity(input.primary_skill, "SKILL"))
@@ -242,10 +255,8 @@ function finalize(args: {
   identity: Pick<CustomQuestInput, "id" | "nonce" | "generated_at">;
 }): GeneratedQuest {
   const primary = entityRef(args.primarySkill, "SKILL");
-  const semanticKey = JSON.stringify({ ...args, identity: undefined });
-  const token = stableToken(
-    `${QUEST_GENERATOR_VERSION}:${args.seed}:${args.identity.nonce ?? ""}:${semanticKey}`,
-  );
+  const questId = persistenceIdentity(args.identity.id);
+  const token = stableToken(questId);
   const title = `${primary.name}: ${entityRef(args.concepts[0]!, "CONCEPT").name}`;
   const resolvedObjective = objective(
     args.template,
@@ -256,7 +267,7 @@ function finalize(args: {
   );
   const candidate: Quest = {
     identity: {
-      id: args.identity.id ?? `qst_${token}`,
+      id: questId,
       slug: `${args.template.id.replace(/_v1$/, "")}_${token}`,
       title,
       schema_version: 1,

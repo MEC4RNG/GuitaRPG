@@ -65,7 +65,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toEqual({ id: "QST-003-R1", status: "IN_PROGRESS" });
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,12 +75,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("routes the REL-002 blocker to an unauthorized QST remediation", () => {
+  it("runs the authorized QST remediation while REL-002 remains blocked", () => {
     expect(state.next_ticket.id).toBe("QST-003-R1");
-    expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe(
-      "REL_002_BLOCKED_AWAITING_EXPLICIT_QST_003_R1_AUTHORIZATION",
-    );
+    expect(state.next_ticket.authorized_to_start).toBe(true);
+    expect(state.execution_status).toBe("QST_003_R1_IN_PROGRESS");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** BLOCKED");
     expect(plan).toContain("REL-002 is terminal BLOCKED");

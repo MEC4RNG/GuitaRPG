@@ -86,7 +86,7 @@ describe("P1-GATE-001 durable integration invariants", () => {
       if (state.active_ticket) {
         expect(state.active_ticket.status).toBe("IN_PROGRESS");
       }
-      expect(state.next_ticket.authorized_to_start).toBe(false);
+      expect(state.next_ticket.authorized_to_start).toBe(state.active_ticket !== null);
     }
   });
 
