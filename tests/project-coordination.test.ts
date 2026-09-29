@@ -56,20 +56,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate while the authorized remediation executes", () => {
+  it("preserves the Phase 1 gate after onboarding remediation completes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "REL-002", status: "BLOCKED" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "ONB-001-R1", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toEqual({
-      id: "ONB-001-R1",
-      title: "Authenticated Onboarding Tuning Preference Persistence",
-      status: "IN_PROGRESS",
-    });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -79,11 +75,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps REL-002 unauthorized while onboarding remediation is active", () => {
+  it("keeps REL-002 blocked and unauthorized pending explicit resumption", () => {
     expect(state.next_ticket.id).toBe("REL-002");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(state.execution_status).toBe("ONB_001_R1_IN_PROGRESS");
-    expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** IN PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_REL_002_RESUMPTION");
+    expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** BLOCKED");
     expect(plan).toContain("REL-002 — Core-loop integration tests` — BLOCKED");
