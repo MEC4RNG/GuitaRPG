@@ -1,4 +1,6 @@
 begin;
+set local search_path = extensions, public;
+set local role postgres;
 create extension if not exists pgtap with schema extensions;
 select * from extensions.no_plan();
 
@@ -81,7 +83,7 @@ values('75555555-5555-4555-8555-555555555551',1,'METRONOME_BPM_SET','{"bpm":90}'
 set local role anon;
 select extensions.throws_ok($$select public.finalize_quest_result('75555555-5555-4555-8555-555555555551')$$,'42501',null,'anon cannot finalize');
 select extensions.throws_ok($$select * from public.quest_results$$,'42501',null,'anon cannot read Results');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub='71111111-1111-4111-8111-111111111111';
@@ -125,19 +127,19 @@ select extensions.throws_ok($$select public.finalize_quest_result('75555555-5555
 select extensions.is((select title from public.quests where id='74444444-4444-4444-8444-444444444441'),'DORIAN RESULT CLEAR','Result finalization does not mutate Quest');
 select extensions.is((select count(*)::bigint from public.practice_session_events where session_id='75555555-5555-4555-8555-555555555551'),4::bigint,'Result finalization does not mutate Session history');
 select extensions.throws_ok($$delete from public.quests where id='74444444-4444-4444-8444-444444444441'$$,'23503',null,'ordinary Quest historical protection remains');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub='72222222-2222-4222-8222-222222222222';
 select extensions.is((select count(*)::bigint from public.quest_results),0::bigint,'non-owner cannot read Results');
 select extensions.is((select count(*)::bigint from public.quest_result_criteria),0::bigint,'non-owner cannot read criteria');
 select extensions.is((select count(*)::bigint from public.quest_result_evidence),0::bigint,'non-owner cannot read evidence');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub='73333333-3333-4333-8333-333333333333';
 select extensions.lives_ok($$select public.finalize_quest_result('75555555-5555-4555-8555-555555555556','[{"ordinal":3,"observed_value":true}]')$$,'anonymous Auth owner uses the same finalization model');
-reset role;
+set local role postgres;
 
 select set_config('request.jwt.claim.sub','',true);
 delete from auth.users where id='71111111-1111-4111-8111-111111111111';

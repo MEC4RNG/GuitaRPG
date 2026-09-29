@@ -1,5 +1,7 @@
 begin;
 
+set local search_path = extensions, public;
+set local role postgres;
 create extension if not exists pgtap with schema extensions;
 select * from extensions.no_plan();
 
@@ -85,7 +87,7 @@ select extensions.throws_ok(
   'unauthenticated anon role cannot read private Player profiles'
 );
 
-reset role;
+set local role postgres;
 set local role authenticated;
 set local request.jwt.claim.sub = '11111111-1111-4111-8111-111111111111';
 
@@ -289,7 +291,7 @@ select extensions.throws_ok(
   'owner cannot directly mutate derived Attribute state'
 );
 
-reset role;
+set local role postgres;
 set local role authenticated;
 set local request.jwt.claim.sub = '22222222-2222-4222-8222-222222222222';
 
@@ -318,7 +320,7 @@ select extensions.results_eq(
   'non-owner cannot read another Player derived Skill state'
 );
 
-reset role;
+set local role postgres;
 set local role authenticated;
 set local request.jwt.claim.sub = '33333333-3333-4333-8333-333333333333';
 
@@ -334,7 +336,7 @@ select extensions.results_eq(
   'anonymous Auth user receives canonical UNRATED Skill state'
 );
 
-reset role;
+set local role postgres;
 set local role service_role;
 
 select extensions.lives_ok(
@@ -362,7 +364,7 @@ select extensions.throws_ok(
   'database rejects ESTABLISHED Skill state below confidence threshold'
 );
 
-reset role;
+set local role postgres;
 
 insert into public.player_setups (
   player_id,

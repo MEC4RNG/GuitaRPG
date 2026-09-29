@@ -1,5 +1,7 @@
 begin;
 
+set local search_path = extensions, public;
+set local role postgres;
 create extension if not exists pgtap with schema extensions;
 select * from extensions.no_plan();
 
@@ -87,7 +89,7 @@ select extensions.throws_ok(
   '42501', null, 'unauthenticated caller cannot start Session'
 );
 select extensions.throws_ok($$select * from public.practice_sessions$$, '42501', null, 'anonymous role cannot read Sessions');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '51111111-1111-4111-8111-111111111111';
@@ -210,7 +212,7 @@ select extensions.lives_ok(
 );
 select extensions.is((select count(*)::bigint from public.practice_sessions), 2::bigint, 'multiple Sessions retain distinct identities');
 select extensions.is((select title from public.quests where id = '54444444-4444-4444-8444-444444444441'), 'DORIAN SESSION OWNER', 'ending Sessions does not mutate the Quest');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '52222222-2222-4222-8222-222222222222';
@@ -223,7 +225,7 @@ select extensions.throws_ok(
   $$select public.set_practice_session_metronome_bpm((select id from public.practice_sessions where quest_id = '54444444-4444-4444-8444-444444444441' limit 1), 90)$$,
   '42501', null, 'non-owner cannot forge another Player control telemetry'
 );
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '53333333-3333-4333-8333-333333333333';
@@ -231,11 +233,11 @@ select extensions.lives_ok(
   $$select public.start_practice_session('54444444-4444-4444-8444-444444444443')$$,
   'anonymous Auth guest receives normal owner behavior'
 );
-reset role;
+set local role postgres;
 
 set local role service_role;
 select extensions.is((select count(*)::bigint from public.practice_sessions), 3::bigint, 'trusted service role can read Session telemetry');
-reset role;
+set local role postgres;
 
 insert into public.practice_sessions (
   id, player_id, quest_id, status, started_at, ended_at, created_at
@@ -260,7 +262,7 @@ select extensions.is(
   90::bigint,
   'recorded active time deterministically excludes paused interval'
 );
-reset role;
+set local role postgres;
 
 select set_config('request.jwt.claim.sub', '', true);
 delete from auth.users where id = '51111111-1111-4111-8111-111111111111';

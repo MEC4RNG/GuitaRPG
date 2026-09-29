@@ -1,5 +1,8 @@
 begin;
 
+set local search_path = extensions, public;
+set local role postgres;
+
 create extension if not exists pgtap with schema extensions;
 select * from extensions.no_plan();
 
@@ -43,7 +46,7 @@ select extensions.throws_ok(
   $$select public.persist_generated_quest((select payload from generated_quest_fixture))$$,
   '42501', null, 'unauthenticated generated Quest persistence is denied'
 );
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '71111111-1111-4111-8111-111111111111';
@@ -102,7 +105,7 @@ select extensions.lives_ok(
 );
 select extensions.is((select quest_id from public.practice_sessions where player_id = '71111111-1111-4111-8111-111111111111'), '73333333-3333-4333-8333-333333333333'::uuid, 'Session references exactly the persisted generated Quest');
 select extensions.is((select resolved_snapshot -> 'difficulty_profile' -> 'overall' ->> 'score' from public.quests where id = '73333333-3333-4333-8333-333333333333'), '54', 'Quest remains immutable after Session start');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '72222222-2222-4222-8222-222222222222';
@@ -110,7 +113,7 @@ select extensions.throws_ok(
   $$select public.start_practice_session('73333333-3333-4333-8333-333333333333')$$,
   '42501', null, 'another Player cannot start the generated Quest'
 );
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '71111111-1111-4111-8111-111111111111';
@@ -126,7 +129,7 @@ select extensions.throws_ok(
   $$select public.persist_generated_quest(jsonb_set(jsonb_set(jsonb_set(jsonb_set(jsonb_set((select payload from generated_quest_fixture), '{identity,id}', '"75555555-5555-4555-8555-555555555555"'), '{identity,slug}', '"unknown_taxonomy_rollback"'), '{resolved_snapshot,identity,id}', '"75555555-5555-4555-8555-555555555555"'), '{resolved_snapshot,identity,slug}', '"unknown_taxonomy_rollback"'), '{resolved_snapshot,concepts,0,slug}', '"not_a_real_concept"'))$$,
   '23514', null, 'unknown taxonomy rejects the whole generated Quest graph'
 );
-reset role;
+set local role postgres;
 
 select extensions.is((select count(*)::bigint from public.quests where id = '75555555-5555-4555-8555-555555555555'), 0::bigint, 'failed generated write leaves no partial Quest row');
 

@@ -1,5 +1,7 @@
 begin;
 
+set local search_path = extensions, public;
+set local role postgres;
 create extension if not exists pgtap with schema extensions;
 select * from extensions.no_plan();
 
@@ -60,18 +62,18 @@ set constraints all immediate;
 
 set local role anon;
 select extensions.throws_ok($$select * from public.quests$$, '42501', null, 'anonymous role cannot read private Quests');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '41111111-1111-4111-8111-111111111111';
 select extensions.results_eq($$select slug from public.quests$$, $$values ('dorian_crossroads'::text)$$, 'owner sees only their immutable Quest');
 select extensions.throws_ok($$update public.quests set title = 'changed' where id = '43333333-3333-4333-8333-333333333333'$$, '42501', null, 'owner cannot update immutable Quest rows');
-reset role;
+set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '42222222-2222-4222-8222-222222222222';
 select extensions.results_eq($$select count(*)::bigint from public.quests$$, array[0::bigint], 'non-owner cannot read another Player Quest');
-reset role;
+set local role postgres;
 
 select extensions.throws_ok(
   $$insert into public.quest_concepts (quest_id, concept_id, ordinal)
