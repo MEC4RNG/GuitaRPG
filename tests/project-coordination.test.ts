@@ -55,26 +55,26 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the Phase 1 gate while DIF-003 is active", () => {
+  it("preserves the Phase 1 gate after DIF-003 becomes terminal", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "DIF-002", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "DIF-003", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "DIF-003", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toBeNull();
     expect(playerTicket).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/ONB-001.md")).toContain(
       "**COMPLETE — ONBOARDING AND CALIBRATION FOUNDATION VERIFIED**",
     );
   });
 
-  it("keeps QST-003 planned but unauthorized while DIF-003 is active", () => {
+  it("keeps QST-003 planned but unauthorized after DIF-003", () => {
     expect(state.next_ticket.id).toBe("QST-003");
     expect(state.next_ticket.authorized_to_start).toBe(false);
-    expect(plan).toContain("DIF-002 — Absolute Quest-Demand Evaluator` — COMPLETE");
+    expect(plan).toContain("DIF-003 — Player-Relative Difficulty Resolver` — COMPLETE");
     expect(plan).toContain("Do **not** begin QST-003 or any later Phase 2 ticket.");
   });
 
