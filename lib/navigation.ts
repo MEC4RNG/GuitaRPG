@@ -80,5 +80,6 @@ export function getNavigationItem(pathname: string) {
 }
 
 export function getSurfaceForPath(pathname: string): AppSurface {
+  if (pathname === "/session" || pathname.startsWith("/session/")) return "hud";
   return getNavigationItem(pathname).surface;
 }

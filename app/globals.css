@@ -699,6 +699,107 @@ a {
   margin: 0;
 }
 
+.session-practice {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.session-practice__header h1 {
+  margin: var(--space-3) 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+}
+
+.session-practice__header p,
+.session-notice {
+  color: var(--surface-muted);
+  margin: 0;
+}
+
+.session-notice {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-panel);
+  padding: var(--space-4);
+}
+
+.session-dashboard,
+.session-control-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.session-stat {
+  display: grid;
+  gap: var(--space-2);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  padding: var(--space-5);
+}
+
+.session-stat span,
+.session-bpm-label {
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.session-stat strong {
+  color: var(--surface-accent);
+  font-family: var(--font-data);
+  font-size: 1.8rem;
+}
+
+.session-actions,
+.session-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.session-control-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+
+.session-bpm-label {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.session-bpm-label output {
+  color: var(--surface-text);
+}
+
+.session-control-grid input[type="range"] {
+  width: 100%;
+  accent-color: var(--surface-accent);
+  margin-bottom: var(--space-4);
+}
+
+.session-reference dl {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+}
+
+.session-reference dl div {
+  border-top: 1px solid var(--surface-border);
+  padding-top: var(--space-3);
+}
+
+.session-reference dt {
+  color: var(--surface-muted);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.session-reference dd {
+  margin: var(--space-1) 0 0;
+  overflow-wrap: anywhere;
+}
+
 .app-shell--codex .page-header h1,
 .app-shell--codex .panel h2 {
   font-family: var(--font-codex);
@@ -735,6 +836,10 @@ a {
     flex-direction: row;
     align-items: end;
     justify-content: space-between;
+  }
+
+  .session-dashboard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

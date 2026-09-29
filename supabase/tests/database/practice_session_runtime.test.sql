@@ -10,6 +10,9 @@ select has_function('public', 'pause_practice_session', array['uuid'], 'pause RP
 select has_function('public', 'resume_practice_session', array['uuid'], 'resume RPC exists');
 select has_function('public', 'end_practice_session', array['uuid'], 'end RPC exists');
 select has_function('public', 'practice_session_active_seconds', array['uuid'], 'active-time function exists');
+select has_table('public', 'practice_session_control_events', 'SES-002 control telemetry exists');
+select has_function('public', 'adjust_practice_session_reps', array['uuid', 'integer'], 'rep RPC exists');
+select has_function('public', 'set_practice_session_metronome_bpm', array['uuid', 'integer'], 'BPM RPC exists');
 select is((select relrowsecurity from pg_class where oid = 'public.practice_sessions'::regclass), true, 'Session RLS is enabled');
 select is((select relrowsecurity from pg_class where oid = 'public.practice_session_events'::regclass), true, 'event RLS is enabled');
 select hasnt_column('public', 'practice_sessions', 'outcome', 'Session has no Result outcome');
@@ -94,6 +97,47 @@ select lives_ok(
 );
 select is((select status from public.practice_sessions limit 1), 'ACTIVE', 'new Session begins ACTIVE');
 select is((select event_type from public.practice_session_events order by sequence limit 1), 'START', 'first event is START');
+select lives_ok(
+  $$select public.adjust_practice_session_reps((select id from public.practice_sessions limit 1), 1)$$,
+  'owner may append a positive rep while ACTIVE'
+);
+select lives_ok(
+  $$select public.adjust_practice_session_reps((select id from public.practice_sessions limit 1), -1)$$,
+  'owner may correct a previously recorded rep while ACTIVE'
+);
+select throws_ok(
+  $$select public.adjust_practice_session_reps((select id from public.practice_sessions limit 1), -1)$$,
+  '23514', null, 'rep count cannot become negative'
+);
+select lives_ok(
+  $$select public.set_practice_session_metronome_bpm((select id from public.practice_sessions limit 1), 90)$$,
+  'owner may append a BPM setting while ACTIVE'
+);
+select throws_ok(
+  $$select public.set_practice_session_metronome_bpm((select id from public.practice_sessions limit 1), 29)$$,
+  '23514', null, 'BPM lower bound is enforced'
+);
+select throws_ok(
+  $$select public.set_practice_session_metronome_bpm((select id from public.practice_sessions limit 1), 241)$$,
+  '23514', null, 'BPM upper bound is enforced'
+);
+select results_eq(
+  $$select sequence from public.practice_session_control_events order by sequence$$,
+  $$values (1::integer), (2::integer), (3::integer)$$,
+  'control telemetry has deterministic per-Session order'
+);
+select throws_ok(
+  $$insert into public.practice_session_control_events(session_id, sequence, event_type, payload) select id, 99, 'REP_ADJUST', '{"delta":1}' from public.practice_sessions limit 1$$,
+  '42501', null, 'client cannot forge control telemetry'
+);
+select throws_ok(
+  $$update public.practice_session_control_events set occurred_at = occurred_at - interval '1 hour'$$,
+  '42501', null, 'client cannot rewrite control timestamps'
+);
+select throws_ok(
+  $$delete from public.practice_session_control_events$$,
+  '42501', null, 'client cannot delete control telemetry'
+);
 select throws_ok(
   $$select public.start_practice_session('54444444-4444-4444-8444-444444444442')$$,
   '42501', null, 'owner cannot start Session for another Player Quest'
@@ -117,6 +161,10 @@ select throws_ok(
 select lives_ok(
   $$select public.pause_practice_session((select id from public.practice_sessions order by created_at limit 1))$$,
   'ACTIVE to PAUSED succeeds'
+);
+select throws_ok(
+  $$select public.adjust_practice_session_reps((select id from public.practice_sessions order by created_at limit 1), 1)$$,
+  '55000', null, 'control telemetry requires an ACTIVE Session'
 );
 select throws_ok(
   $$select public.pause_practice_session((select id from public.practice_sessions order by created_at limit 1))$$,
@@ -171,6 +219,10 @@ select throws_ok(
   $$select public.resume_practice_session((select id from public.practice_sessions where quest_id = '54444444-4444-4444-8444-444444444441' limit 1))$$,
   '42501', null, 'non-owner cannot transition another Player Session'
 );
+select throws_ok(
+  $$select public.set_practice_session_metronome_bpm((select id from public.practice_sessions where quest_id = '54444444-4444-4444-8444-444444444441' limit 1), 90)$$,
+  '42501', null, 'non-owner cannot forge another Player control telemetry'
+);
 reset role;
 
 set local role authenticated;
@@ -213,6 +265,7 @@ reset role;
 select set_config('request.jwt.claim.sub', '', true);
 delete from auth.users where id = '51111111-1111-4111-8111-111111111111';
 select is((select count(*)::bigint from public.practice_sessions where player_id = '51111111-1111-4111-8111-111111111111'), 0::bigint, 'account deletion removes Sessions');
+select is((select count(*)::bigint from public.practice_session_control_events), 0::bigint, 'account deletion cascades Session control telemetry');
 select is((select count(*)::bigint from public.quests where player_id = '51111111-1111-4111-8111-111111111111'), 0::bigint, 'account deletion removes attempted Quests');
 
 select * from finish();

@@ -146,15 +146,15 @@ If implementation reveals that a contract is wrong or incomplete:
 ## 5. Current execution state
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
-**Last terminal ticket:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `SES-001 — Practice Session Runtime` — COMPLETE
+**Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
+**Last terminal ticket:** `SES-002 — Core Practice Controls` — COMPLETE
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** synchronized through SES-001 `20260928040000`; applied and verified
-**Next planned ticket:** `SES-002 — Core Practice Controls` — unauthorized
+**Remote migrations:** synchronized through SES-002 `20260929000000`; applied and verified
+**Next planned ticket:** `EVD-002 — Result / Completion / Reflection` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -925,11 +925,11 @@ migration acceptance all pass.
 ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
-QST-002, DIF-002, DIF-003, QST-003, and SES-001 are terminal COMPLETE. Phase 2 remains
-IN PROGRESS with no active ticket. SES-001 repository CI, fresh-database pgTAP,
-staging migration acceptance, and staging pgTAP all pass.
+QST-002, DIF-002, DIF-003, QST-003, SES-001, and SES-002 are terminal COMPLETE. Phase 2
+remains IN PROGRESS with no active ticket. SES-002 staging migration acceptance and staging
+pgTAP pass.
 
-Await explicit authorization before beginning SES-002. Do **not** begin SES-002 or any later Phase 2 ticket.
+EVD-002 is next but unauthorized. Do **not** begin EVD-002 or any later Phase 2 ticket.
 
 ---
 
