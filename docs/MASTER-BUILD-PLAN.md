@@ -147,14 +147,14 @@ If implementation reveals that a contract is wrong or incomplete:
 
 **Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `REL-002 — Core-loop integration tests` — BLOCKED
-**Active ticket:** `QST-003-R1 — Production Generate / Quest Persistence / Session Entry Bridge` — IN PROGRESS
+**Last terminal ticket:** `QST-003-R1 — Production Generate / Quest Persistence / Session Entry Bridge` — BLOCKED
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** synchronized through EVD-002 `20260929010000`; applied and verified
-**Next planned ticket:** `QST-003-R1 — Production Generate / Quest Persistence / Session Entry Bridge` — authorized / IN PROGRESS
+**Remote migrations:** synchronized through QST-003-R1 `20260929020000`; applied and verified
+**Next planned ticket:** `QST-003-R1 — staging acceptance resumption` — unauthorized pending an approved pgTAP runner
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -926,15 +926,15 @@ ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are termi
 and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
 
 QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, EVD-002, and HIST-001 are
-terminal COMPLETE. REL-002 is terminal BLOCKED: `/generate` remains a placeholder,
-and the production application has no generated-Quest persistence or
-persisted-Quest-to-Session-start bridge. Existing subsystem evidence remains valid,
-but it cannot prove the user-accessible core loop. Phase 2 remains IN PROGRESS with
-no active ticket.
+terminal COMPLETE. REL-002 remains BLOCKED pending resumed integration proof.
+QST-003-R1 implemented the production Generate / Quest persistence / Session-entry
+bridge, passed application and fresh-database CI, and applied its migration to staging.
+It is terminal BLOCKED only because this host lacks the Docker/Podman runner required
+for standard linked staging pgTAP and generated-Quest acceptance. Phase 2 remains IN
+PROGRESS with no active ticket.
 
-Await explicit authorization before beginning `QST-003-R1`, the narrow production
-Generate / Quest persistence / Session-entry remediation. Do **not** begin that
-remediation, resume REL-002, begin P2-GATE-001, or begin any later ticket without
+Await explicit resumption in an approved staging acceptance environment. Do **not**
+resume QST-003-R1 or REL-002, begin P2-GATE-001, or begin any later ticket without
 separate authorization.
 
 ---

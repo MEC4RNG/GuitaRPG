@@ -14,19 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "REL-002",
-    "title": "Core-Loop Integration Tests",
+    "id": "QST-003-R1",
+    "title": "Production Generate / Quest Persistence / Session Entry Bridge",
     "status": "BLOCKED"
   },
-  "active_ticket": {
-    "id": "QST-003-R1",
-    "status": "IN_PROGRESS"
-  },
+  "active_ticket": null,
   "next_ticket": {
     "id": "QST-003-R1",
     "title": "Production Generate / Quest Persistence / Session Entry Bridge",
-    "authorized_to_start": true,
-    "condition": "QST-003-R1 is explicitly authorized and in progress"
+    "authorized_to_start": false,
+    "condition": "Resume only when an approved staging pgTAP runner is available"
   },
   "phase_gate": {
     "id": "P1-GATE-001",
@@ -45,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "QST_003_R1_IN_PROGRESS"
+  "execution_status": "QST_003_R1_BLOCKED_AWAITING_STAGING_PGTAP_ENVIRONMENT"
 }
