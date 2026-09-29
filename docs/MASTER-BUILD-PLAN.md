@@ -148,8 +148,8 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE
-**Active ticket:** `PROG-002 — Practice XP Ledger and Character Level Derivation` — IN PROGRESS
+**Last terminal ticket:** `PROG-002 — Practice XP Ledger and Character Level Derivation` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -306,7 +306,7 @@ Turn historical practice/evidence into trustworthy development state.
 
 Expected work:
 
-- `PROG-002` — Practice XP ledger + Character Level derivation
+- `PROG-002` — Practice XP ledger + Character Level derivation — COMPLETE
 - `PROG-003` — Skill evidence/proficiency/confidence implementation
 - `PROG-004` — readiness/recency implementation
 - `PROG-005` — Character Attribute derivation
@@ -927,10 +927,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS with only PROG-002 authorized. PROG-002 implements
-the XP_V1 ledger and CHAR_V1 Character projection without Skill proficiency, readiness,
-or Attribute mutation. PROG-003 remains unauthorized pending separate explicit approval.
-Production cutover remains unauthorized.
+Phase 3 — Progression is IN PROGRESS. PROG-002 is terminal COMPLETE: XP_V1 awards are
+Result-backed and exactly-once, the ledger is authoritative and rebuildable, and CHAR_V1
+derives Character Level without Skill proficiency, readiness, or Attribute mutation.
+PROG-003 remains unauthorized pending separate explicit approval. Production cutover
+remains unauthorized.
 
 ---
 

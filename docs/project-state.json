@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "P2-GATE-001",
-    "title": "Core Quest Loop Integration Gate",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "PROG-002",
     "title": "Practice XP Ledger and Character Level Derivation",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "PROG-003",
     "title": "Skill Evidence, Proficiency, and Confidence Implementation",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "PROG_002_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_PROG_003_AUTHORIZATION"
 }

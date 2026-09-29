@@ -56,19 +56,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the completed Phase 2 prerequisites while PROG-002 runs", () => {
+  it("preserves the completed Phase 2 prerequisites after PROG-002", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({
-      id: "P2-GATE-001",
-      status: "COMPLETE",
-    });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "PROG-002", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "PROG-002", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -78,16 +75,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("starts only PROG-002 without authorizing PROG-003 or cutover", () => {
+  it("closes PROG-002 without authorizing PROG-003 or cutover", () => {
     expect(state.phase).toEqual({ id: 3, name: "Progression", status: "IN_PROGRESS" });
     expect(state.next_ticket).toMatchObject({ id: "PROG-003", authorized_to_start: false });
-    expect(state.execution_status).toBe("PROG_002_IN_PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_PROG_003_AUTHORIZATION");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/P2-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
-    expect(read("docs/tickets/PROG-002.md")).toContain("**Status:** IN PROGRESS");
+    expect(read("docs/tickets/PROG-002.md")).toContain("**Status:** COMPLETE");
     expect(plan).toContain("`REL-002` — core-loop integration tests");
     expect(plan).toContain("`P2-GATE-001` — Core Quest Loop integration gate — COMPLETE / PASS");
   });

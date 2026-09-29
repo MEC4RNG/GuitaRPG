@@ -1,6 +1,6 @@
 # PROG-002 — Practice XP Ledger and Character Level Derivation
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 **Phase:** 3 — Progression
 **Branch:** `v1-production`
 **Started from:** `0b5cc08bbe3ee663e5a35f0e66dbbaffffe21373`
@@ -49,13 +49,28 @@ Level `L` begins at `100 × (L - 1)²` cumulative XP. Thus Level 1 begins at 0 X
 - fresh database replay through `20260929040000`: PASS
 - local pgTAP: 8 files / 305 assertions PASS
 
-## Staging protocol
+## Staging evidence
 
 - initial local/remote history: synchronized through `20260929030000`
 - initial PROG-002 preview: exactly `20260929040000_prog_002_practice_xp.sql` pending
 - initial staging table statistics: zero estimated durable Quest/Session/Result rows, so no observed existing Result required a live backfill; the migration nevertheless includes deterministic idempotent backfill logic
-- remote application, linked acceptance, CI, and closure: pending
+- migration applied: `20260929040000_prog_002_practice_xp.sql`
+- linked pgTAP: 8 files / 305 assertions PASS
+- DORIAN-equivalent acceptance: 612 eligible seconds, CLEARED, 15 XP, projection/ledger agreement PASS
+- security acceptance: owner read, non-owner isolation, ordinary-client mutation denial, account deletion PASS
+- separation acceptance: Skill proficiency/confidence/readiness and Attributes unchanged
+- final local/remote history: synchronized through `20260929040000`
+- final dry-run: current with no pending migration
+
+## CI and commits
+
+- implementation/validation commit: `e36353ede273a9b50123077a562e616ad827364c`
+- Production scaffold CI `36638091408`: SUCCESS
+- Database contract tests `36638091441`: SUCCESS
+- closure commit/CI: recorded after this terminal record is pushed
 
 ## Terminal disposition
 
-**PROG-002 — IN PROGRESS**
+**PROG-002 — COMPLETE**
+
+Phase 3 remains IN PROGRESS. PROG-003 requires separate explicit authorization. Production cutover remains unauthorized and legacy `main` remains preserved.
