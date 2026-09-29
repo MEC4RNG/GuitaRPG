@@ -59,7 +59,7 @@ select extensions.is((select count(*)::bigint from public.practice_xp_ledger),1:
 create temporary table before_rebuild as
 select to_jsonb(s)-array['created_at','updated_at']::text[] snapshot from public.player_skill_states s
 where player_id='a1111111-1111-4111-8111-111111111111' order by skill_id;
-select private.rebuild_player_skill_states_v1('a1111111-1111-4111-8111-111111111111');
+select private.rebuild_player_progression_v1('a1111111-1111-4111-8111-111111111111','2026-09-29T10:10:00Z');
 select extensions.is(
  (select jsonb_agg(to_jsonb(s)-array['created_at','updated_at']::text[] order by skill_id) from public.player_skill_states s where player_id='a1111111-1111-4111-8111-111111111111'),
  (select jsonb_agg(snapshot) from before_rebuild),'ledger rebuild reproduces Skill projections');

@@ -85,12 +85,23 @@
     "minimum_confidence_score": 60
   },
   "readiness": {
+    "version": "READY_V1",
     "statuses": ["UNKNOWN", "LOW", "MODERATE", "HIGH"],
     "default_recency_anchors_days": {
       "HIGH_MAX": 7,
       "MODERATE_MAX": 30
     },
-    "inactivity_changes_proficiency": false
+    "inactivity_changes_proficiency": false,
+    "elapsed_time_boundaries_inclusive": true,
+    "future_practice_age_clamped_to_zero": true,
+    "effective_capacity_factors": {
+      "HIGH": 1,
+      "MODERATE": 0.8,
+      "LOW": 0.6
+    },
+    "unrated_behavior": { "status": "UNKNOWN", "score": null },
+    "rated_unknown_recency": "PRESERVE_AUDITABLE_BASELINE_ELSE_UNKNOWN",
+    "result_quality_adjustment": "DEFERRED_TO_FUTURE_MODEL"
   },
   "attributes": {
     "statuses": ["UNASSESSED", "ESTIMATED", "ESTABLISHED"],
