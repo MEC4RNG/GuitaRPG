@@ -1,8 +1,8 @@
 # P2-GATE-001 — Core Quest Loop Integration Gate
 
-**Status:** IN PROGRESS  
-**Phase:** 2 — Core Quest Loop  
-**Branch:** `v1-production`  
+**Status:** COMPLETE / PASS
+**Phase:** 2 — Core Quest Loop
+**Branch:** `v1-production`
 **Started from:** `f261489fcfaf0869d72b5e1a55845d44aacb3dfa`
 
 ## Objective
@@ -146,8 +146,14 @@ None. Gate-local repairs were limited to ESM test-config portability, later-gate
 
 ## Gate decision
 
-PASS, pending validation commit CI and terminal closure coordination.
+PASS.
+
+- validation commit: `9abb8d35299bf975e830adf604be85c70883da83`
+- validation Production scaffold CI: `36635824137` — SUCCESS
+- closure commit/CI: recorded after this terminal record is pushed
 
 ## Terminal disposition
 
-**P2-GATE-001 — IN PROGRESS**
+**P2-GATE-001 — COMPLETE / PASS**
+
+Phase 2 is COMPLETE. Phase 3 remains PLANNED; PROG-002 requires separate explicit authorization. Production cutover remains unauthorized and legacy `main` remains preserved.

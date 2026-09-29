@@ -40,7 +40,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
 
   it("declares the repository operating authority", () => {
     expect(state.project).toBe("GuitaRPG");
-    expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "IN_PROGRESS" });
+    expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
     expect(state.production_development_branch).toBe("v1-production");
     expect(plan).toContain("# GuitaRPG Master Build Plan");
     expect(plan).toContain("## 12. Chat ↔ Codex operating model");
@@ -56,20 +56,19 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the completed Phase 2 prerequisites while the gate runs", () => {
+  it("preserves the completed Phase 2 prerequisites after the gate passes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "REL-002", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({
+      id: "P2-GATE-001",
+      status: "COMPLETE",
+    });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toEqual({
-      id: "P2-GATE-001",
-      title: "Core Quest Loop Integration Gate",
-      status: "IN_PROGRESS",
-    });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -79,13 +78,17 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("records P2-GATE-001 as the sole active authorized work", () => {
-    expect(state.next_ticket).toBeNull();
-    expect(state.execution_status).toBe("P2_GATE_001_IN_PROGRESS");
+  it("closes Phase 2 without authorizing Phase 3 or cutover", () => {
+    expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
+    expect(state.next_ticket).toMatchObject({ id: "PROG-002", authorized_to_start: false });
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_PROG_002_AUTHORIZATION");
+    expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/REL-002.md")).toContain("**Status:** COMPLETE");
-    expect(plan).toContain("REL-002 — Core-loop integration tests` — COMPLETE");
+    expect(read("docs/tickets/P2-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
+    expect(plan).toContain("`REL-002` — core-loop integration tests");
+    expect(plan).toContain("`P2-GATE-001` — Core Quest Loop integration gate — COMPLETE / PASS");
   });
 
   it("provides Codex-facing repository instructions", () => {

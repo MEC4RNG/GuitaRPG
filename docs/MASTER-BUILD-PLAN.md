@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 2 — Core Quest Loop — IN PROGRESS
+**Current phase:** Phase 2 — Core Quest Loop — COMPLETE; Phase 3 — Progression — PLANNED
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,16 +145,17 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 2 — Core Quest Loop — IN PROGRESS
+**Phase:** Phase 2 — Core Quest Loop — COMPLETE
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `REL-002 — Core-loop integration tests` — COMPLETE
-**Active ticket:** `P2-GATE-001 — Core Quest Loop Integration Gate` — IN PROGRESS
+**Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
+**Last terminal ticket:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through ONB-001-R1 `20260929030000`; applied and verified
-**Next planned ticket:** none while P2-GATE-001 is active
+**Next planned ticket:** `PROG-002 — Practice XP ledger + Character Level derivation` — unauthorized pending explicit authorization
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -272,7 +273,7 @@ Phase 1 exit criteria:
 - production build succeeds
 - required staging evidence exists
 
-### Phase 2 — Core Quest Loop — PLANNED
+### Phase 2 — Core Quest Loop — COMPLETE
 
 Purpose:
 
@@ -289,7 +290,7 @@ Expected work:
 - `EVD-002` — Result/completion/reflection workflow
 - `HIST-001` — persisted Quest/Session/Result history
 - `REL-002` — core-loop integration tests
-- `P2-GATE-001` — Core Quest Loop integration gate
+- `P2-GATE-001` — Core Quest Loop integration gate — COMPLETE / PASS
 
 This ticket list is a planning skeleton, not implementation authority yet. Exact boundaries may be refined before Phase 2 begins.
 
@@ -913,27 +914,21 @@ Current gate status:
 
 - `P0-GATE-001` — PASS
 - `P1-GATE-001` — PASS
+- `P2-GATE-001` — PASS
 - later gates — FUTURE
 
 ---
 
 ## 24. Immediate next execution
 
-PLY-002 is terminal COMPLETE. Its repository CI, fresh-database pgTAP suite, and staging
-migration acceptance all pass.
+Phase 2 is closed. P2-GATE-001 is COMPLETE / PASS with the production core loop proven
+from anonymous Player onboarding through Generate, persisted Quest, Practice Session,
+Result, History, and History Detail on desktop and mobile. Fresh local replay, local and
+linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
+244-test application suite, production build, and validation CI all pass.
 
-ONB-001 is terminal COMPLETE. All Phase 1 implementation prerequisites are terminal,
-and P1-GATE-001 is COMPLETE / PASS. Phase 1 is closed.
-
-QST-002, DIF-002, DIF-003, QST-003, SES-001, SES-002, EVD-002, and HIST-001 are
-terminal COMPLETE. REL-002 remains BLOCKED pending resumed integration proof.
-QST-003-R1 implemented the production Generate / Quest persistence / Session-entry
-bridge, passed application and fresh-database CI, applied its migration to staging, and
-passed linked staging pgTAP/generated-Quest acceptance. Phase 2 remains IN PROGRESS
-with no active ticket.
-
-Await explicit authorization before resuming REL-002. Do **not** begin P2-GATE-001 or
-any later ticket without separate authorization.
+Phase 3 — Progression remains PLANNED. Await explicit authorization before PROG-002.
+Do **not** begin progression implementation or authorize production cutover.
 
 ---
 

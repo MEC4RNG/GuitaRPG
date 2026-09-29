@@ -63,7 +63,15 @@ describe("P1-GATE-001 durable integration invariants", () => {
   });
 
   it("keeps the Phase 1 gate lifecycle internally coherent", () => {
-    expect(state.phase_gate.id).toBe("P1-GATE-001");
+    expect(["P1-GATE-001", "P2-GATE-001"]).toContain(state.phase_gate.id);
+
+    if (state.phase_gate.id === "P2-GATE-001") {
+      expect(state.phase_gate.status).toBe("PASS");
+      expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
+      expect(state.active_ticket).toBeNull();
+      expect(state.next_ticket).toMatchObject({ id: "PROG-002", authorized_to_start: false });
+      return;
+    }
 
     if (state.phase_gate.status === "VALIDATING") {
       expect(state.phase).toEqual({ id: 1, name: "Product Foundation", status: "IN_PROGRESS" });
@@ -81,7 +89,9 @@ describe("P1-GATE-001 durable integration invariants", () => {
       expect(state.active_ticket).toBeNull();
       expect(state.next_ticket).toMatchObject({ id: "QST-002", authorized_to_start: false });
     } else {
-      expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "IN_PROGRESS" });
+      expect(state.phase.id).toBe(2);
+      expect(state.phase.name).toBe("Core Quest Loop");
+      expect(["IN_PROGRESS", "COMPLETE"]).toContain(state.phase.status);
       expect(["COMPLETE", "BLOCKED"]).toContain(state.last_terminal_ticket.status);
       if (state.active_ticket) {
         expect(state.active_ticket.status).toBe("IN_PROGRESS");
