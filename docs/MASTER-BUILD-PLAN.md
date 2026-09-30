@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 3 — Progression — COMPLETE
+**Current phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,18 +145,18 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 3 — Progression — COMPLETE
+**Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 
-**Active ticket:** none
+**Active ticket:** `TRN-001 — Recommendation Candidate Generation` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `TRN-001 — Recommendation Candidate Generation` — unauthorized
+**Next planned ticket:** `TRN-002 — Recommendation Scoring and Ranking` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -321,7 +321,7 @@ Phase 3 exit criterion:
 
 Results can update XP and development evidence deterministically without conflating engagement, proficiency, confidence, readiness, or Attributes.
 
-### Phase 4 — Adaptive GuitaRPG — PLANNED
+### Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 
 Purpose:
 

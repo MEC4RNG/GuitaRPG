@@ -3,9 +3,9 @@
   "plan_version": "1.0",
   "project": "GuitaRPG",
   "phase": {
-    "id": 3,
-    "name": "Progression",
-    "status": "COMPLETE"
+    "id": 4,
+    "name": "Adaptive GuitaRPG",
+    "status": "IN_PROGRESS"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -18,12 +18,16 @@
     "title": "Phase 3 Progression Gate",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "TRN-001",
     "title": "Recommendation Candidate Generation",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "TRN-002",
+    "title": "Recommendation Scoring and Ranking",
     "authorized_to_start": false,
-    "condition": "P3-GATE-001 must pass and explicit user authorization is required before TRN-001"
+    "condition": "TRN-001 must complete and explicit user authorization is required before TRN-002"
   },
   "phase_gate": {
     "id": "P3-GATE-001",
@@ -32,8 +36,8 @@
   "next_phase": {
     "id": 4,
     "name": "Adaptive GuitaRPG",
-    "status": "PLANNED",
-    "authorized_to_start": false
+    "status": "IN_PROGRESS",
+    "authorized_to_start": true
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_TRN_001_AUTHORIZATION"
+  "execution_status": "TRN_001_IN_PROGRESS"
 }
