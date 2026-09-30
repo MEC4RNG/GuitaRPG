@@ -88,6 +88,10 @@ function contrast(foreground: string, background: string) {
 }
 
 describe("UX-001 hybrid design-system contract", () => {
+  it("uses the amended v1 navigation contract version", () => {
+    expect(contract.design_system_version).toBe("UX_V1_1");
+  });
+
   it("defines the three approved product surfaces", () => {
     expect(Object.keys(contract.surfaces)).toEqual(["INSTRUMENT_HUD", "CODEX", "PRACTICE_LAB"]);
   });
@@ -142,7 +146,8 @@ describe("UX-001 hybrid design-system contract", () => {
     expect(contract.navigation.desktop.PLAY).toEqual(["Home", "Generate", "Training"]);
     expect(contract.navigation.desktop.DEVELOPMENT).toEqual(["Character", "Skills", "History"]);
     expect(contract.navigation.desktop.LEARN).toEqual(["Codex"]);
-    expect(contract.navigation.desktop.SYSTEM).toEqual(["Profile", "Settings"]);
+    expect(contract.navigation.desktop.SYSTEM).toEqual(["Profile"]);
+    expect(Object.values(contract.navigation.desktop).flat()).not.toContain("Settings");
 
     expect(contract.navigation.mobile.items).toEqual(["Home", "Generate", "Skills", "Profile"]);
     expect(contract.navigation.mobile.universal_primary_action).toBe("Generate");

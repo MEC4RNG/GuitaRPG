@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "ticket": "UX-001",
-  "design_system_version": "UX_V1",
+  "design_system_version": "UX_V1_1",
   "identity": {
     "product": "GuitaRPG",
     "principle": "Play like Instrument HUD. Learn like Codex. Measure like Practice Lab.",
@@ -28,13 +28,7 @@
         "coral": "#E85D5D",
         "violet": "#9B5DE5"
       },
-      "character": [
-        "dark",
-        "instrumental",
-        "focused",
-        "responsive",
-        "restrained"
-      ]
+      "character": ["dark", "instrumental", "focused", "responsive", "restrained"]
     },
     "CODEX": {
       "purpose": "Codex, learning, reference, campaign educational content",
@@ -50,13 +44,7 @@
         "sage": "#759B81",
         "indigo": "#6476A8"
       },
-      "character": [
-        "warm",
-        "editorial",
-        "scholarly",
-        "tactile",
-        "restrained"
-      ]
+      "character": ["warm", "editorial", "scholarly", "tactile", "restrained"]
     },
     "PRACTICE_LAB": {
       "purpose": "Character, Skills, History, progress and analytics",
@@ -73,13 +61,7 @@
         "negative": "#E85D5D",
         "analysis": "#9B5DE5"
       },
-      "character": [
-        "clean",
-        "analytical",
-        "legible",
-        "data_forward",
-        "calm"
-      ]
+      "character": ["clean", "analytical", "legible", "data_forward", "calm"]
     }
   },
   "semantic_colors": {
@@ -192,31 +174,13 @@
   },
   "navigation": {
     "desktop": {
-      "PLAY": [
-        "Home",
-        "Generate",
-        "Training"
-      ],
-      "DEVELOPMENT": [
-        "Character",
-        "Skills",
-        "History"
-      ],
-      "LEARN": [
-        "Codex"
-      ],
-      "SYSTEM": [
-        "Profile",
-        "Settings"
-      ]
+      "PLAY": ["Home", "Generate", "Training"],
+      "DEVELOPMENT": ["Character", "Skills", "History"],
+      "LEARN": ["Codex"],
+      "SYSTEM": ["Profile"]
     },
     "mobile": {
-      "items": [
-        "Home",
-        "Generate",
-        "Skills",
-        "Profile"
-      ],
+      "items": ["Home", "Generate", "Skills", "Profile"],
       "universal_primary_action": "Generate",
       "maximum_persistent_items_excluding_primary_action": 4
     }
@@ -225,165 +189,74 @@
     {
       "name": "AppShell",
       "purpose": "Global responsive application frame",
-      "required_states": [
-        "desktop_sidebar",
-        "mobile_bottom_nav"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "CODEX",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["desktop_sidebar", "mobile_bottom_nav"],
+      "surface_variants": ["INSTRUMENT_HUD", "CODEX", "PRACTICE_LAB"]
     },
     {
       "name": "Sidebar",
       "purpose": "Desktop primary navigation",
-      "required_states": [
-        "default",
-        "active",
-        "focus_visible"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD"
-      ]
+      "required_states": ["default", "active", "focus_visible"],
+      "surface_variants": ["INSTRUMENT_HUD"]
     },
     {
       "name": "MobileNav",
       "purpose": "Phone primary navigation with Generate as universal action",
-      "required_states": [
-        "default",
-        "active",
-        "focus_visible"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD"
-      ]
+      "required_states": ["default", "active", "focus_visible"],
+      "surface_variants": ["INSTRUMENT_HUD"]
     },
     {
       "name": "Panel",
       "purpose": "Reusable grouped content container",
-      "required_states": [
-        "default",
-        "raised"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "CODEX",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["default", "raised"],
+      "surface_variants": ["INSTRUMENT_HUD", "CODEX", "PRACTICE_LAB"]
     },
     {
       "name": "QuestCard",
       "purpose": "Scannable resolved Quest summary",
-      "required_states": [
-        "default",
-        "recommended",
-        "active",
-        "completed"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "CODEX"
-      ]
+      "required_states": ["default", "recommended", "active", "completed"],
+      "surface_variants": ["INSTRUMENT_HUD", "CODEX"]
     },
     {
       "name": "SkillBadge",
       "purpose": "Canonical Skill identity and role",
-      "required_states": [
-        "primary",
-        "secondary",
-        "required_technique"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["primary", "secondary", "required_technique"],
+      "surface_variants": ["INSTRUMENT_HUD", "PRACTICE_LAB"]
     },
     {
       "name": "DifficultyBadge",
       "purpose": "Display I-V demand/personal difficulty with visible text",
-      "required_states": [
-        "I",
-        "II",
-        "III",
-        "IV",
-        "V",
-        "unknown",
-        "provisional"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["I", "II", "III", "IV", "V", "unknown", "provisional"],
+      "surface_variants": ["INSTRUMENT_HUD", "PRACTICE_LAB"]
     },
     {
       "name": "ProgressBar",
       "purpose": "Progress visualization with textual or accessible numeric value",
-      "required_states": [
-        "determinate",
-        "indeterminate"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["determinate", "indeterminate"],
+      "surface_variants": ["INSTRUMENT_HUD", "PRACTICE_LAB"]
     },
     {
       "name": "AttributeDisplay",
       "purpose": "Broad derived Character Attribute display",
-      "required_states": [
-        "unassessed",
-        "estimated",
-        "established"
-      ],
-      "surface_variants": [
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["unassessed", "estimated", "established"],
+      "surface_variants": ["PRACTICE_LAB"]
     },
     {
       "name": "StatusChip",
       "purpose": "Compact semantic state with non-color cue",
-      "required_states": [
-        "success",
-        "warning",
-        "danger",
-        "info",
-        "neutral"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "CODEX",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["success", "warning", "danger", "info", "neutral"],
+      "surface_variants": ["INSTRUMENT_HUD", "CODEX", "PRACTICE_LAB"]
     },
     {
       "name": "MetricCard",
       "purpose": "Analytics/progress metric with label, value, and context",
-      "required_states": [
-        "default",
-        "positive_delta",
-        "negative_delta",
-        "unknown"
-      ],
-      "surface_variants": [
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["default", "positive_delta", "negative_delta", "unknown"],
+      "surface_variants": ["PRACTICE_LAB"]
     },
     {
       "name": "ActionButton",
       "purpose": "Primary/secondary/destructive action control",
-      "required_states": [
-        "default",
-        "hover",
-        "focus_visible",
-        "pressed",
-        "disabled"
-      ],
-      "surface_variants": [
-        "INSTRUMENT_HUD",
-        "CODEX",
-        "PRACTICE_LAB"
-      ]
+      "required_states": ["default", "hover", "focus_visible", "pressed", "disabled"],
+      "surface_variants": ["INSTRUMENT_HUD", "CODEX", "PRACTICE_LAB"]
     }
   ],
   "interaction_rules": {

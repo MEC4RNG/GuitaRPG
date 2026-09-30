@@ -2,6 +2,8 @@
 
 - Status: Accepted
 - Ticket: UX-001
+- Contract version: UX_V1_1
+- Amended by: UX-001-R1 — v1 Navigation Contract Refinement
 - Date: 2026-09-27
 - Depends on: FND-001, FND-002
 - Applies to: GuitaRPG v1 application surfaces and core UI components
@@ -224,7 +226,10 @@ LEARN:
 
 SYSTEM:
 - Profile
-- Settings
+
+Settings is deferred from exposed v1 navigation until the product has independently meaningful application/settings behavior. GuitaRPG must not expose a placeholder Settings destination merely to preserve an earlier information-architecture draft.
+
+This contract governs exposed primary navigation. The `/settings` route may temporarily remain in source until UX-004 cleanup; route existence alone does not make Settings an approved exposed v1 surface. Settings may return to navigation in a later product version when it represents real behavior.
 
 ### Mobile persistent navigation
 
@@ -236,6 +241,10 @@ SYSTEM:
 Generate remains the universal primary action and may receive a visually dominant center action treatment.
 
 Mobile navigation must not require hover.
+
+### UX-001-R1 amendment rationale
+
+UX-001 originally anticipated Settings as part of the desktop information architecture. By Phase 5, P5-SCOPE-001 confirmed that no distinct v1 Settings capability exists and the route remains a placeholder. Inventing settings solely to satisfy that earlier draft would create misleading launch UX. Removing Settings from exposed v1 navigation preserves product truthfulness without reducing the functional core loop. UX-004 owns the implementation cleanup; this amendment changes authority only.
 
 ## 9. Motion
 

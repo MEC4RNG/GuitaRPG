@@ -18,7 +18,11 @@
     "title": "Phase 5 Launch-Critical Scope Review",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
+  "active_ticket": {
+    "id": "UX-001-R1",
+    "title": "v1 Navigation Contract Refinement",
+    "status": "IN_PROGRESS"
+  },
   "next_ticket": {
     "id": "UX-004",
     "title": "Launch Surface Truthfulness & Placeholder Cleanup",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_UX_004_AUTHORIZATION"
+  "execution_status": "UX_001_R1_IN_PROGRESS"
 }

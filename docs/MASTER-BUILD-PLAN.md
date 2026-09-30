@@ -151,13 +151,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Last terminal ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — COMPLETE
 
-**Active ticket:** none
+**Active remediation:** `UX-001-R1 — v1 Navigation Contract Refinement` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
-**Next planned ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — NOT AUTHORIZED
+**Blocked dependent ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -348,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS. The scope-only `P5-SCOPE-001` review and its R4 deterministic-CI remediation are COMPLETE. UX-004 is next but remains unauthorized pending explicit approval.
+Phase 5 execution is IN PROGRESS. The bounded UX-001-R1 enabling remediation refines the v1 navigation authority before UX-004. UX-004 remains blocked and unauthorized pending remediation closure and explicit approval.
 
 Purpose:
 
@@ -361,7 +361,8 @@ Expected work may include:
 - `P5-SCOPE-001-R2` — CI Arborist Peer-Resolution Workaround — BLOCKED / SUPERSEDED
 - `P5-SCOPE-001-R3` — Deterministic CI Dependency Graph investigation — BLOCKED / NOT COMMITTED IMPLEMENTATION
 - `P5-SCOPE-001-R4` — Explicit Vitest Peer & Deterministic CI Graph — COMPLETE
-- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — proposed / unauthorized
+- `UX-001-R1` — v1 Navigation Contract Refinement — IN PROGRESS
+- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — blocked / unauthorized
 - `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
 - `QST-004` — Quest-to-Codex Reference Integration — proposed / unauthorized
@@ -966,6 +967,10 @@ terminal COMPLETE with dedicated runtime, database, staging, security, and brows
 P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
 completed P5-SCOPE-001 scope review. R1 and R2 are blocked and superseded, R3 was investigation-only,
 and R4 is COMPLETE with deterministic CI. UX-004 and production cutover remain unauthorized.
+
+The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
+REL-005, then P5-GATE-001. UX-001-R1 amends only the exposed v1 navigation authority;
+implementation remains owned by UX-004.
 
 ---
 
