@@ -148,9 +148,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `TRN-001 — Recommendation Candidate Generation` — COMPLETE
+**Last terminal ticket:** `TRN-002 — Recommendation Scoring and Ranking` — COMPLETE
 
-**Active ticket:** `TRN-002 — Recommendation Scoring and Ranking` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -934,8 +934,9 @@ finalized-Result progression chain, recomputation, corrections, anti-inflation b
 product read models, browser truthfulness, security, and deletion satisfy the Phase 3 exit
 criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS. TRN-001
 is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
-Primary Skills. TRN-002 is IN PROGRESS, applying the authorized deterministic `TRN_SCORE_V1`
-priority model; TRN-003 remains unauthorized. Production cutover remains unauthorized.
+Primary Skills. TRN-002 is terminal COMPLETE with the deterministic, explainable `TRN_SCORE_V1`
+priority model and dense tie-safe ranking; TRN-003 remains unauthorized. Production cutover
+remains unauthorized.
 
 ---
 
