@@ -5,7 +5,7 @@
   "phase": {
     "id": 3,
     "name": "Progression",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -14,25 +14,26 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "REL-003",
-    "title": "Progression Integration & Recomputation Tests",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "P3-GATE-001",
     "title": "Phase 3 Progression Gate",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
-  "next_ticket": null,
+  "active_ticket": null,
+  "next_ticket": {
+    "id": "TRN-001",
+    "title": "Recommendation Candidate Generation",
+    "authorized_to_start": false,
+    "condition": "P3-GATE-001 must pass and explicit user authorization is required before TRN-001"
+  },
   "phase_gate": {
-    "id": "P2-GATE-001",
+    "id": "P3-GATE-001",
     "status": "PASS"
   },
   "next_phase": {
-    "id": 3,
-    "name": "Progression",
-    "status": "IN_PROGRESS",
-    "authorized_to_start": true
+    "id": 4,
+    "name": "Adaptive GuitaRPG",
+    "status": "PLANNED",
+    "authorized_to_start": false
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
@@ -41,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "P3_GATE_001_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_TRN_001_AUTHORIZATION"
 }

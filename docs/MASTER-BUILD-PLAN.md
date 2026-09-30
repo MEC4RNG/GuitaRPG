@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 3 — Progression — IN PROGRESS
+**Current phase:** Phase 3 — Progression — COMPLETE
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,18 +145,18 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 3 — Progression — IN PROGRESS
+**Phase:** Phase 3 — Progression — COMPLETE
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `REL-003 — Progression Integration & Recomputation Tests` — COMPLETE
+**Last terminal ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 
-**Active ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** none while P3-GATE-001 is active
+**Next planned ticket:** `TRN-001 — Recommendation Candidate Generation` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -299,7 +299,7 @@ Phase 2 exit criterion:
 
 A Player can generate a valid Quest, practice it, complete/partially complete it, persist the Result, and find it in History.
 
-### Phase 3 — Progression — PLANNED
+### Phase 3 — Progression — COMPLETE
 
 Purpose:
 
@@ -314,8 +314,8 @@ Expected work:
 - `PROG-005` — Character Attribute derivation — COMPLETE
 - `UX-003` — Character & Skills Progression Views — COMPLETE
 - `PROG-006` — Progression Correction & Recomputation Operations — COMPLETE
-- `REL-003` — progression integration/recomputation tests
-- `P3-GATE-001`
+- `REL-003` — progression integration/recomputation tests — COMPLETE
+- `P3-GATE-001` — Phase 3 Progression Gate — COMPLETE / PASS
 
 Phase 3 exit criterion:
 
@@ -929,11 +929,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS. REL-003 is terminal COMPLETE: the finalized-Result
-progression chain, recomputation, corrections, anti-inflation boundaries, product read
-models, browser truthfulness, security, and deletion are integrated without changing
-model semantics or migrations. P3-GATE-001 remains unauthorized pending separate
-explicit approval. Production cutover remains unauthorized.
+Phase 3 — Progression is COMPLETE. P3-GATE-001 is terminal COMPLETE / PASS: the
+finalized-Result progression chain, recomputation, corrections, anti-inflation boundaries,
+product read models, browser truthfulness, security, and deletion satisfy the Phase 3 exit
+criterion without changing model semantics or migrations. Phase 4 remains PLANNED and
+TRN-001 requires separate explicit authorization. Production cutover remains unauthorized.
 
 ---
 
