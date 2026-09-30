@@ -1,0 +1,1386 @@
+{
+  "schema_version": 1,
+  "content_version": "CODEX_CONTENT_V1",
+  "taxonomy_authority": "domain/taxonomy/canonical-taxonomy.json",
+  "entries": [
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000014",
+      "slug": "borrowed_chord_count",
+      "kind": "CONSTRAINT",
+      "definition": "Borrowed Chord Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000015",
+      "slug": "fret_range",
+      "kind": "CONSTRAINT",
+      "definition": "Fret Range is a boundary that limits the usable span during a Quest.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000016",
+      "slug": "modulation_count",
+      "kind": "CONSTRAINT",
+      "definition": "Modulation Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000017",
+      "slug": "output_length",
+      "kind": "CONSTRAINT",
+      "definition": "Output Length is a parameter that bounds the size of the requested musical output.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000018",
+      "slug": "phrase_length",
+      "kind": "CONSTRAINT",
+      "definition": "Phrase Length is a parameter that bounds the size of the requested musical output.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000019",
+      "slug": "pitch_count",
+      "kind": "CONSTRAINT",
+      "definition": "Pitch Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000020",
+      "slug": "practice_duration",
+      "kind": "CONSTRAINT",
+      "definition": "Practice Duration is a time parameter that bounds the intended practice period.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000021",
+      "slug": "prompt_count",
+      "kind": "CONSTRAINT",
+      "definition": "Prompt Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000022",
+      "slug": "ratio",
+      "kind": "CONSTRAINT",
+      "definition": "Ratio is a proportional requirement between two quantities in the Quest.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000023",
+      "slug": "response_count",
+      "kind": "CONSTRAINT",
+      "definition": "Response Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000024",
+      "slug": "source_note_count",
+      "kind": "CONSTRAINT",
+      "definition": "Source Note Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000025",
+      "slug": "source_phrase_count",
+      "kind": "CONSTRAINT",
+      "definition": "Source Phrase Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000026",
+      "slug": "string_set",
+      "kind": "CONSTRAINT",
+      "definition": "String Set is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000027",
+      "slug": "target_tempo",
+      "kind": "CONSTRAINT",
+      "definition": "A beats-per-minute requirement that sets the intended pacing for a Quest without defining how difficult that tempo is for a particular Player.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000028",
+      "slug": "time_limit",
+      "kind": "CONSTRAINT",
+      "definition": "Time Limit is a time boundary within which the requested activity is performed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000029",
+      "slug": "top_voice_motion",
+      "kind": "CONSTRAINT",
+      "definition": "Top Voice Motion is a reusable restriction that specifies how top voice motion must be handled in a Quest.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000030",
+      "slug": "variation_count",
+      "kind": "CONSTRAINT",
+      "definition": "Variation Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000001",
+      "slug": "alternate_picking",
+      "kind": "SKILL",
+      "definition": "The coordinated use of alternating downstrokes and upstrokes to articulate consecutive notes with an even attack and reliable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000002",
+      "slug": "anticipation_placement",
+      "kind": "SKILL",
+      "definition": "Anticipation Placement is the trainable ability to execute anticipation placement deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000003",
+      "slug": "arpeggio_sequencing",
+      "kind": "SKILL",
+      "definition": "The ability to perform ordered note patterns through an arpeggio while preserving its chord-tone structure and rhythmic continuity.",
+      "aliases": ["Arpeggio Sequences"]
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000004",
+      "slug": "artificial_harmonics",
+      "kind": "SKILL",
+      "definition": "Artificial Harmonics is the trainable ability to produce and control overtone-based notes with accurate contact and attack.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000005",
+      "slug": "backbeat_placement",
+      "kind": "SKILL",
+      "definition": "Backbeat Placement is the trainable ability to execute backbeat placement deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000006",
+      "slug": "barre_chord_fretting",
+      "kind": "SKILL",
+      "definition": "The ability to hold several strings with one fretting finger while forming a chord cleanly with the remaining fingers.",
+      "aliases": ["Barre Chords"]
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000007",
+      "slug": "basic_chord_fretting",
+      "kind": "SKILL",
+      "definition": "Basic Chord Fretting is the trainable ability to place and release the fretting hand accurately while keeping notes clear.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000008",
+      "slug": "bending",
+      "kind": "SKILL",
+      "definition": "Bending is the trainable ability to raise a fretted pitch by controlling string tension and intonation.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000009",
+      "slug": "chicken_picking",
+      "kind": "SKILL",
+      "definition": "Chicken Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000010",
+      "slug": "chord_inversion_navigation",
+      "kind": "SKILL",
+      "definition": "Chord Inversion Navigation is the trainable ability to form, connect, and apply chord shapes with clear voice movement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000011",
+      "slug": "chord_melody_playing",
+      "kind": "SKILL",
+      "definition": "Chord-Melody Playing is the trainable ability to form, connect, and apply chord shapes with clear voice movement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000012",
+      "slug": "chord_substitution_application",
+      "kind": "SKILL",
+      "definition": "Chord Substitution Application is the trainable ability to form, connect, and apply chord shapes with clear voice movement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000013",
+      "slug": "classical_fingerstyle",
+      "kind": "SKILL",
+      "definition": "Classical Fingerstyle is the trainable ability to coordinate independent picking-hand fingers to articulate strings.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000014",
+      "slug": "counterpoint_application",
+      "kind": "SKILL",
+      "definition": "Counterpoint Application is the trainable ability to execute counterpoint application deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000015",
+      "slug": "cross_rhythm_performance",
+      "kind": "SKILL",
+      "definition": "Cross-Rhythm Performance is the trainable ability to perform layered rhythmic motion accurately against a stable pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000016",
+      "slug": "dead_note_articulation",
+      "kind": "SKILL",
+      "definition": "Dead-Note Articulation is the trainable ability to locate, recognize, and deliberately articulate notes on the instrument.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000017",
+      "slug": "double_stop_execution",
+      "kind": "SKILL",
+      "definition": "Double-Stop Execution is the trainable ability to execute double-stop execution deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000018",
+      "slug": "downstroke_picking",
+      "kind": "SKILL",
+      "definition": "Downstroke Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000019",
+      "slug": "economy_picking",
+      "kind": "SKILL",
+      "definition": "Economy Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000020",
+      "slug": "finger_independence",
+      "kind": "SKILL",
+      "definition": "Finger Independence is the trainable ability to execute finger independence deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000021",
+      "slug": "finger_placement",
+      "kind": "SKILL",
+      "definition": "Finger Placement is the trainable ability to execute finger placement deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000022",
+      "slug": "fingerstyle",
+      "kind": "SKILL",
+      "definition": "Fingerstyle is the trainable ability to coordinate independent picking-hand fingers to articulate strings.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000023",
+      "slug": "fingerstyle_tremolo",
+      "kind": "SKILL",
+      "definition": "Fingerstyle Tremolo is the trainable ability to coordinate independent picking-hand fingers to articulate strings.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000024",
+      "slug": "flatpicking",
+      "kind": "SKILL",
+      "definition": "Flatpicking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000025",
+      "slug": "free_stroke",
+      "kind": "SKILL",
+      "definition": "Free Stroke is the trainable ability to control the direction, depth, and follow-through of a picking-hand stroke.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000026",
+      "slug": "fret_hand_muting",
+      "kind": "SKILL",
+      "definition": "Fret-Hand Muting is the trainable ability to silence unwanted string vibration while preserving intended notes.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000027",
+      "slug": "ghost_note_articulation",
+      "kind": "SKILL",
+      "definition": "Ghost-Note Articulation is the trainable ability to locate, recognize, and deliberately articulate notes on the instrument.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000028",
+      "slug": "gypsy_jazz_picking",
+      "kind": "SKILL",
+      "definition": "Gypsy Jazz Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000029",
+      "slug": "hammer_on",
+      "kind": "SKILL",
+      "definition": "Hammer-On is the trainable ability to execute hammer-on deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000030",
+      "slug": "harp_harmonics",
+      "kind": "SKILL",
+      "definition": "Harp Harmonics is the trainable ability to produce and control overtone-based notes with accurate contact and attack.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000031",
+      "slug": "hybrid_picking",
+      "kind": "SKILL",
+      "definition": "Hybrid Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000032",
+      "slug": "interval_recognition",
+      "kind": "SKILL",
+      "definition": "Interval Recognition is the trainable ability to identify and use the distance between pitches by sound and position.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000033",
+      "slug": "legato",
+      "kind": "SKILL",
+      "definition": "Legato is the trainable ability to execute legato deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000034",
+      "slug": "metric_modulation_performance",
+      "kind": "SKILL",
+      "definition": "Metric Modulation Performance is the trainable ability to move musical material between tonal centers while making the harmonic change clear.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000035",
+      "slug": "microtonal_bending",
+      "kind": "SKILL",
+      "definition": "Microtonal Bending is the trainable ability to raise a fretted pitch by controlling string tension and intonation.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000036",
+      "slug": "modal_application",
+      "kind": "SKILL",
+      "definition": "Modal Application is the trainable ability to execute modal application deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000037",
+      "slug": "modulation_application",
+      "kind": "SKILL",
+      "definition": "Modulation Application is the trainable ability to move musical material between tonal centers while making the harmonic change clear.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000038",
+      "slug": "note_location",
+      "kind": "SKILL",
+      "definition": "Note Location is the trainable ability to locate, recognize, and deliberately articulate notes on the instrument.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000039",
+      "slug": "odd_meter_fluency",
+      "kind": "SKILL",
+      "definition": "Odd-Meter Fluency is the trainable ability to execute odd-meter fluency deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000040",
+      "slug": "open_chord_fluency",
+      "kind": "SKILL",
+      "definition": "Open Chord Fluency is the trainable ability to form, connect, and apply chord shapes with clear voice movement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000041",
+      "slug": "open_string_chord_voicing",
+      "kind": "SKILL",
+      "definition": "Open-String Chord Voicing is the trainable ability to form, connect, and apply chord shapes with clear voice movement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000042",
+      "slug": "palm_muting",
+      "kind": "SKILL",
+      "definition": "Palm Muting is the trainable ability to silence unwanted string vibration while preserving intended notes.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000043",
+      "slug": "percussive_strumming",
+      "kind": "SKILL",
+      "definition": "Percussive Strumming is the trainable ability to coordinate repeated multi-string attacks with consistent rhythm and dynamics.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000044",
+      "slug": "pick_scrape",
+      "kind": "SKILL",
+      "definition": "Pick Scrape is the trainable ability to execute pick scrape deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000045",
+      "slug": "pick_tapping",
+      "kind": "SKILL",
+      "definition": "Pick Tapping is the trainable ability to sound fretted notes by striking the fingerboard rather than relying only on a picked attack.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000046",
+      "slug": "pinch_harmonics",
+      "kind": "SKILL",
+      "definition": "Pinch Harmonics is the trainable ability to produce and control overtone-based notes with accurate contact and attack.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000047",
+      "slug": "polyrhythm_performance",
+      "kind": "SKILL",
+      "definition": "Polyrhythm Performance is the trainable ability to perform layered rhythmic motion accurately against a stable pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000048",
+      "slug": "power_chord_fretting",
+      "kind": "SKILL",
+      "definition": "Power Chord Fretting is the trainable ability to place and release the fretting hand accurately while keeping notes clear.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000049",
+      "slug": "pull_off",
+      "kind": "SKILL",
+      "definition": "Pull-Off is the trainable ability to execute pull-off deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000050",
+      "slug": "rake_picking",
+      "kind": "SKILL",
+      "definition": "Rake Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000051",
+      "slug": "rest_stroke",
+      "kind": "SKILL",
+      "definition": "Rest Stroke is the trainable ability to control the direction, depth, and follow-through of a picking-hand stroke.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000052",
+      "slug": "rhythmic_displacement_control",
+      "kind": "SKILL",
+      "definition": "Rhythmic Displacement Control is the trainable ability to perform layered rhythmic motion accurately against a stable pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000053",
+      "slug": "scalar_fingering",
+      "kind": "SKILL",
+      "definition": "Scalar Fingering is the trainable ability to execute scalar fingering deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000054",
+      "slug": "scalar_sequence_execution",
+      "kind": "SKILL",
+      "definition": "Scalar Sequence Execution is the trainable ability to execute scalar sequence execution deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000055",
+      "slug": "scale_application",
+      "kind": "SKILL",
+      "definition": "Scale Application is the trainable ability to organize and perform scale material across the instrument.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000056",
+      "slug": "scale_degree_recognition",
+      "kind": "SKILL",
+      "definition": "Scale-Degree Recognition is the trainable ability to organize and perform scale material across the instrument.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000057",
+      "slug": "scale_mapping",
+      "kind": "SKILL",
+      "definition": "Scale Mapping is the trainable ability to organize and perform scale material across the instrument.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000058",
+      "slug": "slap_and_pop",
+      "kind": "SKILL",
+      "definition": "Slap and Pop is the trainable ability to execute slap and pop deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000059",
+      "slug": "sliding",
+      "kind": "SKILL",
+      "definition": "Sliding is the trainable ability to execute sliding deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000060",
+      "slug": "string_skipping",
+      "kind": "SKILL",
+      "definition": "String Skipping is the trainable ability to move deliberately between strings without unintended contact or noise.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000061",
+      "slug": "subdivision_control",
+      "kind": "SKILL",
+      "definition": "Subdivision Control is the trainable ability to divide the beat evenly and place notes reliably within those divisions.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000062",
+      "slug": "sweep_picking",
+      "kind": "SKILL",
+      "definition": "Sweep Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000063",
+      "slug": "syncopation_control",
+      "kind": "SKILL",
+      "definition": "Syncopation Control is the trainable ability to place and sustain accents away from expected strong beats while retaining the pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000064",
+      "slug": "tremolo_picking",
+      "kind": "SKILL",
+      "definition": "Tremolo Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000065",
+      "slug": "tremolo_strumming",
+      "kind": "SKILL",
+      "definition": "Tremolo Strumming is the trainable ability to coordinate repeated multi-string attacks with consistent rhythm and dynamics.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000066",
+      "slug": "triad_construction",
+      "kind": "SKILL",
+      "definition": "Triad Construction is the trainable ability to execute triad construction deliberately with coordinated movement, clean sound, and stable timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000067",
+      "slug": "two_hand_tapping",
+      "kind": "SKILL",
+      "definition": "Two-Hand Tapping is the trainable ability to sound fretted notes by striking the fingerboard rather than relying only on a picked attack.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000068",
+      "slug": "two_voice_independence",
+      "kind": "SKILL",
+      "definition": "Two-Voice Independence is the trainable ability to control independent musical lines while preserving their continuity.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000069",
+      "slug": "upstroke_picking",
+      "kind": "SKILL",
+      "definition": "Upstroke Picking is the trainable ability to coordinate the pick across strings with clear attacks and steady timing.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000070",
+      "slug": "vibrato",
+      "kind": "SKILL",
+      "definition": "Vibrato is the trainable ability to shape a sustained pitch with controlled, repeated variation.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000071",
+      "slug": "voice_leading",
+      "kind": "SKILL",
+      "definition": "Voice Leading is the trainable ability to control independent musical lines while preserving their continuity.",
+      "aliases": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000072",
+      "slug": "wide_interval_fretting",
+      "kind": "SKILL",
+      "definition": "Wide-Interval Fretting is the trainable ability to place and release the fretting hand accurately while keeping notes clear.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000001",
+      "slug": "aeolian",
+      "kind": "CONCEPT",
+      "definition": "Aeolian is a musical idea that describes how aeolian organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000002",
+      "slug": "approach_notes",
+      "kind": "CONCEPT",
+      "definition": "Approach Notes is a musical idea that describes how approach notes organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000003",
+      "slug": "arabian_scale",
+      "kind": "CONCEPT",
+      "definition": "Arabian is a defined collection and ordering of pitch relationships used to organize melody and harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000004",
+      "slug": "arpeggio",
+      "kind": "CONCEPT",
+      "definition": "Arpeggio is a musical idea that describes how arpeggio organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000005",
+      "slug": "atonality",
+      "kind": "CONCEPT",
+      "definition": "An approach that avoids establishing one pitch as a governing tonal center.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000006",
+      "slug": "bebop_chromaticism",
+      "kind": "CONCEPT",
+      "definition": "Bebop Chromaticism is a musical idea that describes how bebop chromaticism organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000007",
+      "slug": "bebop_dominant",
+      "kind": "CONCEPT",
+      "definition": "Bebop Dominant is a musical idea that describes how bebop dominant organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000008",
+      "slug": "bebop_major",
+      "kind": "CONCEPT",
+      "definition": "Bebop Major is a major-oriented pitch collection with characteristic interval relationships.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000009",
+      "slug": "bebop_minor",
+      "kind": "CONCEPT",
+      "definition": "Bebop Minor is a minor-oriented pitch collection with characteristic altered scale degrees.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000010",
+      "slug": "blues_scale",
+      "kind": "CONCEPT",
+      "definition": "Blues Scale is a defined collection and ordering of pitch relationships used to organize melody and harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000011",
+      "slug": "byzantine",
+      "kind": "CONCEPT",
+      "definition": "Byzantine is a musical idea that describes how byzantine organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000012",
+      "slug": "chord_inversion",
+      "kind": "CONCEPT",
+      "definition": "Chord Inversion is a harmonic idea describing the selection or arrangement of simultaneous pitches.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000013",
+      "slug": "chord_substitution",
+      "kind": "CONCEPT",
+      "definition": "Chord Substitution is a harmonic idea describing the selection or arrangement of simultaneous pitches.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000014",
+      "slug": "chord_voicing",
+      "kind": "CONCEPT",
+      "definition": "Chord Voicing is a harmonic idea describing the selection or arrangement of simultaneous pitches.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000015",
+      "slug": "counterpoint",
+      "kind": "CONCEPT",
+      "definition": "Counterpoint is a musical idea that describes how counterpoint organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000016",
+      "slug": "cross_rhythm",
+      "kind": "CONCEPT",
+      "definition": "Cross-Rhythm is a recurring organization of durations and accents against a pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000017",
+      "slug": "diatonic_harmony",
+      "kind": "CONCEPT",
+      "definition": "Diatonic Harmony is a principle for organizing chords and their movement within a tonal setting.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000018",
+      "slug": "diminished_whole_half",
+      "kind": "CONCEPT",
+      "definition": "Diminished (Whole-Half) is a musical idea that describes how diminished (whole-half) organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000019",
+      "slug": "djent_groove",
+      "kind": "CONCEPT",
+      "definition": "Djent Groove is a musical idea that describes how djent groove organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000020",
+      "slug": "dorian",
+      "kind": "CONCEPT",
+      "definition": "A minor-type mode whose natural sixth distinguishes it from the natural-minor pattern, giving minor harmony a brighter characteristic color.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000021",
+      "slug": "double_stop",
+      "kind": "CONCEPT",
+      "definition": "Double Stop is a musical idea that describes how double stop organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000022",
+      "slug": "eighth_note_subdivision",
+      "kind": "CONCEPT",
+      "definition": "Eighth-Note Subdivision is a way of dividing each beat into consistent smaller rhythmic units.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000023",
+      "slug": "enigmatic",
+      "kind": "CONCEPT",
+      "definition": "Enigmatic is a musical idea that describes how enigmatic organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000024",
+      "slug": "extended_chords",
+      "kind": "CONCEPT",
+      "definition": "Extended Chords is a harmonic idea describing the selection or arrangement of simultaneous pitches.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000025",
+      "slug": "gallop_rhythm",
+      "kind": "CONCEPT",
+      "definition": "Gallop Rhythm is a recurring organization of durations and accents against a pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000026",
+      "slug": "harmonic_anticipation",
+      "kind": "CONCEPT",
+      "definition": "Harmonic Anticipation is a musical idea that describes how harmonic anticipation organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000027",
+      "slug": "harmonic_minor",
+      "kind": "CONCEPT",
+      "definition": "Harmonic Minor is a minor-oriented pitch collection with characteristic altered scale degrees.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000028",
+      "slug": "hirajoshi",
+      "kind": "CONCEPT",
+      "definition": "Hirajoshi is a musical idea that describes how hirajoshi organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000029",
+      "slug": "hungarian_minor",
+      "kind": "CONCEPT",
+      "definition": "Hungarian Minor is a minor-oriented pitch collection with characteristic altered scale degrees.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000030",
+      "slug": "i_iv_v_progression",
+      "kind": "CONCEPT",
+      "definition": "I–IV–V Progression is an ordered harmonic motion whose functions create direction and resolution.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000031",
+      "slug": "in_sen",
+      "kind": "CONCEPT",
+      "definition": "In Sen is a musical idea that describes how in sen organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000032",
+      "slug": "ionian",
+      "kind": "CONCEPT",
+      "definition": "Ionian is a musical idea that describes how ionian organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000033",
+      "slug": "locrian",
+      "kind": "CONCEPT",
+      "definition": "Locrian is a musical idea that describes how locrian organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000034",
+      "slug": "lydian",
+      "kind": "CONCEPT",
+      "definition": "Lydian is a musical idea that describes how lydian organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000035",
+      "slug": "major_pentatonic",
+      "kind": "CONCEPT",
+      "definition": "Pentatonic Major is a major-oriented pitch collection with characteristic interval relationships.",
+      "aliases": ["Major Pentatonic"]
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000036",
+      "slug": "major_scale",
+      "kind": "CONCEPT",
+      "definition": "Major Scale is a defined collection and ordering of pitch relationships used to organize melody and harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000037",
+      "slug": "melodic_minor",
+      "kind": "CONCEPT",
+      "definition": "Melodic Minor is a minor-oriented pitch collection with characteristic altered scale degrees.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000038",
+      "slug": "melody",
+      "kind": "CONCEPT",
+      "definition": "Melody is a musical idea that describes how melody organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000039",
+      "slug": "meter_5_4",
+      "kind": "CONCEPT",
+      "definition": "5/4 is a recurring grouping of beats that defines the measure's rhythmic framework.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000040",
+      "slug": "meter_7_8",
+      "kind": "CONCEPT",
+      "definition": "7/8 is a recurring grouping of beats that defines the measure's rhythmic framework.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000041",
+      "slug": "metric_modulation",
+      "kind": "CONCEPT",
+      "definition": "Metric Modulation is a change of tonal center that reorganizes the harmonic reference point.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000042",
+      "slug": "minor_pentatonic",
+      "kind": "CONCEPT",
+      "definition": "Pentatonic Minor is a minor-oriented pitch collection with characteristic altered scale degrees.",
+      "aliases": ["Minor Pentatonic"]
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000043",
+      "slug": "mixolydian",
+      "kind": "CONCEPT",
+      "definition": "Mixolydian is a musical idea that describes how mixolydian organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000044",
+      "slug": "modal_interchange",
+      "kind": "CONCEPT",
+      "definition": "Modal Interchange is a musical idea that describes how modal interchange organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000045",
+      "slug": "modulation",
+      "kind": "CONCEPT",
+      "definition": "Modulation is a change of tonal center that reorganizes the harmonic reference point.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000046",
+      "slug": "natural_minor",
+      "kind": "CONCEPT",
+      "definition": "Natural Minor is a minor-oriented pitch collection with characteristic altered scale degrees.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000047",
+      "slug": "octatonic_half_whole",
+      "kind": "CONCEPT",
+      "definition": "Octatonic (Half-Whole) is a musical idea that describes how octatonic (half-whole) organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000048",
+      "slug": "passing_chords",
+      "kind": "CONCEPT",
+      "definition": "Passing Chords is a harmonic idea describing the selection or arrangement of simultaneous pitches.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000049",
+      "slug": "pentatonic_scale_family",
+      "kind": "CONCEPT",
+      "definition": "Pentatonic Scale Family is a defined collection and ordering of pitch relationships used to organize melody and harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000050",
+      "slug": "persian_scale",
+      "kind": "CONCEPT",
+      "definition": "Persian Scale is a defined collection and ordering of pitch relationships used to organize melody and harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000051",
+      "slug": "phrygian",
+      "kind": "CONCEPT",
+      "definition": "Phrygian is a musical idea that describes how phrygian organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000052",
+      "slug": "polyrhythm",
+      "kind": "CONCEPT",
+      "definition": "Polyrhythm is a recurring organization of durations and accents against a pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000053",
+      "slug": "polytonality",
+      "kind": "CONCEPT",
+      "definition": "Polytonality is a musical idea that describes how polytonality organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000054",
+      "slug": "power_chord",
+      "kind": "CONCEPT",
+      "definition": "Power Chord is a harmonic idea describing the selection or arrangement of simultaneous pitches.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000055",
+      "slug": "quarter_note_subdivision",
+      "kind": "CONCEPT",
+      "definition": "Quarter-Note Subdivision is a way of dividing each beat into consistent smaller rhythmic units.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000056",
+      "slug": "rhythmic_displacement",
+      "kind": "CONCEPT",
+      "definition": "Rhythmic Displacement is a recurring organization of durations and accents against a pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000057",
+      "slug": "secondary_dominant",
+      "kind": "CONCEPT",
+      "definition": "Secondary Dominant is a musical idea that describes how secondary dominant organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000058",
+      "slug": "serialism",
+      "kind": "CONCEPT",
+      "definition": "A compositional method that organizes musical elements through a predetermined series, commonly an ordering of the twelve pitch classes.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000059",
+      "slug": "shuffle_feel",
+      "kind": "CONCEPT",
+      "definition": "Shuffle Feel is a musical idea that describes how shuffle feel organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000060",
+      "slug": "ska_offbeat_rhythm",
+      "kind": "CONCEPT",
+      "definition": "Ska Offbeat Rhythm is a recurring organization of durations and accents against a pulse.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000061",
+      "slug": "swing_eighths",
+      "kind": "CONCEPT",
+      "definition": "Swing Eighths is a musical idea that describes how swing eighths organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000062",
+      "slug": "syncopation",
+      "kind": "CONCEPT",
+      "definition": "Syncopation is a musical idea that describes how syncopation organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000063",
+      "slug": "triplet_feel",
+      "kind": "CONCEPT",
+      "definition": "Triplet Feel is a musical idea that describes how triplet feel organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "30000000-0000-4000-8000-000000000064",
+      "slug": "whole_tone",
+      "kind": "CONCEPT",
+      "definition": "Whole-Tone is a musical idea that describes how whole-tone organizes pitch, rhythm, texture, or harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000001",
+      "slug": "ambient_soundscapes",
+      "kind": "CONTEXT",
+      "definition": "Ambient / Soundscapes is a musical setting associated with Ambient / Soundscapes, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000002",
+      "slug": "avant_garde_noise",
+      "kind": "CONTEXT",
+      "definition": "Avant-Garde / Noise is a musical setting associated with Avant-Garde / Noise, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000003",
+      "slug": "blues",
+      "kind": "CONTEXT",
+      "definition": "Blues is a musical setting associated with Blues, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000004",
+      "slug": "blues_rock",
+      "kind": "CONTEXT",
+      "definition": "Blues-Rock is a musical setting associated with Blues-Rock, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000005",
+      "slug": "bossa_nova",
+      "kind": "CONTEXT",
+      "definition": "Bossa Nova is a musical setting associated with Bossa Nova, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000006",
+      "slug": "classical",
+      "kind": "CONTEXT",
+      "definition": "Classical is a musical setting associated with Classical, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000007",
+      "slug": "country",
+      "kind": "CONTEXT",
+      "definition": "Country is a musical setting associated with Country, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000030",
+      "slug": "dadgad",
+      "kind": "CONTEXT",
+      "definition": "A six-string tuning arranged D–A–D–G–A–D from low to high, often used for drones and open-voiced harmony.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000008",
+      "slug": "djent",
+      "kind": "CONTEXT",
+      "definition": "Djent is a musical setting associated with Djent, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000031",
+      "slug": "drop_d",
+      "kind": "CONTEXT",
+      "definition": "Drop D is a tuning environment that determines the open-string pitches and available resonances.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000009",
+      "slug": "flamenco",
+      "kind": "CONTEXT",
+      "definition": "Flamenco is a musical setting associated with Flamenco, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000010",
+      "slug": "flamenco_rumba",
+      "kind": "CONTEXT",
+      "definition": "Flamenco Rumba is a musical setting associated with Flamenco Rumba, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000011",
+      "slug": "folk",
+      "kind": "CONTEXT",
+      "definition": "Folk is a musical setting associated with Folk, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000012",
+      "slug": "gypsy_jazz",
+      "kind": "CONTEXT",
+      "definition": "Gypsy Jazz is a musical setting associated with Gypsy Jazz, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000013",
+      "slug": "jazz",
+      "kind": "CONTEXT",
+      "definition": "Jazz is a musical setting associated with Jazz, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000014",
+      "slug": "jazz_fusion",
+      "kind": "CONTEXT",
+      "definition": "Jazz Fusion is a musical setting associated with Jazz Fusion, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000015",
+      "slug": "math_rock",
+      "kind": "CONTEXT",
+      "definition": "Math Rock is a musical setting associated with Math Rock, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000016",
+      "slug": "metal",
+      "kind": "CONTEXT",
+      "definition": "Metal is a musical setting associated with Metal, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000017",
+      "slug": "neoclassical",
+      "kind": "CONTEXT",
+      "definition": "Neoclassical is a musical setting associated with Neoclassical, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000018",
+      "slug": "percussive_fingerstyle",
+      "kind": "CONTEXT",
+      "definition": "Percussive Fingerstyle is a musical setting associated with Percussive Fingerstyle, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000019",
+      "slug": "playing_role_lead_guitar",
+      "kind": "CONTEXT",
+      "definition": "Lead Guitar is a playing-role context that focuses the instrument's function within an arrangement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000020",
+      "slug": "playing_role_rhythm_guitar",
+      "kind": "CONTEXT",
+      "definition": "Rhythm Guitar is a playing-role context that focuses the instrument's function within an arrangement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000021",
+      "slug": "pop",
+      "kind": "CONTEXT",
+      "definition": "Pop is a musical setting associated with Pop, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000022",
+      "slug": "post_rock",
+      "kind": "CONTEXT",
+      "definition": "Post-Rock is a musical setting associated with Post-Rock, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000023",
+      "slug": "progressive_rock_metal",
+      "kind": "CONTEXT",
+      "definition": "Progressive Rock / Metal is a musical setting associated with Progressive Rock / Metal, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000024",
+      "slug": "reggae",
+      "kind": "CONTEXT",
+      "definition": "Reggae is a musical setting associated with Reggae, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000025",
+      "slug": "rock",
+      "kind": "CONTEXT",
+      "definition": "Rock is a musical setting associated with Rock, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000026",
+      "slug": "ska",
+      "kind": "CONTEXT",
+      "definition": "Ska is a musical setting associated with Ska, used to frame the style, role, or environment of practice.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000027",
+      "slug": "slide_guitar",
+      "kind": "CONTEXT",
+      "definition": "Slide Guitar is a playing-role context that focuses the instrument's function within an arrangement.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000029",
+      "slug": "standard_tuning",
+      "kind": "CONTEXT",
+      "definition": "Standard Tuning is a tuning environment that determines the open-string pitches and available resonances.",
+      "aliases": []
+    },
+    {
+      "entity_id": "40000000-0000-4000-8000-000000000028",
+      "slug": "tonal_center",
+      "kind": "CONTEXT",
+      "definition": "The pitch that functions as the perceived center of a passage; a Quest supplies the particular pitch as a parameter.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000001",
+      "slug": "adjacent_strings_only",
+      "kind": "CONSTRAINT",
+      "definition": "Adjacent Strings Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000002",
+      "slug": "change_strings_each_bar",
+      "kind": "CONSTRAINT",
+      "definition": "Change Strings Each Bar is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000003",
+      "slug": "double_stop_texture",
+      "kind": "CONSTRAINT",
+      "definition": "Double-Stop Texture is a reusable restriction that specifies how double-stop texture must be handled in a Quest.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000004",
+      "slug": "even_strings_only",
+      "kind": "CONSTRAINT",
+      "definition": "Even Strings Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000005",
+      "slug": "high_strings_only",
+      "kind": "CONSTRAINT",
+      "definition": "High Strings Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000006",
+      "slug": "low_strings_only",
+      "kind": "CONSTRAINT",
+      "definition": "Low Strings Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000007",
+      "slug": "non_adjacent_strings_only",
+      "kind": "CONSTRAINT",
+      "definition": "Non-Adjacent Strings Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000008",
+      "slug": "odd_strings_only",
+      "kind": "CONSTRAINT",
+      "definition": "Odd Strings Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000009",
+      "slug": "single_string_only",
+      "kind": "CONSTRAINT",
+      "definition": "Single String Only is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000010",
+      "slug": "single_string_per_measure",
+      "kind": "CONSTRAINT",
+      "definition": "Single String per Measure is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000011",
+      "slug": "skip_every_other_string",
+      "kind": "CONSTRAINT",
+      "definition": "Skip Every Other String is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000012",
+      "slug": "skip_two_strings",
+      "kind": "CONSTRAINT",
+      "definition": "Skip Two Strings is a restriction that controls which guitar strings may be used or how they may be traversed.",
+      "aliases": []
+    },
+    {
+      "entity_id": "50000000-0000-4000-8000-000000000013",
+      "slug": "string_count",
+      "kind": "CONSTRAINT",
+      "definition": "String Count is a parameter that limits how many specified musical items a Quest may use or produce.",
+      "aliases": []
+    }
+  ]
+}

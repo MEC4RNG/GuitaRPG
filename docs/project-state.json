@@ -18,12 +18,16 @@
     "title": "Functional Player Profile Editing",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "CODEX-001",
     "title": "Minimum Taxonomy-Backed Codex",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "QST-004",
+    "title": "Quest-to-Codex Reference Integration",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before CODEX-001"
+    "condition": "Explicit user authorization is required before QST-004"
   },
   "phase_gate": {
     "id": "P4-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_CODEX_001_AUTHORIZATION"
+  "execution_status": "CODEX_001_IN_PROGRESS"
 }

@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 
-import { FoundationPage } from "@/components/foundation-page";
+import { CodexSurface } from "@/components/codex-surface";
+import { PageHeader } from "@/components/page-header";
+import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
 
 export const metadata: Metadata = { title: "Codex" };
 
 export default function CodexPage() {
   return (
-    <FoundationPage
-      eyebrow="LEARN · CODEX"
-      title="The musical reference layer."
-      description="Skills, Concepts, Contexts, Constraints, and relationships will connect practice to concise learning material."
-      milestone="Canonical taxonomy seed + Codex content model"
-      contract="The Codex consumes the TAX-001 vocabulary; it does not invent a second classification system for educational content."
-    />
+    <div className="page-stack">
+      <PageHeader
+        eyebrow="LEARN · CODEX"
+        title="Musical reference"
+        description="Browse the canonical Skills, Concepts, Contexts, and Constraints used by GuitaRPG."
+      />
+      <CodexSurface entries={CODEX_ENTRIES} />
+    </div>
   );
 }

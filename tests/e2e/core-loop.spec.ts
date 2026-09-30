@@ -244,3 +244,29 @@ test("new anonymous Player explicitly selects a tied Training target and starts 
   await expect(page.getByLabel("Training target", { exact: true })).toHaveValue("");
   await expect(page.getByRole("button", { name: "Build Training Quest" })).toBeDisabled();
 });
+
+test("Codex browses canonical references without Player setup", async ({ page }) => {
+  await page.goto("/codex");
+  await expect(page.getByRole("heading", { name: "Musical reference" })).toBeVisible();
+  const search = page.getByLabel("Search the Codex");
+  await search.fill("Dorian");
+  await page.getByRole("link", { name: "Dorian", exact: true }).click();
+  await expect(page).toHaveURL(/\/codex\/concepts\/dorian$/);
+  await expect(page.getByText("CONCEPT", { exact: true })).toBeVisible();
+
+  await page.getByRole("link", { name: "Back to Codex" }).click();
+  await page.getByRole("button", { name: "Skills" }).click();
+  await search.fill("Alternate Picking");
+  await page.getByRole("link", { name: "Alternate Picking", exact: true }).click();
+  await expect(page.getByRole("definition").filter({ hasText: "Technique" })).toBeVisible();
+
+  await page.goto("/codex");
+  await search.fill("Barre Chords");
+  await expect(page.getByRole("link", { name: "Barre-Chord Fretting", exact: true })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+
+  const response = await page.goto("/codex/concepts/alternate_picking");
+  expect(response?.status()).toBe(404);
+});

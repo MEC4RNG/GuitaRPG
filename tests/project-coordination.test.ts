@@ -60,7 +60,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves completed prerequisites after PLY-003 closes", () => {
+  it("preserves completed prerequisites while CODEX-001 is active", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -69,7 +69,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
 
     expect(state.last_terminal_ticket).toMatchObject({ id: "PLY-003", status: "COMPLETE" });
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({ id: "CODEX-001", status: "IN_PROGRESS" });
     expect(read("docs/tickets/PLY-003.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/UX-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/UX-001-R1.md")).toContain("**Status:** COMPLETE");
@@ -92,14 +92,14 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps CODEX-001 and cutover unauthorized after Profile editing", () => {
+  it("keeps QST-004 and cutover unauthorized during Codex work", () => {
     expect(state.phase).toEqual({
       id: 5,
       name: "Learning & Practice Tooling",
       status: "IN_PROGRESS",
     });
-    expect(state.next_ticket).toMatchObject({ id: "CODEX-001", authorized_to_start: false });
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_CODEX_001_AUTHORIZATION");
+    expect(state.next_ticket).toMatchObject({ id: "QST-004", authorized_to_start: false });
+    expect(state.execution_status).toBe("CODEX_001_IN_PROGRESS");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
