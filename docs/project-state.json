@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "TAX-004",
-    "title": "Skill-to-Attribute AFFECTS Graph",
+    "id": "PROG-005",
+    "title": "Character Attribute Derivation",
     "status": "COMPLETE"
   },
   "active_ticket": null,
-  "next_ticket": {
-    "id": "PROG-005",
-    "title": "Character Attribute Derivation",
+  "next_ticket": null,
+  "next_planned_work": {
+    "title": "Character / Skills progression views",
     "authorized_to_start": false,
-    "condition": "TAX-004 must complete and explicit user authorization is required before PROG-005"
+    "condition": "A concrete Phase 3 ticket must be defined and explicitly authorized"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
@@ -42,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_PROG_005_AUTHORIZATION"
+  "execution_status": "AWAITING_PHASE3_NEXT_TICKET_DEFINITION"
 }
