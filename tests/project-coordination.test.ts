@@ -56,7 +56,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the completed Phase 2 prerequisites after REL-003", () => {
+  it("preserves the completed Phase 2 prerequisites during P3-GATE-001", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -65,7 +65,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({ id: "P3-GATE-001", status: "IN_PROGRESS" });
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,13 +75,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("closes REL-003 while keeping P3-GATE-001 and cutover unauthorized", () => {
+  it("runs P3-GATE-001 while keeping Phase 4 and cutover unauthorized", () => {
     expect(state.phase).toEqual({ id: 3, name: "Progression", status: "IN_PROGRESS" });
-    expect(state.next_ticket).toMatchObject({
-      id: "P3-GATE-001",
-      authorized_to_start: false,
-    });
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_P3_GATE_001_AUTHORIZATION");
+    expect(state.next_ticket).toBeNull();
+    expect(state.execution_status).toBe("P3_GATE_001_IN_PROGRESS");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");

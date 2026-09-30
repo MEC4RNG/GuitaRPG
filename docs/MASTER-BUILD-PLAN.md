@@ -150,13 +150,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `REL-003 — Progression Integration & Recomputation Tests` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — unauthorized
+**Next planned ticket:** none while P3-GATE-001 is active
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
