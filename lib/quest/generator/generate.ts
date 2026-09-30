@@ -16,9 +16,10 @@ import {
   type GeneratedQuest,
   type GeneratorTemplate,
   type QuickQuestInput,
+  type TrainingQuestInput,
 } from "./types";
 
-type Mode = "QUICK" | "CUSTOM";
+type Mode = "QUICK" | "CUSTOM" | "TRAINING";
 type Ref = { slug: string; name: string };
 
 const entityRef = (slug: string, kind: "SKILL" | "CONCEPT" | "CONSTRAINT" | "CONTEXT"): Ref => {
@@ -386,7 +387,10 @@ export function generateQuickQuest(input: QuickQuestInput = {}): GeneratedQuest 
   });
 }
 
-export function generateCustomQuest(input: CustomQuestInput): GeneratedQuest {
+function generateComposedQuest(
+  input: CustomQuestInput,
+  mode: "CUSTOM" | "TRAINING",
+): GeneratedQuest {
   const template = templateForCustom(input);
   const effectiveSeed = String(input.seed ?? "custom-default");
   const random = seeded(effectiveSeed);
@@ -414,7 +418,7 @@ export function generateCustomQuest(input: CustomQuestInput): GeneratedQuest {
       "Quest allows at most two Secondary and two Required Technique Skills",
     );
   return finalize({
-    mode: "CUSTOM",
+    mode,
     template,
     questType,
     primarySkill: input.primary_skill,
@@ -428,4 +432,12 @@ export function generateCustomQuest(input: CustomQuestInput): GeneratedQuest {
     seed: effectiveSeed,
     identity: input,
   });
+}
+
+export function generateCustomQuest(input: CustomQuestInput): GeneratedQuest {
+  return generateComposedQuest(input, "CUSTOM");
+}
+
+export function generateTrainingQuest(input: TrainingQuestInput): GeneratedQuest {
+  return generateComposedQuest(input, "TRAINING");
 }

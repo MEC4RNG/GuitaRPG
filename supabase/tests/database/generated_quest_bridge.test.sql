@@ -17,16 +17,16 @@ grant select on generated_quest_fixture to authenticated;
 insert into generated_quest_fixture values ($json$
 {
   "identity":{"id":"73333333-3333-4333-8333-333333333333","slug":"dorian_generated_bridge","title":"Hybrid Picking: Dorian","schema_version":1,"type":"TECHNIQUE","origin":"QST_GEN_V1"},
-  "purpose":{"reason":"DEVELOP_SKILL","primary_domain":"technique","generation_mode":"CUSTOM"},
+  "purpose":{"reason":"DEVELOP_SKILL","primary_domain":"technique","generation_mode":"TRAINING"},
   "execution":{"primary_skill":{"slug":"hybrid_picking","name":"Hybrid Picking","domain":"technique","role":"PRIMARY_SKILL"},"secondary_skills":[{"slug":"scale_mapping","name":"Scale Mapping","domain":"fretboard","role":"SECONDARY_SKILL"},{"slug":"syncopation_control","name":"Syncopation Control","domain":"rhythm","role":"SECONDARY_SKILL"}],"required_techniques":[],"estimated_minutes":10,"meter":"4/4"},
   "completion_contract":{"attempt_rule":"MEANINGFUL_ACTIVITY","minimum_attempt_seconds":60,"clear_rule":"ALL_OBJECTIVE_CRITERIA","mastery_claimed":false},
   "verification_profile":{"allowed_modes":["SELF","SESSION"],"recommended_mode":"SESSION","verification_required_for_clear":false},
   "difficulty_profile":{"declared_overall_demand":"III","computation_status":"COMPUTED","model_version":"DIF_V1","overall":{"score":54,"level":"III"}},
   "rewards":{"policy":"STANDARD_PRACTICE","fixed_xp":null,"progression_effects_embedded":false},
-  "metadata":{"generator_version":"QST_GEN_V1","generation_mode":"CUSTOM"},
+  "metadata":{"generator_version":"QST_GEN_V1","compatibility_rule_version":"QST_GEN_RULES_V1","template_id":"technique_fluency_v1","generation_mode":"TRAINING","seed":"dorian-training-regression","player_specific":false},
   "resolved_snapshot":{
     "identity":{"id":"73333333-3333-4333-8333-333333333333","slug":"dorian_generated_bridge","title":"Hybrid Picking: Dorian","schema_version":1,"type":"TECHNIQUE","origin":"QST_GEN_V1"},
-    "purpose":{"reason":"DEVELOP_SKILL","primary_domain":"technique","generation_mode":"CUSTOM"},
+    "purpose":{"reason":"DEVELOP_SKILL","primary_domain":"technique","generation_mode":"TRAINING"},
     "musical_context":{"tuning":null,"tonal_center":{"kind":"TONAL_CENTER","pitch_class":"E"},"style":null,"playing_role":null,"accompaniment":null},
     "execution":{"primary_skill":{"slug":"hybrid_picking","name":"Hybrid Picking","domain":"technique","role":"PRIMARY_SKILL"},"secondary_skills":[{"slug":"scale_mapping","name":"Scale Mapping","domain":"fretboard","role":"SECONDARY_SKILL"},{"slug":"syncopation_control","name":"Syncopation Control","domain":"rhythm","role":"SECONDARY_SKILL"}],"required_techniques":[],"estimated_minutes":10,"meter":"4/4"},
     "concepts":[{"slug":"dorian","name":"Dorian"},{"slug":"eighth_note_subdivision","name":"Eighth-Note Subdivision"},{"slug":"syncopation","name":"Syncopation"}],
@@ -36,7 +36,7 @@ insert into generated_quest_fixture values ($json$
     "verification_profile":{"allowed_modes":["SELF","SESSION"],"recommended_mode":"SESSION","verification_required_for_clear":false},
     "difficulty_profile":{"declared_overall_demand":"III","computation_status":"COMPUTED","model_version":"DIF_V1","overall":{"score":54,"level":"III"}},
     "rewards":{"policy":"STANDARD_PRACTICE","fixed_xp":null,"progression_effects_embedded":false},
-    "metadata":{"generator_version":"QST_GEN_V1","generation_mode":"CUSTOM"}
+    "metadata":{"generator_version":"QST_GEN_V1","compatibility_rule_version":"QST_GEN_RULES_V1","template_id":"technique_fluency_v1","generation_mode":"TRAINING","seed":"dorian-training-regression","player_specific":false}
   }
 }
 $json$::jsonb);
@@ -50,6 +50,7 @@ set local role postgres;
 
 set local role authenticated;
 set local request.jwt.claim.sub = '71111111-1111-4111-8111-111111111111';
+set constraints all deferred;
 select extensions.lives_ok(
   $$select public.persist_generated_quest((select payload from generated_quest_fixture))$$,
   'authenticated owner persists generated Quest'
@@ -58,6 +59,21 @@ select extensions.is(
   (select player_id from public.quests where id = '73333333-3333-4333-8333-333333333333'),
   '71111111-1111-4111-8111-111111111111'::uuid,
   'generated Quest owner derives from auth.uid()'
+);
+select extensions.is(
+  (select generation_mode from public.quests where id = '73333333-3333-4333-8333-333333333333'),
+  'TRAINING',
+  'durable generation mode is TRAINING'
+);
+select extensions.is(
+  (select resolved_snapshot -> 'purpose' ->> 'generation_mode' from public.quests where id = '73333333-3333-4333-8333-333333333333'),
+  'TRAINING',
+  'snapshot generation mode is TRAINING'
+);
+select extensions.is(
+  (select metadata ->> 'generation_mode' from public.quests where id = '73333333-3333-4333-8333-333333333333'),
+  'TRAINING',
+  'metadata generation mode is TRAINING'
 );
 select extensions.is(
   (select id::text from public.quests where id = '73333333-3333-4333-8333-333333333333'),
@@ -132,6 +148,64 @@ select extensions.throws_ok(
 set local role postgres;
 
 select extensions.is((select count(*)::bigint from public.quests where id = '75555555-5555-4555-8555-555555555555'), 0::bigint, 'failed generated write leaves no partial Quest row');
+
+create temporary table generated_mode_fixture (mode text primary key, payload jsonb not null);
+grant select on generated_mode_fixture to authenticated;
+insert into generated_mode_fixture (mode, payload)
+select mode, jsonb_set(
+  jsonb_set(
+    jsonb_set(
+      jsonb_set(
+        jsonb_set(
+          jsonb_set((select payload from generated_quest_fixture), '{identity,id}', to_jsonb(id)),
+          '{identity,slug}', to_jsonb(slug)
+        ),
+        '{resolved_snapshot,identity,id}', to_jsonb(id)
+      ),
+      '{resolved_snapshot,identity,slug}', to_jsonb(slug)
+    ),
+    '{resolved_snapshot,purpose,generation_mode}', to_jsonb(mode)
+  ),
+  '{resolved_snapshot,metadata,generation_mode}', to_jsonb(mode)
+)
+from (values
+  ('QUICK', '76666666-6666-4666-8666-666666666666', 'generated_quick_regression'),
+  ('CUSTOM', '77777777-7777-4777-8777-777777777777', 'generated_custom_regression'),
+  ('DAILY', '78888888-8888-4888-8888-888888888888', 'generated_daily_rejected'),
+  ('CALIBRATION', '79999999-9999-4999-8999-999999999999', 'generated_calibration_rejected'),
+  ('CAMPAIGN', '7aaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'generated_campaign_rejected')
+) as variants(mode, id, slug);
+update generated_mode_fixture
+set payload = jsonb_set(
+  jsonb_set(payload, '{purpose,generation_mode}', to_jsonb(mode)),
+  '{metadata,generation_mode}', to_jsonb(mode)
+);
+
+set local role authenticated;
+set local request.jwt.claim.sub = '71111111-1111-4111-8111-111111111111';
+set constraints all deferred;
+select extensions.lives_ok(
+  $$select public.persist_generated_quest((select payload from generated_mode_fixture where mode = 'QUICK'))$$,
+  'QUICK persistence remains accepted'
+);
+set constraints all deferred;
+select extensions.lives_ok(
+  $$select public.persist_generated_quest((select payload from generated_mode_fixture where mode = 'CUSTOM'))$$,
+  'CUSTOM persistence remains accepted'
+);
+select extensions.throws_ok(
+  $$select public.persist_generated_quest((select payload from generated_mode_fixture where mode = 'DAILY'))$$,
+  '22023', null, 'DAILY remains rejected'
+);
+select extensions.throws_ok(
+  $$select public.persist_generated_quest((select payload from generated_mode_fixture where mode = 'CALIBRATION'))$$,
+  '22023', null, 'CALIBRATION remains rejected'
+);
+select extensions.throws_ok(
+  $$select public.persist_generated_quest((select payload from generated_mode_fixture where mode = 'CAMPAIGN'))$$,
+  '22023', null, 'CAMPAIGN remains rejected'
+);
+set local role postgres;
 
 select set_config('request.jwt.claim.sub', '', true);
 delete from auth.users where id = '71111111-1111-4111-8111-111111111111';

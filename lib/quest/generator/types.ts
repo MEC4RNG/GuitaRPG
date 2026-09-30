@@ -47,6 +47,8 @@ export type CustomQuestInput = GenerationIdentity & {
   meter?: string;
 };
 
+export type TrainingQuestInput = CustomQuestInput;
+
 export type GeneratedQuest = {
   quest: Quest;
   persistence: QuestPersistenceInput;

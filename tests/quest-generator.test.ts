@@ -9,6 +9,7 @@ import {
   QuestGenerationError,
   generateCustomQuest,
   generateQuickQuest,
+  generateTrainingQuest,
   validateGeneratorCatalog,
 } from "@/lib/quest/generator";
 
@@ -25,7 +26,7 @@ const active = new Map(
     .map((item) => [item.slug, item.kind]),
 );
 
-function assertGeneratedQuest(quest: Quest, mode: "QUICK" | "CUSTOM") {
+function assertGeneratedQuest(quest: Quest, mode: "QUICK" | "CUSTOM" | "TRAINING") {
   expect(parseQuest(quest)).toBe(quest);
   expect(toQuestPersistenceInput(quest).resolved_snapshot).toBe(quest);
   expect(quest.identity.schema_version).toBe(1);
@@ -80,6 +81,71 @@ describe("QST-003 Quick/Custom Quest generator", () => {
     const generated = generateCustomQuest({ seed: "custom", primary_skill: "scale_mapping" });
     assertGeneratedQuest(generated.quest, "CUSTOM");
     expect(generated.quest.execution.primary_skill.slug).toBe("scale_mapping");
+  });
+
+  it("generates canonical persistence-ready Training Quests for all 15 capable Primary Skills", () => {
+    const skills = GENERATOR_TEMPLATES.flatMap((template) => template.primarySkills);
+    expect(skills).toHaveLength(15);
+    expect(new Set(skills)).toHaveLength(15);
+    for (const primary_skill of skills) {
+      const generated = generateTrainingQuest({ seed: primary_skill, primary_skill });
+      assertGeneratedQuest(generated.quest, "TRAINING");
+      expect(generated.quest.execution.primary_skill.slug).toBe(primary_skill);
+      expect(generated.quest.metadata).toMatchObject({
+        generator_version: "QST_GEN_V1",
+        compatibility_rule_version: "QST_GEN_RULES_V1",
+        generation_mode: "TRAINING",
+      });
+      expect(generated.persistence.resolved_snapshot).toBe(generated.quest);
+      expect(JSON.stringify(generated.quest)).not.toMatch(
+        /recommendation_priority_score|semantic_rank|score_components|winner_probability|challenge_preference|personal_difficulty/,
+      );
+    }
+  });
+
+  it("reuses Custom validation and is reproducible with an explicit identity", () => {
+    const input = {
+      id: "13333333-3333-4333-8333-333333333333",
+      seed: "training-repeat",
+      primary_skill: "hybrid_picking",
+    } as const;
+    expect(generateTrainingQuest(input)).toEqual(generateTrainingQuest(input));
+    expect(() =>
+      generateTrainingQuest({ primary_skill: "hybrid_picking", concepts: ["counterpoint"] }),
+    ).toThrowError(expect.objectContaining({ code: "INCOMPATIBLE_SELECTION" }));
+  });
+
+  it("reproduces DORIAN through TRAINING with identical DIF_V1 demand", () => {
+    const composition = {
+      seed: "dorian-training-regression",
+      primary_skill: "hybrid_picking",
+      quest_type: "TECHNIQUE" as const,
+      secondary_skills: ["scale_mapping", "syncopation_control"],
+      concepts: ["dorian", "eighth_note_subdivision", "syncopation"],
+      tonal_center: "E",
+      strings: [2, 3, 4, 5],
+      fret_range: { min: 5, max: 12 },
+      target_tempo_bpm: 90,
+      estimated_minutes: 10,
+      meter: "4/4",
+    };
+    const training = generateTrainingQuest(composition).quest;
+    const custom = generateCustomQuest(composition).quest;
+    expect(training.purpose.generation_mode).toBe("TRAINING");
+    expect(training.identity.origin).toBe("QST_GEN_V1");
+    expect(evaluateAbsoluteQuestDemand(training)).toEqual(evaluateAbsoluteQuestDemand(custom));
+    expect(evaluateAbsoluteQuestDemand(training)).toMatchObject({
+      dimensions: {
+        TECHNIQUE: { score: 56 },
+        FRETBOARD: { score: 48 },
+        THEORY: { score: 34 },
+        RHYTHM: { score: 52 },
+        CREATIVE: { score: null },
+        TEMPO: { score: 45 },
+        CONSTRAINT: { score: 51 },
+      },
+      overall: { score: 54, level: "III" },
+    });
   });
 
   it("reproduces DORIAN CROSSROADS semantics and exact DIF_V1 demand through general rules", () => {

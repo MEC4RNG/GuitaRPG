@@ -1,4 +1,4 @@
-export { generateCustomQuest, generateQuickQuest } from "./generate";
+export { generateCustomQuest, generateQuickQuest, generateTrainingQuest } from "./generate";
 export { GENERATOR_TEMPLATES, validateGeneratorCatalog } from "./catalog";
 export { PARAMETER_BOUNDS } from "./rules";
 export {
@@ -6,4 +6,9 @@ export {
   QUEST_GENERATOR_VERSION,
   QuestGenerationError,
 } from "./types";
-export type { CustomQuestInput, GeneratedQuest, QuickQuestInput } from "./types";
+export type {
+  CustomQuestInput,
+  GeneratedQuest,
+  QuickQuestInput,
+  TrainingQuestInput,
+} from "./types";

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
-import { generateQuickQuest } from "@/lib/quest/generator";
+import { generateQuickQuest, generateTrainingQuest } from "@/lib/quest/generator";
 import { persistGeneratedQuest, QuestPersistenceError } from "@/lib/quest/repository";
 import {
   GeneratedQuestStartError,
@@ -26,6 +26,47 @@ describe("QST-003-R1 generated Quest application bridge", () => {
     expect(rpc).toHaveBeenCalledWith("persist_generated_quest", {
       p_quest: generated.persistence,
     });
+  });
+
+  it("passes real TRAINING generator output unchanged to the existing persistence RPC", async () => {
+    const generated = generateTrainingQuest({
+      id: "14444444-4444-4444-8444-444444444444",
+      seed: "training-bridge",
+      primary_skill: "hybrid_picking",
+    });
+    const rpc = vi
+      .fn()
+      .mockResolvedValue({ data: { id: generated.quest.identity.id }, error: null });
+    await expect(persistGeneratedQuest({ rpc }, generated.quest)).resolves.toBe(
+      generated.quest.identity.id,
+    );
+    expect(rpc).toHaveBeenCalledWith("persist_generated_quest", {
+      p_quest: generated.persistence,
+    });
+    expect(generated.persistence.resolved_snapshot.purpose.generation_mode).toBe("TRAINING");
+  });
+
+  it("persists a generated Training Quest and starts the ordinary SES-001 path", async () => {
+    const generated = generateTrainingQuest({
+      id: "15555555-5555-4555-8555-555555555555",
+      seed: "training-session",
+      primary_skill: "hybrid_picking",
+    });
+    const original = structuredClone(generated.quest);
+    const session = { id: crypto.randomUUID(), quest_id: generated.quest.identity.id };
+    const rpc = vi
+      .fn()
+      .mockResolvedValueOnce({ data: { id: generated.quest.identity.id }, error: null })
+      .mockResolvedValueOnce({ data: session, error: null });
+    await expect(startGeneratedQuestPractice({ rpc }, generated.quest, null)).resolves.toEqual({
+      questId: generated.quest.identity.id,
+      session,
+    });
+    expect(rpc.mock.calls.map(([name]) => name)).toEqual([
+      "persist_generated_quest",
+      "start_practice_session",
+    ]);
+    expect(generated.quest).toEqual(original);
   });
 
   it("normalizes database errors and rejects identity divergence", async () => {

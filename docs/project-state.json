@@ -18,12 +18,17 @@
     "title": "Recommendation Scoring and Ranking",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
+  "active_ticket": {
+    "id": "QST-003-R2",
+    "title": "Training Generation Mode Enablement",
+    "status": "IN_PROGRESS",
+    "blocked_dependent": "TRN-003"
+  },
   "next_ticket": {
     "id": "TRN-003",
     "title": "Training Surface Integration",
     "authorized_to_start": false,
-    "condition": "TRN-002 must complete and explicit user authorization is required before TRN-003"
+    "condition": "QST-003-R2 must complete and explicit user authorization is required before TRN-003"
   },
   "phase_gate": {
     "id": "P3-GATE-001",
@@ -42,5 +47,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_TRN_003_AUTHORIZATION"
+  "execution_status": "QST_003_R2_IN_PROGRESS"
 }
