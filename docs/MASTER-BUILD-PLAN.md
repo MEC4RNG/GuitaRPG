@@ -149,9 +149,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
-**Last terminal ticket:** `PLY-003 — Functional Player Profile Editing` — COMPLETE
+**Last terminal ticket:** `CODEX-001 — Minimum Taxonomy-Backed Codex` — COMPLETE
 
-**Active ticket:** `CODEX-001 — Minimum Taxonomy-Backed Codex` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -348,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS through active CODEX-001. UX-001-R1, UX-004, and PLY-003 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and QST-004 and all later Phase 5 work remain unauthorized.
+Phase 5 execution is IN PROGRESS through completed CODEX-001. UX-001-R1, UX-004, and PLY-003 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and QST-004 and all later Phase 5 work remain unauthorized.
 
 Purpose:
 
@@ -364,7 +364,7 @@ Expected work may include:
 - `UX-001-R1` — v1 Navigation Contract Refinement — COMPLETE
 - `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — COMPLETE
 - `PLY-003` — Functional Player Profile Editing — COMPLETE
-- `CODEX-001` — Minimum Taxonomy-Backed Codex — IN PROGRESS
+- `CODEX-001` — Minimum Taxonomy-Backed Codex — COMPLETE
 - `QST-004` — Quest-to-Codex Reference Integration — proposed / unauthorized
 - `REL-005` — Phase 5 Launch-Package Integration Tests — proposed / unauthorized
 - `P5-GATE-001` — Phase 5 Learning & Practice Tooling Gate — proposed / unauthorized
