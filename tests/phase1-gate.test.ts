@@ -63,13 +63,17 @@ describe("P1-GATE-001 durable integration invariants", () => {
   });
 
   it("keeps the Phase 1 gate lifecycle internally coherent", () => {
-    expect(["P1-GATE-001", "P2-GATE-001"]).toContain(state.phase_gate.id);
+    expect(["P1-GATE-001", "P2-GATE-001", "P3-GATE-001"]).toContain(state.phase_gate.id);
 
-    if (state.phase_gate.id === "P2-GATE-001") {
+    if (["P2-GATE-001", "P3-GATE-001"].includes(state.phase_gate.id)) {
       expect(state.phase_gate.status).toBe("PASS");
-      expect(state.phase.id).toBeGreaterThanOrEqual(2);
+      const minimumPhase = state.phase_gate.id === "P3-GATE-001" ? 3 : 2;
+      expect(state.phase.id).toBeGreaterThanOrEqual(minimumPhase);
       if (state.phase.id === 2) {
         expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
+      }
+      if (state.phase.id === 3) {
+        expect(state.phase).toEqual({ id: 3, name: "Progression", status: "COMPLETE" });
       }
       expect(state.next_ticket === null || state.next_ticket.authorized_to_start === false).toBe(
         true,
