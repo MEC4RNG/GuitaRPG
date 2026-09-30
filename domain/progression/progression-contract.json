@@ -104,10 +104,23 @@
     "result_quality_adjustment": "DEFERRED_TO_FUTURE_MODEL"
   },
   "attributes": {
+    "version": "ATTR_V1",
+    "graph_version": "ATTRIBUTE_GRAPH_V1",
     "statuses": ["UNASSESSED", "ESTIMATED", "ESTABLISHED"],
     "xp_is_input": false,
     "unrated_skill_treated_as_zero": false,
-    "derived_from_affects_relationships": true
+    "derived_from_affects_relationships": true,
+    "edge_weighting": "EQUAL_MEMBERSHIP",
+    "contributor_confidence_weight": "0.25 + 0.75 * (confidence_score / 100)",
+    "unrated_contributor_behavior": "EXCLUDED",
+    "score_aggregation": "sum(proficiency * confidence_weight) / sum(confidence_weight)",
+    "coverage_formula": "rated_contributor_count / total_graph_contributor_count",
+    "unassessed_rule": "rated_contributor_count = 0",
+    "established_minimum_coverage": 0.6,
+    "established_minimum_mean_contributor_confidence": 60,
+    "established_minimum_established_contributors": 2,
+    "readiness_is_input": false,
+    "stateful_smoothing": false
   },
   "progression_event_types": [
     "XP_AWARDED",

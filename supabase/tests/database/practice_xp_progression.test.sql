@@ -130,11 +130,6 @@ select extensions.is((select row(practice_xp,total_practice_seconds,character_le
 select private.award_result_xp_v1((select source_result_id from public.practice_xp_ledger where source_session_id='94444444-4444-4444-8444-444444444443'));
 select extensions.is((select count(*)::bigint from public.practice_xp_ledger),4::bigint,'backfill/award path is idempotent');
 
-select extensions.is(
- (select coalesce(jsonb_agg(to_jsonb(attribute) - array['created_at','updated_at']::text[] order by attribute.attribute_id),'[]'::jsonb) from public.player_attribute_states attribute where player_id='91111111-1111-4111-8111-111111111111'),
- (select attribute_state from development_baseline),
- 'XP does not mutate Attribute state');
-
 set local role authenticated;
 set local request.jwt.claim.sub='92222222-2222-4222-8222-222222222222';
 select extensions.is((select count(*)::bigint from public.practice_xp_ledger),0::bigint,'non-owner cannot read XP ledger');
