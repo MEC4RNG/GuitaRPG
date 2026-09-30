@@ -149,9 +149,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
-**Last terminal ticket:** `UX-001-R1 — v1 Navigation Contract Refinement` — COMPLETE
+**Last terminal ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — COMPLETE
 
-**Active ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -348,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS through UX-004. UX-001-R1 is COMPLETE and UX_V1_1 governs exposed v1 navigation. PLY-003 and all later Phase 5 work remain unauthorized.
+Phase 5 execution is IN PROGRESS through completed UX-004. UX-001-R1 is COMPLETE and UX_V1_1 governs exposed v1 navigation. PLY-003 and all later Phase 5 work remain unauthorized.
 
 Purpose:
 
@@ -362,7 +362,7 @@ Expected work may include:
 - `P5-SCOPE-001-R3` — Deterministic CI Dependency Graph investigation — BLOCKED / NOT COMMITTED IMPLEMENTATION
 - `P5-SCOPE-001-R4` — Explicit Vitest Peer & Deterministic CI Graph — COMPLETE
 - `UX-001-R1` — v1 Navigation Contract Refinement — COMPLETE
-- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — IN PROGRESS
+- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — COMPLETE
 - `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
 - `QST-004` — Quest-to-Codex Reference Integration — proposed / unauthorized
@@ -966,11 +966,11 @@ selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill rank
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
 P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
 completed P5-SCOPE-001 scope review. R1 and R2 are blocked and superseded, R3 was investigation-only,
-and R4 is COMPLETE with deterministic CI. UX-004 and production cutover remain unauthorized.
+and R4 is COMPLETE with deterministic CI. UX-001-R1 and UX-004 are COMPLETE; PLY-003 and production cutover remain unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
-REL-005, then P5-GATE-001. UX-001-R1 amends only the exposed v1 navigation authority;
-implementation remains owned by UX-004.
+REL-005, then P5-GATE-001. UX-001-R1 and UX-004 are COMPLETE. Execution awaits explicit
+PLY-003 authorization.
 
 ---
 

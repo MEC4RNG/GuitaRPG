@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "UX-001-R1",
-    "title": "v1 Navigation Contract Refinement",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "UX-004",
     "title": "Launch Surface Truthfulness & Placeholder Cleanup",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "PLY-003",
     "title": "Functional Player Profile Editing",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "UX_004_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_PLY_003_AUTHORIZATION"
 }
