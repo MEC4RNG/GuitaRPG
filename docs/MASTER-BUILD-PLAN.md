@@ -151,7 +151,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Last terminal ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE
 
-**Active ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — IN PROGRESS
+**Active remediation:** `P5-SCOPE-001-R1 — CI Dependency Installer Compatibility` — IN PROGRESS
+
+**Parent ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -348,7 +350,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS through the scope-only `P5-SCOPE-001` review. Feature work remains unauthorized until that review closes and its first implementation ticket is explicitly authorized.
+Phase 5 execution is IN PROGRESS through the bounded `P5-SCOPE-001-R1` CI remediation attached to the scope-only `P5-SCOPE-001` review. Feature work remains unauthorized until the remediation and parent review close and the first implementation ticket is explicitly authorized.
 
 Purpose:
 
@@ -357,6 +359,7 @@ Deepen the practice/learning environment without destabilizing the core loop.
 Expected work may include:
 
 - `P5-SCOPE-001` — Phase 5 Launch-Critical Scope Review — IN PROGRESS
+- `P5-SCOPE-001-R1` — CI Dependency Installer Compatibility — IN PROGRESS
 - `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — proposed / unauthorized
 - `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
@@ -960,7 +963,8 @@ TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, chal
 selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
 P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
-scope-only P5-SCOPE-001 review; feature implementation and production cutover remain unauthorized.
+bounded P5-SCOPE-001-R1 CI remediation attached to the scope-only P5-SCOPE-001 review; feature
+implementation and production cutover remain unauthorized.
 
 ---
 

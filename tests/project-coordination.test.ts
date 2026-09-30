@@ -60,7 +60,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves completed prerequisites while P5-SCOPE-001 is active", () => {
+  it("preserves completed prerequisites while P5-SCOPE-001-R1 is active", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -69,7 +69,9 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "P5-SCOPE-001", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toMatchObject({ id: "P5-SCOPE-001-R1", status: "IN_PROGRESS" });
+    expect(read("docs/tickets/P5-SCOPE-001.md")).toContain("**Status:** IN PROGRESS");
+    expect(read("docs/tickets/P5-SCOPE-001-R1.md")).toContain("**Status:** IN PROGRESS");
     expect(read("docs/tickets/P4-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
     expect(read("docs/tickets/REL-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/TRN-004.md")).toContain("**Status:** COMPLETE");
@@ -89,7 +91,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       status: "IN_PROGRESS",
     });
     expect(state.next_ticket).toBeNull();
-    expect(state.execution_status).toBe("P5_SCOPE_001_IN_PROGRESS");
+    expect(state.execution_status).toBe("P5_SCOPE_001_R1_IN_PROGRESS");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
