@@ -149,17 +149,15 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
-**Last terminal ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE
+**Last terminal ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — COMPLETE
 
-**Active remediation:** `P5-SCOPE-001-R4 — Explicit Vitest Peer & Deterministic CI Graph` — IN PROGRESS
-
-**Parent ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
-**Next planned ticket:** none until P5-SCOPE-001 selects the bounded launch sequence
+**Next planned ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -350,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS through the bounded `P5-SCOPE-001-R4` CI remediation attached to the scope-only `P5-SCOPE-001` review. R1 and R2 are blocked and superseded; R3 was an investigation-only blocker with no committed implementation. Feature work remains unauthorized until R4 and the parent review close and the first implementation ticket is explicitly authorized.
+Phase 5 execution is IN PROGRESS. The scope-only `P5-SCOPE-001` review and its R4 deterministic-CI remediation are COMPLETE. UX-004 is next but remains unauthorized pending explicit approval.
 
 Purpose:
 
@@ -358,11 +356,11 @@ Deepen the practice/learning environment without destabilizing the core loop.
 
 Expected work may include:
 
-- `P5-SCOPE-001` — Phase 5 Launch-Critical Scope Review — IN PROGRESS
+- `P5-SCOPE-001` — Phase 5 Launch-Critical Scope Review — COMPLETE
 - `P5-SCOPE-001-R1` — CI Dependency Installer Compatibility — BLOCKED / SUPERSEDED
 - `P5-SCOPE-001-R2` — CI Arborist Peer-Resolution Workaround — BLOCKED / SUPERSEDED
 - `P5-SCOPE-001-R3` — Deterministic CI Dependency Graph investigation — BLOCKED / NOT COMMITTED IMPLEMENTATION
-- `P5-SCOPE-001-R4` — Explicit Vitest Peer & Deterministic CI Graph — IN PROGRESS
+- `P5-SCOPE-001-R4` — Explicit Vitest Peer & Deterministic CI Graph — COMPLETE
 - `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — proposed / unauthorized
 - `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
@@ -966,9 +964,8 @@ TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, chal
 selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
 P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
-bounded P5-SCOPE-001-R4 CI remediation attached to the scope-only P5-SCOPE-001 review. R1 and R2
-are blocked and superseded, while R3 was investigation-only; feature implementation and production
-cutover remain unauthorized.
+completed P5-SCOPE-001 scope review. R1 and R2 are blocked and superseded, R3 was investigation-only,
+and R4 is COMPLETE with deterministic CI. UX-004 and production cutover remain unauthorized.
 
 ---
 

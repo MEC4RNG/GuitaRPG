@@ -1,6 +1,6 @@
 # P5-SCOPE-001-R4 — Explicit Vitest Peer & Deterministic CI Graph
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 
 ## Parent and prior findings
 
@@ -51,8 +51,11 @@ Phase 6 dependency/reproducibility hardening should test removal of `--legacy-pe
 
 ## CI evidence
 
-Pending Production scaffold CI.
+- Production scaffold CI: [36735934714](https://github.com/MEC4RNG/GuitaRPG/actions/runs/36735934714) SUCCESS
+- Runtime: Node `22.23.2`, npm `10.9.8`
+- Install: `npm ci --legacy-peer-deps --no-audit --no-fund` PASS
+- Format, lint, typecheck, 52-file / 380-test Vitest, and production build: PASS
 
 ## Terminal disposition
 
-IN PROGRESS — clean deterministic installation and complete local validation pass; required CI remains pending.
+COMPLETE — the explicit Vitest peer, deterministic shrinkwrap, clean install, full local validation, and Production scaffold CI are verified. P5-SCOPE-001 may resume closure; UX-004 remains unauthorized.

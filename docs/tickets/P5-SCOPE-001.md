@@ -1,6 +1,6 @@
 # P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 
 ## Objective
 
@@ -142,8 +142,19 @@ The gate must answer whether every launch-critical Phase 5 ticket is terminal, e
 
 ## Validation
 
-Pending documentation validation and Production scaffold CI.
+- Touched documentation/workflow formatting: PASS
+- Lifecycle/project-state tests: PASS
+- Full Vitest: 52 files / 380 tests PASS
+- Lint: PASS
+- Strict TypeScript: PASS
+- Production build: PASS
+- Deterministic clean dependency install: PASS
+- Production scaffold CI after R4: [36735934714](https://github.com/MEC4RNG/GuitaRPG/actions/runs/36735934714) SUCCESS
+- R1: BLOCKED / SUPERSEDED after exact Node/npm pin retained the Arborist crash
+- R2: BLOCKED / SUPERSEDED after the peer bypass exposed unlocked registry drift
+- R3: BLOCKED / investigation-only after a legacy-generated lock omitted required Vite
+- R4: COMPLETE with explicit Vite peer and deterministic shrinkwrap
 
 ## Terminal disposition
 
-IN PROGRESS — scope decisions are complete; coordination validation and CI remain pending.
+COMPLETE — the bounded Phase 5 v1 launch package is decided and validated. UX-004 is next but remains unauthorized.

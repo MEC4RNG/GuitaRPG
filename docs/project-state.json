@@ -14,16 +14,17 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "P4-GATE-001",
-    "title": "Phase 4 Adaptive GuitaRPG Gate",
+    "id": "P5-SCOPE-001",
+    "title": "Phase 5 Launch-Critical Scope Review",
     "status": "COMPLETE"
   },
-  "active_ticket": {
-    "id": "P5-SCOPE-001-R4",
-    "title": "Explicit Vitest Peer & Deterministic CI Graph",
-    "status": "IN_PROGRESS"
+  "active_ticket": null,
+  "next_ticket": {
+    "id": "UX-004",
+    "title": "Launch Surface Truthfulness & Placeholder Cleanup",
+    "authorized_to_start": false,
+    "condition": "Explicit user authorization is required before UX-004"
   },
-  "next_ticket": null,
   "phase_gate": {
     "id": "P4-GATE-001",
     "status": "PASS"
@@ -41,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "P5_SCOPE_001_R4_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_UX_004_AUTHORIZATION"
 }
