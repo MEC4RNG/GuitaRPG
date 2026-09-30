@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 4 — Adaptive GuitaRPG — COMPLETE
+**Current phase:** Phase 5 — Learning & Practice Tooling — IN PROGRESS
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,19 +145,19 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 4 — Adaptive GuitaRPG — COMPLETE
+**Phase:** Phase 5 — Learning & Practice Tooling — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Last terminal ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE
 
-**Active ticket:** none — awaiting explicit `P5-SCOPE-001` authorization
+**Active ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
-**Next planned ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — unauthorized
+**Next planned ticket:** none until P5-SCOPE-001 selects the bounded launch sequence
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -346,7 +346,9 @@ Phase 4 exit criterion:
 
 The system can select and explain a useful next Quest based on actual Player state and recent evidence.
 
-### Phase 5 — Learning & Practice Tooling — PLANNED
+### Phase 5 — Learning & Practice Tooling — IN PROGRESS
+
+Phase 5 execution is IN PROGRESS through the scope-only `P5-SCOPE-001` review. Feature work remains unauthorized until that review closes and its first implementation ticket is explicitly authorized.
 
 Purpose:
 
@@ -354,8 +356,13 @@ Deepen the practice/learning environment without destabilizing the core loop.
 
 Expected work may include:
 
-- `P5-SCOPE-001` — Phase 5 Launch-Critical Scope Review — PLANNED / unauthorized
-- `CODEX-001+` — taxonomy-backed Codex/reference system
+- `P5-SCOPE-001` — Phase 5 Launch-Critical Scope Review — IN PROGRESS
+- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — proposed / unauthorized
+- `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
+- `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
+- `QST-004` — Quest-to-Codex Reference Integration — proposed / unauthorized
+- `REL-005` — Phase 5 Launch-Package Integration Tests — proposed / unauthorized
+- `P5-GATE-001` — Phase 5 Learning & Practice Tooling Gate — proposed / unauthorized
 - fretboard / interval / chord / scale visualizations
 - richer Quest reference material
 - `AUD-001+` — optional microphone/direct-input infrastructure
@@ -367,6 +374,13 @@ Expected work may include:
 - `P5-GATE-001`
 
 Audio analysis must remain evidence-scoped and must not claim capabilities it cannot observe, such as physical fingering/pick direction from ambiguous audio.
+
+Phase 5 v1 exit criterion:
+
+A Player can understand the canonical musical terms and practice references used by v1 Quests,
+review and edit existing Player preferences, navigate every exposed v1 surface without placeholder or
+development-state claims, and complete the learning/practice loop without optional audio, expanded
+generation, Daily, Campaign, or v1.5 systems.
 
 ### Phase 6 — Hardening & Launch — PLANNED
 
