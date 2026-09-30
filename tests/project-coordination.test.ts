@@ -56,16 +56,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves completed prerequisites while TRN-003 is active", () => {
+  it("preserves completed prerequisites after TRN-003", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "QST-003-R2", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "TRN-003", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "TRN-003", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,10 +75,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps TRN-004 and cutover unauthorized while TRN-003 is active", () => {
+  it("closes TRN-003 while keeping TRN-004 and cutover unauthorized", () => {
     expect(state.phase).toEqual({ id: 4, name: "Adaptive GuitaRPG", status: "IN_PROGRESS" });
     expect(state.next_ticket).toMatchObject({ id: "TRN-004", authorized_to_start: false });
-    expect(state.execution_status).toBe("TRN_003_IN_PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_TRN_004_AUTHORIZATION");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
@@ -96,6 +96,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     expect(read("docs/tickets/TRN-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/TRN-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/QST-003-R2.md")).toContain("**Status:** COMPLETE");
+    expect(read("docs/tickets/TRN-003.md")).toContain("**Status:** COMPLETE");
     expect(plan).toContain("`REL-002` — core-loop integration tests");
     expect(plan).toContain("`P2-GATE-001` — Core Quest Loop integration gate — COMPLETE / PASS");
   });

@@ -148,9 +148,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `QST-003-R2 — Training Generation Mode Enablement` — COMPLETE
+**Last terminal ticket:** `TRN-003 — Training Surface Integration` — COMPLETE
 
-**Active ticket:** `TRN-003 — Training Surface Integration` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -332,7 +332,7 @@ Expected work:
 - `TRN-001` — recommendation candidate generation — COMPLETE
 - `TRN-002` — recommendation scoring/ranking — COMPLETE
 - `QST-003-R2` — Training generation-mode enablement — COMPLETE
-- `TRN-003` — Training surface integration — IN PROGRESS
+- `TRN-003` — Training surface integration — COMPLETE
 - `TRN-004` — Adaptive Quest Composition & Challenge Preference — PLANNED / unauthorized
 - adaptive challenge preference integration
 - weakness / refresh / novelty balancing
@@ -938,8 +938,8 @@ criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS
 is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
 Primary Skills. TRN-002 is terminal COMPLETE with the deterministic, explainable `TRN_SCORE_V1`
 priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with canonical TRAINING
-generation and authenticated persistence enabled. TRN-003 is IN PROGRESS, integrating truthful
-recommendation selection with Training Quest materialization and the existing Session bridge;
+generation and authenticated persistence enabled. TRN-003 is terminal COMPLETE with truthful
+recommendation selection, Training Quest materialization, and the existing Session bridge;
 TRN-004 remains unauthorized. Production cutover remains unauthorized.
 
 ---
