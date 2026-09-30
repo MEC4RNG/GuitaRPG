@@ -148,9 +148,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `TRN-003 — Training Surface Integration` — COMPLETE
+**Last terminal ticket:** `TRN-004 — Adaptive Quest Composition & Challenge Preference` — COMPLETE
 
-**Active ticket:** `TRN-004 — Adaptive Quest Composition & Challenge Preference` — IN PROGRESS
+**Active ticket:** none — awaiting explicit `REL-004` authorization
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -333,7 +333,7 @@ Expected work:
 - `TRN-002` — recommendation scoring/ranking — COMPLETE
 - `QST-003-R2` — Training generation-mode enablement — COMPLETE
 - `TRN-003` — Training surface integration — COMPLETE
-- `TRN-004` — Adaptive Quest Composition & Challenge Preference — IN PROGRESS
+- `TRN-004` — Adaptive Quest Composition & Challenge Preference — COMPLETE
 - adaptive challenge preference integration
 - weakness / refresh / novelty balancing
 - recommendation-explanation evidence
@@ -940,8 +940,9 @@ Primary Skills. TRN-002 is terminal COMPLETE with the deterministic, explainable
 priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with canonical TRAINING
 generation and authenticated persistence enabled. TRN-003 is terminal COMPLETE with truthful
 recommendation selection, Training Quest materialization, and the existing Session bridge.
-TRN-004 is IN PROGRESS, adapting concrete Quest composition with DIF_PERSONAL_V1 while preserving
-Skill ranking; REL-004 remains unauthorized. Production cutover remains unauthorized.
+TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, challenge-preference
+selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 remains
+unauthorized. Production cutover remains unauthorized.
 
 ---
 

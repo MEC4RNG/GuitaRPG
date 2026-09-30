@@ -14,20 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "TRN-003",
-    "title": "Training Surface Integration",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "TRN-004",
     "title": "Adaptive Quest Composition & Challenge Preference",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "REL-004",
     "title": "Adaptive Training Integration Tests",
     "authorized_to_start": false,
-    "condition": "TRN-004 must complete and explicit user authorization is required before REL-004"
+    "condition": "Explicit user authorization is required before REL-004"
   },
   "phase_gate": {
     "id": "P3-GATE-001",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "TRN_004_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_REL_004_AUTHORIZATION"
 }
