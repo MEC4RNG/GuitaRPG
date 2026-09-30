@@ -148,9 +148,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
+**Last terminal ticket:** `TRN-001 — Recommendation Candidate Generation` — COMPLETE
 
-**Active ticket:** `TRN-001 — Recommendation Candidate Generation` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -932,8 +932,10 @@ linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35
 Phase 3 — Progression is COMPLETE. P3-GATE-001 is terminal COMPLETE / PASS: the
 finalized-Result progression chain, recomputation, corrections, anti-inflation boundaries,
 product read models, browser truthfulness, security, and deletion satisfy the Phase 3 exit
-criterion without changing model semantics or migrations. Phase 4 remains PLANNED and
-TRN-001 requires separate explicit authorization. Production cutover remains unauthorized.
+criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS. TRN-001
+is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
+Primary Skills; TRN-002 requires separate explicit authorization. Production cutover remains
+unauthorized.
 
 ---
 

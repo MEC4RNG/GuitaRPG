@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "P3-GATE-001",
-    "title": "Phase 3 Progression Gate",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "TRN-001",
     "title": "Recommendation Candidate Generation",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "TRN-002",
     "title": "Recommendation Scoring and Ranking",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "TRN_001_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_TRN_002_AUTHORIZATION"
 }
