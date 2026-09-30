@@ -148,15 +148,15 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `TRN-002 — Recommendation Scoring and Ranking` — COMPLETE
+**Last terminal ticket:** `QST-003-R2 — Training Generation Mode Enablement` — COMPLETE
 
-**Active remediation:** `QST-003-R2 — Training Generation Mode Enablement` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `TRN-003 — Training Surface Integration` — blocked on QST-003-R2 and unauthorized
+**Next planned ticket:** `TRN-003 — Training Surface Integration` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -331,8 +331,8 @@ Expected work:
 
 - `TRN-001` — recommendation candidate generation — COMPLETE
 - `TRN-002` — recommendation scoring/ranking — COMPLETE
-- `QST-003-R2` — Training generation-mode enablement — IN PROGRESS
-- `TRN-003` — Training surface integration — blocked on QST-003-R2 and unauthorized
+- `QST-003-R2` — Training generation-mode enablement — COMPLETE
+- `TRN-003` — Training surface integration — unauthorized
 - adaptive challenge preference integration
 - weakness / refresh / novelty balancing
 - recommendation-explanation evidence
@@ -936,9 +936,9 @@ product read models, browser truthfulness, security, and deletion satisfy the Ph
 criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS. TRN-001
 is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
 Primary Skills. TRN-002 is terminal COMPLETE with the deterministic, explainable `TRN_SCORE_V1`
-priority model and dense tie-safe ranking. QST-003-R2 is IN PROGRESS to enable canonical TRAINING
-generation and persistence; TRN-003 remains blocked and unauthorized. Production cutover remains
-unauthorized.
+priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with canonical TRAINING
+generation and authenticated persistence enabled; TRN-003 remains unauthorized. Production cutover
+remains unauthorized.
 
 ---
 

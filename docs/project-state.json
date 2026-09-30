@@ -14,16 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "TRN-002",
-    "title": "Recommendation Scoring and Ranking",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "QST-003-R2",
     "title": "Training Generation Mode Enablement",
-    "status": "IN_PROGRESS",
-    "blocked_dependent": "TRN-003"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "TRN-003",
     "title": "Training Surface Integration",
@@ -47,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "QST_003_R2_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_TRN_003_AUTHORIZATION"
 }
