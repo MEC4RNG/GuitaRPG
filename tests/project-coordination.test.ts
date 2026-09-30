@@ -56,7 +56,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves completed prerequisites after TRN-001", () => {
+  it("preserves completed prerequisites while TRN-002 is active", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -65,7 +65,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({ id: "TRN-002", status: "IN_PROGRESS" });
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,10 +75,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("closes TRN-001 while keeping TRN-002 and cutover unauthorized", () => {
+  it("keeps TRN-003 and cutover unauthorized while TRN-002 is active", () => {
     expect(state.phase).toEqual({ id: 4, name: "Adaptive GuitaRPG", status: "IN_PROGRESS" });
-    expect(state.next_ticket).toMatchObject({ id: "TRN-002", authorized_to_start: false });
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_TRN_002_AUTHORIZATION");
+    expect(state.next_ticket).toMatchObject({ id: "TRN-003", authorized_to_start: false });
+    expect(state.execution_status).toBe("TRN_002_IN_PROGRESS");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");

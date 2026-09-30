@@ -6,6 +6,7 @@ import {
   type CandidateTaxonomyEntity,
   type RecommendationCandidateSetV1,
 } from "./candidates-v1";
+import { rankRecommendationCandidatesV1, type RankedRecommendationSetV1 } from "./scoring-v1";
 
 type Response = { data: unknown[] | null; error: { message: string } | null };
 type Query = {
@@ -83,4 +84,11 @@ export async function readRecommendationCandidatesV1(
       default_tuning: tuning ? { id: tuning.id, slug: tuning.slug, name: tuning.name } : null,
     },
   });
+}
+
+export async function readRankedRecommendationsV1(
+  client: TrainingCandidateReadClient,
+  evaluatedAt = new Date().toISOString(),
+): Promise<RankedRecommendationSetV1> {
+  return rankRecommendationCandidatesV1(await readRecommendationCandidatesV1(client, evaluatedAt));
 }

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import taxonomy from "@/domain/taxonomy/canonical-taxonomy.json";
 import {
   readRecommendationCandidatesV1,
+  readRankedRecommendationsV1,
   type TrainingCandidateReadClient,
 } from "@/lib/training/repository";
 
@@ -72,6 +73,18 @@ describe("TRN-001 candidate repository", () => {
     const result = await readRecommendationCandidatesV1(client(false), "2026-09-29T12:00:00Z");
     expect(result.candidates).toHaveLength(15);
     expect(result.evaluated_at).toBe("2026-09-29T12:00:00Z");
+  });
+
+  it("returns the TRN_SCORE_V1 ranked projection from the same on-demand snapshot", async () => {
+    const result = await readRankedRecommendationsV1(client(false), "2026-09-29T12:00:00Z");
+    expect(result).toMatchObject({
+      scoring_model_version: "TRN_SCORE_V1",
+      candidate_model_version: "TRN_CAND_V1",
+      top_score: 54,
+      unique_top_candidate_key: null,
+    });
+    expect(result.ranked_candidates).toHaveLength(15);
+    expect(result.ranked_candidates.every((candidate) => candidate.semantic_rank === 1)).toBe(true);
   });
 
   it("refuses to classify potentially stale readiness after refresh failure", async () => {

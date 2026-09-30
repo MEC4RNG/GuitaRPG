@@ -150,13 +150,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `TRN-001 — Recommendation Candidate Generation` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `TRN-002 — Recommendation Scoring and Ranking` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `TRN-002 — Recommendation Scoring and Ranking` — unauthorized
+**Next planned ticket:** `TRN-003 — Training Surface Integration` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -934,8 +934,8 @@ finalized-Result progression chain, recomputation, corrections, anti-inflation b
 product read models, browser truthfulness, security, and deletion satisfy the Phase 3 exit
 criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS. TRN-001
 is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
-Primary Skills; TRN-002 requires separate explicit authorization. Production cutover remains
-unauthorized.
+Primary Skills. TRN-002 is IN PROGRESS, applying the authorized deterministic `TRN_SCORE_V1`
+priority model; TRN-003 remains unauthorized. Production cutover remains unauthorized.
 
 ---
 
