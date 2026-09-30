@@ -18,12 +18,16 @@
     "title": "Character & Skills Progression Views",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "PROG-006",
     "title": "Progression Correction & Recomputation Operations",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "REL-003",
+    "title": "Progression Integration & Recomputation Tests",
     "authorized_to_start": false,
-    "condition": "UX-003 must complete and explicit user authorization is required before PROG-006"
+    "condition": "PROG-006 must complete and explicit user authorization is required before REL-003"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_PROG_006_AUTHORIZATION"
+  "execution_status": "PROG_006_IN_PROGRESS"
 }
