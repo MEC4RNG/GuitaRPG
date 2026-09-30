@@ -31,7 +31,11 @@ describe("UX-002 application navigation", () => {
     ).toEqual(["Codex"]);
     expect(
       NAVIGATION_GROUPS.find((group) => group.label === "SYSTEM")?.items.map((item) => item.label),
-    ).toEqual(["Profile", "Settings"]);
+    ).toEqual(["Profile"]);
+    expect(NAVIGATION_GROUPS.flatMap((group) => group.items)).not.toContainEqual(
+      expect.objectContaining({ label: "Settings" }),
+    );
+    expect(ALL_NAVIGATION_ITEMS).not.toContainEqual(expect.objectContaining({ href: "/settings" }));
   });
 
   it("implements the approved four-item mobile navigation", () => {
@@ -57,7 +61,6 @@ describe("UX-002 application navigation", () => {
     expect(getSurfaceForPath("/history/attempt-1")).toBe("lab");
     expect(getSurfaceForPath("/codex")).toBe("codex");
     expect(getSurfaceForPath("/profile")).toBe("hud");
-    expect(getSurfaceForPath("/settings")).toBe("hud");
   });
 
   it("keeps nested routes active under their owning navigation item", () => {

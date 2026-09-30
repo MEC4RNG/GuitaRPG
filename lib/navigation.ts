@@ -3,16 +3,7 @@ export type AppSurface = "hud" | "codex" | "lab";
 export type NavigationItem = {
   label: string;
   href: string;
-  icon:
-    | "home"
-    | "generate"
-    | "training"
-    | "character"
-    | "skills"
-    | "history"
-    | "codex"
-    | "profile"
-    | "settings";
+  icon: "home" | "generate" | "training" | "character" | "skills" | "history" | "codex" | "profile";
   surface: AppSurface;
   mobile?: boolean;
   primaryAction?: boolean;
@@ -53,10 +44,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
   {
     label: "SYSTEM",
-    items: [
-      { label: "Profile", href: "/profile", icon: "profile", surface: "hud", mobile: true },
-      { label: "Settings", href: "/settings", icon: "settings", surface: "hud" },
-    ],
+    items: [{ label: "Profile", href: "/profile", icon: "profile", surface: "hud", mobile: true }],
   },
 ];
 

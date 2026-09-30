@@ -18,12 +18,16 @@
     "title": "v1 Navigation Contract Refinement",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "UX-004",
     "title": "Launch Surface Truthfulness & Placeholder Cleanup",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "PLY-003",
+    "title": "Functional Player Profile Editing",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before UX-004"
+    "condition": "Explicit user authorization is required before PLY-003"
   },
   "phase_gate": {
     "id": "P4-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_UX_004_AUTHORIZATION"
+  "execution_status": "UX_004_IN_PROGRESS"
 }

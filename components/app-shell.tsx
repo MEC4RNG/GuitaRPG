@@ -37,10 +37,6 @@ export function AppShell({ children }: AppShellProps) {
             </span>
             <strong>{current.label}</strong>
           </div>
-          <div className="topbar__status" aria-label="Application status">
-            <span className="status-dot" aria-hidden="true" />
-            <span>v1 foundation</span>
-          </div>
         </header>
 
         <main className="app-content" id="main-content" tabIndex={-1}>

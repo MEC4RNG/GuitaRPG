@@ -2,6 +2,29 @@ import { expect, test } from "@playwright/test";
 
 test.describe.configure({ mode: "serial" });
 
+test("launch navigation stays truthful on desktop and mobile", async ({ page, isMobile }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "TURN PRACTICE INTO A QUEST." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Generate Quest" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Recommended Training" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Settings" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Codex" })).toHaveCount(isMobile ? 0 : 1);
+
+  if (isMobile) {
+    const mobileNav = page.getByRole("navigation", { name: "Mobile navigation" });
+    await expect(mobileNav.getByRole("link")).toHaveCount(4);
+    await expect(mobileNav.getByRole("link", { name: "Generate" })).toBeVisible();
+  } else {
+    const sidebar = page.getByRole("complementary", { name: "Primary navigation" });
+    await expect(sidebar.getByRole("link", { name: "Profile" })).toBeVisible();
+    await expect(sidebar.getByRole("link", { name: "Settings" })).toHaveCount(0);
+  }
+
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+});
+
 test("new anonymous Player completes the production core loop", async ({ page, isMobile }) => {
   await page.goto("/onboarding");
   await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible({

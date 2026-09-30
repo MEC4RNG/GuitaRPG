@@ -50,15 +50,6 @@ const paths: Record<NavigationItem["icon"], React.ReactNode> = {
       <path d="M5 21c.8-4 3.1-6 7-6s6.2 2 7 6" />
     </>
   ),
-  settings: (
-    <>
-      <circle cx="12" cy="12" r="3" />
-      <path
-        d="M19 13.5v-3l-2-.7a7 7 0 0 0-.7-1.7l.9-2-2.2-2.2-2 .9a7 7 0 0 0-1.7-.7L10.5 2h-3l-.7 2a7 7 0 0 0-1.7.7l-2-.9L.9 6l.9 2a7 7 0 0 0-.7 1.7l-2 .7v3l2 .7a7 7 0 0 0 .7 1.7l-.9 2L3.1 20l2-.9a7 7 0 0 0 1.7.7l.7 2h3l.7-2a7 7 0 0 0 1.7-.7l2 .9 2.2-2.2-.9-2a7 7 0 0 0 .7-1.7l2.1-.6Z"
-        transform="translate(2.5 0)"
-      />
-    </>
-  ),
 };
 
 export function NavigationIcon({ icon }: NavigationIconProps) {

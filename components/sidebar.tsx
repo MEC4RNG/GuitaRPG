@@ -21,7 +21,6 @@ export function Sidebar({ pathname }: SidebarProps) {
             <small>Practice OS</small>
           </span>
         </Link>
-        <span className="phase-chip">PHASE 1</span>
       </div>
 
       <nav className="sidebar__nav">
@@ -51,10 +50,9 @@ export function Sidebar({ pathname }: SidebarProps) {
       </nav>
 
       <div className="sidebar__footer">
-        <span className="status-dot" aria-hidden="true" />
         <span>
-          <strong>Foundation online</strong>
-          <small>Phase 0 contracts locked</small>
+          <strong>Practice · Progress · Adapt</strong>
+          <small>Build your guitar journey</small>
         </span>
       </div>
     </aside>
