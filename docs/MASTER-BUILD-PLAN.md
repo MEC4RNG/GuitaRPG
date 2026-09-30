@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
+**Current phase:** Phase 4 — Adaptive GuitaRPG — COMPLETE
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -145,18 +145,19 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
+**Phase:** Phase 4 — Adaptive GuitaRPG — COMPLETE
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `REL-004 — Adaptive Training Integration Tests` — COMPLETE
+**Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
+**Last terminal ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE
 
-**Active ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — IN PROGRESS
+**Active ticket:** none — awaiting explicit `P5-SCOPE-001` authorization
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
-**Next planned ticket:** none while P4-GATE-001 runs
+**Next planned ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -321,7 +322,7 @@ Phase 3 exit criterion:
 
 Results can update XP and development evidence deterministically without conflating engagement, proficiency, confidence, readiness, or Attributes.
 
-### Phase 4 — Adaptive GuitaRPG — IN PROGRESS
+### Phase 4 — Adaptive GuitaRPG — COMPLETE
 
 Purpose:
 
@@ -339,7 +340,7 @@ Expected work:
 - recommendation-explanation evidence
 - Daily / Recommended Training foundation where appropriate
 - `REL-004` — Adaptive Training Integration Tests — COMPLETE
-- `P4-GATE-001` — IN PROGRESS
+- `P4-GATE-001` — COMPLETE / PASS
 
 Phase 4 exit criterion:
 
@@ -353,6 +354,7 @@ Deepen the practice/learning environment without destabilizing the core loop.
 
 Expected work may include:
 
+- `P5-SCOPE-001` — Phase 5 Launch-Critical Scope Review — PLANNED / unauthorized
 - `CODEX-001+` — taxonomy-backed Codex/reference system
 - fretboard / interval / chord / scale visualizations
 - richer Quest reference material
@@ -943,7 +945,8 @@ recommendation selection, Training Quest materialization, and the existing Sessi
 TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, challenge-preference
 selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
-P4-GATE-001 and production cutover remain unauthorized.
+P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 remains PLANNED; P5-SCOPE-001
+and production cutover remain unauthorized.
 
 ---
 

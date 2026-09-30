@@ -5,7 +5,7 @@
   "phase": {
     "id": 4,
     "name": "Adaptive GuitaRPG",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -14,25 +14,26 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "REL-004",
-    "title": "Adaptive Training Integration Tests",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "P4-GATE-001",
     "title": "Phase 4 Adaptive GuitaRPG Gate",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
-  "next_ticket": null,
+  "active_ticket": null,
+  "next_ticket": {
+    "id": "P5-SCOPE-001",
+    "title": "Phase 5 Launch-Critical Scope Review",
+    "authorized_to_start": false,
+    "condition": "Explicit user authorization is required before P5-SCOPE-001"
+  },
   "phase_gate": {
-    "id": "P3-GATE-001",
+    "id": "P4-GATE-001",
     "status": "PASS"
   },
   "next_phase": {
-    "id": 4,
-    "name": "Adaptive GuitaRPG",
-    "status": "IN_PROGRESS",
-    "authorized_to_start": true
+    "id": 5,
+    "name": "Learning & Practice Tooling",
+    "status": "PLANNED",
+    "authorized_to_start": false
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
@@ -41,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "P4_GATE_001_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_P5_SCOPE_001_AUTHORIZATION"
 }
