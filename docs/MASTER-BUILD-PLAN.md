@@ -148,9 +148,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 4 — Adaptive GuitaRPG — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `TRN-004 — Adaptive Quest Composition & Challenge Preference` — COMPLETE
+**Last terminal ticket:** `REL-004 — Adaptive Training Integration Tests` — COMPLETE
 
-**Active ticket:** `REL-004 — Adaptive Training Integration Tests` — IN PROGRESS
+**Active ticket:** none — awaiting explicit `P4-GATE-001` authorization
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -338,7 +338,7 @@ Expected work:
 - weakness / refresh / novelty balancing
 - recommendation-explanation evidence
 - Daily / Recommended Training foundation where appropriate
-- `REL-004` — Adaptive Training Integration Tests — IN PROGRESS
+- `REL-004` — Adaptive Training Integration Tests — COMPLETE
 - `P4-GATE-001`
 
 Phase 4 exit criterion:
@@ -941,8 +941,9 @@ priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with 
 generation and authenticated persistence enabled. TRN-003 is terminal COMPLETE with truthful
 recommendation selection, Training Quest materialization, and the existing Session bridge.
 TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, challenge-preference
-selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is IN
-PROGRESS as the dedicated adaptive Training integration proof. Production cutover remains unauthorized.
+selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is
+terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
+P4-GATE-001 and production cutover remain unauthorized.
 
 ---
 
