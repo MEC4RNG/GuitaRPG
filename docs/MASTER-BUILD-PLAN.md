@@ -149,15 +149,15 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
-**Last terminal ticket:** `P5-SCOPE-001 — Phase 5 Launch-Critical Scope Review` — COMPLETE
+**Last terminal ticket:** `UX-001-R1 — v1 Navigation Contract Refinement` — COMPLETE
 
-**Active remediation:** `UX-001-R1 — v1 Navigation Contract Refinement` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
-**Blocked dependent ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — NOT AUTHORIZED
+**Next planned ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -348,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS. The bounded UX-001-R1 enabling remediation refines the v1 navigation authority before UX-004. UX-004 remains blocked and unauthorized pending remediation closure and explicit approval.
+Phase 5 execution is IN PROGRESS. The bounded UX-001-R1 enabling remediation is COMPLETE and UX_V1_1 now governs exposed v1 navigation. UX-004 is next but remains unauthorized pending explicit approval.
 
 Purpose:
 
@@ -361,8 +361,8 @@ Expected work may include:
 - `P5-SCOPE-001-R2` — CI Arborist Peer-Resolution Workaround — BLOCKED / SUPERSEDED
 - `P5-SCOPE-001-R3` — Deterministic CI Dependency Graph investigation — BLOCKED / NOT COMMITTED IMPLEMENTATION
 - `P5-SCOPE-001-R4` — Explicit Vitest Peer & Deterministic CI Graph — COMPLETE
-- `UX-001-R1` — v1 Navigation Contract Refinement — IN PROGRESS
-- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — blocked / unauthorized
+- `UX-001-R1` — v1 Navigation Contract Refinement — COMPLETE
+- `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — proposed / unauthorized
 - `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
 - `QST-004` — Quest-to-Codex Reference Integration — proposed / unauthorized
