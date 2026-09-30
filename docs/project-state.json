@@ -19,8 +19,8 @@
     "status": "COMPLETE"
   },
   "active_ticket": {
-    "id": "P5-SCOPE-001-R2",
-    "title": "CI Arborist Peer-Resolution Workaround",
+    "id": "P5-SCOPE-001-R4",
+    "title": "Explicit Vitest Peer & Deterministic CI Graph",
     "status": "IN_PROGRESS"
   },
   "next_ticket": null,
@@ -41,5 +41,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "P5_SCOPE_001_R2_IN_PROGRESS"
+  "execution_status": "P5_SCOPE_001_R4_IN_PROGRESS"
 }

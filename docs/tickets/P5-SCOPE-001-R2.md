@@ -1,6 +1,6 @@
 # P5-SCOPE-001-R2 — CI Arborist Peer-Resolution Workaround
 
-**Status:** IN PROGRESS
+**Status:** BLOCKED / SUPERSEDED
 
 ## Parent and prior remediation
 
@@ -35,10 +35,12 @@ Remove `--legacy-peer-deps` after the upstream npm Arborist resolver fix is prov
 
 UX-004, PLY-003, CODEX-001, QST-004, REL-005, all other Phase 5 implementation, and production cutover remain unauthorized.
 
-## Validation evidence
+## R2 result
 
-Pending local validation and Production scaffold CI.
+The `--legacy-peer-deps` workaround successfully bypassed the Arborist crash and advanced dependency resolution. Production scaffold CI then failed while fetching newly resolved `ignore@7.0.11` before that tarball had propagated through the runner's registry path. The package subsequently became available, confirming a floating-resolution failure rather than an application defect.
+
+Because the repository still lacked a committed dependency graph, R2 remained nondeterministic. R4 owns the explicit required Vitest peer and canonical shrinkwrap.
 
 ## Terminal disposition
 
-IN PROGRESS — the bounded CI workaround is implemented; local validation and required CI remain pending.
+BLOCKED / SUPERSEDED — the Arborist workaround succeeded, but the unlocked dependency graph remained susceptible to registry and transitive-resolution drift. R4 owns the deterministic repair.
