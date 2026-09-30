@@ -149,13 +149,15 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `PROG-006 — Progression Correction & Recomputation Operations` — COMPLETE
+
+**Active ticket:** `REL-003 — Progression Integration & Recomputation Tests` — IN PROGRESS
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `REL-003 — Progression Integration & Recomputation Tests` — unauthorized
+**Next planned ticket:** `P3-GATE-001 — Phase 3 Progression Gate` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -931,7 +933,7 @@ linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35
 Phase 3 — Progression is IN PROGRESS. PROG-006 is terminal COMPLETE: service-only
 operations now audit structural progression integrity, repair projection drift through
 the accepted V1 rebuild chain, and append explicit idempotent XP/time compensations
-without rewriting Result awards. REL-003 remains unauthorized pending separate explicit
+without rewriting Result awards. REL-003 is active under explicit authorization; P3-GATE-001 remains unauthorized pending separate explicit
 approval. Production cutover remains unauthorized.
 
 ---

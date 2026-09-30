@@ -20,6 +20,7 @@
     "test:contracts": "vitest run tests/legacy-normalization.test.ts tests/player-state-contract.test.ts tests/quest-contract.test.ts tests/difficulty-contract.test.ts tests/evidence-contract.test.ts tests/progression-contract.test.ts tests/design-system-contract.test.ts tests/contracts/phase0-integration.test.ts",
     "test:phase0-gate": "vitest run tests/phase0-gate.test.ts",
     "test:phase2-integration": "vitest run tests/core-loop-integration.test.ts tests/quest-generate-bridge.test.ts tests/history-runtime.test.ts",
+    "test:phase3-integration": "vitest run tests/progression-integration.test.ts tests/progression-operations.test.ts tests/progression-read-model.test.ts tests/progression-repository.test.ts tests/progression-surfaces.test.ts",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "db:reset": "supabase db reset --local",

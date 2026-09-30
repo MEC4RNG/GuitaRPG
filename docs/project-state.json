@@ -18,12 +18,16 @@
     "title": "Progression Correction & Recomputation Operations",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "REL-003",
     "title": "Progression Integration & Recomputation Tests",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "P3-GATE-001",
+    "title": "Phase 3 Progression Gate",
     "authorized_to_start": false,
-    "condition": "PROG-006 must complete and explicit user authorization is required before REL-003"
+    "condition": "REL-003 must complete and explicit user authorization is required before P3-GATE-001"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_REL_003_AUTHORIZATION"
+  "execution_status": "REL_003_IN_PROGRESS"
 }

@@ -37,6 +37,11 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   const questHeading = page.locator("#generated-quest-title");
   await expect(questHeading).toBeVisible();
   const questTitle = await questHeading.innerText();
+  const primarySkill = await page
+    .locator("dt", { hasText: "Primary Skill" })
+    .locator("..")
+    .locator("dd")
+    .innerText();
   await expect(page.getByText(/Demand [IVX]+/)).toBeVisible();
   await expect(page.getByText(/BPM|Not required/).first()).toBeVisible();
   await page.getByRole("button", { name: "Start Practice" }).click();
@@ -88,8 +93,15 @@ test("new anonymous Player completes the production core loop", async ({ page, i
 
   await page.goto("/character");
   await expect(page.getByRole("heading", { name: "Character progression." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Level 1" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "0 XP" })).toBeVisible();
+  await expect(page.locator("article.attribute-card").getByText("UNASSESSED")).toHaveCount(11);
   await expect(page.getByText(/XP to Level 2/)).toBeVisible();
   await page.goto("/skills");
   await expect(page.getByText("Showing 72 of 72 active Skills")).toBeVisible();
+  const primarySkillRow = page.getByTestId("skill-row").filter({ hasText: primarySkill });
+  await expect(primarySkillRow.getByText("UNRATED", { exact: true })).toBeVisible();
+  await primarySkillRow.click();
+  await expect(primarySkillRow.getByText("0", { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/READINESS/).first()).toBeVisible();
 });
