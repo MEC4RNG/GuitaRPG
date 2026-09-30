@@ -13,7 +13,25 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   await expect(page.getByText("PLAYER READY")).toBeVisible();
 
   await page.getByRole("link", { name: "Enter the app" }).click();
-  await page.getByRole("link", { name: /Go to Generate/ }).click();
+  await page.goto("/character");
+  await expect(page.getByRole("heading", { name: "Level 1" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "0 XP" })).toBeVisible();
+  await expect(page.locator("article.attribute-card")).toHaveCount(11);
+  await expect(page.locator("article.attribute-card").getByText("UNASSESSED")).toHaveCount(11);
+
+  await page.goto("/skills");
+  await expect(page.getByText("Showing 72 of 72 active Skills")).toBeVisible();
+  await expect(page.getByTestId("skill-row")).toHaveCount(72);
+  await expect(page.getByLabel("Search Skills")).toBeVisible();
+  await expect(page.getByLabel("Domain")).toBeVisible();
+  await expect(page.getByLabel("Assessment status")).toBeVisible();
+  await page.getByTestId("skill-row").first().click();
+  await expect(page.getByText("Practice exposures").first()).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+
+  await page.goto("/generate");
   await page.getByRole("button", { name: "Generate Quest" }).click();
 
   const questHeading = page.locator("#generated-quest-title");
@@ -67,4 +85,11 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   await expect(page.getByText("REL-002 browser integration")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Quest criteria" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Evidence" })).toBeVisible();
+
+  await page.goto("/character");
+  await expect(page.getByRole("heading", { name: "Character progression." })).toBeVisible();
+  await expect(page.getByText(/XP to Level 2/)).toBeVisible();
+  await page.goto("/skills");
+  await expect(page.getByText("Showing 72 of 72 active Skills")).toBeVisible();
+  await expect(page.getByText(/READINESS/).first()).toBeVisible();
 });
