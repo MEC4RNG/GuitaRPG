@@ -148,13 +148,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `UX-003 — Character & Skills Progression Views` — COMPLETE
-**Active ticket:** `PROG-006 — Progression Correction & Recomputation Operations` — IN PROGRESS
+**Last terminal ticket:** `PROG-006 — Progression Correction & Recomputation Operations` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** synchronized through PROG-005 `20260929080000`; applied and verified
+**Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
 **Next planned ticket:** `REL-003 — Progression Integration & Recomputation Tests` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -312,7 +312,7 @@ Expected work:
 - `TAX-004` — Skill-to-Attribute AFFECTS graph — COMPLETE (discovered PROG-005 enabling dependency)
 - `PROG-005` — Character Attribute derivation — COMPLETE
 - `UX-003` — Character & Skills Progression Views — COMPLETE
-- `PROG-006` — Progression Correction & Recomputation Operations — IN PROGRESS
+- `PROG-006` — Progression Correction & Recomputation Operations — COMPLETE
 - `REL-003` — progression integration/recomputation tests
 - `P3-GATE-001`
 
@@ -928,11 +928,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS. UX-003 is terminal COMPLETE. PROG-006 is the
-active authorized ticket for service-only integrity audit, deterministic projection
-recomputation, and explicit compensating XP corrections. REL-003 remains unauthorized
-pending PROG-006 completion and separate explicit approval. Production cutover remains
-unauthorized.
+Phase 3 — Progression is IN PROGRESS. PROG-006 is terminal COMPLETE: service-only
+operations now audit structural progression integrity, repair projection drift through
+the accepted V1 rebuild chain, and append explicit idempotent XP/time compensations
+without rewriting Result awards. REL-003 remains unauthorized pending separate explicit
+approval. Production cutover remains unauthorized.
 
 ---
 
