@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "PROG-006",
-    "title": "Progression Correction & Recomputation Operations",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "REL-003",
     "title": "Progression Integration & Recomputation Tests",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "P3-GATE-001",
     "title": "Phase 3 Progression Gate",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "REL_003_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_P3_GATE_001_AUTHORIZATION"
 }

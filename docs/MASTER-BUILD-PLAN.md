@@ -148,9 +148,8 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `PROG-006 — Progression Correction & Recomputation Operations` — COMPLETE
+**Last terminal ticket:** `REL-003 — Progression Integration & Recomputation Tests` — COMPLETE
 
-**Active ticket:** `REL-003 — Progression Integration & Recomputation Tests` — IN PROGRESS
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
@@ -930,11 +929,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS. PROG-006 is terminal COMPLETE: service-only
-operations now audit structural progression integrity, repair projection drift through
-the accepted V1 rebuild chain, and append explicit idempotent XP/time compensations
-without rewriting Result awards. REL-003 is active under explicit authorization; P3-GATE-001 remains unauthorized pending separate explicit
-approval. Production cutover remains unauthorized.
+Phase 3 — Progression is IN PROGRESS. REL-003 is terminal COMPLETE: the finalized-Result
+progression chain, recomputation, corrections, anti-inflation boundaries, product read
+models, browser truthfulness, security, and deletion are integrated without changing
+model semantics or migrations. P3-GATE-001 remains unauthorized pending separate
+explicit approval. Production cutover remains unauthorized.
 
 ---
 
