@@ -150,13 +150,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `QST-003-R2 — Training Generation Mode Enablement` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `TRN-003 — Training Surface Integration` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `TRN-003 — Training Surface Integration` — unauthorized
+**Next planned ticket:** `TRN-004 — Adaptive Quest Composition & Challenge Preference` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -332,7 +332,8 @@ Expected work:
 - `TRN-001` — recommendation candidate generation — COMPLETE
 - `TRN-002` — recommendation scoring/ranking — COMPLETE
 - `QST-003-R2` — Training generation-mode enablement — COMPLETE
-- `TRN-003` — Training surface integration — unauthorized
+- `TRN-003` — Training surface integration — IN PROGRESS
+- `TRN-004` — Adaptive Quest Composition & Challenge Preference — PLANNED / unauthorized
 - adaptive challenge preference integration
 - weakness / refresh / novelty balancing
 - recommendation-explanation evidence
@@ -937,8 +938,9 @@ criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS
 is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
 Primary Skills. TRN-002 is terminal COMPLETE with the deterministic, explainable `TRN_SCORE_V1`
 priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with canonical TRAINING
-generation and authenticated persistence enabled; TRN-003 remains unauthorized. Production cutover
-remains unauthorized.
+generation and authenticated persistence enabled. TRN-003 is IN PROGRESS, integrating truthful
+recommendation selection with Training Quest materialization and the existing Session bridge;
+TRN-004 remains unauthorized. Production cutover remains unauthorized.
 
 ---
 

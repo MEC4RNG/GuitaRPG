@@ -912,6 +912,128 @@ a {
   justify-self: start;
 }
 
+.training-stack,
+.training-selection,
+.training-recommendation,
+.training-preview,
+.training-selected,
+.training-ranked__list,
+.training-ranked__item,
+.training-why {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.training-recommendation {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  border-color: rgb(46 196 182 / 42%);
+}
+
+.training-selection label,
+.training-components dt {
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.training-selection select {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  padding: 0 var(--space-3);
+}
+
+.training-selected {
+  border-left: 3px solid var(--surface-accent);
+  background: var(--surface-raised);
+  padding: var(--space-4);
+}
+
+.training-selected__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.training-selected__heading > div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.training-selected__heading span:not(.status-chip),
+.training-disclaimer,
+.training-ranked__item summary span {
+  color: var(--surface-muted);
+  font-size: 0.82rem;
+}
+
+.training-selected ul {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.training-ranked > summary,
+.training-ranked__item > summary {
+  min-height: var(--touch-target-min);
+  cursor: pointer;
+}
+
+.training-ranked__item {
+  border-top: 1px solid var(--surface-border);
+  padding-top: var(--space-3);
+}
+
+.training-ranked__item summary {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.training-components {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.training-components div {
+  border-top: 1px solid var(--surface-border);
+  padding-top: var(--space-2);
+}
+
+.training-components dd {
+  margin: var(--space-1) 0 0;
+}
+
+.training-why {
+  border-left: 3px solid var(--surface-accent);
+  padding-left: var(--space-4);
+}
+
+.training-why h3,
+.training-why p {
+  margin: 0;
+}
+
+@media (max-width: 42rem) {
+  .training-recommendation {
+    grid-template-columns: 1fr;
+  }
+
+  .training-recommendation .action-button,
+  .training-selection .action-button,
+  .training-preview .action-button {
+    width: 100%;
+  }
+}
+
 .history-attempt,
 .history-detail__section {
   display: grid;
