@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 
 import { PageHeader } from "./page-header";
 import {
-  materializeTrainingQuestV1,
-  type MaterializedTrainingQuestV1,
-  type TrainingSelectionMode,
-} from "@/lib/training/materialize-v1";
+  materializeAdaptiveTrainingQuestV1,
+  type AdaptiveTrainingQuestV1,
+} from "@/lib/training/adaptation-v1";
+import type { TrainingSelectionMode } from "@/lib/training/materialize-v1";
 import { trainingPresentationV1 } from "@/lib/training/presentation-v1";
 import {
   readRankedRecommendationsV1,
@@ -31,7 +31,7 @@ export function TrainingSurface() {
   const router = useRouter();
   const [snapshot, setSnapshot] = useState<RankedRecommendationSetV1 | null>(null);
   const [selectedKey, setSelectedKey] = useState("");
-  const [materialized, setMaterialized] = useState<MaterializedTrainingQuestV1 | null>(null);
+  const [materialized, setMaterialized] = useState<AdaptiveTrainingQuestV1 | null>(null);
   const [durableQuestId, setDurableQuestId] = useState<string | null>(null);
   const [pending, setPending] = useState<"LOADING" | "BUILDING" | "STARTING" | null>("LOADING");
   const [error, setError] = useState<string | null>(null);
@@ -79,7 +79,7 @@ export function TrainingSurface() {
     setError(null);
     try {
       setMaterialized(
-        materializeTrainingQuestV1({
+        materializeAdaptiveTrainingQuestV1({
           recommendation_set: snapshot,
           candidate_key: selected.key,
           selection_mode: selectionMode(),
@@ -310,6 +310,51 @@ export function TrainingSurface() {
               {selected.skill} was selected at semantic rank {selected.rank} with Training priority{" "}
               {selected.score}. The Skill was ranked first; this Quest was materialized afterward.
             </p>
+          </div>
+          <div className="training-adaptation" aria-label="Adaptive challenge">
+            <div>
+              <span>Training preference</span>
+              <strong>{materialized.adaptation.challenge_preference.replaceAll("_", " ")}</strong>
+            </div>
+            <div>
+              <span>Absolute demand</span>
+              <strong>DIF_V1 · {quest.difficulty_profile.declared_overall_demand}</strong>
+            </div>
+            <div>
+              <span>Personal challenge</span>
+              <strong>
+                {materialized.adaptation.personal_difficulty.personal_level
+                  ? `${materialized.adaptation.personal_difficulty.personal_level} · ${
+                      {
+                        I: "Very Comfortable",
+                        II: "Comfortable",
+                        III: "Target Challenge",
+                        IV: "Stretch",
+                        V: "Overreach",
+                      }[materialized.adaptation.personal_difficulty.personal_level]
+                    }`
+                  : "Unknown — more Skill evidence is needed"}
+              </strong>
+            </div>
+            <div>
+              <span>Assessment</span>
+              <strong>
+                {materialized.adaptation.personal_difficulty.status} · uncertainty{" "}
+                {materialized.adaptation.personal_difficulty.uncertainty}
+              </strong>
+            </div>
+            <p className="generate-details__wide">
+              {materialized.adaptation.fit === "PRIMARY_UNRATED_CALIBRATION_FALLBACK"
+                ? "Challenge preference is not yet applied because this Skill does not have a proficiency estimate."
+                : materialized.adaptation.fit === "EXACT_PREFERRED_BAND"
+                  ? "Matches your current Training preference."
+                  : "This is the closest available challenge this Quest family can currently produce."}
+            </p>
+            {materialized.adaptation.context_novelty.status === "UNKNOWN" ? (
+              <p className="generate-details__wide">
+                Context familiarity is not yet tracked, so personal difficulty remains provisional.
+              </p>
+            ) : null}
           </div>
           <dl className="generate-details">
             <div>

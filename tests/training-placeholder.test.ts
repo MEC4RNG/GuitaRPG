@@ -12,7 +12,7 @@ describe("TRN-003 product boundary", () => {
     expect(source).toContain("<TrainingSurface");
     expect(source).not.toContain("FoundationPage");
     expect(surface).toContain("readRankedRecommendationsV1");
-    expect(surface).toContain("materializeTrainingQuestV1");
+    expect(surface).toContain("materializeAdaptiveTrainingQuestV1");
     expect(surface).toContain("startGeneratedQuestPractice");
     expect(surface).not.toContain("service_role");
   });

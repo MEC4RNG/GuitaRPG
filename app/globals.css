@@ -1022,8 +1022,41 @@ a {
   margin: 0;
 }
 
+.training-adaptation {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  padding: var(--space-4);
+}
+
+.training-adaptation > div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.training-adaptation span {
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.training-adaptation p {
+  margin: 0;
+  color: var(--surface-muted);
+  font-size: 0.86rem;
+}
+
 @media (max-width: 42rem) {
   .training-recommendation {
+    grid-template-columns: 1fr;
+  }
+
+  .training-adaptation {
     grid-template-columns: 1fr;
   }
 

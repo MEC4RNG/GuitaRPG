@@ -143,6 +143,16 @@ test("new anonymous Player explicitly selects a tied Training target and starts 
   await expect(page.getByText("DIF_V1 demand", { exact: false })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Why this Quest" })).toBeVisible();
   await expect(page.getByText("Standard Tuning", { exact: true })).toBeVisible();
+  await expect(page.getByText("BALANCED", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Unknown — more Skill evidence is needed", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(
+      "Challenge preference is not yet applied because this Skill does not have a proficiency estimate.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByText(/Personal challenge: [IVX]/)).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
