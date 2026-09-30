@@ -150,13 +150,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `REL-004 — Adaptive Training Integration Tests` — COMPLETE
 
-**Active ticket:** none — awaiting explicit `P4-GATE-001` authorization
+**Active ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — unauthorized
+**Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
+**Next planned ticket:** none while P4-GATE-001 runs
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -339,7 +339,7 @@ Expected work:
 - recommendation-explanation evidence
 - Daily / Recommended Training foundation where appropriate
 - `REL-004` — Adaptive Training Integration Tests — COMPLETE
-- `P4-GATE-001`
+- `P4-GATE-001` — IN PROGRESS
 
 Phase 4 exit criterion:
 
