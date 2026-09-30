@@ -148,7 +148,7 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `PROG-004 — Readiness and Recency Implementation` — COMPLETE
+**Last terminal ticket:** `TAX-004 — Skill-to-Attribute AFFECTS Graph` — COMPLETE
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
@@ -309,6 +309,7 @@ Expected work:
 - `PROG-002` — Practice XP ledger + Character Level derivation — COMPLETE
 - `PROG-003` — Skill evidence/proficiency/confidence implementation — COMPLETE
 - `PROG-004` — readiness/recency implementation — COMPLETE
+- `TAX-004` — Skill-to-Attribute AFFECTS graph — COMPLETE (discovered PROG-005 enabling dependency)
 - `PROG-005` — Character Attribute derivation
 - Character / Skills progression views
 - correction/recomputation paths
@@ -927,11 +928,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS. PROG-004 is terminal COMPLETE: READY_V1 derives
-current Skill preparedness from rated proficiency and server-authoritative practice
-recency, with change-only audit history and deterministic replay. XP/Character,
-proficiency/confidence, and Attributes remain separate. PROG-005 remains unauthorized
-pending separate explicit approval. Production cutover remains unauthorized.
+Phase 3 — Progression is IN PROGRESS. TAX-004 is terminal COMPLETE: all 72 active
+Skills now participate in the canonical, unweighted ATTRIBUTE_GRAPH_V1 AFFECTS graph,
+covering all 11 Attributes while preserving existing entities and BELONGS_TO edges.
+PROG-005 remains unauthorized pending separate explicit approval. Production cutover
+remains unauthorized.
 
 ---
 

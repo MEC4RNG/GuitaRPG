@@ -14,8 +14,8 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "PROG-004",
-    "title": "Readiness and Recency Implementation",
+    "id": "TAX-004",
+    "title": "Skill-to-Attribute AFFECTS Graph",
     "status": "COMPLETE"
   },
   "active_ticket": null,
@@ -23,7 +23,7 @@
     "id": "PROG-005",
     "title": "Character Attribute Derivation",
     "authorized_to_start": false,
-    "condition": "PROG-004 must complete and explicit user authorization is required before PROG-005"
+    "condition": "TAX-004 must complete and explicit user authorization is required before PROG-005"
   },
   "phase_gate": {
     "id": "P2-GATE-001",
