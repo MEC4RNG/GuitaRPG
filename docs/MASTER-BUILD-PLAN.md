@@ -950,7 +950,7 @@ linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35
 Phase 3 — Progression is COMPLETE. P3-GATE-001 is terminal COMPLETE / PASS: the
 finalized-Result progression chain, recomputation, corrections, anti-inflation boundaries,
 product read models, browser truthfulness, security, and deletion satisfy the Phase 3 exit
-criterion without changing model semantics or migrations. Phase 4 is IN PROGRESS. TRN-001
+criterion without changing model semantics or migrations. Phase 4 is COMPLETE. TRN-001
 is terminal COMPLETE with a deterministic, non-ranked inventory of 15 current generator-capable
 Primary Skills. TRN-002 is terminal COMPLETE with the deterministic, explainable `TRN_SCORE_V1`
 priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with canonical TRAINING
@@ -959,8 +959,8 @@ recommendation selection, Training Quest materialization, and the existing Sessi
 TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, challenge-preference
 selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
-P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 remains PLANNED; P5-SCOPE-001
-and production cutover remain unauthorized.
+P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
+scope-only P5-SCOPE-001 review; feature implementation and production cutover remain unauthorized.
 
 ---
 
