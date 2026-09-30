@@ -1,0 +1,1857 @@
+{
+  "schema_version": 1,
+  "ticket": "TAX-004",
+  "graph_version": "ATTRIBUTE_GRAPH_V1",
+  "numeric_weights": false,
+  "active_skill_count": 72,
+  "attribute_count": 11,
+  "edge_count": 141,
+  "attribute_contributor_counts": {
+    "control": 27,
+    "coordination": 21,
+    "creativity": 4,
+    "dexterity": 11,
+    "ear": 3,
+    "endurance": 5,
+    "expression": 8,
+    "fretboard": 8,
+    "precision": 21,
+    "rhythm": 19,
+    "theory": 14
+  },
+  "edges": [
+    {
+      "id": "91000000-0000-4000-8000-000000000001",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000001",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "alternate_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "alternate_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000002",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000001",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "alternate_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "alternate_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000003",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000002",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "anticipation_placement",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "anticipation_placement_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000004",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000003",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "arpeggio_sequencing",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "arpeggio_sequencing_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000005",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000003",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "arpeggio_sequencing",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "arpeggio_sequencing_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000006",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000003",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "arpeggio_sequencing",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "arpeggio_sequencing_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000007",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000004",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "artificial_harmonics",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "artificial_harmonics_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000008",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000004",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "artificial_harmonics",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "artificial_harmonics_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000009",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000005",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "backbeat_placement",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "backbeat_placement_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000010",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000006",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "barre_chord_fretting",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "barre_chord_fretting_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000011",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000006",
+      "target_entity_id": "60000000-0000-4000-8000-000000000006",
+      "skill_slug": "barre_chord_fretting",
+      "attribute_slug": "endurance",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "barre_chord_fretting_affects_endurance"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000012",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000007",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "basic_chord_fretting",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "basic_chord_fretting_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000013",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000007",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "basic_chord_fretting",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "basic_chord_fretting_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000014",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000008",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "bending",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "bending_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000015",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000008",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "bending",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "bending_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000016",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000009",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "chicken_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chicken_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000017",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000009",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "chicken_picking",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chicken_picking_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000018",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000010",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "chord_inversion_navigation",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chord_inversion_navigation_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000019",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000010",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "chord_inversion_navigation",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chord_inversion_navigation_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000020",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000011",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "chord_melody_playing",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chord_melody_playing_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000021",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000011",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "chord_melody_playing",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chord_melody_playing_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000022",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000012",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "chord_substitution_application",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chord_substitution_application_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000023",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000012",
+      "target_entity_id": "60000000-0000-4000-8000-000000000003",
+      "skill_slug": "chord_substitution_application",
+      "attribute_slug": "creativity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "chord_substitution_application_affects_creativity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000024",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000013",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "classical_fingerstyle",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "classical_fingerstyle_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000025",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000013",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "classical_fingerstyle",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "classical_fingerstyle_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000026",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000013",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "classical_fingerstyle",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "classical_fingerstyle_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000027",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000014",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "counterpoint_application",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "counterpoint_application_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000028",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000014",
+      "target_entity_id": "60000000-0000-4000-8000-000000000003",
+      "skill_slug": "counterpoint_application",
+      "attribute_slug": "creativity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "counterpoint_application_affects_creativity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000029",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000015",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "cross_rhythm_performance",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "cross_rhythm_performance_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000030",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000015",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "cross_rhythm_performance",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "cross_rhythm_performance_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000031",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000016",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "dead_note_articulation",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "dead_note_articulation_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000032",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000016",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "dead_note_articulation",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "dead_note_articulation_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000033",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000017",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "double_stop_execution",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "double_stop_execution_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000034",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000017",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "double_stop_execution",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "double_stop_execution_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000035",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000018",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "downstroke_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "downstroke_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000036",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000018",
+      "target_entity_id": "60000000-0000-4000-8000-000000000006",
+      "skill_slug": "downstroke_picking",
+      "attribute_slug": "endurance",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "downstroke_picking_affects_endurance"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000037",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000019",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "economy_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "economy_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000038",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000019",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "economy_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "economy_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000039",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000020",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "finger_independence",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "finger_independence_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000040",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000020",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "finger_independence",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "finger_independence_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000041",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000021",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "finger_placement",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "finger_placement_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000042",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000021",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "finger_placement",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "finger_placement_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000043",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000022",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "fingerstyle",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "fingerstyle_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000044",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000022",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "fingerstyle",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "fingerstyle_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000045",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000023",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "fingerstyle_tremolo",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "fingerstyle_tremolo_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000046",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000023",
+      "target_entity_id": "60000000-0000-4000-8000-000000000006",
+      "skill_slug": "fingerstyle_tremolo",
+      "attribute_slug": "endurance",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "fingerstyle_tremolo_affects_endurance"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000047",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000024",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "flatpicking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "flatpicking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000048",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000024",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "flatpicking",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "flatpicking_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000049",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000025",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "free_stroke",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "free_stroke_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000050",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000025",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "free_stroke",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "free_stroke_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000051",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000026",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "fret_hand_muting",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "fret_hand_muting_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000052",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000026",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "fret_hand_muting",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "fret_hand_muting_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000053",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000027",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "ghost_note_articulation",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "ghost_note_articulation_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000054",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000027",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "ghost_note_articulation",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "ghost_note_articulation_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000055",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000028",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "gypsy_jazz_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "gypsy_jazz_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000056",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000028",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "gypsy_jazz_picking",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "gypsy_jazz_picking_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000057",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000029",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "hammer_on",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "hammer_on_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000058",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000029",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "hammer_on",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "hammer_on_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000059",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000030",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "harp_harmonics",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "harp_harmonics_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000060",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000030",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "harp_harmonics",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "harp_harmonics_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000061",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000031",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "hybrid_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "hybrid_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000062",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000031",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "hybrid_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "hybrid_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000063",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000032",
+      "target_entity_id": "60000000-0000-4000-8000-000000000005",
+      "skill_slug": "interval_recognition",
+      "attribute_slug": "ear",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "interval_recognition_affects_ear"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000064",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000032",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "interval_recognition",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "interval_recognition_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000065",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000033",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "legato",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "legato_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000066",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000033",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "legato",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "legato_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000067",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000034",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "metric_modulation_performance",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "metric_modulation_performance_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000068",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000034",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "metric_modulation_performance",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "metric_modulation_performance_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000069",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000035",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "microtonal_bending",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "microtonal_bending_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000070",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000035",
+      "target_entity_id": "60000000-0000-4000-8000-000000000005",
+      "skill_slug": "microtonal_bending",
+      "attribute_slug": "ear",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "microtonal_bending_affects_ear"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000071",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000036",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "modal_application",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "modal_application_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000072",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000037",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "modulation_application",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "modulation_application_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000073",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000037",
+      "target_entity_id": "60000000-0000-4000-8000-000000000003",
+      "skill_slug": "modulation_application",
+      "attribute_slug": "creativity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "modulation_application_affects_creativity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000074",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000038",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "note_location",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "note_location_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000075",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000039",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "odd_meter_fluency",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "odd_meter_fluency_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000076",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000040",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "open_chord_fluency",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "open_chord_fluency_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000077",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000040",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "open_chord_fluency",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "open_chord_fluency_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000078",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000041",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "open_string_chord_voicing",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "open_string_chord_voicing_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000079",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000041",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "open_string_chord_voicing",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "open_string_chord_voicing_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000080",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000042",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "palm_muting",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "palm_muting_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000081",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000042",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "palm_muting",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "palm_muting_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000082",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000043",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "percussive_strumming",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "percussive_strumming_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000083",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000043",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "percussive_strumming",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "percussive_strumming_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000084",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000044",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "pick_scrape",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pick_scrape_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000085",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000044",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "pick_scrape",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pick_scrape_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000086",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000045",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "pick_tapping",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pick_tapping_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000087",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000045",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "pick_tapping",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pick_tapping_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000088",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000046",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "pinch_harmonics",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pinch_harmonics_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000089",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000046",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "pinch_harmonics",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pinch_harmonics_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000090",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000047",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "polyrhythm_performance",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "polyrhythm_performance_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000091",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000047",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "polyrhythm_performance",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "polyrhythm_performance_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000092",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000048",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "power_chord_fretting",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "power_chord_fretting_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000093",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000048",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "power_chord_fretting",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "power_chord_fretting_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000094",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000049",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "pull_off",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pull_off_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000095",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000049",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "pull_off",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "pull_off_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000096",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000050",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "rake_picking",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "rake_picking_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000097",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000050",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "rake_picking",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "rake_picking_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000098",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000051",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "rest_stroke",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "rest_stroke_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000099",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000051",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "rest_stroke",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "rest_stroke_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000100",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000052",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "rhythmic_displacement_control",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "rhythmic_displacement_control_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000101",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000052",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "rhythmic_displacement_control",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "rhythmic_displacement_control_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000102",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000053",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "scalar_fingering",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scalar_fingering_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000103",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000053",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "scalar_fingering",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scalar_fingering_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000104",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000054",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "scalar_sequence_execution",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scalar_sequence_execution_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000105",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000054",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "scalar_sequence_execution",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scalar_sequence_execution_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000106",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000055",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "scale_application",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scale_application_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000107",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000055",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "scale_application",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scale_application_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000108",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000056",
+      "target_entity_id": "60000000-0000-4000-8000-000000000005",
+      "skill_slug": "scale_degree_recognition",
+      "attribute_slug": "ear",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scale_degree_recognition_affects_ear"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000109",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000056",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "scale_degree_recognition",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scale_degree_recognition_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000110",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000057",
+      "target_entity_id": "60000000-0000-4000-8000-000000000008",
+      "skill_slug": "scale_mapping",
+      "attribute_slug": "fretboard",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scale_mapping_affects_fretboard"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000111",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000057",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "scale_mapping",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "scale_mapping_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000112",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000058",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "slap_and_pop",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "slap_and_pop_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000113",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000058",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "slap_and_pop",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "slap_and_pop_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000114",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000059",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "sliding",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "sliding_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000115",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000059",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "sliding",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "sliding_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000116",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000060",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "string_skipping",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "string_skipping_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000117",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000060",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "string_skipping",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "string_skipping_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000118",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000061",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "subdivision_control",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "subdivision_control_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000119",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000061",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "subdivision_control",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "subdivision_control_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000120",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000062",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "sweep_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "sweep_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000121",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000062",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "sweep_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "sweep_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000122",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000063",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "syncopation_control",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "syncopation_control_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000123",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000063",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "syncopation_control",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "syncopation_control_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000124",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000064",
+      "target_entity_id": "60000000-0000-4000-8000-000000000006",
+      "skill_slug": "tremolo_picking",
+      "attribute_slug": "endurance",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "tremolo_picking_affects_endurance"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000125",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000064",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "tremolo_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "tremolo_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000126",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000065",
+      "target_entity_id": "60000000-0000-4000-8000-000000000006",
+      "skill_slug": "tremolo_strumming",
+      "attribute_slug": "endurance",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "tremolo_strumming_affects_endurance"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000127",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000065",
+      "target_entity_id": "60000000-0000-4000-8000-000000000010",
+      "skill_slug": "tremolo_strumming",
+      "attribute_slug": "rhythm",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "tremolo_strumming_affects_rhythm"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000128",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000066",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "triad_construction",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "triad_construction_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000129",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000067",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "two_hand_tapping",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "two_hand_tapping_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000130",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000067",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "two_hand_tapping",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "two_hand_tapping_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000131",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000068",
+      "target_entity_id": "60000000-0000-4000-8000-000000000003",
+      "skill_slug": "two_voice_independence",
+      "attribute_slug": "creativity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "two_voice_independence_affects_creativity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000132",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000068",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "two_voice_independence",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "two_voice_independence_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000133",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000068",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "two_voice_independence",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "two_voice_independence_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000134",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000069",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "upstroke_picking",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "upstroke_picking_affects_precision"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000135",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000069",
+      "target_entity_id": "60000000-0000-4000-8000-000000000002",
+      "skill_slug": "upstroke_picking",
+      "attribute_slug": "coordination",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "upstroke_picking_affects_coordination"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000136",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000070",
+      "target_entity_id": "60000000-0000-4000-8000-000000000001",
+      "skill_slug": "vibrato",
+      "attribute_slug": "control",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "vibrato_affects_control"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000137",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000070",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "vibrato",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "vibrato_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000138",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000071",
+      "target_entity_id": "60000000-0000-4000-8000-000000000011",
+      "skill_slug": "voice_leading",
+      "attribute_slug": "theory",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "voice_leading_affects_theory"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000139",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000071",
+      "target_entity_id": "60000000-0000-4000-8000-000000000007",
+      "skill_slug": "voice_leading",
+      "attribute_slug": "expression",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "voice_leading_affects_expression"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000140",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000072",
+      "target_entity_id": "60000000-0000-4000-8000-000000000004",
+      "skill_slug": "wide_interval_fretting",
+      "attribute_slug": "dexterity",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "wide_interval_fretting_affects_dexterity"
+      }
+    },
+    {
+      "id": "91000000-0000-4000-8000-000000000141",
+      "relationship_type": "AFFECTS",
+      "source_entity_id": "20000000-0000-4000-8000-000000000072",
+      "target_entity_id": "60000000-0000-4000-8000-000000000009",
+      "skill_slug": "wide_interval_fretting",
+      "attribute_slug": "precision",
+      "metadata": {
+        "source": "TAX-004",
+        "graph_version": "ATTRIBUTE_GRAPH_V1",
+        "rationale_code": "wide_interval_fretting_affects_precision"
+      }
+    }
+  ]
+}

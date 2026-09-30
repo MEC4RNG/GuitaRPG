@@ -43,6 +43,16 @@
     "legacy_mapping_targets": 238,
     "legacy_source_occurrences": 216
   },
+  "extension_artifacts": {
+    "skill_attribute_affects": {
+      "path": "domain/taxonomy/skill-attribute-affects-v1.json",
+      "graph_version": "ATTRIBUTE_GRAPH_V1",
+      "active_skills": 72,
+      "attributes": 11,
+      "relationships": 141,
+      "numeric_weights": false
+    }
+  },
   "entities": [
     {
       "id": "10000000-0000-4000-8000-000000000006",
