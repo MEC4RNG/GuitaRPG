@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "PROG-005",
-    "title": "Character Attribute Derivation",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "UX-003",
     "title": "Character & Skills Progression Views",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "PROG-006",
     "title": "Progression Correction & Recomputation Operations",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "UX_003_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_PROG_006_AUTHORIZATION"
 }

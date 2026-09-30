@@ -56,16 +56,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves the completed Phase 2 prerequisites after PROG-005", () => {
+  it("preserves the completed Phase 2 prerequisites after UX-003", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "PROG-005", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "UX-003", status: "COMPLETE" });
     expect(remediationTicket).toContain(
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toMatchObject({ id: "UX-003", status: "IN_PROGRESS" });
+    expect(state.active_ticket).toBeNull();
     expect(read("docs/tickets/EVD-002.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/SES-002.md")).toContain("**Status:** COMPLETE");
@@ -75,13 +75,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("runs only UX-003 while keeping PROG-006 and cutover unauthorized", () => {
+  it("closes UX-003 while keeping PROG-006 and cutover unauthorized", () => {
     expect(state.phase).toEqual({ id: 3, name: "Progression", status: "IN_PROGRESS" });
     expect(state.next_ticket).toMatchObject({
       id: "PROG-006",
       authorized_to_start: false,
     });
-    expect(state.execution_status).toBe("UX_003_IN_PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_PROG_006_AUTHORIZATION");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
@@ -92,7 +92,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     expect(read("docs/tickets/PROG-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/TAX-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/PROG-005.md")).toContain("**Status:** COMPLETE");
-    expect(read("docs/tickets/UX-003.md")).toContain("**Status:** IN PROGRESS");
+    expect(read("docs/tickets/UX-003.md")).toContain("**Status:** COMPLETE");
     expect(plan).toContain("`REL-002` — core-loop integration tests");
     expect(plan).toContain("`P2-GATE-001` — Core Quest Loop integration gate — COMPLETE / PASS");
   });

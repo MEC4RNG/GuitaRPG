@@ -148,8 +148,8 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase:** Phase 3 — Progression — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
-**Last terminal ticket:** `PROG-005 — Character Attribute Derivation` — COMPLETE
-**Active ticket:** `UX-003 — Character & Skills Progression Views` — IN PROGRESS
+**Last terminal ticket:** `UX-003 — Character & Skills Progression Views` — COMPLETE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -311,7 +311,7 @@ Expected work:
 - `PROG-004` — readiness/recency implementation — COMPLETE
 - `TAX-004` — Skill-to-Attribute AFFECTS graph — COMPLETE (discovered PROG-005 enabling dependency)
 - `PROG-005` — Character Attribute derivation — COMPLETE
-- `UX-003` — Character & Skills Progression Views — IN PROGRESS
+- `UX-003` — Character & Skills Progression Views — COMPLETE
 - `PROG-006` — Progression Correction & Recomputation Operations — PLANNED
 - `REL-003` — progression integration/recomputation tests
 - `P3-GATE-001`
@@ -928,10 +928,11 @@ Result, History, and History Detail on desktop and mobile. Fresh local replay, l
 linked 7-file / 268-assertion pgTAP suites, synchronized staging history, the 35-file /
 244-test application suite, production build, and validation CI all pass.
 
-Phase 3 — Progression is IN PROGRESS. PROG-005 is terminal COMPLETE. UX-003 is the
-active authorized ticket for read-only Character and Skills progression views.
-PROG-006 is planned but remains unauthorized pending UX-003 completion and separate
-explicit approval. Production cutover remains unauthorized.
+Phase 3 — Progression is IN PROGRESS. UX-003 is terminal COMPLETE: the Character and
+Skills routes now provide responsive, accessible, read-only views over accepted Phase 3
+projection state, including trusted readiness refresh and truthful empty states. PROG-006
+is planned but remains unauthorized pending separate explicit approval. Production
+cutover remains unauthorized.
 
 ---
 
