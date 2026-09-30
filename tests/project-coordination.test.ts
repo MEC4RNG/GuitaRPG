@@ -69,7 +69,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket).toMatchObject({ id: "PLY-003", status: "IN_PROGRESS" });
     expect(read("docs/tickets/UX-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/UX-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/P5-SCOPE-001.md")).toContain("**Status:** COMPLETE");
@@ -91,14 +91,14 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps PLY-003 and cutover unauthorized after launch cleanup", () => {
+  it("keeps CODEX-001 and cutover unauthorized during Profile editing", () => {
     expect(state.phase).toEqual({
       id: 5,
       name: "Learning & Practice Tooling",
       status: "IN_PROGRESS",
     });
-    expect(state.next_ticket).toMatchObject({ id: "PLY-003", authorized_to_start: false });
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_PLY_003_AUTHORIZATION");
+    expect(state.next_ticket).toMatchObject({ id: "CODEX-001", authorized_to_start: false });
+    expect(state.execution_status).toBe("PLY_003_IN_PROGRESS");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");

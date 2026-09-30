@@ -25,6 +25,51 @@ test("launch navigation stays truthful on desktop and mobile", async ({ page, is
   );
 });
 
+test("Player edits Profile preferences and a structured goal", async ({ page }) => {
+  await page.goto("/onboarding");
+  await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible({
+    timeout: 15_000,
+  });
+  await page.getByLabel("Experience background").selectOption("SOME_EXPERIENCE");
+  await page.getByLabel("Typical session length (minutes)").fill("20");
+  await page.getByLabel("Challenge preference").selectOption("BALANCED");
+  await page.getByLabel("Preferred tuning").selectOption({ label: "Standard Tuning" });
+  await page.getByRole("button", { name: "Save and continue" }).click();
+  await expect(page.getByText("PLAYER READY")).toBeVisible();
+
+  await page.goto("/profile");
+  await expect(page.getByRole("heading", { name: "Your practice preferences." })).toBeVisible();
+  await page.getByLabel("Display name (optional)").fill("Dorian");
+  await page.getByLabel("Experience background").selectOption("EXPERIENCED");
+  await page.getByLabel("Typical session length (minutes)").fill("35");
+  await page.getByLabel("Challenge preference").selectOption("PUSH_ME");
+  await page.getByLabel("Default tuning").selectOption({ label: "DADGAD" });
+  await page.getByRole("button", { name: "Add goal" }).click();
+  await page
+    .getByRole("group", { name: "Goal 1" })
+    .getByRole("combobox")
+    .nth(1)
+    .selectOption({ label: "Alternate Picking" });
+  await page.getByRole("button", { name: "Save Profile" }).click();
+  await expect(page.getByRole("status")).toContainText("Profile saved");
+
+  await page.reload();
+  await expect(page.getByLabel("Display name (optional)")).toHaveValue("Dorian");
+  await expect(page.getByLabel("Typical session length (minutes)")).toHaveValue("35");
+  await expect(page.getByLabel("Challenge preference")).toHaveValue("PUSH_ME");
+  await expect(page.getByLabel("Default tuning")).toHaveValue(
+    "40000000-0000-4000-8000-000000000030",
+  );
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+
+  await page.goto("/training");
+  const trainingTarget = page.getByLabel("Training target", { exact: true });
+  await expect(trainingTarget).toBeVisible({ timeout: 15_000 });
+  await expect(trainingTarget.getByRole("option", { name: /Alternate Picking/ })).toHaveCount(1);
+});
+
 test("new anonymous Player completes the production core loop", async ({ page, isMobile }) => {
   await page.goto("/onboarding");
   await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible({

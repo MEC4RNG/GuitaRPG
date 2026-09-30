@@ -151,13 +151,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Last terminal ticket:** `UX-004 — Launch Surface Truthfulness & Placeholder Cleanup` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `PLY-003 — Functional Player Profile Editing` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through QST-003-R2 `20260929100000`; applied and verified
-**Next planned ticket:** `PLY-003 — Functional Player Profile Editing` — NOT AUTHORIZED
+**Next planned ticket:** `CODEX-001 — Minimum Taxonomy-Backed Codex` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -363,7 +363,7 @@ Expected work may include:
 - `P5-SCOPE-001-R4` — Explicit Vitest Peer & Deterministic CI Graph — COMPLETE
 - `UX-001-R1` — v1 Navigation Contract Refinement — COMPLETE
 - `UX-004` — Launch Surface Truthfulness & Placeholder Cleanup — COMPLETE
-- `PLY-003` — Functional Player Profile Editing — proposed / unauthorized
+- `PLY-003` — Functional Player Profile Editing — IN PROGRESS
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — proposed / unauthorized
 - `QST-004` — Quest-to-Codex Reference Integration — proposed / unauthorized
 - `REL-005` — Phase 5 Launch-Package Integration Tests — proposed / unauthorized
