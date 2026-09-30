@@ -21,6 +21,7 @@
     "test:phase0-gate": "vitest run tests/phase0-gate.test.ts",
     "test:phase2-integration": "vitest run tests/core-loop-integration.test.ts tests/quest-generate-bridge.test.ts tests/history-runtime.test.ts",
     "test:phase3-integration": "vitest run tests/progression-integration.test.ts tests/progression-operations.test.ts tests/progression-read-model.test.ts tests/progression-repository.test.ts tests/progression-surfaces.test.ts",
+    "test:phase4-integration": "vitest run tests/adaptive-training-integration.test.ts tests/training-candidates-v1.test.ts tests/training-scoring-v1.test.ts tests/training-materialization-v1.test.ts tests/training-adaptation-v1.test.ts tests/quest-generator.test.ts",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "db:reset": "supabase db reset --local",

@@ -150,13 +150,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Last terminal ticket:** `TRN-004 — Adaptive Quest Composition & Challenge Preference` — COMPLETE
 
-**Active ticket:** none — awaiting explicit `REL-004` authorization
+**Active ticket:** `REL-004 — Adaptive Training Integration Tests` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PROG-006 `20260929090000`; applied and verified
-**Next planned ticket:** `REL-004 — Adaptive Training Integration Tests` — unauthorized
+**Next planned ticket:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — unauthorized
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -338,7 +338,7 @@ Expected work:
 - weakness / refresh / novelty balancing
 - recommendation-explanation evidence
 - Daily / Recommended Training foundation where appropriate
-- `REL-004` — PLANNED / unauthorized
+- `REL-004` — Adaptive Training Integration Tests — IN PROGRESS
 - `P4-GATE-001`
 
 Phase 4 exit criterion:
@@ -941,8 +941,8 @@ priority model and dense tie-safe ranking. QST-003-R2 is terminal COMPLETE with 
 generation and authenticated persistence enabled. TRN-003 is terminal COMPLETE with truthful
 recommendation selection, Training Quest materialization, and the existing Session bridge.
 TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, challenge-preference
-selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 remains
-unauthorized. Production cutover remains unauthorized.
+selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is IN
+PROGRESS as the dedicated adaptive Training integration proof. Production cutover remains unauthorized.
 
 ---
 
