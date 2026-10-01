@@ -99,7 +99,11 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   ).toBeVisible();
   const authFailures: string[] = [];
   page.on("response", async (response) => {
-    if (!response.url().includes("/auth/v1/user") || response.status() < 400) return;
+    if (!response.url().includes("/auth/v1/user")) return;
+    if (response.status() < 400) {
+      authFailures.push(`status-${response.status()}`);
+      return;
+    }
     const safeBody = (await response.text())
       .replaceAll(/[\w.+-]+@[\w.-]+/g, "[redacted-email]")
       .replaceAll(/eyJ[A-Za-z0-9._-]+/g, "[redacted-token]")
@@ -112,12 +116,30 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
       .filter((cookie) => cookie.name.includes("-auth-token"))
       .map((cookie) => `${cookie.name}:${cookie.domain}:${cookie.value.length}`)
       .join(",");
+  const sessionPayloadShape = async () => {
+    const cookie = (await page.context().cookies()).find((candidate) =>
+      candidate.name.endsWith("-auth-token"),
+    );
+    if (!cookie) return "absent";
+    try {
+      const encoded = cookie.value.startsWith("base64-") ? cookie.value.slice(7) : cookie.value;
+      const payload = JSON.parse(Buffer.from(encoded, "base64url").toString("utf8")) as unknown;
+      if (Array.isArray(payload)) return `array-${payload.length}`;
+      if (payload && typeof payload === "object")
+        return `object-${Object.keys(payload).sort().join("-")}`;
+      return typeof payload;
+    } catch {
+      return "invalid";
+    }
+  };
   const guestSessionCookieShape = await sessionCookieShape();
+  const guestSessionPayloadShape = await sessionPayloadShape();
   const upgradeLink = await waitForEmailLink(request, email, "email_change");
   expect(new URL(upgradeLink).origin).toBe(guestOrigin);
   await page.goto(upgradeLink);
   await expect(page).toHaveURL(/\/profile$/);
   const confirmedSessionCookieShape = await sessionCookieShape();
+  const confirmedSessionPayloadShape = await sessionPayloadShape();
   await expect
     .poll(
       async () => {
@@ -130,7 +152,7 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
         if (await page.getByRole("heading", { name: "Return to a protected Player" }).isVisible())
           return "unauthenticated";
         if (await page.getByText("Account status is unavailable").isVisible())
-          return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-before[${guestSessionCookieShape}]-after[${confirmedSessionCookieShape}]`;
+          return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
         return "loading";
       },
       { timeout: 15_000 },
