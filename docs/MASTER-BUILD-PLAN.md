@@ -151,13 +151,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Last terminal ticket:** `REL-005 — Phase 5 Launch-Package Integration Tests` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PLY-003 `20260929110000`; applied and verified
-**Next planned ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — NOT AUTHORIZED
+**Next planned ticket:** none while P5-GATE-001 is active
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -966,11 +966,13 @@ selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill rank
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
 P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
 completed P5-SCOPE-001 scope review. R1 and R2 are blocked and superseded, R3 was investigation-only,
-and R4 is COMPLETE with deterministic CI. UX-001-R1, UX-004, and PLY-003 are COMPLETE; CODEX-001 and production cutover remain unauthorized.
+and R4 is COMPLETE with deterministic CI. UX-001-R1, UX-004, PLY-003, CODEX-001,
+QST-004, and REL-005 are COMPLETE. P5-GATE-001 is active; production cutover remains
+unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
-REL-005, then P5-GATE-001. UX-001-R1, UX-004, and PLY-003 are COMPLETE. Execution awaits explicit
-CODEX-001 authorization.
+REL-005, then P5-GATE-001. Every prerequisite is COMPLETE. Execution is limited to the
+authorized P5-GATE-001 validation and disposition; Phase 6 remains unauthorized.
 
 ---
 

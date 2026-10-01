@@ -40,11 +40,9 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
 
   it("declares the repository operating authority", () => {
     expect(state.project).toBe("GuitaRPG");
-    expect(state.phase).toEqual({
-      id: 5,
-      name: "Learning & Practice Tooling",
-      status: "IN_PROGRESS",
-    });
+    expect(state.phase.id).toBe(5);
+    expect(state.phase.name).toBe("Learning & Practice Tooling");
+    expect(["IN_PROGRESS", "COMPLETE"]).toContain(state.phase.status);
     expect(state.production_development_branch).toBe("v1-production");
     expect(plan).toContain("# GuitaRPG Master Build Plan");
     expect(plan).toContain("## 12. Chat ↔ Codex operating model");
@@ -69,7 +67,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
 
     expect(state.last_terminal_ticket).toMatchObject({ id: "REL-005", status: "COMPLETE" });
-    expect(state.active_ticket).toBeNull();
+    expect(state.active_ticket === null || state.active_ticket.id === "P5-GATE-001").toBe(true);
     expect(read("docs/tickets/REL-005.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/QST-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/CODEX-001.md")).toContain("**Status:** COMPLETE");
@@ -95,14 +93,17 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps P5-GATE-001 and cutover unauthorized after integration proof", () => {
-    expect(state.phase).toEqual({
-      id: 5,
-      name: "Learning & Practice Tooling",
-      status: "IN_PROGRESS",
-    });
-    expect(state.next_ticket).toMatchObject({ id: "P5-GATE-001", authorized_to_start: false });
-    expect(state.execution_status).toBe("AWAITING_EXPLICIT_P5_GATE_001_AUTHORIZATION");
+  it("keeps P5-GATE-001 lifecycle and cutover boundaries coherent", () => {
+    if (state.active_ticket) {
+      expect(state.phase.status).toBe("IN_PROGRESS");
+      expect(state.active_ticket).toMatchObject({ id: "P5-GATE-001", status: "IN_PROGRESS" });
+      expect(state.next_ticket).toBeNull();
+      expect(state.execution_status).toBe("P5_GATE_001_IN_PROGRESS");
+    } else {
+      expect(state.phase.status).toBe("COMPLETE");
+      expect(state.next_ticket).toMatchObject({ id: "P6-SCOPE-001", authorized_to_start: false });
+      expect(state.execution_status).toBe("AWAITING_EXPLICIT_P6_SCOPE_001_AUTHORIZATION");
+    }
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");

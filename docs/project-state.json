@@ -18,13 +18,12 @@
     "title": "Phase 5 Launch-Package Integration Tests",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "P5-GATE-001",
     "title": "Phase 5 Learning & Practice Tooling Gate",
-    "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before P5-GATE-001"
+    "status": "IN_PROGRESS"
   },
+  "next_ticket": null,
   "phase_gate": {
     "id": "P4-GATE-001",
     "status": "PASS"
@@ -42,5 +41,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_P5_GATE_001_AUTHORIZATION"
+  "execution_status": "P5_GATE_001_IN_PROGRESS"
 }
