@@ -145,19 +145,20 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 5 — Learning & Practice Tooling — IN PROGRESS
+**Phase:** Phase 5 — Learning & Practice Tooling — COMPLETE
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
-**Last terminal ticket:** `REL-005 — Phase 5 Launch-Package Integration Tests` — COMPLETE
+**Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
+**Last terminal ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE
 
-**Active ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PLY-003 `20260929110000`; applied and verified
-**Next planned ticket:** none while P5-GATE-001 is active
+**Next planned ticket:** `P6-SCOPE-001 — Phase 6 Launch Hardening Scope Review` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -346,9 +347,9 @@ Phase 4 exit criterion:
 
 The system can select and explain a useful next Quest based on actual Player state and recent evidence.
 
-### Phase 5 — Learning & Practice Tooling — IN PROGRESS
+### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 execution is IN PROGRESS through completed REL-005. UX-001-R1, UX-004, PLY-003, CODEX-001, and QST-004 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and P5-GATE-001 remains unauthorized.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 remains unauthorized.
 
 Purpose:
 
@@ -367,7 +368,7 @@ Expected work may include:
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — COMPLETE
 - `QST-004` — Quest-to-Codex Reference Integration — COMPLETE
 - `REL-005` — Phase 5 Launch-Package Integration Tests — COMPLETE
-- `P5-GATE-001` — Phase 5 Learning & Practice Tooling Gate — proposed / unauthorized
+- `P5-GATE-001` — Phase 5 Learning & Practice Tooling Gate — COMPLETE / PASS
 - fretboard / interval / chord / scale visualizations
 - richer Quest reference material
 - `AUD-001+` — optional microphone/direct-input infrastructure
@@ -964,15 +965,15 @@ recommendation selection, Training Quest materialization, and the existing Sessi
 TRN-004 is terminal COMPLETE with deterministic adaptive Quest composition, challenge-preference
 selection, and truthful DIF_PERSONAL_V1 presentation while preserving Skill ranking. REL-004 is
 terminal COMPLETE with dedicated runtime, database, staging, security, and browser integration proof.
-P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is IN PROGRESS through the
+P4-GATE-001 is COMPLETE / PASS and Phase 4 is COMPLETE. Phase 5 is COMPLETE through the
 completed P5-SCOPE-001 scope review. R1 and R2 are blocked and superseded, R3 was investigation-only,
 and R4 is COMPLETE with deterministic CI. UX-001-R1, UX-004, PLY-003, CODEX-001,
-QST-004, and REL-005 are COMPLETE. P5-GATE-001 is active; production cutover remains
-unauthorized.
+QST-004, and REL-005 are COMPLETE. P5-GATE-001 is COMPLETE / PASS; production cutover
+remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
-REL-005, then P5-GATE-001. Every prerequisite is COMPLETE. Execution is limited to the
-authorized P5-GATE-001 validation and disposition; Phase 6 remains unauthorized.
+REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Execution awaits
+explicit P6-SCOPE-001 authorization; Phase 6 work and production cutover remain unauthorized.
 
 ---
 

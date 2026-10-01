@@ -63,14 +63,22 @@ describe("P1-GATE-001 durable integration invariants", () => {
   });
 
   it("keeps the Phase 1 gate lifecycle internally coherent", () => {
-    expect(["P1-GATE-001", "P2-GATE-001", "P3-GATE-001", "P4-GATE-001"]).toContain(
+    expect(["P1-GATE-001", "P2-GATE-001", "P3-GATE-001", "P4-GATE-001", "P5-GATE-001"]).toContain(
       state.phase_gate.id,
     );
 
-    if (["P2-GATE-001", "P3-GATE-001", "P4-GATE-001"].includes(state.phase_gate.id)) {
+    if (
+      ["P2-GATE-001", "P3-GATE-001", "P4-GATE-001", "P5-GATE-001"].includes(state.phase_gate.id)
+    ) {
       expect(state.phase_gate.status).toBe("PASS");
       const minimumPhase =
-        state.phase_gate.id === "P4-GATE-001" ? 4 : state.phase_gate.id === "P3-GATE-001" ? 3 : 2;
+        state.phase_gate.id === "P5-GATE-001"
+          ? 5
+          : state.phase_gate.id === "P4-GATE-001"
+            ? 4
+            : state.phase_gate.id === "P3-GATE-001"
+              ? 3
+              : 2;
       expect(state.phase.id).toBeGreaterThanOrEqual(minimumPhase);
       if (state.phase.id === 2) {
         expect(state.phase).toEqual({ id: 2, name: "Core Quest Loop", status: "COMPLETE" });
@@ -80,6 +88,13 @@ describe("P1-GATE-001 durable integration invariants", () => {
       }
       if (state.phase.id === 4) {
         expect(state.phase).toEqual({ id: 4, name: "Adaptive GuitaRPG", status: "COMPLETE" });
+      }
+      if (state.phase.id === 5) {
+        expect(state.phase).toEqual({
+          id: 5,
+          name: "Learning & Practice Tooling",
+          status: "COMPLETE",
+        });
       }
       expect(state.next_ticket === null || state.next_ticket.authorized_to_start === false).toBe(
         true,

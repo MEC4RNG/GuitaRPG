@@ -66,8 +66,9 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "REL-005", status: "COMPLETE" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "P5-GATE-001", status: "COMPLETE" });
     expect(state.active_ticket === null || state.active_ticket.id === "P5-GATE-001").toBe(true);
+    expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
     expect(read("docs/tickets/REL-005.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/QST-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/CODEX-001.md")).toContain("**Status:** COMPLETE");
