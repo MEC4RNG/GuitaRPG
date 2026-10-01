@@ -108,7 +108,7 @@ async function main() {
     p_experience_background: "INTERMEDIATE",
     p_typical_session_minutes: 23,
     p_challenge_preference: "BALANCED",
-    p_calibration_status: "DECLINED",
+    p_calibration_status: "SKIPPED",
     p_tuning_context_id: tuning.id,
     p_goal: "DATA-003 identity continuity",
   });
