@@ -115,7 +115,10 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   const sessionCookieShape = async () =>
     (await page.context().cookies())
       .filter((cookie) => cookie.name.includes("-auth-token"))
-      .map((cookie) => `${cookie.name}:${cookie.domain}:${cookie.value.length}`)
+      .map(
+        (cookie) =>
+          `${cookie.name}:${cookie.domain}:${cookie.path}:${cookie.sameSite}:${cookie.secure}:${cookie.value.length}`,
+      )
       .join(",");
   const sessionPayloadShape = async () => {
     const cookie = (await page.context().cookies()).find((candidate) =>

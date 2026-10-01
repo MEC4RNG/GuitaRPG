@@ -62,6 +62,7 @@ export async function GET(request: NextRequest) {
               .getAll()
               .filter(({ name }) => name.includes("-auth-token")).length,
             cookieToken: Boolean(cookieToken),
+            cookieHeader: Boolean(request.headers.get("cookie")),
             sessionToken: Boolean(sessionData.session?.access_token),
           },
     },
