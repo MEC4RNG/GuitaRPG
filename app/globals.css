@@ -800,6 +800,18 @@ a {
   overflow-wrap: anywhere;
 }
 
+.quest-codex-link {
+  color: var(--surface-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.quest-codex-link:focus-visible {
+  outline: 2px solid var(--surface-accent);
+  outline-offset: 3px;
+}
+
 .result-completion select,
 .result-completion input,
 .result-completion textarea {

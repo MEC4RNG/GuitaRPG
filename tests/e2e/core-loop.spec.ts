@@ -112,6 +112,12 @@ test("new anonymous Player completes the production core loop", async ({ page, i
     .locator("..")
     .locator("dd")
     .innerText();
+  await expect(
+    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("link"),
+  ).toHaveAttribute("href", /\/codex\/skills\//);
+  await expect(
+    page.locator("dt", { hasText: "Concepts" }).locator("..").getByRole("link").first(),
+  ).toHaveAttribute("href", /\/codex\/concepts\//);
   await expect(page.getByText(/Demand [IVX]+/)).toBeVisible();
   await expect(page.getByText(/BPM|Not required/).first()).toBeVisible();
   await page.getByRole("button", { name: "Start Practice" }).click();
@@ -121,6 +127,11 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   expect(sessionId).toMatch(/^[0-9a-f-]{36}$/);
   await expect(page.getByRole("heading", { name: questTitle })).toBeVisible();
   await expect(page.getByText("ACTIVE", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Practice parameters" })).toBeVisible();
+  await expect(page.locator(".session-reference").getByRole("link").first()).toHaveAttribute(
+    "href",
+    /\/codex\//,
+  );
 
   await page.getByRole("button", { name: "+1 rep" }).click();
   await expect(page.getByText("REPS").locator("..").getByText("1", { exact: true })).toBeVisible();
@@ -212,6 +223,9 @@ test("new anonymous Player explicitly selects a tied Training target and starts 
   await expect(page.getByRole("heading", { name: "Why this Quest" })).toBeVisible();
   await expect(page.getByText("Standard Tuning", { exact: true })).toBeVisible();
   await expect(page.getByText("BALANCED", { exact: true })).toBeVisible();
+  await expect(
+    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("link"),
+  ).toHaveAttribute("href", /\/codex\/skills\//);
   await expect(
     page.getByText("Unknown — more Skill evidence is needed", { exact: true }),
   ).toBeVisible();

@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
 import { generateQuickQuest, type GeneratedQuest } from "@/lib/quest/generator";
+import { questCodexReferences } from "@/lib/quest/codex-references";
 import {
   GeneratedQuestStartError,
   startGeneratedQuestPractice,
@@ -13,8 +15,6 @@ import type { SessionRpcClient } from "@/lib/session/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type GenerateClient = QuestPersistenceRpcClient & SessionRpcClient;
-
-const joinNames = (items: Array<{ name: string }>) => items.map((item) => item.name).join(", ");
 
 export function GenerateQuestSurface() {
   const router = useRouter();
@@ -63,6 +63,7 @@ export function GenerateQuestSurface() {
   }
 
   const quest = generated?.quest;
+  const references = quest ? questCodexReferences(quest) : null;
   const targetTempo = quest?.constraints.find((item) => item.slug === "target_tempo")?.parameters
     .bpm;
   const tuning = (quest?.musical_context as { tuning?: { name?: string } | null } | undefined)
@@ -113,7 +114,9 @@ export function GenerateQuestSurface() {
           <dl className="generate-details">
             <div>
               <dt>Primary Skill</dt>
-              <dd>{quest.execution.primary_skill.name}</dd>
+              <dd>
+                <CodexReferenceLink reference={references!.primarySkill} />
+              </dd>
             </div>
             <div>
               <dt>Estimated Time</dt>
@@ -121,23 +124,36 @@ export function GenerateQuestSurface() {
             </div>
             <div>
               <dt>Secondary Skills</dt>
-              <dd>{joinNames(quest.execution.secondary_skills) || "None"}</dd>
+              <dd>
+                <CodexReferenceList references={references!.secondarySkills} />
+              </dd>
             </div>
             <div>
               <dt>Required Techniques</dt>
-              <dd>{joinNames(quest.execution.required_techniques) || "None"}</dd>
+              <dd>
+                <CodexReferenceList references={references!.requiredTechniques} />
+              </dd>
             </div>
             <div>
               <dt>Concepts</dt>
-              <dd>{joinNames(quest.concepts)}</dd>
+              <dd>
+                <CodexReferenceList references={references!.concepts} />
+              </dd>
             </div>
             <div>
               <dt>Constraints</dt>
-              <dd>{joinNames(quest.constraints)}</dd>
+              <dd>
+                <CodexReferenceList references={references!.constraints} />
+              </dd>
             </div>
             <div>
               <dt>Tuning</dt>
-              <dd>{tuning?.name ?? "Any tuning"}</dd>
+              <dd>
+                <CodexReferenceList
+                  references={references!.contexts.filter((item) => item.role === "tuning")}
+                  empty={tuning?.name ?? "Any tuning"}
+                />
+              </dd>
             </div>
             <div>
               <dt>Target Tempo</dt>

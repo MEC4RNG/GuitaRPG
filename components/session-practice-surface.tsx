@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 
+import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
+import { questCodexReferences } from "@/lib/quest/codex-references";
+import { parseQuest, type Quest } from "@/lib/quest/runtime";
 import { BrowserMetronome, canRunMetronome } from "@/lib/session/controls/metronome";
 import { BPM_MAX, BPM_MIN, DEFAULT_BPM } from "@/lib/session/controls/runtime";
 import {
@@ -22,7 +25,7 @@ import {
 } from "@/lib/session/runtime";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-type QuestReference = { title: string; execution: Record<string, unknown> };
+type QuestRow = { title: string; resolved_snapshot: unknown };
 type TempoConstraint = { parameters: { bpm?: number }; taxonomy_entities: { slug: string } | null };
 type SessionReadClient = SessionRpcClient &
   SessionControlClient & {
@@ -58,7 +61,7 @@ type SessionReadClient = SessionRpcClient &
           column: string,
           value: string,
         ): {
-          single(): PromiseLike<{ data: QuestReference | null; error: { message: string } | null }>;
+          single(): PromiseLike<{ data: QuestRow | null; error: { message: string } | null }>;
         };
       };
     };
@@ -80,7 +83,7 @@ type PracticeSnapshot = {
   sessionEvents: PracticeSessionEvent[];
   repCount: number;
   bpm: number;
-  quest: QuestReference | null;
+  quest: Quest | null;
 };
 
 function formatTimer(totalSeconds: number) {
@@ -119,7 +122,7 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
         .order("sequence"),
       client
         .from("quests")
-        .select("title,execution")
+        .select("title,resolved_snapshot")
         .eq("id", sessionResponse.data.quest_id)
         .single(),
       client
@@ -145,7 +148,7 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
       sessionEvents: eventResponse.data ?? [],
       repCount: controls.repCount,
       bpm: controls.bpm,
-      quest: questResponse.data,
+      quest: questResponse.data ? parseQuest(questResponse.data.resolved_snapshot) : null,
     });
   }, [client, sessionId]);
 
@@ -215,13 +218,13 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
     snapshot.session.status === "ACTIVE" ? now : undefined,
   );
   const controlsActive = snapshot.session.status === "ACTIVE" && !pending;
-  const executionEntries = Object.entries(snapshot.quest?.execution ?? {});
+  const questReferences = snapshot.quest ? questCodexReferences(snapshot.quest) : null;
 
   return (
     <div className="session-practice">
       <header className="session-practice__header">
         <span className="page-header__eyebrow">INSTRUMENT HUD · PRACTICE SESSION</span>
-        <h1>{snapshot.quest?.title ?? "Practice Session"}</h1>
+        <h1>{snapshot.quest?.identity.title ?? "Practice Session"}</h1>
         <p>
           Lifecycle time is recorded by SES-001. Reps and tempo are append-only SES-002 telemetry.
         </p>
@@ -355,14 +358,39 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
         <section className="panel session-reference" aria-labelledby="quest-reference-title">
           <span className="panel__label">QUEST REFERENCE</span>
           <h2 id="quest-reference-title">Practice parameters</h2>
-          {executionEntries.length ? (
+          {snapshot.quest && questReferences ? (
             <dl>
-              {executionEntries.map(([key, value]) => (
-                <div key={key}>
-                  <dt>{key.replaceAll("_", " ")}</dt>
-                  <dd>{typeof value === "string" ? value : JSON.stringify(value)}</dd>
-                </div>
-              ))}
+              <div>
+                <dt>Primary Skill</dt>
+                <dd>
+                  <CodexReferenceLink reference={questReferences.primarySkill} />
+                </dd>
+              </div>
+              <div>
+                <dt>Concepts</dt>
+                <dd>
+                  <CodexReferenceList references={questReferences.concepts} />
+                </dd>
+              </div>
+              <div>
+                <dt>Constraints</dt>
+                <dd>
+                  <CodexReferenceList references={questReferences.constraints} />
+                </dd>
+              </div>
+              <div>
+                <dt>Context</dt>
+                <dd>
+                  <CodexReferenceList
+                    references={questReferences.contexts}
+                    empty="No specific context"
+                  />
+                </dd>
+              </div>
+              <div>
+                <dt>Objective</dt>
+                <dd>{snapshot.quest.objective.summary}</dd>
+              </div>
             </dl>
           ) : (
             <p>No additional Quest execution parameters were recorded.</p>

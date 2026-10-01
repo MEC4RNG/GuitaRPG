@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
+import { questCodexReferences } from "@/lib/quest/codex-references";
+
 import { PageHeader } from "./page-header";
 import {
   materializeAdaptiveTrainingQuestV1,
@@ -25,8 +28,6 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type TrainingClient = TrainingCandidateReadClient & QuestPersistenceRpcClient & SessionRpcClient;
 const client = () => createBrowserSupabaseClient() as unknown as TrainingClient;
-const joinNames = (items: Array<{ name: string }>) => items.map((item) => item.name).join(", ");
-
 export function TrainingSurface() {
   const router = useRouter();
   const [snapshot, setSnapshot] = useState<RankedRecommendationSetV1 | null>(null);
@@ -121,6 +122,7 @@ export function TrainingSurface() {
   }
 
   const quest = materialized?.quest;
+  const references = quest ? questCodexReferences(quest) : null;
   const tempo = quest?.constraints.find((item) => item.slug === "target_tempo")?.parameters.bpm;
   const tuning = (quest?.musical_context as { tuning?: { name?: string } | null } | undefined)
     ?.tuning;
@@ -359,7 +361,9 @@ export function TrainingSurface() {
           <dl className="generate-details">
             <div>
               <dt>Primary Skill</dt>
-              <dd>{quest.execution.primary_skill.name}</dd>
+              <dd>
+                <CodexReferenceLink reference={references!.primarySkill} />
+              </dd>
             </div>
             <div>
               <dt>Quest Type</dt>
@@ -371,15 +375,24 @@ export function TrainingSurface() {
             </div>
             <div>
               <dt>Concepts</dt>
-              <dd>{joinNames(quest.concepts)}</dd>
+              <dd>
+                <CodexReferenceList references={references!.concepts} />
+              </dd>
             </div>
             <div>
               <dt>Constraints</dt>
-              <dd>{joinNames(quest.constraints)}</dd>
+              <dd>
+                <CodexReferenceList references={references!.constraints} />
+              </dd>
             </div>
             <div>
               <dt>Tuning</dt>
-              <dd>{tuning?.name ?? "Any tuning"}</dd>
+              <dd>
+                <CodexReferenceList
+                  references={references!.contexts.filter((item) => item.role === "tuning")}
+                  empty={tuning?.name ?? "Any tuning"}
+                />
+              </dd>
             </div>
             <div>
               <dt>Target Tempo</dt>
