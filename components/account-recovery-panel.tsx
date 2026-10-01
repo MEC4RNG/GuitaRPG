@@ -89,6 +89,13 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
     setError("");
     try {
       await signOutRecoverableUser(identityClient());
+      setIdentity({
+        status: "UNAUTHENTICATED",
+        authenticated: false,
+        anonymous: false,
+        recoverable: false,
+        email: null,
+      });
       router.push("/profile");
       router.refresh();
     } catch (caught) {
