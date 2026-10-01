@@ -99,7 +99,8 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   ).toBeVisible();
   const authFailures: string[] = [];
   page.on("response", async (response) => {
-    if (!response.url().includes("/auth/v1/user")) return;
+    if (!response.url().includes("/auth/v1/user") && !response.url().endsWith("/auth/identity"))
+      return;
     if (response.status() < 400) {
       authFailures.push(`status-${response.status()}`);
       return;
