@@ -44,6 +44,9 @@ describe("DATA-003 recoverable identity boundary", () => {
     expect(identityStateFromUser({ ...permanent, email_confirmed_at: undefined }).status).toBe(
       "RECOVERABLE",
     );
+    expect(identityStateFromUser({ id: guest.id, email: permanent.email }).status).toBe(
+      "RECOVERABLE",
+    );
     expect(identityStateFromUser({ id: guest.id, is_anonymous: false }).status).toBe("GUEST");
   });
 
