@@ -56,7 +56,8 @@ jobs:
           version: 2.117.0
 
       - name: Start local Supabase
-        run: supabase start
+        shell: bash
+        run: supabase start || { supabase stop --no-backup || true; supabase start; }
 
       - name: Verify guest upgrade and recovery
         run: node tests/auth/recoverable-identity.local.mjs
