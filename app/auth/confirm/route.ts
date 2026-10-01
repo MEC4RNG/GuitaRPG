@@ -6,9 +6,15 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 export async function GET(request: NextRequest) {
   const confirmation = parseConfirmationRequest(request.nextUrl);
   if (!confirmation.valid || !confirmation.type)
-    return NextResponse.redirect(new URL("/profile?auth_error=invalid", request.url));
+    return new NextResponse(null, {
+      status: 303,
+      headers: { Location: "/profile?auth_error=invalid" },
+    });
 
-  const response = NextResponse.redirect(new URL("/profile?auth_error=invalid", request.url));
+  const response = new NextResponse(null, {
+    status: 303,
+    headers: { Location: "/profile?auth_error=invalid" },
+  });
   const confirmed = await confirmEmailToken(
     await createServerSupabaseClient(
       (batch) =>
@@ -19,6 +25,6 @@ export async function GET(request: NextRequest) {
     confirmation.type,
   );
   const destination = confirmed ? confirmation.next : "/profile?auth_error=invalid";
-  response.headers.set("location", new URL(destination, request.url).toString());
+  response.headers.set("location", destination);
   return response;
 }
