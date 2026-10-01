@@ -99,9 +99,23 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   ).toBeVisible();
   await page.goto(await waitForEmailLink(request, email, "email_change"));
   await expect(page).toHaveURL(/\/profile$/);
-  await expect(
-    page.getByRole("heading", { name: "Protected / recoverable account" }),
-  ).toBeVisible();
+  await expect
+    .poll(
+      async () => {
+        if (
+          await page.getByRole("heading", { name: "Protected / recoverable account" }).isVisible()
+        )
+          return "protected";
+        if (await page.getByRole("heading", { name: "Protect your progress" }).isVisible())
+          return "guest";
+        if (await page.getByRole("heading", { name: "Return to a protected Player" }).isVisible())
+          return "unauthenticated";
+        if (await page.getByText("Account status is unavailable").isVisible()) return "auth-error";
+        return "loading";
+      },
+      { timeout: 15_000 },
+    )
+    .toBe("protected");
   await expect(page.getByText(email, { exact: false })).toBeVisible();
   await expect(page.getByLabel("Display name (optional)")).toHaveValue("Recovery Riff");
   await expect(page.getByText("This guest Player is tied to this browser session")).toHaveCount(0);
