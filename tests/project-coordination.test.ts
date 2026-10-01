@@ -60,7 +60,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves completed prerequisites while REL-005 is active", () => {
+  it("preserves completed prerequisites after REL-005 closes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -68,8 +68,9 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "QST-004", status: "COMPLETE" });
-    expect(state.active_ticket).toMatchObject({ id: "REL-005", status: "IN_PROGRESS" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "REL-005", status: "COMPLETE" });
+    expect(state.active_ticket).toBeNull();
+    expect(read("docs/tickets/REL-005.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/QST-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/CODEX-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/PLY-003.md")).toContain("**Status:** COMPLETE");
@@ -94,14 +95,14 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps P5-GATE-001 and cutover unauthorized during integration proof", () => {
+  it("keeps P5-GATE-001 and cutover unauthorized after integration proof", () => {
     expect(state.phase).toEqual({
       id: 5,
       name: "Learning & Practice Tooling",
       status: "IN_PROGRESS",
     });
     expect(state.next_ticket).toMatchObject({ id: "P5-GATE-001", authorized_to_start: false });
-    expect(state.execution_status).toBe("REL_005_IN_PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_P5_GATE_001_AUTHORIZATION");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");

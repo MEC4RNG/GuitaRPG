@@ -149,9 +149,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
-**Last terminal ticket:** `QST-004 — Quest-to-Codex Reference Integration` — COMPLETE
+**Last terminal ticket:** `REL-005 — Phase 5 Launch-Package Integration Tests` — COMPLETE
 
-**Active ticket:** `REL-005 — Phase 5 Launch-Package Integration Tests` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -348,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS through active REL-005. UX-001-R1, UX-004, PLY-003, CODEX-001, and QST-004 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and P5-GATE-001 remains unauthorized.
+Phase 5 execution is IN PROGRESS through completed REL-005. UX-001-R1, UX-004, PLY-003, CODEX-001, and QST-004 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and P5-GATE-001 remains unauthorized.
 
 Purpose:
 
@@ -366,7 +366,7 @@ Expected work may include:
 - `PLY-003` — Functional Player Profile Editing — COMPLETE
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — COMPLETE
 - `QST-004` — Quest-to-Codex Reference Integration — COMPLETE
-- `REL-005` — Phase 5 Launch-Package Integration Tests — IN PROGRESS
+- `REL-005` — Phase 5 Launch-Package Integration Tests — COMPLETE
 - `P5-GATE-001` — Phase 5 Learning & Practice Tooling Gate — proposed / unauthorized
 - fretboard / interval / chord / scale visualizations
 - richer Quest reference material

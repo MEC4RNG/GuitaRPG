@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "QST-004",
-    "title": "Quest-to-Codex Reference Integration",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "REL-005",
     "title": "Phase 5 Launch-Package Integration Tests",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "P5-GATE-001",
     "title": "Phase 5 Learning & Practice Tooling Gate",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "REL_005_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_P5_GATE_001_AUTHORIZATION"
 }
