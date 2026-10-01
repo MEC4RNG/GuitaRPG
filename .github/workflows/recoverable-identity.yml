@@ -12,6 +12,7 @@ on:
       - "supabase/config.toml"
       - "supabase/templates/**"
       - "tests/auth/**"
+      - "tests/e2e/recoverable-identity.spec.ts"
       - ".github/workflows/recoverable-identity.yml"
   pull_request:
     branches:
@@ -24,6 +25,7 @@ on:
       - "supabase/config.toml"
       - "supabase/templates/**"
       - "tests/auth/**"
+      - "tests/e2e/recoverable-identity.spec.ts"
       - ".github/workflows/recoverable-identity.yml"
 
 permissions:
