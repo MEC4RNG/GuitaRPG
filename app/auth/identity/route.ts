@@ -29,9 +29,10 @@ export async function GET(request: NextRequest) {
   const client = await createServerSupabaseClient();
   const { data: sessionData } = await client.auth.getSession();
   const authorization = request.headers.get("authorization");
+  const cookieToken = cookieAccessToken(request);
   const accessToken = authorization?.startsWith("Bearer ")
     ? authorization.slice("Bearer ".length)
-    : (sessionData.session?.access_token ?? cookieAccessToken(request));
+    : (sessionData.session?.access_token ?? cookieToken);
   const { data, error } = accessToken
     ? await client.auth.getUser(accessToken)
     : { data: { user: null }, error: null };
@@ -54,6 +55,15 @@ export async function GET(request: NextRequest) {
             is_anonymous: data.user.is_anonymous,
           }
         : null,
+      diagnostic: data.user
+        ? undefined
+        : {
+            authCookieCount: request.cookies
+              .getAll()
+              .filter(({ name }) => name.includes("-auth-token")).length,
+            cookieToken: Boolean(cookieToken),
+            sessionToken: Boolean(sessionData.session?.access_token),
+          },
     },
     { headers: { "Cache-Control": "private, no-store" } },
   );
