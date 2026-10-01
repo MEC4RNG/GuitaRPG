@@ -60,7 +60,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     });
   });
 
-  it("preserves completed prerequisites while QST-004 is active", () => {
+  it("preserves completed prerequisites after QST-004 closes", () => {
     const remediationTicket = read("docs/tickets/TAX-003-R1.md");
     const playerTicket = read("docs/tickets/PLY-002.md");
 
@@ -68,8 +68,9 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(state.last_terminal_ticket).toMatchObject({ id: "CODEX-001", status: "COMPLETE" });
-    expect(state.active_ticket).toMatchObject({ id: "QST-004", status: "IN_PROGRESS" });
+    expect(state.last_terminal_ticket).toMatchObject({ id: "QST-004", status: "COMPLETE" });
+    expect(state.active_ticket).toBeNull();
+    expect(read("docs/tickets/QST-004.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/CODEX-001.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/PLY-003.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/UX-004.md")).toContain("**Status:** COMPLETE");
@@ -93,14 +94,14 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
     );
   });
 
-  it("keeps REL-005 and cutover unauthorized during Quest reference work", () => {
+  it("keeps REL-005 and cutover unauthorized after Quest reference work", () => {
     expect(state.phase).toEqual({
       id: 5,
       name: "Learning & Practice Tooling",
       status: "IN_PROGRESS",
     });
     expect(state.next_ticket).toMatchObject({ id: "REL-005", authorized_to_start: false });
-    expect(state.execution_status).toBe("QST_004_IN_PROGRESS");
+    expect(state.execution_status).toBe("AWAITING_EXPLICIT_REL_005_AUTHORIZATION");
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");
     expect(read("docs/tickets/HIST-001.md")).toContain("**Status:** COMPLETE");
