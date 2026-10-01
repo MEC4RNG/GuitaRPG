@@ -4,7 +4,15 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function GET() {
   const { data, error } = await (await createServerSupabaseClient()).auth.getUser();
-  if (error) return NextResponse.json({ error: "Identity lookup failed" }, { status: 503 });
+  if (error)
+    return NextResponse.json(
+      {
+        error: "Identity lookup failed",
+        code: error.code ?? "unknown",
+        authStatus: error.status ?? 0,
+      },
+      { status: 503 },
+    );
 
   return NextResponse.json(
     {
