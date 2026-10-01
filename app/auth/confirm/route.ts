@@ -8,26 +8,17 @@ export async function GET(request: NextRequest) {
   if (!confirmation.valid || !confirmation.type)
     return NextResponse.redirect(new URL("/profile?auth_error=invalid", request.url));
 
-  const cookiesToSet: Array<{
-    name: string;
-    value: string;
-    options: Parameters<NextResponse["cookies"]["set"]>[2];
-  }> = [];
+  const response = NextResponse.redirect(new URL("/profile?auth_error=invalid", request.url));
   const confirmed = await confirmEmailToken(
-    await createServerSupabaseClient((batch) => cookiesToSet.push(...batch)),
+    await createServerSupabaseClient(
+      (batch) =>
+        batch.forEach(({ name, value, options }) => response.cookies.set(name, value, options)),
+      request.cookies.getAll(),
+    ),
     confirmation.tokenHash,
     confirmation.type,
   );
   const destination = confirmed ? confirmation.next : "/profile?auth_error=invalid";
-  const response = NextResponse.redirect(new URL(destination, request.url));
-  const hasReplacementSession = cookiesToSet.some(
-    ({ name, value }) => name.includes("-auth-token") && Boolean(value),
-  );
-  cookiesToSet.forEach(({ name, value, options }) => {
-    // email_change can confirm the existing user without returning a new
-    // session. In that case, retain the valid incoming guest session cookie;
-    // getUser() will resolve the same UUID to its now-permanent Auth record.
-    if (value || hasReplacementSession) response.cookies.set(name, value, options);
-  });
+  response.headers.set("location", new URL(destination, request.url).toString());
   return response;
 }

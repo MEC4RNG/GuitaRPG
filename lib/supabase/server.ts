@@ -16,6 +16,7 @@ type ResponseCookie = {
 
 export async function createServerSupabaseClient(
   onSetCookies?: (cookiesToSet: ResponseCookie[]) => void,
+  initialCookies?: Array<{ name: string; value: string }>,
 ) {
   const env = getSupabasePublicEnv();
   const cookieStore = await cookies();
@@ -23,7 +24,7 @@ export async function createServerSupabaseClient(
   return createServerClient(env.url, env.publishableKey, {
     cookies: {
       getAll() {
-        return cookieStore.getAll();
+        return initialCookies ?? cookieStore.getAll();
       },
       setAll(cookiesToSet) {
         if (onSetCookies) {
