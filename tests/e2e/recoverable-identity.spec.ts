@@ -107,16 +107,17 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
     authFailures.push(`${response.status()}:${safeBody}`);
   });
   const guestOrigin = new URL(page.url()).origin;
-  const guestSessionCookieCount = (await page.context().cookies()).filter((cookie) =>
-    cookie.name.includes("-auth-token"),
-  ).length;
+  const sessionCookieShape = async () =>
+    (await page.context().cookies())
+      .filter((cookie) => cookie.name.includes("-auth-token"))
+      .map((cookie) => `${cookie.name}:${cookie.domain}:${cookie.value.length}`)
+      .join(",");
+  const guestSessionCookieShape = await sessionCookieShape();
   const upgradeLink = await waitForEmailLink(request, email, "email_change");
   expect(new URL(upgradeLink).origin).toBe(guestOrigin);
   await page.goto(upgradeLink);
   await expect(page).toHaveURL(/\/profile$/);
-  const confirmedSessionCookieCount = (await page.context().cookies()).filter((cookie) =>
-    cookie.name.includes("-auth-token"),
-  ).length;
+  const confirmedSessionCookieShape = await sessionCookieShape();
   await expect
     .poll(
       async () => {
@@ -129,7 +130,7 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
         if (await page.getByRole("heading", { name: "Return to a protected Player" }).isVisible())
           return "unauthenticated";
         if (await page.getByText("Account status is unavailable").isVisible())
-          return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-${guestSessionCookieCount}-${confirmedSessionCookieCount}`;
+          return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-before[${guestSessionCookieShape}]-after[${confirmedSessionCookieShape}]`;
         return "loading";
       },
       { timeout: 15_000 },
