@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const client = await createServerSupabaseClient();
   const { data: sessionData } = await client.auth.getSession();
-  const accessToken = sessionData.session?.access_token;
+  const authorization = request.headers.get("authorization");
+  const accessToken = authorization?.startsWith("Bearer ")
+    ? authorization.slice("Bearer ".length)
+    : sessionData.session?.access_token;
   const { data, error } = accessToken
     ? await client.auth.getUser(accessToken)
     : { data: { user: null }, error: null };

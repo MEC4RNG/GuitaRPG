@@ -12,12 +12,7 @@ export async function GET(request: NextRequest) {
   const confirmed = await confirmEmailToken(
     await createServerSupabaseClient(
       (batch) =>
-        batch.forEach(({ name, value, options }) => {
-          // Local GoTrue can return an email-change session that its own /user
-          // endpoint rejects. The existing guest session remains valid for the
-          // same UUID, so keep it until the normal proxy refreshes verified state.
-          if (confirmation.type !== "email_change") response.cookies.set(name, value, options);
-        }),
+        batch.forEach(({ name, value, options }) => response.cookies.set(name, value, options)),
       request.cookies.getAll(),
     ),
     confirmation.tokenHash,

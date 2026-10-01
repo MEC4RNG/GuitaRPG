@@ -19,7 +19,12 @@ const identityClient = () => {
   return {
     auth: {
       getTrustedIdentity: async () => {
-        const response = await fetch("/auth/identity", { cache: "no-store" });
+        const { data } = await client.auth.getSession();
+        if (!data.session?.access_token) return { data: { user: null }, error: null };
+        const response = await fetch("/auth/identity", {
+          cache: "no-store",
+          headers: { Authorization: `Bearer ${data.session.access_token}` },
+        });
         if (!response.ok)
           return { data: { user: null }, error: { message: "Identity lookup failed" } };
         return {
