@@ -48,11 +48,7 @@ describe("DATA-003 SSR email confirmation", () => {
     });
     verifyOtp.mockResolvedValue({ error: { message: "expired" } });
     await expect(
-      confirmEmailToken(
-        { auth: { verifyOtp } } as ConfirmationClient,
-        "expired-hash",
-        "magiclink",
-      ),
+      confirmEmailToken({ auth: { verifyOtp } } as ConfirmationClient, "expired-hash", "magiclink"),
     ).resolves.toBe(false);
   });
 
