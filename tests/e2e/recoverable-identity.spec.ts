@@ -155,7 +155,9 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
           return "guest";
         if (await page.getByRole("heading", { name: "Return to a protected Player" }).isVisible())
           return `unauthenticated:${await page.evaluate(() =>
-            fetch("/auth/identity", { cache: "no-store" }).then((response) => response.text()),
+            fetch("/auth/identity", { cache: "no-store", credentials: "include" }).then(
+              (response) => response.text(),
+            ),
           )}:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
         if (await page.getByText("Account status is unavailable").isVisible())
           return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;

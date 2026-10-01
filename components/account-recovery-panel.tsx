@@ -19,7 +19,10 @@ const identityClient = () => {
   return {
     auth: {
       getTrustedIdentity: async () => {
-        const response = await fetch("/auth/identity", { cache: "no-store" });
+        const response = await fetch("/auth/identity", {
+          cache: "no-store",
+          credentials: "include",
+        });
         if (!response.ok)
           return { data: { user: null }, error: { message: "Identity lookup failed" } };
         return {
