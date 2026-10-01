@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { completeOnboarding, type OnboardingRpcClient } from "@/lib/onboarding/completion";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
+import { AccountRecoveryPanel } from "./account-recovery-panel";
+
 type Tuning = { id: string; display_name: string; slug: string };
 type Profile = {
   onboarding_status: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETE";
@@ -104,9 +106,7 @@ export function OnboardingFlow() {
           Your preferences are saved. Skills remain UNRATED until future practice evidence or an
           honest diagnostic can assess them.
         </p>
-        <Link className="action-button action-button--primary" href="/">
-          Enter the app
-        </Link>
+        <AccountRecoveryPanel onboarding />
       </section>
     );
   }

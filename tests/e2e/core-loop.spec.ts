@@ -82,7 +82,7 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   await page.getByRole("button", { name: "Save and continue" }).click();
   await expect(page.getByText("PLAYER READY")).toBeVisible();
 
-  await page.getByRole("link", { name: "Enter the app" }).click();
+  await page.getByRole("link", { name: "Continue as guest" }).click();
   await page.goto("/character");
   await expect(page.getByRole("heading", { name: "Level 1" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "0 XP" })).toBeVisible();

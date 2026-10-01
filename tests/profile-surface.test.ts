@@ -13,7 +13,7 @@ describe("PLY-003 Profile surface", () => {
       "Default tuning",
       "PRACTICE GOALS",
       "Save Profile",
-      "Set up your Player",
+      "Access your Player",
       "Continue setup",
     ])
       expect(source).toContain(label);

@@ -20,7 +20,7 @@ test("anonymous Player completes onboarding and can reach Generate", async ({ pa
   await expect(page.getByText("PLAYER READY")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Set your starting point." })).not.toBeVisible();
 
-  await page.getByRole("link", { name: "Enter the app" }).click();
+  await page.getByRole("link", { name: "Continue as guest" }).click();
   await page.getByRole("link", { name: /Go to Generate/ }).click();
   await expect(page).toHaveURL(/\/generate$/);
   await expect(page.getByRole("heading", { name: "Build the next quest." })).toBeVisible();

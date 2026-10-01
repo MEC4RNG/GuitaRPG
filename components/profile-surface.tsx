@@ -14,6 +14,8 @@ import {
 } from "@/lib/profile/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
+import { AccountRecoveryPanel } from "./account-recovery-panel";
+
 const profileClient = () => createBrowserSupabaseClient() as unknown as ProfileClient;
 const newGoal = (): ProfileGoal => ({ id: null, kind: "SKILL", targetId: null, objective: "" });
 
@@ -83,16 +85,14 @@ export function ProfileSurface() {
     );
   if (!profile.authenticated || !profile.initialized)
     return (
-      <section className="panel profile-setup">
+      <div className="profile-stack">
         <PageHeader
           eyebrow="SYSTEM · PROFILE"
-          title="Set up your Player."
-          description="A private Player session is required before practice preferences can be edited."
+          title="Access your Player."
+          description="Sign in to an existing protected Player or start a new guest Player."
         />
-        <Link className="action-button action-button--primary" href="/onboarding">
-          Set up your Player
-        </Link>
-      </section>
+        <AccountRecoveryPanel />
+      </div>
     );
   if (profile.onboardingStatus !== "COMPLETE")
     return (
@@ -115,6 +115,8 @@ export function ProfileSurface() {
         title="Your practice preferences."
         description="Review the Player-owned inputs that shape future Training without changing earned progression."
       />
+
+      <AccountRecoveryPanel />
 
       <section className="panel profile-form" aria-labelledby="profile-preferences-title">
         <div>

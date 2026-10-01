@@ -1786,9 +1786,33 @@ a {
 .profile-stack,
 .profile-form,
 .profile-goals,
-.profile-state {
+.profile-state,
+.account-recovery {
   display: grid;
   gap: var(--space-5);
+}
+
+.account-recovery {
+  align-items: start;
+}
+
+.account-recovery label {
+  display: grid;
+  gap: var(--space-2);
+  font-weight: 700;
+}
+
+.account-recovery input {
+  min-height: var(--touch-target-min);
+}
+
+.account-recovery .action-button {
+  justify-self: start;
+}
+
+.guest-warning {
+  border-left: 3px solid var(--semantic-warning);
+  padding-left: var(--space-4);
 }
 
 .profile-form label,
