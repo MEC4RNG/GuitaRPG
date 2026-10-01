@@ -144,6 +144,14 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   await expect(page).toHaveURL(/\/profile$/);
   const confirmedSessionCookieShape = await sessionCookieShape();
   const confirmedSessionPayloadShape = await sessionPayloadShape();
+  const documentCookieShape = await page.evaluate(() => ({
+    origin: window.location.origin,
+    cookies: document.cookie
+      .split(";")
+      .map((part) => part.trim())
+      .filter((part) => part.includes("-auth-token"))
+      .map((part) => `${part.slice(0, part.indexOf("="))}:${part.length}`),
+  }));
   await expect
     .poll(
       async () => {
@@ -158,7 +166,7 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
             fetch("/auth/identity", { cache: "no-store", credentials: "include" }).then(
               (response) => response.text(),
             ),
-          )}:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
+          )}:document[${JSON.stringify(documentCookieShape)}]:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
         if (await page.getByText("Account status is unavailable").isVisible())
           return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
         return "loading";
