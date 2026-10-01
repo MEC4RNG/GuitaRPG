@@ -42,8 +42,9 @@ describe("DATA-003 recoverable identity boundary", () => {
       email: "player@example.test",
     });
     expect(identityStateFromUser({ ...permanent, email_confirmed_at: undefined }).status).toBe(
-      "GUEST",
+      "RECOVERABLE",
     );
+    expect(identityStateFromUser({ id: guest.id, is_anonymous: false }).status).toBe("GUEST");
   });
 
   it("links an email through updateUser in the current guest context", async () => {

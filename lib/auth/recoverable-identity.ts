@@ -62,7 +62,10 @@ export function identityStateFromUser(user: AuthIdentityUser | null): IdentitySt
       email: null,
     };
 
-  if (user.email && user.email_confirmed_at)
+  // With email confirmations enabled, Supabase only clears the authoritative
+  // anonymous claim after the email-change token has been verified. The
+  // browser user shape does not consistently repeat email_confirmed_at.
+  if (user.is_anonymous === false && user.email)
     return {
       status: "RECOVERABLE",
       authenticated: true,
