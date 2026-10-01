@@ -55,16 +55,6 @@ export async function GET(request: NextRequest) {
             is_anonymous: data.user.is_anonymous,
           }
         : null,
-      diagnostic: data.user
-        ? undefined
-        : {
-            authCookieCount: request.cookies
-              .getAll()
-              .filter(({ name }) => name.includes("-auth-token")).length,
-            cookieToken: Boolean(cookieToken),
-            cookieHeader: Boolean(request.headers.get("cookie")),
-            sessionToken: Boolean(sessionData.session?.access_token),
-          },
     },
     { headers: { "Cache-Control": "private, no-store" } },
   );

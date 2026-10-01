@@ -97,83 +97,14 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   await expect(
     page.getByText("Check your inbox to finish protecting this guest Player."),
   ).toBeVisible();
-  const authFailures: string[] = [];
-  page.on("response", async (response) => {
-    if (!response.url().includes("/auth/v1/user") && !response.url().endsWith("/auth/identity"))
-      return;
-    if (response.status() < 400) {
-      authFailures.push(`status-${response.status()}`);
-      return;
-    }
-    const safeBody = (await response.text())
-      .replaceAll(/[\w.+-]+@[\w.-]+/g, "[redacted-email]")
-      .replaceAll(/eyJ[A-Za-z0-9._-]+/g, "[redacted-token]")
-      .slice(0, 240);
-    authFailures.push(`${response.status()}:${safeBody}`);
-  });
   const guestOrigin = new URL(page.url()).origin;
-  const sessionCookieShape = async () =>
-    (await page.context().cookies())
-      .filter((cookie) => cookie.name.includes("-auth-token"))
-      .map(
-        (cookie) =>
-          `${cookie.name}:${cookie.domain}:${cookie.path}:${cookie.sameSite}:${cookie.secure}:${cookie.value.length}`,
-      )
-      .join(",");
-  const sessionPayloadShape = async () => {
-    const cookie = (await page.context().cookies()).find((candidate) =>
-      candidate.name.endsWith("-auth-token"),
-    );
-    if (!cookie) return "absent";
-    try {
-      const encoded = cookie.value.startsWith("base64-") ? cookie.value.slice(7) : cookie.value;
-      const payload = JSON.parse(Buffer.from(encoded, "base64url").toString("utf8")) as unknown;
-      if (Array.isArray(payload)) return `array-${payload.length}`;
-      if (payload && typeof payload === "object")
-        return `object-${Object.keys(payload).sort().join("-")}`;
-      return typeof payload;
-    } catch {
-      return "invalid";
-    }
-  };
-  const guestSessionCookieShape = await sessionCookieShape();
-  const guestSessionPayloadShape = await sessionPayloadShape();
   const upgradeLink = await waitForEmailLink(request, email, "email_change");
   expect(new URL(upgradeLink).origin).toBe(guestOrigin);
   await page.goto(upgradeLink);
   await expect(page).toHaveURL(/\/profile$/);
-  const confirmedSessionCookieShape = await sessionCookieShape();
-  const confirmedSessionPayloadShape = await sessionPayloadShape();
-  const documentCookieShape = await page.evaluate(() => ({
-    origin: window.location.origin,
-    cookies: document.cookie
-      .split(";")
-      .map((part) => part.trim())
-      .filter((part) => part.includes("-auth-token"))
-      .map((part) => `${part.slice(0, part.indexOf("="))}:${part.length}`),
-  }));
-  await expect
-    .poll(
-      async () => {
-        if (
-          await page.getByRole("heading", { name: "Protected / recoverable account" }).isVisible()
-        )
-          return "protected";
-        if (await page.getByRole("heading", { name: "Protect your progress" }).isVisible())
-          return "guest";
-        if (await page.getByRole("heading", { name: "Return to a protected Player" }).isVisible())
-          return `unauthenticated:${await page.evaluate(() =>
-            fetch("/auth/identity", { cache: "no-store", credentials: "include" }).then(
-              (response) => response.text(),
-            ),
-          )}:document[${JSON.stringify(documentCookieShape)}]:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
-        if (await page.getByText("Account status is unavailable").isVisible())
-          return `auth-error:${authFailures.at(-1) ?? "no-response"}:cookies-before[${guestSessionCookieShape}|${guestSessionPayloadShape}]-after[${confirmedSessionCookieShape}|${confirmedSessionPayloadShape}]`;
-        return "loading";
-      },
-      { timeout: 15_000 },
-    )
-    .toBe("protected");
+  await expect(page.getByRole("heading", { name: "Protected / recoverable account" })).toBeVisible({
+    timeout: 15_000,
+  });
   await expect(page.getByText(email, { exact: false })).toBeVisible();
   await expect(page.getByLabel("Display name (optional)")).toHaveValue("Recovery Riff");
   await expect(page.getByText("This guest Player is tied to this browser session")).toHaveCount(0);
