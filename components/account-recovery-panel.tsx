@@ -96,6 +96,7 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
         recoverable: false,
         email: null,
       });
+      setPending(false);
       router.push("/profile");
       router.refresh();
     } catch (caught) {
