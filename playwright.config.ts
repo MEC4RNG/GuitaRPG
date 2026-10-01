@@ -16,7 +16,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], channel: process.env.CI ? "chrome" : undefined },
     },
     {
       name: "mobile-chromium",
@@ -25,7 +25,7 @@ export default defineConfig({
         "**/phase5-launch-package.spec.ts",
         "**/recoverable-identity.spec.ts",
       ],
-      use: { ...devices["Pixel 7"] },
+      use: { ...devices["Pixel 7"], channel: process.env.CI ? "chrome" : undefined },
     },
   ],
   webServer: {
