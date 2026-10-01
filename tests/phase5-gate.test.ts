@@ -8,6 +8,7 @@ import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
 type ProjectState = {
   phase: { id: number; name: string; status: string };
   legacy_branch: { preserve: boolean; production_cutover_authorized: boolean };
+  last_terminal_ticket: { id: string; status: string };
   active_ticket: null | { id: string; status: string };
   next_ticket: null | { id: string; authorized_to_start: boolean };
   phase_gate: { id: string; status: string };
@@ -110,8 +111,13 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
         status: "IN_PROGRESS",
         authorized_to_start: true,
       });
-      expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
-      expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
+      if (state.last_terminal_ticket.id === "DATA-003") {
+        expect(state.next_ticket).toMatchObject({ id: "DATA-004", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_004_AUTHORIZATION");
+      } else {
+        expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
+      }
       return;
     }
 

@@ -128,8 +128,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       expect(state.execution_status).toBe("AWAITING_EXPLICIT_P6_SCOPE_001_AUTHORIZATION");
     } else {
       expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
-      expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
-      expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
+      if (state.last_terminal_ticket.id === "DATA-003") {
+        expect(state.next_ticket).toMatchObject({ id: "DATA-004", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_004_AUTHORIZATION");
+      } else {
+        expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
+      }
     }
     expect(state.legacy_branch.production_cutover_authorized).toBe(false);
     expect(read("docs/tickets/ONB-001-R1.md")).toContain("**Status:** COMPLETE");

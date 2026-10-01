@@ -1,6 +1,6 @@
 # DATA-003 — Recoverable Identity & Guest Safety
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 
 ## Objective
 
@@ -55,4 +55,31 @@ The existing UUID-based RLS model is unchanged. No migration, account table, tru
 
 The public-client local integration creates an anonymous user and durable onboarding state, consumes the local email sink, verifies same-UUID upgrade, signs out, restores the same UUID and Profile through no-create passwordless login, and verifies an unknown email produces no session. The browser scenario covers the onboarding warning, explicit guest continuation, guest Profile warning/no Sign Out, upgrade, unchanged Profile, permanent Sign Out, and recovery on desktop and Pixel 7.
 
-Actual local, browser, and CI totals are recorded at closure. Hosted delivery remains unvalidated until OPS-001.
+## Validation and evidence
+
+- DATA-003 unit/config/surface tests: 4 files / 16 tests PASS.
+- Contract regression: 8 files / 68 tests PASS.
+- Phase 5 integration: 9 files / 26 tests PASS.
+- Phase 4 integration: 6 files / 74 tests PASS.
+- Phase 3 integration: 5 files / 26 tests PASS.
+- Phase 2 integration: 3 files / 14 tests PASS.
+- Full Vitest: 66 files / 427 tests PASS.
+- Changed-file format, lint, strict TypeScript, and production build: PASS.
+- Real local-Supabase Auth integration in CI: PASS, including verified upgraded session, same UUID, durable Profile state, sign-out/recovery, and unknown-email no-create behavior.
+- Playwright against the fresh local stack: desktop and Pixel 7 PASS; 20 tests total in the identity workflow.
+- Database contract CI: PASS; fresh replay and the existing 16-file / 598-assertion pgTAP baseline remain green.
+- No migration was added; database head remains `20260929110000_ply_003_profile_editing.sql`.
+- Staging data and Auth configuration were not mutated. Hosted delivery remains unvalidated until OPS-001.
+
+Implementation CI:
+
+- Production scaffold: https://github.com/MEC4RNG/GuitaRPG/actions/runs/36909745661
+- Recoverable identity integration: https://github.com/MEC4RNG/GuitaRPG/actions/runs/36909745451
+- Database contract: https://github.com/MEC4RNG/GuitaRPG/actions/runs/36875603372
+
+## Terminal disposition
+
+COMPLETE. Anonymous-first onboarding, same-UUID email upgrade, safe relative SSR confirmation,
+verified account status, permanent sign-out, no-create passwordless recovery, guest warnings, and
+desktop/Pixel 7 usability are proven. DATA-004 remains unauthorized, production cutover remains
+unauthorized, and legacy `main` remains preserved.
