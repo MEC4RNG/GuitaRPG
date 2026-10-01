@@ -68,6 +68,18 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
 
   it("keeps gate lifecycle and Phase 6 authority explicit", () => {
     if (state.active_ticket) {
+      if (state.active_ticket.id === "P6-SCOPE-001") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(state.phase_gate).toEqual({ id: "P5-GATE-001", status: "PASS" });
+        expect(state.next_phase).toMatchObject({
+          id: 6,
+          status: "IN_PROGRESS",
+          authorized_to_start: true,
+        });
+        expect(state.next_ticket).toBeNull();
+        expect(state.execution_status).toBe("P6_SCOPE_001_IN_PROGRESS");
+        return;
+      }
       expect(state.phase).toEqual({
         id: 5,
         name: "Learning & Practice Tooling",
@@ -80,6 +92,19 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
       });
       expect(state.next_ticket).toBeNull();
       expect(state.execution_status).toBe("P5_GATE_001_IN_PROGRESS");
+      return;
+    }
+
+    if (state.phase.id === 6) {
+      expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+      expect(state.phase_gate).toEqual({ id: "P5-GATE-001", status: "PASS" });
+      expect(state.next_phase).toMatchObject({
+        id: 6,
+        status: "IN_PROGRESS",
+        authorized_to_start: true,
+      });
+      expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
+      expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
       return;
     }
 

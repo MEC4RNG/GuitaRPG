@@ -145,20 +145,21 @@ If implementation reveals that a contract is wrong or incomplete:
 
 ## 5. Current execution state
 
-**Phase:** Phase 5 — Learning & Practice Tooling — COMPLETE
+**Phase:** Phase 6 — Hardening & Launch — IN PROGRESS
 **Phase 1 gate:** `P1-GATE-001 — Product Foundation Integration Gate` — COMPLETE / PASS
 **Phase 2 gate:** `P2-GATE-001 — Core Quest Loop Integration Gate` — COMPLETE / PASS
+**Phase 3 gate:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
 **Last terminal ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `P6-SCOPE-001 — Phase 6 Launch Hardening Scope Review` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PLY-003 `20260929110000`; applied and verified
-**Next planned ticket:** `P6-SCOPE-001 — Phase 6 Launch Hardening Scope Review` — NOT AUTHORIZED
+**Next planned ticket:** none while P6-SCOPE-001 is active
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -349,7 +350,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 remains unauthorized.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed P6-SCOPE-001; DATA-003 is next and unauthorized.
 
 Purpose:
 
@@ -388,7 +389,7 @@ review and edit existing Player preferences, navigate every exposed v1 surface w
 development-state claims, and complete the learning/practice loop without optional audio, expanded
 generation, Daily, Campaign, or v1.5 systems.
 
-### Phase 6 — Hardening & Launch — PLANNED
+### Phase 6 — Hardening & Launch — IN PROGRESS
 
 Purpose:
 
@@ -396,20 +397,19 @@ Prove production readiness and perform an explicit cutover.
 
 Expected work:
 
-- complete end-to-end core-loop tests
-- RLS/security regression suite
-- account deletion tests
-- export readiness
-- accessibility audit
-- mobile/responsive audit
-- performance and error-state hardening
-- observability that does not capture unnecessary private practice content
-- migration/recovery/backup review
-- production environment verification
-- launch checklist
-- cutover / rollback plan
-- `P6-GATE-001`
-- explicit production cutover ticket
+- `P6-SCOPE-001` — Phase 6 Launch Hardening Scope Review — active
+- `DATA-003` — Recoverable Identity & Guest Safety — proposed / unauthorized
+- `DATA-004` — Player Export & Account Deletion — proposed / unauthorized
+- `SEC-001` — Production Security & Supply-Chain Audit — proposed / unauthorized
+- `UX-005` — Accessibility, Browser & Failure-State Hardening — proposed / unauthorized
+- `OPS-001` — Production Environment, Recovery & Observability — proposed / unauthorized
+- `REL-006` — Production Readiness Integration — proposed / unauthorized
+- `P6-GATE-001` — Hardening & Launch Readiness Gate — proposed / unauthorized
+- `CUTOVER-001` — Production Cutover — proposed / separately authorized after gate PASS
+
+The Phase 6 scope review establishes a v1 feature freeze. Phase 6 hardens the accepted product;
+it does not reopen audio, visualizers, Daily, Campaign, expanded generation, or other Phase 5
+deferrals without a concrete launch blocker.
 
 No legacy-site replacement occurs before the cutover ticket passes.
 
@@ -941,7 +941,10 @@ Current gate status:
 - `P0-GATE-001` — PASS
 - `P1-GATE-001` — PASS
 - `P2-GATE-001` — PASS
-- later gates — FUTURE
+- `P3-GATE-001` — PASS
+- `P4-GATE-001` — PASS
+- `P5-GATE-001` — PASS
+- `P6-GATE-001` — FUTURE
 
 ---
 
@@ -973,7 +976,8 @@ remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Execution awaits
-explicit P6-SCOPE-001 authorization; Phase 6 work and production cutover remain unauthorized.
+the bounded Phase 6 sequence established by P6-SCOPE-001. DATA-003 is next and requires explicit
+authorization. Production cutover remains unauthorized.
 
 ---
 

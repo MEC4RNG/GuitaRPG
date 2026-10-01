@@ -3,9 +3,9 @@
   "plan_version": "1.0",
   "project": "GuitaRPG",
   "phase": {
-    "id": 5,
-    "name": "Learning & Practice Tooling",
-    "status": "COMPLETE"
+    "id": 6,
+    "name": "Hardening & Launch",
+    "status": "IN_PROGRESS"
   },
   "production_development_branch": "v1-production",
   "legacy_branch": {
@@ -18,13 +18,12 @@
     "title": "Phase 5 Learning & Practice Tooling Gate",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "P6-SCOPE-001",
     "title": "Phase 6 Launch Hardening Scope Review",
-    "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before P6-SCOPE-001"
+    "status": "IN_PROGRESS"
   },
+  "next_ticket": null,
   "phase_gate": {
     "id": "P5-GATE-001",
     "status": "PASS"
@@ -32,8 +31,8 @@
   "next_phase": {
     "id": 6,
     "name": "Hardening & Launch",
-    "status": "PLANNED",
-    "authorized_to_start": false
+    "status": "IN_PROGRESS",
+    "authorized_to_start": true
   },
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
@@ -42,5 +41,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_P6_SCOPE_001_AUTHORIZATION"
+  "execution_status": "P6_SCOPE_001_IN_PROGRESS"
 }
