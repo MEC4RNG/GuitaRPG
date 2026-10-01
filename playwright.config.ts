@@ -20,7 +20,7 @@ export default defineConfig({
     },
     {
       name: "mobile-chromium",
-      testMatch: "**/core-loop.spec.ts",
+      testMatch: ["**/core-loop.spec.ts", "**/phase5-launch-package.spec.ts"],
       use: { ...devices["Pixel 7"] },
     },
   ],

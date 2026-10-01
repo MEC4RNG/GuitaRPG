@@ -151,13 +151,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Last terminal ticket:** `QST-004 — Quest-to-Codex Reference Integration` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `REL-005 — Phase 5 Launch-Package Integration Tests` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PLY-003 `20260929110000`; applied and verified
-**Next planned ticket:** `REL-005 — Phase 5 Launch-Package Integration Tests` — NOT AUTHORIZED
+**Next planned ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -348,7 +348,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — IN PROGRESS
 
-Phase 5 execution is IN PROGRESS through completed QST-004. UX-001-R1, UX-004, PLY-003, and CODEX-001 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and REL-005 and all later Phase 5 work remain unauthorized.
+Phase 5 execution is IN PROGRESS through active REL-005. UX-001-R1, UX-004, PLY-003, CODEX-001, and QST-004 are COMPLETE, UX_V1_1 governs exposed v1 navigation, and P5-GATE-001 remains unauthorized.
 
 Purpose:
 
@@ -366,7 +366,7 @@ Expected work may include:
 - `PLY-003` — Functional Player Profile Editing — COMPLETE
 - `CODEX-001` — Minimum Taxonomy-Backed Codex — COMPLETE
 - `QST-004` — Quest-to-Codex Reference Integration — COMPLETE
-- `REL-005` — Phase 5 Launch-Package Integration Tests — proposed / unauthorized
+- `REL-005` — Phase 5 Launch-Package Integration Tests — IN PROGRESS
 - `P5-GATE-001` — Phase 5 Learning & Practice Tooling Gate — proposed / unauthorized
 - fretboard / interval / chord / scale visualizations
 - richer Quest reference material

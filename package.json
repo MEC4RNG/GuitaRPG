@@ -22,6 +22,7 @@
     "test:phase2-integration": "vitest run tests/core-loop-integration.test.ts tests/quest-generate-bridge.test.ts tests/history-runtime.test.ts",
     "test:phase3-integration": "vitest run tests/progression-integration.test.ts tests/progression-operations.test.ts tests/progression-read-model.test.ts tests/progression-repository.test.ts tests/progression-surfaces.test.ts",
     "test:phase4-integration": "vitest run tests/adaptive-training-integration.test.ts tests/training-candidates-v1.test.ts tests/training-scoring-v1.test.ts tests/training-materialization-v1.test.ts tests/training-adaptation-v1.test.ts tests/quest-generator.test.ts",
+    "test:phase5-integration": "vitest run tests/phase5-launch-package-integration.test.ts tests/launch-surface-truthfulness.test.ts tests/profile-repository.test.ts tests/profile-surface.test.ts tests/codex-content-v1.test.ts tests/codex-catalog-v1.test.ts tests/codex-surface.test.ts tests/quest-codex-references.test.ts tests/quest-codex-surfaces.test.ts",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "db:reset": "supabase db reset --local",
