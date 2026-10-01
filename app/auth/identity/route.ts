@@ -15,6 +15,11 @@ export async function GET() {
         error: "Identity lookup failed",
         code: error.code ?? "unknown",
         authStatus: error.status ?? 0,
+        reason: error.message
+          .replaceAll(/[\w.+-]+@[\w.-]+/g, "[redacted-email]")
+          .replaceAll(/[0-9a-f]{8}-[0-9a-f-]{27,}/gi, "[redacted-id]")
+          .replaceAll(/eyJ[A-Za-z0-9._-]+/g, "[redacted-token]")
+          .slice(0, 160),
       },
       { status: 503 },
     );
