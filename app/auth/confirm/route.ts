@@ -20,6 +20,14 @@ export async function GET(request: NextRequest) {
   );
   const destination = confirmed ? confirmation.next : "/profile?auth_error=invalid";
   const response = NextResponse.redirect(new URL(destination, request.url));
-  cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+  const hasReplacementSession = cookiesToSet.some(
+    ({ name, value }) => name.includes("-auth-token") && Boolean(value),
+  );
+  cookiesToSet.forEach(({ name, value, options }) => {
+    // email_change can confirm the existing user without returning a new
+    // session. In that case, retain the valid incoming guest session cookie;
+    // getUser() will resolve the same UUID to its now-permanent Auth record.
+    if (value || hasReplacementSession) response.cookies.set(name, value, options);
+  });
   return response;
 }
