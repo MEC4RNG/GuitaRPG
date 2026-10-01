@@ -64,6 +64,7 @@ describe("DATA-003 SSR email confirmation", () => {
     const route = readFileSync("app/auth/confirm/route.ts", "utf8");
     expect(route).toContain("createServerSupabaseClient");
     expect(route).toContain("confirmEmailToken");
+    expect(route).toContain("response.cookies.set");
     expect(route).toContain("/profile?auth_error=invalid");
     expect(route).not.toMatch(/console\.|tokenHash\)/);
   });

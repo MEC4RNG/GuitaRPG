@@ -8,11 +8,18 @@ export async function GET(request: NextRequest) {
   if (!confirmation.valid || !confirmation.type)
     return NextResponse.redirect(new URL("/profile?auth_error=invalid", request.url));
 
+  const cookiesToSet: Array<{
+    name: string;
+    value: string;
+    options: Parameters<NextResponse["cookies"]["set"]>[2];
+  }> = [];
   const confirmed = await confirmEmailToken(
-    await createServerSupabaseClient(),
+    await createServerSupabaseClient((batch) => cookiesToSet.push(...batch)),
     confirmation.tokenHash,
     confirmation.type,
   );
   const destination = confirmed ? confirmation.next : "/profile?auth_error=invalid";
-  return NextResponse.redirect(new URL(destination, request.url));
+  const response = NextResponse.redirect(new URL(destination, request.url));
+  cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+  return response;
 }

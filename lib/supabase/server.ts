@@ -3,7 +3,20 @@ import { cookies } from "next/headers";
 
 import { getSupabasePublicEnv } from "./env";
 
-export async function createServerSupabaseClient() {
+type ResponseCookie = {
+  name: string;
+  value: string;
+  options: Parameters<Awaited<ReturnType<typeof cookies>>["set"]>[0] extends {
+    name: string;
+    value: string;
+  }
+    ? Record<string, unknown>
+    : never;
+};
+
+export async function createServerSupabaseClient(
+  onSetCookies?: (cookiesToSet: ResponseCookie[]) => void,
+) {
   const env = getSupabasePublicEnv();
   const cookieStore = await cookies();
 
@@ -13,6 +26,7 @@ export async function createServerSupabaseClient() {
         return cookieStore.getAll();
       },
       setAll(cookiesToSet) {
+        onSetCookies?.(cookiesToSet as ResponseCookie[]);
         try {
           cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, options);
