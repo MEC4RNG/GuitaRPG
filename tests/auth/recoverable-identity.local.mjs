@@ -125,6 +125,10 @@ async function main() {
   assert.equal(upgradedData.user?.id, originalId, "guest upgrade preserves the Auth UUID");
   assert.equal(upgradedData.user?.is_anonymous, false);
   assert.equal(upgradedData.user?.email, email);
+  const { data: verifiedIdentity, error: verifiedIdentityError } = await guest.auth.getUser();
+  assert.ifError(verifiedIdentityError);
+  assert.equal(verifiedIdentity.user?.id, originalId, "upgraded session verifies through Auth");
+  assert.equal(verifiedIdentity.user?.is_anonymous, false);
 
   const { data: profileAfterUpgrade, error: upgradedProfileError } = await guest
     .from("player_profiles")
