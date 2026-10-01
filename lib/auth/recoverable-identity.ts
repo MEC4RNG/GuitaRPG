@@ -10,6 +10,7 @@ type AuthResult<T> = { data: T; error: AuthError | null };
 
 export type RecoverableIdentityClient = {
   auth: {
+    getClaims?(): PromiseLike<unknown>;
     getUser(): PromiseLike<AuthResult<{ user: AuthIdentityUser | null }>>;
     updateUser(
       attributes: { email: string },
@@ -84,6 +85,20 @@ export function identityStateFromUser(user: AuthIdentityUser | null): IdentitySt
 }
 
 export async function readIdentityState(client: RecoverableIdentityClient) {
+  if (client.auth.getClaims) {
+    const result = (await client.auth.getClaims()) as {
+      data?: {
+        claims?: { sub?: string; email?: string; is_anonymous?: boolean } | null;
+      } | null;
+      error?: AuthError | null;
+    };
+    if (!result.error && result.data?.claims?.sub)
+      return identityStateFromUser({
+        id: result.data.claims.sub,
+        email: result.data.claims.email,
+        is_anonymous: result.data.claims.is_anonymous,
+      });
+  }
   const result = await client.auth.getUser();
   if (result.error) throw new Error("Account status is unavailable. Please try again.");
   return identityStateFromUser(result.data.user);
