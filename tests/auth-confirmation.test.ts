@@ -35,10 +35,9 @@ describe("DATA-003 SSR email confirmation", () => {
 
   it("exchanges a supported token without logging or retaining it", async () => {
     const verifyOtp = vi.fn().mockResolvedValue({ error: null });
-    const refreshSession = vi.fn().mockResolvedValue({ error: null });
     await expect(
       confirmEmailToken(
-        { auth: { verifyOtp, refreshSession } } as ConfirmationClient,
+        { auth: { verifyOtp } } as ConfirmationClient,
         "one-time-hash",
         "email_change",
       ),
@@ -47,17 +46,14 @@ describe("DATA-003 SSR email confirmation", () => {
       token_hash: "one-time-hash",
       type: "email_change",
     });
-    expect(refreshSession).toHaveBeenCalledOnce();
-
     verifyOtp.mockResolvedValue({ error: { message: "expired" } });
     await expect(
       confirmEmailToken(
-        { auth: { verifyOtp, refreshSession } } as ConfirmationClient,
+        { auth: { verifyOtp } } as ConfirmationClient,
         "expired-hash",
         "magiclink",
       ),
     ).resolves.toBe(false);
-    expect(refreshSession).toHaveBeenCalledOnce();
   });
 
   it("uses the existing SSR server client and safe failure redirect", () => {

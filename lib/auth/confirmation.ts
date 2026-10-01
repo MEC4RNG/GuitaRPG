@@ -7,7 +7,6 @@ export type ConfirmationClient = {
       token_hash: string;
       type: SupportedEmailConfirmationType;
     }): PromiseLike<{ error: { message?: string } | null }>;
-    refreshSession(): PromiseLike<{ error: { message?: string } | null }>;
   };
 };
 
@@ -33,7 +32,5 @@ export async function confirmEmailToken(
   type: SupportedEmailConfirmationType,
 ) {
   const result = await client.auth.verifyOtp({ token_hash: tokenHash, type });
-  if (result.error) return false;
-  const refreshed = await client.auth.refreshSession();
-  return !refreshed.error;
+  return !result.error;
 }
