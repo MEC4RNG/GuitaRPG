@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function GET() {
-  const { data, error } = await (await createServerSupabaseClient()).auth.getUser();
+  const client = await createServerSupabaseClient();
+  const { data: sessionData } = await client.auth.getSession();
+  const accessToken = sessionData.session?.access_token;
+  const { data, error } = accessToken
+    ? await client.auth.getUser(accessToken)
+    : { data: { user: null }, error: null };
   if (error)
     return NextResponse.json(
       {
