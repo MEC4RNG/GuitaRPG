@@ -8,7 +8,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
-  reporter: "html",
+  reporter: process.env.CI ? [["github"], ["line"]] : "html",
   use: {
     baseURL,
     trace: "on-first-retry",
