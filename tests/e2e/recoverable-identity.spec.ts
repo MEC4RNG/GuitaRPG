@@ -106,7 +106,10 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
       .slice(0, 240);
     authFailures.push(`${response.status()}:${safeBody}`);
   });
-  await page.goto(await waitForEmailLink(request, email, "email_change"));
+  const guestOrigin = new URL(page.url()).origin;
+  const upgradeLink = await waitForEmailLink(request, email, "email_change");
+  expect(new URL(upgradeLink).origin).toBe(guestOrigin);
+  await page.goto(upgradeLink);
   await expect(page).toHaveURL(/\/profile$/);
   await expect
     .poll(
