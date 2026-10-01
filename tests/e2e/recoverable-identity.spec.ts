@@ -97,6 +97,15 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   await expect(
     page.getByText("Check your inbox to finish protecting this guest Player."),
   ).toBeVisible();
+  const authFailures: string[] = [];
+  page.on("response", async (response) => {
+    if (!response.url().includes("/auth/v1/user") || response.status() < 400) return;
+    const safeBody = (await response.text())
+      .replaceAll(/[\w.+-]+@[\w.-]+/g, "[redacted-email]")
+      .replaceAll(/eyJ[A-Za-z0-9._-]+/g, "[redacted-token]")
+      .slice(0, 240);
+    authFailures.push(`${response.status()}:${safeBody}`);
+  });
   await page.goto(await waitForEmailLink(request, email, "email_change"));
   await expect(page).toHaveURL(/\/profile$/);
   await expect
@@ -110,7 +119,8 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
           return "guest";
         if (await page.getByRole("heading", { name: "Return to a protected Player" }).isVisible())
           return "unauthenticated";
-        if (await page.getByText("Account status is unavailable").isVisible()) return "auth-error";
+        if (await page.getByText("Account status is unavailable").isVisible())
+          return `auth-error:${authFailures.at(-1) ?? "no-response"}`;
         return "loading";
       },
       { timeout: 15_000 },
