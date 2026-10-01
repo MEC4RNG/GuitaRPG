@@ -14,7 +14,30 @@ import {
 } from "@/lib/auth/recoverable-identity";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-const identityClient = () => createBrowserSupabaseClient();
+const identityClient = () => {
+  const client = createBrowserSupabaseClient();
+  return {
+    auth: {
+      getTrustedIdentity: async () => {
+        const response = await fetch("/auth/identity", { cache: "no-store" });
+        if (!response.ok)
+          return { data: { user: null }, error: { message: "Identity lookup failed" } };
+        return {
+          data: (await response.json()) as {
+            user: { id: string; email?: string; is_anonymous?: boolean } | null;
+          },
+          error: null,
+        };
+      },
+      getUser: () => client.auth.getUser(),
+      updateUser: (...parameters: Parameters<typeof client.auth.updateUser>) =>
+        client.auth.updateUser(...parameters),
+      signInWithOtp: (...parameters: Parameters<typeof client.auth.signInWithOtp>) =>
+        client.auth.signInWithOtp(...parameters),
+      signOut: () => client.auth.signOut(),
+    },
+  };
+};
 const confirmationRedirect = () => `${window.location.origin}/auth/confirm?next=/profile`;
 
 export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: boolean }) {

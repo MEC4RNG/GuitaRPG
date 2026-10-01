@@ -23,18 +23,7 @@ const permanent = {
 function clientFor(user: typeof guest | typeof permanent | null) {
   return {
     auth: {
-      getClaims: vi.fn().mockResolvedValue({
-        data: {
-          claims: user
-            ? {
-                sub: user.id,
-                email: "email" in user ? user.email : undefined,
-                is_anonymous: user.is_anonymous,
-              }
-            : null,
-        },
-        error: null,
-      }),
+      getTrustedIdentity: vi.fn().mockResolvedValue({ data: { user }, error: null }),
       getUser: vi.fn().mockResolvedValue({ data: { user }, error: null }),
       updateUser: vi.fn().mockResolvedValue({ data: { user }, error: null }),
       signInWithOtp: vi.fn().mockResolvedValue({ data: { user: null }, error: null }),
@@ -63,7 +52,7 @@ describe("DATA-003 recoverable identity boundary", () => {
     expect(identityStateFromUser({ id: guest.id, is_anonymous: false }).status).toBe("GUEST");
   });
 
-  it("prefers verified JWT claims for browser identity reads", async () => {
+  it("prefers the trusted same-origin identity read in browser flows", async () => {
     const client = clientFor(permanent);
     await expect(readIdentityState(client)).resolves.toMatchObject({
       status: "RECOVERABLE",
