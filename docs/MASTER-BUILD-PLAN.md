@@ -151,15 +151,15 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 3 gate:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
-**Last terminal ticket:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE
+**Last terminal ticket:** `P6-SCOPE-001 — Phase 6 Launch Hardening Scope Review` — COMPLETE
 
-**Active ticket:** `P6-SCOPE-001 — Phase 6 Launch Hardening Scope Review` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through PLY-003 `20260929110000`; applied and verified
-**Next planned ticket:** none while P6-SCOPE-001 is active
+**Next planned ticket:** `DATA-003 — Recoverable Identity & Guest Safety` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -397,7 +397,7 @@ Prove production readiness and perform an explicit cutover.
 
 Expected work:
 
-- `P6-SCOPE-001` — Phase 6 Launch Hardening Scope Review — active
+- `P6-SCOPE-001` — Phase 6 Launch Hardening Scope Review — COMPLETE
 - `DATA-003` — Recoverable Identity & Guest Safety — proposed / unauthorized
 - `DATA-004` — Player Export & Account Deletion — proposed / unauthorized
 - `SEC-001` — Production Security & Supply-Chain Audit — proposed / unauthorized

@@ -14,16 +14,17 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "P5-GATE-001",
-    "title": "Phase 5 Learning & Practice Tooling Gate",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "P6-SCOPE-001",
     "title": "Phase 6 Launch Hardening Scope Review",
-    "status": "IN_PROGRESS"
+    "status": "COMPLETE"
   },
-  "next_ticket": null,
+  "active_ticket": null,
+  "next_ticket": {
+    "id": "DATA-003",
+    "title": "Recoverable Identity & Guest Safety",
+    "authorized_to_start": false,
+    "condition": "Explicit user authorization is required before DATA-003"
+  },
   "phase_gate": {
     "id": "P5-GATE-001",
     "status": "PASS"
@@ -41,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "P6_SCOPE_001_IN_PROGRESS"
+  "execution_status": "AWAITING_EXPLICIT_DATA_003_AUTHORIZATION"
 }
