@@ -105,7 +105,7 @@ async function main() {
     .single();
   assert.ifError(tuningError);
   const { error: onboardingError } = await guest.rpc("complete_player_onboarding", {
-    p_experience_background: "INTERMEDIATE",
+    p_experience_background: "SOME_EXPERIENCE",
     p_typical_session_minutes: 23,
     p_challenge_preference: "BALANCED",
     p_calibration_status: "SKIPPED",
@@ -134,7 +134,7 @@ async function main() {
   assert.deepEqual(profileAfterUpgrade, {
     player_id: originalId,
     onboarding_status: "COMPLETE",
-    experience_background: "INTERMEDIATE",
+    experience_background: "SOME_EXPERIENCE",
     typical_session_minutes: 23,
   });
 
@@ -174,4 +174,14 @@ async function main() {
   );
 }
 
-await main();
+try {
+  await main();
+} catch (error) {
+  const diagnostic = String(error?.stack ?? error)
+    .replaceAll(/token_hash=[^&\s]+/gi, "token_hash=[redacted]")
+    .replaceAll(/[\w.+-]+@[\w.-]+/g, "[redacted-email]")
+    .replaceAll(/eyJ[A-Za-z0-9._-]+/g, "[redacted-token]")
+    .replaceAll("\n", "%0A");
+  console.error(`::error title=DATA-003 local Auth integration::${diagnostic}`);
+  process.exitCode = 1;
+}
