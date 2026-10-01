@@ -94,7 +94,9 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
 
   await page.getByLabel("Email for recovery").fill(email);
   await page.getByRole("button", { name: "Protect your progress" }).click();
-  await expect(page.getByRole("status")).toContainText("Check your inbox");
+  await expect(
+    page.getByText("Check your inbox to finish protecting this guest Player."),
+  ).toBeVisible();
   await page.goto(await waitForEmailLink(request, email, "email_change"));
   await expect(page).toHaveURL(/\/profile$/);
   await expect(
