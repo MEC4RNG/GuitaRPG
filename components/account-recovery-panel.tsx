@@ -13,6 +13,7 @@ import {
   signOutRecoverableUser,
 } from "@/lib/auth/recoverable-identity";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { AccountDataControls } from "./account-data-controls";
 
 const identityClient = () => {
   const client = createBrowserSupabaseClient();
@@ -181,6 +182,7 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
         ) : null}
         {message ? <p role="status">{message}</p> : null}
         {error ? <p role="alert">{error}</p> : null}
+        <AccountDataControls recoverable={false} />
       </section>
     );
 
@@ -211,6 +213,7 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
         </Link>
       ) : null}
       {error ? <p role="alert">{error}</p> : null}
+      <AccountDataControls recoverable />
     </section>
   );
 }

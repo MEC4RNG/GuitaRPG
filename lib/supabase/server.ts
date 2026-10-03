@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 import { getSupabasePublicEnv } from "./env";
@@ -48,5 +49,13 @@ export async function createServerSupabaseClient(
         }
       },
     },
+  });
+}
+
+export function createAuthenticatedSupabaseClient(accessToken: string) {
+  const env = getSupabasePublicEnv();
+  return createClient(env.url, env.publishableKey, {
+    auth: { autoRefreshToken: false, detectSessionInUrl: false, persistSession: false },
+    global: { headers: { Authorization: `Bearer ${accessToken}` } },
   });
 }

@@ -123,4 +123,34 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
     page.getByRole("heading", { name: "Protected / recoverable account" }),
   ).toBeVisible();
   await expect(page.getByLabel("Display name (optional)")).toHaveValue("Recovery Riff");
+
+  const exported = await page.evaluate(async () => {
+    const response = await fetch("/api/account/export", { credentials: "include" });
+    return {
+      ok: response.ok,
+      disposition: response.headers.get("content-disposition"),
+      cache: response.headers.get("cache-control"),
+      body: (await response.json()) as {
+        export_version?: string;
+        identity?: { email?: string; account_type?: string };
+        profile?: { display_name?: string };
+      },
+    };
+  });
+  expect(exported.ok).toBe(true);
+  expect(exported.disposition).toContain("attachment");
+  expect(exported.cache).toContain("no-store");
+  expect(exported.body).toMatchObject({
+    export_version: "GUITARPG_PLAYER_EXPORT_V1",
+    identity: { email, account_type: "RECOVERABLE" },
+    profile: { display_name: "Recovery Riff" },
+  });
+
+  await page.getByRole("button", { name: "Delete this Player" }).click();
+  await expect(page.getByText("This cannot be undone.")).toBeVisible();
+  await page.getByLabel("Type DELETE to confirm").fill("DELETE");
+  await page.getByRole("button", { name: "Permanently delete" }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await page.goto("/profile");
+  await expect(page.getByRole("heading", { name: "Return to a protected Player" })).toBeVisible();
 });

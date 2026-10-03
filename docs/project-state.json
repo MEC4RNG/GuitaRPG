@@ -18,12 +18,16 @@
     "title": "Recoverable Identity & Guest Safety",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "DATA-004",
     "title": "Player Export & Account Deletion",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "SEC-001",
+    "title": "Production Security & Supply-Chain Audit",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before DATA-004"
+    "condition": "Explicit user authorization is required before SEC-001"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -42,5 +46,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_DATA_004_AUTHORIZATION"
+  "execution_status": "DATA_004_IN_PROGRESS"
 }

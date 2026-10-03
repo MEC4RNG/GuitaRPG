@@ -1,0 +1,92 @@
+name: Player data control integration
+
+on:
+  push:
+    branches:
+      - v1-production
+    paths:
+      - "app/api/account/**"
+      - "app/auth/**"
+      - "components/account-data-controls.tsx"
+      - "components/account-recovery-panel.tsx"
+      - "lib/account/**"
+      - "lib/auth/**"
+      - "lib/supabase/admin.ts"
+      - "supabase/migrations/20260929120000_data_004_player_export.sql"
+      - "supabase/tests/database/player_data_control.test.sql"
+      - "tests/e2e/recoverable-identity.spec.ts"
+      - ".github/workflows/player-data-control.yml"
+  pull_request:
+    branches:
+      - v1-production
+    paths:
+      - "app/api/account/**"
+      - "app/auth/**"
+      - "components/account-data-controls.tsx"
+      - "components/account-recovery-panel.tsx"
+      - "lib/account/**"
+      - "lib/auth/**"
+      - "lib/supabase/admin.ts"
+      - "supabase/migrations/20260929120000_data_004_player_export.sql"
+      - "supabase/tests/database/player_data_control.test.sql"
+      - "tests/e2e/recoverable-identity.spec.ts"
+      - ".github/workflows/player-data-control.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  data-control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.2
+          cache: npm
+          cache-dependency-path: npm-shrinkwrap.json
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps --no-audit --no-fund
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.117.0
+      - name: Start local Supabase
+        shell: bash
+        run: supabase start || { supabase stop --no-backup || true; supabase start; }
+      - name: Run database contract and cascade proof
+        run: supabase test db
+      - name: Export local server configuration
+        shell: bash
+        run: |
+          status="$(supabase status -o json)"
+          secret="$(jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY' <<< "$status")"
+          echo "::add-mask::$secret"
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(jq -r '.API_URL' <<< "$status")" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(jq -r '.PUBLISHABLE_KEY // .ANON_KEY' <<< "$status")" >> "$GITHUB_ENV"
+          echo "SUPABASE_SECRET_KEY=$secret" >> "$GITHUB_ENV"
+      - name: Build application
+        run: npm run build
+      - name: Verify elevated key is absent from browser assets
+        shell: bash
+        run: |
+          if grep -R --fixed-strings "SUPABASE_SECRET_KEY" .next/static; then
+            echo "Server-only Supabase secret reference found in browser assets"
+            exit 1
+          fi
+      - name: Verify API export, abuse rejection, and deletion cascade
+        shell: bash
+        run: |
+          npm run start -- -p 3250 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          until curl --fail --silent http://127.0.0.1:3250/profile >/dev/null; do sleep 1; done
+          SUPABASE_URL="$NEXT_PUBLIC_SUPABASE_URL" SUPABASE_PUBLISHABLE_KEY="$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" APP_URL="http://127.0.0.1:3250" REQUIRE_GUEST_DELETE="true" node tests/account/player-data-control.integration.mjs
+      - name: Verify protected export and hard deletion in browsers
+        run: npx playwright test tests/e2e/recoverable-identity.spec.ts
+      - name: Stop local Supabase
+        if: always()
+        run: supabase stop --no-backup

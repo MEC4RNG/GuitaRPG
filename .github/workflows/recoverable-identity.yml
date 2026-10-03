@@ -70,8 +70,11 @@ jobs:
         shell: bash
         run: |
           status="$(supabase status -o json)"
+          secret="$(jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY' <<< "$status")"
+          echo "::add-mask::$secret"
           echo "NEXT_PUBLIC_SUPABASE_URL=$(jq -r '.API_URL' <<< "$status")" >> "$GITHUB_ENV"
           echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(jq -r '.PUBLISHABLE_KEY // .ANON_KEY' <<< "$status")" >> "$GITHUB_ENV"
+          echo "SUPABASE_SECRET_KEY=$secret" >> "$GITHUB_ENV"
 
       - name: Build application
         run: npm run build

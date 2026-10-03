@@ -96,16 +96,19 @@ export function ProfileSurface() {
     );
   if (profile.onboardingStatus !== "COMPLETE")
     return (
-      <section className="panel profile-setup">
-        <PageHeader
-          eyebrow="SYSTEM · PROFILE"
-          title="Finish Player setup."
-          description="Complete first-run setup before editing your ongoing practice preferences."
-        />
-        <Link className="action-button action-button--primary" href="/onboarding">
-          Continue setup
-        </Link>
-      </section>
+      <div className="profile-stack">
+        <section className="panel profile-setup">
+          <PageHeader
+            eyebrow="SYSTEM · PROFILE"
+            title="Finish Player setup."
+            description="Complete first-run setup before editing your ongoing practice preferences."
+          />
+          <Link className="action-button action-button--primary" href="/onboarding">
+            Continue setup
+          </Link>
+        </section>
+        <AccountRecoveryPanel />
+      </div>
     );
 
   return (

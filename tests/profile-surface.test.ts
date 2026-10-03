@@ -17,6 +17,7 @@ describe("PLY-003 Profile surface", () => {
       "Continue setup",
     ])
       expect(source).toContain(label);
+    expect(source.match(/<AccountRecoveryPanel \/>/g)?.length).toBeGreaterThanOrEqual(2);
   });
 
   it("supports the three goal kinds without exposing priority controls", () => {
