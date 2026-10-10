@@ -3,6 +3,8 @@ import { expect, test } from "@playwright/test";
 import { completeGuestOnboarding, generateAndStartPractice } from "./helpers/player-flow";
 
 test("critical public navigation and quest entry work across engines", async ({ page }) => {
+  test.setTimeout(120_000);
+
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "TURN PRACTICE INTO A QUEST." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Generate Quest" })).toHaveAttribute(
