@@ -151,14 +151,14 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 3 gate:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
-**Last terminal ticket:** `DATA-004 — Player Export & Account Deletion` — COMPLETE
+**Last terminal ticket:** `SEC-001 — Production Security & Supply-Chain Audit` — COMPLETE
 
-**Active ticket:** `SEC-001 — Production Security & Supply-Chain Audit` — IN PROGRESS
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
-**Remote migrations:** synchronized through DATA-004 `20260929120000`; applied and verified
+**Remote migrations:** synchronized through SEC-001 `20260929130000`; applied and verified
 **Next planned ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -195,7 +195,13 @@ Purpose:
 
 Rules:
 
-- normal Phase 1+ implementation lands here unless a ticket explicitly uses a short-lived feature/remediation branch
+- Phase 6 implementation uses a short-lived ticket branch, a pull request into `v1-production`,
+  required `validate` and `security` checks, then a protected merge
+- repository ruleset `v1-production release protection` blocks deletion and force pushes and
+  requires the pull-request path with zero mandatory external approvals
+- Database contract CI remains mandatory evidence when database paths change but is not an
+  unconditional required check because it is path-filtered
+- before P6-GATE-001, protection must additionally require the REL-006 release-readiness status
 - every ticket must leave the branch in a testable state
 - no ticket is COMPLETE while required CI is failing
 
@@ -400,7 +406,7 @@ Expected work:
 - `P6-SCOPE-001` — Phase 6 Launch Hardening Scope Review — COMPLETE
 - `DATA-003` — Recoverable Identity & Guest Safety — COMPLETE
 - `DATA-004` — Player Export & Account Deletion — COMPLETE
-- `SEC-001` — Production Security & Supply-Chain Audit — IN PROGRESS
+- `SEC-001` — Production Security & Supply-Chain Audit — COMPLETE
 - `UX-005` — Accessibility, Browser & Failure-State Hardening — proposed / unauthorized
 - `OPS-001` — Production Environment, Recovery & Observability — proposed / unauthorized
 - `REL-006` — Production Readiness Integration — proposed / unauthorized
@@ -976,7 +982,7 @@ remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
-P6-SCOPE-001, DATA-003, and DATA-004 are COMPLETE. SEC-001 is active; UX-005 remains unauthorized.
+P6-SCOPE-001, DATA-003, DATA-004, and SEC-001 are COMPLETE. UX-005 remains unauthorized.
 Production cutover remains unauthorized.
 
 ---
