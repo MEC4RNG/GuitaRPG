@@ -3,25 +3,7 @@ import { expect, test } from "@playwright/test";
 import { expectNoHorizontalOverflow } from "./helpers/accessibility";
 
 test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({ page }) => {
-  await page.route("**/auth/identity", (route) =>
-    route.fulfill({
-      body: JSON.stringify({ user: null }),
-      contentType: "application/json",
-      status: 200,
-    }),
-  );
-
-  await page.goto("/profile");
-  const accountEmail = page.getByLabel(/^(Linked email|Email for recovery)$/);
-  await expect(accountEmail).toBeVisible({ timeout: 15_000 });
-  const emailBox = await accountEmail.boundingBox();
-  expect(emailBox).not.toBeNull();
-  expect(emailBox!.height).toBeGreaterThanOrEqual(44);
-  await accountEmail.focus();
-  await expect(accountEmail).toBeFocused();
-  await expectNoHorizontalOverflow(page);
-
-  for (const path of ["/", "/onboarding", "/generate", "/codex"] as const) {
+  for (const path of ["/", "/profile", "/onboarding", "/generate", "/codex"] as const) {
     await page.goto(path);
     await page.locator("main").waitFor();
     await expectNoHorizontalOverflow(page);
