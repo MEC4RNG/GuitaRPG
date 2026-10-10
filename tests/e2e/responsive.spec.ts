@@ -12,13 +12,13 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
   );
 
   await page.goto("/profile");
-  const linkedEmail = page.getByLabel("Linked email");
-  await expect(linkedEmail).toBeVisible({ timeout: 15_000 });
-  const emailBox = await linkedEmail.boundingBox();
+  const accountEmail = page.getByLabel(/^(Linked email|Email for recovery)$/);
+  await expect(accountEmail).toBeVisible({ timeout: 15_000 });
+  const emailBox = await accountEmail.boundingBox();
   expect(emailBox).not.toBeNull();
   expect(emailBox!.height).toBeGreaterThanOrEqual(44);
-  await linkedEmail.focus();
-  await expect(linkedEmail).toBeFocused();
+  await accountEmail.focus();
+  await expect(accountEmail).toBeFocused();
   await expectNoHorizontalOverflow(page);
 
   for (const path of ["/", "/onboarding", "/generate", "/codex"] as const) {
