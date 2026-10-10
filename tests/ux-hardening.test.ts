@@ -38,6 +38,7 @@ describe("UX-005 hardening contracts", () => {
   });
 
   it("keeps failure UI actionable and honors motion and touch requirements", () => {
+    expect(read("components/onboarding-flow.tsx")).toContain("Retry Player setup");
     expect(read("components/profile-surface.tsx")).toContain("Retry Profile");
     expect(read("components/session-practice-surface.tsx")).toContain("Retry Session");
     expect(read("components/result-completion-surface.tsx")).toContain("Retry Result");

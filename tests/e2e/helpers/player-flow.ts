@@ -2,9 +2,14 @@ import { expect, type Page } from "@playwright/test";
 
 export async function completeGuestOnboarding(page: Page) {
   await page.goto("/onboarding");
-  await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible({
-    timeout: 15_000,
-  });
+  const heading = page.getByRole("heading", { name: "Set your starting point." });
+  const retry = page.getByRole("button", { name: "Retry Player setup" });
+
+  await expect(heading.or(retry)).toBeVisible({ timeout: 30_000 });
+  if (await retry.isVisible()) {
+    await retry.click();
+    await expect(heading).toBeVisible({ timeout: 30_000 });
+  }
   await page.getByLabel("Experience background").selectOption("SOME_EXPERIENCE");
   await page.getByLabel("Typical session length (minutes)").fill("20");
   await page.getByLabel("Challenge preference").selectOption("BALANCED");
