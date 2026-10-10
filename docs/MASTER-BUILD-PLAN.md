@@ -153,13 +153,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
 **Last terminal ticket:** `DATA-004 — Player Export & Account Deletion` — COMPLETE
 
-**Active ticket:** none — awaiting explicit SEC-001 authorization
+**Active ticket:** `SEC-001 — Production Security & Supply-Chain Audit` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through DATA-004 `20260929120000`; applied and verified
-**Next planned ticket:** `SEC-001 — Production Security & Supply-Chain Audit` — NOT AUTHORIZED
+**Next planned ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -350,7 +350,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed DATA-004; SEC-001 is next and unauthorized.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed DATA-004; SEC-001 is active and explicitly authorized.
 
 Purpose:
 
@@ -400,7 +400,7 @@ Expected work:
 - `P6-SCOPE-001` — Phase 6 Launch Hardening Scope Review — COMPLETE
 - `DATA-003` — Recoverable Identity & Guest Safety — COMPLETE
 - `DATA-004` — Player Export & Account Deletion — COMPLETE
-- `SEC-001` — Production Security & Supply-Chain Audit — proposed / unauthorized
+- `SEC-001` — Production Security & Supply-Chain Audit — IN PROGRESS
 - `UX-005` — Accessibility, Browser & Failure-State Hardening — proposed / unauthorized
 - `OPS-001` — Production Environment, Recovery & Observability — proposed / unauthorized
 - `REL-006` — Production Readiness Integration — proposed / unauthorized
@@ -976,7 +976,7 @@ remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
-P6-SCOPE-001, DATA-003, and DATA-004 are COMPLETE. SEC-001 remains unauthorized.
+P6-SCOPE-001, DATA-003, and DATA-004 are COMPLETE. SEC-001 is active; UX-005 remains unauthorized.
 Production cutover remains unauthorized.
 
 ---

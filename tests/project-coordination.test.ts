@@ -66,13 +66,15 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(["P5-GATE-001", "P6-SCOPE-001", "DATA-003", "DATA-004"]).toContain(
+    expect(["P5-GATE-001", "P6-SCOPE-001", "DATA-003", "DATA-004", "SEC-001"]).toContain(
       state.last_terminal_ticket.id,
     );
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
     expect(
       state.active_ticket === null ||
-        ["P5-GATE-001", "P6-SCOPE-001", "DATA-003", "DATA-004"].includes(state.active_ticket.id),
+        ["P5-GATE-001", "P6-SCOPE-001", "DATA-003", "DATA-004", "SEC-001"].includes(
+          state.active_ticket.id,
+        ),
     ).toBe(true);
     expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
     if (state.phase.id === 6)
@@ -126,6 +128,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.active_ticket.status).toBe("IN_PROGRESS");
         expect(state.next_ticket).toMatchObject({ id: "SEC-001", authorized_to_start: false });
         expect(state.execution_status).toBe("DATA_004_IN_PROGRESS");
+        return;
+      }
+      if (state.active_ticket.id === "SEC-001") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(state.active_ticket.status).toBe("IN_PROGRESS");
+        expect(state.next_ticket).toMatchObject({ id: "UX-005", authorized_to_start: false });
+        expect(state.execution_status).toBe("SEC_001_IN_PROGRESS");
         return;
       }
       expect(state.active_ticket).toMatchObject({ id: "P5-GATE-001", status: "IN_PROGRESS" });
