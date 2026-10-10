@@ -24,6 +24,7 @@ import {
   type PracticeSessionEvent,
 } from "@/lib/session/runtime";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 type QuestRow = { title: string; resolved_snapshot: unknown };
 type TempoConstraint = { parameters: { bpm?: number }; taxonomy_entities: { slug: string } | null };
@@ -154,8 +155,8 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
 
   useEffect(() => {
     const load = window.setTimeout(() => {
-      void refresh().catch((reason: unknown) => {
-        setError(reason instanceof Error ? reason.message : "Unable to load the Practice Session");
+      void refresh().catch(() => {
+        setError(safeErrorMessage("SESSION_READ"));
       });
     }, 0);
     return () => window.clearTimeout(load);
@@ -186,15 +187,13 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
     setError(null);
     try {
       await operation();
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Practice control could not be saved");
+    } catch {
+      setError(safeErrorMessage("SESSION_WRITE"));
     } finally {
       try {
         await refresh();
-      } catch (reason) {
-        setError(
-          reason instanceof Error ? reason.message : "Unable to reconcile Practice Session state",
-        );
+      } catch {
+        setError(safeErrorMessage("SESSION_READ"));
       }
       setPending(false);
     }
@@ -202,9 +201,16 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
 
   if (error && !snapshot)
     return (
-      <p className="session-notice" role="alert">
-        {error}
-      </p>
+      <div className="session-notice" role="alert">
+        <p>{error}</p>
+        <button
+          className="action-button action-button--secondary"
+          type="button"
+          onClick={() => void refresh().catch(() => setError(safeErrorMessage("SESSION_READ")))}
+        >
+          Retry Session
+        </button>
+      </div>
     );
   if (!snapshot)
     return (
@@ -345,10 +351,10 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
               try {
                 metronome.start(snapshot.bpm);
                 setMetronomeEnabled(true);
-              } catch (reason) {
+              } catch {
                 metronome.stop();
                 setMetronomeEnabled(false);
-                setError(reason instanceof Error ? reason.message : "Metronome could not start");
+                setError("Metronome audio could not start. Practice controls remain available.");
               }
             }}
           >

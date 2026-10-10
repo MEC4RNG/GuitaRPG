@@ -27,6 +27,31 @@ export default defineConfig({
       ],
       use: { ...devices["Pixel 7"], channel: process.env.CI ? "chrome" : undefined },
     },
+    {
+      name: "firefox",
+      testMatch: "**/browser-compatibility.spec.ts",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      testMatch: "**/browser-compatibility.spec.ts",
+      use: { ...devices["Desktop Safari"] },
+    },
+    {
+      name: "small-phone",
+      testMatch: "**/responsive.spec.ts",
+      use: { browserName: "chromium", viewport: { width: 320, height: 700 } },
+    },
+    {
+      name: "tablet",
+      testMatch: "**/responsive.spec.ts",
+      use: { ...devices["iPad (gen 7)"] },
+    },
+    {
+      name: "mobile-webkit",
+      testMatch: "**/responsive.spec.ts",
+      use: { ...devices["iPhone 15"] },
+    },
   ],
   webServer: {
     command: `npm run start -- -p ${port}`,

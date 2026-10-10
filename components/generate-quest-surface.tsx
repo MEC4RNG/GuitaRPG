@@ -13,6 +13,7 @@ import {
 import type { QuestPersistenceRpcClient } from "@/lib/quest/repository";
 import type { SessionRpcClient } from "@/lib/session/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 type GenerateClient = QuestPersistenceRpcClient & SessionRpcClient;
 
@@ -30,8 +31,8 @@ export function GenerateQuestSurface() {
     try {
       setGenerated(generateQuickQuest());
       setDurableQuestId(null);
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Quest generation failed");
+    } catch {
+      setError("A Quest could not be generated. Please retry.");
     } finally {
       setPending(null);
     }
@@ -55,7 +56,7 @@ export function GenerateQuestSurface() {
             : caught.message,
         );
       } else {
-        setError(caught instanceof Error ? caught.message : "Practice could not be started");
+        setError(safeErrorMessage("SESSION_WRITE"));
       }
     } finally {
       setPending(null);

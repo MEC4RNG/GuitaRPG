@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
   const router = useRouter();
@@ -24,8 +25,8 @@ export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
       if (!response.ok) throw new Error(result.error ?? "Account deletion failed.");
       router.replace("/");
       router.refresh();
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Account deletion failed.");
+    } catch {
+      setError(safeErrorMessage("DELETE"));
       setPending(false);
     }
   }

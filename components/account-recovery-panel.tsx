@@ -13,6 +13,7 @@ import {
   signOutRecoverableUser,
 } from "@/lib/auth/recoverable-identity";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { safeErrorMessage } from "@/lib/ux/safe-error";
 import { AccountDataControls } from "./account-data-controls";
 
 const identityClient = () => {
@@ -65,8 +66,8 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
     try {
       await beginGuestEmailLink(identityClient(), email, confirmationRedirect());
       setMessage("Check your inbox to finish protecting this guest Player.");
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Unable to protect this guest Player.");
+    } catch {
+      setError(safeErrorMessage("AUTH"));
     } finally {
       setPending(false);
     }
@@ -100,8 +101,8 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
       setPending(false);
       router.push("/profile");
       router.refresh();
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Unable to sign out. Please try again.");
+    } catch {
+      setError(safeErrorMessage("AUTH"));
       setPending(false);
     }
   }

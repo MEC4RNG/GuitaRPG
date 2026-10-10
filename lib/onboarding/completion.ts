@@ -36,6 +36,7 @@ export async function completeOnboarding(
     p_goal: input.goal.trim() || null,
   });
 
-  if (result.error) return { complete: false, error: result.error.message };
+  if (result.error)
+    return { complete: false, error: "Player setup could not be saved. Please retry." };
   return { complete: true };
 }

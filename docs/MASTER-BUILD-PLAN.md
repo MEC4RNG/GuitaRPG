@@ -3,7 +3,7 @@
 **Plan version:** 1.0  
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
-**Current phase:** Phase 5 — Learning & Practice Tooling — IN PROGRESS
+**Current phase:** Phase 6 — Hardening & Launch — IN PROGRESS
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -153,13 +153,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
 **Last terminal ticket:** `SEC-001 — Production Security & Supply-Chain Audit` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — AWAITING EXTERNAL EVIDENCE
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through SEC-001 `20260929130000`; applied and verified
-**Next planned ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — NOT AUTHORIZED
+**Next planned ticket:** `OPS-001 — Production Environment, Recovery & Observability` — NOT AUTHORIZED
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -407,7 +407,7 @@ Expected work:
 - `DATA-003` — Recoverable Identity & Guest Safety — COMPLETE
 - `DATA-004` — Player Export & Account Deletion — COMPLETE
 - `SEC-001` — Production Security & Supply-Chain Audit — COMPLETE
-- `UX-005` — Accessibility, Browser & Failure-State Hardening — proposed / unauthorized
+- `UX-005` — Accessibility, Browser & Failure-State Hardening — AWAITING EXTERNAL EVIDENCE
 - `OPS-001` — Production Environment, Recovery & Observability — proposed / unauthorized
 - `REL-006` — Production Readiness Integration — proposed / unauthorized
 - `P6-GATE-001` — Hardening & Launch Readiness Gate — proposed / unauthorized

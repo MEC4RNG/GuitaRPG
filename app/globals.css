@@ -1783,6 +1783,22 @@ a {
   }
 }
 
+.error-fallback {
+  display: grid;
+  width: min(100% - 2rem, 42rem);
+  min-height: 100vh;
+  align-content: center;
+  gap: var(--space-5);
+  margin: 0 auto;
+  padding: var(--space-8) 0;
+}
+
+.error-fallback__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
 .profile-stack,
 .profile-form,
 .profile-goals,
