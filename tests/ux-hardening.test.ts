@@ -80,6 +80,17 @@ describe("UX-005 hardening contracts", () => {
     expect(harness).not.toMatch(/supabase\.co|vercel\.app/);
   });
 
+  it("keeps browser CI deterministic against the shared local identity stack", () => {
+    const packageJson = read("package.json");
+    const identityWorkflow = read(".github/workflows/recoverable-identity.yml");
+
+    expect(packageJson).toContain("--project=firefox --project=webkit --workers=1");
+    expect(identityWorkflow).toContain("playwright install --with-deps chromium");
+    expect(identityWorkflow).toContain(
+      "tests/e2e/recoverable-identity.spec.ts --project=chromium --project=mobile-chromium",
+    );
+  });
+
   it("adds no database migration", () => {
     expect(read("docs/tickets/UX-005.md")).toContain("adds no database migration");
   });

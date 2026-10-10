@@ -17,7 +17,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:accessibility": "playwright test tests/e2e/accessibility.spec.ts --project=chromium",
-    "test:browser-compat": "playwright test tests/e2e/browser-compatibility.spec.ts --project=firefox --project=webkit",
+    "test:browser-compat": "playwright test tests/e2e/browser-compatibility.spec.ts --project=firefox --project=webkit --workers=1",
     "test:responsive": "playwright test tests/e2e/responsive.spec.ts --project=small-phone --project=tablet --project=mobile-webkit",
     "test:failure-states": "playwright test tests/e2e/failure-states.spec.ts --project=chromium",
     "test:ux-hardening": "npm run test:accessibility && npm run test:browser-compat && npm run test:responsive && npm run test:failure-states && playwright test tests/e2e/performance-smoke.spec.ts --project=chromium",
