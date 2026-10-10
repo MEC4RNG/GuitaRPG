@@ -9,6 +9,16 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
     await expectNoHorizontalOverflow(page);
   }
 
+  await page.goto("/profile");
+  const linkedEmail = page.getByLabel("Linked email");
+  await expect(linkedEmail).toBeVisible();
+  const emailBox = await linkedEmail.boundingBox();
+  expect(emailBox).not.toBeNull();
+  expect(emailBox!.height).toBeGreaterThanOrEqual(44);
+  await linkedEmail.focus();
+  await expect(linkedEmail).toBeFocused();
+  await expectNoHorizontalOverflow(page);
+
   const controls = page.locator("button:visible, a:visible, input:visible, select:visible");
   const count = Math.min(await controls.count(), 20);
   for (let index = 0; index < count; index += 1) {

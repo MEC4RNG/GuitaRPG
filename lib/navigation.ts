@@ -10,13 +10,13 @@ export type NavigationItem = {
 };
 
 export type NavigationGroup = {
-  label: "PLAY" | "DEVELOPMENT" | "LEARN" | "SYSTEM";
+  label: "Play" | "Development" | "Learn" | "System";
   items: NavigationItem[];
 };
 
 export const NAVIGATION_GROUPS: NavigationGroup[] = [
   {
-    label: "PLAY",
+    label: "Play",
     items: [
       { label: "Home", href: "/", icon: "home", surface: "hud", mobile: true },
       {
@@ -31,7 +31,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    label: "DEVELOPMENT",
+    label: "Development",
     items: [
       { label: "Character", href: "/character", icon: "character", surface: "lab" },
       { label: "Skills", href: "/skills", icon: "skills", surface: "lab", mobile: true },
@@ -39,11 +39,11 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
     ],
   },
   {
-    label: "LEARN",
+    label: "Learn",
     items: [{ label: "Codex", href: "/codex", icon: "codex", surface: "codex" }],
   },
   {
-    label: "SYSTEM",
+    label: "System",
     items: [{ label: "Profile", href: "/profile", icon: "profile", surface: "hud", mobile: true }],
   },
 ];

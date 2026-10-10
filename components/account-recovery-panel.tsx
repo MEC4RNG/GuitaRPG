@@ -122,11 +122,12 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
           <h2 id="account-access-title">Return to a protected Player</h2>
           <p>Request a passwordless email link for an existing linked GuitaRPG account.</p>
         </div>
-        <label>
-          Linked email
+        <label className="account-recovery__field">
+          <span>Linked email</span>
           <input
             autoComplete="email"
             inputMode="email"
+            placeholder="you@example.com"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -158,11 +159,12 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
           <h2 id="guest-account-title">Protect your progress</h2>
           <p className="guest-warning">{GUEST_RECOVERY_WARNING}</p>
         </div>
-        <label>
-          Email for recovery
+        <label className="account-recovery__field">
+          <span>Email for recovery</span>
           <input
             autoComplete="email"
             inputMode="email"
+            placeholder="you@example.com"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}

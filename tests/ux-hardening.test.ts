@@ -45,6 +45,41 @@ describe("UX-005 hardening contracts", () => {
     expect(read("app/design-tokens.css")).toContain("--touch-target-min: 2.75rem");
   });
 
+  it("separates natural navigation speech from uppercase presentation", () => {
+    const navigation = read("lib/navigation.ts");
+    const sidebar = read("components/sidebar.tsx");
+    const styles = read("app/globals.css");
+
+    expect(navigation).toContain('label: "Play"');
+    expect(navigation).toContain('label: "Development"');
+    expect(navigation).toContain('label: "Learn"');
+    expect(navigation).toContain('label: "System"');
+    expect(navigation).not.toMatch(/label: "(PLAY|DEVELOPMENT|LEARN|SYSTEM)"/);
+    expect(styles).toMatch(/\.nav-group h2[\s\S]*text-transform: uppercase/);
+    expect(sidebar).toContain('aria-label="GuitaRPG home, Practice operating system"');
+    expect(sidebar).toContain('<small aria-hidden="true">Practice OS</small>');
+  });
+
+  it("makes account email fields visibly identifiable without replacing their labels", () => {
+    const panel = read("components/account-recovery-panel.tsx");
+    const styles = read("app/globals.css");
+
+    expect(panel).toContain("<span>Linked email</span>");
+    expect(panel).toContain('className="account-recovery__field"');
+    expect(styles).toMatch(/\.account-recovery__field input[\s\S]*border: 2px solid/);
+    expect(styles).toMatch(/\.account-recovery__field input:focus-visible/);
+  });
+
+  it("provides a local-only private Player path for manual assistive-technology checks", () => {
+    const harness = read("scripts/ux/start-narrator-smoke.ps1");
+
+    expect(harness).toContain("supabase start");
+    expect(harness).toContain("supabase db reset --local");
+    expect(harness).toContain("NEXT_PUBLIC_SUPABASE_URL");
+    expect(harness).toContain("127.0.0.1:3000/onboarding");
+    expect(harness).not.toMatch(/supabase\.co|vercel\.app/);
+  });
+
   it("adds no database migration", () => {
     expect(read("docs/tickets/UX-005.md")).toContain("adds no database migration");
   });

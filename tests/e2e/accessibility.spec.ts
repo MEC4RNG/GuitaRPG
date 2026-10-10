@@ -13,6 +13,32 @@ test("public and guest entry states meet the automated WCAG 2.2 AA gate", async 
     await expect(page.getByRole("heading", { name: heading })).toBeVisible();
     await expectAccessible(page, path);
   }
+
+  await page.goto("/profile");
+  const linkedEmail = page.getByLabel("Linked email");
+  await expect(linkedEmail).toBeVisible();
+  await linkedEmail.focus();
+  await expect(linkedEmail).toBeFocused();
+  await expectAccessible(page, "/profile account access");
+});
+
+test("desktop navigation exposes natural names with presentation-only uppercase", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await expect(
+    page.getByRole("link", { name: "GuitaRPG home, Practice operating system" }),
+  ).toBeVisible();
+  for (const name of ["Play", "Development", "Learn", "System"] as const) {
+    const heading = page.getByRole("heading", { name, exact: true });
+    await expect(heading).toBeVisible();
+    await expect(heading).toHaveCSS("text-transform", "uppercase");
+  }
+  await expect(page.getByText("Practice OS", { exact: true })).toHaveAttribute(
+    "aria-hidden",
+    "true",
+  );
 });
 
 test("authenticated practice surfaces meet the automated WCAG gate", async ({ page }) => {

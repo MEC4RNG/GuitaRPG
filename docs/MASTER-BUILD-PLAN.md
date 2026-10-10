@@ -356,7 +356,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed DATA-004; SEC-001 is active and explicitly authorized.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed SEC-001; UX-005 is active and awaiting external evidence.
 
 Purpose:
 
@@ -982,7 +982,7 @@ remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
-P6-SCOPE-001, DATA-003, DATA-004, and SEC-001 are COMPLETE. UX-005 remains unauthorized.
+P6-SCOPE-001, DATA-003, DATA-004, and SEC-001 are COMPLETE. UX-005 is active and awaiting external evidence; OPS-001 remains unauthorized.
 Production cutover remains unauthorized.
 
 ---
