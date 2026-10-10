@@ -9,7 +9,9 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
     await expectNoHorizontalOverflow(page);
   }
 
-  const controls = page.locator("button:visible, a:visible, input:visible, select:visible");
+  const controls = page.locator(
+    "button:visible, input:visible, select:visible, a.action-button:visible, a.nav-link:visible",
+  );
   const count = Math.min(await controls.count(), 20);
   for (let index = 0; index < count; index += 1) {
     const box = await controls.nth(index).boundingBox();
