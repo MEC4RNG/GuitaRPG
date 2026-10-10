@@ -41,7 +41,7 @@ The browser-visible `public` schema contains exactly 13 RPC signatures:
 | `save_player_profile_v1` | SECURITY DEFINER, authenticated and service role; accepts no player authority and preserves onboarding/progression boundaries. |
 | `export_player_data_v1` | SECURITY DEFINER, authenticated only; accepts no player ID and constrains every player section to `auth.uid()`. |
 
-The `private` schema contains 42 catalog signatures (36 logical names):
+The `private` schema contains 36 catalog signatures:
 `active_taxonomy_entity_id`, `admin_recompute_player_progression_v1`,
 `append_practice_control_event`, `apply_practice_xp_correction_v1`,
 `apply_result_skill_progression_v1`, `award_result_xp_v1`,
