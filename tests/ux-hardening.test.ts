@@ -63,12 +63,15 @@ describe("UX-005 hardening contracts", () => {
 
   it("makes account email fields visibly identifiable without replacing their labels", () => {
     const panel = read("components/account-recovery-panel.tsx");
+    const profile = read("components/profile-surface.tsx");
     const styles = read("app/globals.css");
 
     expect(panel).toContain("<span>Linked email</span>");
     expect(panel).toContain('className="account-recovery__field"');
     expect(styles).toMatch(/\.account-recovery__field input[\s\S]*border: 2px solid/);
     expect(styles).toMatch(/\.account-recovery__field input:focus-visible/);
+    expect(profile).toContain('fetch("/auth/identity"');
+    expect(profile).toContain('credentials: "include"');
   });
 
   it("provides a local-only private Player path for manual assistive-technology checks", () => {

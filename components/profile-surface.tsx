@@ -17,7 +17,24 @@ import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 import { AccountRecoveryPanel } from "./account-recovery-panel";
 
-const profileClient = () => createBrowserSupabaseClient() as unknown as ProfileClient;
+const profileClient = () => {
+  const client = createBrowserSupabaseClient();
+  return {
+    auth: {
+      getUser: async () => {
+        const response = await fetch("/auth/identity", {
+          cache: "no-store",
+          credentials: "include",
+        });
+        if (!response.ok) return { data: { user: null } };
+        const identity = (await response.json()) as { user: { id: string } | null };
+        return { data: { user: identity.user } };
+      },
+    },
+    from: client.from.bind(client),
+    rpc: client.rpc.bind(client),
+  } as unknown as ProfileClient;
+};
 const newGoal = (): ProfileGoal => ({ id: null, kind: "SKILL", targetId: null, objective: "" });
 
 export function ProfileSurface() {
