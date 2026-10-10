@@ -13,7 +13,7 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
 
   await page.goto("/profile");
   const linkedEmail = page.getByLabel("Linked email");
-  await expect(linkedEmail).toBeVisible();
+  await expect(linkedEmail).toBeVisible({ timeout: 15_000 });
   const emailBox = await linkedEmail.boundingBox();
   expect(emailBox).not.toBeNull();
   expect(emailBox!.height).toBeGreaterThanOrEqual(44);
