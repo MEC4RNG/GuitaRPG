@@ -3,6 +3,14 @@ import { expect, test } from "@playwright/test";
 import { expectNoHorizontalOverflow } from "./helpers/accessibility";
 
 test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({ page }) => {
+  await page.route("**/auth/identity", (route) =>
+    route.fulfill({
+      body: JSON.stringify({ user: null }),
+      contentType: "application/json",
+      status: 200,
+    }),
+  );
+
   await page.goto("/profile");
   const linkedEmail = page.getByLabel("Linked email");
   await expect(linkedEmail).toBeVisible();
