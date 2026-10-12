@@ -10,7 +10,7 @@ test("a failed Profile read is safe and recoverable", async ({ page }) => {
   );
   await page.route("**/rest/v1/**", (route) =>
     route.fulfill({
-      status: 503,
+      status: 400,
       contentType: "application/json",
       body: '{"message":"provider secret detail"}',
     }),
