@@ -1,6 +1,13 @@
 import { expect, test } from "@playwright/test";
 
 test("a failed Profile read is safe and recoverable", async ({ page }) => {
+  await page.route("**/auth/identity", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ user: { id: "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa" } }),
+    }),
+  );
   await page.route("**/rest/v1/**", (route) =>
     route.fulfill({
       status: 503,
