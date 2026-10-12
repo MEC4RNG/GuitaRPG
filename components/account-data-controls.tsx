@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
@@ -10,6 +10,19 @@ export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
   const [confirmation, setConfirmation] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const deleteTriggerRef = useRef<HTMLButtonElement>(null);
+  const deleteHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (open) deleteHeadingRef.current?.focus();
+  }, [open]);
+
+  function closeDeleteConfirmation() {
+    setOpen(false);
+    setConfirmation("");
+    setError("");
+    requestAnimationFrame(() => deleteTriggerRef.current?.focus());
+  }
 
   async function deletePlayer() {
     setPending(true);
@@ -49,6 +62,7 @@ export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
       ) : null}
       {!open ? (
         <button
+          ref={deleteTriggerRef}
           className="action-button action-button--danger"
           type="button"
           onClick={() => setOpen(true)}
@@ -56,18 +70,27 @@ export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
           Delete this Player
         </button>
       ) : (
-        <div className="account-delete-confirmation" role="group" aria-labelledby="delete-title">
-          <h4 id="delete-title">Permanently delete this Player?</h4>
-          <p>
-            This removes the account and all Profile, goals, Quests, Sessions, Results, evidence,
-            history, XP, Skills, readiness, Attributes, and progression events. This cannot be
-            undone.
+        <div
+          className="account-delete-confirmation"
+          role="region"
+          aria-labelledby="delete-title"
+          aria-describedby="delete-warning"
+        >
+          <h4 id="delete-title" ref={deleteHeadingRef} tabIndex={-1}>
+            Permanently delete this Player?
+          </h4>
+          <p id="delete-warning">
+            Permanently deleting this Player removes the account and all private practice and
+            progression data, including Profile, goals, Quests, Sessions, Results, evidence,
+            history, XP, Skills, readiness, Attributes, and progression events. This action is
+            irreversible.
           </p>
           {recoverable ? <p>You must have signed in within the last 10 minutes.</p> : null}
-          <label>
+          <label className="account-delete-confirmation__field">
             Type DELETE to confirm
             <input
               autoComplete="off"
+              placeholder="DELETE"
               value={confirmation}
               onChange={(event) => setConfirmation(event.target.value)}
             />
@@ -85,11 +108,7 @@ export function AccountDataControls({ recoverable }: { recoverable: boolean }) {
               className="action-button action-button--secondary"
               disabled={pending}
               type="button"
-              onClick={() => {
-                setOpen(false);
-                setConfirmation("");
-                setError("");
-              }}
+              onClick={closeDeleteConfirmation}
             >
               Cancel
             </button>

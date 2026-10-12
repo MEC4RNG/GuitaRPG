@@ -1,8 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
 
 import { expectNoHorizontalOverflow } from "./helpers/accessibility";
 
-test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({ page }) => {
+test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
+  page,
+}, testInfo) => {
   for (const path of ["/", "/profile", "/onboarding", "/generate", "/codex"] as const) {
     await page.goto(path);
     await page.locator("main").waitFor();
@@ -14,8 +16,24 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
   );
   const count = Math.min(await controls.count(), 20);
   for (let index = 0; index < count; index += 1) {
-    const box = await controls.nth(index).boundingBox();
-    if (box) expect(Math.max(box.width, box.height)).toBeGreaterThanOrEqual(44);
+    const control = controls.nth(index);
+    const box = await control.boundingBox();
+    if (!box || Math.max(box.width, box.height) >= 44) continue;
+
+    const identity = await control.evaluate((element) => ({
+      tag: element.tagName.toLowerCase(),
+      accessibleName: element.getAttribute("aria-label") ?? "",
+      text: element.textContent?.trim() ?? "",
+      computedMinHeight: getComputedStyle(element).minHeight,
+      touchTargetToken: getComputedStyle(element).getPropertyValue("--touch-target-min"),
+    }));
+    throw new Error(
+      `Touch target below 44px: route=${page.url()} project=${testInfo.project.name} ` +
+        `tag=${identity.tag} accessibleName=${JSON.stringify(identity.accessibleName)} ` +
+        `text=${JSON.stringify(identity.text)} width=${box.width} height=${box.height} ` +
+        `computedMinHeight=${identity.computedMinHeight} ` +
+        `touchTargetToken=${JSON.stringify(identity.touchTargetToken)}`,
+    );
   }
 });
 

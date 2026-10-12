@@ -88,6 +88,25 @@ Record the Narrator or NVDA version, browser/version, date, each route/journey, 
 | Active Session | PENDING | PENDING | PENDING | Verify Quest/session data, controls, links, and focus order are meaningful. |
 | Deletion confirmation | PENDING | PENDING | PENDING | Open only; verify irreversible context, exact field, Delete, Cancel, and status/error speech. |
 
+## Recorded Narrator observation — local isolated harness
+
+**Assistive technology:** Windows Narrator (version not recorded)
+
+**Browser:** Not recorded by the manual tester
+
+**Evidence received:** 2026-10-12
+
+**Environment:** Repository local isolated harness; no production or staging configuration was changed
+
+| Journey | Result | Actual observation |
+| --- | --- | --- |
+| Profile / account access | PASS | Profile controls, account/recovery semantics, and field announcements were understandable. |
+| Skills expanded state | PASS | Skill information was understandable with Narrator. |
+| Active Session | PASS | Session controls and state were understandable with Narrator. |
+| Home / brand | PASS | Narrator spoke “Practice operating system” naturally rather than spelling “OS.” |
+| Home / sidebar group headings | PENDING | Tab navigation does not visit semantic headings. A real Narrator Scan Mode `H` / `Shift+H` check is still required for Play, Development, Learn, and System; this is not currently recorded as a defect. |
+| Deletion confirmation | FAIL — REMEDIATED, RECHECK PENDING | Opening the disclosure produced no audible warning because focus remained on the trigger, and the DELETE input was visually difficult to identify. Deletion was not submitted. The remediation now moves focus to a labelled/described region heading, restores trigger focus on Cancel, and gives the confirmation field a high-contrast 44 px treatment. A real Narrator recheck is still required. |
+
 ## Failure-state expectations
 
 - Provider, database, auth, and internal exception details are never rendered to the Player.

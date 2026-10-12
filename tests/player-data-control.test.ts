@@ -57,7 +57,13 @@ describe("DATA-004 Player data controls", () => {
     const source = read("components/account-data-controls.tsx");
     expect(source).toContain("Download my data");
     expect(source).toContain("Type DELETE to confirm");
-    expect(source).toContain("This cannot be");
+    expect(source).toContain('role="region"');
+    expect(source).toContain('aria-labelledby="delete-title"');
+    expect(source).toContain('aria-describedby="delete-warning"');
+    expect(source).toContain("private practice and");
+    expect(source).toContain("irreversible");
+    expect(source).toContain("deleteHeadingRef.current?.focus()");
+    expect(source).toContain("deleteTriggerRef.current?.focus()");
     expect(source).toContain("Cancel");
   });
 });

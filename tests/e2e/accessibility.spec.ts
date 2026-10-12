@@ -62,6 +62,16 @@ test("authenticated practice surfaces meet the automated WCAG gate", async ({ pa
     await expectAccessible(page, path);
   }
 
+  await page.goto("/profile");
+  const deleteTrigger = page.getByRole("button", { name: "Delete this Player" });
+  await deleteTrigger.click();
+  await expect(
+    page.getByRole("heading", { name: "Permanently delete this Player?" }),
+  ).toBeFocused();
+  await expectAccessible(page, "deletion confirmation");
+  await page.getByRole("button", { name: "Cancel" }).click();
+  await expect(deleteTrigger).toBeFocused();
+
   const sessionId = await generateAndStartPractice(page);
   await expectAccessible(page, "active Session");
   await page.getByRole("button", { name: "+1 rep" }).click();

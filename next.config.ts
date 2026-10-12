@@ -27,7 +27,7 @@ const contentSecurityPolicy = [
   "worker-src 'self' blob:",
   `connect-src 'self' https://*.supabase.co wss://*.supabase.co${localSupabaseConnectSources}`,
   "manifest-src 'self'",
-  "upgrade-insecure-requests",
+  ...(process.env.VERCEL === "1" ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 
 const nextConfig: NextConfig = {

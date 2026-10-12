@@ -147,7 +147,20 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   });
 
   await page.getByRole("button", { name: "Delete this Player" }).click();
-  await expect(page.getByText("This cannot be undone.")).toBeVisible();
+  const deleteHeading = page.getByRole("heading", { name: "Permanently delete this Player?" });
+  await expect(deleteHeading).toBeFocused();
+  const deleteRegion = page.getByRole("region", { name: "Permanently delete this Player?" });
+  await expect(deleteRegion).toHaveAttribute("aria-describedby", "delete-warning");
+  await expect(page.getByText(/This action is irreversible/)).toBeVisible();
+  const deleteInput = page.getByLabel("Type DELETE to confirm");
+  await expect(deleteInput).toBeVisible();
+  await expect(deleteInput).toHaveCSS("min-height", "44px");
+  await deleteInput.focus();
+  await expect(deleteInput).toBeFocused();
+  await deleteInput.fill("DELETE");
+  await page.getByRole("button", { name: "Cancel" }).click();
+  await expect(page.getByRole("button", { name: "Delete this Player" })).toBeFocused();
+  await page.getByRole("button", { name: "Delete this Player" }).click();
   await page.getByLabel("Type DELETE to confirm").fill("DELETE");
   await page.getByRole("button", { name: "Permanently delete" }).click();
   await expect(page).toHaveURL(/\/$/);
