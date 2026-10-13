@@ -151,9 +151,9 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 3 gate:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
-**Last terminal ticket:** `SEC-001 — Production Security & Supply-Chain Audit` — COMPLETE
+**Last terminal ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — COMPLETE
 
-**Active ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — AWAITING EXTERNAL EVIDENCE
+**Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -356,7 +356,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed SEC-001; UX-005 is active and awaiting external evidence.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed UX-005; OPS-001 is next and not authorized.
 
 Purpose:
 
@@ -407,7 +407,7 @@ Expected work:
 - `DATA-003` — Recoverable Identity & Guest Safety — COMPLETE
 - `DATA-004` — Player Export & Account Deletion — COMPLETE
 - `SEC-001` — Production Security & Supply-Chain Audit — COMPLETE
-- `UX-005` — Accessibility, Browser & Failure-State Hardening — AWAITING EXTERNAL EVIDENCE
+- `UX-005` — Accessibility, Browser & Failure-State Hardening — COMPLETE
 - `OPS-001` — Production Environment, Recovery & Observability — proposed / unauthorized
 - `REL-006` — Production Readiness Integration — proposed / unauthorized
 - `P6-GATE-001` — Hardening & Launch Readiness Gate — proposed / unauthorized
@@ -982,7 +982,7 @@ remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
-P6-SCOPE-001, DATA-003, DATA-004, and SEC-001 are COMPLETE. UX-005 is active and awaiting external evidence; OPS-001 remains unauthorized.
+P6-SCOPE-001, DATA-003, DATA-004, SEC-001, and UX-005 are COMPLETE. OPS-001 is next and remains unauthorized; REL-006 and P6-GATE-001 remain future work, and CUTOVER-001 requires separate authorization.
 Production cutover remains unauthorized.
 
 ---

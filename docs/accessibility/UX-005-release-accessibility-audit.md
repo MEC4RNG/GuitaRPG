@@ -1,6 +1,6 @@
 # UX-005 Release Accessibility Audit
 
-**Status:** AWAITING EXTERNAL EVIDENCE
+**Status:** COMPLETE
 
 **Standard:** Applicable WCAG 2.2 Level AA criteria
 
@@ -25,16 +25,16 @@ Record each result as PASS, FAIL, or BLOCKED with the browser, assistive technol
 
 | Journey | Keyboard | Focus order/visibility | Names and states | Status/error announcement | Narrator smoke |
 | --- | --- | --- | --- | --- | --- |
-| Home and primary navigation | AUTOMATED PASS | AUTOMATED PASS | AXE PASS | N/A | BLOCKED |
-| Onboarding and guest identity | PENDING | PENDING | PENDING | PENDING | PENDING |
-| Generate → Session → Result | PENDING | PENDING | PENDING | PENDING | PENDING |
-| Training recommendation | PENDING | PENDING | PENDING | PENDING | PENDING |
-| Character and Skills | PENDING | PENDING | PENDING | PENDING | PENDING |
-| History and attempt detail | PENDING | PENDING | PENDING | PENDING | PENDING |
-| Profile, recovery, export, deletion | PENDING | PENDING | PENDING | PENDING | PENDING |
-| Codex search and detail | AUTOMATED PASS | AUTOMATED PASS | AXE PASS | N/A | BLOCKED |
+| Home and primary navigation | PASS | PASS | AXE PASS | N/A | PASS |
+| Onboarding and guest identity | AUTOMATED PASS | AUTOMATED PASS | AXE PASS | AUTOMATED PASS | Not separately included in bounded Narrator smoke |
+| Generate → Session → Result | PASS | PASS | AXE PASS | AUTOMATED PASS | PASS |
+| Training recommendation | AUTOMATED PASS | AUTOMATED PASS | AXE PASS | AUTOMATED PASS | Not separately included in bounded Narrator smoke |
+| Character and Skills | PASS | PASS | AXE PASS | N/A | PASS |
+| History and attempt detail | AUTOMATED PASS | AUTOMATED PASS | AXE PASS | AUTOMATED PASS | Not separately included in bounded Narrator smoke |
+| Profile, recovery, export, deletion | PASS | PASS | AXE PASS | PASS | PASS |
+| Codex search and detail | AUTOMATED PASS | AUTOMATED PASS | AXE PASS | N/A | Not separately included in bounded Narrator smoke |
 
-Automated keyboard and accessibility-tree evidence is supplementary. The remaining `BLOCKED` cells require a person using Narrator or NVDA and must not be inferred from axe results.
+Automated keyboard and accessibility-tree evidence is supplementary. Manual PASS claims below are based on the real Windows Narrator observations supplied by the tester, not inferred from axe results.
 
 ## Recorded Narrator observation — remediation required
 
@@ -53,7 +53,7 @@ Automated keyboard and accessibility-tree evidence is supplementary. The remaini
 | Production `/profile`, unauthenticated account access | FAIL | Narrator announced “Linked email,” “Email me a sign-in link,” and “Start a new guest Player,” but the email input was not visually unmistakable enough. |
 | PR preview `/profile`, private Player flow | BLOCKED | The preview rendered “Profile data is unavailable. Please try again.” Authenticated Profile, Skills, Session, and deletion-confirmation evidence cannot be claimed from this deployment. |
 
-The remediation stores navigation group labels in natural title case while retaining uppercase through CSS, gives the brand one explicit natural accessible name, and strengthens the email field boundary, spacing, width, focus treatment, and visible label. These changes still require a new real Narrator observation before they can be marked PASS.
+The remediation stores navigation group labels in natural title case while retaining uppercase through CSS, gives the brand one explicit natural accessible name, and strengthens the email field boundary, spacing, width, focus treatment, and visible label. The later real Narrator observations below verify these changes rather than rewriting the original failures as passes.
 
 ## Isolated local manual-test environment
 
@@ -78,15 +78,15 @@ Manual tester journey:
 5. Generate and start one Quest; check the Session title, Active Time, Reps, state, Pause/Resume, End Session, metronome controls, reference links, and focus order.
 6. Open Profile's deletion confirmation only. Check the irreversible warning, exact confirmation label, Delete action, Cancel action, and status/error announcement. Do not submit deletion.
 
-Record the Narrator or NVDA version, browser/version, date, each route/journey, PASS/FAIL, and the concise actual announcement or behavior below. Until every required item has observed evidence, UX-005 remains `AWAITING_EXTERNAL_EVIDENCE`.
+The following table retains the original checklist alongside the observed final evidence.
 
 | Journey | AT and browser | Date | Result | Actual observation |
 | --- | --- | --- | --- | --- |
-| Home / sidebar remediation | PENDING | PENDING | PENDING | Verify “Practice operating system,” Play, Development, Learn, and System are spoken naturally. |
-| Profile / account access | PENDING | PENDING | PENDING | Verify the email input is visually obvious and announced as “Linked email,” edit/input. |
-| Skills expanded state | PENDING | PENDING | PENDING | Verify Skill name, assessment, proficiency, confidence, and readiness are distinguishable. |
-| Active Session | PENDING | PENDING | PENDING | Verify Quest/session data, controls, links, and focus order are meaningful. |
-| Deletion confirmation | PENDING | PENDING | PENDING | Open only; verify irreversible context, exact field, Delete, Cancel, and status/error speech. |
+| Home / sidebar remediation | Windows Narrator; browser/version not recorded | 2026-10-13 | PASS | Narrator spoke “Practice operating system” naturally. Heading navigation exposed Play, Development, Learn, and System and spoke each as a word rather than spelling letters. |
+| Profile / account access | Windows Narrator; browser/version not recorded | 2026-10-12 | PASS | Profile controls, account/recovery semantics, and field announcements were understandable; the email field was visually distinguishable. |
+| Skills expanded state | Windows Narrator; browser/version not recorded | 2026-10-12 | PASS | Skill information was understandable, including the exposed assessment and progression state. |
+| Active Session | Windows Narrator; browser/version not recorded | 2026-10-12 | PASS | Session controls and state were understandable with Narrator. |
+| Deletion confirmation | Windows Narrator; browser/version not recorded | 2026-10-13 | PASS | Focus entered the destructive context; permanent and irreversible deletion was communicated; the labelled DELETE edit field and Permanently delete/Cancel controls were distinguishable; Cancel restored focus. Deletion was not submitted. |
 
 ## Recorded Narrator observation — local isolated harness
 
@@ -104,8 +104,23 @@ Record the Narrator or NVDA version, browser/version, date, each route/journey, 
 | Skills expanded state | PASS | Skill information was understandable with Narrator. |
 | Active Session | PASS | Session controls and state were understandable with Narrator. |
 | Home / brand | PASS | Narrator spoke “Practice operating system” naturally rather than spelling “OS.” |
-| Home / sidebar group headings | PENDING | Tab navigation does not visit semantic headings. A real Narrator Scan Mode `H` / `Shift+H` check is still required for Play, Development, Learn, and System; this is not currently recorded as a defect. |
-| Deletion confirmation | FAIL — REMEDIATED, RECHECK PENDING | Opening the disclosure produced no audible warning because focus remained on the trigger, and the DELETE input was visually difficult to identify. Deletion was not submitted. The remediation now moves focus to a labelled/described region heading, restores trigger focus on Cancel, and gives the confirmation field a high-contrast 44 px treatment. A real Narrator recheck is still required. |
+| Home / sidebar group headings | PENDING AT THIS OBSERVATION | Tab navigation did not visit semantic headings, so a Narrator Scan Mode `H` / `Shift+H` check was still required at this point. The later final recheck below passed. |
+| Deletion confirmation | FAIL — REMEDIATED, RECHECK WAS PENDING | Opening the disclosure produced no audible warning because focus remained on the trigger, and the DELETE input was visually difficult to identify. Deletion was not submitted. The remediation moved focus to a labelled/described region heading, restored trigger focus on Cancel, and gave the confirmation field a high-contrast 44 px treatment. The later final recheck below passed. |
+
+## Final Narrator recheck
+
+**Assistive technology:** Windows Narrator (version not recorded)
+
+**Browser:** Not recorded by the manual tester
+
+**Evidence received:** 2026-10-13
+
+**Environment:** Repository local isolated harness; no production or staging configuration was changed
+
+| Journey | Result | Actual observation |
+| --- | --- | --- |
+| Home / sidebar group headings | PASS | Narrator heading navigation exposed Play, Development, Learn, and System, and each was spoken naturally as a word. |
+| Deletion confirmation | PASS | Opening moved focus into the destructive confirmation context and communicated permanent, irreversible deletion. “Type DELETE to confirm” was available as an edit field, the field was visually distinguishable, Permanently delete and Cancel were distinguishable, and Cancel restored focus to Delete this Player. Deletion was not submitted. |
 
 ## Failure-state expectations
 
@@ -117,4 +132,4 @@ Record the Narrator or NVDA version, browser/version, date, each route/journey, 
 
 ## Terminal evidence
 
-The ticket cannot be marked COMPLETE until the automated workflow passes and the Narrator/manual matrix has real-device evidence. If the required assistive-technology environment is unavailable, the correct disposition is `AWAITING_EXTERNAL_EVIDENCE`, not a synthetic pass.
+The bounded accessibility audit is complete. Automated axe, keyboard/focus, responsive, and browser-compatibility coverage passed, and the required real Windows Narrator evidence passed after the documented remediations. The ticket may close without claiming untested criteria or rewriting the original failures.

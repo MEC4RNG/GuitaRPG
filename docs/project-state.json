@@ -14,15 +14,11 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "SEC-001",
-    "title": "Production Security & Supply-Chain Audit",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "UX-005",
     "title": "Accessibility, Browser & Failure-State Hardening",
-    "status": "AWAITING_EXTERNAL_EVIDENCE"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "OPS-001",
     "title": "Production Environment, Recovery & Observability",
@@ -46,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "UX_005_AWAITING_EXTERNAL_EVIDENCE"
+  "execution_status": "AWAITING_EXPLICIT_OPS_001_AUTHORIZATION"
 }
