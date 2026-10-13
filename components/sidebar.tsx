@@ -12,21 +12,25 @@ export function Sidebar({ pathname }: SidebarProps) {
   return (
     <aside className="sidebar" aria-label="Primary navigation">
       <div className="sidebar__brand">
-        <Link className="brand-mark" href="/" aria-label="GuitaRPG home">
+        <Link className="brand-mark" href="/" aria-label="GuitaRPG home, Practice operating system">
           <span className="brand-mark__glyph" aria-hidden="true">
             GR
           </span>
           <span>
             <strong>GuitaRPG</strong>
-            <small>Practice OS</small>
+            <small aria-hidden="true">Practice OS</small>
           </span>
         </Link>
       </div>
 
       <nav className="sidebar__nav">
         {NAVIGATION_GROUPS.map((group) => (
-          <section className="nav-group" key={group.label} aria-label={group.label}>
-            <h2>{group.label}</h2>
+          <section
+            className="nav-group"
+            key={group.label}
+            aria-labelledby={`nav-group-${group.label.toLowerCase()}`}
+          >
+            <h2 id={`nav-group-${group.label.toLowerCase()}`}>{group.label}</h2>
             <div className="nav-group__items">
               {group.items.map((item) => {
                 const active = isRouteActive(pathname, item.href);

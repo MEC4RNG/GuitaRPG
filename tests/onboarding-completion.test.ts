@@ -38,7 +38,7 @@ describe("ONB-001-R1 onboarding completion boundary", () => {
 
     await expect(completeOnboarding({ rpc } as OnboardingRpcClient, input)).resolves.toEqual({
       complete: false,
-      error: "persistence denied",
+      error: "Player setup could not be saved. Please retry.",
     });
   });
 

@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "SEC-001",
-    "title": "Production Security & Supply-Chain Audit",
+    "id": "UX-005",
+    "title": "Accessibility, Browser & Failure-State Hardening",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "UX-005",
-    "title": "Accessibility, Browser & Failure-State Hardening",
+    "id": "OPS-001",
+    "title": "Production Environment, Recovery & Observability",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before UX-005"
+    "condition": "Explicit user authorization is required before OPS-001"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -42,5 +42,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_UX_005_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_OPS_001_AUTHORIZATION"
 }

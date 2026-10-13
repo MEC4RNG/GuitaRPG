@@ -9,6 +9,7 @@ import {
 } from "@/lib/evidence/repository";
 import type { CriterionState, ReflectionValue } from "@/lib/evidence/runtime";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 type CriterionRow = {
   ordinal: number;
@@ -148,9 +149,7 @@ export function ResultCompletionSurface({ sessionId }: { sessionId: string }) {
 
   useEffect(() => {
     const load = window.setTimeout(() => {
-      void refresh().catch((reason: unknown) =>
-        setError(reason instanceof Error ? reason.message : "Unable to load completion workflow"),
-      );
+      void refresh().catch(() => setError(safeErrorMessage("RESULT_READ")));
     }, 0);
     return () => window.clearTimeout(load);
   }, [refresh]);
@@ -175,8 +174,8 @@ export function ResultCompletionSurface({ sessionId }: { sessionId: string }) {
         notes: notes || null,
       });
       await refresh();
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Result could not be recorded");
+    } catch {
+      setError(safeErrorMessage("RESULT_SAVE"));
     } finally {
       setPending(false);
     }
@@ -184,9 +183,18 @@ export function ResultCompletionSurface({ sessionId }: { sessionId: string }) {
 
   if (!snapshot)
     return (
-      <p className="session-notice" role={error ? "alert" : undefined}>
-        {error ?? "Loading completion workflow…"}
-      </p>
+      <div className="session-notice" role={error ? "alert" : "status"}>
+        <p>{error ?? "Loading completion workflow…"}</p>
+        {error ? (
+          <button
+            className="action-button action-button--secondary"
+            type="button"
+            onClick={() => void refresh().catch(() => setError(safeErrorMessage("RESULT_READ")))}
+          >
+            Retry Result
+          </button>
+        ) : null}
+      </div>
     );
   const resultEvidence = (metric: string) =>
     snapshot.evidence.find((item) => item.criterion_metric === metric);

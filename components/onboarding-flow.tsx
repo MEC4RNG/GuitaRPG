@@ -21,6 +21,7 @@ const db = () => createBrowserSupabaseClient() as any;
 
 export function OnboardingFlow() {
   const [ready, setReady] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [complete, setComplete] = useState(false);
   const [message, setMessage] = useState("");
   const [tunings, setTunings] = useState<Tuning[]>([]);
@@ -33,52 +34,55 @@ export function OnboardingFlow() {
 
   useEffect(() => {
     const load = async () => {
-      const supabase = db();
-      let { data } = await supabase.auth.getUser();
-      if (!data.user) {
-        const anonymous = await supabase.auth.signInAnonymously();
-        data = { user: anonymous.data.user };
-      }
-      if (!data.user) {
+      setMessage("");
+      try {
+        const supabase = db();
+        let { data } = await supabase.auth.getUser();
+        if (!data.user) {
+          const anonymous = await supabase.auth.signInAnonymously();
+          data = { user: anonymous.data.user };
+        }
+        if (!data.user) throw new Error("Guest identity unavailable");
+
+        const [profileResult, tuningResult] = await Promise.all([
+          supabase
+            .from("player_profiles")
+            .select(
+              "onboarding_status, calibration_status, experience_background, typical_session_minutes, challenge_preference",
+            )
+            .eq("player_id", data.user.id)
+            .single(),
+          supabase
+            .from("taxonomy_entities")
+            .select("id, display_name, slug")
+            .eq("kind", "CONTEXT")
+            .eq("lifecycle", "ACTIVE")
+            .eq("metadata->>context_family", "TUNING")
+            .order("display_name"),
+        ]);
+        const profile = profileResult.data as
+          (Profile & Record<string, string | number | null>) | null;
+        if (profile?.onboarding_status === "COMPLETE") {
+          setComplete(true);
+        } else {
+          await supabase
+            .from("player_profiles")
+            .update({ onboarding_status: "IN_PROGRESS" })
+            .eq("player_id", data.user.id);
+          setExperience(String(profile?.experience_background ?? "UNSPECIFIED"));
+          setMinutes(String(profile?.typical_session_minutes ?? 20));
+          setChallenge(String(profile?.challenge_preference ?? "BALANCED"));
+        }
+        const rows = (tuningResult.data ?? []) as Tuning[];
+        setTunings(rows);
+        setTuningId(rows.find((row) => row.slug === "standard_tuning")?.id ?? rows[0]?.id ?? "");
+        setReady(true);
+      } catch {
         setMessage("We could not create a private Player session. Please try again.");
-        return;
       }
-      const [profileResult, tuningResult] = await Promise.all([
-        supabase
-          .from("player_profiles")
-          .select(
-            "onboarding_status, calibration_status, experience_background, typical_session_minutes, challenge_preference",
-          )
-          .eq("player_id", data.user.id)
-          .single(),
-        supabase
-          .from("taxonomy_entities")
-          .select("id, display_name, slug")
-          .eq("kind", "CONTEXT")
-          .eq("lifecycle", "ACTIVE")
-          .eq("metadata->>context_family", "TUNING")
-          .order("display_name"),
-      ]);
-      const profile = profileResult.data as
-        (Profile & Record<string, string | number | null>) | null;
-      if (profile?.onboarding_status === "COMPLETE") {
-        setComplete(true);
-      } else {
-        await supabase
-          .from("player_profiles")
-          .update({ onboarding_status: "IN_PROGRESS" })
-          .eq("player_id", data.user.id);
-        setExperience(String(profile?.experience_background ?? "UNSPECIFIED"));
-        setMinutes(String(profile?.typical_session_minutes ?? 20));
-        setChallenge(String(profile?.challenge_preference ?? "BALANCED"));
-      }
-      const rows = (tuningResult.data ?? []) as Tuning[];
-      setTunings(rows);
-      setTuningId(rows.find((row) => row.slug === "standard_tuning")?.id ?? rows[0]?.id ?? "");
-      setReady(true);
     };
     void load();
-  }, []);
+  }, [loadAttempt]);
 
   const finish = async () => {
     if (!tuningId) return setMessage("Choose a preferred tuning before continuing.");
@@ -96,7 +100,23 @@ export function OnboardingFlow() {
     setComplete(true);
   };
 
-  if (!ready) return <p className="onboarding__loading">Preparing your private Player setup…</p>;
+  if (!ready)
+    return (
+      <section className="onboarding onboarding__loading" aria-label="Player setup status">
+        <p role={message ? "alert" : "status"}>
+          {message || "Preparing your private Player setup…"}
+        </p>
+        {message ? (
+          <button
+            className="action-button action-button--secondary"
+            type="button"
+            onClick={() => setLoadAttempt((attempt) => attempt + 1)}
+          >
+            Retry Player setup
+          </button>
+        ) : null}
+      </section>
+    );
   if (complete) {
     return (
       <section className="onboarding">

@@ -13,10 +13,28 @@ import {
   type ProfileSnapshot,
 } from "@/lib/profile/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { safeErrorMessage } from "@/lib/ux/safe-error";
 
 import { AccountRecoveryPanel } from "./account-recovery-panel";
 
-const profileClient = () => createBrowserSupabaseClient() as unknown as ProfileClient;
+const profileClient = () => {
+  const client = createBrowserSupabaseClient();
+  return {
+    auth: {
+      getUser: async () => {
+        const response = await fetch("/auth/identity", {
+          cache: "no-store",
+          credentials: "include",
+        });
+        if (!response.ok) return { data: { user: null } };
+        const identity = (await response.json()) as { user: { id: string } | null };
+        return { data: { user: identity.user } };
+      },
+    },
+    from: client.from.bind(client),
+    rpc: client.rpc.bind(client),
+  } as unknown as ProfileClient;
+};
 const newGoal = (): ProfileGoal => ({ id: null, kind: "SKILL", targetId: null, objective: "" });
 
 export function ProfileSurface() {
@@ -31,7 +49,7 @@ export function ProfileSurface() {
     try {
       setProfile(await readProfileSnapshot(profileClient()));
     } catch {
-      setError("Profile data is unavailable. Please try again.");
+      setError(safeErrorMessage("PROFILE_READ"));
     } finally {
       setPending(null);
     }
@@ -64,8 +82,8 @@ export function ProfileSurface() {
       await saveProfileSnapshot(profileClient(), profile);
       setProfile(await readProfileSnapshot(profileClient()));
       setMessage("Profile saved. Future Training reads will use these preferences.");
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Profile could not be saved.");
+    } catch {
+      setError(safeErrorMessage("PROFILE_SAVE"));
     } finally {
       setPending(null);
     }
@@ -79,9 +97,16 @@ export function ProfileSurface() {
     );
   if (!profile)
     return (
-      <p className="session-notice" role="alert">
-        {error || "Profile is unavailable."}
-      </p>
+      <div className="session-notice" role="alert">
+        <p>{error || "Profile is unavailable."}</p>
+        <button
+          className="action-button action-button--secondary"
+          type="button"
+          onClick={() => void load()}
+        >
+          Retry Profile
+        </button>
+      </div>
     );
   if (!profile.authenticated || !profile.initialized)
     return (

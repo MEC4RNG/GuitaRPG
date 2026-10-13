@@ -49,7 +49,7 @@ describe("SEC-001 release security", () => {
       .filter((path) => path.endsWith(".yml"))
       .map((path) => read(`.github/workflows/${path}`));
     for (const workflow of workflows) {
-      expect(workflow).toContain("permissions:\n  contents: read");
+      expect(workflow).toMatch(/permissions:\r?\n  contents: read/);
       expect(workflow).not.toContain("pull_request_target");
       for (const match of workflow.matchAll(/uses:\s*([^\s#]+)/g))
         expect(match[1]).toMatch(/@[0-9a-f]{40}$/);

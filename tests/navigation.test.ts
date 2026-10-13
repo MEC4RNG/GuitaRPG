@@ -12,25 +12,25 @@ import {
 describe("UX-002 application navigation", () => {
   it("implements the approved desktop information architecture", () => {
     expect(NAVIGATION_GROUPS.map((group) => group.label)).toEqual([
-      "PLAY",
-      "DEVELOPMENT",
-      "LEARN",
-      "SYSTEM",
+      "Play",
+      "Development",
+      "Learn",
+      "System",
     ]);
 
     expect(
-      NAVIGATION_GROUPS.find((group) => group.label === "PLAY")?.items.map((item) => item.label),
+      NAVIGATION_GROUPS.find((group) => group.label === "Play")?.items.map((item) => item.label),
     ).toEqual(["Home", "Generate", "Training"]);
     expect(
-      NAVIGATION_GROUPS.find((group) => group.label === "DEVELOPMENT")?.items.map(
+      NAVIGATION_GROUPS.find((group) => group.label === "Development")?.items.map(
         (item) => item.label,
       ),
     ).toEqual(["Character", "Skills", "History"]);
     expect(
-      NAVIGATION_GROUPS.find((group) => group.label === "LEARN")?.items.map((item) => item.label),
+      NAVIGATION_GROUPS.find((group) => group.label === "Learn")?.items.map((item) => item.label),
     ).toEqual(["Codex"]);
     expect(
-      NAVIGATION_GROUPS.find((group) => group.label === "SYSTEM")?.items.map((item) => item.label),
+      NAVIGATION_GROUPS.find((group) => group.label === "System")?.items.map((item) => item.label),
     ).toEqual(["Profile"]);
     expect(NAVIGATION_GROUPS.flatMap((group) => group.items)).not.toContainEqual(
       expect.objectContaining({ label: "Settings" }),
