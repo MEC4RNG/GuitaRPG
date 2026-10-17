@@ -32,27 +32,35 @@ export default defineConfig({
     },
     {
       name: "firefox",
-      testMatch: ["**/browser-compatibility.spec.ts", "**/quest-library.spec.ts"],
+      testMatch: [
+        "**/browser-compatibility.spec.ts",
+        "**/quest-journey.spec.ts",
+        "**/quest-library.spec.ts",
+      ],
       use: { ...devices["Desktop Firefox"] },
     },
     {
       name: "webkit",
-      testMatch: ["**/browser-compatibility.spec.ts", "**/quest-library.spec.ts"],
+      testMatch: [
+        "**/browser-compatibility.spec.ts",
+        "**/quest-journey.spec.ts",
+        "**/quest-library.spec.ts",
+      ],
       use: { ...devices["Desktop Safari"] },
     },
     {
       name: "small-phone",
-      testMatch: ["**/responsive.spec.ts", "**/quest-library.spec.ts"],
+      testMatch: ["**/responsive.spec.ts", "**/quest-journey.spec.ts", "**/quest-library.spec.ts"],
       use: { browserName: "chromium", viewport: { width: 320, height: 700 } },
     },
     {
       name: "tablet",
-      testMatch: ["**/responsive.spec.ts", "**/quest-library.spec.ts"],
+      testMatch: ["**/responsive.spec.ts", "**/quest-journey.spec.ts", "**/quest-library.spec.ts"],
       use: { ...devices["iPad (gen 7)"] },
     },
     {
       name: "mobile-webkit",
-      testMatch: ["**/responsive.spec.ts", "**/quest-library.spec.ts"],
+      testMatch: ["**/responsive.spec.ts", "**/quest-journey.spec.ts", "**/quest-library.spec.ts"],
       use: { ...devices["iPhone 15"] },
     },
   ],

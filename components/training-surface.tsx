@@ -370,7 +370,7 @@ export function TrainingSurface() {
               <dd>{quest.identity.type}</dd>
             </div>
             <div>
-              <dt>Estimated Time</dt>
+              <dt>Suggested Session</dt>
               <dd>{quest.execution.estimated_minutes} minutes</dd>
             </div>
             <div>

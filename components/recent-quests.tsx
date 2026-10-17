@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { readRecentQuestJourneys, type QuestLibraryClient } from "@/lib/quest/library-repository";
-import type { SavedQuestSummary } from "@/lib/quest/library-runtime";
+import { questLifecycleLabel, type SavedQuestSummary } from "@/lib/quest/library-runtime";
+import { journeyStageContent } from "@/lib/quest/journey-presentation";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 export function RecentQuests() {
@@ -30,7 +31,8 @@ export function RecentQuests() {
         {items.map((item) => (
           <article className="panel" key={item.questId}>
             <p className="eyebrow">
-              {item.journey.lifecycleStatus} · {item.journey.currentStage}
+              {questLifecycleLabel(item.journey.lifecycleStatus)} ·{" "}
+              {journeyStageContent[item.journey.currentStage].label}
             </p>
             <h3>{item.quest.identity.title}</h3>
             <p>{item.quest.objective.summary}</p>

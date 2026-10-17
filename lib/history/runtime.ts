@@ -50,6 +50,7 @@ export type HistoryQuest = { id: string; resolved_snapshot: Quest };
 
 export type HistoryAttempt = {
   sessionId: string;
+  questId: string;
   startedAt: string;
   endedAt: string | null;
   activeSeconds: number;
@@ -135,6 +136,7 @@ export function buildHistoryAttempts(input: {
     return [
       {
         sessionId: session.id,
+        questId: session.quest_id,
         startedAt: session.started_at,
         endedAt: session.ended_at,
         activeSeconds,

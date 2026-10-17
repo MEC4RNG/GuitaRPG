@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import {
@@ -209,6 +210,9 @@ export function ResultCompletionSurface({ sessionId }: { sessionId: string }) {
           verification describes how the claim is supported.
         </p>
       </header>
+      <Link className="text-link" href={`/quest/${snapshot.session.quest_id}`}>
+        Back to Quest Journey
+      </Link>
       {error ? (
         <p className="session-notice" role="alert">
           {error}

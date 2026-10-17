@@ -168,7 +168,7 @@ export function GenerateQuestSurface() {
               </dd>
             </div>
             <div>
-              <dt>Estimated Time</dt>
+              <dt>Suggested Session</dt>
               <dd>{quest.execution.estimated_minutes} minutes</dd>
             </div>
             <div>
@@ -218,9 +218,10 @@ export function GenerateQuestSurface() {
             </div>
           </dl>
 
-          <div className="generate-actions">
+          <p className="generate-session-note">This Quest can span multiple practice Sessions.</p>
+          <div className="generate-actions generate-actions--quest">
             <button
-              className="action-button action-button--secondary"
+              className="action-button action-button--primary"
               type="button"
               onClick={() => void persist("SAVED")}
               disabled={pending !== null || durableQuestId !== null}
@@ -236,7 +237,7 @@ export function GenerateQuestSurface() {
               Start Quest
             </button>
             <button
-              className="action-button"
+              className="action-button action-button--secondary"
               type="button"
               onClick={startPractice}
               disabled={pending !== null}
