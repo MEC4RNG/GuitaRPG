@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "UX-005",
-    "title": "Accessibility, Browser & Failure-State Hardening",
+    "id": "P6-REBASE-001",
+    "title": "Pre-Launch MEC Product Scope Rebaseline",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "OPS-001",
-    "title": "Production Environment, Recovery & Observability",
+    "id": "QST-006",
+    "title": "Quest Draft, Save & Journey Persistence",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before OPS-001"
+    "condition": "Explicit user authorization is required before QST-006"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -38,9 +38,10 @@
   "authority_files": [
     "docs/MASTER-BUILD-PLAN.md",
     "docs/architecture/QST-001-canonical-quest-contract.md",
+    "docs/architecture/QST-005-mec-quest-lifecycle-workspace-contract.md",
     "docs/architecture/DIF-001-difficulty-model-contract.md",
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_OPS_001_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_QST_006_AUTHORIZATION"
 }

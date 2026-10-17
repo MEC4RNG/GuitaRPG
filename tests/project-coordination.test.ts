@@ -66,9 +66,15 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "**COMPLETE — STAGING TUNING CONTEXT REMEDIATION VERIFIED**",
     );
 
-    expect(["P5-GATE-001", "P6-SCOPE-001", "DATA-003", "DATA-004", "SEC-001", "UX-005"]).toContain(
-      state.last_terminal_ticket.id,
-    );
+    expect([
+      "P5-GATE-001",
+      "P6-SCOPE-001",
+      "DATA-003",
+      "DATA-004",
+      "SEC-001",
+      "UX-005",
+      "P6-REBASE-001",
+    ]).toContain(state.last_terminal_ticket.id);
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
     expect(
       state.active_ticket === null ||
@@ -167,6 +173,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       } else if (state.last_terminal_ticket.id === "UX-005") {
         expect(state.next_ticket).toMatchObject({ id: "OPS-001", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_OPS_001_AUTHORIZATION");
+      } else if (state.last_terminal_ticket.id === "P6-REBASE-001") {
+        expect(state.next_ticket).toMatchObject({ id: "QST-006", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_QST_006_AUTHORIZATION");
+        expect(read("docs/tickets/QST-005.md")).toContain("COMPLETE — DESIGN CONTRACT");
+        expect(read("docs/tickets/P6-REBASE-001.md")).toContain("**Status:** COMPLETE");
       } else {
         expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
