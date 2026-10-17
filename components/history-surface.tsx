@@ -83,6 +83,9 @@ function Detail({ attempt }: { attempt: HistoryAttempt }) {
       <Link className="text-link" href="/history">
         ← All attempts
       </Link>
+      <Link className="text-link" href={`/quest/${attempt.questId}`}>
+        View Quest
+      </Link>
       <header className="page-header">
         <div>
           <p className="page-header__eyebrow">PRACTICE ATTEMPT</p>

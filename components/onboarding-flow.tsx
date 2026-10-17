@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { completeOnboarding, type OnboardingRpcClient } from "@/lib/onboarding/completion";
+import { safeOnboardingReturnPath } from "@/lib/onboarding/return-path";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 import { AccountRecoveryPanel } from "./account-recovery-panel";
@@ -19,7 +20,9 @@ type Profile = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = () => createBrowserSupabaseClient() as any;
 
-export function OnboardingFlow() {
+export function OnboardingFlow({ next }: { next?: string }) {
+  const returnPath = safeOnboardingReturnPath(next);
+  const continueLabel = returnPath === "/generate" ? "Continue to Generate" : "Continue as guest";
   const [ready, setReady] = useState(false);
   const [loadAttempt, setLoadAttempt] = useState(0);
   const [complete, setComplete] = useState(false);
@@ -126,7 +129,7 @@ export function OnboardingFlow() {
           Your preferences are saved. Skills remain UNRATED until future practice evidence or an
           honest diagnostic can assess them.
         </p>
-        <AccountRecoveryPanel onboarding />
+        <AccountRecoveryPanel onboarding continueHref={returnPath} continueLabel={continueLabel} />
       </section>
     );
   }

@@ -45,7 +45,15 @@ const identityClient = () => {
 };
 const confirmationRedirect = () => `${window.location.origin}/auth/confirm?next=/profile`;
 
-export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: boolean }) {
+export function AccountRecoveryPanel({
+  onboarding = false,
+  continueHref = "/",
+  continueLabel = "Continue as guest",
+}: {
+  onboarding?: boolean;
+  continueHref?: string;
+  continueLabel?: string;
+}) {
   const router = useRouter();
   const [identity, setIdentity] = useState<IdentityState | null>(null);
   const [email, setEmail] = useState("");
@@ -179,8 +187,8 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
           Protect your progress
         </button>
         {onboarding ? (
-          <Link className="action-button action-button--secondary" href="/">
-            Continue as guest
+          <Link className="action-button action-button--secondary" href={continueHref}>
+            {continueLabel}
           </Link>
         ) : null}
         {message ? <p role="status">{message}</p> : null}
@@ -211,8 +219,8 @@ export function AccountRecoveryPanel({ onboarding = false }: { onboarding?: bool
         Sign out
       </button>
       {onboarding ? (
-        <Link className="action-button action-button--primary" href="/">
-          Enter the app
+        <Link className="action-button action-button--primary" href={continueHref}>
+          {continueLabel === "Continue as guest" ? "Enter the app" : continueLabel}
         </Link>
       ) : null}
       {error ? <p role="alert">{error}</p> : null}

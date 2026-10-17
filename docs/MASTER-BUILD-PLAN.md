@@ -1017,7 +1017,7 @@ The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QS
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
 P6-SCOPE-001, DATA-003, DATA-004, SEC-001, and UX-005 are COMPLETE and remain authoritative.
 
-The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006 and QST-007 are COMPLETE. UX-006 is the next planned ticket and is not authorized.
+The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006 and QST-007 are COMPLETE. UX-006 is IN PROGRESS and requires explicit user visual approval of its staging-backed Preview before protected merge. CODEX-002 and later tickets remain unauthorized.
 
 The ordered program is QST-006, QST-007, UX-006, CODEX-002, QST-008, FRET-001, QST-009, TRN-005, DATA-005, SEC-002, then REL-007. Each requires separate authorization. REL-007 PASS is required before OPS-001 resumes.
 

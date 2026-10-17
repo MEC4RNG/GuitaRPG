@@ -22,18 +22,22 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(page).toHaveURL(/\/quest\/[0-9a-f-]+$/);
   const questId = new URL(page.url()).pathname.split("/").at(-1)!;
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
-  await expect(page.getByText("QUEST JOURNEY · ACTIVE")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "MAP", exact: true })).toBeVisible();
+  await expect(page.getByText("In progress", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Map the territory" })).toBeVisible();
   await expectAccessible(page, "Quest Journey Map");
 
   await page.getByRole("button", { name: "Explore" }).click();
-  await expect(page.getByRole("heading", { name: "EXPLORE", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explore it on the instrument" })).toBeVisible();
+  await expectAccessible(page, "Quest Journey Explore");
   await page.reload();
-  await expect(page.getByRole("heading", { name: "EXPLORE", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explore it on the instrument" })).toBeVisible();
   await page.getByRole("button", { name: "Craft" }).click();
-  await expect(page.getByRole("heading", { name: "CRAFT", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Create something using what you discovered." }),
+  ).toBeVisible();
+  await expectAccessible(page, "Quest Journey Craft");
   await page.getByRole("button", { name: "Map" }).click();
-  await expect(page.getByRole("heading", { name: "MAP", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Map the territory" })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 
   await page.getByRole("button", { name: "Start Practice" }).click();
@@ -43,5 +47,5 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
 
   await page.goto(`/quest/${questId}`);
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "MAP", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Map the territory" })).toBeVisible();
 });

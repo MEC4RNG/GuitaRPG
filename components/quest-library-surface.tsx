@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import {
   groupSavedQuests,
+  questLifecycleLabel,
   questOpenLabel,
   type SavedQuestSummary,
 } from "@/lib/quest/library-runtime";
@@ -47,13 +48,13 @@ function QuestCard({
           <p className="eyebrow">{item.quest.identity.type} QUEST</p>
           <h3>{item.quest.identity.title}</h3>
         </div>
-        <span className="status-chip">{status}</span>
+        <span className="status-chip">{questLifecycleLabel(status)}</span>
       </div>
       <p>{item.quest.objective.summary}</p>
       <dl className="quest-library-meta">
         <div>
           <dt>Stage</dt>
-          <dd>{item.journey.currentStage}</dd>
+          <dd>{item.journey.currentStage[0] + item.journey.currentStage.slice(1).toLowerCase()}</dd>
         </div>
         <div>
           <dt>Primary Skill</dt>

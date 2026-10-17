@@ -1,6 +1,7 @@
 name: Player data control integration
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - v1-production
