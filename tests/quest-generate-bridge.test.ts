@@ -10,6 +10,21 @@ import {
 } from "@/lib/quest/start-generated-quest";
 
 const read = (path: string) => readFileSync(resolve(import.meta.dirname, "..", path), "utf8");
+const journeyRow = (questId: string) => ({
+  quest_id: questId,
+  player_id: "10000000-0000-4000-8000-000000000001",
+  schema_version: 1,
+  lifecycle_status: "ACTIVE",
+  current_stage: "EXPLORE",
+  archived_from_status: null,
+  opened_at: "2026-10-17T12:00:00Z",
+  concluded_at: null,
+  archived_at: null,
+  abandoned_at: null,
+  last_worked_at: "2026-10-17T12:00:00Z",
+  created_at: "2026-10-17T12:00:00Z",
+  updated_at: "2026-10-17T12:00:00Z",
+});
 
 describe("QST-003-R1 generated Quest application bridge", () => {
   it("persists the exact resolved Quest through the intended RPC", async () => {
@@ -56,14 +71,14 @@ describe("QST-003-R1 generated Quest application bridge", () => {
     const session = { id: crypto.randomUUID(), quest_id: generated.quest.identity.id };
     const rpc = vi
       .fn()
-      .mockResolvedValueOnce({ data: { id: generated.quest.identity.id }, error: null })
+      .mockResolvedValueOnce({ data: journeyRow(generated.quest.identity.id), error: null })
       .mockResolvedValueOnce({ data: session, error: null });
     await expect(startGeneratedQuestPractice({ rpc }, generated.quest, null)).resolves.toEqual({
       questId: generated.quest.identity.id,
       session,
     });
     expect(rpc.mock.calls.map(([name]) => name)).toEqual([
-      "persist_generated_quest",
+      "save_generated_quest_journey",
       "start_practice_session",
     ]);
     expect(generated.quest).toEqual(original);
@@ -96,23 +111,23 @@ describe("QST-003-R1 generated Quest application bridge", () => {
     const session = { id: crypto.randomUUID(), quest_id: quest.identity.id };
     const rpc = vi
       .fn()
-      .mockResolvedValueOnce({ data: { id: quest.identity.id }, error: null })
+      .mockResolvedValueOnce({ data: journeyRow(quest.identity.id), error: null })
       .mockResolvedValueOnce({ data: session, error: null });
     await expect(startGeneratedQuestPractice({ rpc }, quest, null)).resolves.toEqual({
       questId: quest.identity.id,
       session,
     });
     expect(rpc.mock.calls.map(([name]) => name)).toEqual([
-      "persist_generated_quest",
+      "save_generated_quest_journey",
       "start_practice_session",
     ]);
   });
 
-  it("retains the durable Quest after Session failure and skips persistence on retry", async () => {
+  it("retains the durable Quest after Session failure and safely reopens it on retry", async () => {
     const quest = generateQuickQuest().quest;
     const firstRpc = vi
       .fn()
-      .mockResolvedValueOnce({ data: { id: quest.identity.id }, error: null })
+      .mockResolvedValueOnce({ data: journeyRow(quest.identity.id), error: null })
       .mockResolvedValueOnce({ data: null, error: { message: "temporary" } });
     let durableId: string | null = null;
     try {
@@ -124,17 +139,20 @@ describe("QST-003-R1 generated Quest application bridge", () => {
     }
 
     const session = { id: crypto.randomUUID() };
-    const retryRpc = vi.fn().mockResolvedValue({ data: session, error: null });
+    const retryRpc = vi
+      .fn()
+      .mockResolvedValueOnce({ data: journeyRow(quest.identity.id), error: null })
+      .mockResolvedValueOnce({ data: session, error: null });
     await expect(startGeneratedQuestPractice({ rpc: retryRpc }, quest, durableId)).resolves.toEqual(
       {
         questId: quest.identity.id,
         session,
       },
     );
-    expect(retryRpc).toHaveBeenCalledOnce();
-    expect(retryRpc).toHaveBeenCalledWith("start_practice_session", {
-      p_quest_id: quest.identity.id,
-    });
+    expect(retryRpc.mock.calls.map(([name]) => name)).toEqual([
+      "save_generated_quest_journey",
+      "start_practice_session",
+    ]);
   });
 
   it("ships the real accessible Quick Generate surface without the placeholder", () => {

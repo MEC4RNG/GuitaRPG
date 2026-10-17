@@ -23,6 +23,7 @@ export default defineConfig({
       testMatch: [
         "**/core-loop.spec.ts",
         "**/phase5-launch-package.spec.ts",
+        "**/quest-journey.spec.ts",
         "**/recoverable-identity.spec.ts",
       ],
       use: { ...devices["Pixel 7"], channel: process.env.CI ? "chrome" : undefined },

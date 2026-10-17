@@ -23,6 +23,21 @@ import { deriveRecordedActiveSeconds, type PracticeSessionEvent } from "@/lib/se
 
 describe("REL-002 production core-loop seams", () => {
   const read = (path: string) => readFileSync(resolve(import.meta.dirname, "..", path), "utf8");
+  const journeyRow = (questId: string) => ({
+    quest_id: questId,
+    player_id: "10000000-0000-4000-8000-000000000001",
+    schema_version: 1,
+    lifecycle_status: "ACTIVE",
+    current_stage: "EXPLORE",
+    archived_from_status: null,
+    opened_at: "2026-10-17T12:00:00Z",
+    concluded_at: null,
+    archived_at: null,
+    abandoned_at: null,
+    last_worked_at: "2026-10-17T12:00:00Z",
+    created_at: "2026-10-17T12:00:00Z",
+    updated_at: "2026-10-17T12:00:00Z",
+  });
 
   it("composes Quick generation, atomic persistence, and SES start in production order", async () => {
     const generated = generateQuickQuest({ seed: "rel-002-quick" });
@@ -35,14 +50,14 @@ describe("REL-002 production core-loop seams", () => {
     const session = { id: crypto.randomUUID(), quest_id: generated.quest.identity.id };
     const rpc = vi
       .fn()
-      .mockResolvedValueOnce({ data: { id: generated.quest.identity.id }, error: null })
+      .mockResolvedValueOnce({ data: journeyRow(generated.quest.identity.id), error: null })
       .mockResolvedValueOnce({ data: session, error: null });
     await expect(startGeneratedQuestPractice({ rpc }, generated.quest, null)).resolves.toEqual({
       questId: generated.quest.identity.id,
       session,
     });
     expect(rpc.mock.calls.map(([name]) => name)).toEqual([
-      "persist_generated_quest",
+      "save_generated_quest_journey",
       "start_practice_session",
     ]);
     expect(session.quest_id).toBe(generated.quest.identity.id);
@@ -64,7 +79,7 @@ describe("REL-002 production core-loop seams", () => {
 
     const first = vi
       .fn()
-      .mockResolvedValueOnce({ data: { id: quest.identity.id }, error: null })
+      .mockResolvedValueOnce({ data: journeyRow(quest.identity.id), error: null })
       .mockResolvedValueOnce({ data: null, error: { message: "start unavailable" } });
     let durableId: string | null = null;
     try {
@@ -73,14 +88,18 @@ describe("REL-002 production core-loop seams", () => {
       expect(error).toBeInstanceOf(GeneratedQuestStartError);
       durableId = (error as GeneratedQuestStartError).durableQuestId;
     }
-    const retry = vi.fn().mockResolvedValue({
-      data: { id: "session-retry", quest_id: quest.identity.id },
-      error: null,
-    });
+    const retry = vi
+      .fn()
+      .mockResolvedValueOnce({ data: journeyRow(quest.identity.id), error: null })
+      .mockResolvedValueOnce({
+        data: { id: "session-retry", quest_id: quest.identity.id },
+        error: null,
+      });
     await startGeneratedQuestPractice({ rpc: retry }, quest, durableId);
-    expect(retry).toHaveBeenCalledExactlyOnceWith("start_practice_session", {
-      p_quest_id: quest.identity.id,
-    });
+    expect(retry.mock.calls.map(([name]) => name)).toEqual([
+      "save_generated_quest_journey",
+      "start_practice_session",
+    ]);
   });
 
   it("carries exact DORIAN Session evidence through EVD and the History read model", async () => {
