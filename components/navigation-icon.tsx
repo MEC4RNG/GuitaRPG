@@ -12,6 +12,12 @@ const paths: Record<NavigationItem["icon"], React.ReactNode> = {
       <path d="m17.5 4.5 2 2M4.5 17.5l2 2" />
     </>
   ),
+  quests: (
+    <>
+      <path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 0-2 2V4Z" />
+      <path d="M5 18h12M9 8h6M9 12h6" />
+    </>
+  ),
   training: (
     <>
       <path d="M5 7h14M5 17h14M8 4v6M16 14v6" />

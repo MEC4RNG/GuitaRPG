@@ -3,7 +3,16 @@ export type AppSurface = "hud" | "codex" | "lab";
 export type NavigationItem = {
   label: string;
   href: string;
-  icon: "home" | "generate" | "training" | "character" | "skills" | "history" | "codex" | "profile";
+  icon:
+    | "home"
+    | "generate"
+    | "quests"
+    | "training"
+    | "character"
+    | "skills"
+    | "history"
+    | "codex"
+    | "profile";
   surface: AppSurface;
   mobile?: boolean;
   primaryAction?: boolean;
@@ -27,6 +36,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
         mobile: true,
         primaryAction: true,
       },
+      { label: "Quests", href: "/quests", icon: "quests", surface: "hud" },
       { label: "Training", href: "/training", icon: "training", surface: "hud" },
     ],
   },
@@ -61,6 +71,8 @@ export function isRouteActive(pathname: string, href: string) {
 }
 
 export function getNavigationItem(pathname: string) {
+  if (pathname.startsWith("/quest/"))
+    return ALL_NAVIGATION_ITEMS.find((item) => item.href === "/quests")!;
   return (
     ALL_NAVIGATION_ITEMS.find((item) => isRouteActive(pathname, item.href)) ??
     ALL_NAVIGATION_ITEMS[0]

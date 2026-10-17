@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Panel } from "@/components/panel";
+import { RecentQuests } from "@/components/recent-quests";
 
 export default function Home() {
   return (
@@ -50,6 +51,8 @@ export default function Home() {
           </ol>
         </div>
       </section>
+
+      <RecentQuests />
 
       <section className="home-grid" aria-label="Practice tools">
         <Panel raised>

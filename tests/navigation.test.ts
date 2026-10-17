@@ -20,7 +20,7 @@ describe("UX-002 application navigation", () => {
 
     expect(
       NAVIGATION_GROUPS.find((group) => group.label === "Play")?.items.map((item) => item.label),
-    ).toEqual(["Home", "Generate", "Training"]);
+    ).toEqual(["Home", "Generate", "Quests", "Training"]);
     expect(
       NAVIGATION_GROUPS.find((group) => group.label === "Development")?.items.map(
         (item) => item.label,
@@ -55,6 +55,8 @@ describe("UX-002 application navigation", () => {
     expect(getSurfaceForPath("/")).toBe("hud");
     expect(getSurfaceForPath("/generate")).toBe("hud");
     expect(getSurfaceForPath("/training")).toBe("hud");
+    expect(getSurfaceForPath("/quests")).toBe("hud");
+    expect(getSurfaceForPath("/quest/0247")).toBe("hud");
     expect(getSurfaceForPath("/character")).toBe("lab");
     expect(getSurfaceForPath("/skills")).toBe("lab");
     expect(getSurfaceForPath("/history")).toBe("lab");
@@ -66,6 +68,7 @@ describe("UX-002 application navigation", () => {
   it("keeps nested routes active under their owning navigation item", () => {
     expect(isRouteActive("/skills/alternate-picking", "/skills")).toBe(true);
     expect(isRouteActive("/quest/0247", "/")).toBe(false);
+    expect(getNavigationItem("/quest/0247").label).toBe("Quests");
     expect(getNavigationItem("/codex/dorian").label).toBe("Codex");
     expect(getNavigationItem("/history/attempt-1").label).toBe("History");
   });

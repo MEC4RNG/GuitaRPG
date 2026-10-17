@@ -862,6 +862,90 @@ a {
   gap: var(--space-5);
 }
 
+.quest-library,
+.quest-library-section,
+.recent-quests {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.quest-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-4);
+}
+
+.quest-library-card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: var(--border-standard) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.quest-library-card__heading,
+.recent-quests__heading,
+.quest-library-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.quest-library-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--space-3);
+}
+
+.quest-library-meta div,
+.quest-session-list li {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.quest-library-meta dt {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.quest-session-list {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.quest-session-list li {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  padding-block: var(--space-3);
+  border-bottom: var(--border-standard) solid var(--color-border);
+}
+
+.quest-session-list li > div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.text-button {
+  min-height: var(--touch-target-min);
+  border: 0;
+  background: transparent;
+  color: var(--color-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 36rem) {
+  .quest-session-list li {
+    grid-template-columns: 1fr;
+  }
+}
+
 .generate-empty,
 .generate-preview {
   display: grid;
