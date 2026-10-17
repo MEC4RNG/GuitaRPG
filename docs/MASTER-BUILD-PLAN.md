@@ -4,6 +4,8 @@
 **Project:** GuitaRPG  
 **Status:** ACTIVE  
 **Current phase:** Phase 6 — Hardening & Launch — IN PROGRESS
+
+**Current sub-stage:** Phase 6B — Pre-Launch MEC Product Completion Program
 **Production-development branch:** `v1-production`  
 **Legacy branch:** `main` — preserve until an explicit production cutover ticket passes
 
@@ -151,7 +153,7 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 3 gate:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
-**Last terminal ticket:** `UX-005 — Accessibility, Browser & Failure-State Hardening` — COMPLETE
+**Last terminal ticket:** `P6-REBASE-001 — Pre-Launch MEC Product Scope Rebaseline` — COMPLETE
 
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
@@ -159,7 +161,8 @@ If implementation reveals that a contract is wrong or incomplete:
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through SEC-001 `20260929130000`; applied and verified
-**Next planned ticket:** `OPS-001 — Production Environment, Recovery & Observability` — NOT AUTHORIZED
+**Next planned ticket:** `QST-006 — Quest Draft, Save & Journey Persistence` — NOT AUTHORIZED
+**Paused ticket:** `OPS-001 — Production Environment, Recovery & Observability` — IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
 
@@ -356,7 +359,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS through completed UX-005; OPS-001 is next and not authorized.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006 is next and not authorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
 
 Purpose:
 
@@ -401,21 +404,49 @@ Purpose:
 
 Prove production readiness and perform an explicit cutover.
 
-Expected work:
+P6-SCOPE-001 established a v1 feature freeze. On 2026-10-17 the user explicitly accepted a launch delay and authorized one bounded exception: the QST-005 MEC Quest experience is launch-defining and must be completed before public launch. This exception does not reopen unrelated Phase 5 deferrals or authorize an implementation ticket automatically.
+
+#### Phase 6A — Completed launch-hardening baseline
 
 - `P6-SCOPE-001` — Phase 6 Launch Hardening Scope Review — COMPLETE
 - `DATA-003` — Recoverable Identity & Guest Safety — COMPLETE
-- `DATA-004` — Player Export & Account Deletion — COMPLETE
-- `SEC-001` — Production Security & Supply-Chain Audit — COMPLETE
-- `UX-005` — Accessibility, Browser & Failure-State Hardening — COMPLETE
-- `OPS-001` — Production Environment, Recovery & Observability — proposed / unauthorized
+- `DATA-004` — Player Export & Account Deletion — COMPLETE for the pre-MEC data graph
+- `SEC-001` — Production Security & Supply-Chain Audit — COMPLETE for the pre-MEC surface
+- `UX-005` — Accessibility, Browser & Failure-State Hardening — COMPLETE for the existing application baseline
+
+These tickets and all completed Phases 0–5 remain complete. New MEC surfaces receive incremental evidence in their owning tickets, DATA-005, SEC-002, and REL-007 rather than retroactively reopening completed work.
+
+#### Phase 6B — Pre-Launch MEC Product Completion Program
+
+- `QST-005` — Multi-Stage Quest Lifecycle & Workspace Contract — COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION
+- `P6-REBASE-001` — Pre-Launch MEC Product Scope Rebaseline — COMPLETE
+- `QST-006` — Quest Draft, Save & Journey Persistence — proposed / next / unauthorized
+- `QST-007` — Saved Quest Library & Journey Read Model — proposed / unauthorized
+- `UX-006` — MEC Quest Journey Experience — proposed / unauthorized
+- `CODEX-002` — Contextual Codex Peek — proposed / unauthorized
+- `QST-008` — Quest Journal Workspace — proposed / unauthorized
+- `FRET-001` — Quest-Aware Fretboard Workspace — proposed / unauthorized
+- `QST-009` — Progressive Build Quest Composer — proposed / unauthorized
+- `TRN-005` — Training-to-Journey Integration — proposed / unauthorized
+- `DATA-005` — Journey Export, Deletion & Device-Session Remediation — proposed / unauthorized
+- `SEC-002` — MEC Incremental Security Audit — proposed / unauthorized
+- `REL-007` — MEC Journey Integration Gate — proposed / unauthorized
+
+The bounded minimum is generated-draft survival, Save Quest, Start Quest, Saved Quest library, persistent Journey lifecycle, Map/Explore/Craft shell, repeated Sessions, Practice Again, Codex Peek, basic Journal, functional Quest-aware fretboard, Build Quest over the existing Custom engine, Training integration, export/deletion, device-aware sign-out, and integrated desktop/mobile/accessibility/security proof.
+
+Realtime collaboration, notation/tab, recording/raw-audio storage, backing tracks, DAW/timeline, automatic fingering or creative-quality scoring, Campaigns, Daily, social, teacher/student, and analytics expansion remain deferred.
+
+#### Phase 6C — Resume production hardening
+
+- `OPS-001` — Production Environment, Recovery & Observability — IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION
+
+OPS-001 resumes only after REL-007 PASS. Its production-project identity, topology decisions, runbooks, environment separation, and operational rehearsal experience remain useful. Its pre-MEC schema head, database/security results, zero-row launch counts, backup/restore artifact, staged deployment, browser proof, smoke, exact release SHA, and release-log evidence must be refreshed against the final MEC release candidate.
+
+#### Phase 6D — Final release proof
+
 - `REL-006` — Production Readiness Integration — proposed / unauthorized
 - `P6-GATE-001` — Hardening & Launch Readiness Gate — proposed / unauthorized
 - `CUTOVER-001` — Production Cutover — proposed / separately authorized after gate PASS
-
-The Phase 6 scope review establishes a v1 feature freeze. Phase 6 hardens the accepted product;
-it does not reopen audio, visualizers, Daily, Campaign, expanded generation, or other Phase 5
-deferrals without a concrete launch blocker.
 
 No legacy-site replacement occurs before the cutover ticket passes.
 
@@ -920,7 +951,7 @@ The goal is not to minimize ambition. The goal is to prevent unrelated ambition 
 
 Current high-level critical path:
 
-**FOUNDATION → PERSISTENCE → TAXONOMY → PLAYER → ONBOARDING → QUEST ENGINE → PRACTICE SESSION → RESULT/EVIDENCE → PROGRESSION → TRAINING/RECOMMENDATION → HARDENING → CUTOVER**
+**FOUNDATION → PERSISTENCE → TAXONOMY → PLAYER → ONBOARDING → QUEST ENGINE → PRACTICE SESSION → RESULT/EVIDENCE → PROGRESSION → TRAINING/RECOMMENDATION → BASELINE HARDENING → MEC JOURNEY COMPLETION → RESUMED PRODUCTION HARDENING → FINAL RELEASE PROOF → CUTOVER**
 
 The product should not build deep secondary systems ahead of the critical path merely because they are interesting.
 
@@ -982,8 +1013,13 @@ remains unauthorized.
 
 The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004,
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
-P6-SCOPE-001, DATA-003, DATA-004, SEC-001, and UX-005 are COMPLETE. OPS-001 is next and remains unauthorized; REL-006 and P6-GATE-001 remain future work, and CUTOVER-001 requires separate authorization.
-Production cutover remains unauthorized.
+P6-SCOPE-001, DATA-003, DATA-004, SEC-001, and UX-005 are COMPLETE and remain authoritative.
+
+The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006 is the next planned ticket and is not authorized.
+
+The ordered program is QST-006, QST-007, UX-006, CODEX-002, QST-008, FRET-001, QST-009, TRN-005, DATA-005, SEC-002, then REL-007. Each requires separate authorization. REL-007 PASS is required before OPS-001 resumes.
+
+OPS-001 is IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION. Its local work, production project, topology/runbook decisions, private-backup destination, and operational rehearsal progress are preserved. Pre-MEC release-specific database, backup/restore, deployment, browser, smoke, SHA, and log evidence must be refreshed after MEC. REL-006 and P6-GATE-001 follow resumed OPS-001, and CUTOVER-001 remains separately authorized only after the gate passes. Public traffic and production cutover remain unchanged and unauthorized.
 
 ---
 
