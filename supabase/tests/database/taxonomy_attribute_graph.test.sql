@@ -28,8 +28,16 @@ select extensions.throws_ok($$update public.taxonomy_relationships set metadata=
 select extensions.throws_ok($$delete from public.taxonomy_relationships where relationship_type='AFFECTS'$$,'42501',null,'authenticated clients cannot delete taxonomy relationships');
 set local role postgres;
 
-select extensions.is((select count(*)::bigint from public.player_skill_states),0::bigint,'TAX-004 creates no Player Skill state');
-select extensions.is((select count(*)::bigint from public.player_attribute_states),0::bigint,'TAX-004 derives no Player Attribute state');
+select extensions.is(
+  (select count(*)::bigint from public.player_skill_states),
+  (select count(*)::bigint from auth.users) * 72,
+  'TAX-004 creates no Skill state beyond the Player bootstrap contract'
+);
+select extensions.is(
+  (select count(*)::bigint from public.player_attribute_states),
+  (select count(*)::bigint from auth.users) * 11,
+  'TAX-004 derives no Attribute state beyond the Player bootstrap contract'
+);
 
 select * from extensions.finish();
 rollback;

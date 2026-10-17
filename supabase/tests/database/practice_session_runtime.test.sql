@@ -236,7 +236,9 @@ select extensions.lives_ok(
 set local role postgres;
 
 set local role service_role;
-select extensions.is((select count(*)::bigint from public.practice_sessions), 3::bigint, 'trusted service role can read Session telemetry');
+select extensions.is((select count(*)::bigint from public.practice_sessions where player_id in (
+  '51111111-1111-4111-8111-111111111111','52222222-2222-4222-8222-222222222222','53333333-3333-4333-8333-333333333333'
+)), 3::bigint, 'trusted service role can read fixture Session telemetry');
 set local role postgres;
 
 insert into public.practice_sessions (
