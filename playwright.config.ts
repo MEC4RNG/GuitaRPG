@@ -1,7 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const port = Number(process.env.E2E_PORT ?? 3000);
-const baseURL = `http://127.0.0.1:${port}`;
+const externalBaseURL = process.env.E2E_BASE_URL;
+const baseURL = externalBaseURL ?? `http://127.0.0.1:${port}`;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -23,6 +24,7 @@ export default defineConfig({
       testMatch: [
         "**/core-loop.spec.ts",
         "**/phase5-launch-package.spec.ts",
+        "**/quest-journey.spec.ts",
         "**/recoverable-identity.spec.ts",
       ],
       use: { ...devices["Pixel 7"], channel: process.env.CI ? "chrome" : undefined },
@@ -53,9 +55,11 @@ export default defineConfig({
       use: { ...devices["iPhone 15"] },
     },
   ],
-  webServer: {
-    command: `npm run start -- -p ${port}`,
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: externalBaseURL
+    ? undefined
+    : {
+        command: `npm run start -- -p ${port}`,
+        url: baseURL,
+        reuseExistingServer: !process.env.CI,
+      },
 });

@@ -1,38 +1,83 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
 import { generateQuickQuest, type GeneratedQuest } from "@/lib/quest/generator";
+import { toQuestPersistenceInput } from "@/lib/quest/runtime";
 import { questCodexReferences } from "@/lib/quest/codex-references";
 import {
   GeneratedQuestStartError,
   startGeneratedQuestPractice,
 } from "@/lib/quest/start-generated-quest";
-import type { QuestPersistenceRpcClient } from "@/lib/quest/repository";
+import { saveGeneratedQuestJourney, type JourneyRpcClient } from "@/lib/quest/journey-repository";
+import { clearQuestDraft, readQuestDraft, saveQuestDraft } from "@/lib/quest/draft-v1";
 import type { SessionRpcClient } from "@/lib/session/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { safeErrorMessage } from "@/lib/ux/safe-error";
 
-type GenerateClient = QuestPersistenceRpcClient & SessionRpcClient;
+type GenerateClient = JourneyRpcClient & SessionRpcClient;
 
 export function GenerateQuestSurface() {
   const router = useRouter();
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
   const [durableQuestId, setDurableQuestId] = useState<string | null>(null);
-  const [pending, setPending] = useState<"GENERATING" | "STARTING" | null>(null);
+  const [ownerId, setOwnerId] = useState<string | null>(null);
+  const [pending, setPending] = useState<"GENERATING" | "SAVING" | "STARTING" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  function generate() {
+  useEffect(() => {
+    const supabase = createBrowserSupabaseClient();
+    void supabase.auth.getUser().then(({ data }) => {
+      const id = data.user?.id ?? null;
+      setOwnerId(id);
+      if (!id) return;
+      const draft = readQuestDraft(window.sessionStorage, id);
+      if (draft)
+        setGenerated({ quest: draft.quest, persistence: toQuestPersistenceInput(draft.quest) });
+    });
+  }, []);
+
+  async function generate() {
     if (pending) return;
+    if (generated && !durableQuestId && !window.confirm("Replace your unsaved Quest draft?"))
+      return;
     setPending("GENERATING");
     setError(null);
     try {
-      setGenerated(generateQuickQuest());
+      const resolvedOwnerId =
+        ownerId ?? (await createBrowserSupabaseClient().auth.getUser()).data.user?.id ?? null;
+      if (!resolvedOwnerId) {
+        throw new Error("A Player identity is required before generating a Quest");
+      }
+      setOwnerId(resolvedOwnerId);
+      const next = generateQuickQuest();
+      setGenerated(next);
       setDurableQuestId(null);
+      saveQuestDraft(window.sessionStorage, resolvedOwnerId, next.quest);
     } catch {
       setError("A Quest could not be generated. Please retry.");
+    } finally {
+      setPending(null);
+    }
+  }
+
+  async function persist(mode: "SAVED" | "START") {
+    if (!generated || pending) return;
+    setPending("SAVING");
+    setError(null);
+    try {
+      const journey = await saveGeneratedQuestJourney(
+        createBrowserSupabaseClient() as unknown as GenerateClient,
+        generated.quest,
+        mode,
+      );
+      setDurableQuestId(journey.questId);
+      clearQuestDraft(window.sessionStorage);
+      if (mode === "START") router.push(`/quest/${journey.questId}`);
+    } catch {
+      setError("Your Quest could not be saved. Your draft is still available; please retry.");
     } finally {
       setPending(null);
     }
@@ -46,10 +91,12 @@ export function GenerateQuestSurface() {
       const client = createBrowserSupabaseClient() as unknown as GenerateClient;
       const started = await startGeneratedQuestPractice(client, generated.quest, durableQuestId);
       setDurableQuestId(started.questId);
+      clearQuestDraft(window.sessionStorage);
       router.push(`/session/${started.session.id}`);
     } catch (caught) {
       if (caught instanceof GeneratedQuestStartError) {
         setDurableQuestId(caught.durableQuestId);
+        if (caught.durableQuestId) clearQuestDraft(window.sessionStorage);
         setError(
           caught.stage === "SESSION_START"
             ? `${caught.message} Your Quest is saved; retry Start Practice to enter it.`
@@ -81,7 +128,7 @@ export function GenerateQuestSurface() {
         <button
           className="action-button"
           type="button"
-          onClick={generate}
+          onClick={() => void generate()}
           disabled={pending !== null}
         >
           {pending === "GENERATING" ? "Generating…" : quest ? "Generate Another" : "Generate Quest"}
@@ -170,18 +217,32 @@ export function GenerateQuestSurface() {
             </div>
           </dl>
 
-          <button
-            className="action-button"
-            type="button"
-            onClick={startPractice}
-            disabled={pending !== null}
-          >
-            {pending === "STARTING"
-              ? "Starting Practice…"
-              : durableQuestId
-                ? "Retry Start Practice"
-                : "Start Practice"}
-          </button>
+          <div className="generate-actions">
+            <button
+              className="action-button action-button--secondary"
+              type="button"
+              onClick={() => void persist("SAVED")}
+              disabled={pending !== null || durableQuestId !== null}
+            >
+              {durableQuestId ? "Quest saved" : pending === "SAVING" ? "Saving…" : "Save Quest"}
+            </button>
+            <button
+              className="action-button action-button--secondary"
+              type="button"
+              onClick={() => void persist("START")}
+              disabled={pending !== null}
+            >
+              Start Quest
+            </button>
+            <button
+              className="action-button"
+              type="button"
+              onClick={startPractice}
+              disabled={pending !== null}
+            >
+              {pending === "STARTING" ? "Starting Practice…" : "Start Practice"}
+            </button>
+          </div>
         </article>
       )}
     </section>

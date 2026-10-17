@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "P6-REBASE-001",
-    "title": "Pre-Launch MEC Product Scope Rebaseline",
+    "id": "QST-006",
+    "title": "Quest Draft, Save & Journey Persistence",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "QST-006",
-    "title": "Quest Draft, Save & Journey Persistence",
+    "id": "QST-007",
+    "title": "Saved Quest Library & Journey Read Model",
     "authorized_to_start": false,
-    "condition": "Explicit user authorization is required before QST-006"
+    "condition": "Explicit user authorization is required before QST-007"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -43,5 +43,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_QST_006_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_QST_007_AUTHORIZATION"
 }

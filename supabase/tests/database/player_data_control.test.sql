@@ -83,8 +83,8 @@ select extensions.is(
       and source_ns.nspname in ('public','private')
       and c.confdeltype='c'
   ),
-  17::bigint,
-  'all 17 direct public/private Player ownership foreign keys cascade from Auth'
+  18::bigint,
+  'all 18 direct public/private Player ownership foreign keys cascade from Auth'
 );
 select extensions.is(
   (

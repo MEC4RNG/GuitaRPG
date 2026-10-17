@@ -22,11 +22,11 @@ import {
   GeneratedQuestStartError,
   startGeneratedQuestPractice,
 } from "@/lib/quest/start-generated-quest";
-import type { QuestPersistenceRpcClient } from "@/lib/quest/repository";
+import type { JourneyRpcClient } from "@/lib/quest/journey-repository";
 import type { SessionRpcClient } from "@/lib/session/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-type TrainingClient = TrainingCandidateReadClient & QuestPersistenceRpcClient & SessionRpcClient;
+type TrainingClient = TrainingCandidateReadClient & JourneyRpcClient & SessionRpcClient;
 const client = () => createBrowserSupabaseClient() as unknown as TrainingClient;
 export function TrainingSurface() {
   const router = useRouter();

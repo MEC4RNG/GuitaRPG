@@ -6,8 +6,8 @@ select * from extensions.no_plan();
 
 select extensions.is(
   (select count(*)::bigint from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'),
-  26::bigint,
-  'release surface contains the expected 26 public tables'
+  27::bigint,
+  'release surface contains the expected 27 public tables'
 );
 select extensions.is(
   (select count(*)::bigint from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('v','m')),
@@ -21,13 +21,13 @@ select extensions.is(
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'),
-  13::bigint,
-  'public RPC surface is exactly 13 functions'
+  17::bigint,
+  'public RPC surface is exactly 17 functions'
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='private'),
-  36::bigint,
-  'private function surface is exactly 36 functions'
+  37::bigint,
+  'private function surface is exactly 37 functions'
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace
@@ -61,10 +61,11 @@ select extensions.is(
    where n.nspname='public' and has_function_privilege('authenticated',p.oid,'execute')),
   array[
     'adjust_practice_session_reps','complete_player_onboarding','end_practice_session',
-    'export_player_data_v1','finalize_quest_result','pause_practice_session',
+    'ensure_quest_journey','export_player_data_v1','finalize_quest_result','pause_practice_session',
     'persist_generated_quest','practice_session_active_seconds','refresh_player_readiness',
-    'resume_practice_session','save_player_profile_v1','set_practice_session_metronome_bpm',
-    'start_practice_session'
+    'resume_practice_session','save_generated_quest_journey','save_player_profile_v1',
+    'set_practice_session_metronome_bpm','set_quest_journey_stage','start_practice_session',
+    'transition_quest_journey'
   ]::text[],
   'authenticated EXECUTE privileges equal the browser RPC allowlist'
 );
