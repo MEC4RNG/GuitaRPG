@@ -10,7 +10,8 @@ test("critical public navigation works across engines", async ({ page }) => {
     "/generate",
   );
   await page.goto("/generate");
-  await expect(page.getByRole("button", { name: "Generate Quest" })).toBeVisible();
+  await expect(page).toHaveURL(/\/onboarding\?next=(?:%2F|\/)generate/);
+  await expect(page.getByRole("heading", { name: "Set your starting point." })).toBeVisible();
   await page.goto("/codex");
   await page.getByLabel("Search the Codex").fill("Dorian");
   await expect(page.getByRole("link", { name: "Dorian", exact: true })).toHaveAttribute(
