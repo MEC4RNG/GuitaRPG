@@ -21,7 +21,7 @@
   "active_ticket": {
     "id": "UX-006",
     "title": "MEC Quest Journey Experience",
-    "status": "IN_PROGRESS"
+    "status": "AWAITING_USER_VISUAL_REVIEW"
   },
   "next_ticket": {
     "id": "CODEX-002",
@@ -47,5 +47,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "UX_006_IMPLEMENTATION_IN_PROGRESS"
+  "execution_status": "AWAITING_USER_VISUAL_REVIEW"
 }
