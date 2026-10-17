@@ -4,6 +4,11 @@ import { OnboardingFlow } from "@/components/onboarding-flow";
 
 export const metadata: Metadata = { title: "Welcome" };
 
-export default function OnboardingPage() {
-  return <OnboardingFlow />;
+export default async function OnboardingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  return <OnboardingFlow next={next} />;
 }

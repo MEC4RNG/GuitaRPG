@@ -23,6 +23,7 @@ export default defineConfig({
       name: "mobile-chromium",
       testMatch: [
         "**/core-loop.spec.ts",
+        "**/generate-player-bootstrap.spec.ts",
         "**/phase5-launch-package.spec.ts",
         "**/quest-journey.spec.ts",
         "**/quest-library.spec.ts",
@@ -60,7 +61,12 @@ export default defineConfig({
     },
     {
       name: "mobile-webkit",
-      testMatch: ["**/responsive.spec.ts", "**/quest-journey.spec.ts", "**/quest-library.spec.ts"],
+      testMatch: [
+        "**/responsive.spec.ts",
+        "**/generate-player-bootstrap.spec.ts",
+        "**/quest-journey.spec.ts",
+        "**/quest-library.spec.ts",
+      ],
       use: { ...devices["iPhone 15"] },
     },
   ],

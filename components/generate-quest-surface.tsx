@@ -22,6 +22,7 @@ type GenerateClient = JourneyRpcClient & SessionRpcClient;
 
 export function GenerateQuestSurface() {
   const router = useRouter();
+  const [identityReady, setIdentityReady] = useState(false);
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
   const [durableQuestId, setDurableQuestId] = useState<string | null>(null);
   const [ownerId, setOwnerId] = useState<string | null>(null);
@@ -30,15 +31,24 @@ export function GenerateQuestSurface() {
 
   useEffect(() => {
     const supabase = createBrowserSupabaseClient();
-    void supabase.auth.getUser().then(({ data }) => {
+    void supabase.auth.getUser().then(({ data, error: authError }) => {
+      if (authError) {
+        setError("We couldn’t prepare your Player session. Please try again.");
+        setIdentityReady(true);
+        return;
+      }
       const id = data.user?.id ?? null;
+      if (!id) {
+        router.replace("/onboarding?next=/generate");
+        return;
+      }
       setOwnerId(id);
-      if (!id) return;
       const draft = readQuestDraft(window.sessionStorage, id);
       if (draft)
         setGenerated({ quest: draft.quest, persistence: toQuestPersistenceInput(draft.quest) });
+      setIdentityReady(true);
     });
-  }, []);
+  }, [router]);
 
   async function generate() {
     if (pending) return;
@@ -47,10 +57,15 @@ export function GenerateQuestSurface() {
     setPending("GENERATING");
     setError(null);
     try {
-      const resolvedOwnerId =
-        ownerId ?? (await createBrowserSupabaseClient().auth.getUser()).data.user?.id ?? null;
+      const identity = ownerId ? null : await createBrowserSupabaseClient().auth.getUser();
+      if (identity?.error) {
+        setError("We couldn’t prepare your Player session. Please try again.");
+        return;
+      }
+      const resolvedOwnerId = ownerId ?? identity?.data.user?.id ?? null;
       if (!resolvedOwnerId) {
-        throw new Error("A Player identity is required before generating a Quest");
+        router.replace("/onboarding?next=/generate");
+        return;
       }
       setOwnerId(resolvedOwnerId);
       const next = generateQuickQuest();
@@ -130,9 +145,15 @@ export function GenerateQuestSurface() {
           className="action-button"
           type="button"
           onClick={() => void generate()}
-          disabled={pending !== null}
+          disabled={!identityReady || pending !== null}
         >
-          {pending === "GENERATING" ? "Generating…" : quest ? "Generate Another" : "Generate Quest"}
+          {!identityReady
+            ? "Preparing Player…"
+            : pending === "GENERATING"
+              ? "Generating…"
+              : quest
+                ? "Generate Another"
+                : "Generate Quest"}
         </button>
       </header>
 

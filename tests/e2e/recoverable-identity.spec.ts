@@ -85,6 +85,9 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   await expect(page.getByRole("button", { name: "Sign out" })).toHaveCount(0);
 
   await page.getByRole("link", { name: "Continue as guest" }).click();
+  await page.goto("/generate");
+  await expect(page).toHaveURL(/\/generate$/);
+  await expect(page.getByRole("button", { name: "Generate Quest" })).toBeEnabled();
   await page.goto("/profile");
   await expect(page.getByText("Guest Player", { exact: false }).first()).toBeVisible();
   await expect(page.getByRole("button", { name: "Sign out" })).toHaveCount(0);
@@ -108,6 +111,10 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   await expect(page.getByText(email, { exact: false })).toBeVisible();
   await expect(page.getByLabel("Display name (optional)")).toHaveValue("Recovery Riff");
   await expect(page.getByText("This guest Player is tied to this browser session")).toHaveCount(0);
+  await page.goto("/generate");
+  await expect(page).toHaveURL(/\/generate$/);
+  await expect(page.getByRole("button", { name: "Generate Quest" })).toBeEnabled();
+  await page.goto("/profile");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
