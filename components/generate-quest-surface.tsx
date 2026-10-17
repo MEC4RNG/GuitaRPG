@@ -32,13 +32,13 @@ export function GenerateQuestSurface() {
   useEffect(() => {
     const supabase = createBrowserSupabaseClient();
     void supabase.auth.getUser().then(({ data, error: authError }) => {
-      if (authError) {
-        setError("We couldn’t prepare your Player session. Please try again.");
-        setIdentityReady(true);
-        return;
-      }
       const id = data.user?.id ?? null;
       if (!id) {
+        if (authError && authError.name !== "AuthSessionMissingError") {
+          setError("We couldn’t prepare your Player session. Please try again.");
+          setIdentityReady(true);
+          return;
+        }
         router.replace("/onboarding?next=/generate");
         return;
       }
@@ -58,7 +58,7 @@ export function GenerateQuestSurface() {
     setError(null);
     try {
       const identity = ownerId ? null : await createBrowserSupabaseClient().auth.getUser();
-      if (identity?.error) {
+      if (identity?.error && identity.error.name !== "AuthSessionMissingError") {
         setError("We couldn’t prepare your Player session. Please try again.");
         return;
       }
