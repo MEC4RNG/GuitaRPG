@@ -41,13 +41,17 @@ values
   ('33333333-3333-4333-8333-333333333333', null);
 
 select extensions.is(
-  (select count(*)::bigint from public.player_profiles),
+  (select count(*)::bigint from public.player_profiles where player_id in (
+    '11111111-1111-4111-8111-111111111111','22222222-2222-4222-8222-222222222222','33333333-3333-4333-8333-333333333333'
+  )),
   3::bigint,
   'Auth inserts bootstrap one Player profile each'
 );
 
 select extensions.is(
-  (select count(*)::bigint from public.player_character_states),
+  (select count(*)::bigint from public.player_character_states where player_id in (
+    '11111111-1111-4111-8111-111111111111','22222222-2222-4222-8222-222222222222','33333333-3333-4333-8333-333333333333'
+  )),
   3::bigint,
   'Auth inserts bootstrap one Character state each'
 );
@@ -56,7 +60,8 @@ select extensions.is(
   (
     select count(*)::bigint
     from public.player_skill_states
-    where assessment_status = 'UNRATED'
+    where player_id in ('11111111-1111-4111-8111-111111111111','22222222-2222-4222-8222-222222222222','33333333-3333-4333-8333-333333333333')
+      and assessment_status = 'UNRATED'
       and visible_level is null
       and proficiency_score is null
       and confidence_score = 0
@@ -71,7 +76,8 @@ select extensions.is(
   (
     select count(*)::bigint
     from public.player_attribute_states
-    where assessment_status = 'UNASSESSED'
+    where player_id in ('11111111-1111-4111-8111-111111111111','22222222-2222-4222-8222-222222222222','33333333-3333-4333-8333-333333333333')
+      and assessment_status = 'UNASSESSED'
       and score is null
   ),
   33::bigint,

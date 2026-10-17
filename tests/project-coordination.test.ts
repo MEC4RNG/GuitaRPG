@@ -75,6 +75,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "UX-005",
       "P6-REBASE-001",
       "QST-006",
+      "QST-007",
     ]).toContain(state.last_terminal_ticket.id);
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
     expect(
@@ -183,6 +184,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "QST-007", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_QST_007_AUTHORIZATION");
         expect(read("docs/tickets/QST-006.md")).toContain("**Status:** COMPLETE");
+      } else if (state.last_terminal_ticket.id === "QST-007") {
+        expect(state.next_ticket).toMatchObject({ id: "UX-006", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_UX_006_AUTHORIZATION");
+        expect(read("docs/tickets/QST-007.md")).toContain("**Status:** COMPLETE");
       } else {
         expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");

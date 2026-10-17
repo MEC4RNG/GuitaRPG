@@ -1,69 +1,61 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { readQuestJourneyDetail, type QuestLibraryClient } from "@/lib/quest/library-repository";
+import {
+  sessionAction,
+  type SavedQuestSummary,
+  type QuestSessionSummary,
+} from "@/lib/quest/library-runtime";
 import {
   ensureQuestJourney,
   setQuestJourneyStage,
   transitionQuestJourney,
   type JourneyRpcClient,
 } from "@/lib/quest/journey-repository";
-import type { QuestJourney, QuestJourneyStage } from "@/lib/quest/journey-runtime";
-import { parseQuest, type Quest } from "@/lib/quest/runtime";
-import { startPracticeSession, type SessionRpcClient } from "@/lib/session/repository";
+import type { QuestJourneyStage } from "@/lib/quest/journey-runtime";
+import {
+  startJourneyPractice,
+  type JourneyPracticeClient,
+} from "@/lib/quest/start-journey-practice";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-type JourneyClient = JourneyRpcClient &
-  SessionRpcClient & {
-    from(table: "quests"): {
-      select(columns: string): {
-        eq(
-          column: string,
-          value: string,
-        ): {
-          maybeSingle(): PromiseLike<{
-            data: { resolved_snapshot?: unknown } | null;
-            error: { message: string } | null;
-          }>;
-        };
-      };
-    };
-  };
+type Detail = SavedQuestSummary & { recentSessions: QuestSessionSummary[] };
+type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient;
+const client = () => createBrowserSupabaseClient() as unknown as JourneyClient;
+const dateTime = (value: string) =>
+  new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(
+    new Date(value),
+  );
 
 export function QuestJourneySurface({ questId }: { questId: string }) {
   const router = useRouter();
-  const [quest, setQuest] = useState<Quest | null>(null);
-  const [journey, setJourney] = useState<QuestJourney | null>(null);
+  const [detail, setDetail] = useState<Detail | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const client = createBrowserSupabaseClient() as unknown as JourneyClient;
-    void Promise.all([
-      client.from("quests").select("resolved_snapshot").eq("id", questId).maybeSingle(),
-      ensureQuestJourney(client, questId),
-    ])
-      .then(([questResult, journeyResult]) => {
-        if (questResult.error || !questResult.data?.resolved_snapshot)
-          throw new Error("Quest unavailable");
-        setQuest(parseQuest(questResult.data.resolved_snapshot));
-        setJourney(journeyResult);
+    const api = client();
+    void ensureQuestJourney(api, questId)
+      .then(() => readQuestJourneyDetail(api, questId))
+      .then((next) => {
+        if (!next) throw new Error("Quest unavailable");
+        setDetail(next);
       })
-      .catch(() => setError("This Quest is unavailable. Return to Generate and try again."));
+      .catch(() => setError("This Quest is unavailable. Return to Saved Quests and try again."));
   }, [questId]);
 
   async function chooseStage(stage: QuestJourneyStage) {
-    if (pending || !journey) return;
+    if (pending || !detail) return;
     setPending(true);
     setError(null);
     try {
-      setJourney(
-        await setQuestJourneyStage(
-          createBrowserSupabaseClient() as unknown as JourneyClient,
-          journey.questId,
-          stage,
-        ),
-      );
+      setDetail({
+        ...detail,
+        journey: await setQuestJourneyStage(client(), detail.questId, stage),
+      });
     } catch {
       setError("The Journey stage could not be updated. Your previous stage is unchanged.");
     } finally {
@@ -71,37 +63,51 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
     }
   }
 
-  async function startPractice() {
-    if (pending || !journey) return;
+  async function lifecycle(action: "ARCHIVE" | "UNARCHIVE" | "REOPEN") {
+    if (pending || !detail) return;
     setPending(true);
     setError(null);
     try {
-      const client = createBrowserSupabaseClient() as unknown as JourneyClient;
-      if (journey.lifecycleStatus === "ARCHIVED") {
-        throw new Error("Archived Journeys must be restored before practice");
-      }
-      if (journey.lifecycleStatus === "CONCLUDED" || journey.lifecycleStatus === "ABANDONED") {
-        setJourney(await transitionQuestJourney(client, journey.questId, "REOPEN"));
-      } else if (journey.lifecycleStatus === "SAVED") {
-        setJourney(await transitionQuestJourney(client, journey.questId, "START"));
-      }
-      const session = await startPracticeSession(client, journey.questId);
-      router.push(`/session/${session.id}`);
+      setDetail({
+        ...detail,
+        journey: await transitionQuestJourney(client(), detail.questId, action),
+      });
     } catch {
-      setError("Your Quest is saved, but Practice could not start. Please retry.");
+      setError("The Journey could not be updated. Please retry.");
+    } finally {
       setPending(false);
     }
   }
 
-  if (!quest || !journey)
+  async function practice() {
+    if (pending || !detail) return;
+    setPending(true);
+    setError(null);
+    try {
+      const started = await startJourneyPractice(client(), detail.journey);
+      router.push(`/session/${started.session.id}`);
+    } catch {
+      setError(
+        detail.journey.lifecycleStatus === "ARCHIVED"
+          ? "Restore this Quest before starting practice."
+          : "Your Quest is saved, but Practice could not start. Please retry.",
+      );
+      setPending(false);
+    }
+  }
+
+  if (!detail)
     return (
       <p className="session-notice" role={error ? "alert" : "status"}>
         {error ?? "Loading Quest…"}
       </p>
     );
-
+  const { quest, journey } = detail;
   return (
     <section className="generate-stack" aria-labelledby="quest-journey-title">
+      <Link className="text-link" href="/quests">
+        ← All Saved Quests
+      </Link>
       <header className="page-header">
         <div>
           <p className="eyebrow">QUEST JOURNEY · {journey.lifecycleStatus}</p>
@@ -137,14 +143,77 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
           ))}
         </div>
       </section>
-      <button
-        className="action-button"
-        disabled={pending || journey.lifecycleStatus === "ARCHIVED"}
-        onClick={() => void startPractice()}
-        type="button"
-      >
-        {pending ? "Working…" : "Start Practice"}
-      </button>
+      <div className="quest-library-actions">
+        {journey.lifecycleStatus === "ARCHIVED" ? (
+          <button
+            className="action-button"
+            disabled={pending}
+            onClick={() => void lifecycle("UNARCHIVE")}
+            type="button"
+          >
+            Restore Quest
+          </button>
+        ) : (
+          <>
+            <button
+              className="action-button"
+              disabled={pending}
+              onClick={() => void practice()}
+              type="button"
+            >
+              {pending ? "Working…" : detail.sessionCount ? "Practice Again" : "Start Practice"}
+            </button>
+            {journey.lifecycleStatus === "CONCLUDED" || journey.lifecycleStatus === "ABANDONED" ? (
+              <button
+                className="action-button action-button--secondary"
+                disabled={pending}
+                onClick={() => void lifecycle("REOPEN")}
+                type="button"
+              >
+                Reopen Quest
+              </button>
+            ) : null}
+            <button
+              className="text-button"
+              disabled={pending}
+              onClick={() => void lifecycle("ARCHIVE")}
+              type="button"
+            >
+              Archive Quest
+            </button>
+          </>
+        )}
+      </div>
+      <section className="panel" aria-labelledby="quest-sessions-title">
+        <p className="eyebrow">PRACTICE ACTIVITY</p>
+        <h2 id="quest-sessions-title">Recent Sessions</h2>
+        <p>
+          {detail.sessionCount === 0
+            ? "No Sessions yet. This says nothing about your ability."
+            : `${detail.sessionCount} total Session${detail.sessionCount === 1 ? "" : "s"}.`}
+        </p>
+        {detail.recentSessions.length ? (
+          <ul className="quest-session-list">
+            {detail.recentSessions.map((session) => {
+              const action = sessionAction(session);
+              return (
+                <li key={session.id}>
+                  <div>
+                    <strong>{session.status}</strong>
+                    <span>
+                      {dateTime(session.startedAt)}
+                      {session.resultOutcome ? ` · Session result: ${session.resultOutcome}` : ""}
+                    </span>
+                  </div>
+                  <Link className="text-link" href={action.href}>
+                    {action.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+      </section>
     </section>
   );
 }

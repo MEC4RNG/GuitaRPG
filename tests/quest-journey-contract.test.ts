@@ -39,12 +39,14 @@ describe("QST-006 Quest Journey contract", () => {
   it("ships Save, Start, Practice, draft replacement, and the durable route", () => {
     const generate = read("components/generate-quest-surface.tsx");
     const route = read("components/quest-journey-surface.tsx");
+    const practice = read("lib/quest/start-journey-practice.ts");
     expect(generate).toContain("Save Quest");
     expect(generate).toContain("Start Quest");
     expect(generate).toContain("Replace your unsaved Quest draft?");
     expect(generate).toContain("window.sessionStorage");
     expect(route).toContain('MAP", "EXPLORE", "CRAFT');
-    expect(route).toContain("startPracticeSession");
+    expect(route).toContain("startJourneyPractice");
+    expect(practice).toContain("startPracticeSession");
     expect(read("app/quest/[questId]/page.tsx")).toContain("QuestJourneySurface");
   });
 });

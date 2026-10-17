@@ -21,8 +21,8 @@ select extensions.is(
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'),
-  17::bigint,
-  'public RPC surface is exactly 17 functions'
+  19::bigint,
+  'public RPC surface is exactly 19 functions'
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='private'),
@@ -61,9 +61,9 @@ select extensions.is(
    where n.nspname='public' and has_function_privilege('authenticated',p.oid,'execute')),
   array[
     'adjust_practice_session_reps','complete_player_onboarding','end_practice_session',
-    'ensure_quest_journey','export_player_data_v1','finalize_quest_result','pause_practice_session',
-    'persist_generated_quest','practice_session_active_seconds','refresh_player_readiness',
-    'resume_practice_session','save_generated_quest_journey','save_player_profile_v1',
+    'ensure_player_quest_journeys','ensure_quest_journey','export_player_data_v1','finalize_quest_result','pause_practice_session',
+    'persist_generated_quest','practice_session_active_seconds','read_player_quest_session_summaries',
+    'refresh_player_readiness','resume_practice_session','save_generated_quest_journey','save_player_profile_v1',
     'set_practice_session_metronome_bpm','set_quest_journey_stage','start_practice_session',
     'transition_quest_journey'
   ]::text[],

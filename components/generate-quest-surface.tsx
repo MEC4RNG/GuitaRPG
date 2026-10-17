@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -242,6 +243,11 @@ export function GenerateQuestSurface() {
             >
               {pending === "STARTING" ? "Starting Practice…" : "Start Practice"}
             </button>
+            {durableQuestId ? (
+              <Link className="text-link" href="/quests">
+                View Saved Quests
+              </Link>
+            ) : null}
           </div>
         </article>
       )}
