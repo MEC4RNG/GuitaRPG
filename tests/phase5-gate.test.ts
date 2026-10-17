@@ -152,6 +152,9 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
       } else if (state.last_terminal_ticket.id === "QST-006") {
         expect(state.next_ticket).toMatchObject({ id: "QST-007", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_QST_007_AUTHORIZATION");
+      } else if (state.last_terminal_ticket.id === "QST-007") {
+        expect(state.next_ticket).toMatchObject({ id: "UX-006", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_UX_006_AUTHORIZATION");
       } else {
         expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");
