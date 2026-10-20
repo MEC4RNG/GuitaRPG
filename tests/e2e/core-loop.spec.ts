@@ -120,6 +120,8 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   ).toHaveAttribute("href", /\/codex\/concepts\//);
   await expect(page.getByText(/Demand [IVX]+/)).toBeVisible();
   await expect(page.getByText(/BPM|Not required/).first()).toBeVisible();
+  await page.getByRole("button", { name: "Start Quest" }).click();
+  await expect(page).toHaveURL(/\/quest\/[0-9a-f-]+$/);
   await page.getByRole("button", { name: "Start Practice" }).click();
 
   await expect(page).toHaveURL(/\/session\/[0-9a-f-]+$/);

@@ -1141,7 +1141,7 @@ a {
 .journey-canvas {
   display: grid;
   min-width: 0;
-  gap: var(--space-6);
+  gap: var(--space-4);
   border-color: color-mix(in srgb, var(--surface-accent) 35%, var(--surface-border));
 }
 
@@ -1178,6 +1178,47 @@ a {
   font-size: 1.35rem;
 }
 
+.map-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: var(--space-2);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.map-tabs [role="tab"] {
+  min-height: var(--touch-target-min);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--surface-muted);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.map-tabs [role="tab"][aria-selected="true"] {
+  border-color: var(--surface-accent);
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  box-shadow: inset 0 -3px 0 var(--surface-accent);
+}
+
+.map-tab-panel {
+  min-height: 10rem;
+  align-content: start;
+  padding: var(--space-3) 0;
+}
+
+.map-reference-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.map-reference-list p {
+  margin: 0;
+  line-height: 1.8;
+}
+
 .journey-ingredients {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
@@ -1212,6 +1253,34 @@ a {
   background: var(--surface-raised);
   padding: var(--space-2) var(--space-3);
   font-size: 0.8rem;
+}
+
+.craft-invitation {
+  display: grid;
+  gap: var(--space-2);
+  border-left: 3px solid var(--surface-accent);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-raised);
+}
+
+.craft-invitation strong {
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
+}
+
+.craft-invitation p {
+  margin: 0;
+  color: var(--surface-muted);
+}
+
+.journey-requirements summary {
+  min-height: var(--touch-target-min);
+  align-content: center;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.journey-requirements .journey-list {
+  padding-top: var(--space-3);
 }
 
 .journey-practice {
@@ -1272,6 +1341,7 @@ a {
   .journey-canvas,
   .journey-practice,
   .journey-sessions,
+  .journey-requirements,
   .journey-options {
     padding: var(--space-4);
   }

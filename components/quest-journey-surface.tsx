@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { type KeyboardEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CodexReferenceLink } from "@/components/quest-codex-reference";
+import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
 import { questCodexReferences } from "@/lib/quest/codex-references";
 import {
   ensureQuestJourney,
@@ -35,6 +35,7 @@ type Detail = SavedQuestSummary & { recentSessions: QuestSessionSummary[] };
 type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient;
 const client = () => createBrowserSupabaseClient() as unknown as JourneyClient;
 const stages = ["MAP", "EXPLORE", "CRAFT"] as const;
+type MapTab = "primary" | "supporting" | "concepts" | "techniques" | "context";
 const dateTime = (value: string) =>
   new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(
     new Date(value),
@@ -67,6 +68,7 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const [detail, setDetail] = useState<Detail | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mapTab, setMapTab] = useState<MapTab>("primary");
 
   useEffect(() => {
     const api = client();
@@ -137,6 +139,40 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const targetTempo = questTargetTempo(quest);
   const archived = journey.lifecycleStatus === "ARCHIVED";
   const practiceLabel = detail.sessionCount ? "Practice Again" : "Start Practice";
+  const mapTabs = [
+    { id: "primary" as const, label: "Primary Focus", present: true },
+    {
+      id: "supporting" as const,
+      label: "Supporting Skills",
+      present: references.secondarySkills.length > 0,
+    },
+    {
+      id: "concepts" as const,
+      label: "Musical Concepts",
+      present: references.concepts.length > 0,
+    },
+    {
+      id: "techniques" as const,
+      label: "Required Techniques",
+      present: references.requiredTechniques.length > 0,
+    },
+    { id: "context" as const, label: "Context", present: context.length > 0 },
+  ].filter((tab) => tab.present);
+
+  function moveMapTab(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown")
+      next = (index + 1) % mapTabs.length;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowUp")
+      next = (index - 1 + mapTabs.length) % mapTabs.length;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = mapTabs.length - 1;
+    else return;
+    event.preventDefault();
+    const nextTab = mapTabs[next];
+    setMapTab(nextTab.id);
+    document.getElementById(`map-tab-${nextTab.id}`)?.focus();
+  }
 
   return (
     <section className="generate-stack journey-shell" aria-labelledby="quest-journey-title">
@@ -203,62 +239,81 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
         <main className="panel journey-canvas" aria-live="polite">
           {journey.currentStage === "MAP" ? (
             <>
-              <p className="eyebrow">MAP · UNDERSTAND</p>
-              <h2>Map the territory</h2>
-              <p>Understand the material and relationships involved before or while you work.</p>
-              <div className="journey-focus">
-                <span>Primary focus</span>
-                <strong>
-                  <CodexReferenceLink reference={references.primarySkill} />
-                </strong>
+              <div className="map-tabs" role="tablist" aria-label="Quest Map information">
+                {mapTabs.map((tab, index) => (
+                  <button
+                    key={tab.id}
+                    id={`map-tab-${tab.id}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={mapTab === tab.id}
+                    aria-controls={`map-panel-${tab.id}`}
+                    tabIndex={mapTab === tab.id ? 0 : -1}
+                    onClick={() => setMapTab(tab.id)}
+                    onKeyDown={(event) => moveMapTab(event, index)}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
               </div>
-              <div className="journey-ingredients">
-                <IngredientList
-                  title="Supporting skills"
-                  items={quest.execution.secondary_skills}
-                  kind="skill"
-                />
-                <IngredientList
-                  title="Required techniques"
-                  items={quest.execution.required_techniques}
-                  kind="technique"
-                />
-                <IngredientList title="Musical concepts" items={quest.concepts} />
-              </div>
-              {context.length ? (
-                <section>
-                  <h3>Context</h3>
-                  <dl className="journey-detail-list">
-                    {context.map((item) => (
-                      <div key={item.label}>
-                        <dt>{item.label}</dt>
-                        <dd>{item.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
+              {mapTabs.map((tab) => (
+                <section
+                  key={tab.id}
+                  className="map-tab-panel"
+                  role="tabpanel"
+                  id={`map-panel-${tab.id}`}
+                  aria-labelledby={`map-tab-${tab.id}`}
+                  tabIndex={mapTab === tab.id ? 0 : -1}
+                  hidden={mapTab !== tab.id}
+                >
+                  {tab.id === "primary" ? (
+                    <div className="journey-focus">
+                      <span>Primary focus</span>
+                      <strong>
+                        <CodexReferenceLink reference={references.primarySkill} />
+                      </strong>
+                    </div>
+                  ) : null}
+                  {tab.id === "supporting" ? (
+                    <div className="map-reference-list">
+                      <h3>Supporting Skills</h3>
+                      <p>
+                        <CodexReferenceList references={references.secondarySkills} />
+                      </p>
+                    </div>
+                  ) : null}
+                  {tab.id === "concepts" ? (
+                    <div className="map-reference-list">
+                      <h3>Musical Concepts</h3>
+                      <p>
+                        <CodexReferenceList references={references.concepts} />
+                      </p>
+                    </div>
+                  ) : null}
+                  {tab.id === "techniques" ? (
+                    <div className="map-reference-list">
+                      <h3>Required Techniques</h3>
+                      <p>
+                        <CodexReferenceList references={references.requiredTechniques} />
+                      </p>
+                    </div>
+                  ) : null}
+                  {tab.id === "context" ? (
+                    <dl className="journey-detail-list">
+                      {context.map((item) => (
+                        <div key={item.label}>
+                          <dt>{item.label}</dt>
+                          <dd>{item.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : null}
                 </section>
-              ) : null}
-              {constraints.length ? (
-                <section>
-                  <h3>Boundaries & constraints</h3>
-                  <ul className="journey-list">
-                    {constraints.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null}
-              <section>
-                <h3>Objective</h3>
-                <p>{quest.objective.summary}</p>
-              </section>
+              ))}
             </>
           ) : null}
           {journey.currentStage === "EXPLORE" ? (
             <>
-              <p className="eyebrow">EXPLORE · PLAY / INVESTIGATE</p>
-              <h2>Explore it on the instrument</h2>
-              <p>Work with the material, listen closely, and investigate what changes.</p>
               <div className="journey-focus">
                 <span>Practice focus</span>
                 <strong>{quest.execution.primary_skill.name}</strong>
@@ -271,16 +326,6 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                   <small>A target, not an achievement claim.</small>
                 </div>
               ) : null}
-              {constraints.length ? (
-                <section>
-                  <h3>Working boundaries</h3>
-                  <ul className="journey-list">
-                    {constraints.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null}
               <div className="journey-ingredients">
                 <IngredientList
                   title="Supporting skills"
@@ -293,24 +338,17 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                   kind="technique"
                 />
               </div>
-              <section>
-                <h3>Practice activity</h3>
-                <p>
-                  {detail.sessionCount
-                    ? `${detail.sessionCount} Session${detail.sessionCount === 1 ? "" : "s"} recorded for this Journey.`
-                    : "No Sessions yet. Start when this Journey is useful to you."}
-                </p>
-              </section>
             </>
           ) : null}
           {journey.currentStage === "CRAFT" ? (
             <>
-              <p className="eyebrow">CRAFT · CREATE</p>
-              <h2>Create something using what you discovered.</h2>
-              <p>
-                Use the Quest ingredients as a creative launch point. These prompts do not save or
-                grade an artifact.
-              </p>
+              <div className="craft-invitation">
+                <strong>Create something using what you discovered.</strong>
+                <p>
+                  Use the Quest ingredients as a creative launch point. These prompts do not save or
+                  grade an artifact.
+                </p>
+              </div>
               <div className="craft-prompts" aria-label="Creative prompt ideas">
                 {[
                   "Riff",
@@ -396,6 +434,17 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
           )}
         </aside>
       </div>
+
+      {constraints.length ? (
+        <details className="panel journey-requirements">
+          <summary>Quest requirements</summary>
+          <ul className="journey-list">
+            {constraints.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
 
       <section className="panel journey-sessions" aria-labelledby="quest-sessions-title">
         <div className="journey-section-heading">

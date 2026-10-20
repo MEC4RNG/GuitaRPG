@@ -87,5 +87,6 @@ test("generated Quest exposes verified references without obscuring practice", a
   await expect(
     page.locator("dt", { hasText: "Constraints" }).locator("..").getByRole("link").first(),
   ).toHaveAttribute("href", /\/codex\/constraints\//);
-  await expect(page.getByRole("button", { name: "Start Practice" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start Quest" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Start Practice" })).toHaveCount(0);
 });

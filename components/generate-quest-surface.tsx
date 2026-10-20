@@ -8,17 +8,11 @@ import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex
 import { generateQuickQuest, type GeneratedQuest } from "@/lib/quest/generator";
 import { toQuestPersistenceInput } from "@/lib/quest/runtime";
 import { questCodexReferences } from "@/lib/quest/codex-references";
-import {
-  GeneratedQuestStartError,
-  startGeneratedQuestPractice,
-} from "@/lib/quest/start-generated-quest";
 import { saveGeneratedQuestJourney, type JourneyRpcClient } from "@/lib/quest/journey-repository";
 import { clearQuestDraft, readQuestDraft, saveQuestDraft } from "@/lib/quest/draft-v1";
-import type { SessionRpcClient } from "@/lib/session/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
-import { safeErrorMessage } from "@/lib/ux/safe-error";
 
-type GenerateClient = JourneyRpcClient & SessionRpcClient;
+type GenerateClient = JourneyRpcClient;
 
 export function GenerateQuestSurface() {
   const router = useRouter();
@@ -26,7 +20,7 @@ export function GenerateQuestSurface() {
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
   const [durableQuestId, setDurableQuestId] = useState<string | null>(null);
   const [ownerId, setOwnerId] = useState<string | null>(null);
-  const [pending, setPending] = useState<"GENERATING" | "SAVING" | "STARTING" | null>(null);
+  const [pending, setPending] = useState<"GENERATING" | "SAVING" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -94,33 +88,6 @@ export function GenerateQuestSurface() {
       if (mode === "START") router.push(`/quest/${journey.questId}`);
     } catch {
       setError("Your Quest could not be saved. Your draft is still available; please retry.");
-    } finally {
-      setPending(null);
-    }
-  }
-
-  async function startPractice() {
-    if (!generated || pending) return;
-    setPending("STARTING");
-    setError(null);
-    try {
-      const client = createBrowserSupabaseClient() as unknown as GenerateClient;
-      const started = await startGeneratedQuestPractice(client, generated.quest, durableQuestId);
-      setDurableQuestId(started.questId);
-      clearQuestDraft(window.sessionStorage);
-      router.push(`/session/${started.session.id}`);
-    } catch (caught) {
-      if (caught instanceof GeneratedQuestStartError) {
-        setDurableQuestId(caught.durableQuestId);
-        if (caught.durableQuestId) clearQuestDraft(window.sessionStorage);
-        setError(
-          caught.stage === "SESSION_START"
-            ? `${caught.message} Your Quest is saved; retry Start Practice to enter it.`
-            : caught.message,
-        );
-      } else {
-        setError(safeErrorMessage("SESSION_WRITE"));
-      }
     } finally {
       setPending(null);
     }
@@ -256,14 +223,6 @@ export function GenerateQuestSurface() {
               disabled={pending !== null}
             >
               Start Quest
-            </button>
-            <button
-              className="action-button action-button--secondary"
-              type="button"
-              onClick={startPractice}
-              disabled={pending !== null}
-            >
-              {pending === "STARTING" ? "Starting Practice…" : "Start Practice"}
             </button>
             {durableQuestId ? (
               <Link className="text-link" href="/quests">

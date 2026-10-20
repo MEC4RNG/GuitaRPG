@@ -22,6 +22,8 @@ export async function generateAndStartPractice(page: Page) {
   await page.goto("/generate");
   await page.getByRole("button", { name: "Generate Quest" }).click();
   await expect(page.locator("#generated-quest-title")).toBeVisible();
+  await page.getByRole("button", { name: "Start Quest" }).click();
+  await expect(page).toHaveURL(/\/quest\/[0-9a-f-]+$/, { timeout: 15_000 });
   await page.getByRole("button", { name: "Start Practice" }).click();
   await expect(page).toHaveURL(/\/session\/[0-9a-f-]+$/, { timeout: 15_000 });
   return new URL(page.url()).pathname.split("/").at(-1)!;

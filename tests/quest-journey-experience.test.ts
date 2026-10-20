@@ -44,6 +44,9 @@ describe("UX-006 Quest Journey presentation", () => {
   });
 
   it("keeps Start Quest, practice, and lifecycle actions semantically distinct", () => {
+    expect(generate).toContain('persist("START")');
+    expect(generate).not.toContain("startGeneratedQuestPractice");
+    expect(generate).not.toContain("Start Practice");
     expect(surface).toContain('lifecycle("START")');
     expect(surface).toContain("startJourneyPractice");
     expect(surface).toContain('lifecycle("CONCLUDE")');
@@ -69,5 +72,19 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(surface).toContain("Create something using what you discovered.");
     expect(surface).toMatch(/These prompts do not save or\s+grade an artifact\./);
     expect(surface).not.toMatch(/Submit creation|Mark Craft complete|Artifact saved|upload/i);
+  });
+
+  it("uses local accessible Map tabs and removes redundant stage introductions", () => {
+    expect(surface).toContain('role="tablist"');
+    expect(surface).toContain('role="tab"');
+    expect(surface).toContain('role="tabpanel"');
+    expect(surface).toContain("aria-selected={mapTab === tab.id}");
+    expect(surface).toContain('event.key === "Home"');
+    expect(surface).toContain('event.key === "End"');
+    expect(surface).toContain("Quest requirements");
+    expect(surface).not.toContain("Map the territory");
+    expect(surface).not.toContain("Explore it on the instrument");
+    expect(surface).not.toContain("Working boundaries");
+    expect(surface).not.toContain("Practice activity");
   });
 });
