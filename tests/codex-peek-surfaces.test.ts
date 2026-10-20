@@ -10,10 +10,23 @@ describe("CODEX-002 surface contract", () => {
     const reference = read("components/quest-codex-reference.tsx");
 
     expect(shell).toContain("<CodexPeekProvider>");
+    expect(shell.indexOf("<div className={`app-shell")).toBeLessThan(
+      shell.indexOf("<CodexPeekProvider>"),
+    );
     expect(reference).toContain("reference.href ? (");
     expect(reference).toContain("<button");
     expect(reference).toContain("reference.name");
     expect(reference).not.toContain("href={reference.href}");
+  });
+
+  it("keeps the inspector inside shell token scope with an opaque Codex surface", () => {
+    const styles = read("app/globals.css");
+    const peekRule = styles.match(/\.codex-peek \{([\s\S]*?)\n\}/)?.[1] ?? "";
+
+    expect(peekRule).toContain("--surface-panel: var(--codex-surface)");
+    expect(peekRule).toContain("background-color: var(--codex-surface)");
+    expect(peekRule).toContain("border-left: 2px solid var(--codex-gold)");
+    expect(peekRule).not.toContain("background: var(--surface-panel)");
   });
 
   it("implements bounded responsive focus and navigation behavior", () => {

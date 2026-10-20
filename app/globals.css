@@ -832,6 +832,12 @@ a {
 }
 
 .codex-peek {
+  --surface-panel: var(--codex-surface);
+  --surface-raised: var(--codex-raised);
+  --surface-border: var(--codex-border);
+  --surface-text: var(--codex-text);
+  --surface-muted: var(--codex-muted);
+  --surface-accent: var(--codex-gold);
   position: absolute;
   top: 0;
   right: 0;
@@ -839,10 +845,13 @@ a {
   grid-template-rows: auto minmax(0, 1fr) auto;
   width: min(30rem, 42vw);
   height: 100dvh;
-  border-left: 1px solid var(--surface-border);
-  background: var(--surface-panel);
+  border-left: 2px solid var(--codex-gold);
+  background-color: var(--codex-surface);
+  background-image: linear-gradient(145deg, rgb(214 168 75 / 7%), transparent 18rem);
   color: var(--surface-text);
-  box-shadow: -1rem 0 3rem rgb(0 0 0 / 35%);
+  box-shadow:
+    -0.25rem 0 0 rgb(17 17 15 / 88%),
+    -1.25rem 0 3.5rem rgb(0 0 0 / 62%);
   pointer-events: auto;
 }
 
@@ -938,10 +947,12 @@ a {
     width: 100%;
     height: min(88dvh, 48rem);
     padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid var(--surface-border);
+    border-top: 2px solid var(--codex-gold);
     border-left: 0;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    box-shadow: 0 -1rem 3rem rgb(0 0 0 / 45%);
+    box-shadow:
+      0 -0.25rem 0 rgb(17 17 15 / 88%),
+      0 -1rem 3rem rgb(0 0 0 / 62%);
   }
 }
 

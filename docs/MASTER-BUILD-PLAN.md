@@ -359,7 +359,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006, QST-007, and UX-006 are COMPLETE; CODEX-002 is implemented and AWAITING USER VISUAL REVIEW in draft PR #7. QST-008 remains unauthorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006, QST-007, and UX-006 are COMPLETE; CODEX-002-R1 corrects the inspector's visual token scope in draft PR #7 and CODEX-002 remains AWAITING USER VISUAL REVIEW. QST-008 remains unauthorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
 
 Purpose:
 

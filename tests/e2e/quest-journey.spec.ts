@@ -32,6 +32,22 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await generatedReference.click();
   const peek = page.getByRole("dialog", { name: /.+/ });
   await expect(peek).toBeVisible();
+  const peekVisuals = await peek.evaluate((element) => {
+    const styles = getComputedStyle(element);
+    return {
+      backgroundColor: styles.backgroundColor,
+      opacity: styles.opacity,
+      borderLeftColor: styles.borderLeftColor,
+      borderTopColor: styles.borderTopColor,
+    };
+  });
+  expect(peekVisuals.backgroundColor).toBe("rgb(28, 27, 23)");
+  expect(peekVisuals.opacity).toBe("1");
+  expect(
+    (page.viewportSize()?.width ?? 1280) < 768
+      ? peekVisuals.borderTopColor
+      : peekVisuals.borderLeftColor,
+  ).toBe("rgb(214, 168, 75)");
   await expect(peek.getByRole("heading", { name: "Definition" })).toBeVisible();
   await expect(peek.getByRole("heading", { name: "In this Quest" })).toBeVisible();
   await expect(peek.getByRole("link", { name: "Open Full Codex Entry" })).toHaveAttribute(

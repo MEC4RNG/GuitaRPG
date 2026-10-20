@@ -19,8 +19,8 @@ export function AppShell({ children }: AppShellProps) {
   const current = getNavigationItem(pathname);
 
   return (
-    <CodexPeekProvider>
-      <div className={`app-shell app-shell--${surface}`} data-surface={surface}>
+    <div className={`app-shell app-shell--${surface}`} data-surface={surface}>
+      <CodexPeekProvider>
         <div className="app-shell__frame">
           <a className="skip-link" href="#main-content">
             Skip to content
@@ -49,7 +49,7 @@ export function AppShell({ children }: AppShellProps) {
 
           <MobileNav pathname={pathname} />
         </div>
-      </div>
-    </CodexPeekProvider>
+      </CodexPeekProvider>
+    </div>
   );
 }
