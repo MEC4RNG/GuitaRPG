@@ -1202,7 +1202,26 @@ a {
 
 .workbook-tab-grid {
   min-width: max-content;
-  padding: var(--space-2);
+  padding: var(--space-1);
+}
+
+.workbook-tab-systems {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.workbook-tab-system {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  border-top: 1px solid var(--surface-border);
+}
+
+.workbook-tab-system > strong {
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.78rem;
 }
 
 .workbook-tab-scroll {
@@ -1254,6 +1273,31 @@ a {
   left: 0;
   border-top: 1px solid var(--surface-muted);
   content: "";
+}
+
+.workbook-tab-row button.is-placeholder {
+  color: color-mix(in srgb, var(--surface-muted) 55%, transparent);
+}
+
+.workbook-tab-tools {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.workbook-tab-tools summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.workbook-tab-tools[open] summary {
+  margin-bottom: var(--space-3);
+}
+
+.workbook-tab-primary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .workbook-block-controls {
@@ -1325,17 +1369,25 @@ a {
   position: relative;
   min-width: var(--touch-target-min);
   padding: 0;
-  border-width: 0 1px 1px 0;
+  border-width: 0 0 1px;
   border-color: color-mix(in srgb, var(--surface-muted) 72%, transparent);
   border-radius: 0;
   background: transparent;
 }
 
-.workbook-chord__fret button:first-of-type {
-  border-left-width: 1px;
+.workbook-chord__fret button::before {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 2px solid color-mix(in srgb, var(--surface-text) 75%, transparent);
+  content: "";
 }
 
 .workbook-chord__fret button.is-fretted span {
+  position: relative;
+  z-index: 1;
   display: grid;
   width: 1.6rem;
   height: 1.6rem;
@@ -1345,6 +1397,26 @@ a {
   background: var(--surface-accent);
   color: var(--surface-panel);
   font-size: 0.72rem;
+}
+
+.workbook-file-import {
+  display: inline-grid !important;
+  min-height: var(--touch-target-min);
+  place-items: center;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--surface-text) !important;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+}
+
+.workbook-file-import input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .workbook-chord__notice,

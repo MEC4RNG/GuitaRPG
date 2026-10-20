@@ -25,7 +25,14 @@ export type WorkbookBlockV1 =
       content: InlineText[];
     }
   | { id: string; version: 1; type: "bullet_list" | "ordered_list"; items: InlineText[][] }
-  | { id: string; version: 1; type: "guitar_tab"; tuning: TuningSnapshot; events: TabEvent[] }
+  | {
+      id: string;
+      version: 1;
+      type: "guitar_tab";
+      tuning: TuningSnapshot;
+      positions_per_line?: 4 | 8 | 12 | 16;
+      events: TabEvent[];
+    }
   | {
       id: string;
       version: 1;
@@ -80,6 +87,7 @@ export function emptyTabBlock(): Extract<WorkbookBlockV1, { type: "guitar_tab" }
     version: 1,
     type: "guitar_tab",
     tuning: tuningSnapshot("standard"),
+    positions_per_line: 16,
     events: Array.from({ length: 16 }, (_, ordinal) => ({ id: createId(), ordinal, notes: [] })),
   };
 }
@@ -124,19 +132,25 @@ function validateBlock(value: unknown): value is WorkbookBlockV1 {
   if (value.type === "guitar_tab") {
     return (
       validateTuning(value.tuning) &&
+      (value.positions_per_line === undefined ||
+        [4, 8, 12, 16].includes(Number(value.positions_per_line))) &&
       Array.isArray(value.events) &&
+      value.events.length > 0 &&
       value.events.every(
-        (event) =>
+        (event, index) =>
           isRecord(event) &&
           typeof event.id === "string" &&
-          Number.isInteger(event.ordinal) &&
+          event.ordinal === index &&
           Array.isArray(event.notes) &&
           event.notes.every(
             (note) =>
               isRecord(note) &&
               Number.isInteger(note.string_number) &&
+              Number(note.string_number) >= 1 &&
+              Number(note.string_number) <= 6 &&
               ["FRETTED", "OPEN", "MUTED"].includes(String(note.state)) &&
-              (note.state !== "FRETTED" || (Number.isInteger(note.fret) && Number(note.fret) >= 0)),
+              (note.state !== "FRETTED" ||
+                (Number.isInteger(note.fret) && Number(note.fret) >= 1 && Number(note.fret) <= 36)),
           ),
       )
     );

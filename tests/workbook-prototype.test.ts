@@ -24,7 +24,8 @@ describe("workbook prototype boundary", () => {
       "Insert chord diagram",
       "Display document JSON",
       "Download JSON file",
-      "Import document JSON",
+      "Import JSON text",
+      "Import JSON file",
       "Duplicate tab",
       "Clear position",
     ]) {

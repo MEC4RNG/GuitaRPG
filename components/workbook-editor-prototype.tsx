@@ -10,6 +10,7 @@ import {
   type NodeViewProps,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { closeHistory } from "@tiptap/pm/history";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -27,6 +28,7 @@ import {
 } from "@/lib/workbook/document-v1";
 
 type Page = { id: string; title: string; document: WorkbookDocumentV1 };
+const MAX_WORKBOOK_IMPORT_BYTES = 1024 * 1024;
 
 const BlockIdentity = Extension.create({
   name: "blockIdentity",
@@ -61,6 +63,7 @@ function noteLabel(note?: TabNote) {
 
 function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: NodeViewProps) {
   const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "guitar_tab" }>;
+  const positionsPerLine = block.positions_per_line ?? 16;
   const blockRef = useRef(block);
   useEffect(() => {
     blockRef.current = block;
@@ -72,12 +75,25 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
   const [selected, setSelected] = useState({ string: 6, event: 0 });
   const [fret, setFret] = useState("0");
   const [fretError, setFretError] = useState("");
+  const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
   const entryBuffer = useRef<{ cell: string; value: string } | null>(null);
-  const edit = (state: TabNote["state"] | "EMPTY", explicitFret?: number) => {
+  const entryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (entryTimer.current) clearTimeout(entryTimer.current);
+    },
+    [],
+  );
+  const clearEntryBuffer = () => {
+    entryBuffer.current = null;
+    if (entryTimer.current) clearTimeout(entryTimer.current);
+    entryTimer.current = null;
+  };
+  const edit = (state: TabNote["state"] | "EMPTY", explicitFret?: number, target = selected) => {
     const next = structuredClone(blockRef.current);
-    const notes = next.events[selected.event].notes.filter(
-      (note) => note.string_number !== selected.string,
-    );
+    const targetEvent = next.events[target.event];
+    if (!targetEvent) return;
+    const notes = targetEvent.notes.filter((note) => note.string_number !== target.string);
     const parsedFret = explicitFret ?? Number.parseInt(fret, 10);
     if (
       state === "FRETTED" &&
@@ -88,11 +104,11 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
     }
     if (state !== "EMPTY")
       notes.push({
-        string_number: selected.string,
+        string_number: target.string,
         state,
         ...(state === "FRETTED" ? { fret: parsedFret } : {}),
       });
-    next.events[selected.event].notes = notes.sort((a, b) => b.string_number - a.string_number);
+    targetEvent.notes = notes.sort((a, b) => b.string_number - a.string_number);
     commit(next);
     setFretError("");
   };
@@ -103,11 +119,26 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
   };
   const removePosition = () => {
     if (block.events.length <= 1) return;
+    const target = blockRef.current.events[selected.event];
+    if (target.notes.length > 0 && pendingRemoval !== selected.event) {
+      setPendingRemoval(selected.event);
+      return;
+    }
     const next = structuredClone(blockRef.current);
     next.events.splice(selected.event, 1);
     next.events.forEach((event, ordinal) => (event.ordinal = ordinal));
     setSelected((value) => ({ ...value, event: Math.min(value.event, next.events.length - 1) }));
-    commit(next);
+    setPendingRemoval(null);
+    blockRef.current = next;
+    editor.view.dispatch(
+      closeHistory(
+        editor.state.tr.setNodeMarkup(getPos() ?? 0, undefined, {
+          ...node.attrs,
+          block: next,
+        }),
+      ),
+    );
+    editor.view.dispatch(closeHistory(editor.state.tr));
   };
   const duplicate = () => {
     const copy = structuredClone(blockRef.current);
@@ -123,16 +154,33 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
       .run();
   };
   const pitches = [...block.tuning.strings_low_to_high].reverse();
+  const systemCount = Math.max(1, Math.ceil(block.events.length / positionsPerLine));
+  const systems = Array.from({ length: systemCount }, (_, index) => ({
+    index,
+    start: index * positionsPerLine,
+  }));
+  const materializeThrough = (eventIndex: number) => {
+    if (eventIndex < blockRef.current.events.length) return;
+    const next = structuredClone(blockRef.current);
+    while (next.events.length <= eventIndex)
+      next.events.push({ id: createId(), ordinal: next.events.length, notes: [] });
+    commit(next);
+  };
   const moveSelection = (stringNumber: number, eventIndex: number) => {
     const nextString = Math.min(6, Math.max(1, stringNumber));
     const nextEvent = Math.min(block.events.length - 1, Math.max(0, eventIndex));
     setSelected({ string: nextString, event: nextEvent });
-    entryBuffer.current = null;
+    clearEntryBuffer();
     requestAnimationFrame(() =>
       document
         .querySelector<HTMLElement>(`[data-tab-cell="${block.id}-${nextString}-${nextEvent}"]`)
         ?.focus(),
     );
+  };
+  const returnToDocument = () => {
+    const afterNode = (getPos() ?? 0) + node.nodeSize;
+    editor.commands.setTextSelection(Math.min(editor.state.doc.content.size, afterNode + 1));
+    editor.view.focus();
   };
   return (
     <NodeViewWrapper
@@ -163,140 +211,217 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
             <option value="dadgad">DADGAD · D A D G A D</option>
           </select>
         </label>
-      </div>
-      <div className="workbook-tab-scroll" contentEditable={false}>
-        <div className="workbook-tab-grid" role="grid" aria-label="Editable guitar tablature">
-          <div
-            className="workbook-tab-row workbook-tab-row--positions"
-            role="row"
-            style={{ gridTemplateColumns: `3rem repeat(${block.events.length}, 3.25rem)` }}
-          >
-            <span aria-hidden="true" />
-            {block.events.map((event, index) => (
-              <span role="columnheader" key={event.id}>
-                {index + 1}
-              </span>
-            ))}
-          </div>
-          {pitches.map((pitch) => (
-            <div
-              className="workbook-tab-row"
-              role="row"
-              key={pitch.string_number}
-              style={{ gridTemplateColumns: `3rem repeat(${block.events.length}, 3.25rem)` }}
-            >
-              <span role="rowheader">{pitch.open_pitch}</span>
-              {block.events.map((event, eventIndex) => {
-                const note = event.notes.find((item) => item.string_number === pitch.string_number);
-                const active =
-                  selected.string === pitch.string_number && selected.event === eventIndex;
-                return (
-                  <button
-                    key={event.id}
-                    role="gridcell"
-                    className={active ? "is-selected" : ""}
-                    aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${noteLabel(note)}`}
-                    aria-selected={active}
-                    data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
-                    onClick={() => {
-                      setSelected({ string: pitch.string_number, event: eventIndex });
-                      setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
-                      entryBuffer.current = null;
-                    }}
-                    onKeyDown={(event) => {
-                      const moves: Record<string, [number, number]> = {
-                        ArrowLeft: [pitch.string_number, eventIndex - 1],
-                        ArrowRight: [pitch.string_number, eventIndex + 1],
-                        ArrowUp: [pitch.string_number + 1, eventIndex],
-                        ArrowDown: [pitch.string_number - 1, eventIndex],
-                      };
-                      const next = moves[event.key];
-                      if (next) {
-                        event.preventDefault();
-                        moveSelection(...next);
-                        return;
-                      }
-                      if (/^[0-9]$/.test(event.key)) {
-                        event.preventDefault();
-                        const cell = `${pitch.string_number}-${eventIndex}`;
-                        const candidate =
-                          entryBuffer.current?.cell === cell
-                            ? `${entryBuffer.current.value}${event.key}`
-                            : event.key;
-                        const value = Number(candidate);
-                        if (value <= 36) {
-                          entryBuffer.current = { cell, value: candidate };
-                          setSelected({ string: pitch.string_number, event: eventIndex });
-                          setFret(candidate);
-                          edit("FRETTED", value);
-                        } else {
-                          setFretError("Enter a whole-number fret from 0 to 36.");
-                        }
-                      }
-                      if (event.key === "Backspace" || event.key === "Delete") {
-                        event.preventDefault();
-                        entryBuffer.current = null;
-                        setSelected({ string: pitch.string_number, event: eventIndex });
-                        edit("EMPTY");
-                      }
-                    }}
-                  >
-                    {note
-                      ? note.state === "FRETTED"
-                        ? note.fret
-                        : note.state === "OPEN"
-                          ? "0"
-                          : "×"
-                      : "·"}
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="workbook-block-controls" contentEditable={false}>
-        <span>
-          String {selected.string}, position {selected.event + 1}
-        </span>
         <label>
-          Direct fret entry
-          <input
-            inputMode="numeric"
-            min="0"
-            max="36"
-            type="number"
-            value={fret}
-            onChange={(event) => {
-              const value = event.target.value;
-              setFret(value);
-              entryBuffer.current = null;
-              if (/^\d{1,2}$/.test(value) && Number(value) <= 36) edit("FRETTED", Number(value));
-              else setFretError("Enter a whole-number fret from 0 to 36.");
-            }}
-          />
+          Positions per line
+          <select
+            value={positionsPerLine}
+            onChange={(event) =>
+              commit({
+                ...blockRef.current,
+                positions_per_line: Number(event.target.value) as 4 | 8 | 12 | 16,
+              })
+            }
+          >
+            {[4, 8, 12, 16].map((value) => (
+              <option value={value} key={value}>
+                {value}
+              </option>
+            ))}
+          </select>
         </label>
-        <button type="button" onClick={() => edit("OPEN")}>
-          Open
-        </button>
-        <button type="button" onClick={() => edit("MUTED")}>
-          Mute
-        </button>
-        <button type="button" onClick={() => edit("EMPTY")}>
-          Clear
-        </button>
+      </div>
+      <div className="workbook-tab-systems" contentEditable={false}>
+        {systems.map((system) => (
+          <section
+            className="workbook-tab-system"
+            aria-label={`System ${system.index + 1}, positions ${system.start + 1} to ${system.start + positionsPerLine}`}
+            key={system.start}
+          >
+            <strong>
+              System {system.index + 1} · Positions {system.start + 1}–
+              {system.start + positionsPerLine}
+            </strong>
+            <div className="workbook-tab-scroll">
+              <div
+                className="workbook-tab-grid"
+                role="grid"
+                aria-label={`Editable guitar tablature system ${system.index + 1}`}
+              >
+                <div
+                  className="workbook-tab-row workbook-tab-row--positions"
+                  role="row"
+                  style={{ gridTemplateColumns: `3rem repeat(${positionsPerLine}, 3rem)` }}
+                >
+                  <span aria-hidden="true" />
+                  {Array.from({ length: positionsPerLine }, (_, offset) => (
+                    <span role="columnheader" key={offset}>
+                      {system.start + offset + 1}
+                    </span>
+                  ))}
+                </div>
+                {pitches.map((pitch) => (
+                  <div
+                    className="workbook-tab-row"
+                    role="row"
+                    key={pitch.string_number}
+                    style={{ gridTemplateColumns: `3rem repeat(${positionsPerLine}, 3rem)` }}
+                  >
+                    <span role="rowheader">{pitch.open_pitch}</span>
+                    {Array.from({ length: positionsPerLine }, (_, offset) => {
+                      const eventIndex = system.start + offset;
+                      const tabEvent = block.events[eventIndex];
+                      const note = tabEvent?.notes.find(
+                        (item) => item.string_number === pitch.string_number,
+                      );
+                      const active =
+                        selected.string === pitch.string_number && selected.event === eventIndex;
+                      return (
+                        <button
+                          key={tabEvent?.id ?? `placeholder-${eventIndex}`}
+                          role="gridcell"
+                          className={`${active ? "is-selected" : ""} ${tabEvent ? "" : "is-placeholder"}`}
+                          aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${tabEvent ? noteLabel(note) : "Empty placeholder"}`}
+                          aria-selected={active}
+                          data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
+                          onClick={() => {
+                            materializeThrough(eventIndex);
+                            setSelected({ string: pitch.string_number, event: eventIndex });
+                            setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
+                            setPendingRemoval(null);
+                            clearEntryBuffer();
+                          }}
+                          onKeyDown={(keyboardEvent) => {
+                            if (!tabEvent) return;
+                            const moves: Record<string, [number, number]> = {
+                              ArrowLeft: [pitch.string_number, eventIndex - 1],
+                              ArrowRight: [pitch.string_number, eventIndex + 1],
+                              ArrowUp: [pitch.string_number + 1, eventIndex],
+                              ArrowDown: [pitch.string_number - 1, eventIndex],
+                            };
+                            const next = moves[keyboardEvent.key];
+                            if (next) {
+                              keyboardEvent.preventDefault();
+                              moveSelection(...next);
+                              return;
+                            }
+                            if (keyboardEvent.key.toLowerCase() === "x") {
+                              keyboardEvent.preventDefault();
+                              clearEntryBuffer();
+                              edit("MUTED", undefined, {
+                                string: pitch.string_number,
+                                event: eventIndex,
+                              });
+                              return;
+                            }
+                            if (/^[0-9]$/.test(keyboardEvent.key)) {
+                              keyboardEvent.preventDefault();
+                              const cell = `${pitch.string_number}-${eventIndex}`;
+                              const candidate =
+                                entryBuffer.current?.cell === cell
+                                  ? `${entryBuffer.current.value}${keyboardEvent.key}`
+                                  : keyboardEvent.key;
+                              const value = Number(candidate);
+                              if (value <= 36) {
+                                entryBuffer.current = { cell, value: candidate };
+                                if (entryTimer.current) clearTimeout(entryTimer.current);
+                                entryTimer.current = setTimeout(clearEntryBuffer, 900);
+                                setSelected({ string: pitch.string_number, event: eventIndex });
+                                setFret(candidate);
+                                edit(value === 0 ? "OPEN" : "FRETTED", value || undefined, {
+                                  string: pitch.string_number,
+                                  event: eventIndex,
+                                });
+                              } else setFretError("Enter a whole-number fret from 0 to 36.");
+                              return;
+                            }
+                            if (
+                              keyboardEvent.key === "Backspace" ||
+                              keyboardEvent.key === "Delete"
+                            ) {
+                              keyboardEvent.preventDefault();
+                              clearEntryBuffer();
+                              edit("EMPTY", undefined, {
+                                string: pitch.string_number,
+                                event: eventIndex,
+                              });
+                            }
+                          }}
+                        >
+                          {note
+                            ? note.state === "FRETTED"
+                              ? note.fret
+                              : note.state === "OPEN"
+                                ? "0"
+                                : "×"
+                            : "·"}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+      <details className="workbook-tab-tools" contentEditable={false}>
+        <summary>Position and block actions</summary>
+        <div className="workbook-block-controls">
+          <span>
+            String {selected.string}, position {selected.event + 1}
+          </span>
+          <label>
+            Direct fret entry
+            <input
+              inputMode="numeric"
+              min="0"
+              max="36"
+              type="number"
+              value={fret}
+              onChange={(event) => {
+                const value = event.target.value;
+                setFret(value);
+                clearEntryBuffer();
+                if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
+                  edit(Number(value) === 0 ? "OPEN" : "FRETTED", Number(value) || undefined);
+                else setFretError("Enter a whole-number fret from 0 to 36.");
+              }}
+            />
+          </label>
+          <button type="button" onClick={() => edit("OPEN")}>
+            Open
+          </button>
+          <button type="button" onClick={() => edit("MUTED")}>
+            Mute
+          </button>
+          <button type="button" onClick={() => edit("EMPTY")}>
+            Clear
+          </button>
+          <button type="button" onClick={duplicate}>
+            Duplicate tab
+          </button>
+          <button type="button" className="danger-quiet" onClick={deleteNode}>
+            Delete tab
+          </button>
+        </div>
+      </details>
+      <div className="workbook-tab-primary-actions" contentEditable={false}>
         <button type="button" onClick={addPosition}>
           Add position
         </button>
-        <button type="button" disabled={block.events.length <= 1} onClick={removePosition}>
-          Remove position
+        <button
+          type="button"
+          className={pendingRemoval === selected.event ? "danger-quiet" : ""}
+          disabled={block.events.length <= 1}
+          onClick={removePosition}
+        >
+          {pendingRemoval === selected.event ? "Confirm remove position" : "Remove position"}
         </button>
-        <button type="button" onClick={duplicate}>
-          Duplicate tab
-        </button>
-        <button type="button" className="danger-quiet" onClick={deleteNode}>
-          Delete tab
-        </button>
+        {pendingRemoval === selected.event ? (
+          <button type="button" onClick={() => setPendingRemoval(null)}>
+            Cancel removal
+          </button>
+        ) : null}
       </div>
       {fretError ? (
         <p className="workbook-field-error" role="status">
@@ -307,9 +432,13 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
         type="button"
         className="workbook-block-exit"
         contentEditable={false}
-        onClick={() => editor.commands.focus((getPos() ?? 0) + node.nodeSize)}
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={(event) => {
+          event.currentTarget.blur();
+          returnToDocument();
+        }}
         onKeyDown={(event) => {
-          if (event.key === "Escape") editor.commands.focus((getPos() ?? 0) + node.nodeSize);
+          if (event.key === "Escape") returnToDocument();
         }}
       >
         Return to document
@@ -332,6 +461,7 @@ function chordSummary(block: Extract<WorkbookBlockV1, { type: "chord_diagram" }>
 function ChordDiagramView({ node, updateAttributes, editor, getPos, deleteNode }: NodeViewProps) {
   const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "chord_diagram" }>;
   const blockRef = useRef(block);
+  const [chordName, setChordName] = useState(block.name);
   useEffect(() => {
     blockRef.current = block;
   }, [block]);
@@ -364,20 +494,29 @@ function ChordDiagramView({ node, updateAttributes, editor, getPos, deleteNode }
       item.state === "FRETTED" &&
       (item.fret! < block.fret_window_start || item.fret! > block.fret_window_start + 4),
   );
+  const returnToDocument = () => {
+    const afterNode = (getPos() ?? 0) + node.nodeSize;
+    editor.commands.setTextSelection(Math.min(editor.state.doc.content.size, afterNode + 1));
+    editor.view.focus();
+  };
   return (
     <NodeViewWrapper
       className="workbook-music-block"
       data-block-type="chord-diagram"
       role="group"
-      aria-label={chordSummary(block)}
+      aria-label={chordSummary({ ...block, name: chordName })}
     >
       <div className="workbook-music-block__header" contentEditable={false}>
         <div>
           <span className="eyebrow">Chord diagram</span>
           <input
             aria-label="Chord name"
-            value={block.name}
-            onChange={(event) => commit({ ...blockRef.current, name: event.target.value })}
+            value={chordName}
+            onChange={(event) => {
+              setChordName(event.target.value);
+              commit({ ...blockRef.current, name: event.target.value });
+            }}
+            onBlur={(event) => commit({ ...blockRef.current, name: event.currentTarget.value })}
           />
         </div>
         <label>
@@ -490,9 +629,13 @@ function ChordDiagramView({ node, updateAttributes, editor, getPos, deleteNode }
         type="button"
         className="workbook-block-exit"
         contentEditable={false}
-        onClick={() => editor.commands.focus((getPos() ?? 0) + node.nodeSize)}
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={(event) => {
+          event.currentTarget.blur();
+          returnToDocument();
+        }}
         onKeyDown={(event) => {
-          if (event.key === "Escape") editor.commands.focus((getPos() ?? 0) + node.nodeSize);
+          if (event.key === "Escape") returnToDocument();
         }}
       >
         Return to document
@@ -524,7 +667,7 @@ const GuitarTab = Node.create({
     "div",
     mergeAttributes(HTMLAttributes, { "data-workbook-node": "guitar-tab" }),
   ],
-  addNodeView: () => ReactNodeViewRenderer(GuitarTabView),
+  addNodeView: () => ReactNodeViewRenderer(GuitarTabView, { stopEvent: () => true }),
 });
 const ChordDiagram = Node.create({
   name: "chordDiagram",
@@ -536,7 +679,7 @@ const ChordDiagram = Node.create({
     "div",
     mergeAttributes(HTMLAttributes, { "data-workbook-node": "chord-diagram" }),
   ],
-  addNodeView: () => ReactNodeViewRenderer(ChordDiagramView),
+  addNodeView: () => ReactNodeViewRenderer(ChordDiagramView, { stopEvent: () => true }),
 });
 const UnsupportedBlock = Node.create({
   name: "unsupportedBlock",
@@ -692,16 +835,60 @@ export function WorkbookEditorPrototype() {
     URL.revokeObjectURL(href);
     setStatus("Document JSON downloaded to this device");
   };
-  const importJson = () => {
+  const restoreDocument = (document: WorkbookDocumentV1) => {
+    if (!window.confirm("Replace the current page with this imported document?")) {
+      setStatus("Import cancelled · the current page was not changed");
+      return;
+    }
+    editor.commands.setContent(workbookToEditorJson(document));
+    setPages((items) =>
+      items.map((page) => (page.id === activePageId ? { ...page, document } : page)),
+    );
+    setStatus("Document JSON restored and remains editable");
+  };
+  const importJsonText = () => {
+    if (!jsonText.trim()) {
+      setStatus("Enter JSON text or select a JSON file to import.");
+      statusRef.current?.focus();
+      return;
+    }
     try {
       const document = parseWorkbookDocument(JSON.parse(jsonText));
-      editor.commands.setContent(workbookToEditorJson(document));
-      setPages((items) =>
-        items.map((page) => (page.id === activePageId ? { ...page, document } : page)),
-      );
-      setStatus("Document JSON restored and remains editable");
+      restoreDocument(document);
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : "The document could not be imported.");
+      setStatus(
+        error instanceof SyntaxError
+          ? "The JSON text is malformed. The current page was not changed."
+          : error instanceof Error
+            ? error.message
+            : "The document could not be imported.",
+      );
+      statusRef.current?.focus();
+    }
+  };
+  const importJsonFile = async (file?: File) => {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".json") && file.type !== "application/json") {
+      setStatus("Choose a .json workbook file. The current page was not changed.");
+      return;
+    }
+    if (file.size > MAX_WORKBOOK_IMPORT_BYTES) {
+      setStatus("The JSON file exceeds the 1 MB prototype import limit.");
+      return;
+    }
+    try {
+      const text = await file.text();
+      if (!text.trim()) throw new SyntaxError();
+      const document = parseWorkbookDocument(JSON.parse(text));
+      restoreDocument(document);
+    } catch (error) {
+      setStatus(
+        error instanceof SyntaxError
+          ? "The selected JSON file is malformed. The current page was not changed."
+          : error instanceof Error
+            ? error.message
+            : "The selected file could not be imported.",
+      );
       statusRef.current?.focus();
     }
   };
@@ -835,8 +1022,8 @@ export function WorkbookEditorPrototype() {
             <div>
               <h2 id="json-title">Document JSON round trip</h2>
               <p>
-                Display the GuitaRPG-owned format below for inspection or editing. This does not
-                download a file unless you choose Download JSON file.
+                Display or download the active page only. Import JSON text or a local JSON file;
+                files stay in this browser and are limited to 1 MB.
               </p>
             </div>
             <div className="workbook-json__actions">
@@ -846,9 +1033,20 @@ export function WorkbookEditorPrototype() {
               <button type="button" onClick={downloadJson}>
                 Download JSON file
               </button>
-              <button type="button" onClick={importJson}>
-                Import document JSON
+              <button type="button" onClick={importJsonText}>
+                Import JSON text
               </button>
+              <label className="workbook-file-import">
+                Import JSON file
+                <input
+                  type="file"
+                  accept="application/json,.json"
+                  onChange={(event) => {
+                    void importJsonFile(event.target.files?.[0]);
+                    event.target.value = "";
+                  }}
+                />
+              </label>
               <button
                 type="button"
                 onClick={() => {

@@ -69,11 +69,26 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
 
   it("starts new tablature blocks with sixteen stable ordered positions", () => {
     const block = emptyTabBlock();
+    expect(block.positions_per_line).toBe(16);
     expect(block.events).toHaveLength(16);
     expect(block.events.map((event) => event.ordinal)).toEqual(
       Array.from({ length: 16 }, (_, index) => index),
     );
     expect(new Set(block.events.map((event) => event.id)).size).toBe(16);
+  });
+
+  it("preserves optional tab presentation grouping without changing event identity", () => {
+    const document = structuredClone(fixture);
+    const tab = document.blocks.find((block) => block.type === "guitar_tab");
+    if (!tab || tab.type !== "guitar_tab") throw new Error("fixture tab missing");
+    tab.positions_per_line = 4;
+    expect(editorJsonToWorkbook(workbookToEditorJson(document))).toEqual(document);
+  });
+
+  it("keeps legacy V1 tabs without a grouping preference compatible", () => {
+    const parsed = parseWorkbookDocument(fixture);
+    const tab = parsed.blocks.find((block) => block.type === "guitar_tab");
+    expect(tab?.type === "guitar_tab" ? tab.positions_per_line : null).toBeUndefined();
   });
 
   it("rejects malformed blocks that cannot be preserved with an identity", () => {
