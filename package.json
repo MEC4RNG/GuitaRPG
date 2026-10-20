@@ -21,7 +21,7 @@
     "test:responsive": "playwright test tests/e2e/responsive.spec.ts --project=small-phone --project=tablet --project=mobile-webkit --workers=1",
     "test:failure-states": "playwright test tests/e2e/failure-states.spec.ts --project=chromium",
     "test:generate-bootstrap": "playwright test tests/e2e/generate-player-bootstrap.spec.ts --project=chromium --project=mobile-chromium --project=mobile-webkit --workers=1",
-    "test:codex-peek-e2e": "playwright test tests/e2e/quest-journey.spec.ts tests/e2e/phase5-launch-package.spec.ts --workers=1",
+    "test:codex-peek-e2e": "playwright test tests/e2e/quest-journey.spec.ts --workers=1 && playwright test tests/e2e/phase5-launch-package.spec.ts --grep \"fresh Player Profile\" --workers=1",
     "test:ux-hardening": "npm run test:accessibility && npm run test:browser-compat && npm run test:responsive && npm run test:failure-states && npm run test:generate-bootstrap && playwright test tests/e2e/performance-smoke.spec.ts --project=chromium",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
     "test:contracts": "vitest run tests/legacy-normalization.test.ts tests/player-state-contract.test.ts tests/quest-contract.test.ts tests/difficulty-contract.test.ts tests/evidence-contract.test.ts tests/progression-contract.test.ts tests/design-system-contract.test.ts tests/contracts/phase0-integration.test.ts",

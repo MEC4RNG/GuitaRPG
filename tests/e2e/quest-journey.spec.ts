@@ -71,7 +71,7 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(primaryTab).toHaveAttribute("aria-selected", "true");
   await expect(page.getByRole("button", { name: "Map" })).toHaveAttribute("aria-pressed", "true");
   await primaryTab.press("ArrowRight");
-  await expect(page.getByRole("tab", { name: "Supporting Skills" })).toHaveAttribute(
+  await expect(page.getByRole("tab", { name: "Musical Concepts" })).toHaveAttribute(
     "aria-selected",
     "true",
   );
