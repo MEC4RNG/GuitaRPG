@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "UX-006",
-    "title": "MEC Quest Journey Experience",
+    "id": "CODEX-002",
+    "title": "Contextual Codex Peek",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "CODEX-002",
-    "title": "Contextual Codex Peek",
+    "id": "QST-008",
+    "title": "Quest Journal Workspace",
     "authorized_to_start": false,
-    "condition": "Explicit CODEX-002 authorization is required"
+    "condition": "Explicit QST-008 authorization is required"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -43,5 +43,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_CODEX_002_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_QST_008_AUTHORIZATION"
 }

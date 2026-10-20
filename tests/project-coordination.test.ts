@@ -77,6 +77,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "QST-006",
       "QST-007",
       "UX-006",
+      "CODEX-002",
     ]).toContain(state.last_terminal_ticket.id);
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
     expect(
@@ -89,6 +90,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
           "SEC-001",
           "UX-005",
           "UX-006",
+          "CODEX-002",
         ].includes(state.active_ticket.id),
     ).toBe(true);
     expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
@@ -172,6 +174,17 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         );
         return;
       }
+      if (state.active_ticket.id === "CODEX-002") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(["IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
+          state.active_ticket.status,
+        );
+        expect(state.next_ticket).toMatchObject({ id: "QST-008", authorized_to_start: false });
+        expect(["CODEX_002_IMPLEMENTATION_IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
+          state.execution_status,
+        );
+        return;
+      }
       expect(state.active_ticket).toMatchObject({ id: "P5-GATE-001", status: "IN_PROGRESS" });
       expect(state.next_ticket).toBeNull();
       expect(state.execution_status).toBe("P5_GATE_001_IN_PROGRESS");
@@ -210,6 +223,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "CODEX-002", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_CODEX_002_AUTHORIZATION");
         expect(read("docs/tickets/UX-006.md")).toContain("**Status:** COMPLETE");
+      } else if (state.last_terminal_ticket.id === "CODEX-002") {
+        expect(state.next_ticket).toMatchObject({ id: "QST-008", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_QST_008_AUTHORIZATION");
+        expect(read("docs/tickets/CODEX-002.md")).toContain("**Status:** COMPLETE");
       } else {
         expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");

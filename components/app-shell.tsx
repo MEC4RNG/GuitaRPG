@@ -7,6 +7,7 @@ import { getNavigationItem, getSurfaceForPath } from "@/lib/navigation";
 
 import { MobileNav } from "./mobile-nav";
 import { Sidebar } from "./sidebar";
+import { CodexPeekProvider } from "./codex-peek";
 
 type AppShellProps = {
   children: ReactNode;
@@ -19,32 +20,36 @@ export function AppShell({ children }: AppShellProps) {
 
   return (
     <div className={`app-shell app-shell--${surface}`} data-surface={surface}>
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
+      <CodexPeekProvider>
+        <div className="app-shell__frame">
+          <a className="skip-link" href="#main-content">
+            Skip to content
+          </a>
 
-      <Sidebar pathname={pathname} />
+          <Sidebar pathname={pathname} />
 
-      <div className="app-shell__workspace">
-        <header className="topbar">
-          <div>
-            <span className="topbar__eyebrow">
-              {surface === "lab"
-                ? "PRACTICE LAB"
-                : surface === "codex"
-                  ? "CODEX"
-                  : "INSTRUMENT HUD"}
-            </span>
-            <strong>{current.label}</strong>
+          <div className="app-shell__workspace">
+            <header className="topbar">
+              <div>
+                <span className="topbar__eyebrow">
+                  {surface === "lab"
+                    ? "PRACTICE LAB"
+                    : surface === "codex"
+                      ? "CODEX"
+                      : "INSTRUMENT HUD"}
+                </span>
+                <strong>{current.label}</strong>
+              </div>
+            </header>
+
+            <main className="app-content" id="main-content" tabIndex={-1}>
+              {children}
+            </main>
           </div>
-        </header>
 
-        <main className="app-content" id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-      </div>
-
-      <MobileNav pathname={pathname} />
+          <MobileNav pathname={pathname} />
+        </div>
+      </CodexPeekProvider>
     </div>
   );
 }

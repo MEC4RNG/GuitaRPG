@@ -56,15 +56,22 @@ test("fresh Player Profile feeds Training and Quest references reach Session", a
   await page.getByRole("button", { name: "Build Training Quest" }).click();
   await expect(page.getByText("DADGAD", { exact: true })).toBeVisible();
   await expect(page.getByText("PUSH ME", { exact: true })).toBeVisible();
+  const tuningReference = page
+    .locator("dt", { hasText: "Tuning" })
+    .locator("..")
+    .getByRole("button", { name: "Open Codex Peek for DADGAD" });
+  await tuningReference.click();
+  await expect(page.getByRole("dialog", { name: "DADGAD" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(tuningReference).toBeFocused();
   await expect(
-    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("link"),
-  ).toHaveAttribute("href", /\/codex\/skills\//);
+    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("button"),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await page.getByRole("button", { name: "Start Practice" }).click();
   await expect(page).toHaveURL(/\/session\/[0-9a-f-]+$/, { timeout: 15_000 });
   await expect(page.getByRole("heading", { name: "Practice parameters" })).toBeVisible();
-  await expect(page.locator(".session-reference").getByRole("link").first()).toHaveAttribute(
-    "href",
-    /\/codex\//,
+  await expect(page.locator(".session-reference").getByRole("button").first()).toHaveAccessibleName(
+    /^Open Codex Peek for /,
   );
   await page.getByRole("button", { name: "+1 rep" }).click();
   await page.getByRole("button", { name: "End Session" }).click();
@@ -79,14 +86,14 @@ test("generated Quest exposes verified references without obscuring practice", a
   await page.getByRole("button", { name: "Generate Quest" }).click();
   await expect(page.locator("#generated-quest-title")).toBeVisible();
   await expect(
-    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("link"),
-  ).toHaveAttribute("href", /\/codex\/skills\//);
+    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("button"),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await expect(
-    page.locator("dt", { hasText: "Concepts" }).locator("..").getByRole("link").first(),
-  ).toHaveAttribute("href", /\/codex\/concepts\//);
+    page.locator("dt", { hasText: "Concepts" }).locator("..").getByRole("button").first(),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await expect(
-    page.locator("dt", { hasText: "Constraints" }).locator("..").getByRole("link").first(),
-  ).toHaveAttribute("href", /\/codex\/constraints\//);
+    page.locator("dt", { hasText: "Constraints" }).locator("..").getByRole("button").first(),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await expect(page.getByRole("button", { name: "Start Quest" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Start Practice" })).toHaveCount(0);
 });
