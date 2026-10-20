@@ -279,10 +279,10 @@ describe("REL-002 production core-loop seams", () => {
     const navigation = read("lib/navigation.ts");
 
     expect(generate).toContain("generateQuickQuest()");
-    expect(generate).toContain(
-      "startGeneratedQuestPractice(client, generated.quest, durableQuestId)",
-    );
-    expect(generate).toContain("router.push(`/session/${started.session.id}`)");
+    expect(generate).toContain("saveGeneratedQuestJourney(");
+    expect(generate).toContain('persist("START")');
+    expect(generate).toContain("router.push(`/quest/${journey.questId}`)");
+    expect(generate).not.toContain("startGeneratedQuestPractice");
     expect(session).toContain("endPracticeSession");
     expect(session).toContain("href={`/session/${sessionId}/complete`}");
     expect(completion).toContain("finalizeQuestResult(client");

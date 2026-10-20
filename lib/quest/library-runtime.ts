@@ -1,6 +1,7 @@
 import { parseQuest, type Quest } from "./runtime";
 import { parseQuestJourney, type QuestJourney, type QuestJourneyStatus } from "./journey-runtime";
 import type { SessionStatus } from "@/lib/session/runtime";
+import { journeyStatusLabel } from "./journey-presentation";
 
 export const QUEST_LIBRARY_PAGE_SIZE = 20;
 export const RECENT_QUEST_LIMIT = 3;
@@ -120,6 +121,10 @@ export function questOpenLabel(status: QuestJourneyStatus) {
   if (status === "CONCLUDED") return "View Quest";
   if (status === "ABANDONED") return "View Quest";
   return "View archived Quest";
+}
+
+export function questLifecycleLabel(status: QuestJourneyStatus) {
+  return journeyStatusLabel[status];
 }
 
 export function sessionAction(session: QuestSessionSummary) {

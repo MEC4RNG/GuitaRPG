@@ -8,37 +8,41 @@ import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex
 import { generateQuickQuest, type GeneratedQuest } from "@/lib/quest/generator";
 import { toQuestPersistenceInput } from "@/lib/quest/runtime";
 import { questCodexReferences } from "@/lib/quest/codex-references";
-import {
-  GeneratedQuestStartError,
-  startGeneratedQuestPractice,
-} from "@/lib/quest/start-generated-quest";
 import { saveGeneratedQuestJourney, type JourneyRpcClient } from "@/lib/quest/journey-repository";
 import { clearQuestDraft, readQuestDraft, saveQuestDraft } from "@/lib/quest/draft-v1";
-import type { SessionRpcClient } from "@/lib/session/repository";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
-import { safeErrorMessage } from "@/lib/ux/safe-error";
 
-type GenerateClient = JourneyRpcClient & SessionRpcClient;
+type GenerateClient = JourneyRpcClient;
 
 export function GenerateQuestSurface() {
   const router = useRouter();
+  const [identityReady, setIdentityReady] = useState(false);
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
   const [durableQuestId, setDurableQuestId] = useState<string | null>(null);
   const [ownerId, setOwnerId] = useState<string | null>(null);
-  const [pending, setPending] = useState<"GENERATING" | "SAVING" | "STARTING" | null>(null);
+  const [pending, setPending] = useState<"GENERATING" | "SAVING" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createBrowserSupabaseClient();
-    void supabase.auth.getUser().then(({ data }) => {
+    void supabase.auth.getUser().then(({ data, error: authError }) => {
       const id = data.user?.id ?? null;
+      if (!id) {
+        if (authError && authError.name !== "AuthSessionMissingError") {
+          setError("We couldn’t prepare your Player session. Please try again.");
+          setIdentityReady(true);
+          return;
+        }
+        router.replace("/onboarding?next=/generate");
+        return;
+      }
       setOwnerId(id);
-      if (!id) return;
       const draft = readQuestDraft(window.sessionStorage, id);
       if (draft)
         setGenerated({ quest: draft.quest, persistence: toQuestPersistenceInput(draft.quest) });
+      setIdentityReady(true);
     });
-  }, []);
+  }, [router]);
 
   async function generate() {
     if (pending) return;
@@ -47,10 +51,15 @@ export function GenerateQuestSurface() {
     setPending("GENERATING");
     setError(null);
     try {
-      const resolvedOwnerId =
-        ownerId ?? (await createBrowserSupabaseClient().auth.getUser()).data.user?.id ?? null;
+      const identity = ownerId ? null : await createBrowserSupabaseClient().auth.getUser();
+      if (identity?.error && identity.error.name !== "AuthSessionMissingError") {
+        setError("We couldn’t prepare your Player session. Please try again.");
+        return;
+      }
+      const resolvedOwnerId = ownerId ?? identity?.data.user?.id ?? null;
       if (!resolvedOwnerId) {
-        throw new Error("A Player identity is required before generating a Quest");
+        router.replace("/onboarding?next=/generate");
+        return;
       }
       setOwnerId(resolvedOwnerId);
       const next = generateQuickQuest();
@@ -84,33 +93,6 @@ export function GenerateQuestSurface() {
     }
   }
 
-  async function startPractice() {
-    if (!generated || pending) return;
-    setPending("STARTING");
-    setError(null);
-    try {
-      const client = createBrowserSupabaseClient() as unknown as GenerateClient;
-      const started = await startGeneratedQuestPractice(client, generated.quest, durableQuestId);
-      setDurableQuestId(started.questId);
-      clearQuestDraft(window.sessionStorage);
-      router.push(`/session/${started.session.id}`);
-    } catch (caught) {
-      if (caught instanceof GeneratedQuestStartError) {
-        setDurableQuestId(caught.durableQuestId);
-        if (caught.durableQuestId) clearQuestDraft(window.sessionStorage);
-        setError(
-          caught.stage === "SESSION_START"
-            ? `${caught.message} Your Quest is saved; retry Start Practice to enter it.`
-            : caught.message,
-        );
-      } else {
-        setError(safeErrorMessage("SESSION_WRITE"));
-      }
-    } finally {
-      setPending(null);
-    }
-  }
-
   const quest = generated?.quest;
   const references = quest ? questCodexReferences(quest) : null;
   const targetTempo = quest?.constraints.find((item) => item.slug === "target_tempo")?.parameters
@@ -130,9 +112,15 @@ export function GenerateQuestSurface() {
           className="action-button"
           type="button"
           onClick={() => void generate()}
-          disabled={pending !== null}
+          disabled={!identityReady || pending !== null}
         >
-          {pending === "GENERATING" ? "Generating…" : quest ? "Generate Another" : "Generate Quest"}
+          {!identityReady
+            ? "Preparing Player…"
+            : pending === "GENERATING"
+              ? "Generating…"
+              : quest
+                ? "Generate Another"
+                : "Generate Quest"}
         </button>
       </header>
 
@@ -168,7 +156,7 @@ export function GenerateQuestSurface() {
               </dd>
             </div>
             <div>
-              <dt>Estimated Time</dt>
+              <dt>Suggested Session</dt>
               <dd>{quest.execution.estimated_minutes} minutes</dd>
             </div>
             <div>
@@ -218,9 +206,10 @@ export function GenerateQuestSurface() {
             </div>
           </dl>
 
-          <div className="generate-actions">
+          <p className="generate-session-note">This Quest can span multiple practice Sessions.</p>
+          <div className="generate-actions generate-actions--quest">
             <button
-              className="action-button action-button--secondary"
+              className="action-button action-button--primary"
               type="button"
               onClick={() => void persist("SAVED")}
               disabled={pending !== null || durableQuestId !== null}
@@ -234,14 +223,6 @@ export function GenerateQuestSurface() {
               disabled={pending !== null}
             >
               Start Quest
-            </button>
-            <button
-              className="action-button"
-              type="button"
-              onClick={startPractice}
-              disabled={pending !== null}
-            >
-              {pending === "STARTING" ? "Starting Practice…" : "Start Practice"}
             </button>
             {durableQuestId ? (
               <Link className="text-link" href="/quests">

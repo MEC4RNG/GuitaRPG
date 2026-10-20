@@ -76,13 +76,20 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "P6-REBASE-001",
       "QST-006",
       "QST-007",
+      "UX-006",
     ]).toContain(state.last_terminal_ticket.id);
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
     expect(
       state.active_ticket === null ||
-        ["P5-GATE-001", "P6-SCOPE-001", "DATA-003", "DATA-004", "SEC-001", "UX-005"].includes(
-          state.active_ticket.id,
-        ),
+        [
+          "P5-GATE-001",
+          "P6-SCOPE-001",
+          "DATA-003",
+          "DATA-004",
+          "SEC-001",
+          "UX-005",
+          "UX-006",
+        ].includes(state.active_ticket.id),
     ).toBe(true);
     expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
     if (state.phase.id === 6)
@@ -154,6 +161,17 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         );
         return;
       }
+      if (state.active_ticket.id === "UX-006") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(["IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
+          state.active_ticket.status,
+        );
+        expect(state.next_ticket).toMatchObject({ id: "CODEX-002", authorized_to_start: false });
+        expect(["UX_006_IMPLEMENTATION_IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
+          state.execution_status,
+        );
+        return;
+      }
       expect(state.active_ticket).toMatchObject({ id: "P5-GATE-001", status: "IN_PROGRESS" });
       expect(state.next_ticket).toBeNull();
       expect(state.execution_status).toBe("P5_GATE_001_IN_PROGRESS");
@@ -188,6 +206,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "UX-006", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_UX_006_AUTHORIZATION");
         expect(read("docs/tickets/QST-007.md")).toContain("**Status:** COMPLETE");
+      } else if (state.last_terminal_ticket.id === "UX-006") {
+        expect(state.next_ticket).toMatchObject({ id: "CODEX-002", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_CODEX_002_AUTHORIZATION");
+        expect(read("docs/tickets/UX-006.md")).toContain("**Status:** COMPLETE");
       } else {
         expect(state.next_ticket).toMatchObject({ id: "DATA-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_DATA_003_AUTHORIZATION");

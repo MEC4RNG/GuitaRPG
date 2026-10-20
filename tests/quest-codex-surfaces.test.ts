@@ -13,8 +13,10 @@ describe("QST-004 Quest learning references", () => {
       const source = read(path);
       expect(source).toContain("questCodexReferences");
       expect(source).toContain("CodexReferenceLink");
-      expect(source).toContain("Start Practice");
     }
+    expect(read("components/generate-quest-surface.tsx")).toContain("Start Quest");
+    expect(read("components/generate-quest-surface.tsx")).not.toContain("Start Practice");
+    expect(read("components/training-surface.tsx")).toContain("Start Practice");
   });
 
   it("reads the immutable Session snapshot and renders useful references", () => {

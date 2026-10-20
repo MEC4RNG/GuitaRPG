@@ -161,10 +161,13 @@ describe("QST-003-R1 generated Quest application bridge", () => {
     expect(page).toContain("GenerateQuestSurface");
     expect(page).not.toContain("FoundationPage");
     expect(surface).toContain("generateQuickQuest()");
-    expect(surface).toContain("startGeneratedQuestPractice");
     expect(surface).toContain("Generate Quest");
-    expect(surface).toContain("Start Practice");
-    expect(surface).toContain("router.push(`/session/${started.session.id}`)");
+    expect(surface).toContain("Save Quest");
+    expect(surface).toContain("Start Quest");
+    expect(surface).toContain('persist("START")');
+    expect(surface).not.toContain("startGeneratedQuestPractice");
+    expect(surface).not.toContain("Start Practice");
+    expect(surface).not.toContain("/session/");
     expect(surface).toContain('role="alert"');
     expect(surface).toContain("disabled={pending !== null}");
   });

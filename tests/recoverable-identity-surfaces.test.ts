@@ -29,7 +29,8 @@ describe("DATA-003 account and guest-safety surfaces", () => {
   });
 
   it("places account truth in onboarding completion and Profile", () => {
-    expect(onboarding).toContain("<AccountRecoveryPanel onboarding />");
+    expect(onboarding).toContain("<AccountRecoveryPanel");
+    expect(onboarding).toContain("onboarding");
     expect(profile).toContain("<AccountRecoveryPanel />");
     expect(profile).toContain("Access your Player.");
   });

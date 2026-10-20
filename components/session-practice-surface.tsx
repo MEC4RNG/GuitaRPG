@@ -235,6 +235,9 @@ export function SessionPracticeSurface({ sessionId }: { sessionId: string }) {
           Lifecycle time is recorded by SES-001. Reps and tempo are append-only SES-002 telemetry.
         </p>
       </header>
+      <Link className="text-link" href={`/quest/${snapshot.session.quest_id}`}>
+        Back to Quest Journey
+      </Link>
 
       {error ? (
         <p className="session-notice" role="alert">
