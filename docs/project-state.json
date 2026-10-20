@@ -21,7 +21,7 @@
   "active_ticket": {
     "id": "CODEX-002",
     "title": "Contextual Codex Peek",
-    "status": "IN_PROGRESS"
+    "status": "AWAITING_USER_VISUAL_REVIEW"
   },
   "next_ticket": {
     "id": "QST-008",
@@ -47,5 +47,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "CODEX_002_IMPLEMENTATION_IN_PROGRESS"
+  "execution_status": "AWAITING_USER_VISUAL_REVIEW"
 }
