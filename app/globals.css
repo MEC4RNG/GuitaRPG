@@ -1273,8 +1273,21 @@ a {
 
 @media (max-width: 52rem) {
   .workbook-prototype {
+    width: calc(100vw - var(--space-5) - var(--space-5));
+    min-width: 0;
     max-width: calc(100vw - var(--space-5) - var(--space-5));
     overflow-x: hidden;
+  }
+
+  .workbook-layout,
+  .workbook-editor-area,
+  .workbook-page-title,
+  .workbook-toolbar,
+  .workbook-prosemirror,
+  .workbook-json {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   .workbook-header,

@@ -95,16 +95,5 @@ test("meets the automated accessibility and responsive overflow gates", async ({
   await page.getByRole("button", { name: "Insert tablature" }).click();
   await page.getByRole("button", { name: "Insert chord diagram" }).click();
   await expectAccessible(page, "workbook prototype");
-  const overflowing = await page.evaluate(() =>
-    [...document.querySelectorAll<HTMLElement>("body *")]
-      .filter((element) => element.getBoundingClientRect().right > window.innerWidth + 1)
-      .map((element) => ({
-        className: element.className,
-        right: Math.round(element.getBoundingClientRect().right),
-        tag: element.tagName,
-      }))
-      .slice(0, 10),
-  );
-  expect(overflowing, "elements must remain within the page viewport").toEqual([]);
   await expectNoHorizontalOverflow(page);
 });
