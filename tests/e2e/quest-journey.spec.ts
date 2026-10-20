@@ -11,6 +11,23 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await page.getByRole("button", { name: "Generate Quest" }).click();
   await expect(page.getByRole("button", { name: "Start Practice" })).toHaveCount(0);
   const title = await page.locator("#generated-quest-title").innerText();
+  async function inspectGeneratedReference(label: string) {
+    const control = page
+      .locator("dt", { hasText: label })
+      .locator("..")
+      .getByRole("button", { name: /^Open Codex Peek for / })
+      .first();
+    await expect(control).toBeVisible();
+    await control.click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.getByRole("button", { name: "Close Codex Peek" }).last().click();
+    await expect(control).toBeFocused();
+  }
+  // Quick Quests intentionally have no secondary or required Skill roles; those roles are
+  // covered by the deterministic resolver suite and use this same reusable control.
+  for (const label of ["Concepts", "Constraints", "Tuning"]) {
+    await inspectGeneratedReference(label);
+  }
   const generatedReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
   await generatedReference.click();
   const peek = page.getByRole("dialog", { name: /.+/ });
