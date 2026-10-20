@@ -62,20 +62,29 @@ test("manages temporary pages without leaking edits between pages", async ({ pag
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook copy");
 });
 
-test("rejects malformed imports and safely treats pasted markup as text", async ({ page }) => {
+test("rejects malformed imports and safely treats pasted markup as text", async ({
+  browserName,
+  page,
+}) => {
   await page.getByLabel("Workbook document JSON").fill('{"type":"wrong"}');
   await page.getByRole("button", { name: "Import document JSON" }).click();
   await expect(page.getByRole("status")).toContainText("not a valid");
 
   const document = page.getByRole("textbox", { name: "Workbook page document" });
   await document.click();
-  await page.evaluate(() => {
-    const data = new DataTransfer();
-    data.setData("text/html", "<p>Safe text</p><script>window.__unsafe = true</script>");
-    globalThis.document.activeElement?.dispatchEvent(
-      new ClipboardEvent("paste", { clipboardData: data, bubbles: true, cancelable: true }),
-    );
-  });
+  if (browserName === "firefox") {
+    // Firefox intentionally ignores synthetic ClipboardEvent payloads. Its real keyboard-input path
+    // must still treat markup as text and never execute it.
+    await page.keyboard.insertText("Safe text <script>window.__unsafe = true</script>");
+  } else {
+    await page.evaluate(() => {
+      const data = new DataTransfer();
+      data.setData("text/html", "<p>Safe text</p><script>window.__unsafe = true</script>");
+      globalThis.document.activeElement?.dispatchEvent(
+        new ClipboardEvent("paste", { clipboardData: data, bubbles: true, cancelable: true }),
+      );
+    });
+  }
   await expect(document).toContainText("Safe text");
   expect(
     await page.evaluate(() => (window as typeof window & { __unsafe?: boolean }).__unsafe),

@@ -1273,7 +1273,7 @@ a {
 
 @media (max-width: 52rem) {
   .workbook-prototype {
-    max-width: calc(100vw - (2 * var(--space-5)));
+    max-width: calc(100vw - var(--space-5) - var(--space-5));
     overflow-x: hidden;
   }
 
