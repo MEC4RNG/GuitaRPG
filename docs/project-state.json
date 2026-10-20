@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "CODEX-002",
-    "title": "Contextual Codex Peek",
+    "id": "JRN-000",
+    "title": "Player-Owned Journal & Workbook Architecture Reconciliation",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "QST-008",
-    "title": "Quest Journal Workspace",
+    "id": "JRN-001",
+    "title": "Interactive Workbook Editor Prototype",
     "authorized_to_start": false,
-    "condition": "Explicit QST-008 authorization is required"
+    "condition": "Explicit JRN-001 authorization is required"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -39,9 +39,10 @@
     "docs/MASTER-BUILD-PLAN.md",
     "docs/architecture/QST-001-canonical-quest-contract.md",
     "docs/architecture/QST-005-mec-quest-lifecycle-workspace-contract.md",
+    "docs/architecture/JRN-000-player-owned-journal-workbook-architecture.md",
     "docs/architecture/DIF-001-difficulty-model-contract.md",
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_QST_008_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_JRN_001_AUTHORIZATION"
 }

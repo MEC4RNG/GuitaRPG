@@ -7,6 +7,27 @@
 - **Baseline:** `v1-production` at `2cad378f380efb82f05587dfd346e620c7a47f95`
 - **Depends on:** QST-001–QST-004, SES-001/SES-002, EVD-001/EVD-002, HIST-001, PROG-001–PROG-006, TRN-001–TRN-004
 
+## 0. JRN-000 amendment — Player-owned Workbook architecture
+
+**Accepted 2026-10-20.** JRN-000 narrowly supersedes this contract's unimplemented Quest-owned
+Journal and Craft-document persistence proposal. Editable Journal and Craft content now belongs to
+independent Player-owned Workbooks containing ordered Pages and versioned structured content blocks.
+A Workbook can exist without a Quest. Quest, Session, MEC stage, and canonical taxonomy/Codex
+relationships are optional owner-validated associations; removing a Quest association does not
+delete the Workbook or its Pages.
+
+This amendment does not alter the immutable canonical Quest, Player Quest Journey lifecycle,
+revisitable Map/Explore/Craft navigation, Session timing, Result/evidence authority, progression
+authority, or existing Codex reference resolution. Quest Workspace entry points remain valid where
+they open or discover associated Player-owned content rather than own it. FRET-001 remains
+responsible for Quest-aware fretboard functionality and must interoperate with JRN-000's shared
+structured-block boundary rather than introduce a competing document store.
+
+QST-008 is superseded before implementation by the separately authorized JRN sequence. No Quest
+Journal table was deployed, so this amendment requires no data migration or historical rewrite. The
+complete disposition is recorded in
+`docs/architecture/JRN-000-qst-005-compatibility-matrix.md`.
+
 ## 1. Decision
 
 GuitaRPG accepts the **MEC Quest model**:

@@ -153,7 +153,7 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 3 gate:** `P3-GATE-001 — Phase 3 Progression Gate` — COMPLETE / PASS
 **Phase 4 gate:** `P4-GATE-001 — Phase 4 Adaptive GuitaRPG Gate` — COMPLETE / PASS
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
-**Last terminal ticket:** `CODEX-002 — Contextual Codex Peek` — COMPLETE
+**Last terminal ticket:** `JRN-000 — Player-Owned Journal & Workbook Architecture Reconciliation` — COMPLETE
 
 **Active ticket:** none
 **DATA-002 disposition:** COMPLETE  
@@ -161,7 +161,7 @@ If implementation reveals that a contract is wrong or incomplete:
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through SEC-001 `20260929130000`; applied and verified
-**Next planned ticket:** `QST-008 — Quest Journal Workspace` — NOT AUTHORIZED
+**Next planned ticket:** `JRN-001 — Interactive Workbook Editor Prototype` — NOT AUTHORIZED
 **Paused ticket:** `OPS-001 — Production Environment, Recovery & Observability` — IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -359,7 +359,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006, QST-007, UX-006, and CODEX-002 are COMPLETE; the user explicitly approved the CODEX-002-R1 desktop and mobile Preview on 2026-10-20. QST-008 remains unauthorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006, QST-007, UX-006, and CODEX-002 are COMPLETE; the user explicitly approved the CODEX-002-R1 desktop and mobile Preview on 2026-10-20. JRN-000 is COMPLETE and narrowly supersedes QST-005's unimplemented Quest-owned Journal/Craft persistence proposal with a Player-owned Workbook architecture. JRN-001 remains unauthorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
 
 Purpose:
 
@@ -424,7 +424,13 @@ These tickets and all completed Phases 0–5 remain complete. New MEC surfaces r
 - `QST-007` — Saved Quest Library & Journey Read Model — COMPLETE
 - `UX-006` — MEC Quest Journey Experience — COMPLETE
 - `CODEX-002` — Contextual Codex Peek — COMPLETE
-- `QST-008` — Quest Journal Workspace — proposed / unauthorized
+- `JRN-000` — Player-Owned Journal & Workbook Architecture Reconciliation — COMPLETE
+- `QST-008` — Quest Journal Workspace — SUPERSEDED BEFORE IMPLEMENTATION by JRN-000/JRN sequence
+- `JRN-001` — Interactive Workbook Editor Prototype — proposed / unauthorized
+- `JRN-002` — Workbook Persistence Foundation — proposed / unauthorized
+- `JRN-003` — Editable Guitar Tablature & Chord Diagrams — proposed / unauthorized
+- `JRN-004` — MEC Workbook Integration — proposed / unauthorized
+- `JRN-005` — Codex Personal Content Integration — proposed / unauthorized
 - `FRET-001` — Quest-Aware Fretboard Workspace — proposed / unauthorized
 - `QST-009` — Progressive Build Quest Composer — proposed / unauthorized
 - `TRN-005` — Training-to-Journey Integration — proposed / unauthorized
@@ -432,9 +438,9 @@ These tickets and all completed Phases 0–5 remain complete. New MEC surfaces r
 - `SEC-002` — MEC Incremental Security Audit — proposed / unauthorized
 - `REL-007` — MEC Journey Integration Gate — proposed / unauthorized
 
-The bounded minimum is generated-draft survival, Save Quest, Start Quest, Saved Quest library, persistent Journey lifecycle, Map/Explore/Craft shell, repeated Sessions, Practice Again, Codex Peek, basic Journal, functional Quest-aware fretboard, Build Quest over the existing Custom engine, Training integration, export/deletion, device-aware sign-out, and integrated desktop/mobile/accessibility/security proof.
+The bounded minimum is generated-draft survival, Save Quest, Start Quest, Saved Quest library, persistent Journey lifecycle, Map/Explore/Craft shell, repeated Sessions, Practice Again, Codex Peek, an explicitly accepted launch subset of the Player-owned Workbook architecture, functional Quest-aware fretboard, Build Quest over the existing Custom engine, Training integration, export/deletion, device-aware sign-out, and integrated desktop/mobile/accessibility/security proof. JRN-000 does not itself authorize or classify the full rich Workbook suite as launch-critical.
 
-Realtime collaboration, notation/tab, recording/raw-audio storage, backing tracks, DAW/timeline, automatic fingering or creative-quality scoring, Campaigns, Daily, social, teacher/student, and analytics expansion remain deferred.
+Realtime collaboration, full notation, recording/raw-audio storage, backing tracks, DAW/timeline, automatic fingering or creative-quality scoring, Campaigns, Daily, social, teacher/student, and analytics expansion remain deferred. Editable tablature and chord diagrams are accepted for the proposed JRN sequence, with release timing gated by JRN-001 and explicit scope authorization.
 
 #### Phase 6C — Resume production hardening
 
@@ -469,6 +475,7 @@ No legacy-site replacement occurs before the cutover ticket passes.
 | TRN | Training | adaptive recommendations and next-Quest selection |
 | HIST | History | auditable practice/result/progression history |
 | CODEX | Learning | reference/educational content tied to canonical taxonomy |
+| JRN | Journal / Workbook | Player-owned editable workbooks, pages, structured musical blocks, and optional associations |
 | AUD | Audio | optional microphone/direct-input analysis infrastructure |
 | ONB | Onboarding | first-run setup and calibration entry |
 | REL | Reliability | integration, regression, E2E, release gates |
@@ -1015,9 +1022,9 @@ The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QS
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
 P6-SCOPE-001, DATA-003, DATA-004, SEC-001, and UX-005 are COMPLETE and remain authoritative.
 
-The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006, QST-007, UX-006, and CODEX-002 are COMPLETE. The user granted explicit UX-006 visual approval on 2026-10-20 after reviewing the UX-006-R2 Preview and explicit CODEX-002 visual approval on 2026-10-20 after reviewing the CODEX-002-R1 Preview on desktop and mobile. QST-008 remains unauthorized.
+The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006, QST-007, UX-006, CODEX-002, and JRN-000 are COMPLETE. The user granted explicit UX-006 visual approval on 2026-10-20 after reviewing the UX-006-R2 Preview and explicit CODEX-002 visual approval on 2026-10-20 after reviewing the CODEX-002-R1 Preview on desktop and mobile. JRN-000 accepts Player-owned standalone Workbooks and supersedes the unimplemented Quest-owned Journal/Craft persistence proposal without altering Quest, Journey, Session, Result, progression, or Codex authority. JRN-001 remains unauthorized.
 
-The ordered program is QST-006, QST-007, UX-006, CODEX-002, QST-008, FRET-001, QST-009, TRN-005, DATA-005, SEC-002, then REL-007. Each requires separate authorization. REL-007 PASS is required before OPS-001 resumes.
+The reconciled program is QST-006, QST-007, UX-006, CODEX-002, JRN-000, then separately authorized JRN-001 through JRN-005 as accepted by their gates, coordinated FRET-001, QST-009, TRN-005, DATA-005, SEC-002, then REL-007. QST-008 is superseded before implementation. Each remaining ticket requires separate authorization, and JRN-000 does not automatically expand the Phase 6B release subset. REL-007 PASS is required before OPS-001 resumes.
 
 OPS-001 is IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION. Its local work, production project, topology/runbook decisions, private-backup destination, and operational rehearsal progress are preserved. Pre-MEC release-specific database, backup/restore, deployment, browser, smoke, SHA, and log evidence must be refreshed after MEC. REL-006 and P6-GATE-001 follow resumed OPS-001, and CUTOVER-001 remains separately authorized only after the gate passes. Public traffic and production cutover remain unchanged and unauthorized.
 
