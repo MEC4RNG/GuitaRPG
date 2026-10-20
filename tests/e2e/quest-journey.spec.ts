@@ -11,6 +11,25 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await page.getByRole("button", { name: "Generate Quest" }).click();
   await expect(page.getByRole("button", { name: "Start Practice" })).toHaveCount(0);
   const title = await page.locator("#generated-quest-title").innerText();
+  const generatedReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
+  await generatedReference.click();
+  const peek = page.getByRole("dialog", { name: /.+/ });
+  await expect(peek).toBeVisible();
+  await expect(peek.getByRole("heading", { name: "Definition" })).toBeVisible();
+  await expect(peek.getByRole("heading", { name: "In this Quest" })).toBeVisible();
+  await expect(peek.getByRole("link", { name: "Open Full Codex Entry" })).toHaveAttribute(
+    "target",
+    "_blank",
+  );
+  if ((page.viewportSize()?.width ?? 1280) < 768) {
+    await expect(peek).toHaveAttribute("aria-modal", "true");
+  } else {
+    await expect(peek).not.toHaveAttribute("aria-modal", "true");
+  }
+  await page.keyboard.press("Escape");
+  await expect(peek).toHaveCount(0);
+  await expect(generatedReference).toBeFocused();
+  await expect(page.locator("#generated-quest-title")).toHaveText(title);
 
   await page.goto("/character");
   await page.goBack();
@@ -27,6 +46,13 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   const primaryTab = page.getByRole("tab", { name: "Primary Focus" });
   await expect(primaryTab).toHaveAttribute("aria-selected", "true");
   await expect(page.getByRole("tabpanel")).toContainText("Primary focus");
+  const mapReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
+  await mapReference.click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(mapReference).toBeFocused();
+  await expect(primaryTab).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("button", { name: "Map" })).toHaveAttribute("aria-pressed", "true");
   await primaryTab.press("ArrowRight");
   await expect(page.getByRole("tab", { name: "Supporting Skills" })).toHaveAttribute(
     "aria-selected",
@@ -52,6 +78,12 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await page.getByRole("button", { name: "Start Practice" }).click();
   await expect(page).toHaveURL(/\/session\/[0-9a-f-]+$/);
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
+  await expect(page.getByText("ACTIVE", { exact: true })).toBeVisible();
+  const sessionReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
+  await sessionReference.click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(sessionReference).toBeFocused();
   await expect(page.getByText("ACTIVE", { exact: true })).toBeVisible();
 
   await page.goto(`/quest/${questId}`);

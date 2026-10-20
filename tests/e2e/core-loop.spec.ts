@@ -113,11 +113,11 @@ test("new anonymous Player completes the production core loop", async ({ page, i
     .locator("dd")
     .innerText();
   await expect(
-    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("link"),
-  ).toHaveAttribute("href", /\/codex\/skills\//);
+    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("button"),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await expect(
-    page.locator("dt", { hasText: "Concepts" }).locator("..").getByRole("link").first(),
-  ).toHaveAttribute("href", /\/codex\/concepts\//);
+    page.locator("dt", { hasText: "Concepts" }).locator("..").getByRole("button").first(),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await expect(page.getByText(/Demand [IVX]+/)).toBeVisible();
   await expect(page.getByText(/BPM|Not required/).first()).toBeVisible();
   await page.getByRole("button", { name: "Start Quest" }).click();
@@ -130,9 +130,8 @@ test("new anonymous Player completes the production core loop", async ({ page, i
   await expect(page.getByRole("heading", { name: questTitle })).toBeVisible();
   await expect(page.getByText("ACTIVE", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Practice parameters" })).toBeVisible();
-  await expect(page.locator(".session-reference").getByRole("link").first()).toHaveAttribute(
-    "href",
-    /\/codex\//,
+  await expect(page.locator(".session-reference").getByRole("button").first()).toHaveAccessibleName(
+    /^Open Codex Peek for /,
   );
 
   await page.getByRole("button", { name: "+1 rep" }).click();
@@ -226,8 +225,8 @@ test("new anonymous Player explicitly selects a tied Training target and starts 
   await expect(page.getByText("Standard Tuning", { exact: true })).toBeVisible();
   await expect(page.getByText("BALANCED", { exact: true })).toBeVisible();
   await expect(
-    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("link"),
-  ).toHaveAttribute("href", /\/codex\/skills\//);
+    page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("button"),
+  ).toHaveAccessibleName(/^Open Codex Peek for /);
   await expect(
     page.getByText("Unknown — more Skill evidence is needed", { exact: true }),
   ).toBeVisible();

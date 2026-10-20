@@ -1,12 +1,17 @@
-import Link from "next/link";
-
+import { useCodexPeek } from "@/components/codex-peek";
 import type { QuestCodexReference } from "@/lib/quest/codex-references";
 
 export function CodexReferenceLink({ reference }: { reference: QuestCodexReference }) {
+  const { openPeek } = useCodexPeek();
   const name = reference.href ? (
-    <Link className="quest-codex-link" href={reference.href}>
+    <button
+      className="quest-codex-link"
+      type="button"
+      aria-label={`Open Codex Peek for ${reference.name}`}
+      onClick={(event) => openPeek(reference, event.currentTarget)}
+    >
       {reference.name}
-    </Link>
+    </button>
   ) : (
     reference.name
   );

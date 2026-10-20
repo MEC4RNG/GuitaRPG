@@ -41,28 +41,6 @@ const dateTime = (value: string) =>
     new Date(value),
   );
 
-function IngredientList({
-  title,
-  items,
-  kind = "concept",
-}: {
-  title: string;
-  items: Array<{ slug: string; name: string }>;
-  kind?: "skill" | "technique" | "concept";
-}) {
-  if (!items.length) return null;
-  return (
-    <section className={`journey-ingredient journey-ingredient--${kind}`}>
-      <h3>{title}</h3>
-      <ul>
-        {items.map((item) => (
-          <li key={item.slug}>{item.name}</li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
 export function QuestJourneySurface({ questId }: { questId: string }) {
   const router = useRouter();
   const [detail, setDetail] = useState<Detail | null>(null);
@@ -156,7 +134,11 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
       label: "Required Techniques",
       present: references.requiredTechniques.length > 0,
     },
-    { id: "context" as const, label: "Context", present: context.length > 0 },
+    {
+      id: "context" as const,
+      label: "Context",
+      present: references.contexts.length > 0 || context.length > 0,
+    },
   ].filter((tab) => tab.present);
 
   function moveMapTab(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -299,14 +281,27 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                     </div>
                   ) : null}
                   {tab.id === "context" ? (
-                    <dl className="journey-detail-list">
-                      {context.map((item) => (
-                        <div key={item.label}>
-                          <dt>{item.label}</dt>
-                          <dd>{item.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
+                    references.contexts.length ? (
+                      <dl className="journey-detail-list">
+                        {references.contexts.map((reference) => (
+                          <div key={`${reference.role}-${reference.slug}`}>
+                            <dt>{reference.role.replaceAll("_", " ")}</dt>
+                            <dd>
+                              <CodexReferenceLink reference={reference} />
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : (
+                      <dl className="journey-detail-list">
+                        {context.map((item) => (
+                          <div key={item.label}>
+                            <dt>{item.label}</dt>
+                            <dd>{item.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )
                   ) : null}
                 </section>
               ))}
@@ -316,7 +311,9 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
             <>
               <div className="journey-focus">
                 <span>Practice focus</span>
-                <strong>{quest.execution.primary_skill.name}</strong>
+                <strong>
+                  <CodexReferenceLink reference={references.primarySkill} />
+                </strong>
                 <p>{quest.objective.summary}</p>
               </div>
               {targetTempo ? (
@@ -327,16 +324,22 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                 </div>
               ) : null}
               <div className="journey-ingredients">
-                <IngredientList
-                  title="Supporting skills"
-                  items={quest.execution.secondary_skills}
-                  kind="skill"
-                />
-                <IngredientList
-                  title="Required techniques"
-                  items={quest.execution.required_techniques}
-                  kind="technique"
-                />
+                {references.secondarySkills.length ? (
+                  <section className="journey-ingredient journey-ingredient--skill">
+                    <h3>Supporting skills</h3>
+                    <p>
+                      <CodexReferenceList references={references.secondarySkills} />
+                    </p>
+                  </section>
+                ) : null}
+                {references.requiredTechniques.length ? (
+                  <section className="journey-ingredient journey-ingredient--technique">
+                    <h3>Required techniques</h3>
+                    <p>
+                      <CodexReferenceList references={references.requiredTechniques} />
+                    </p>
+                  </section>
+                ) : null}
               </div>
             </>
           ) : null}
@@ -365,15 +368,27 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
               </div>
               <div className="journey-focus">
                 <span>Primary ingredient</span>
-                <strong>{quest.execution.primary_skill.name}</strong>
+                <strong>
+                  <CodexReferenceLink reference={references.primarySkill} />
+                </strong>
               </div>
               <div className="journey-ingredients">
-                <IngredientList
-                  title="Supporting skills"
-                  items={quest.execution.secondary_skills}
-                  kind="skill"
-                />
-                <IngredientList title="Concepts" items={quest.concepts} />
+                {references.secondarySkills.length ? (
+                  <section className="journey-ingredient journey-ingredient--skill">
+                    <h3>Supporting skills</h3>
+                    <p>
+                      <CodexReferenceList references={references.secondarySkills} />
+                    </p>
+                  </section>
+                ) : null}
+                {references.concepts.length ? (
+                  <section className="journey-ingredient journey-ingredient--concept">
+                    <h3>Concepts</h3>
+                    <p>
+                      <CodexReferenceList references={references.concepts} />
+                    </p>
+                  </section>
+                ) : null}
               </div>
               {constraints.length ? (
                 <section>
@@ -443,6 +458,9 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <p>
+            Codex references: <CodexReferenceList references={references.constraints} />
+          </p>
         </details>
       ) : null}
 

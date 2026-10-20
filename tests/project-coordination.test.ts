@@ -89,6 +89,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
           "SEC-001",
           "UX-005",
           "UX-006",
+          "CODEX-002",
         ].includes(state.active_ticket.id),
     ).toBe(true);
     expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
@@ -168,6 +169,17 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         );
         expect(state.next_ticket).toMatchObject({ id: "CODEX-002", authorized_to_start: false });
         expect(["UX_006_IMPLEMENTATION_IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
+          state.execution_status,
+        );
+        return;
+      }
+      if (state.active_ticket.id === "CODEX-002") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(["IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
+          state.active_ticket.status,
+        );
+        expect(state.next_ticket).toMatchObject({ id: "QST-008", authorized_to_start: false });
+        expect(["CODEX_002_IMPLEMENTATION_IN_PROGRESS", "AWAITING_USER_VISUAL_REVIEW"]).toContain(
           state.execution_status,
         );
         return;

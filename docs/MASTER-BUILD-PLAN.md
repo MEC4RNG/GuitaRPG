@@ -155,13 +155,13 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
 **Last terminal ticket:** `UX-006 — MEC Quest Journey Experience` — COMPLETE
 
-**Active ticket:** none
+**Active ticket:** `CODEX-002 — Contextual Codex Peek` — IN PROGRESS
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through SEC-001 `20260929130000`; applied and verified
-**Next planned ticket:** `CODEX-002 — Contextual Codex Peek` — NOT AUTHORIZED
+**Next planned ticket:** `QST-008 — Quest Journal Workspace` — NOT AUTHORIZED
 **Paused ticket:** `OPS-001 — Production Environment, Recovery & Observability` — IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -359,7 +359,7 @@ The system can select and explain a useful next Quest based on actual Player sta
 
 ### Phase 5 — Learning & Practice Tooling — COMPLETE
 
-Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006, QST-007, and UX-006 are COMPLETE; CODEX-002 is next and unauthorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
+Phase 5 is COMPLETE through P5-GATE-001 / PASS. UX-001-R1, UX-004, PLY-003, CODEX-001, QST-004, and REL-005 are COMPLETE, and UX_V1_1 governs exposed v1 navigation. Phase 6 is IN PROGRESS. P6-REBASE-001 accepts QST-005 as pre-launch product architecture and establishes the bounded Phase 6B MEC Product Completion Program. QST-006, QST-007, and UX-006 are COMPLETE; CODEX-002 is active and IN PROGRESS. QST-008 remains unauthorized. OPS-001 is paused with its local work and operational progress preserved until REL-007 passes.
 
 Purpose:
 
@@ -423,7 +423,7 @@ These tickets and all completed Phases 0–5 remain complete. New MEC surfaces r
 - `QST-006` — Quest Draft, Save & Journey Persistence — COMPLETE
 - `QST-007` — Saved Quest Library & Journey Read Model — COMPLETE
 - `UX-006` — MEC Quest Journey Experience — COMPLETE
-- `CODEX-002` — Contextual Codex Peek — proposed / next / unauthorized
+- `CODEX-002` — Contextual Codex Peek — IN PROGRESS
 - `QST-008` — Quest Journal Workspace — proposed / unauthorized
 - `FRET-001` — Quest-Aware Fretboard Workspace — proposed / unauthorized
 - `QST-009` — Progressive Build Quest Composer — proposed / unauthorized
@@ -1015,7 +1015,7 @@ The bounded Phase 5 launch sequence is UX-001-R1, UX-004, PLY-003, CODEX-001, QS
 REL-005, then P5-GATE-001. Every ticket is COMPLETE and the gate is PASS. Phase 6 is IN PROGRESS:
 P6-SCOPE-001, DATA-003, DATA-004, SEC-001, and UX-005 are COMPLETE and remain authoritative.
 
-The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006, QST-007, and UX-006 are COMPLETE. The user granted explicit UX-006 visual approval on 2026-10-20 after reviewing the UX-006-R2 Preview. CODEX-002 is next and remains unauthorized.
+The user has explicitly decided that the accepted QST-005 Map/Explore/Craft persistent Quest Journey is launch-defining and has accepted a launch delay to complete it before public release. P6-REBASE-001 is COMPLETE and creates a bounded feature-freeze exception for the Phase 6B MEC Product Completion Program. QST-005 is COMPLETE — DESIGN CONTRACT / ACCEPTED FOR PRE-LAUNCH IMPLEMENTATION. QST-006, QST-007, and UX-006 are COMPLETE. The user granted explicit UX-006 visual approval on 2026-10-20 after reviewing the UX-006-R2 Preview. CODEX-002 is active and IN PROGRESS; QST-008 remains unauthorized.
 
 The ordered program is QST-006, QST-007, UX-006, CODEX-002, QST-008, FRET-001, QST-009, TRN-005, DATA-005, SEC-002, then REL-007. Each requires separate authorization. REL-007 PASS is required before OPS-001 resumes.
 
