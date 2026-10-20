@@ -1,0 +1,756 @@
+"use client";
+
+import { Extension, Node, mergeAttributes } from "@tiptap/core";
+import {
+  EditorContent,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+  useEditor,
+  type NodeViewProps,
+} from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import {
+  createId,
+  editorJsonToWorkbook,
+  emptyChordBlock,
+  emptyTabBlock,
+  parseWorkbookDocument,
+  starterWorkbookDocument,
+  tuningSnapshot,
+  workbookToEditorJson,
+  type TabNote,
+  type WorkbookBlockV1,
+  type WorkbookDocumentV1,
+} from "@/lib/workbook/document-v1";
+
+type Page = { id: string; title: string; document: WorkbookDocumentV1 };
+
+const BlockIdentity = Extension.create({
+  name: "blockIdentity",
+  addGlobalAttributes() {
+    return [
+      {
+        types: ["paragraph", "heading", "bulletList", "orderedList"],
+        attributes: {
+          blockId: {
+            default: null,
+            parseHTML: (element) => element.dataset.blockId,
+            renderHTML: (attributes) =>
+              attributes.blockId ? { "data-block-id": attributes.blockId } : {},
+          },
+        },
+      },
+    ];
+  },
+});
+
+function summaryForTab(block: Extract<WorkbookBlockV1, { type: "guitar_tab" }>) {
+  const notes = block.events.flatMap((event) => event.notes);
+  return `Six-string tablature. ${block.tuning.display_name}. ${block.events.length} positions, ${notes.length} notes.`;
+}
+
+function noteLabel(note?: TabNote) {
+  if (!note) return "Empty";
+  if (note.state === "OPEN") return "Open";
+  if (note.state === "MUTED") return "Muted";
+  return `Fret ${note.fret}`;
+}
+
+function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: NodeViewProps) {
+  const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "guitar_tab" }>;
+  const blockRef = useRef(block);
+  useEffect(() => {
+    blockRef.current = block;
+  }, [block]);
+  const commit = (next: typeof block) => {
+    blockRef.current = next;
+    updateAttributes({ block: next });
+  };
+  const [selected, setSelected] = useState({ string: 6, event: 0 });
+  const [fret, setFret] = useState("0");
+  const edit = (state: TabNote["state"] | "EMPTY") => {
+    const next = structuredClone(blockRef.current);
+    const notes = next.events[selected.event].notes.filter(
+      (note) => note.string_number !== selected.string,
+    );
+    if (state !== "EMPTY")
+      notes.push({
+        string_number: selected.string,
+        state,
+        ...(state === "FRETTED" ? { fret: Math.max(0, Number.parseInt(fret || "0", 10)) } : {}),
+      });
+    next.events[selected.event].notes = notes.sort((a, b) => b.string_number - a.string_number);
+    commit(next);
+  };
+  const addPosition = () => {
+    const next = structuredClone(blockRef.current);
+    next.events.push({ id: createId(), ordinal: next.events.length, notes: [] });
+    commit(next);
+  };
+  const removePosition = () => {
+    if (block.events.length <= 1) return;
+    const next = structuredClone(blockRef.current);
+    next.events.splice(selected.event, 1);
+    next.events.forEach((event, ordinal) => (event.ordinal = ordinal));
+    setSelected((value) => ({ ...value, event: Math.min(value.event, next.events.length - 1) }));
+    commit(next);
+  };
+  const duplicate = () => {
+    const copy = structuredClone(blockRef.current);
+    copy.id = createId();
+    copy.events = copy.events.map((event) => ({ ...event, id: createId() }));
+    editor
+      .chain()
+      .focus()
+      .insertContentAt((getPos() ?? 0) + node.nodeSize, {
+        type: "guitarTab",
+        attrs: { blockId: copy.id, block: copy },
+      })
+      .run();
+  };
+  const pitches = [...block.tuning.strings_low_to_high].reverse();
+  const moveSelection = (stringNumber: number, eventIndex: number) => {
+    const nextString = Math.min(6, Math.max(1, stringNumber));
+    const nextEvent = Math.min(block.events.length - 1, Math.max(0, eventIndex));
+    setSelected({ string: nextString, event: nextEvent });
+    requestAnimationFrame(() =>
+      document
+        .querySelector<HTMLElement>(`[data-tab-cell="${block.id}-${nextString}-${nextEvent}"]`)
+        ?.focus(),
+    );
+  };
+  return (
+    <NodeViewWrapper
+      className="workbook-music-block"
+      data-block-type="guitar-tab"
+      role="group"
+      aria-label={summaryForTab(block)}
+    >
+      <div className="workbook-music-block__header" contentEditable={false}>
+        <div>
+          <span className="eyebrow">Guitar tablature</span>
+          <strong>{block.tuning.display_name}</strong>
+        </div>
+        <label>
+          Tuning
+          <select
+            value={block.tuning.slug}
+            onChange={(event) =>
+              updateAttributes({
+                block: {
+                  ...block,
+                  tuning: tuningSnapshot(event.target.value as "standard" | "dadgad"),
+                },
+              })
+            }
+          >
+            <option value="standard">Standard · E A D G B E</option>
+            <option value="dadgad">DADGAD · D A D G A D</option>
+          </select>
+        </label>
+      </div>
+      <div
+        className="workbook-tab-grid"
+        role="grid"
+        aria-label="Editable guitar tablature"
+        contentEditable={false}
+      >
+        {pitches.map((pitch) => (
+          <div className="workbook-tab-row" role="row" key={pitch.string_number}>
+            <span role="rowheader">{pitch.open_pitch}</span>
+            {block.events.map((event, eventIndex) => {
+              const note = event.notes.find((item) => item.string_number === pitch.string_number);
+              const active =
+                selected.string === pitch.string_number && selected.event === eventIndex;
+              return (
+                <button
+                  key={event.id}
+                  role="gridcell"
+                  className={active ? "is-selected" : ""}
+                  aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${noteLabel(note)}`}
+                  aria-selected={active}
+                  data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
+                  onClick={() => {
+                    setSelected({ string: pitch.string_number, event: eventIndex });
+                    if (note?.state === "FRETTED") setFret(String(note.fret));
+                  }}
+                  onKeyDown={(event) => {
+                    const moves: Record<string, [number, number]> = {
+                      ArrowLeft: [pitch.string_number, eventIndex - 1],
+                      ArrowRight: [pitch.string_number, eventIndex + 1],
+                      ArrowUp: [pitch.string_number + 1, eventIndex],
+                      ArrowDown: [pitch.string_number - 1, eventIndex],
+                    };
+                    const next = moves[event.key];
+                    if (next) {
+                      event.preventDefault();
+                      moveSelection(...next);
+                    }
+                  }}
+                >
+                  {note
+                    ? note.state === "FRETTED"
+                      ? note.fret
+                      : note.state === "OPEN"
+                        ? "0"
+                        : "×"
+                    : "·"}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <div className="workbook-block-controls" contentEditable={false}>
+        <span>
+          String {selected.string}, position {selected.event + 1}
+        </span>
+        <label>
+          Fret
+          <input
+            inputMode="numeric"
+            min="0"
+            max="36"
+            type="number"
+            value={fret}
+            onChange={(event) => setFret(event.target.value)}
+          />
+        </label>
+        <button type="button" onClick={() => edit("FRETTED")}>
+          Set fret
+        </button>
+        <button type="button" onClick={() => edit("OPEN")}>
+          Open
+        </button>
+        <button type="button" onClick={() => edit("MUTED")}>
+          Mute
+        </button>
+        <button type="button" onClick={() => edit("EMPTY")}>
+          Clear
+        </button>
+        <button type="button" onClick={addPosition}>
+          Add position
+        </button>
+        <button type="button" disabled={block.events.length <= 1} onClick={removePosition}>
+          Remove position
+        </button>
+        <button type="button" onClick={duplicate}>
+          Duplicate tab
+        </button>
+        <button type="button" className="danger-quiet" onClick={deleteNode}>
+          Delete tab
+        </button>
+      </div>
+      <button
+        type="button"
+        className="workbook-block-exit"
+        contentEditable={false}
+        onClick={() => editor.commands.focus((getPos() ?? 0) + node.nodeSize)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") editor.commands.focus((getPos() ?? 0) + node.nodeSize);
+        }}
+      >
+        Return to document
+      </button>
+    </NodeViewWrapper>
+  );
+}
+
+function chordSummary(block: Extract<WorkbookBlockV1, { type: "chord_diagram" }>) {
+  const strings = [...block.strings]
+    .sort((a, b) => b.string_number - a.string_number)
+    .map(
+      (item) =>
+        `string ${item.string_number} ${item.state === "FRETTED" ? `fret ${item.fret}` : item.state.toLowerCase()}`,
+    )
+    .join(", ");
+  return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.`;
+}
+
+function ChordDiagramView({ node, updateAttributes, editor, getPos, deleteNode }: NodeViewProps) {
+  const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "chord_diagram" }>;
+  const blockRef = useRef(block);
+  useEffect(() => {
+    blockRef.current = block;
+  }, [block]);
+  const commit = (next: typeof block) => {
+    blockRef.current = next;
+    updateAttributes({ block: next });
+  };
+  const [selected, setSelected] = useState(6);
+  const [fret, setFret] = useState("1");
+  const setString = (state: "FRETTED" | "OPEN" | "MUTED") => {
+    const next = structuredClone(blockRef.current);
+    next.strings = next.strings.map((item) =>
+      item.string_number === selected
+        ? {
+            string_number: selected,
+            state,
+            ...(state === "FRETTED" ? { fret: Math.max(0, Number.parseInt(fret || "0", 10)) } : {}),
+          }
+        : item,
+    );
+    commit(next);
+  };
+  return (
+    <NodeViewWrapper
+      className="workbook-music-block"
+      data-block-type="chord-diagram"
+      role="group"
+      aria-label={chordSummary(block)}
+    >
+      <div className="workbook-music-block__header" contentEditable={false}>
+        <div>
+          <span className="eyebrow">Chord diagram</span>
+          <input
+            aria-label="Chord name"
+            value={block.name}
+            onChange={(event) => commit({ ...blockRef.current, name: event.target.value })}
+          />
+        </div>
+        <label>
+          First fret
+          <input
+            type="number"
+            min="1"
+            max="20"
+            value={block.fret_window_start}
+            onChange={(event) =>
+              commit({
+                ...blockRef.current,
+                fret_window_start: Math.max(1, Number(event.target.value)),
+              })
+            }
+          />
+        </label>
+      </div>
+      <div className="workbook-chord" aria-hidden="true" contentEditable={false}>
+        {[6, 5, 4, 3, 2, 1].map((stringNumber) => {
+          const item = block.strings.find((entry) => entry.string_number === stringNumber)!;
+          return (
+            <div key={stringNumber}>
+              <span>{item.state === "OPEN" ? "○" : item.state === "MUTED" ? "×" : item.fret}</span>
+              <i />
+            </div>
+          );
+        })}
+      </div>
+      <div
+        className="workbook-string-picker"
+        contentEditable={false}
+        role="group"
+        aria-label="Choose chord string"
+      >
+        {[6, 5, 4, 3, 2, 1].map((number) => {
+          const item = block.strings.find((entry) => entry.string_number === number)!;
+          return (
+            <button
+              type="button"
+              aria-pressed={selected === number}
+              aria-label={`String ${number}, ${item.state === "FRETTED" ? `fret ${item.fret}` : item.state.toLowerCase()}`}
+              key={number}
+              onClick={() => {
+                setSelected(number);
+                if (item.fret !== undefined) setFret(String(item.fret));
+              }}
+            >
+              {number}
+            </button>
+          );
+        })}
+      </div>
+      <div className="workbook-block-controls" contentEditable={false}>
+        <span>String {selected}</span>
+        <label>
+          Fret
+          <input
+            type="number"
+            inputMode="numeric"
+            min="0"
+            max="36"
+            value={fret}
+            onChange={(event) => setFret(event.target.value)}
+          />
+        </label>
+        <button type="button" onClick={() => setString("FRETTED")}>
+          Set fret
+        </button>
+        <button type="button" onClick={() => setString("OPEN")}>
+          Open
+        </button>
+        <button type="button" onClick={() => setString("MUTED")}>
+          Mute
+        </button>
+        <button type="button" onClick={() => setString("MUTED")}>
+          Clear position
+        </button>
+        <button type="button" className="danger-quiet" onClick={deleteNode}>
+          Delete chord
+        </button>
+      </div>
+      <p className="sr-only" aria-live="polite">
+        {chordSummary(block)}
+      </p>
+      <button
+        type="button"
+        className="workbook-block-exit"
+        contentEditable={false}
+        onClick={() => editor.commands.focus((getPos() ?? 0) + node.nodeSize)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") editor.commands.focus((getPos() ?? 0) + node.nodeSize);
+        }}
+      >
+        Return to document
+      </button>
+    </NodeViewWrapper>
+  );
+}
+
+function UnsupportedView({ node }: NodeViewProps) {
+  return (
+    <NodeViewWrapper className="workbook-unsupported" role="note" contentEditable={false}>
+      <strong>Unsupported block preserved</strong>
+      <p>
+        This future block cannot be edited by this prototype. Exporting the document preserves its
+        original data.
+      </p>
+      <pre>{JSON.stringify(node.attrs.original, null, 2)}</pre>
+    </NodeViewWrapper>
+  );
+}
+
+const GuitarTab = Node.create({
+  name: "guitarTab",
+  group: "block",
+  atom: true,
+  addAttributes: () => ({ blockId: { default: null }, block: { default: null } }),
+  parseHTML: () => [{ tag: 'div[data-workbook-node="guitar-tab"]' }],
+  renderHTML: ({ HTMLAttributes }) => [
+    "div",
+    mergeAttributes(HTMLAttributes, { "data-workbook-node": "guitar-tab" }),
+  ],
+  addNodeView: () => ReactNodeViewRenderer(GuitarTabView),
+});
+const ChordDiagram = Node.create({
+  name: "chordDiagram",
+  group: "block",
+  atom: true,
+  addAttributes: () => ({ blockId: { default: null }, block: { default: null } }),
+  parseHTML: () => [{ tag: 'div[data-workbook-node="chord-diagram"]' }],
+  renderHTML: ({ HTMLAttributes }) => [
+    "div",
+    mergeAttributes(HTMLAttributes, { "data-workbook-node": "chord-diagram" }),
+  ],
+  addNodeView: () => ReactNodeViewRenderer(ChordDiagramView),
+});
+const UnsupportedBlock = Node.create({
+  name: "unsupportedBlock",
+  group: "block",
+  atom: true,
+  addAttributes: () => ({
+    blockId: { default: null },
+    blockVersion: { default: 1 },
+    original: { default: null },
+  }),
+  parseHTML: () => [{ tag: 'div[data-workbook-node="unsupported"]' }],
+  renderHTML: ({ HTMLAttributes }) => [
+    "div",
+    mergeAttributes(HTMLAttributes, { "data-workbook-node": "unsupported" }),
+  ],
+  addNodeView: () => ReactNodeViewRenderer(UnsupportedView),
+});
+
+export function WorkbookEditorPrototype() {
+  const initialPage = useMemo<Page>(
+    () => ({ id: createId(), title: "First page", document: starterWorkbookDocument() }),
+    [],
+  );
+  const [pages, setPages] = useState<Page[]>([initialPage]);
+  const [activePageId, setActivePageId] = useState(initialPage.id);
+  const activePageIdRef = useRef(activePageId);
+  const [status, setStatus] = useState(
+    "Temporary prototype · changes are not saved to your account",
+  );
+  const [jsonText, setJsonText] = useState("");
+  const statusRef = useRef<HTMLParagraphElement>(null);
+  const pagesRef = useRef(pages);
+  const activePage = pages.find((page) => page.id === activePageId) ?? pages[0];
+  useEffect(() => {
+    pagesRef.current = pages;
+  }, [pages]);
+  useEffect(() => {
+    activePageIdRef.current = activePageId;
+  }, [activePageId]);
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions: [
+      StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
+      BlockIdentity,
+      GuitarTab,
+      ChordDiagram,
+      UnsupportedBlock,
+    ],
+    content: workbookToEditorJson(initialPage.document),
+    editorProps: {
+      attributes: { class: "workbook-prosemirror", "aria-label": "Workbook page document" },
+      transformPastedHTML: (html) => html.replace(/<script[\s\S]*?<\/script>/gi, ""),
+    },
+    onUpdate: ({ editor }) => {
+      try {
+        const document = editorJsonToWorkbook(editor.getJSON());
+        setPages((current) =>
+          current.map((page) =>
+            page.id === activePageIdRef.current ? { ...page, document } : page,
+          ),
+        );
+        setStatus("Edited locally · export JSON to keep a copy");
+      } catch {
+        setStatus("The document contains an invalid block. Undo the last change.");
+      }
+    },
+  });
+  useEffect(() => {
+    const page = pagesRef.current.find((item) => item.id === activePageId);
+    if (editor && page)
+      editor.commands.setContent(workbookToEditorJson(page.document), { emitUpdate: false });
+  }, [activePageId, editor]);
+  if (!editor) return <p>Preparing the temporary workbook editor…</p>;
+  const switchPage = (id: string) => {
+    const current = editorJsonToWorkbook(editor.getJSON());
+    setPages((items) =>
+      items.map((page) => (page.id === activePageId ? { ...page, document: current } : page)),
+    );
+    setActivePageId(id);
+  };
+  const addPage = () => {
+    const page = {
+      id: createId(),
+      title: `Page ${pages.length + 1}`,
+      document: starterWorkbookDocument(),
+    };
+    setPages((items) => [...items, page]);
+    setActivePageId(page.id);
+  };
+  const duplicatePage = () => {
+    const copy = structuredClone(activePage);
+    copy.id = createId();
+    copy.title = `${copy.title} copy`;
+    copy.document.blocks = copy.document.blocks.map((block) => {
+      const copied = { ...block, id: createId() };
+      return copied.type === "guitar_tab"
+        ? { ...copied, events: copied.events.map((event) => ({ ...event, id: createId() })) }
+        : copied;
+    });
+    setPages((items) => [...items, copy]);
+    setActivePageId(copy.id);
+  };
+  const deletePage = () => {
+    if (pages.length === 1) return;
+    const next = pages.filter((page) => page.id !== activePageId);
+    setPages(next);
+    setActivePageId(next[0].id);
+  };
+  const insertMusical = (type: "tab" | "chord") => {
+    const block = type === "tab" ? emptyTabBlock() : emptyChordBlock();
+    editor
+      .chain()
+      .focus()
+      .insertContent([
+        {
+          type: type === "tab" ? "guitarTab" : "chordDiagram",
+          attrs: { blockId: block.id, block },
+        },
+        { type: "paragraph", attrs: { blockId: createId() } },
+      ])
+      .run();
+  };
+  const exportJson = () => {
+    const document = editorJsonToWorkbook(editor.getJSON());
+    setPages((items) =>
+      items.map((page) => (page.id === activePageId ? { ...page, document } : page)),
+    );
+    setJsonText(JSON.stringify(document, null, 2));
+    setStatus("Document JSON exported locally below");
+  };
+  const importJson = () => {
+    try {
+      const document = parseWorkbookDocument(JSON.parse(jsonText));
+      editor.commands.setContent(workbookToEditorJson(document));
+      setPages((items) =>
+        items.map((page) => (page.id === activePageId ? { ...page, document } : page)),
+      );
+      setStatus("Document JSON restored and remains editable");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "The document could not be imported.");
+      statusRef.current?.focus();
+    }
+  };
+  return (
+    <section className="workbook-prototype" aria-labelledby="workbook-title">
+      <header className="workbook-header">
+        <div>
+          <span className="eyebrow">Non-production prototype</span>
+          <h1 id="workbook-title">Interactive Workbook Editor</h1>
+          <p>
+            Test one continuous document with rich text, tablature, and chord diagrams. Nothing is
+            saved remotely.
+          </p>
+        </div>
+        <label>
+          Workbook title
+          <input defaultValue="Guitar ideas" />
+        </label>
+      </header>
+      <p ref={statusRef} className="workbook-status" role="status" tabIndex={-1}>
+        {status}
+      </p>
+      <div className="workbook-layout">
+        <aside className="workbook-pages" aria-label="Temporary workbook pages">
+          <div className="workbook-pages__heading">
+            <h2>Pages</h2>
+            <button type="button" onClick={addPage}>
+              New page
+            </button>
+          </div>
+          {pages.map((page) => (
+            <button
+              type="button"
+              className={page.id === activePageId ? "is-active" : ""}
+              aria-current={page.id === activePageId ? "page" : undefined}
+              key={page.id}
+              onClick={() => switchPage(page.id)}
+            >
+              {page.title}
+            </button>
+          ))}
+          <div className="workbook-page-actions">
+            <button type="button" onClick={duplicatePage}>
+              Duplicate
+            </button>
+            <button type="button" disabled={pages.length === 1} onClick={deletePage}>
+              Delete
+            </button>
+          </div>
+        </aside>
+        <div className="workbook-editor-area">
+          <label className="workbook-page-title">
+            Page title
+            <input
+              value={activePage.title}
+              onChange={(event) =>
+                setPages((items) =>
+                  items.map((page) =>
+                    page.id === activePageId ? { ...page, title: event.target.value } : page,
+                  ),
+                )
+              }
+            />
+          </label>
+          <div className="workbook-toolbar" role="toolbar" aria-label="Workbook editing tools">
+            <button
+              type="button"
+              aria-pressed={editor.isActive("paragraph")}
+              onClick={() => editor.chain().focus().setParagraph().run()}
+            >
+              Paragraph
+            </button>
+            <button
+              type="button"
+              aria-pressed={editor.isActive("heading", { level: 2 })}
+              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            >
+              Heading
+            </button>
+            <button
+              type="button"
+              aria-pressed={editor.isActive("bold")}
+              onClick={() => editor.chain().focus().toggleBold().run()}
+            >
+              Bold
+            </button>
+            <button
+              type="button"
+              aria-pressed={editor.isActive("italic")}
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+            >
+              Italic
+            </button>
+            <button
+              type="button"
+              aria-pressed={editor.isActive("bulletList")}
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+            >
+              Bullets
+            </button>
+            <button
+              type="button"
+              aria-pressed={editor.isActive("orderedList")}
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            >
+              Numbered
+            </button>
+            <button
+              type="button"
+              disabled={!editor.can().undo()}
+              onClick={() => editor.chain().focus().undo().run()}
+            >
+              Undo
+            </button>
+            <button
+              type="button"
+              disabled={!editor.can().redo()}
+              onClick={() => editor.chain().focus().redo().run()}
+            >
+              Redo
+            </button>
+            <button type="button" onClick={() => insertMusical("tab")}>
+              Insert tablature
+            </button>
+            <button type="button" onClick={() => insertMusical("chord")}>
+              Insert chord diagram
+            </button>
+          </div>
+          <EditorContent editor={editor} />
+          <section className="workbook-json" aria-labelledby="json-title">
+            <div>
+              <h2 id="json-title">Document JSON round trip</h2>
+              <p>
+                Export, edit or inspect the GuitaRPG-owned format, then import it into this page.
+              </p>
+            </div>
+            <div className="workbook-json__actions">
+              <button type="button" onClick={exportJson}>
+                Export document JSON
+              </button>
+              <button type="button" onClick={importJson}>
+                Import document JSON
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const document = starterWorkbookDocument();
+                  editor.commands.setContent(workbookToEditorJson(document));
+                  setJsonText("");
+                  setStatus("Prototype page reset");
+                }}
+              >
+                Reset prototype
+              </button>
+            </div>
+            <label>
+              Workbook document JSON
+              <textarea
+                spellCheck={false}
+                value={jsonText}
+                onChange={(event) => setJsonText(event.target.value)}
+                placeholder="Exported GUITARPG_WORKBOOK_DOCUMENT_V1 appears here"
+              />
+            </label>
+          </section>
+        </div>
+      </div>
+    </section>
+  );
+}

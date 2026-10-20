@@ -22,6 +22,7 @@
     "test:failure-states": "playwright test tests/e2e/failure-states.spec.ts --project=chromium",
     "test:generate-bootstrap": "playwright test tests/e2e/generate-player-bootstrap.spec.ts --project=chromium --project=mobile-chromium --project=mobile-webkit --workers=1",
     "test:codex-peek-e2e": "playwright test tests/e2e/quest-journey.spec.ts --workers=1 && playwright test tests/e2e/phase5-launch-package.spec.ts --grep \"fresh Player Profile\" --workers=1",
+    "test:workbook-prototype": "vitest run tests/workbook-document-v1.test.ts tests/workbook-prototype.test.ts && playwright test tests/e2e/workbook-prototype.spec.ts --project=chromium --project=mobile-chromium --project=firefox --project=webkit --project=small-phone --project=mobile-webkit --workers=1",
     "test:ux-hardening": "npm run test:accessibility && npm run test:browser-compat && npm run test:responsive && npm run test:failure-states && npm run test:generate-bootstrap && playwright test tests/e2e/performance-smoke.spec.ts --project=chromium",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
     "test:contracts": "vitest run tests/legacy-normalization.test.ts tests/player-state-contract.test.ts tests/quest-contract.test.ts tests/difficulty-contract.test.ts tests/evidence-contract.test.ts tests/progression-contract.test.ts tests/design-system-contract.test.ts tests/contracts/phase0-integration.test.ts",
@@ -45,6 +46,9 @@
   "dependencies": {
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.117.2",
+    "@tiptap/pm": "3.32.0",
+    "@tiptap/react": "3.32.0",
+    "@tiptap/starter-kit": "3.32.0",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"

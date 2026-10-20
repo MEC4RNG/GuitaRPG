@@ -84,6 +84,9 @@ jobs:
       - name: Run contextual Codex Peek journey matrix
         run: npm run test:codex-peek-e2e
 
+      - name: Run Workbook prototype interaction matrix
+        run: npm run test:workbook-prototype
+
       - name: Stop local Supabase
         if: always()
         run: supabase stop --no-backup
