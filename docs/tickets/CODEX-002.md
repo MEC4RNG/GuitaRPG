@@ -1,6 +1,6 @@
 # CODEX-002 — Contextual Codex Peek
 
-**Status:** AWAITING USER VISUAL REVIEW
+**Status:** COMPLETE
 
 ## Objective
 
@@ -29,8 +29,10 @@ RPC, Quest lifecycle, Session, Result, progression, Auth, production, or public-
 
 ## Current disposition
 
-Implementation and automated validation are complete on `codex-002-contextual-peek`. Draft PR #7
-remains open and unmerged. Explicit user visual approval is still required before protected merge.
+Implementation, automated validation, and user visual review are complete on
+`codex-002-contextual-peek`. The user explicitly approved the CODEX-002-R1 Vercel Preview on
+desktop and mobile on 2026-10-20. PR #7 is authorized to proceed through the protected merge into
+`v1-production`; no production deployment or public-traffic change is authorized.
 
 ## Implementation summary
 
@@ -117,4 +119,18 @@ production behavior changed.
 - Production build: PASS.
 - Source/history and browser-bundle secret scans: PASS.
 - Dependency audit policy: PASS; zero production high/critical advisories.
-- Protected CI and the updated Vercel Preview are required on the R1 branch head before handoff.
+- Production scaffold CI run 39470334269: SUCCESS.
+- Release security audit run 39470334268: SUCCESS.
+- UX release hardening run 39470334261: SUCCESS.
+- Vercel Preview deployment for implementation head
+  `793ea07103103846e9ce00b6768735ff4192b872`: READY.
+
+### User visual approval and closure
+
+On 2026-10-20, the user explicitly approved the CODEX-002-R1 Vercel Preview on desktop and mobile.
+The approved review confirmed the opaque inspector background, panel separation, Codex accent,
+readable hierarchy, and responsive presentation while preserving the already accepted Peek
+behavior. CODEX-002 and CODEX-002-R1 are accepted without further functional or visual changes.
+
+QST-008 is the next planned ticket and remains unauthorized pending explicit user authorization.
+Production cutover remains unauthorized.
