@@ -1060,7 +1060,7 @@ a {
 .workbook-prototype button:focus-visible,
 .workbook-pages button.is-active,
 .workbook-tab-grid button.is-selected,
-.workbook-string-picker button[aria-pressed="true"] {
+.workbook-chord button[aria-pressed="true"] {
   border-color: var(--surface-accent);
 }
 
@@ -1135,6 +1135,47 @@ a {
   line-height: 1.7;
 }
 
+.workbook-prosemirror h1,
+.workbook-prosemirror h2,
+.workbook-prosemirror h3 {
+  margin: 1.5em 0 0.55em;
+  color: var(--surface-text);
+  font-family: var(--font-display);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.workbook-prosemirror h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.workbook-prosemirror h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.workbook-prosemirror h3 {
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+}
+
+.workbook-prosemirror ul,
+.workbook-prosemirror ol {
+  margin: var(--space-3) 0;
+  padding-inline-start: 1.75rem;
+}
+
+.workbook-prosemirror ul {
+  list-style: disc outside;
+}
+
+.workbook-prosemirror ol {
+  list-style: decimal outside;
+}
+
+.workbook-prosemirror li {
+  margin-block: var(--space-2);
+  padding-inline-start: var(--space-1);
+}
+
 .workbook-music-block,
 .workbook-unsupported {
   display: grid;
@@ -1164,15 +1205,28 @@ a {
   padding: var(--space-2);
 }
 
-.workbook-music-block:has(.workbook-tab-grid) {
+.workbook-tab-scroll {
+  max-width: 100%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
 }
 
 .workbook-tab-row {
   display: grid;
-  grid-template-columns: 3rem repeat(var(--tab-columns, 4), 3.25rem);
+  grid-template-columns: 3rem repeat(16, 3.25rem);
   align-items: center;
+}
+
+.workbook-tab-row--positions {
+  color: var(--surface-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.workbook-tab-row--positions > span {
+  position: static;
+  background: transparent;
 }
 
 .workbook-tab-row > span {
@@ -1218,28 +1272,86 @@ a {
 
 .workbook-chord {
   display: grid;
-  grid-template-columns: repeat(6, 2rem);
+  gap: var(--space-2);
   justify-content: center;
-  min-height: 11rem;
   padding: var(--space-4);
 }
 
-.workbook-chord > div {
-  position: relative;
+.workbook-chord__states {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(2.5rem, 3.25rem));
+  align-items: center;
+}
+
+.workbook-chord__fret {
+  display: grid;
+  grid-template-columns: 2rem repeat(6, minmax(2.5rem, 3.25rem));
+  align-items: center;
+}
+
+.workbook-chord__states {
+  padding-left: 2rem;
+}
+
+.workbook-chord__states button {
+  display: grid;
+  place-items: center;
+  min-width: var(--touch-target-min);
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+.workbook-chord__states span,
+.workbook-chord__fret > span {
+  font-family: var(--font-data);
+  font-weight: 700;
+}
+
+.workbook-chord__states small {
+  color: var(--surface-muted);
+}
+
+.workbook-chord__grid {
+  border-top: 4px solid var(--surface-text);
+}
+
+.workbook-chord__fret > span {
+  color: var(--surface-muted);
   text-align: center;
 }
 
-.workbook-chord i {
-  position: absolute;
-  top: 2rem;
-  bottom: 0;
-  left: 50%;
-  border-left: 2px solid var(--surface-muted);
+.workbook-chord__fret button {
+  position: relative;
+  min-width: var(--touch-target-min);
+  padding: 0;
+  border-width: 0 1px 1px 0;
+  border-color: color-mix(in srgb, var(--surface-muted) 72%, transparent);
+  border-radius: 0;
+  background: transparent;
 }
 
-.workbook-chord span {
-  font-family: var(--font-data);
-  font-weight: 700;
+.workbook-chord__fret button:first-of-type {
+  border-left-width: 1px;
+}
+
+.workbook-chord__fret button.is-fretted span {
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-accent);
+  color: var(--surface-panel);
+  font-size: 0.72rem;
+}
+
+.workbook-chord__notice,
+.workbook-field-error {
+  margin: 0;
+  color: var(--hud-amber);
+  font-size: 0.82rem;
 }
 
 .workbook-block-exit {

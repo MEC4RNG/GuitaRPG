@@ -80,7 +80,7 @@ export function emptyTabBlock(): Extract<WorkbookBlockV1, { type: "guitar_tab" }
     version: 1,
     type: "guitar_tab",
     tuning: tuningSnapshot("standard"),
-    events: Array.from({ length: 4 }, (_, ordinal) => ({ id: createId(), ordinal, notes: [] })),
+    events: Array.from({ length: 16 }, (_, ordinal) => ({ id: createId(), ordinal, notes: [] })),
   };
 }
 

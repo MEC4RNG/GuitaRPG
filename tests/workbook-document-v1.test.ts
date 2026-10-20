@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   editorJsonToWorkbook,
+  emptyTabBlock,
   parseWorkbookDocument,
   tuningSnapshot,
   workbookToEditorJson,
@@ -64,6 +65,15 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
 
   it("accepts valid simultaneous tab notes including open and muted states", () => {
     expect(parseWorkbookDocument(fixture)).toEqual(fixture);
+  });
+
+  it("starts new tablature blocks with sixteen stable ordered positions", () => {
+    const block = emptyTabBlock();
+    expect(block.events).toHaveLength(16);
+    expect(block.events.map((event) => event.ordinal)).toEqual(
+      Array.from({ length: 16 }, (_, index) => index),
+    );
+    expect(new Set(block.events.map((event) => event.id)).size).toBe(16);
   });
 
   it("rejects malformed blocks that cannot be preserved with an identity", () => {
