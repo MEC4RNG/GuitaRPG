@@ -81,6 +81,9 @@ jobs:
       - name: Run accessibility, browser, responsive, recovery, and performance gates
         run: npm run test:ux-hardening
 
+      - name: Run contextual Codex Peek journey matrix
+        run: npm run test:codex-peek-e2e
+
       - name: Stop local Supabase
         if: always()
         run: supabase stop --no-backup
