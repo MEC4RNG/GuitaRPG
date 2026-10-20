@@ -56,6 +56,14 @@ test("fresh Player Profile feeds Training and Quest references reach Session", a
   await page.getByRole("button", { name: "Build Training Quest" }).click();
   await expect(page.getByText("DADGAD", { exact: true })).toBeVisible();
   await expect(page.getByText("PUSH ME", { exact: true })).toBeVisible();
+  const tuningReference = page
+    .locator("dt", { hasText: "Tuning" })
+    .locator("..")
+    .getByRole("button", { name: "Open Codex Peek for DADGAD" });
+  await tuningReference.click();
+  await expect(page.getByRole("dialog", { name: "DADGAD" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(tuningReference).toBeFocused();
   await expect(
     page.locator("dt", { hasText: "Primary Skill" }).locator("..").getByRole("button"),
   ).toHaveAccessibleName(/^Open Codex Peek for /);

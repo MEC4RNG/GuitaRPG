@@ -25,7 +25,7 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   }
   // Quick Quests intentionally have no secondary or required Skill roles; those roles are
   // covered by the deterministic resolver suite and use this same reusable control.
-  for (const label of ["Concepts", "Constraints", "Tuning"]) {
+  for (const label of ["Concepts", "Constraints"]) {
     await inspectGeneratedReference(label);
   }
   const generatedReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
