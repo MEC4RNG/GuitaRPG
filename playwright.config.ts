@@ -78,6 +78,12 @@ export default defineConfig({
       ],
       use: { ...devices["iPhone 15"] },
     },
+    {
+      name: "mobile-landscape",
+      testMatch: ["**/workbook-prototype.spec.ts"],
+      grep: /uses mobile landscape/,
+      use: { ...devices["Pixel 7 landscape"] },
+    },
   ],
   webServer: externalBaseURL
     ? undefined

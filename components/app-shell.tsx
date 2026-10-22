@@ -17,9 +17,10 @@ export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
   const surface = getSurfaceForPath(pathname);
   const current = getNavigationItem(pathname);
+  const prototypeClass = pathname === "/prototype/workbook" ? " app-shell--workbook-prototype" : "";
 
   return (
-    <div className={`app-shell app-shell--${surface}`} data-surface={surface}>
+    <div className={`app-shell app-shell--${surface}${prototypeClass}`} data-surface={surface}>
       <CodexPeekProvider>
         <div className="app-shell__frame">
           <a className="skip-link" href="#main-content">

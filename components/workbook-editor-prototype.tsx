@@ -83,19 +83,6 @@ function GuitarTabView({
   const [fret, setFret] = useState("0");
   const [fretError, setFretError] = useState("");
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
-  const entryBuffer = useRef<{ cell: string; value: string } | null>(null);
-  const entryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(
-    () => () => {
-      if (entryTimer.current) clearTimeout(entryTimer.current);
-    },
-    [],
-  );
-  const clearEntryBuffer = () => {
-    entryBuffer.current = null;
-    if (entryTimer.current) clearTimeout(entryTimer.current);
-    entryTimer.current = null;
-  };
   const edit = (state: TabNote["state"] | "EMPTY", explicitFret?: number, target = selected) => {
     const next = structuredClone(blockRef.current);
     const targetEvent = next.events[target.event];
@@ -177,7 +164,6 @@ function GuitarTabView({
     const nextString = Math.min(6, Math.max(1, stringNumber));
     const nextEvent = Math.min(block.events.length - 1, Math.max(0, eventIndex));
     setSelected({ string: nextString, event: nextEvent });
-    clearEntryBuffer();
     requestAnimationFrame(() =>
       document
         .querySelector<HTMLElement>(`[data-tab-cell="${block.id}-${nextString}-${nextEvent}"]`)
@@ -289,19 +275,61 @@ function GuitarTabView({
                       const active =
                         selected.string === pitch.string_number && selected.event === eventIndex;
                       return (
-                        <button
+                        <input
                           key={tabEvent?.id ?? `placeholder-${eventIndex}`}
                           role="gridcell"
+                          type="text"
+                          inputMode="numeric"
+                          enterKeyHint="next"
+                          maxLength={2}
+                          pattern="[0-9xX]*"
+                          autoComplete="off"
                           className={`${active ? "is-selected" : ""} ${tabEvent ? "" : "is-placeholder"}`}
                           aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${tabEvent ? noteLabel(note) : "Empty placeholder"}`}
                           aria-selected={active}
                           data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
-                          onClick={() => {
+                          value={
+                            note?.state === "FRETTED"
+                              ? String(note.fret)
+                              : note?.state === "OPEN"
+                                ? "0"
+                                : note?.state === "MUTED"
+                                  ? "x"
+                                  : ""
+                          }
+                          placeholder="·"
+                          onFocus={(focusEvent) => {
                             materializeThrough(eventIndex);
                             setSelected({ string: pitch.string_number, event: eventIndex });
                             setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
                             setPendingRemoval(null);
-                            clearEntryBuffer();
+                            setFretError("");
+                            focusEvent.currentTarget.select();
+                          }}
+                          onChange={(changeEvent) => {
+                            const value = changeEvent.target.value.trim().toLowerCase();
+                            setSelected({ string: pitch.string_number, event: eventIndex });
+                            setFret(value);
+                            if (value === "")
+                              edit("EMPTY", undefined, {
+                                string: pitch.string_number,
+                                event: eventIndex,
+                              });
+                            else if (value === "x")
+                              edit("MUTED", undefined, {
+                                string: pitch.string_number,
+                                event: eventIndex,
+                              });
+                            else if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
+                              edit(
+                                Number(value) === 0 ? "OPEN" : "FRETTED",
+                                Number(value) || undefined,
+                                {
+                                  string: pitch.string_number,
+                                  event: eventIndex,
+                                },
+                              );
+                            else setFretError("Enter a whole-number fret from 0 to 36.");
                           }}
                           onKeyDown={(keyboardEvent) => {
                             if (!tabEvent) return;
@@ -317,57 +345,8 @@ function GuitarTabView({
                               moveSelection(...next);
                               return;
                             }
-                            if (keyboardEvent.key.toLowerCase() === "x") {
-                              keyboardEvent.preventDefault();
-                              clearEntryBuffer();
-                              edit("MUTED", undefined, {
-                                string: pitch.string_number,
-                                event: eventIndex,
-                              });
-                              return;
-                            }
-                            if (/^[0-9]$/.test(keyboardEvent.key)) {
-                              keyboardEvent.preventDefault();
-                              const cell = `${pitch.string_number}-${eventIndex}`;
-                              const candidate =
-                                entryBuffer.current?.cell === cell
-                                  ? `${entryBuffer.current.value}${keyboardEvent.key}`
-                                  : keyboardEvent.key;
-                              const value = Number(candidate);
-                              if (value <= 36) {
-                                entryBuffer.current = { cell, value: candidate };
-                                if (entryTimer.current) clearTimeout(entryTimer.current);
-                                entryTimer.current = setTimeout(clearEntryBuffer, 900);
-                                setSelected({ string: pitch.string_number, event: eventIndex });
-                                setFret(candidate);
-                                edit(value === 0 ? "OPEN" : "FRETTED", value || undefined, {
-                                  string: pitch.string_number,
-                                  event: eventIndex,
-                                });
-                              } else setFretError("Enter a whole-number fret from 0 to 36.");
-                              return;
-                            }
-                            if (
-                              keyboardEvent.key === "Backspace" ||
-                              keyboardEvent.key === "Delete"
-                            ) {
-                              keyboardEvent.preventDefault();
-                              clearEntryBuffer();
-                              edit("EMPTY", undefined, {
-                                string: pitch.string_number,
-                                event: eventIndex,
-                              });
-                            }
                           }}
-                        >
-                          {note
-                            ? note.state === "FRETTED"
-                              ? note.fret
-                              : note.state === "OPEN"
-                                ? "0"
-                                : "×"
-                            : "·"}
-                        </button>
+                        />
                       );
                     })}
                   </div>
@@ -408,7 +387,6 @@ function GuitarTabView({
             onChange={(event) => {
               const value = event.target.value;
               setFret(value);
-              clearEntryBuffer();
               if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
                 edit(Number(value) === 0 ? "OPEN" : "FRETTED", Number(value) || undefined);
               else setFretError("Enter a whole-number fret from 0 to 36.");
@@ -753,6 +731,7 @@ export function WorkbookEditorPrototype() {
   );
   const [pages, setPages] = useState<Page[]>([initialPage]);
   const [activePageId, setActivePageId] = useState(initialPage.id);
+  const [pageActionsOpen, setPageActionsOpen] = useState(false);
   const activePageIdRef = useRef(activePageId);
   const [status, setStatus] = useState(
     "Temporary prototype · changes are not saved to your account",
@@ -961,12 +940,7 @@ export function WorkbookEditorPrototype() {
       </p>
       <div className="workbook-layout">
         <nav className="workbook-pages" aria-label="Temporary workbook pages">
-          <div className="workbook-pages__heading">
-            <h2>Pages</h2>
-            <button type="button" onClick={addPage}>
-              New page
-            </button>
-          </div>
+          <h2>Pages</h2>
           <div className="workbook-page-strip" aria-label="Workbook page selectors">
             {pages.map((page) => (
               <button
@@ -980,13 +954,27 @@ export function WorkbookEditorPrototype() {
               </button>
             ))}
           </div>
-          <div className="workbook-page-actions">
-            <button type="button" onClick={duplicatePage}>
-              Duplicate page
+          <button className="workbook-new-page" type="button" onClick={addPage}>
+            + New page
+          </button>
+          <div className={`workbook-page-actions ${pageActionsOpen ? "is-open" : ""}`}>
+            <button
+              className="workbook-page-actions__toggle"
+              type="button"
+              aria-expanded={pageActionsOpen}
+              aria-controls="workbook-page-actions-menu"
+              onClick={() => setPageActionsOpen((open) => !open)}
+            >
+              Page actions
             </button>
-            <button type="button" disabled={pages.length === 1} onClick={deletePage}>
-              Delete page
-            </button>
+            <div id="workbook-page-actions-menu">
+              <button type="button" onClick={duplicatePage}>
+                Duplicate page
+              </button>
+              <button type="button" disabled={pages.length === 1} onClick={deletePage}>
+                Delete page
+              </button>
+            </div>
           </div>
         </nav>
         <div className="workbook-editor-area">

@@ -141,6 +141,7 @@ test("groups one continuous tab passage into configurable systems", async ({ pag
   if (useContextualInput) {
     await tab.getByRole("button", { name: "Clear", exact: true }).click();
   } else {
+    await page.keyboard.press("ControlOrMeta+A");
     await page.keyboard.press("Backspace");
   }
   await expect(tab.getByRole("gridcell", { name: /String 6, position 1, Empty/ })).toBeVisible();
@@ -164,7 +165,11 @@ test("groups one continuous tab passage into configurable systems", async ({ pag
     await page.waitForTimeout(1000);
     await page.keyboard.type("2");
   }
-  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Fret 2/ })).toBeVisible();
+  await expect(
+    tab.getByRole("gridcell", {
+      name: useContextualInput ? /String 6, position 2, Fret 2/ : /String 6, position 2, Fret 12/,
+    }),
+  ).toBeVisible();
   const mutedCell = tab.getByRole("gridcell", { name: /^String 6, position 3,/ });
   if (useContextualInput) await mutedCell.click();
   else await mutedCell.focus();
@@ -246,9 +251,37 @@ test("manages temporary pages without leaking edits between pages", async ({ pag
   await page.getByRole("button", { name: "Riff notebook" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook");
   await expect(document).toContainText("Unsaved page one idea");
+  const pageActions = page.getByText("Page actions", { exact: true });
+  if (await pageActions.isVisible()) await pageActions.click();
   await page.getByRole("button", { name: "Duplicate page" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook copy");
   await expect(pages.locator(".workbook-page-strip")).toHaveCSS("overflow-x", "auto");
+
+  const viewport = page.viewportSize();
+  if (viewport && viewport.width > 832) {
+    const centers = await Promise.all(
+      [
+        pages.getByRole("heading", { name: "Pages" }),
+        pages.getByRole("button", { name: "Riff notebook", exact: true }),
+        pages.getByRole("button", { name: "+ New page" }),
+        pages.getByRole("button", { name: "Duplicate page" }),
+        pages.getByRole("button", { name: "Delete page" }),
+      ].map((control) =>
+        control.evaluate((element) => {
+          const box = element.getBoundingClientRect();
+          return box.top + box.height / 2;
+        }),
+      ),
+    );
+    expect(Math.max(...centers) - Math.min(...centers)).toBeLessThan(12);
+  } else {
+    const headingBox = await pages.getByRole("heading", { name: "Pages" }).boundingBox();
+    const newBox = await pages.getByRole("button", { name: "+ New page" }).boundingBox();
+    const stripBox = await pages.locator(".workbook-page-strip").boundingBox();
+    const actionsBox = await pageActions.boundingBox();
+    expect(Math.abs((headingBox?.y ?? 0) - (newBox?.y ?? 0))).toBeLessThan(12);
+    expect(Math.abs((stripBox?.y ?? 0) - (actionsBox?.y ?? 0))).toBeLessThan(12);
+  }
 });
 
 test("keeps contextual tablature entry visible, focused, and touch-usable", async ({ page }) => {
@@ -273,6 +306,69 @@ test("keeps contextual tablature entry visible, focused, and touch-usable", asyn
     }));
   if (geometry.coarse) expect(geometry.height).toBeGreaterThanOrEqual(44);
   else expect(geometry.height).toBeLessThanOrEqual(34);
+});
+
+test("supports direct native-input tablature entry without weakening fallback controls", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  const tab = page.locator('[data-block-type="guitar-tab"]').last();
+  const cell = tab.getByRole("gridcell", { name: /^String 6, position 2,/ });
+  await cell.click();
+  await expect(cell).toBeFocused();
+  await expect(cell).toHaveAttribute("inputmode", "numeric");
+  expect(await cell.evaluate((element) => element.tagName)).toBe("INPUT");
+  await cell.fill("12");
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Fret 12/ })).toHaveValue(
+    "12",
+  );
+  await cell.fill("0");
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Open/ })).toHaveValue("0");
+  await tab.getByRole("button", { name: "Mute", exact: true }).click();
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Muted/ })).toHaveValue("x");
+  await tab.getByRole("button", { name: "Clear", exact: true }).click();
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Empty/ })).toHaveValue("");
+  await tab.getByLabel("Fret for selected position").fill("9");
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Fret 9/ })).toHaveValue(
+    "9",
+  );
+  await page.waitForTimeout(600);
+  await cell.fill("11");
+  await page.waitForTimeout(600);
+  await page.getByRole("button", { name: "Undo" }).click();
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Fret 9/ })).toHaveValue(
+    "9",
+  );
+  await page.getByRole("button", { name: "Redo" }).click();
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Fret 11/ })).toHaveValue(
+    "11",
+  );
+});
+
+test("uses mobile landscape space without sticky prototype chrome", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-landscape", "dedicated touch landscape project");
+  await expect(page.locator(".topbar")).toHaveCSS("position", "static");
+  await expect(page.getByRole("toolbar", { name: "Workbook editing tools" })).toHaveCSS(
+    "position",
+    "static",
+  );
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  const cell = page
+    .locator('[data-block-type="guitar-tab"]')
+    .last()
+    .getByRole("gridcell", { name: /^String 6, position 1,/ });
+  await cell.scrollIntoViewIfNeeded();
+  await cell.click();
+  await cell.fill("12");
+  await expect(cell).toBeFocused();
+  await expect(cell).toHaveValue("12");
+  const geometry = await cell.evaluate((element) => {
+    const box = element.getBoundingClientRect();
+    return { top: box.top, bottom: box.bottom, viewportHeight: innerHeight };
+  });
+  expect(geometry.top).toBeGreaterThanOrEqual(0);
+  expect(geometry.bottom).toBeLessThanOrEqual(geometry.viewportHeight);
+  await expectNoHorizontalOverflow(page);
 });
 
 test("rejects malformed imports and safely treats pasted markup as text", async ({
@@ -370,8 +466,7 @@ test("ordinary text entry after musical editing never replaces the musical block
   const document = page.getByRole("textbox", { name: "Workbook page document" });
   await page.getByRole("button", { name: "Insert tablature" }).click();
   const tab = page.locator('[data-block-type="guitar-tab"]').last();
-  await tab.getByRole("gridcell", { name: /^String 6, position 1,/ }).focus();
-  await page.keyboard.type("7");
+  await tab.getByRole("gridcell", { name: /^String 6, position 1,/ }).fill("7");
   await tab.click({ position: { x: 2, y: 2 } });
   await expect(tab).toHaveAttribute("data-node-selected", "false");
   await page.keyboard.type("Text from tab background");
