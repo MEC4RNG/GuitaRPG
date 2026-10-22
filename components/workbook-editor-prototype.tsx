@@ -11,7 +11,7 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { closeHistory } from "@tiptap/pm/history";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 
 import {
   createId,
@@ -61,7 +61,14 @@ function noteLabel(note?: TabNote) {
   return `Fret ${note.fret}`;
 }
 
-function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: NodeViewProps) {
+function GuitarTabView({
+  node,
+  updateAttributes,
+  editor,
+  getPos,
+  deleteNode,
+  selected: nodeSelected,
+}: NodeViewProps) {
   const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "guitar_tab" }>;
   const positionsPerLine = block.positions_per_line ?? 16;
   const blockRef = useRef(block);
@@ -186,8 +193,14 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
     <NodeViewWrapper
       className="workbook-music-block"
       data-block-type="guitar-tab"
+      data-node-selected={nodeSelected ? "true" : "false"}
       role="group"
       aria-label={summaryForTab(block)}
+      onMouseDown={(event: MouseEvent<HTMLDivElement>) => {
+        if (event.target !== event.currentTarget) return;
+        event.preventDefault();
+        returnToDocument();
+      }}
     >
       <div className="workbook-music-block__header" contentEditable={false}>
         <div>
@@ -364,30 +377,45 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
           </section>
         ))}
       </div>
-      <details className="workbook-tab-tools" contentEditable={false}>
-        <summary>Position and block actions</summary>
-        <div className="workbook-block-controls">
-          <span>
-            String {selected.string}, position {selected.event + 1}
-          </span>
-          <label>
-            Direct fret entry
-            <input
-              inputMode="numeric"
-              min="0"
-              max="36"
-              type="number"
-              value={fret}
-              onChange={(event) => {
-                const value = event.target.value;
-                setFret(value);
-                clearEntryBuffer();
-                if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
-                  edit(Number(value) === 0 ? "OPEN" : "FRETTED", Number(value) || undefined);
-                else setFretError("Enter a whole-number fret from 0 to 36.");
-              }}
-            />
-          </label>
+      <div className="workbook-tab-entry" contentEditable={false}>
+        <span>
+          String {selected.string}, position {selected.event + 1}
+        </span>
+        <button
+          type="button"
+          disabled={selected.event === 0}
+          aria-label="Previous tablature position"
+          onClick={() => moveSelection(selected.string, selected.event - 1)}
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          disabled={selected.event >= block.events.length - 1}
+          aria-label="Next tablature position"
+          onClick={() => moveSelection(selected.string, selected.event + 1)}
+        >
+          Next
+        </button>
+        <label>
+          Fret for selected position
+          <input
+            inputMode="numeric"
+            min="0"
+            max="36"
+            type="number"
+            value={fret}
+            onChange={(event) => {
+              const value = event.target.value;
+              setFret(value);
+              clearEntryBuffer();
+              if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
+                edit(Number(value) === 0 ? "OPEN" : "FRETTED", Number(value) || undefined);
+              else setFretError("Enter a whole-number fret from 0 to 36.");
+            }}
+          />
+        </label>
+        <div className="workbook-tab-entry__states">
           <button type="button" onClick={() => edit("OPEN")}>
             Open
           </button>
@@ -397,6 +425,11 @@ function GuitarTabView({ node, updateAttributes, editor, getPos, deleteNode }: N
           <button type="button" onClick={() => edit("EMPTY")}>
             Clear
           </button>
+        </div>
+      </div>
+      <details className="workbook-tab-tools" contentEditable={false}>
+        <summary>Tab block actions</summary>
+        <div className="workbook-block-controls">
           <button type="button" onClick={duplicate}>
             Duplicate tab
           </button>
@@ -458,7 +491,14 @@ function chordSummary(block: Extract<WorkbookBlockV1, { type: "chord_diagram" }>
   return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.`;
 }
 
-function ChordDiagramView({ node, updateAttributes, editor, getPos, deleteNode }: NodeViewProps) {
+function ChordDiagramView({
+  node,
+  updateAttributes,
+  editor,
+  getPos,
+  deleteNode,
+  selected: nodeSelected,
+}: NodeViewProps) {
   const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "chord_diagram" }>;
   const blockRef = useRef(block);
   const [chordName, setChordName] = useState(block.name);
@@ -503,8 +543,14 @@ function ChordDiagramView({ node, updateAttributes, editor, getPos, deleteNode }
     <NodeViewWrapper
       className="workbook-music-block"
       data-block-type="chord-diagram"
+      data-node-selected={nodeSelected ? "true" : "false"}
       role="group"
       aria-label={chordSummary({ ...block, name: chordName })}
+      onMouseDown={(event: MouseEvent<HTMLDivElement>) => {
+        if (event.target !== event.currentTarget) return;
+        event.preventDefault();
+        returnToDocument();
+      }}
     >
       <div className="workbook-music-block__header" contentEditable={false}>
         <div>
@@ -661,6 +707,7 @@ const GuitarTab = Node.create({
   name: "guitarTab",
   group: "block",
   atom: true,
+  selectable: false,
   addAttributes: () => ({ blockId: { default: null }, block: { default: null } }),
   parseHTML: () => [{ tag: 'div[data-workbook-node="guitar-tab"]' }],
   renderHTML: ({ HTMLAttributes }) => [
@@ -673,6 +720,7 @@ const ChordDiagram = Node.create({
   name: "chordDiagram",
   group: "block",
   atom: true,
+  selectable: false,
   addAttributes: () => ({ blockId: { default: null }, block: { default: null } }),
   parseHTML: () => [{ tag: 'div[data-workbook-node="chord-diagram"]' }],
   renderHTML: ({ HTMLAttributes }) => [
@@ -912,33 +960,35 @@ export function WorkbookEditorPrototype() {
         {status}
       </p>
       <div className="workbook-layout">
-        <aside className="workbook-pages" aria-label="Temporary workbook pages">
+        <nav className="workbook-pages" aria-label="Temporary workbook pages">
           <div className="workbook-pages__heading">
             <h2>Pages</h2>
             <button type="button" onClick={addPage}>
               New page
             </button>
           </div>
-          {pages.map((page) => (
-            <button
-              type="button"
-              className={page.id === activePageId ? "is-active" : ""}
-              aria-current={page.id === activePageId ? "page" : undefined}
-              key={page.id}
-              onClick={() => switchPage(page.id)}
-            >
-              {page.title}
-            </button>
-          ))}
+          <div className="workbook-page-strip" aria-label="Workbook page selectors">
+            {pages.map((page) => (
+              <button
+                type="button"
+                className={page.id === activePageId ? "is-active" : ""}
+                aria-current={page.id === activePageId ? "page" : undefined}
+                key={page.id}
+                onClick={() => switchPage(page.id)}
+              >
+                {page.title}
+              </button>
+            ))}
+          </div>
           <div className="workbook-page-actions">
             <button type="button" onClick={duplicatePage}>
-              Duplicate
+              Duplicate page
             </button>
             <button type="button" disabled={pages.length === 1} onClick={deletePage}>
-              Delete
+              Delete page
             </button>
           </div>
-        </aside>
+        </nav>
         <div className="workbook-editor-area">
           <label className="workbook-page-title">
             Page title

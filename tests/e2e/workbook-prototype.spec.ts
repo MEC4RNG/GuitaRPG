@@ -23,11 +23,10 @@ test("edits one mixed document and round trips the owned JSON format", async ({
   const tab = page.locator('[data-block-type="guitar-tab"]').last();
   await tab.getByRole("gridcell", { name: /^String 6, position 1,/ }).click();
   if (browserName === "webkit") {
-    await tab.getByText("Position and block actions").click();
-    await tab.getByLabel("Direct fret entry").fill("7");
+    await tab.getByLabel("Fret for selected position").fill("7");
   } else await page.keyboard.type("7");
   await tab.getByRole("gridcell", { name: /^String 5, position 1,/ }).click();
-  if (browserName === "webkit") await tab.getByLabel("Direct fret entry").fill("0");
+  if (browserName === "webkit") await tab.getByLabel("Fret for selected position").fill("0");
   else await page.keyboard.type("0");
   await tab.getByRole("button", { name: "Add position" }).click();
   await expect(tab.getByRole("gridcell", { name: /String 6, position 1, Fret 7/ })).toBeVisible();
@@ -133,8 +132,7 @@ test("groups one continuous tab passage into configurable systems", async ({ pag
   const firstCell = tab.getByRole("gridcell", { name: /^String 6, position 1,/ });
   if (useContextualInput) {
     await firstCell.click();
-    await tab.getByText("Position and block actions").click();
-    await tab.getByLabel("Direct fret entry").fill("12");
+    await tab.getByLabel("Fret for selected position").fill("12");
   } else {
     await firstCell.focus();
     await page.keyboard.type("12");
@@ -144,16 +142,15 @@ test("groups one continuous tab passage into configurable systems", async ({ pag
     await tab.getByRole("button", { name: "Clear", exact: true }).click();
   } else {
     await page.keyboard.press("Backspace");
-    await tab.getByText("Position and block actions").click();
   }
   await expect(tab.getByRole("gridcell", { name: /String 6, position 1, Empty/ })).toBeVisible();
-  await tab.getByLabel("Direct fret entry").fill("99");
+  await tab.getByLabel("Fret for selected position").fill("99");
   await expect(tab.getByRole("status")).toContainText("0 to 36");
 
   await tab.getByLabel("Positions per line").selectOption("4");
   await expect(tab.locator(".workbook-tab-system")).toHaveCount(4);
   await tab.getByRole("gridcell", { name: /^String 6, position 1,/ }).focus();
-  if (useContextualInput) await tab.getByLabel("Direct fret entry").fill("7");
+  if (useContextualInput) await tab.getByLabel("Fret for selected position").fill("7");
   else await page.keyboard.type("7");
   await tab.getByLabel("Positions per line").selectOption("8");
   await expect(tab.locator(".workbook-tab-system")).toHaveCount(2);
@@ -161,7 +158,7 @@ test("groups one continuous tab passage into configurable systems", async ({ pag
   const slowEntryCell = tab.getByRole("gridcell", { name: /^String 6, position 2,/ });
   if (useContextualInput) await slowEntryCell.click();
   else await slowEntryCell.focus();
-  if (useContextualInput) await tab.getByLabel("Direct fret entry").fill("2");
+  if (useContextualInput) await tab.getByLabel("Fret for selected position").fill("2");
   else {
     await page.keyboard.type("1");
     await page.waitForTimeout(1000);
@@ -184,7 +181,7 @@ test("groups one continuous tab passage into configurable systems", async ({ pag
   const position20 = tab.getByRole("gridcell", { name: /^String 6, position 20,/ });
   await position20.click();
   await position20.click();
-  if (useContextualInput) await tab.getByLabel("Direct fret entry").fill("5");
+  if (useContextualInput) await tab.getByLabel("Fret for selected position").fill("5");
   else await page.keyboard.type("5");
   await expect(tab.getByRole("gridcell", { name: /String 6, position 20, Fret 5/ })).toBeVisible();
   const position16 = tab.getByRole("gridcell", { name: /^String 6, position 16,/ });
@@ -227,14 +224,55 @@ test("aligns direct chord editing with its visible strings and preserves absolut
 });
 
 test("manages temporary pages without leaking edits between pages", async ({ page }) => {
+  const pages = page.getByRole("navigation", { name: "Temporary workbook pages" });
+  const pageTitle = page.getByLabel("Page title");
+  expect(
+    await pages.evaluate(
+      (navigation, title) =>
+        Boolean(
+          navigation.compareDocumentPosition(title as Node) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ),
+      await pageTitle.elementHandle(),
+    ),
+  ).toBe(true);
   await page.getByLabel("Page title").fill("Riff notebook");
+  const document = page.getByRole("textbox", { name: "Workbook page document" });
+  await document.click();
+  await page.keyboard.press("ControlOrMeta+End");
+  await page.keyboard.type("Unsaved page one idea");
   await page.getByRole("button", { name: "New page" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Page 2");
   await page.getByLabel("Page title").fill("Harmony");
   await page.getByRole("button", { name: "Riff notebook" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook");
-  await page.getByRole("button", { name: "Duplicate" }).click();
+  await expect(document).toContainText("Unsaved page one idea");
+  await page.getByRole("button", { name: "Duplicate page" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook copy");
+  await expect(pages.locator(".workbook-page-strip")).toHaveCSS("overflow-x", "auto");
+});
+
+test("keeps contextual tablature entry visible, focused, and touch-usable", async ({ page }) => {
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  const tab = page.locator('[data-block-type="guitar-tab"]').last();
+  const cell = tab.getByRole("gridcell", { name: /^String 6, position 2,/ });
+  await cell.click();
+  const entry = tab.getByLabel("Fret for selected position");
+  await expect(entry).toBeVisible();
+  await entry.click();
+  await expect(entry).toBeFocused();
+  await entry.fill("9");
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 2, Fret 9/ })).toBeVisible();
+  await tab.getByRole("button", { name: "Next tablature position" }).click();
+  await expect(tab).toContainText("String 6, position 3");
+
+  const geometry = await tab
+    .getByRole("gridcell", { name: /^String 6, position 2,/ })
+    .evaluate((element) => ({
+      height: element.getBoundingClientRect().height,
+      coarse: matchMedia("(pointer: coarse)").matches,
+    }));
+  if (geometry.coarse) expect(geometry.height).toBeGreaterThanOrEqual(44);
+  else expect(geometry.height).toBeLessThanOrEqual(34);
 });
 
 test("rejects malformed imports and safely treats pasted markup as text", async ({
@@ -275,8 +313,7 @@ test("imports a validated local JSON file without uploading or losing failed-imp
   await tab.getByLabel("Positions per line").selectOption("4");
   await tab.getByRole("gridcell", { name: /^String 6, position 1,/ }).focus();
   if (browserName === "webkit") {
-    await tab.getByText("Position and block actions").click();
-    await tab.getByLabel("Direct fret entry").fill("12");
+    await tab.getByLabel("Fret for selected position").fill("12");
   } else await page.keyboard.type("12");
   await page.getByRole("button", { name: "Display document JSON" }).click();
   const json = page.getByLabel("Workbook document JSON");
@@ -335,6 +372,11 @@ test("ordinary text entry after musical editing never replaces the musical block
   const tab = page.locator('[data-block-type="guitar-tab"]').last();
   await tab.getByRole("gridcell", { name: /^String 6, position 1,/ }).focus();
   await page.keyboard.type("7");
+  await tab.click({ position: { x: 2, y: 2 } });
+  await expect(tab).toHaveAttribute("data-node-selected", "false");
+  await page.keyboard.type("Text from tab background");
+  await expect(tab.getByRole("gridcell", { name: /String 6, position 1, Fret 7/ })).toBeVisible();
+  await expect(document).toContainText("Text from tab background");
   await tab.getByRole("button", { name: "Return to document" }).click();
   await expect(document).toBeFocused();
   await page.keyboard.type("Text after tab");
@@ -344,17 +386,59 @@ test("ordinary text entry after musical editing never replaces the musical block
   await page.getByRole("button", { name: "Insert chord diagram" }).click();
   const chord = page.locator('[data-block-type="chord-diagram"]').last();
   await chord.getByRole("gridcell", { name: "Set string 6 to fret 3" }).click();
+  await chord.click({ position: { x: 2, y: 2 } });
+  await expect(chord).toHaveAttribute("data-node-selected", "false");
+  await page.keyboard.type("Text from chord background");
+  await expect(chord.getByRole("button", { name: /Select string 6, Fret 3/ })).toBeVisible();
+  await expect(document).toContainText("Text from chord background");
   await chord.getByRole("button", { name: "Return to document" }).click();
   await expect(document).toBeFocused();
   await page.keyboard.type("Text after chord");
   await expect(chord.getByRole("button", { name: /Select string 6, Fret 3/ })).toBeVisible();
   await expect(document).toContainText("Text after chord");
 
-  await tab.getByText("Position and block actions").click();
+  await tab.getByText("Tab block actions").click();
   await tab.getByRole("button", { name: "Delete tab" }).click();
   await expect(page.locator('[data-block-type="guitar-tab"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Undo" }).click();
   await expect(page.locator('[data-block-type="guitar-tab"]')).toHaveCount(1);
+  await chord.getByRole("button", { name: "Delete chord" }).click();
+  await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(0);
+  await page.getByRole("button", { name: "Undo" }).click();
+  await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(1);
+  await page.getByRole("button", { name: "Redo" }).click();
+  await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(0);
+  await page.getByRole("button", { name: "Undo" }).click();
+  await page.getByRole("button", { name: "Display document JSON" }).click();
+  const json = page.getByLabel("Workbook document JSON");
+  const exported = JSON.parse(await json.inputValue());
+  expect(
+    exported.blocks.filter((block: { type: string }) => block.type === "guitar_tab"),
+  ).toHaveLength(1);
+  expect(
+    exported.blocks.filter((block: { type: string }) => block.type === "chord_diagram"),
+  ).toHaveLength(1);
+
+  exported.blocks = exported.blocks.filter(
+    (block: { type: string }) => block.type === "guitar_tab" || block.type === "chord_diagram",
+  );
+  await json.fill(JSON.stringify(exported));
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Import JSON text" }).click();
+  await expect(page.getByRole("status")).toContainText("restored and remains editable");
+  await page.getByRole("button", { name: "Display document JSON" }).click();
+  const adjacentExport = JSON.parse(await json.inputValue());
+  expect(adjacentExport.blocks.slice(0, 2).map((block: { type: string }) => block.type)).toEqual([
+    "guitar_tab",
+    "chord_diagram",
+  ]);
+  const adjacentTab = document.locator('[data-block-type="guitar-tab"]');
+  await adjacentTab.click({ position: { x: 2, y: 2 } });
+  await expect(adjacentTab).toHaveAttribute("data-node-selected", "false");
+  await page.keyboard.type("Text beside adjacent blocks");
+  await expect(document.locator('[data-block-type="guitar-tab"]')).toHaveCount(1);
+  await expect(document.locator('[data-block-type="chord-diagram"]')).toHaveCount(1);
+  await expect(document).toContainText("Text beside adjacent blocks");
 });
 
 test("meets the automated accessibility and responsive overflow gates", async ({ page }) => {
