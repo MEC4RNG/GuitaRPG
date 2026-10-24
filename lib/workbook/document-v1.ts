@@ -56,6 +56,16 @@ export type WorkbookDocumentV1 = {
   blocks: WorkbookBlockV1[];
 };
 
+export const WORKBOOK_DOCUMENT_LIMITS = {
+  serializedBytes: 512 * 1024,
+  blocks: 200,
+  textCharacters: 32_000,
+  listItems: 100,
+  tabEventsPerBlock: 512,
+  tabEventsPerDocument: 2_048,
+  barres: 6,
+} as const;
+
 const tunings: Record<TuningSnapshot["slug"], TuningSnapshot> = {
   standard: {
     slug: "standard",
@@ -117,18 +127,58 @@ function validateTuning(value: unknown): value is TuningSnapshot {
     (value.slug === "standard" || value.slug === "dadgad") &&
     typeof value.display_name === "string" &&
     Array.isArray(value.strings_low_to_high) &&
-    value.strings_low_to_high.length === 6
+    value.strings_low_to_high.length === 6 &&
+    value.strings_low_to_high.every(
+      (item, index) =>
+        isRecord(item) &&
+        item.string_number === 6 - index &&
+        typeof item.open_pitch === "string" &&
+        item.open_pitch.length <= 8,
+    )
+  );
+}
+
+function validateInline(value: unknown): value is InlineText[] {
+  return (
+    Array.isArray(value) &&
+    value.every(
+      (segment) =>
+        isRecord(segment) &&
+        typeof segment.text === "string" &&
+        segment.text.length <= WORKBOOK_DOCUMENT_LIMITS.textCharacters &&
+        (segment.marks === undefined ||
+          (Array.isArray(segment.marks) &&
+            segment.marks.every((mark) => mark === "bold" || mark === "italic"))),
+    ) &&
+    value.reduce((total, segment) => total + String(segment.text).length, 0) <=
+      WORKBOOK_DOCUMENT_LIMITS.textCharacters
   );
 }
 
 function validateBlock(value: unknown): value is WorkbookBlockV1 {
-  if (!isRecord(value) || typeof value.id !== "string" || typeof value.type !== "string")
+  if (
+    !isRecord(value) ||
+    typeof value.id !== "string" ||
+    value.id.length < 1 ||
+    value.id.length > 100 ||
+    typeof value.type !== "string"
+  )
     return false;
   if (value.type === "unsupported") return "original" in value;
   if (value.version !== 1) return false;
-  if (value.type === "paragraph" || value.type === "heading") return Array.isArray(value.content);
+  if (value.type === "paragraph" || value.type === "heading")
+    return (
+      validateInline(value.content) &&
+      (value.type !== "heading" ||
+        value.level === undefined ||
+        [1, 2, 3].includes(Number(value.level)))
+    );
   if (value.type === "bullet_list" || value.type === "ordered_list")
-    return Array.isArray(value.items);
+    return (
+      Array.isArray(value.items) &&
+      value.items.length <= WORKBOOK_DOCUMENT_LIMITS.listItems &&
+      value.items.every(validateInline)
+    );
   if (value.type === "guitar_tab") {
     return (
       validateTuning(value.tuning) &&
@@ -136,12 +186,16 @@ function validateBlock(value: unknown): value is WorkbookBlockV1 {
         [4, 8, 12, 16].includes(Number(value.positions_per_line))) &&
       Array.isArray(value.events) &&
       value.events.length > 0 &&
+      value.events.length <= WORKBOOK_DOCUMENT_LIMITS.tabEventsPerBlock &&
       value.events.every(
         (event, index) =>
           isRecord(event) &&
           typeof event.id === "string" &&
+          event.id.length >= 1 &&
+          event.id.length <= 100 &&
           event.ordinal === index &&
           Array.isArray(event.notes) &&
+          event.notes.length <= 6 &&
           event.notes.every(
             (note) =>
               isRecord(note) &&
@@ -158,12 +212,15 @@ function validateBlock(value: unknown): value is WorkbookBlockV1 {
   if (value.type === "chord_diagram")
     return (
       typeof value.name === "string" &&
+      value.name.length >= 1 &&
+      value.name.length <= 80 &&
       validateTuning(value.tuning) &&
       Number.isInteger(value.fret_window_start) &&
       Number(value.fret_window_start) >= 1 &&
       Array.isArray(value.strings) &&
       value.strings.length === 6 &&
-      Array.isArray(value.barres)
+      Array.isArray(value.barres) &&
+      value.barres.length <= WORKBOOK_DOCUMENT_LIMITS.barres
     );
   return false;
 }
@@ -173,7 +230,10 @@ export function parseWorkbookDocument(input: unknown): WorkbookDocumentV1 {
     !isRecord(input) ||
     input.type !== "GUITARPG_WORKBOOK_DOCUMENT_V1" ||
     input.schema_version !== 1 ||
-    !Array.isArray(input.blocks)
+    !Array.isArray(input.blocks) ||
+    input.blocks.length > WORKBOOK_DOCUMENT_LIMITS.blocks ||
+    new TextEncoder().encode(JSON.stringify(input)).byteLength >
+      WORKBOOK_DOCUMENT_LIMITS.serializedBytes
   )
     throw new Error("This is not a valid GUITARPG_WORKBOOK_DOCUMENT_V1 document.");
   const blocks = input.blocks.map((block) => {
@@ -187,6 +247,15 @@ export function parseWorkbookDocument(input: unknown): WorkbookDocumentV1 {
       } as const;
     throw new Error("The document contains a malformed block that cannot be preserved safely.");
   });
+  const ids = blocks.map((block) => block.id);
+  if (new Set(ids).size !== ids.length)
+    throw new Error("The document contains duplicate block identities.");
+  const eventCount = blocks.reduce(
+    (total, block) => total + (block.type === "guitar_tab" ? block.events.length : 0),
+    0,
+  );
+  if (eventCount > WORKBOOK_DOCUMENT_LIMITS.tabEventsPerDocument)
+    throw new Error("The document contains too many tablature events.");
   return { type: "GUITARPG_WORKBOOK_DOCUMENT_V1", schema_version: 1, blocks };
 }
 

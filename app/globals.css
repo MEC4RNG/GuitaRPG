@@ -1632,6 +1632,79 @@ a {
   position: static;
 }
 
+.workbook-library {
+  display: grid;
+  gap: 1rem;
+}
+.workbook-library__header,
+.workbook-library__actions,
+.workbook-library__list article > div,
+.workbook-page-selector,
+.workbook-page-order {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.workbook-library__header {
+  justify-content: space-between;
+}
+.workbook-library__grid {
+  display: grid;
+  grid-template-columns: minmax(13rem, 18rem) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+.workbook-library__list,
+.workbook-account-warning,
+.workbook-account-note,
+.workbook-revisions,
+.workbook-library__empty {
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  background: var(--surface-panel);
+  padding: 1rem;
+}
+.workbook-library__list article {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem;
+  border-left: 3px solid transparent;
+}
+.workbook-library__list article.is-selected {
+  border-left-color: var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 9%, transparent);
+}
+.workbook-library__list article > button:first-child {
+  text-align: left;
+  font-weight: 700;
+}
+.workbook-export-disclosure,
+.workbook-account-warning,
+.workbook-account-note {
+  font-size: 0.9rem;
+}
+.workbook-page-selector > button:first-child {
+  flex: 1;
+}
+.workbook-page-order button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+.workbook-revisions {
+  margin-top: 1rem;
+}
+
+@media (max-width: 760px) {
+  .workbook-library__header,
+  .workbook-library__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workbook-library__actions {
+    flex-wrap: wrap;
+  }
+}
+
 @media (max-width: 60rem) and (orientation: landscape) {
   .app-shell--workbook-prototype .workbook-toolbar {
     position: static;
