@@ -162,13 +162,13 @@ function GuitarTabView({
   };
   const moveSelection = (stringNumber: number, eventIndex: number) => {
     const nextString = Math.min(6, Math.max(1, stringNumber));
-    const nextEvent = Math.min(block.events.length - 1, Math.max(0, eventIndex));
+    const nextEvent = Math.min(blockRef.current.events.length - 1, Math.max(0, eventIndex));
     setSelected({ string: nextString, event: nextEvent });
-    requestAnimationFrame(() =>
+    const focusCell = () =>
       document
         .querySelector<HTMLElement>(`[data-tab-cell="${block.id}-${nextString}-${nextEvent}"]`)
-        ?.focus(),
-    );
+        ?.focus();
+    focusCell();
   };
   const returnToDocument = () => {
     const afterNode = (getPos() ?? 0) + node.nodeSize;
@@ -276,7 +276,7 @@ function GuitarTabView({
                         selected.string === pitch.string_number && selected.event === eventIndex;
                       return (
                         <input
-                          key={tabEvent?.id ?? `placeholder-${eventIndex}`}
+                          key={`${pitch.string_number}-${eventIndex}`}
                           role="gridcell"
                           type="text"
                           inputMode="numeric"
@@ -332,16 +332,22 @@ function GuitarTabView({
                             else setFretError("Enter a whole-number fret from 0 to 36.");
                           }}
                           onKeyDown={(keyboardEvent) => {
-                            if (!tabEvent) return;
                             const moves: Record<string, [number, number]> = {
                               ArrowLeft: [pitch.string_number, eventIndex - 1],
                               ArrowRight: [pitch.string_number, eventIndex + 1],
-                              ArrowUp: [pitch.string_number + 1, eventIndex],
-                              ArrowDown: [pitch.string_number - 1, eventIndex],
+                              ArrowUp: [pitch.string_number - 1, eventIndex],
+                              ArrowDown: [pitch.string_number + 1, eventIndex],
                             };
                             const next = moves[keyboardEvent.key];
                             if (next) {
                               keyboardEvent.preventDefault();
+                              if (
+                                next[0] < 1 ||
+                                next[0] > 6 ||
+                                next[1] < 0 ||
+                                next[1] >= blockRef.current.events.length
+                              )
+                                return;
                               moveSelection(...next);
                               return;
                             }

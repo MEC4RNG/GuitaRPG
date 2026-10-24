@@ -228,6 +228,51 @@ test("aligns direct chord editing with its visible strings and preserves absolut
   );
 });
 
+test("moves tablature focus in the visual arrow direction without wrapping strings", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  const tab = page.locator('[data-block-type="guitar-tab"]').last();
+  const cell = (string: number, position: number) =>
+    tab.getByRole("gridcell", { name: new RegExp(`^String ${string}, position ${position},`) });
+  const focusCell = async (string: number, position: number) => {
+    const target = cell(string, position);
+    await target.focus();
+    await expect(target).toBeFocused();
+    await expect(target).toHaveAttribute("aria-selected", "true");
+  };
+
+  await focusCell(6, 1);
+  await page.keyboard.press("ArrowUp");
+  await expect(cell(5, 1)).toBeFocused();
+
+  await focusCell(1, 1);
+  await page.keyboard.press("ArrowDown");
+  await expect(cell(2, 1)).toBeFocused();
+
+  await focusCell(1, 1);
+  await page.keyboard.press("ArrowUp");
+  await expect(cell(1, 1)).toBeFocused();
+  await focusCell(6, 1);
+  await page.keyboard.press("ArrowDown");
+  await expect(cell(6, 1)).toBeFocused();
+
+  await tab.getByLabel("Positions per line").selectOption("4");
+  await focusCell(3, 4);
+  await page.keyboard.press("ArrowRight");
+  await expect(cell(3, 5)).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(cell(3, 4)).toBeFocused();
+
+  await tab.getByLabel("Tuning").selectOption("dadgad");
+  await focusCell(6, 1);
+  await page.keyboard.press("ArrowUp");
+  await expect(cell(5, 1)).toBeFocused();
+  await focusCell(1, 1);
+  await page.keyboard.press("ArrowDown");
+  await expect(cell(2, 1)).toBeFocused();
+});
+
 test("manages temporary pages without leaking edits between pages", async ({ page }) => {
   const pages = page.getByRole("navigation", { name: "Temporary workbook pages" });
   const pageTitle = page.getByLabel("Page title");
