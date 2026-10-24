@@ -14,20 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "JRN-000",
-    "title": "Player-Owned Journal & Workbook Architecture Reconciliation",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "JRN-001",
     "title": "Interactive Workbook Editor Prototype",
-    "status": "AWAITING_USER_INTERACTIVE_REVIEW"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "JRN-002",
     "title": "Workbook Persistence Foundation",
     "authorized_to_start": false,
-    "condition": "JRN-001 acceptance and explicit JRN-002 authorization are required"
+    "condition": "Explicit JRN-002 authorization is required"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -48,5 +44,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_USER_INTERACTIVE_REVIEW"
+  "execution_status": "AWAITING_EXPLICIT_JRN_002_AUTHORIZATION"
 }

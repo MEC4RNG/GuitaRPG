@@ -237,6 +237,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "QST-008", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_QST_008_AUTHORIZATION");
         expect(read("docs/tickets/CODEX-002.md")).toContain("**Status:** COMPLETE");
+      } else if (state.last_terminal_ticket.id === "JRN-001") {
+        expect(state.next_ticket).toMatchObject({ id: "JRN-002", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_002_AUTHORIZATION");
+        expect(read("docs/tickets/JRN-001.md")).toContain("**COMPLETE — USER ACCEPTED**");
       } else if (state.last_terminal_ticket.id === "JRN-000") {
         expect(state.next_ticket).toMatchObject({ id: "JRN-001", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_001_AUTHORIZATION");
