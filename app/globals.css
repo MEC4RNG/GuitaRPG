@@ -956,6 +956,714 @@ a {
   }
 }
 
+.workbook-prototype {
+  display: grid;
+  min-width: 0;
+  width: 100%;
+  gap: var(--space-6);
+  max-width: 78rem;
+  margin: 0 auto;
+}
+
+.workbook-header,
+.workbook-pages__heading,
+.workbook-music-block__header,
+.workbook-json > div:first-child {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.workbook-header h1,
+.workbook-header p,
+.workbook-pages h2,
+.workbook-json h2,
+.workbook-json p {
+  margin: 0;
+}
+
+.workbook-header > div {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.workbook-header label,
+.workbook-page-title,
+.workbook-music-block label,
+.workbook-json label {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--surface-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.workbook-prototype input,
+.workbook-prototype select,
+.workbook-prototype textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: var(--touch-target-min);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+}
+
+.workbook-status {
+  margin: 0;
+  border-left: 3px solid var(--surface-accent);
+  background: var(--surface-panel);
+  padding: var(--space-3) var(--space-4);
+  color: var(--surface-muted);
+}
+
+.workbook-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.workbook-pages,
+.workbook-editor-area,
+.workbook-json {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.workbook-pages {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  min-width: 0;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-panel);
+}
+
+.workbook-page-strip {
+  display: flex;
+  min-width: 0;
+  gap: var(--space-2);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: var(--space-1) 0;
+  scrollbar-gutter: stable;
+}
+
+.workbook-page-actions {
+  position: relative;
+}
+
+.workbook-page-actions__toggle {
+  display: none;
+}
+
+.workbook-page-actions > div {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.workbook-page-strip button {
+  flex: 0 0 auto;
+  max-width: min(18rem, 72vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workbook-prototype button {
+  min-height: var(--touch-target-min);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.workbook-prototype button:hover,
+.workbook-prototype button:focus-visible,
+.workbook-pages button.is-active,
+.workbook-tab-grid input.is-selected,
+.workbook-chord button[aria-pressed="true"] {
+  border-color: var(--surface-accent);
+}
+
+.workbook-prototype button:focus-visible,
+.workbook-prototype input:focus-visible,
+.workbook-prototype select:focus-visible,
+.workbook-prototype textarea:focus-visible,
+.workbook-prosemirror:focus-visible {
+  outline: 3px solid var(--surface-accent);
+  outline-offset: 2px;
+}
+
+.workbook-prototype button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.workbook-toolbar,
+.workbook-block-controls,
+.workbook-json__actions,
+.workbook-string-picker,
+.workbook-tab-entry__states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.workbook-editor-area {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.workbook-page-title,
+.workbook-page-title input {
+  min-width: 0;
+  width: 100%;
+}
+
+.workbook-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: var(--space-3);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: rgb(17 22 28 / 96%);
+  box-shadow: 0 0.6rem 1.5rem rgb(0 0 0 / 25%);
+}
+
+.workbook-toolbar button[aria-pressed="true"] {
+  border-color: var(--surface-accent);
+  background: color-mix(in srgb, var(--surface-accent) 18%, var(--surface-raised));
+}
+
+.workbook-prosemirror {
+  min-height: 32rem;
+  padding: clamp(1rem, 4vw, 3.5rem);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-panel);
+  color: var(--surface-text);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 20%);
+}
+
+.workbook-prosemirror > *:first-child {
+  margin-top: 0;
+}
+
+.workbook-prosemirror p {
+  line-height: 1.7;
+}
+
+.workbook-prosemirror h1,
+.workbook-prosemirror h2,
+.workbook-prosemirror h3 {
+  margin: 1.5em 0 0.55em;
+  color: var(--surface-text);
+  font-family: var(--font-display);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.workbook-prosemirror h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.workbook-prosemirror h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+.workbook-prosemirror h3 {
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+}
+
+.workbook-prosemirror ul,
+.workbook-prosemirror ol {
+  margin: var(--space-3) 0;
+  padding-inline-start: 1.75rem;
+}
+
+.workbook-prosemirror ul {
+  list-style: disc outside;
+}
+
+.workbook-prosemirror ol {
+  list-style: decimal outside;
+}
+
+.workbook-prosemirror li {
+  margin-block: var(--space-2);
+  padding-inline-start: var(--space-1);
+}
+
+.workbook-music-block,
+.workbook-unsupported {
+  display: grid;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  padding: var(--space-4);
+  border: 2px solid var(--surface-border);
+  border-left-color: var(--hud-amber);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.workbook-music-block:focus-within {
+  border-color: var(--surface-accent);
+}
+
+.workbook-music-block__header strong,
+.workbook-music-block__header .eyebrow {
+  display: block;
+}
+
+.workbook-tab-grid {
+  min-width: max-content;
+  padding: var(--space-1);
+}
+
+.workbook-tab-systems {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.workbook-tab-system {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  border-top: 1px solid var(--surface-border);
+}
+
+.workbook-tab-system > strong {
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+}
+
+.workbook-tab-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+}
+
+.workbook-tab-row {
+  display: grid;
+  grid-template-columns: 3rem repeat(16, 3.25rem);
+  align-items: center;
+}
+
+.workbook-tab-row--positions {
+  color: var(--surface-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.workbook-tab-row--positions > span {
+  position: static;
+  background: transparent;
+}
+
+.workbook-tab-row > span {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface-raised);
+  font-family: var(--font-data);
+  font-weight: 700;
+}
+
+.workbook-tab-row input {
+  position: relative;
+  width: 100%;
+  height: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-data);
+  font-weight: 700;
+  text-align: center;
+}
+
+.workbook-tab-row input::placeholder {
+  color: color-mix(in srgb, var(--surface-muted) 55%, transparent);
+  opacity: 1;
+}
+
+.workbook-tab-row input.is-placeholder {
+  color: color-mix(in srgb, var(--surface-muted) 55%, transparent);
+}
+
+.workbook-tab-tools {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.workbook-tab-entry {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(8rem, 1fr) auto;
+  align-items: end;
+  gap: var(--space-2);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface-panel) 72%, var(--surface-raised));
+  padding: var(--space-3);
+}
+
+.workbook-tab-entry > span {
+  align-self: center;
+  color: var(--surface-muted);
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.workbook-tab-entry label {
+  min-width: 0;
+}
+
+.workbook-tab-entry input {
+  width: 100%;
+}
+
+.workbook-tab-entry__states {
+  align-items: end;
+}
+
+.workbook-tab-tools summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.workbook-tab-tools[open] summary {
+  margin-bottom: var(--space-3);
+}
+
+.workbook-tab-primary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.workbook-block-controls {
+  align-items: end;
+}
+
+.workbook-block-controls span {
+  align-self: center;
+  font-family: var(--font-data);
+}
+
+.workbook-block-controls input,
+.workbook-music-block__header input {
+  width: 7rem;
+}
+
+.workbook-chord {
+  display: grid;
+  gap: var(--space-2);
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.workbook-chord__states {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(2.5rem, 3.25rem));
+  align-items: center;
+}
+
+.workbook-chord__fret {
+  display: grid;
+  grid-template-columns: 2rem repeat(6, minmax(2.5rem, 3.25rem));
+  align-items: center;
+}
+
+.workbook-chord__states {
+  padding-left: 2rem;
+}
+
+.workbook-chord__states button {
+  display: grid;
+  place-items: center;
+  min-width: var(--touch-target-min);
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+.workbook-chord__states span,
+.workbook-chord__fret > span {
+  font-family: var(--font-data);
+  font-weight: 700;
+}
+
+.workbook-chord__states small {
+  color: var(--surface-muted);
+}
+
+.workbook-chord__grid {
+  border-top: 4px solid var(--surface-text);
+}
+
+.workbook-chord__fret > span {
+  color: var(--surface-muted);
+  text-align: center;
+}
+
+.workbook-chord__fret button {
+  position: relative;
+  min-width: var(--touch-target-min);
+  padding: 0;
+  border-width: 0 0 1px;
+  border-color: color-mix(in srgb, var(--surface-muted) 72%, transparent);
+  border-radius: 0;
+  background: transparent;
+}
+
+.workbook-chord__fret button::before {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 2px solid color-mix(in srgb, var(--surface-text) 75%, transparent);
+  content: "";
+}
+
+.workbook-chord__fret button.is-fretted span {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-accent);
+  color: var(--surface-panel);
+  font-size: 0.72rem;
+}
+
+.workbook-file-import {
+  display: inline-grid !important;
+  min-height: var(--touch-target-min);
+  place-items: center;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--surface-text) !important;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+}
+
+.workbook-file-import input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.workbook-chord__notice,
+.workbook-field-error {
+  margin: 0;
+  color: var(--hud-amber);
+  font-size: 0.82rem;
+}
+
+.workbook-block-exit {
+  justify-self: start;
+}
+
+.workbook-json {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-panel);
+}
+
+.workbook-json textarea {
+  min-height: 16rem;
+  resize: vertical;
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+}
+
+.workbook-unsupported pre {
+  max-height: 12rem;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.danger-quiet {
+  color: var(--semantic-danger) !important;
+}
+
+@media (max-width: 52rem) {
+  .workbook-prototype {
+    width: calc(100vw - var(--space-5) - var(--space-5));
+    min-width: 0;
+    max-width: calc(100vw - var(--space-5) - var(--space-5));
+    overflow-x: hidden;
+  }
+
+  .workbook-layout,
+  .workbook-editor-area,
+  .workbook-page-title,
+  .workbook-toolbar,
+  .workbook-prosemirror,
+  .workbook-json {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .workbook-header,
+  .workbook-music-block__header,
+  .workbook-json > div:first-child {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .workbook-pages {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2);
+  }
+
+  .workbook-pages h2 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .workbook-new-page {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .workbook-page-strip {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .workbook-page-actions {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .workbook-page-actions__toggle {
+    display: grid;
+    min-height: var(--touch-target-min);
+    place-items: center;
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-raised);
+    padding: var(--space-2) var(--space-3);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .workbook-page-actions:not(.is-open) > div {
+    display: none;
+  }
+
+  .workbook-page-actions > div {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    width: max-content;
+    max-width: calc(100vw - var(--space-6));
+    flex-direction: column;
+    padding: var(--space-2);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-panel);
+    box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 35%);
+  }
+
+  .workbook-tab-entry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workbook-tab-entry > span,
+  .workbook-tab-entry label,
+  .workbook-tab-entry__states {
+    grid-column: 1 / -1;
+  }
+
+  .workbook-tab-entry__states button {
+    flex: 1 1 0;
+  }
+
+  .workbook-prosemirror {
+    min-height: 24rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .workbook-tab-row input {
+    height: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+  }
+}
+
+.app-shell--workbook-prototype .topbar {
+  position: static;
+}
+
+@media (max-width: 60rem) and (orientation: landscape) {
+  .app-shell--workbook-prototype .workbook-toolbar {
+    position: static;
+    max-height: none;
+  }
+
+  .app-shell--workbook-prototype .workbook-prototype {
+    gap: var(--space-4);
+  }
+
+  .app-shell--workbook-prototype .workbook-prosemirror {
+    min-height: 18rem;
+  }
+}
+
+@media (max-width: 24rem) {
+  .workbook-prototype {
+    gap: var(--space-4);
+  }
+
+  .workbook-prosemirror,
+  .workbook-music-block,
+  .workbook-json {
+    padding: var(--space-3);
+  }
+
+  .workbook-toolbar {
+    max-height: 12rem;
+    overflow-y: auto;
+  }
+}
+
 .quest-codex-link:focus-visible {
   outline: 2px solid var(--surface-accent);
   outline-offset: 3px;

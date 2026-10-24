@@ -78,6 +78,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "QST-007",
       "UX-006",
       "CODEX-002",
+      "JRN-001",
       "JRN-000",
     ]).toContain(state.last_terminal_ticket.id);
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
@@ -92,6 +93,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
           "UX-005",
           "UX-006",
           "CODEX-002",
+          "JRN-001",
         ].includes(state.active_ticket.id),
     ).toBe(true);
     expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
@@ -186,6 +188,13 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         );
         return;
       }
+      if (state.active_ticket.id === "JRN-001") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(state.active_ticket.status).toBe("AWAITING_USER_INTERACTIVE_REVIEW");
+        expect(state.next_ticket).toMatchObject({ id: "JRN-002", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_USER_INTERACTIVE_REVIEW");
+        return;
+      }
       expect(state.active_ticket).toMatchObject({ id: "P5-GATE-001", status: "IN_PROGRESS" });
       expect(state.next_ticket).toBeNull();
       expect(state.execution_status).toBe("P5_GATE_001_IN_PROGRESS");
@@ -228,6 +237,10 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "QST-008", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_QST_008_AUTHORIZATION");
         expect(read("docs/tickets/CODEX-002.md")).toContain("**Status:** COMPLETE");
+      } else if (state.last_terminal_ticket.id === "JRN-001") {
+        expect(state.next_ticket).toMatchObject({ id: "JRN-002", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_002_AUTHORIZATION");
+        expect(read("docs/tickets/JRN-001.md")).toContain("**COMPLETE — USER ACCEPTED**");
       } else if (state.last_terminal_ticket.id === "JRN-000") {
         expect(state.next_ticket).toMatchObject({ id: "JRN-001", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_001_AUTHORIZATION");
