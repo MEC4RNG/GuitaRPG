@@ -21,7 +21,7 @@
   "active_ticket": {
     "id": "JRN-002",
     "title": "Workbook Persistence Foundation",
-    "status": "IN_PROGRESS"
+    "status": "AWAITING_USER_INTERACTIVE_REVIEW"
   },
   "next_ticket": {
     "id": "JRN-003",
@@ -48,5 +48,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "JRN_002_IN_PROGRESS"
+  "execution_status": "AWAITING_USER_INTERACTIVE_REVIEW"
 }
