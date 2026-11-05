@@ -43,6 +43,7 @@ export function WorkbookPersistenceSurface() {
   const [anonymous, setAnonymous] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [pendingEdits, setPendingEdits] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -81,34 +82,61 @@ export function WorkbookPersistenceSurface() {
     .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     .slice(0, 5);
 
+  const upsertPage = useCallback((accepted: WorkbookPageRow) => {
+    setPages((current) => [...current.filter((page) => page.id !== accepted.id), accepted]);
+    return accepted;
+  }, []);
+
+  const selectWorkbook = (workbookId: string, pageId: string | null = null) => {
+    if (pendingEdits && workbookId !== selectedId) {
+      setMessage("Wait for the current page to show Saved before opening another Workbook.");
+      return;
+    }
+    setMessage("");
+    setSelectedId(workbookId);
+    setInitialPageId(pageId);
+  };
+
   const create = async () => {
+    if (pendingEdits) {
+      setMessage("Wait for the current page to show Saved before creating another Workbook.");
+      return;
+    }
     const title = window.prompt("Workbook title", "New workbook")?.trim();
     if (!title) return;
     try {
       const accepted = await createWorkbook(getClient(), title);
       setWorkbooks((current) => [accepted.workbook, ...current]);
       setPages((current) => [...current, accepted.page]);
-      setSelectedId(accepted.workbook.id);
+      selectWorkbook(accepted.workbook.id);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Workbook could not be created.");
     }
   };
 
   const quickNote = async () => {
+    if (pendingEdits) {
+      setMessage("Wait for the current page to show Saved before creating a Quick Note.");
+      return;
+    }
     try {
       const accepted = await createQuickNote(getClient());
       setWorkbooks((current) => {
         const without = current.filter((item) => item.id !== accepted.workbook.id);
         return [accepted.workbook, ...without];
       });
-      setPages((current) => [...current, accepted.page]);
-      setSelectedId(accepted.workbook.id);
+      upsertPage(accepted.page);
+      selectWorkbook(accepted.workbook.id, accepted.page.id);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Quick Note could not be created.");
     }
   };
 
   const archive = async (workbook: WorkbookRow, archived: boolean) => {
+    if (pendingEdits && workbook.id === selectedId) {
+      setMessage("Wait for the current page to show Saved before archiving this Workbook.");
+      return;
+    }
     try {
       const updated = await updateWorkbook(getClient(), workbook, { archived });
       setWorkbooks((current) => current.map((item) => (item.id === updated.id ? updated : item)));
@@ -189,8 +217,7 @@ export function WorkbookPersistenceSurface() {
               type="button"
               key={`recent-${page.id}`}
               onClick={() => {
-                setSelectedId(page.workbook_id);
-                setInitialPageId(page.id);
+                selectWorkbook(page.workbook_id, page.id);
               }}
             >
               {page.title}
@@ -208,8 +235,7 @@ export function WorkbookPersistenceSurface() {
                 <button
                   type="button"
                   onClick={() => {
-                    setSelectedId(workbook.id);
-                    setInitialPageId(null);
+                    selectWorkbook(workbook.id);
                   }}
                 >
                   {workbook.title}
@@ -241,6 +267,19 @@ export function WorkbookPersistenceSurface() {
               .map((workbook) => (
                 <article key={workbook.id}>
                   <strong>{workbook.title}</strong>
+                  {workbook.kind === "QUICK_NOTES" ? (
+                    <ul
+                      className="workbook-library__archived-pages"
+                      aria-label="Archived Quick Note pages"
+                    >
+                      {pages
+                        .filter((page) => page.workbook_id === workbook.id)
+                        .sort((a, b) => a.position - b.position)
+                        .map((page) => (
+                          <li key={page.id}>{page.title}</li>
+                        ))}
+                    </ul>
+                  ) : null}
                   <button type="button" onClick={() => void archive(workbook, false)}>
                     Restore
                   </button>
@@ -262,21 +301,42 @@ export function WorkbookPersistenceSurface() {
                 initialActivePageId={initialPageId ?? undefined}
                 initialPages={selectedPages}
                 onActivePageChange={setActivePage}
-                onCreatePage={(title, document) =>
-                  createPage(getClient(), selected.id, title, document)
+                onPendingChange={setPendingEdits}
+                onCreatePage={async (title, document) =>
+                  upsertPage(await createPage(getClient(), selected.id, title, document))
                 }
-                onDuplicatePage={(pageId) => duplicatePage(getClient(), pageId)}
-                onDeletePage={(pageId) => deletePage(getClient(), pageId)}
-                onReorderPages={(ids) => reorderPages(getClient(), selected.id, ids)}
+                onDuplicatePage={async (pageId) =>
+                  upsertPage(await duplicatePage(getClient(), pageId))
+                }
+                onDeletePage={async (pageId) => {
+                  await deletePage(getClient(), pageId);
+                  setPages((current) => current.filter((page) => page.id !== pageId));
+                }}
+                onReorderPages={async (ids) => {
+                  await reorderPages(getClient(), selected.id, ids);
+                  const positions = new Map(ids.map((id, position) => [id, position]));
+                  setPages((current) =>
+                    current.map((page) =>
+                      page.workbook_id === selected.id && positions.has(page.id)
+                        ? { ...page, position: positions.get(page.id) ?? page.position }
+                        : page,
+                    ),
+                  );
+                }}
                 onSavePage={async (page, requestId) => {
                   const result = await savePage(
                     getClient(),
                     { ...page, revision: page.revision ?? 1 },
                     requestId,
                   );
-                  return result.status === "conflict"
-                    ? { status: "conflict", revision: result.revision, serverPage: result.page }
-                    : { status: "accepted", revision: result.revision };
+                  if (result.status === "conflict")
+                    return {
+                      status: "conflict",
+                      revision: result.revision,
+                      serverPage: result.page,
+                    };
+                  upsertPage(result.page);
+                  return { status: "accepted", revision: result.revision };
                 }}
               />
               <section className="workbook-revisions" aria-labelledby="workbook-revisions-title">

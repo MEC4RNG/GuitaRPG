@@ -7,6 +7,7 @@ const migration = readFileSync(
 );
 const surface = readFileSync("components/workbook-persistence-surface.tsx", "utf8");
 const editor = readFileSync("components/workbook-editor-prototype.tsx", "utf8");
+const styles = readFileSync("app/globals.css", "utf8");
 
 describe("JRN-002 persistence contract", () => {
   it("creates the owner graph with account-deletion cascades and RLS", () => {
@@ -47,5 +48,19 @@ describe("JRN-002 persistence contract", () => {
     expect(surface).toContain("Archived Workbooks");
     expect(surface).toContain("Recovery revisions");
     expect(surface).toContain("Quick Note");
+  });
+
+  it("keeps the server-authoritative page collection synchronized with the editor", () => {
+    expect(surface).toContain("upsertPage(await createPage");
+    expect(surface).toContain("upsertPage(await duplicatePage");
+    expect(surface).toContain("current.filter((page) => page.id !== pageId)");
+    expect(surface).toContain("upsertPage(result.page)");
+    expect(surface).toContain("onPendingChange={setPendingEdits}");
+  });
+
+  it("identifies archived Quick Note pages and gives actionable controls pointer affordance", () => {
+    expect(surface).toContain('aria-label="Archived Quick Note pages"');
+    expect(styles).toContain(".workbook-library button:not(:disabled)");
+    expect(styles).toContain("cursor: pointer");
   });
 });

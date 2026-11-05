@@ -1678,6 +1678,19 @@ a {
   text-align: left;
   font-weight: 700;
 }
+.workbook-library button:not(:disabled),
+.workbook-revisions button:not(:disabled) {
+  cursor: pointer;
+}
+.workbook-library button:disabled,
+.workbook-revisions button:disabled {
+  cursor: not-allowed;
+}
+.workbook-library__archived-pages {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--surface-muted);
+}
 .workbook-export-disclosure,
 .workbook-account-warning,
 .workbook-account-note {

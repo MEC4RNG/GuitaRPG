@@ -50,6 +50,7 @@ type WorkbookEditorPrototypeProps = {
   onDeletePage?: (pageId: string) => Promise<void>;
   onReorderPages?: (pageIds: string[]) => Promise<void>;
   onActivePageChange?: (page: WorkbookEditorPage) => void;
+  onPendingChange?: (pending: boolean) => void;
 };
 const MAX_WORKBOOK_IMPORT_BYTES = 1024 * 1024;
 
@@ -790,6 +791,7 @@ export function WorkbookEditorPrototype({
   onDeletePage,
   onReorderPages,
   onActivePageChange,
+  onPendingChange,
 }: WorkbookEditorPrototypeProps = {}) {
   const initialPage = useMemo<WorkbookEditorPage>(
     () =>
@@ -925,6 +927,11 @@ export function WorkbookEditorPrototype({
   }, [dirtyPageIds, persistent]);
   useEffect(() => {
     if (!persistent) return;
+    onPendingChange?.(dirtyPageIds.size > 0);
+    return () => onPendingChange?.(false);
+  }, [dirtyPageIds, onPendingChange, persistent]);
+  useEffect(() => {
+    if (!persistent) return;
     const retry = () => setRetryNonce((value) => value + 1);
     const visibility = () => {
       if (document.visibilityState === "hidden") retry();
@@ -957,9 +964,13 @@ export function WorkbookEditorPrototype({
   if (!editor) return <p>Preparing the temporary workbook editor…</p>;
   const switchPage = (id: string) => {
     const current = editorJsonToWorkbook(editor.getJSON());
-    setPages((items) =>
-      items.map((page) => (page.id === activePageId ? { ...page, document: current } : page)),
-    );
+    setPages((items) => {
+      const next = items.map((page) =>
+        page.id === activePageId ? { ...page, document: current } : page,
+      );
+      pagesRef.current = next;
+      return next;
+    });
     setActivePageId(id);
   };
   const addPage = async () => {
@@ -970,7 +981,11 @@ export function WorkbookEditorPrototype({
     };
     try {
       const accepted = onCreatePage ? await onCreatePage(page.title, page.document) : page;
-      setPages((items) => [...items, accepted]);
+      setPages((items) => {
+        const next = [...items, accepted];
+        pagesRef.current = next;
+        return next;
+      });
       setActivePageId(accepted.id);
     } catch {
       setStatus("Page could not be created. Please try again.");
@@ -980,7 +995,11 @@ export function WorkbookEditorPrototype({
     if (onDuplicatePage) {
       try {
         const copy = await onDuplicatePage(activePage.id);
-        setPages((items) => [...items, copy]);
+        setPages((items) => {
+          const next = [...items, copy];
+          pagesRef.current = next;
+          return next;
+        });
         setActivePageId(copy.id);
       } catch {
         setStatus("Page could not be duplicated. Please try again.");
@@ -1008,6 +1027,7 @@ export function WorkbookEditorPrototype({
       return;
     }
     const next = pages.filter((page) => page.id !== activePageId);
+    pagesRef.current = next;
     setPages(next);
     setActivePageId(next[0].id);
   };
@@ -1019,6 +1039,7 @@ export function WorkbookEditorPrototype({
     [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
     try {
       await onReorderPages?.(reordered.map((page) => page.id));
+      pagesRef.current = reordered;
       setPages(reordered);
     } catch {
       setStatus("Page order could not be saved. Please try again.");
