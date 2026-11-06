@@ -174,7 +174,7 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
     );
 
     const badBarre = structuredClone(chord);
-    badBarre.barres = [{ from_string: 1, to_string: 6, fret: 1 }];
+    badBarre.barres = [{ from_string: 3, to_string: 3, fret: 1 }];
     expect(() => parseWorkbookDocument({ ...fixture, blocks: [badBarre] })).toThrow(
       "malformed known",
     );
