@@ -809,6 +809,7 @@ export function WorkbookEditorPrototype({
       : initialPage.id,
   );
   const [pageActionsOpen, setPageActionsOpen] = useState(false);
+  const pageActionsRef = useRef<HTMLDivElement>(null);
   const activePageIdRef = useRef(activePageId);
   const [status, setStatus] = useState(
     persistent ? "Saved" : "Temporary prototype · changes are not saved to your account",
@@ -826,6 +827,24 @@ export function WorkbookEditorPrototype({
   const statusRef = useRef<HTMLParagraphElement>(null);
   const pagesRef = useRef(pages);
   const activePage = pages.find((page) => page.id === activePageId) ?? pages[0];
+  const activeIndex = Math.max(0, pages.findIndex((page) => page.id === activePageId));
+  useEffect(() => {
+    if (!pageActionsOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!pageActionsRef.current?.contains(event.target as Node)) setPageActionsOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setPageActionsOpen(false);
+      pageActionsRef.current?.querySelector<HTMLButtonElement>("button.workbook-page-actions__toggle")?.focus();
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [pageActionsOpen]);
   useEffect(() => {
     pagesRef.current = pages;
   }, [pages]);
@@ -963,6 +982,7 @@ export function WorkbookEditorPrototype({
   }, [activePageId, editor]);
   if (!editor) return <p>Preparing the temporary workbook editor…</p>;
   const switchPage = (id: string) => {
+    setPageActionsOpen(false);
     const current = editorJsonToWorkbook(editor.getJSON());
     setPages((items) => {
       const next = items.map((page) =>
@@ -1166,44 +1186,41 @@ export function WorkbookEditorPrototype({
         ) : null}
       </p>
       <div className="workbook-layout">
-        <nav className="workbook-pages" aria-label="Temporary workbook pages">
-          <h2>Pages</h2>
+        <nav
+          className="workbook-pages"
+          aria-label={persistent ? "Workbook pages" : "Temporary workbook pages"}
+        >
+          <div className="workbook-pages__heading">
+            <h2>Pages</h2>
+            <span className="workbook-page-position">
+              Page {activeIndex + 1} of {pages.length}
+            </span>
+          </div>
           <div className="workbook-page-strip" aria-label="Workbook page selectors">
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <div className="workbook-page-selector" key={page.id}>
                 <button
                   type="button"
                   className={page.id === activePageId ? "is-active" : ""}
+                  aria-label={page.title}
                   aria-current={page.id === activePageId ? "page" : undefined}
                   onClick={() => switchPage(page.id)}
                 >
-                  {page.title}
-                </button>
-                {persistent ? (
-                  <span className="workbook-page-order" aria-label={`Reorder ${page.title}`}>
-                    <button
-                      type="button"
-                      aria-label={`Move ${page.title} left`}
-                      onClick={() => void movePage(page.id, -1)}
-                    >
-                      ←
-                    </button>
-                    <button
-                      type="button"
-                      aria-label={`Move ${page.title} right`}
-                      onClick={() => void movePage(page.id, 1)}
-                    >
-                      →
-                    </button>
+                  <span className="workbook-page-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                ) : null}
+                  <span className="workbook-page-label">{page.title}</span>
+                </button>
               </div>
             ))}
           </div>
           <button className="workbook-new-page" type="button" onClick={() => void addPage()}>
             + New page
           </button>
-          <div className={`workbook-page-actions ${pageActionsOpen ? "is-open" : ""}`}>
+          <div
+            className={`workbook-page-actions ${pageActionsOpen ? "is-open" : ""}`}
+            ref={pageActionsRef}
+          >
             <button
               className="workbook-page-actions__toggle"
               type="button"
@@ -1211,13 +1228,50 @@ export function WorkbookEditorPrototype({
               aria-controls="workbook-page-actions-menu"
               onClick={() => setPageActionsOpen((open) => !open)}
             >
-              Page actions
+              Page actions <span aria-hidden="true">▾</span>
             </button>
-            <div id="workbook-page-actions-menu">
-              <button type="button" onClick={() => void duplicatePage()}>
+            <div id="workbook-page-actions-menu" role="group" aria-label="Selected page actions">
+              {persistent ? (
+                <>
+                  <button
+                    type="button"
+                    disabled={activeIndex === 0 || dirtyPageIds.size > 0}
+                    onClick={() => {
+                      setPageActionsOpen(false);
+                      void movePage(activePageId, -1);
+                    }}
+                  >
+                    Move page earlier
+                  </button>
+                  <button
+                    type="button"
+                    disabled={activeIndex === pages.length - 1 || dirtyPageIds.size > 0}
+                    onClick={() => {
+                      setPageActionsOpen(false);
+                      void movePage(activePageId, 1);
+                    }}
+                  >
+                    Move page later
+                  </button>
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => {
+                  setPageActionsOpen(false);
+                  void duplicatePage();
+                }}
+              >
                 Duplicate page
               </button>
-              <button type="button" disabled={pages.length === 1} onClick={() => void deletePage()}>
+              <button
+                type="button"
+                disabled={pages.length === 1}
+                onClick={() => {
+                  setPageActionsOpen(false);
+                  void deletePage();
+                }}
+              >
                 Delete page
               </button>
             </div>
