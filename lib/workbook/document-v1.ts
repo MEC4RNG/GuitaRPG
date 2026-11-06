@@ -178,7 +178,7 @@ function validateBarre(value: unknown) {
     isRecord(value) &&
     boundedInteger(value.from_string, 1, 6) &&
     boundedInteger(value.to_string, 1, 6) &&
-    Number(value.from_string) > Number(value.to_string) &&
+    Number(value.from_string) !== Number(value.to_string) &&
     boundedInteger(value.fret, 1, 36) &&
     (value.finger === undefined || boundedInteger(value.finger, 1, 4))
   );
