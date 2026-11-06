@@ -11,6 +11,7 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { closeHistory } from "@tiptap/pm/history";
+import { Plugin } from "@tiptap/pm/state";
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 
 import {
@@ -27,7 +28,30 @@ import {
   type WorkbookDocumentV1,
 } from "@/lib/workbook/document-v1";
 
-type Page = { id: string; title: string; document: WorkbookDocumentV1 };
+export type WorkbookEditorPage = {
+  id: string;
+  title: string;
+  document: WorkbookDocumentV1;
+  revision?: number;
+};
+
+export type WorkbookSaveResult =
+  | { status: "accepted"; revision: number }
+  | { status: "conflict"; revision: number; serverPage?: WorkbookEditorPage };
+
+type WorkbookEditorPrototypeProps = {
+  initialPages?: WorkbookEditorPage[];
+  workbookTitle?: string;
+  initialActivePageId?: string;
+  persistent?: boolean;
+  onSavePage?: (page: WorkbookEditorPage, requestId: string) => Promise<WorkbookSaveResult>;
+  onCreatePage?: (title: string, document: WorkbookDocumentV1) => Promise<WorkbookEditorPage>;
+  onDuplicatePage?: (pageId: string) => Promise<WorkbookEditorPage>;
+  onDeletePage?: (pageId: string) => Promise<void>;
+  onReorderPages?: (pageIds: string[]) => Promise<void>;
+  onActivePageChange?: (page: WorkbookEditorPage) => void;
+  onPendingChange?: (pending: boolean) => void;
+};
 const MAX_WORKBOOK_IMPORT_BYTES = 1024 * 1024;
 
 const BlockIdentity = Extension.create({
@@ -39,12 +63,38 @@ const BlockIdentity = Extension.create({
         attributes: {
           blockId: {
             default: null,
+            keepOnSplit: false,
             parseHTML: (element) => element.dataset.blockId,
             renderHTML: (attributes) =>
               attributes.blockId ? { "data-block-id": attributes.blockId } : {},
           },
         },
       },
+    ];
+  },
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        appendTransaction: (_transactions, _oldState, newState) => {
+          const transaction = newState.tr;
+          const seen = new Set<string>();
+          let changed = false;
+          newState.doc.descendants((node, position) => {
+            if (!["paragraph", "heading", "bulletList", "orderedList"].includes(node.type.name))
+              return;
+            const current = typeof node.attrs.blockId === "string" ? node.attrs.blockId : "";
+            if (current && !seen.has(current)) {
+              seen.add(current);
+              return;
+            }
+            const blockId = createId();
+            seen.add(blockId);
+            transaction.setNodeMarkup(position, undefined, { ...node.attrs, blockId });
+            changed = true;
+          });
+          return changed ? transaction : null;
+        },
+      }),
     ];
   },
 });
@@ -730,28 +780,89 @@ const UnsupportedBlock = Node.create({
   addNodeView: () => ReactNodeViewRenderer(UnsupportedView),
 });
 
-export function WorkbookEditorPrototype() {
-  const initialPage = useMemo<Page>(
-    () => ({ id: createId(), title: "First page", document: starterWorkbookDocument() }),
-    [],
+export function WorkbookEditorPrototype({
+  initialPages,
+  workbookTitle = "Guitar ideas",
+  initialActivePageId,
+  persistent = false,
+  onSavePage,
+  onCreatePage,
+  onDuplicatePage,
+  onDeletePage,
+  onReorderPages,
+  onActivePageChange,
+  onPendingChange,
+}: WorkbookEditorPrototypeProps = {}) {
+  const initialPage = useMemo<WorkbookEditorPage>(
+    () =>
+      initialPages?.[0] ?? {
+        id: createId(),
+        title: "First page",
+        document: starterWorkbookDocument(),
+      },
+    [initialPages],
   );
-  const [pages, setPages] = useState<Page[]>([initialPage]);
-  const [activePageId, setActivePageId] = useState(initialPage.id);
+  const [pages, setPages] = useState<WorkbookEditorPage[]>(initialPages ?? [initialPage]);
+  const [activePageId, setActivePageId] = useState(
+    initialPages?.some((page) => page.id === initialActivePageId)
+      ? (initialActivePageId ?? initialPage.id)
+      : initialPage.id,
+  );
   const [pageActionsOpen, setPageActionsOpen] = useState(false);
+  const pageActionsRef = useRef<HTMLDivElement>(null);
   const activePageIdRef = useRef(activePageId);
   const [status, setStatus] = useState(
-    "Temporary prototype · changes are not saved to your account",
+    persistent ? "Saved" : "Temporary prototype · changes are not saved to your account",
   );
+  const [dirtyPageIds, setDirtyPageIds] = useState<Set<string>>(new Set());
+  const [retryNonce, setRetryNonce] = useState(0);
+  const savingRef = useRef(new Set<string>());
+  const changeVersionRef = useRef(new Map<string, number>());
+  const markDirty = (pageId: string) => {
+    changeVersionRef.current.set(pageId, (changeVersionRef.current.get(pageId) ?? 0) + 1);
+    setDirtyPageIds((current) => new Set(current).add(pageId));
+    if (persistent) setStatus("Unsaved changes");
+  };
   const [jsonText, setJsonText] = useState("");
   const statusRef = useRef<HTMLParagraphElement>(null);
   const pagesRef = useRef(pages);
   const activePage = pages.find((page) => page.id === activePageId) ?? pages[0];
+  const activeIndex = Math.max(
+    0,
+    pages.findIndex((page) => page.id === activePageId),
+  );
+  useEffect(() => {
+    if (!pageActionsOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (
+        event.target instanceof globalThis.Node &&
+        !pageActionsRef.current?.contains(event.target)
+      ) {
+        setPageActionsOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setPageActionsOpen(false);
+      pageActionsRef.current
+        ?.querySelector<HTMLButtonElement>("button.workbook-page-actions__toggle")
+        ?.focus();
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [pageActionsOpen]);
   useEffect(() => {
     pagesRef.current = pages;
   }, [pages]);
   useEffect(() => {
     activePageIdRef.current = activePageId;
-  }, [activePageId]);
+    const page = pagesRef.current.find((item) => item.id === activePageId);
+    if (page) onActivePageChange?.(page);
+  }, [activePageId, onActivePageChange]);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -774,12 +885,93 @@ export function WorkbookEditorPrototype() {
             page.id === activePageIdRef.current ? { ...page, document } : page,
           ),
         );
-        setStatus("Edited locally · export JSON to keep a copy");
-      } catch {
-        setStatus("The document contains an invalid block. Undo the last change.");
+        markDirty(activePageIdRef.current);
+        setStatus(persistent ? "Unsaved changes" : "Edited locally · export JSON to keep a copy");
+      } catch (error) {
+        setStatus(
+          error instanceof Error
+            ? `${error.message} Undo the last change.`
+            : "The document contains an invalid block. Undo the last change.",
+        );
       }
     },
   });
+  useEffect(() => {
+    if (!persistent || !onSavePage || !editor || dirtyPageIds.size === 0) return;
+    const timeout = window.setTimeout(() => {
+      for (const pageId of dirtyPageIds) {
+        if (savingRef.current.has(pageId)) continue;
+        if (!navigator.onLine) {
+          setStatus("Offline / Pending · your edits remain in this tab");
+          continue;
+        }
+        const storedPage = pagesRef.current.find((item) => item.id === pageId);
+        const page =
+          storedPage && pageId === activePageIdRef.current
+            ? { ...storedPage, document: editorJsonToWorkbook(editor.getJSON()) }
+            : storedPage;
+        if (!page) continue;
+        savingRef.current.add(pageId);
+        const savingVersion = changeVersionRef.current.get(pageId) ?? 0;
+        setStatus("Saving");
+        const requestId = createId();
+        void onSavePage(page, requestId)
+          .then((result) => {
+            if (result.status === "conflict") {
+              setStatus(
+                "Conflict · another accepted version exists. Your local changes are preserved; export them or reload the page to reconcile.",
+              );
+              return;
+            }
+            setPages((current) =>
+              current.map((item) =>
+                item.id === pageId ? { ...item, revision: result.revision } : item,
+              ),
+            );
+            if ((changeVersionRef.current.get(pageId) ?? 0) === savingVersion) {
+              setDirtyPageIds((current) => {
+                const next = new Set(current);
+                next.delete(pageId);
+                return next;
+              });
+              setStatus("Saved");
+            } else setStatus("Unsaved changes");
+          })
+          .catch(() =>
+            setStatus("Save failed · your edits remain pending. Retry by editing again."),
+          )
+          .finally(() => savingRef.current.delete(pageId));
+      }
+    }, 900);
+    return () => window.clearTimeout(timeout);
+  }, [dirtyPageIds, editor, onSavePage, persistent, pages, retryNonce]);
+  useEffect(() => {
+    if (!persistent) return;
+    const warn = (event: BeforeUnloadEvent) => {
+      if (dirtyPageIds.size === 0) return;
+      event.preventDefault();
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirtyPageIds, persistent]);
+  useEffect(() => {
+    if (!persistent) return;
+    onPendingChange?.(dirtyPageIds.size > 0);
+    return () => onPendingChange?.(false);
+  }, [dirtyPageIds, onPendingChange, persistent]);
+  useEffect(() => {
+    if (!persistent) return;
+    const retry = () => setRetryNonce((value) => value + 1);
+    const visibility = () => {
+      if (document.visibilityState === "hidden") retry();
+    };
+    window.addEventListener("online", retry);
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      window.removeEventListener("online", retry);
+      document.removeEventListener("visibilitychange", visibility);
+    };
+  }, [persistent]);
   const toolbarState = useEditorState({
     editor,
     selector: ({ editor: currentEditor }) => ({
@@ -800,22 +992,50 @@ export function WorkbookEditorPrototype() {
   }, [activePageId, editor]);
   if (!editor) return <p>Preparing the temporary workbook editor…</p>;
   const switchPage = (id: string) => {
+    setPageActionsOpen(false);
     const current = editorJsonToWorkbook(editor.getJSON());
-    setPages((items) =>
-      items.map((page) => (page.id === activePageId ? { ...page, document: current } : page)),
-    );
+    setPages((items) => {
+      const next = items.map((page) =>
+        page.id === activePageId ? { ...page, document: current } : page,
+      );
+      pagesRef.current = next;
+      return next;
+    });
     setActivePageId(id);
   };
-  const addPage = () => {
+  const addPage = async () => {
     const page = {
       id: createId(),
       title: `Page ${pages.length + 1}`,
       document: starterWorkbookDocument(),
     };
-    setPages((items) => [...items, page]);
-    setActivePageId(page.id);
+    try {
+      const accepted = onCreatePage ? await onCreatePage(page.title, page.document) : page;
+      setPages((items) => {
+        const next = [...items, accepted];
+        pagesRef.current = next;
+        return next;
+      });
+      setActivePageId(accepted.id);
+    } catch {
+      setStatus("Page could not be created. Please try again.");
+    }
   };
-  const duplicatePage = () => {
+  const duplicatePage = async () => {
+    if (onDuplicatePage) {
+      try {
+        const copy = await onDuplicatePage(activePage.id);
+        setPages((items) => {
+          const next = [...items, copy];
+          pagesRef.current = next;
+          return next;
+        });
+        setActivePageId(copy.id);
+      } catch {
+        setStatus("Page could not be duplicated. Please try again.");
+      }
+      return;
+    }
     const copy = structuredClone(activePage);
     copy.id = createId();
     copy.title = `${copy.title} copy`;
@@ -828,11 +1048,32 @@ export function WorkbookEditorPrototype() {
     setPages((items) => [...items, copy]);
     setActivePageId(copy.id);
   };
-  const deletePage = () => {
+  const deletePage = async () => {
     if (pages.length === 1) return;
+    try {
+      await onDeletePage?.(activePageId);
+    } catch {
+      setStatus("Page could not be deleted. Please try again.");
+      return;
+    }
     const next = pages.filter((page) => page.id !== activePageId);
+    pagesRef.current = next;
     setPages(next);
     setActivePageId(next[0].id);
+  };
+  const movePage = async (pageId: string, direction: -1 | 1) => {
+    const index = pages.findIndex((page) => page.id === pageId);
+    const target = index + direction;
+    if (index < 0 || target < 0 || target >= pages.length) return;
+    const reordered = [...pages];
+    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+    try {
+      await onReorderPages?.(reordered.map((page) => page.id));
+      pagesRef.current = reordered;
+      setPages(reordered);
+    } catch {
+      setStatus("Page order could not be saved. Please try again.");
+    }
   };
   const insertMusical = (type: "tab" | "chord") => {
     const block = type === "tab" ? emptyTabBlock() : emptyChordBlock();
@@ -929,41 +1170,67 @@ export function WorkbookEditorPrototype() {
     <section className="workbook-prototype" aria-labelledby="workbook-title">
       <header className="workbook-header">
         <div>
-          <span className="eyebrow">Non-production prototype</span>
-          <h1 id="workbook-title">Interactive Workbook Editor</h1>
+          <span className="eyebrow">
+            {persistent ? "Player workbook" : "Non-production prototype"}
+          </span>
+          <h1 id="workbook-title">{persistent ? workbookTitle : "Interactive Workbook Editor"}</h1>
           <p>
-            Test one continuous document with rich text, tablature, and chord diagrams. Nothing is
-            saved remotely.
+            {persistent
+              ? "Your structured pages autosave after the server accepts each revision."
+              : "Test one continuous document with rich text, tablature, and chord diagrams. Nothing is saved remotely."}
           </p>
         </div>
-        <label>
-          Workbook title
-          <input defaultValue="Guitar ideas" />
-        </label>
+        {!persistent ? (
+          <label>
+            Workbook title
+            <input defaultValue="Guitar ideas" />
+          </label>
+        ) : null}
       </header>
       <p ref={statusRef} className="workbook-status" role="status" tabIndex={-1}>
         {status}
+        {persistent && (status.startsWith("Save failed") || status.startsWith("Offline")) ? (
+          <button type="button" onClick={() => setRetryNonce((value) => value + 1)}>
+            Retry pending save
+          </button>
+        ) : null}
       </p>
       <div className="workbook-layout">
-        <nav className="workbook-pages" aria-label="Temporary workbook pages">
-          <h2>Pages</h2>
+        <nav
+          className="workbook-pages"
+          aria-label={persistent ? "Workbook pages" : "Temporary workbook pages"}
+        >
+          <div className="workbook-pages__heading">
+            <h2>Pages</h2>
+            <span className="workbook-page-position">
+              Page {activeIndex + 1} of {pages.length}
+            </span>
+          </div>
           <div className="workbook-page-strip" aria-label="Workbook page selectors">
-            {pages.map((page) => (
-              <button
-                type="button"
-                className={page.id === activePageId ? "is-active" : ""}
-                aria-current={page.id === activePageId ? "page" : undefined}
-                key={page.id}
-                onClick={() => switchPage(page.id)}
-              >
-                {page.title}
-              </button>
+            {pages.map((page, index) => (
+              <div className="workbook-page-selector" key={page.id}>
+                <button
+                  type="button"
+                  className={page.id === activePageId ? "is-active" : ""}
+                  aria-label={page.title}
+                  aria-current={page.id === activePageId ? "page" : undefined}
+                  onClick={() => switchPage(page.id)}
+                >
+                  <span className="workbook-page-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="workbook-page-label">{page.title}</span>
+                </button>
+              </div>
             ))}
           </div>
-          <button className="workbook-new-page" type="button" onClick={addPage}>
+          <button className="workbook-new-page" type="button" onClick={() => void addPage()}>
             + New page
           </button>
-          <div className={`workbook-page-actions ${pageActionsOpen ? "is-open" : ""}`}>
+          <div
+            className={`workbook-page-actions ${pageActionsOpen ? "is-open" : ""}`}
+            ref={pageActionsRef}
+          >
             <button
               className="workbook-page-actions__toggle"
               type="button"
@@ -971,13 +1238,50 @@ export function WorkbookEditorPrototype() {
               aria-controls="workbook-page-actions-menu"
               onClick={() => setPageActionsOpen((open) => !open)}
             >
-              Page actions
+              Page actions <span aria-hidden="true">▾</span>
             </button>
-            <div id="workbook-page-actions-menu">
-              <button type="button" onClick={duplicatePage}>
+            <div id="workbook-page-actions-menu" role="group" aria-label="Selected page actions">
+              {persistent ? (
+                <>
+                  <button
+                    type="button"
+                    disabled={activeIndex === 0 || dirtyPageIds.size > 0}
+                    onClick={() => {
+                      setPageActionsOpen(false);
+                      void movePage(activePageId, -1);
+                    }}
+                  >
+                    Move page earlier
+                  </button>
+                  <button
+                    type="button"
+                    disabled={activeIndex === pages.length - 1 || dirtyPageIds.size > 0}
+                    onClick={() => {
+                      setPageActionsOpen(false);
+                      void movePage(activePageId, 1);
+                    }}
+                  >
+                    Move page later
+                  </button>
+                </>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => {
+                  setPageActionsOpen(false);
+                  void duplicatePage();
+                }}
+              >
                 Duplicate page
               </button>
-              <button type="button" disabled={pages.length === 1} onClick={deletePage}>
+              <button
+                type="button"
+                disabled={pages.length === 1}
+                onClick={() => {
+                  setPageActionsOpen(false);
+                  void deletePage();
+                }}
+              >
                 Delete page
               </button>
             </div>
@@ -995,6 +1299,9 @@ export function WorkbookEditorPrototype() {
                   ),
                 )
               }
+              onBlur={() => {
+                if (persistent) markDirty(activePageId);
+              }}
             />
           </label>
           <div className="workbook-toolbar" role="toolbar" aria-label="Workbook editing tools">

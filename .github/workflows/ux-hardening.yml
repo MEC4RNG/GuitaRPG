@@ -69,7 +69,25 @@ jobs:
           echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(jq -r '.PUBLISHABLE_KEY // .ANON_KEY' <<< "$status")" >> "$GITHUB_ENV"
           echo "SUPABASE_SECRET_KEY=$secret" >> "$GITHUB_ENV"
 
-      - name: Install browser engines
+      # GitHub runner images do not guarantee WebKit's OS libraries. Pure
+      # browser downloads passed but the WebKit browser matrix failed on missing
+      # GTK/GStreamer libraries (JRN-002 closeout run 42224550277).
+      # Azure's apt mirror intermittently hung for the full 40-minute job limit.
+      # Bound apt network waits and skip that primary mirror; retain all browsers.
+      - name: Configure bounded apt access for Playwright
+        run: |
+          sudo tee /etc/apt/apt.conf.d/99-guitarpg-playwright-ci >/dev/null <<'EOF'
+          Acquire::Retries "1";
+          Acquire::http::Timeout "15";
+          Acquire::https::Timeout "15";
+          Acquire::ForceIPv4 "true";
+          EOF
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            sudo sed -i '/azure\.archive\.ubuntu\.com/d' /etc/apt/apt-mirrors.txt
+          fi
+
+      - name: Install browser engines and system dependencies
+        timeout-minutes: 10
         run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Build application

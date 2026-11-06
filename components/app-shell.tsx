@@ -17,7 +17,10 @@ export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
   const surface = getSurfaceForPath(pathname);
   const current = getNavigationItem(pathname);
-  const prototypeClass = pathname === "/prototype/workbook" ? " app-shell--workbook-prototype" : "";
+  const prototypeClass =
+    pathname === "/prototype/workbook" || pathname === "/workbooks"
+      ? " app-shell--workbook-prototype"
+      : "";
 
   return (
     <div className={`app-shell app-shell--${surface}${prototypeClass}`} data-surface={surface}>
