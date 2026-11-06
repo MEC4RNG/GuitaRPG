@@ -313,108 +313,108 @@ function GuitarTabView({
                 <div className="workbook-tab-note-rows" role="rowgroup">
                   <TabStringGuideSvg positionsPerLine={positionsPerLine} />
                   {pitches.map((pitch) => (
-                  <div
-                    className="workbook-tab-row"
-                    role="row"
-                    key={pitch.string_number}
-                    style={{ gridTemplateColumns: `3rem repeat(${positionsPerLine}, 3rem)` }}
-                  >
-                    <span role="rowheader">{pitch.open_pitch}</span>
-                    {Array.from({ length: positionsPerLine }, (_, offset) => {
-                      const eventIndex = system.start + offset;
-                      const tabEvent = block.events[eventIndex];
-                      const note = tabEvent?.notes.find(
-                        (item) => item.string_number === pitch.string_number,
-                      );
-                      const active =
-                        selected.string === pitch.string_number && selected.event === eventIndex;
-                      return (
-                        <input
-                          key={`${pitch.string_number}-${eventIndex}`}
-                          role="gridcell"
-                          type="text"
-                          inputMode="numeric"
-                          enterKeyHint="next"
-                          maxLength={2}
-                          pattern="[0-9xX]*"
-                          autoComplete="off"
-                          className={`${active ? "is-selected" : ""} ${tabEvent ? "" : "is-placeholder"}`}
-                          aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${tabEvent ? noteLabel(note) : "Empty placeholder"}`}
-                          aria-selected={active}
-                          data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
-                          value={
-                            note?.state === "FRETTED"
-                              ? String(note.fret)
-                              : note?.state === "OPEN"
-                                ? "0"
-                                : note?.state === "MUTED"
-                                  ? "x"
-                                  : ""
-                          }
-                          placeholder="·"
-                          onFocus={(focusEvent) => {
-                            materializeThrough(eventIndex);
-                            setSelected({ string: pitch.string_number, event: eventIndex });
-                            setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
-                            setPendingRemoval(null);
-                            setFretError("");
-                            focusEvent.currentTarget.select();
-                          }}
-                          onChange={(changeEvent) => {
-                            const value = changeEvent.target.value.trim().toLowerCase();
-                            setSelected({ string: pitch.string_number, event: eventIndex });
-                            setFret(value);
-                            if (value === "")
-                              edit("EMPTY", undefined, {
-                                string: pitch.string_number,
-                                event: eventIndex,
-                              });
-                            else if (value === "x")
-                              edit("MUTED", undefined, {
-                                string: pitch.string_number,
-                                event: eventIndex,
-                              });
-                            else if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
-                              edit(
-                                Number(value) === 0 ? "OPEN" : "FRETTED",
-                                Number(value) || undefined,
-                                {
+                    <div
+                      className="workbook-tab-row"
+                      role="row"
+                      key={pitch.string_number}
+                      style={{ gridTemplateColumns: `3rem repeat(${positionsPerLine}, 3rem)` }}
+                    >
+                      <span role="rowheader">{pitch.open_pitch}</span>
+                      {Array.from({ length: positionsPerLine }, (_, offset) => {
+                        const eventIndex = system.start + offset;
+                        const tabEvent = block.events[eventIndex];
+                        const note = tabEvent?.notes.find(
+                          (item) => item.string_number === pitch.string_number,
+                        );
+                        const active =
+                          selected.string === pitch.string_number && selected.event === eventIndex;
+                        return (
+                          <input
+                            key={`${pitch.string_number}-${eventIndex}`}
+                            role="gridcell"
+                            type="text"
+                            inputMode="numeric"
+                            enterKeyHint="next"
+                            maxLength={2}
+                            pattern="[0-9xX]*"
+                            autoComplete="off"
+                            className={`${active ? "is-selected" : ""} ${tabEvent ? "" : "is-placeholder"}`}
+                            aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${tabEvent ? noteLabel(note) : "Empty placeholder"}`}
+                            aria-selected={active}
+                            data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
+                            value={
+                              note?.state === "FRETTED"
+                                ? String(note.fret)
+                                : note?.state === "OPEN"
+                                  ? "0"
+                                  : note?.state === "MUTED"
+                                    ? "x"
+                                    : ""
+                            }
+                            placeholder="·"
+                            onFocus={(focusEvent) => {
+                              materializeThrough(eventIndex);
+                              setSelected({ string: pitch.string_number, event: eventIndex });
+                              setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
+                              setPendingRemoval(null);
+                              setFretError("");
+                              focusEvent.currentTarget.select();
+                            }}
+                            onChange={(changeEvent) => {
+                              const value = changeEvent.target.value.trim().toLowerCase();
+                              setSelected({ string: pitch.string_number, event: eventIndex });
+                              setFret(value);
+                              if (value === "")
+                                edit("EMPTY", undefined, {
                                   string: pitch.string_number,
                                   event: eventIndex,
-                                },
-                              );
-                            else setFretError("Enter a whole-number fret from 0 to 36.");
-                          }}
-                          onKeyDown={(keyboardEvent) => {
-                            if (keyboardEvent.key === "Escape") {
-                              keyboardEvent.preventDefault();
-                              returnToDocument();
-                              return;
-                            }
-                            const moves: Record<string, [number, number]> = {
-                              ArrowLeft: [pitch.string_number, eventIndex - 1],
-                              ArrowRight: [pitch.string_number, eventIndex + 1],
-                              ArrowUp: [pitch.string_number - 1, eventIndex],
-                              ArrowDown: [pitch.string_number + 1, eventIndex],
-                            };
-                            const next = moves[keyboardEvent.key];
-                            if (next) {
-                              keyboardEvent.preventDefault();
-                              if (
-                                next[0] < 1 ||
-                                next[0] > 6 ||
-                                next[1] < 0 ||
-                                next[1] >= blockRef.current.events.length
-                              )
+                                });
+                              else if (value === "x")
+                                edit("MUTED", undefined, {
+                                  string: pitch.string_number,
+                                  event: eventIndex,
+                                });
+                              else if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
+                                edit(
+                                  Number(value) === 0 ? "OPEN" : "FRETTED",
+                                  Number(value) || undefined,
+                                  {
+                                    string: pitch.string_number,
+                                    event: eventIndex,
+                                  },
+                                );
+                              else setFretError("Enter a whole-number fret from 0 to 36.");
+                            }}
+                            onKeyDown={(keyboardEvent) => {
+                              if (keyboardEvent.key === "Escape") {
+                                keyboardEvent.preventDefault();
+                                returnToDocument();
                                 return;
-                              moveSelection(...next);
-                              return;
-                            }
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
+                              }
+                              const moves: Record<string, [number, number]> = {
+                                ArrowLeft: [pitch.string_number, eventIndex - 1],
+                                ArrowRight: [pitch.string_number, eventIndex + 1],
+                                ArrowUp: [pitch.string_number - 1, eventIndex],
+                                ArrowDown: [pitch.string_number + 1, eventIndex],
+                              };
+                              const next = moves[keyboardEvent.key];
+                              if (next) {
+                                keyboardEvent.preventDefault();
+                                if (
+                                  next[0] < 1 ||
+                                  next[0] > 6 ||
+                                  next[1] < 0 ||
+                                  next[1] >= blockRef.current.events.length
+                                )
+                                  return;
+                                moveSelection(...next);
+                                return;
+                              }
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
                   ))}
                 </div>
               </div>
