@@ -582,7 +582,6 @@ test("ordinary text entry after musical editing never replaces the musical block
   await expect(document).toContainText("Text beside adjacent blocks");
 });
 
-
 test("edits accessible SVG-backed chord fingering and barres without changing absolute frets", async ({
   page,
 }) => {
