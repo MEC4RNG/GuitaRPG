@@ -296,9 +296,11 @@ test("manages temporary pages without leaking edits between pages", async ({ pag
   await page.getByRole("button", { name: "Riff notebook" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook");
   await expect(document).toContainText("Unsaved page one idea");
-  const pageActions = page.getByText("Page actions", { exact: true });
-  if (await pageActions.isVisible()) await pageActions.click();
-  await page.getByRole("button", { name: "Duplicate page" }).click();
+  const pageActions = pages.getByRole("button", { name: "Page actions" });
+  await expect(pageActions).toBeVisible();
+  await pageActions.click();
+  await pages.getByRole("button", { name: "Duplicate page" }).click();
+  await expect(pageActions).toHaveAttribute("aria-expanded", "false");
   await expect(page.getByLabel("Page title")).toHaveValue("Riff notebook copy");
   await expect(pages.locator(".workbook-page-strip")).toHaveCSS("overflow-x", "auto");
 
@@ -306,11 +308,10 @@ test("manages temporary pages without leaking edits between pages", async ({ pag
   if (viewport && viewport.width > 832) {
     const centers = await Promise.all(
       [
-        pages.getByRole("heading", { name: "Pages" }),
+        pages.locator(".workbook-pages__heading"),
         pages.getByRole("button", { name: "Riff notebook", exact: true }),
         pages.getByRole("button", { name: "+ New page" }),
-        pages.getByRole("button", { name: "Duplicate page" }),
-        pages.getByRole("button", { name: "Delete page" }),
+        pageActions,
       ].map((control) =>
         control.evaluate((element) => {
           const box = element.getBoundingClientRect();
@@ -320,7 +321,7 @@ test("manages temporary pages without leaking edits between pages", async ({ pag
     );
     expect(Math.max(...centers) - Math.min(...centers)).toBeLessThan(12);
   } else {
-    const headingBox = await pages.getByRole("heading", { name: "Pages" }).boundingBox();
+    const headingBox = await pages.locator(".workbook-pages__heading").boundingBox();
     const newBox = await pages.getByRole("button", { name: "+ New page" }).boundingBox();
     const stripBox = await pages.locator(".workbook-page-strip").boundingBox();
     const actionsBox = await pageActions.boundingBox();
