@@ -98,6 +98,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
           "JRN-001",
           "JRN-002",
           "JRN-003",
+          "JRN-004",
         ].includes(state.active_ticket.id),
     ).toBe(true);
     expect(read("docs/tickets/P5-GATE-001.md")).toContain("**Status:** COMPLETE / PASS");
@@ -218,6 +219,20 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "JRN-004", authorized_to_start: false });
         expect(["JRN_003_IN_PROGRESS", "AWAITING_USER_INTERACTIVE_REVIEW"]).toContain(
           state.execution_status,
+        );
+        return;
+      }
+      if (state.active_ticket.id === "JRN-004") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(["IN_PROGRESS", "AWAITING_USER_INTERACTIVE_REVIEW"]).toContain(
+          state.active_ticket.status,
+        );
+        expect(state.next_ticket).toMatchObject({ id: "JRN-005", authorized_to_start: false });
+        expect(["JRN_004_IN_PROGRESS", "AWAITING_USER_INTERACTIVE_REVIEW"]).toContain(
+          state.execution_status,
+        );
+        expect(read("docs/tickets/JRN-004.md")).toMatch(
+          /\*\*Status:\*\* (?:IN PROGRESS|AWAITING USER INTERACTIVE REVIEW)/,
         );
         return;
       }

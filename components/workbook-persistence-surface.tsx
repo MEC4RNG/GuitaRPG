@@ -10,11 +10,15 @@ import {
 } from "@/components/workbook-editor-prototype";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import {
+  attachWorkbookContext,
   createPage,
   createQuickNote,
   createWorkbook,
   deletePage,
+  detachWorkbookContext,
   duplicatePage,
+  readQuestWorkbookLinks,
+  readOwnedQuestWorkbookContext,
   readRevisions,
   readWorkbookSnapshot,
   reorderPages,
@@ -22,12 +26,14 @@ import {
   savePage,
   updateWorkbook,
   type WorkbookClient,
+  type WorkbookContextLinkRow,
   type WorkbookPageRow,
   type WorkbookRevisionRow,
   type WorkbookRow,
 } from "@/lib/workbook/repository";
+import type { WorkbookRouteContext } from "@/lib/workbook/context";
 
-export function WorkbookPersistenceSurface() {
+export function WorkbookPersistenceSurface({ context }: { context: WorkbookRouteContext | null }) {
   const router = useRouter();
   const clientRef = useRef<WorkbookClient | null>(null);
   const getClient = useCallback(() => {
@@ -44,11 +50,19 @@ export function WorkbookPersistenceSurface() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [pendingEdits, setPendingEdits] = useState(false);
+  const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
+  const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const snapshot = await readWorkbookSnapshot(getClient());
+      const [snapshot, links, questContext] = await Promise.all([
+        readWorkbookSnapshot(getClient()),
+        context ? readQuestWorkbookLinks(getClient(), context.questId) : Promise.resolve([]),
+        context
+          ? readOwnedQuestWorkbookContext(getClient(), context.questId)
+          : Promise.resolve(null),
+      ]);
       if (!snapshot.authenticated) {
         router.replace("/onboarding?next=/workbooks");
         return;
@@ -56,17 +70,25 @@ export function WorkbookPersistenceSurface() {
       setAnonymous(snapshot.anonymous);
       setWorkbooks(snapshot.workbooks);
       setPages(snapshot.pages);
+      setContextLinks(links);
+      setQuestContextTitle(questContext?.title ?? null);
+      if (context && !questContext)
+        setMessage("This Quest context is unavailable. Your standalone Workbooks are unchanged.");
       setSelectedId((current) =>
         current && snapshot.workbooks.some((item) => item.id === current)
           ? current
-          : (snapshot.workbooks.find((item) => !item.archived_at)?.id ?? null),
+          : (snapshot.pages.find((item) => item.id === context?.pageId)?.workbook_id ??
+            snapshot.workbooks.find((item) => !item.archived_at)?.id ??
+            null),
       );
+      if (context?.pageId && snapshot.pages.some((item) => item.id === context.pageId))
+        setInitialPageId(context.pageId);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Workbooks are unavailable.");
     } finally {
       setLoading(false);
     }
-  }, [getClient, router]);
+  }, [context, getClient, router]);
 
   useEffect(() => {
     // Initial owner-scoped hydration is intentionally driven by the browser Auth client.
@@ -168,6 +190,63 @@ export function WorkbookPersistenceSurface() {
     }
   };
 
+  const currentContextLink =
+    context && activePage
+      ? contextLinks.find(
+          (link) =>
+            link.page_id === activePage.id &&
+            link.stage === context.stage &&
+            link.relationship === context.relationship &&
+            link.session_id === (context.sessionId ?? null),
+        )
+      : null;
+
+  const linkCurrentPage = async () => {
+    if (!context || !questContextTitle || !activePage || pendingEdits) {
+      if (pendingEdits) setMessage("Wait for the current page to show Saved before linking it.");
+      return;
+    }
+    try {
+      const accepted = await attachWorkbookContext(getClient(), {
+        pageId: activePage.id,
+        questId: context.questId,
+        stage: context.stage,
+        relationship: context.relationship,
+        sessionId: context.sessionId,
+      });
+      setContextLinks((current) => [
+        ...current.filter((item) => item.id !== accepted.id),
+        accepted,
+      ]);
+      setMessage("Page linked to this Quest Journey.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Page could not be linked.");
+    }
+  };
+
+  const unlinkCurrentPage = async () => {
+    if (!currentContextLink || pendingEdits) {
+      if (pendingEdits) setMessage("Wait for the current page to show Saved before unlinking it.");
+      return;
+    }
+    try {
+      await detachWorkbookContext(getClient(), currentContextLink.id);
+      setContextLinks((current) => current.filter((item) => item.id !== currentContextLink.id));
+      setMessage("Page unlinked. Its content and revision history are unchanged.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Page could not be unlinked.");
+    }
+  };
+
+  const returnToJourney = () => {
+    if (!context) return;
+    if (pendingEdits) {
+      setMessage("Wait for the current page to show Saved before returning to the Journey.");
+      return;
+    }
+    router.push(`/quest/${context.questId}`);
+  };
+
   const showHistory = async () => {
     if (!activePage) return;
     try {
@@ -196,6 +275,40 @@ export function WorkbookPersistenceSurface() {
           </button>
         </div>
       </header>
+      {context ? (
+        <section className="workbook-context" aria-labelledby="workbook-context-title">
+          <div>
+            <span className="eyebrow">WORKBOOK CONTEXT · {context.stage}</span>
+            <h2 id="workbook-context-title">{questContextTitle ?? "Unavailable Quest"}</h2>
+            <p>
+              Choose any existing page, Quick Note, or new Workbook. Linking adds context only; it
+              does not change the Quest, Session, Result, or progression.
+            </p>
+          </div>
+          <div className="workbook-context__actions">
+            {currentContextLink ? (
+              <button
+                type="button"
+                disabled={pendingEdits}
+                onClick={() => void unlinkCurrentPage()}
+              >
+                Unlink current page
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={!questContextTitle || !activePage || pendingEdits}
+                onClick={() => void linkCurrentPage()}
+              >
+                Link current page
+              </button>
+            )}
+            <button type="button" disabled={pendingEdits} onClick={returnToJourney}>
+              Return to Journey
+            </button>
+          </div>
+        </section>
+      ) : null}
       {anonymous ? (
         <p className="workbook-account-warning">
           This guest Workbook is private to this browser session.{" "}
