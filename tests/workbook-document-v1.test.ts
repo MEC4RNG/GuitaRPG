@@ -118,6 +118,19 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
     expect(editorJsonToWorkbook(workbookToEditorJson(parsed))).toEqual(parsed);
   });
 
+  it("retains a future chord version as a recoverable read-only block", () => {
+    const chord = emptyChordBlock();
+    const future = { ...chord, version: 2, microtonal_frets: true };
+    const parsed = parseWorkbookDocument({ ...fixture, blocks: [future] });
+    expect(parsed.blocks[0]).toEqual({
+      id: future.id,
+      version: 2,
+      type: "unsupported",
+      original: future,
+    });
+    expect(editorJsonToWorkbook(workbookToEditorJson(parsed))).toEqual(parsed);
+  });
+
   it("rejects malformed known musical blocks rather than downgrading them to unsupported", () => {
     const doc = structuredClone(fixture);
     const tab = doc.blocks.find((block) => block.type === "guitar_tab");
@@ -154,6 +167,11 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
     chord.barres = [{ from_string: 6, to_string: 1, fret: 1, finger: 1 }];
     const valid = { ...fixture, blocks: [chord] };
     expect(editorJsonToWorkbook(workbookToEditorJson(valid))).toEqual(valid);
+    const reverse = structuredClone(chord);
+    reverse.barres = [{ from_string: 1, to_string: 6, fret: 1 }];
+    expect(parseWorkbookDocument({ ...fixture, blocks: [reverse] }).blocks[0]).toEqual(
+      reverse,
+    );
 
     const duplicate = structuredClone(chord);
     duplicate.strings[1].string_number = 6;
