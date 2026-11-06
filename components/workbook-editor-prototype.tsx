@@ -836,7 +836,9 @@ export function WorkbookEditorPrototype({
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       setPageActionsOpen(false);
-      pageActionsRef.current?.querySelector<HTMLButtonElement>("button.workbook-page-actions__toggle")?.focus();
+      pageActionsRef.current
+        ?.querySelector<HTMLButtonElement>("button.workbook-page-actions__toggle")
+        ?.focus();
     };
     document.addEventListener("pointerdown", closeOutside);
     document.addEventListener("keydown", closeOnEscape);
