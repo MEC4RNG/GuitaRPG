@@ -827,7 +827,10 @@ export function WorkbookEditorPrototype({
   const statusRef = useRef<HTMLParagraphElement>(null);
   const pagesRef = useRef(pages);
   const activePage = pages.find((page) => page.id === activePageId) ?? pages[0];
-  const activeIndex = Math.max(0, pages.findIndex((page) => page.id === activePageId));
+  const activeIndex = Math.max(
+    0,
+    pages.findIndex((page) => page.id === activePageId),
+  );
   useEffect(() => {
     if (!pageActionsOpen) return;
     const closeOutside = (event: PointerEvent) => {
