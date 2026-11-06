@@ -154,6 +154,13 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
         );
         return;
       }
+      if (state.active_ticket.id === "JRN-004") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(state.phase_gate).toEqual({ id: "P5-GATE-001", status: "PASS" });
+        expect(state.next_ticket).toMatchObject({ id: "JRN-005", authorized_to_start: false });
+        expect(state.execution_status).toBe("JRN_004_IN_PROGRESS");
+        return;
+      }
       expect(state.phase).toEqual({
         id: 5,
         name: "Learning & Practice Tooling",
