@@ -103,25 +103,37 @@ test("keeps every accepted page after changing Workbooks and refreshing", async 
   await expect(pageStrip.getByRole("button", { name: "Page Gamma", exact: true })).toBeVisible();
 
   await pageStrip.getByRole("button", { name: "Page Gamma", exact: true }).click();
-  await page.getByRole("button", { name: "Move Page Gamma left" }).click();
-  await expect(page.locator(".workbook-page-selector > button:first-child")).toHaveText([
+  await expect(page.getByText("Page 3 of 3")).toBeVisible();
+  await expect(page.locator(".workbook-page-order")).toHaveCount(0);
+  const pageActions = page.getByRole("button", { name: "Page actions" });
+  await expect(pageActions).toBeVisible();
+  await expect(page.getByRole("button", { name: "Move page earlier" })).toBeHidden();
+  await pageActions.click();
+  await page.getByRole("button", { name: "Move page earlier" }).click();
+  await expect(page.locator(".workbook-page-label")).toHaveText([
     "Page Alpha",
     "Page Gamma",
     "Page Beta",
   ]);
+  await expect(page.getByText("Page 2 of 3")).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "Workbook A", exact: true }).click();
-  await expect(page.locator(".workbook-page-selector > button:first-child")).toHaveText([
+  await expect(page.locator(".workbook-page-label")).toHaveText([
     "Page Alpha",
     "Page Gamma",
     "Page Beta",
   ]);
 
+  await pageStrip.getByRole("button", { name: "Page Alpha", exact: true }).click();
+  await pageActions.click();
+  await expect(page.getByRole("button", { name: "Move page earlier" })).toBeDisabled();
+  await page.keyboard.press("Escape");
+  await expect(pageActions).toHaveAttribute("aria-expanded", "false");
   await pageStrip.getByRole("button", { name: "Page Gamma", exact: true }).click();
-  const pageActions = page.getByRole("button", { name: "Page actions" });
-  if (await pageActions.isVisible()) await pageActions.click();
+  await pageActions.click();
   await page.getByRole("button", { name: "Duplicate page" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("Page Gamma copy");
+  await pageActions.click();
   await page.getByRole("button", { name: "Delete page" }).click();
   await expect(pageStrip.getByRole("button", { name: "Page Gamma copy" })).toHaveCount(0);
   await page.reload();
