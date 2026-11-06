@@ -69,8 +69,14 @@ jobs:
           echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(jq -r '.PUBLISHABLE_KEY // .ANON_KEY' <<< "$status")" >> "$GITHUB_ENV"
           echo "SUPABASE_SECRET_KEY=$secret" >> "$GITHUB_ENV"
 
+      # GitHub's Ubuntu image supplies system browser libraries. Playwright's
+      # --with-deps triggers an apt mirror refresh that stalled and exhausted the
+      # 40-minute workflow timeout on JRN-002 PR #10 (2026-11-06).
+      # Install version-pinned browser binaries without making network-dependent
+      # OS package changes; browser launch and interaction gates below must pass.
       - name: Install browser engines
-        run: npx playwright install --with-deps chromium firefox webkit
+        timeout-minutes: 8
+        run: npx playwright install chromium firefox webkit
 
       - name: Build application
         run: npm run build
