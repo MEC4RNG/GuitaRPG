@@ -145,6 +145,15 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
         );
         return;
       }
+      if (state.active_ticket.id === "JRN-003") {
+        expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
+        expect(state.phase_gate).toEqual({ id: "P5-GATE-001", status: "PASS" });
+        expect(state.next_ticket).toMatchObject({ id: "JRN-004", authorized_to_start: false });
+        expect(["JRN_003_IN_PROGRESS", "AWAITING_USER_INTERACTIVE_REVIEW"]).toContain(
+          state.execution_status,
+        );
+        return;
+      }
       expect(state.phase).toEqual({
         id: 5,
         name: "Learning & Practice Tooling",
@@ -204,6 +213,11 @@ describe("P5-GATE-001 durable Phase 5 invariants", () => {
         expect(state.next_ticket).toMatchObject({ id: "JRN-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_003_AUTHORIZATION");
         expect(read("docs/tickets/JRN-002.md")).toContain("**COMPLETE — USER ACCEPTED");
+      } else if (state.last_terminal_ticket.id === "JRN-003") {
+        expect(state.active_ticket).toBeNull();
+        expect(state.next_ticket).toMatchObject({ id: "JRN-004", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_004_AUTHORIZATION");
+        expect(read("docs/tickets/JRN-003.md")).toContain("**COMPLETE — USER ACCEPTED**");
       } else if (state.last_terminal_ticket.id === "JRN-000") {
         expect(state.next_ticket).toMatchObject({ id: "JRN-001", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_001_AUTHORIZATION");

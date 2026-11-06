@@ -14,6 +14,8 @@ import { closeHistory } from "@tiptap/pm/history";
 import { Plugin } from "@tiptap/pm/state";
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 
+import { ChordFretboardSvg, TabStringGuideSvg } from "@/components/workbook-musical-svg";
+
 import {
   createId,
   editorJsonToWorkbook,
@@ -308,105 +310,113 @@ function GuitarTabView({
                     </span>
                   ))}
                 </div>
-                {pitches.map((pitch) => (
-                  <div
-                    className="workbook-tab-row"
-                    role="row"
-                    key={pitch.string_number}
-                    style={{ gridTemplateColumns: `3rem repeat(${positionsPerLine}, 3rem)` }}
-                  >
-                    <span role="rowheader">{pitch.open_pitch}</span>
-                    {Array.from({ length: positionsPerLine }, (_, offset) => {
-                      const eventIndex = system.start + offset;
-                      const tabEvent = block.events[eventIndex];
-                      const note = tabEvent?.notes.find(
-                        (item) => item.string_number === pitch.string_number,
-                      );
-                      const active =
-                        selected.string === pitch.string_number && selected.event === eventIndex;
-                      return (
-                        <input
-                          key={`${pitch.string_number}-${eventIndex}`}
-                          role="gridcell"
-                          type="text"
-                          inputMode="numeric"
-                          enterKeyHint="next"
-                          maxLength={2}
-                          pattern="[0-9xX]*"
-                          autoComplete="off"
-                          className={`${active ? "is-selected" : ""} ${tabEvent ? "" : "is-placeholder"}`}
-                          aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${tabEvent ? noteLabel(note) : "Empty placeholder"}`}
-                          aria-selected={active}
-                          data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
-                          value={
-                            note?.state === "FRETTED"
-                              ? String(note.fret)
-                              : note?.state === "OPEN"
-                                ? "0"
-                                : note?.state === "MUTED"
-                                  ? "x"
-                                  : ""
-                          }
-                          placeholder="·"
-                          onFocus={(focusEvent) => {
-                            materializeThrough(eventIndex);
-                            setSelected({ string: pitch.string_number, event: eventIndex });
-                            setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
-                            setPendingRemoval(null);
-                            setFretError("");
-                            focusEvent.currentTarget.select();
-                          }}
-                          onChange={(changeEvent) => {
-                            const value = changeEvent.target.value.trim().toLowerCase();
-                            setSelected({ string: pitch.string_number, event: eventIndex });
-                            setFret(value);
-                            if (value === "")
-                              edit("EMPTY", undefined, {
-                                string: pitch.string_number,
-                                event: eventIndex,
-                              });
-                            else if (value === "x")
-                              edit("MUTED", undefined, {
-                                string: pitch.string_number,
-                                event: eventIndex,
-                              });
-                            else if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
-                              edit(
-                                Number(value) === 0 ? "OPEN" : "FRETTED",
-                                Number(value) || undefined,
-                                {
+                <div className="workbook-tab-note-rows" role="rowgroup">
+                  <TabStringGuideSvg positionsPerLine={positionsPerLine} />
+                  {pitches.map((pitch) => (
+                    <div
+                      className="workbook-tab-row"
+                      role="row"
+                      key={pitch.string_number}
+                      style={{ gridTemplateColumns: `3rem repeat(${positionsPerLine}, 3rem)` }}
+                    >
+                      <span role="rowheader">{pitch.open_pitch}</span>
+                      {Array.from({ length: positionsPerLine }, (_, offset) => {
+                        const eventIndex = system.start + offset;
+                        const tabEvent = block.events[eventIndex];
+                        const note = tabEvent?.notes.find(
+                          (item) => item.string_number === pitch.string_number,
+                        );
+                        const active =
+                          selected.string === pitch.string_number && selected.event === eventIndex;
+                        return (
+                          <input
+                            key={`${pitch.string_number}-${eventIndex}`}
+                            role="gridcell"
+                            type="text"
+                            inputMode="numeric"
+                            enterKeyHint="next"
+                            maxLength={2}
+                            pattern="[0-9xX]*"
+                            autoComplete="off"
+                            className={`${active ? "is-selected" : ""} ${tabEvent ? "" : "is-placeholder"}`}
+                            aria-label={`String ${pitch.string_number}, position ${eventIndex + 1}, ${tabEvent ? noteLabel(note) : "Empty placeholder"}`}
+                            aria-selected={active}
+                            data-tab-cell={`${block.id}-${pitch.string_number}-${eventIndex}`}
+                            value={
+                              note?.state === "FRETTED"
+                                ? String(note.fret)
+                                : note?.state === "OPEN"
+                                  ? "0"
+                                  : note?.state === "MUTED"
+                                    ? "x"
+                                    : ""
+                            }
+                            placeholder="·"
+                            onFocus={(focusEvent) => {
+                              materializeThrough(eventIndex);
+                              setSelected({ string: pitch.string_number, event: eventIndex });
+                              setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
+                              setPendingRemoval(null);
+                              setFretError("");
+                              focusEvent.currentTarget.select();
+                            }}
+                            onChange={(changeEvent) => {
+                              const value = changeEvent.target.value.trim().toLowerCase();
+                              setSelected({ string: pitch.string_number, event: eventIndex });
+                              setFret(value);
+                              if (value === "")
+                                edit("EMPTY", undefined, {
                                   string: pitch.string_number,
                                   event: eventIndex,
-                                },
-                              );
-                            else setFretError("Enter a whole-number fret from 0 to 36.");
-                          }}
-                          onKeyDown={(keyboardEvent) => {
-                            const moves: Record<string, [number, number]> = {
-                              ArrowLeft: [pitch.string_number, eventIndex - 1],
-                              ArrowRight: [pitch.string_number, eventIndex + 1],
-                              ArrowUp: [pitch.string_number - 1, eventIndex],
-                              ArrowDown: [pitch.string_number + 1, eventIndex],
-                            };
-                            const next = moves[keyboardEvent.key];
-                            if (next) {
-                              keyboardEvent.preventDefault();
-                              if (
-                                next[0] < 1 ||
-                                next[0] > 6 ||
-                                next[1] < 0 ||
-                                next[1] >= blockRef.current.events.length
-                              )
+                                });
+                              else if (value === "x")
+                                edit("MUTED", undefined, {
+                                  string: pitch.string_number,
+                                  event: eventIndex,
+                                });
+                              else if (/^\d{1,2}$/.test(value) && Number(value) <= 36)
+                                edit(
+                                  Number(value) === 0 ? "OPEN" : "FRETTED",
+                                  Number(value) || undefined,
+                                  {
+                                    string: pitch.string_number,
+                                    event: eventIndex,
+                                  },
+                                );
+                              else setFretError("Enter a whole-number fret from 0 to 36.");
+                            }}
+                            onKeyDown={(keyboardEvent) => {
+                              if (keyboardEvent.key === "Escape") {
+                                keyboardEvent.preventDefault();
+                                returnToDocument();
                                 return;
-                              moveSelection(...next);
-                              return;
-                            }
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                ))}
+                              }
+                              const moves: Record<string, [number, number]> = {
+                                ArrowLeft: [pitch.string_number, eventIndex - 1],
+                                ArrowRight: [pitch.string_number, eventIndex + 1],
+                                ArrowUp: [pitch.string_number - 1, eventIndex],
+                                ArrowDown: [pitch.string_number + 1, eventIndex],
+                              };
+                              const next = moves[keyboardEvent.key];
+                              if (next) {
+                                keyboardEvent.preventDefault();
+                                if (
+                                  next[0] < 1 ||
+                                  next[0] > 6 ||
+                                  next[1] < 0 ||
+                                  next[1] >= blockRef.current.events.length
+                                )
+                                  return;
+                                moveSelection(...next);
+                                return;
+                              }
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -519,10 +529,16 @@ function chordSummary(block: Extract<WorkbookBlockV1, { type: "chord_diagram" }>
     .sort((a, b) => b.string_number - a.string_number)
     .map(
       (item) =>
-        `string ${item.string_number} ${item.state === "FRETTED" ? `fret ${item.fret}` : item.state.toLowerCase()}`,
+        `string ${item.string_number} ${item.state === "FRETTED" ? `fret ${item.fret}${item.finger ? `, finger ${item.finger}` : ""}` : item.state.toLowerCase()}`,
     )
     .join(", ");
-  return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.`;
+  const barres = block.barres
+    .map(
+      (barre) =>
+        `barre fret ${barre.fret}, strings ${barre.from_string} to ${barre.to_string}${barre.finger ? `, finger ${barre.finger}` : ""}`,
+    )
+    .join("; ");
+  return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.${barres ? ` ${barres}.` : ""}`;
 }
 
 function ChordDiagramView({
@@ -536,6 +552,11 @@ function ChordDiagramView({
   const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "chord_diagram" }>;
   const blockRef = useRef(block);
   const [chordName, setChordName] = useState(block.name);
+  const [barreFrom, setBarreFrom] = useState(6);
+  const [barreTo, setBarreTo] = useState(1);
+  const [barreFret, setBarreFret] = useState("1");
+  const [barreFinger, setBarreFinger] = useState("");
+  const [barreError, setBarreError] = useState("");
   useEffect(() => {
     blockRef.current = block;
   }, [block]);
@@ -555,13 +576,58 @@ function ChordDiagramView({
         ? {
             string_number: stringNumber,
             state,
-            ...(state === "FRETTED" ? { fret } : {}),
+            ...(state === "FRETTED"
+              ? {
+                  fret,
+                  ...(item.state === "FRETTED" && item.finger !== undefined
+                    ? { finger: item.finger }
+                    : {}),
+                }
+              : {}),
           }
         : item,
     );
     commit(next);
   };
   const stringNumbers = [6, 5, 4, 3, 2, 1];
+  const selectedChordString = block.strings.find((item) => item.string_number === selected);
+  const addBarre = () => {
+    const fret = Number(barreFret);
+    if (
+      !Number.isInteger(fret) ||
+      fret < 1 ||
+      fret > 36 ||
+      barreFrom <= barreTo ||
+      blockRef.current.barres.length >= 6
+    ) {
+      setBarreError("Select a valid fret (1–36) and a span of at least two strings.");
+      return;
+    }
+    const next = structuredClone(blockRef.current);
+    if (
+      next.barres.some(
+        (barre) =>
+          barre.from_string === barreFrom && barre.to_string === barreTo && barre.fret === fret,
+      )
+    ) {
+      setBarreError("That barre is already present.");
+      return;
+    }
+    next.barres.push({
+      from_string: barreFrom,
+      to_string: barreTo,
+      fret,
+      ...(barreFinger ? { finger: Number(barreFinger) } : {}),
+    });
+    commit(next);
+    setBarreError("");
+  };
+  const removeBarre = (index: number) => {
+    const next = structuredClone(blockRef.current);
+    next.barres.splice(index, 1);
+    commit(next);
+    setBarreError("");
+  };
   const visibleFrets = Array.from({ length: 5 }, (_, index) => block.fret_window_start + index);
   const outsideWindow = block.strings.filter(
     (item) =>
@@ -594,9 +660,19 @@ function ChordDiagramView({
             value={chordName}
             onChange={(event) => {
               setChordName(event.target.value);
-              commit({ ...blockRef.current, name: event.target.value });
+              if (event.target.value.trim()) {
+                commit({ ...blockRef.current, name: event.target.value });
+              }
             }}
-            onBlur={(event) => commit({ ...blockRef.current, name: event.currentTarget.value })}
+            onBlur={(event) => {
+              const trimmed = event.currentTarget.value.trim();
+              if (!trimmed) {
+                setChordName(blockRef.current.name);
+                return;
+              }
+              setChordName(trimmed);
+              commit({ ...blockRef.current, name: trimmed });
+            }}
           />
         </div>
         <label>
@@ -609,7 +685,7 @@ function ChordDiagramView({
             onChange={(event) =>
               commit({
                 ...blockRef.current,
-                fret_window_start: Math.max(1, Number(event.target.value)),
+                fret_window_start: Math.min(36, Math.max(1, Number(event.target.value) || 1)),
               })
             }
           />
@@ -651,6 +727,7 @@ function ChordDiagramView({
           })}
         </div>
         <div className="workbook-chord__grid" role="grid" aria-label="Chord fretboard">
+          <ChordFretboardSvg block={block} />
           {visibleFrets.map((fret) => (
             <div className="workbook-chord__fret" role="row" key={fret}>
               <span aria-hidden="true">{fret}</span>
@@ -664,7 +741,37 @@ function ChordDiagramView({
                     aria-label={`Set string ${stringNumber} to fret ${fret}`}
                     aria-selected={active}
                     className={active ? "is-fretted" : ""}
+                    data-chord-cell={`${block.id}-${stringNumber}-${fret}`}
                     key={stringNumber}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        event.preventDefault();
+                        returnToDocument();
+                        return;
+                      }
+                      const moves: Record<string, [number, number]> = {
+                        ArrowLeft: [stringNumber + 1, fret],
+                        ArrowRight: [stringNumber - 1, fret],
+                        ArrowUp: [stringNumber, fret - 1],
+                        ArrowDown: [stringNumber, fret + 1],
+                      };
+                      const target = moves[event.key];
+                      if (!target) return;
+                      const [nextString, nextFret] = target;
+                      if (
+                        nextString < 1 ||
+                        nextString > 6 ||
+                        nextFret < block.fret_window_start ||
+                        nextFret > block.fret_window_start + 4
+                      )
+                        return;
+                      event.preventDefault();
+                      document
+                        .querySelector<HTMLElement>(
+                          `[data-chord-cell="${block.id}-${nextString}-${nextFret}"]`,
+                        )
+                        ?.focus();
+                    }}
                     onClick={() => {
                       setSelected(stringNumber);
                       setString("FRETTED", fret, stringNumber);
@@ -689,6 +796,34 @@ function ChordDiagramView({
       ) : null}
       <div className="workbook-block-controls" contentEditable={false}>
         <span>String {selected}</span>
+        {selectedChordString?.state === "FRETTED" ? (
+          <label className="workbook-chord__finger">
+            Finger for selected string
+            <select
+              aria-label="Finger for selected string"
+              value={selectedChordString.finger ?? ""}
+              onChange={(event) => {
+                const value = event.target.value;
+                const next = structuredClone(blockRef.current);
+                next.strings = next.strings.map((item) => {
+                  if (item.string_number !== selected || item.state !== "FRETTED") return item;
+                  const adjusted = { ...item };
+                  if (value) adjusted.finger = Number(value);
+                  else delete adjusted.finger;
+                  return adjusted;
+                });
+                commit(next);
+              }}
+            >
+              <option value="">Unspecified</option>
+              {[1, 2, 3, 4].map((finger) => (
+                <option key={finger} value={finger}>
+                  {finger}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
         <button type="button" onClick={() => setString("OPEN")}>
           Open
         </button>
@@ -702,6 +837,78 @@ function ChordDiagramView({
           Delete chord
         </button>
       </div>
+      <details className="workbook-chord-barres" contentEditable={false}>
+        <summary>Barres ({block.barres.length})</summary>
+        <div className="workbook-block-controls">
+          <label>
+            From string
+            <select
+              value={barreFrom}
+              onChange={(event) => setBarreFrom(Number(event.target.value))}
+            >
+              {[6, 5, 4, 3, 2].map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Through string
+            <select value={barreTo} onChange={(event) => setBarreTo(Number(event.target.value))}>
+              {[5, 4, 3, 2, 1].map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Barre fret
+            <input
+              type="number"
+              min="1"
+              max="36"
+              value={barreFret}
+              onChange={(event) => setBarreFret(event.target.value)}
+            />
+          </label>
+          <label>
+            Barre finger (optional)
+            <select value={barreFinger} onChange={(event) => setBarreFinger(event.target.value)}>
+              <option value="">Unspecified</option>
+              {[1, 2, 3, 4].map((finger) => (
+                <option key={finger} value={finger}>
+                  {finger}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button type="button" disabled={block.barres.length >= 6} onClick={addBarre}>
+            Add barre
+          </button>
+        </div>
+        {barreError ? (
+          <p className="workbook-field-error" role="status">
+            {barreError}
+          </p>
+        ) : null}
+        {block.barres.map((barre, index) => (
+          <div className="workbook-chord-barres__item" key={index}>
+            <span>
+              Fret {barre.fret} · strings {barre.from_string}–{barre.to_string}
+              {barre.finger ? ` · finger ${barre.finger}` : ""}
+            </span>
+            <button
+              type="button"
+              aria-label={`Remove barre ${index + 1}`}
+              onClick={() => removeBarre(index)}
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+      </details>
       <p className="sr-only" aria-live="polite">
         {chordSummary(block)}
       </p>
@@ -729,8 +936,8 @@ function UnsupportedView({ node }: NodeViewProps) {
     <NodeViewWrapper className="workbook-unsupported" role="note" contentEditable={false}>
       <strong>Unsupported block preserved</strong>
       <p>
-        This future block cannot be edited by this prototype. Exporting the document preserves its
-        original data.
+        This future block cannot be edited in this Workbook Editor. Exporting the document preserves
+        its original data.
       </p>
       <pre>{JSON.stringify(node.attrs.original, null, 2)}</pre>
     </NodeViewWrapper>
@@ -990,7 +1197,7 @@ export function WorkbookEditorPrototype({
     if (editor && page)
       editor.commands.setContent(workbookToEditorJson(page.document), { emitUpdate: false });
   }, [activePageId, editor]);
-  if (!editor) return <p>Preparing the temporary workbook editor…</p>;
+  if (!editor) return <p>Preparing the Workbook editor…</p>;
   const switchPage = (id: string) => {
     setPageActionsOpen(false);
     const current = editorJsonToWorkbook(editor.getJSON());

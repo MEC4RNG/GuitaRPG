@@ -121,11 +121,26 @@ export function emptyChordBlock(): Extract<WorkbookBlockV1, { type: "chord_diagr
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   Boolean(value) && typeof value === "object" && !Array.isArray(value);
 
+const boundedInteger = (value: unknown, min: number, max: number): value is number =>
+  Number.isInteger(value) && Number(value) >= min && Number(value) <= max;
+
+const knownBlockTypes = new Set([
+  "paragraph",
+  "heading",
+  "bullet_list",
+  "ordered_list",
+  "guitar_tab",
+  "chord_diagram",
+  "unsupported",
+]);
+
 function validateTuning(value: unknown): value is TuningSnapshot {
   return (
     isRecord(value) &&
     (value.slug === "standard" || value.slug === "dadgad") &&
     typeof value.display_name === "string" &&
+    value.display_name.length > 0 &&
+    value.display_name.length <= 80 &&
     Array.isArray(value.strings_low_to_high) &&
     value.strings_low_to_high.length === 6 &&
     value.strings_low_to_high.every(
@@ -133,8 +148,39 @@ function validateTuning(value: unknown): value is TuningSnapshot {
         isRecord(item) &&
         item.string_number === 6 - index &&
         typeof item.open_pitch === "string" &&
-        item.open_pitch.length <= 8,
+        /^[A-G](?:#|b)?[0-8]$/.test(item.open_pitch),
     )
+  );
+}
+
+function validateTabNote(value: unknown): value is TabNote {
+  if (!isRecord(value) || !boundedInteger(value.string_number, 1, 6)) return false;
+  if (value.state === "FRETTED") return boundedInteger(value.fret, 1, 36);
+  return (value.state === "OPEN" || value.state === "MUTED") && value.fret === undefined;
+}
+
+function validateChordString(value: unknown) {
+  if (!isRecord(value) || !boundedInteger(value.string_number, 1, 6)) return false;
+  if (value.state === "FRETTED")
+    return (
+      boundedInteger(value.fret, 1, 36) &&
+      (value.finger === undefined || boundedInteger(value.finger, 1, 4))
+    );
+  return (
+    (value.state === "OPEN" || value.state === "MUTED") &&
+    value.fret === undefined &&
+    value.finger === undefined
+  );
+}
+
+function validateBarre(value: unknown) {
+  return (
+    isRecord(value) &&
+    boundedInteger(value.from_string, 1, 6) &&
+    boundedInteger(value.to_string, 1, 6) &&
+    Number(value.from_string) !== Number(value.to_string) &&
+    boundedInteger(value.fret, 1, 36) &&
+    (value.finger === undefined || boundedInteger(value.finger, 1, 4))
   );
 }
 
@@ -164,7 +210,8 @@ function validateBlock(value: unknown): value is WorkbookBlockV1 {
     typeof value.type !== "string"
   )
     return false;
-  if (value.type === "unsupported") return "original" in value;
+  if (value.type === "unsupported")
+    return boundedInteger(value.version, 1, 10_000) && "original" in value;
   if (value.version !== 1) return false;
   if (value.type === "paragraph" || value.type === "heading")
     return (
@@ -180,48 +227,53 @@ function validateBlock(value: unknown): value is WorkbookBlockV1 {
       value.items.every(validateInline)
     );
   if (value.type === "guitar_tab") {
-    return (
-      validateTuning(value.tuning) &&
-      (value.positions_per_line === undefined ||
-        [4, 8, 12, 16].includes(Number(value.positions_per_line))) &&
-      Array.isArray(value.events) &&
-      value.events.length > 0 &&
-      value.events.length <= WORKBOOK_DOCUMENT_LIMITS.tabEventsPerBlock &&
-      value.events.every(
-        (event, index) =>
-          isRecord(event) &&
-          typeof event.id === "string" &&
-          event.id.length >= 1 &&
-          event.id.length <= 100 &&
-          event.ordinal === index &&
-          Array.isArray(event.notes) &&
-          event.notes.length <= 6 &&
-          event.notes.every(
-            (note) =>
-              isRecord(note) &&
-              Number.isInteger(note.string_number) &&
-              Number(note.string_number) >= 1 &&
-              Number(note.string_number) <= 6 &&
-              ["FRETTED", "OPEN", "MUTED"].includes(String(note.state)) &&
-              (note.state !== "FRETTED" ||
-                (Number.isInteger(note.fret) && Number(note.fret) >= 1 && Number(note.fret) <= 36)),
-          ),
+    if (
+      !validateTuning(value.tuning) ||
+      (value.positions_per_line !== undefined &&
+        ![4, 8, 12, 16].includes(Number(value.positions_per_line))) ||
+      !Array.isArray(value.events) ||
+      value.events.length < 1 ||
+      value.events.length > WORKBOOK_DOCUMENT_LIMITS.tabEventsPerBlock
+    )
+      return false;
+
+    const eventIds = new Set<string>();
+    return value.events.every((event, index) => {
+      if (
+        !isRecord(event) ||
+        typeof event.id !== "string" ||
+        !event.id.length ||
+        event.id.length > 100 ||
+        eventIds.has(event.id) ||
+        event.ordinal !== index ||
+        !Array.isArray(event.notes) ||
+        event.notes.length > 6 ||
+        !event.notes.every(validateTabNote)
       )
-    );
+        return false;
+      eventIds.add(event.id);
+      const strings = event.notes.map((note: TabNote) => note.string_number);
+      return new Set(strings).size === strings.length;
+    });
   }
-  if (value.type === "chord_diagram")
-    return (
-      typeof value.name === "string" &&
-      value.name.length >= 1 &&
-      value.name.length <= 80 &&
-      validateTuning(value.tuning) &&
-      Number.isInteger(value.fret_window_start) &&
-      Number(value.fret_window_start) >= 1 &&
-      Array.isArray(value.strings) &&
-      value.strings.length === 6 &&
-      Array.isArray(value.barres) &&
-      value.barres.length <= WORKBOOK_DOCUMENT_LIMITS.barres
-    );
+  if (value.type === "chord_diagram") {
+    if (
+      typeof value.name !== "string" ||
+      !value.name.trim() ||
+      value.name.length > 80 ||
+      !validateTuning(value.tuning) ||
+      !boundedInteger(value.fret_window_start, 1, 36) ||
+      !Array.isArray(value.strings) ||
+      value.strings.length !== 6 ||
+      !value.strings.every(validateChordString) ||
+      !Array.isArray(value.barres) ||
+      value.barres.length > WORKBOOK_DOCUMENT_LIMITS.barres ||
+      !value.barres.every(validateBarre)
+    )
+      return false;
+    const strings = value.strings.map((item: { string_number: number }) => item.string_number);
+    return new Set(strings).size === 6;
+  }
   return false;
 }
 
@@ -238,10 +290,26 @@ export function parseWorkbookDocument(input: unknown): WorkbookDocumentV1 {
     throw new Error("This is not a valid GUITARPG_WORKBOOK_DOCUMENT_V1 document.");
   const blocks = input.blocks.map((block) => {
     if (validateBlock(block)) return structuredClone(block);
-    if (isRecord(block) && typeof block.id === "string" && typeof block.type === "string")
+    // A malformed V1 musical block must not masquerade as a valid editable block
+    // or be silently converted into an unsupported future type.
+    if (
+      isRecord(block) &&
+      knownBlockTypes.has(String(block.type)) &&
+      (block.version === 1 || block.type === "unsupported")
+    )
+      throw new Error("The document contains malformed known Workbook block data.");
+    if (
+      isRecord(block) &&
+      typeof block.id === "string" &&
+      block.id.length > 0 &&
+      block.id.length <= 100 &&
+      typeof block.type === "string" &&
+      block.type.length > 0 &&
+      boundedInteger(block.version, 1, 10_000)
+    )
       return {
         id: block.id,
-        version: Number(block.version) || 1,
+        version: block.version,
         type: "unsupported",
         original: structuredClone(block),
       } as const;

@@ -14,16 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "JRN-002",
-    "title": "Workbook Persistence Foundation",
+    "id": "JRN-003",
+    "title": "Editable Guitar Tablature & Chord Diagrams",
     "status": "COMPLETE"
   },
   "active_ticket": null,
   "next_ticket": {
-    "id": "JRN-003",
-    "title": "Editable Guitar Tablature & Chord Diagrams",
+    "id": "JRN-004",
+    "title": "MEC Workbook Integration",
     "authorized_to_start": false,
-    "condition": "JRN-002 is complete; explicit JRN-003 authorization is still required"
+    "condition": "JRN-003 is complete; separate explicit JRN-004 authorization required"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -44,5 +44,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_JRN_003_AUTHORIZATION"
+  "execution_status": "AWAITING_EXPLICIT_JRN_004_AUTHORIZATION"
 }

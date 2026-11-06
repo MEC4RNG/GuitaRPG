@@ -210,14 +210,27 @@ test("aligns direct chord editing with its visible strings and preserves absolut
   const chord = page.locator('[data-block-type="chord-diagram"]').last();
   await chord.getByRole("gridcell", { name: "Set string 6 to fret 3" }).click();
   await expect(chord.getByRole("button", { name: /Select string 6, Fret 3/ })).toBeVisible();
+  // Measure the actual rendered SVG marker, not the retired inline
+  // glyph span (hidden by the new data-derived SVG presentation).
   const alignment = await chord
-    .locator(".workbook-chord__fret button.is-fretted")
+    .getByRole("gridcell", { name: "Set string 6 to fret 3" })
     .evaluate((cell) => {
-      const marker = cell.querySelector("span")!.getBoundingClientRect();
+      const svg = cell.closest(".workbook-chord__grid")?.querySelector("svg.workbook-chord__svg");
+      const marker = svg?.querySelector("circle");
+      const matrix = marker?.getScreenCTM();
+      if (!marker || !matrix) throw new Error("Chord SVG marker has no rendered transform");
+      const point = new DOMPoint(
+        Number(marker.getAttribute("cx")),
+        Number(marker.getAttribute("cy")),
+      ).matrixTransform(matrix);
       const hitbox = cell.getBoundingClientRect();
-      return Math.abs(marker.left + marker.width / 2 - (hitbox.left + hitbox.width / 2));
+      return {
+        horizontal: Math.abs(point.x - (hitbox.left + hitbox.width / 2)),
+        vertical: Math.abs(point.y - (hitbox.top + hitbox.height / 2)),
+      };
     });
-  expect(alignment).toBeLessThan(1);
+  expect(alignment.horizontal).toBeLessThan(1);
+  expect(alignment.vertical).toBeLessThan(1);
   await expect(chord.locator(".workbook-chord__states small")).toHaveCount(6);
   await chord.getByLabel("Displayed frets start at").fill("8");
   await expect(chord.getByRole("status")).toContainText("string 6, fret 3");
@@ -580,6 +593,100 @@ test("ordinary text entry after musical editing never replaces the musical block
   await expect(document.locator('[data-block-type="guitar-tab"]')).toHaveCount(1);
   await expect(document.locator('[data-block-type="chord-diagram"]')).toHaveCount(1);
   await expect(document).toContainText("Text beside adjacent blocks");
+});
+
+test("edits accessible SVG-backed chord fingering and barres without changing absolute frets", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  const chord = page.locator('[data-block-type="chord-diagram"]').last();
+  await expect(chord.locator("svg.workbook-chord__svg")).toBeVisible();
+  await chord.getByRole("gridcell", { name: "Set string 6 to fret 3" }).click();
+  await chord.getByLabel("Finger for selected string").selectOption("2");
+  await expect(chord).toHaveAccessibleName(/string 6 fret 3, finger 2/);
+  await expect(chord.locator("svg.workbook-chord__svg text")).toContainText(["2"]);
+
+  await chord.getByText("Barres (0)").click();
+  await chord.getByLabel("Barre fret").fill("1");
+  await chord.getByLabel("Barre finger (optional)").selectOption("1");
+  await chord.getByRole("button", { name: "Add barre" }).click();
+  await expect(chord).toHaveAccessibleName(/barre fret 1, strings 6 to 1, finger 1/);
+  await expect(chord.locator("svg.workbook-chord__svg rect")).toHaveCount(1);
+  await chord.getByRole("button", { name: "Remove barre 1" }).click();
+  await expect(chord.locator("svg.workbook-chord__svg rect")).toHaveCount(0);
+
+  const initialCell = chord.getByRole("gridcell", { name: "Set string 6 to fret 3" });
+  await initialCell.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(chord.getByRole("gridcell", { name: "Set string 5 to fret 3" })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toBeFocused();
+
+  await chord.getByLabel("Displayed frets start at").fill("8");
+  await expect(chord.getByRole("status")).toContainText("string 6, fret 3");
+  await expect(chord.locator("svg.workbook-chord__svg circle")).toHaveCount(0);
+  await chord.getByLabel("Displayed frets start at").fill("1");
+  await expect(chord.locator("svg.workbook-chord__svg circle")).toHaveCount(1);
+});
+
+test("aligns each tablature SVG guide with its editable string on touch screens", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  const tab = page.locator('[data-block-type="guitar-tab"]').last();
+  const rows = tab.locator(".workbook-tab-note-rows").first();
+  await expect(rows.locator("svg.workbook-tab-guide-svg line")).toHaveCount(6);
+
+  const offsets = await rows.evaluate((container) => {
+    const svg = container.querySelector("svg.workbook-tab-guide-svg");
+    const strings = Array.from(container.querySelectorAll(".workbook-tab-row"));
+    const lines = Array.from(svg?.querySelectorAll("line") ?? []);
+    if (strings.length !== 6 || lines.length !== 6)
+      throw new Error("Expected exactly six SVG guides and six editable string rows");
+    return strings.map((row, index) => {
+      const line = lines[index];
+      const cell = row.querySelector("input");
+      const matrix = line.getScreenCTM();
+      if (!matrix || !cell) throw new Error("Missing tab line or editable cell");
+      const origin = new DOMPoint(
+        Number(line.getAttribute("x1")),
+        Number(line.getAttribute("y1")),
+      ).matrixTransform(matrix);
+      const bounds = cell.getBoundingClientRect();
+      return Math.abs(origin.y - (bounds.top + bounds.height / 2));
+    });
+  });
+
+  for (const difference of offsets) expect(difference).toBeLessThan(1);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("shows all six chord strings without horizontal clipping on phones", async ({ page }) => {
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  const chord = page.locator('[data-block-type="chord-diagram"]').last();
+  const geometry = await chord.locator(".workbook-chord__grid").evaluate((grid) => {
+    const frame = grid.closest(".workbook-chord");
+    const labels = frame?.querySelector(".workbook-chord__states");
+    if (!frame || !labels) throw new Error("Missing chord frame or string selectors");
+    const outer = frame.getBoundingClientRect();
+    const fretboard = grid.getBoundingClientRect();
+    const selectors = labels.getBoundingClientRect();
+    return {
+      visible: fretboard.left >= outer.left - 1 && fretboard.right <= outer.right + 1,
+      selectorsVisible: selectors.left >= outer.left - 1 && selectors.right <= outer.right + 1,
+      alignedWidths: Math.abs(fretboard.width - selectors.width),
+      noHorizontalScroll: frame.scrollWidth <= frame.clientWidth + 1,
+    };
+  });
+
+  expect(geometry.visible).toBe(true);
+  expect(geometry.selectorsVisible).toBe(true);
+  expect(geometry.alignedWidths).toBeLessThan(1);
+  expect(geometry.noHorizontalScroll).toBe(true);
+  const highest = chord.getByRole("gridcell", { name: "Set string 1 to fret 3" });
+  await highest.click();
+  await expect(chord.getByRole("button", { name: /Select string 1, Fret 3/ })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
 });
 
 test("meets the automated accessibility and responsive overflow gates", async ({ page }) => {
