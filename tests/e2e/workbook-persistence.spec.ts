@@ -54,6 +54,33 @@ test("creates, autosaves, reloads, archives, restores, and creates a Quick Note"
   await expectNoHorizontalOverflow(page);
 });
 
+test("preserves chord fingering, barres, and SVG view after server-acknowledged save", async ({
+  page,
+}) => {
+  page.once("dialog", (dialog) => dialog.accept("Chord notation journal"));
+  await page.getByRole("button", { name: "New Workbook" }).click();
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  const chord = page.locator('[data-block-type="chord-diagram"]').last();
+  await chord.getByLabel("Chord name").fill("F major");
+  await chord.getByLabel("Chord name").blur();
+  await chord.getByRole("gridcell", { name: "Set string 6 to fret 1" }).click();
+  await chord.getByLabel("Finger for selected string").selectOption("1");
+  await chord.getByText("Barres (0)").click();
+  await chord.getByLabel("Barre fret").fill("1");
+  await chord.getByLabel("Barre finger (optional)").selectOption("1");
+  await chord.getByRole("button", { name: "Add barre" }).click();
+  await expect(page.locator(".workbook-status")).toContainText("Saved", { timeout: 10_000 });
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Chord notation journal" })).toBeVisible();
+  const restored = page.locator('[data-block-type="chord-diagram"]').last();
+  await expect(restored).toHaveAccessibleName(/F major/);
+  await expect(restored).toHaveAccessibleName(/string 6 fret 1, finger 1/);
+  await expect(restored).toHaveAccessibleName(/barre fret 1, strings 6 to 1, finger 1/);
+  await expect(restored.locator("svg.workbook-chord__svg circle")).toHaveCount(1);
+  await expect(restored.locator("svg.workbook-chord__svg rect")).toHaveCount(1);
+});
+
 test("keeps every accepted page after changing Workbooks and refreshing", async ({ page }) => {
   page.once("dialog", (dialog) => dialog.accept("Workbook A"));
   await page.getByRole("button", { name: "New Workbook" }).click();
