@@ -531,7 +531,10 @@ function chordSummary(block: Extract<WorkbookBlockV1, { type: "chord_diagram" }>
     )
     .join(", ");
   const barres = block.barres
-    .map((barre) => `barre fret ${barre.fret}, strings ${barre.from_string} to ${barre.to_string}${barre.finger ? `, finger ${barre.finger}` : ""}`)
+    .map(
+      (barre) =>
+        `barre fret ${barre.fret}, strings ${barre.from_string} to ${barre.to_string}${barre.finger ? `, finger ${barre.finger}` : ""}`,
+    )
     .join("; ");
   return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.${barres ? ` ${barres}.` : ""}`;
 }
@@ -602,9 +605,7 @@ function ChordDiagramView({
     if (
       next.barres.some(
         (barre) =>
-          barre.from_string === barreFrom &&
-          barre.to_string === barreTo &&
-          barre.fret === fret,
+          barre.from_string === barreFrom && barre.to_string === barreTo && barre.fret === fret,
       )
     ) {
       setBarreError("That barre is already present.");
@@ -760,9 +761,11 @@ function ChordDiagramView({
                       )
                         return;
                       event.preventDefault();
-                      document.querySelector<HTMLElement>(
-                        `[data-chord-cell="${block.id}-${nextString}-${nextFret}"]`,
-                      )?.focus();
+                      document
+                        .querySelector<HTMLElement>(
+                          `[data-chord-cell="${block.id}-${nextString}-${nextFret}"]`,
+                        )
+                        ?.focus();
                     }}
                     onClick={() => {
                       setSelected(stringNumber);
@@ -834,7 +837,10 @@ function ChordDiagramView({
         <div className="workbook-block-controls">
           <label>
             From string
-            <select value={barreFrom} onChange={(event) => setBarreFrom(Number(event.target.value))}>
+            <select
+              value={barreFrom}
+              onChange={(event) => setBarreFrom(Number(event.target.value))}
+            >
               {[6, 5, 4, 3, 2].map((value) => (
                 <option key={value} value={value}>
                   {value}
@@ -877,7 +883,11 @@ function ChordDiagramView({
             Add barre
           </button>
         </div>
-        {barreError ? <p className="workbook-field-error" role="status">{barreError}</p> : null}
+        {barreError ? (
+          <p className="workbook-field-error" role="status">
+            {barreError}
+          </p>
+        ) : null}
         {block.barres.map((barre, index) => (
           <div className="workbook-chord-barres__item" key={index}>
             <span>
