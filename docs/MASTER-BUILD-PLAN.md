@@ -155,14 +155,14 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
 **Last terminal ticket:** `JRN-003 — Editable Guitar Tablature & Chord Diagrams` — COMPLETE / USER ACCEPTED
 
-**Active ticket:** None — awaiting separate explicit JRN-004 authorization
+**Active ticket:** `JRN-004 — MEC Workbook Integration` — IN PROGRESS / AUTHORIZED 2026-11-06
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
 **Vercel public Supabase environment variables:** configured and redeployed  
 **Remote migrations:** synchronized through SEC-001 `20260929130000`; applied and verified
 
-**Next planned ticket:** `JRN-004 — MEC Workbook Integration` — NOT AUTHORIZED
+**Next planned ticket:** `JRN-005 — Codex Personal Content Integration` — NOT AUTHORIZED
 **Paused ticket:** `OPS-001 — Production Environment, Recovery & Observability` — IN PROGRESS / PAUSED FOR PRE-LAUNCH MEC PRODUCT COMPLETION
 **Production cutover:** NOT AUTHORIZED  
 **Legacy `main`:** preserve
@@ -430,7 +430,7 @@ These tickets and all completed Phases 0–5 remain complete. New MEC surfaces r
 - `JRN-001` — Interactive Workbook Editor Prototype — COMPLETE / USER ACCEPTED
 - `JRN-002` — Workbook Persistence Foundation — COMPLETE / USER ACCEPTED
 - `JRN-003` — Editable Guitar Tablature & Chord Diagrams — COMPLETE / USER ACCEPTED
-- `JRN-004` — MEC Workbook Integration — proposed / unauthorized
+- `JRN-004` — MEC Workbook Integration — IN PROGRESS / AUTHORIZED 2026-11-06; draft PR and user review required
 - `JRN-005` — Codex Personal Content Integration — proposed / unauthorized
 - `FRET-001` — Quest-Aware Fretboard Workspace — proposed / unauthorized
 - `QST-009` — Progressive Build Quest Composer — proposed / unauthorized
