@@ -522,10 +522,13 @@ function chordSummary(block: Extract<WorkbookBlockV1, { type: "chord_diagram" }>
     .sort((a, b) => b.string_number - a.string_number)
     .map(
       (item) =>
-        `string ${item.string_number} ${item.state === "FRETTED" ? `fret ${item.fret}` : item.state.toLowerCase()}`,
+        `string ${item.string_number} ${item.state === "FRETTED" ? `fret ${item.fret}${item.finger ? `, finger ${item.finger}` : ""}` : item.state.toLowerCase()}`,
     )
     .join(", ");
-  return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.`;
+  const barres = block.barres
+    .map((barre) => `barre fret ${barre.fret}, strings ${barre.from_string} to ${barre.to_string}${barre.finger ? `, finger ${barre.finger}` : ""}`)
+    .join("; ");
+  return `Six-string chord diagram. ${block.name}. ${block.tuning.display_name}. ${strings}.${barres ? ` ${barres}.` : ""}`;
 }
 
 function ChordDiagramView({
@@ -539,6 +542,11 @@ function ChordDiagramView({
   const block = node.attrs.block as Extract<WorkbookBlockV1, { type: "chord_diagram" }>;
   const blockRef = useRef(block);
   const [chordName, setChordName] = useState(block.name);
+  const [barreFrom, setBarreFrom] = useState(6);
+  const [barreTo, setBarreTo] = useState(1);
+  const [barreFret, setBarreFret] = useState("1");
+  const [barreFinger, setBarreFinger] = useState("");
+  const [barreError, setBarreError] = useState("");
   useEffect(() => {
     blockRef.current = block;
   }, [block]);
@@ -572,6 +580,46 @@ function ChordDiagramView({
     commit(next);
   };
   const stringNumbers = [6, 5, 4, 3, 2, 1];
+  const selectedChordString = block.strings.find((item) => item.string_number === selected);
+  const addBarre = () => {
+    const fret = Number(barreFret);
+    if (
+      !Number.isInteger(fret) ||
+      fret < 1 ||
+      fret > 36 ||
+      barreFrom <= barreTo ||
+      blockRef.current.barres.length >= 6
+    ) {
+      setBarreError("Select a valid fret (1–36) and a span of at least two strings.");
+      return;
+    }
+    const next = structuredClone(blockRef.current);
+    if (
+      next.barres.some(
+        (barre) =>
+          barre.from_string === barreFrom &&
+          barre.to_string === barreTo &&
+          barre.fret === fret,
+      )
+    ) {
+      setBarreError("That barre is already present.");
+      return;
+    }
+    next.barres.push({
+      from_string: barreFrom,
+      to_string: barreTo,
+      fret,
+      ...(barreFinger ? { finger: Number(barreFinger) } : {}),
+    });
+    commit(next);
+    setBarreError("");
+  };
+  const removeBarre = (index: number) => {
+    const next = structuredClone(blockRef.current);
+    next.barres.splice(index, 1);
+    commit(next);
+    setBarreError("");
+  };
   const visibleFrets = Array.from({ length: 5 }, (_, index) => block.fret_window_start + index);
   const outsideWindow = block.strings.filter(
     (item) =>
@@ -604,9 +652,16 @@ function ChordDiagramView({
             value={chordName}
             onChange={(event) => {
               setChordName(event.target.value);
-              commit({ ...blockRef.current, name: event.target.value });
             }}
-            onBlur={(event) => commit({ ...blockRef.current, name: event.currentTarget.value })}
+            onBlur={(event) => {
+              const trimmed = event.currentTarget.value.trim();
+              if (!trimmed) {
+                setChordName(blockRef.current.name);
+                return;
+              }
+              setChordName(trimmed);
+              commit({ ...blockRef.current, name: trimmed });
+            }}
           />
         </div>
         <label>
@@ -619,7 +674,7 @@ function ChordDiagramView({
             onChange={(event) =>
               commit({
                 ...blockRef.current,
-                fret_window_start: Math.max(1, Number(event.target.value)),
+                fret_window_start: Math.min(36, Math.max(1, Number(event.target.value) || 1)),
               })
             }
           />
