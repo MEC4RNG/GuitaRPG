@@ -155,7 +155,7 @@ If implementation reveals that a contract is wrong or incomplete:
 **Phase 5 gate:** `P5-GATE-001 — Phase 5 Learning & Practice Tooling Gate` — COMPLETE / PASS
 **Last terminal ticket:** `JRN-002 — Workbook Persistence Foundation` — COMPLETE / USER ACCEPTED
 
-**Active ticket:** `JRN-003 — Editable Guitar Tablature & Chord Diagrams` — IN PROGRESS / USER AUTHORIZED 2026-11-06
+**Active ticket:** `JRN-003 — Editable Guitar Tablature & Chord Diagrams` — AWAITING USER INTERACTIVE REVIEW
 **DATA-002 disposition:** COMPLETE  
 **TAX-003 disposition:** COMPLETE  
 **Supabase staging project ref:** `vwvuaasgczsmeskhjrsb`  
@@ -429,7 +429,7 @@ These tickets and all completed Phases 0–5 remain complete. New MEC surfaces r
 - `QST-008` — Quest Journal Workspace — SUPERSEDED BEFORE IMPLEMENTATION by JRN-000/JRN sequence
 - `JRN-001` — Interactive Workbook Editor Prototype — COMPLETE / USER ACCEPTED
 - `JRN-002` — Workbook Persistence Foundation — COMPLETE / USER ACCEPTED
-- `JRN-003` — Editable Guitar Tablature & Chord Diagrams — IN PROGRESS / USER AUTHORIZED
+- `JRN-003` — Editable Guitar Tablature & Chord Diagrams — AWAITING USER INTERACTIVE REVIEW
 - `JRN-004` — MEC Workbook Integration — proposed / unauthorized
 - `JRN-005` — Codex Personal Content Integration — proposed / unauthorized
 - `FRET-001` — Quest-Aware Fretboard Workspace — proposed / unauthorized
