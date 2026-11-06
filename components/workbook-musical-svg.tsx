@@ -8,8 +8,11 @@ export function ChordFretboardSvg({ block }: { block: ChordBlock }) {
   const start = block.fret_window_start;
   const last = start + 4;
   const visible = block.strings.filter(
-    (item) => item.state === "FRETTED" && item.fret !== undefined &&
-      item.fret >= start && item.fret <= last,
+    (item) =>
+      item.state === "FRETTED" &&
+      item.fret !== undefined &&
+      item.fret >= start &&
+      item.fret <= last,
   );
   const barres = block.barres.filter((item) => item.fret >= start && item.fret <= last);
 
