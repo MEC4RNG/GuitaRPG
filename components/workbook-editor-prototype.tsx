@@ -385,6 +385,11 @@ function GuitarTabView({
                             else setFretError("Enter a whole-number fret from 0 to 36.");
                           }}
                           onKeyDown={(keyboardEvent) => {
+                            if (keyboardEvent.key === "Escape") {
+                              keyboardEvent.preventDefault();
+                              returnToDocument();
+                              return;
+                            }
                             const moves: Record<string, [number, number]> = {
                               ArrowLeft: [pitch.string_number, eventIndex - 1],
                               ArrowRight: [pitch.string_number, eventIndex + 1],
@@ -730,7 +735,34 @@ function ChordDiagramView({
                     aria-label={`Set string ${stringNumber} to fret ${fret}`}
                     aria-selected={active}
                     className={active ? "is-fretted" : ""}
+                    data-chord-cell={`${block.id}-${stringNumber}-${fret}`}
                     key={stringNumber}
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        event.preventDefault();
+                        returnToDocument();
+                        return;
+                      }
+                      const target = {
+                        ArrowLeft: [stringNumber + 1, fret],
+                        ArrowRight: [stringNumber - 1, fret],
+                        ArrowUp: [stringNumber, fret - 1],
+                        ArrowDown: [stringNumber, fret + 1],
+                      }[event.key];
+                      if (!target) return;
+                      const [nextString, nextFret] = target;
+                      if (
+                        nextString < 1 ||
+                        nextString > 6 ||
+                        nextFret < block.fret_window_start ||
+                        nextFret > block.fret_window_start + 4
+                      )
+                        return;
+                      event.preventDefault();
+                      document.querySelector<HTMLElement>(
+                        `[data-chord-cell="${block.id}-${nextString}-${nextFret}"]`,
+                      )?.focus();
+                    }}
                     onClick={() => {
                       setSelected(stringNumber);
                       setString("FRETTED", fret, stringNumber);
@@ -755,6 +787,34 @@ function ChordDiagramView({
       ) : null}
       <div className="workbook-block-controls" contentEditable={false}>
         <span>String {selected}</span>
+        {selectedChordString?.state === "FRETTED" ? (
+          <label className="workbook-chord__finger">
+            Finger for selected string
+            <select
+              aria-label="Finger for selected string"
+              value={selectedChordString.finger ?? ""}
+              onChange={(event) => {
+                const value = event.target.value;
+                const next = structuredClone(blockRef.current);
+                next.strings = next.strings.map((item) => {
+                  if (item.string_number !== selected || item.state !== "FRETTED") return item;
+                  const adjusted = { ...item };
+                  if (value) adjusted.finger = Number(value);
+                  else delete adjusted.finger;
+                  return adjusted;
+                });
+                commit(next);
+              }}
+            >
+              <option value="">Unspecified</option>
+              {[1, 2, 3, 4].map((finger) => (
+                <option key={finger} value={finger}>
+                  {finger}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
         <button type="button" onClick={() => setString("OPEN")}>
           Open
         </button>
@@ -768,6 +828,71 @@ function ChordDiagramView({
           Delete chord
         </button>
       </div>
+      <details className="workbook-chord-barres" contentEditable={false}>
+        <summary>Barres ({block.barres.length})</summary>
+        <div className="workbook-block-controls">
+          <label>
+            From string
+            <select value={barreFrom} onChange={(event) => setBarreFrom(Number(event.target.value))}>
+              {[6, 5, 4, 3, 2].map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Through string
+            <select value={barreTo} onChange={(event) => setBarreTo(Number(event.target.value))}>
+              {[5, 4, 3, 2, 1].map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Barre fret
+            <input
+              type="number"
+              min="1"
+              max="36"
+              value={barreFret}
+              onChange={(event) => setBarreFret(event.target.value)}
+            />
+          </label>
+          <label>
+            Barre finger (optional)
+            <select value={barreFinger} onChange={(event) => setBarreFinger(event.target.value)}>
+              <option value="">Unspecified</option>
+              {[1, 2, 3, 4].map((finger) => (
+                <option key={finger} value={finger}>
+                  {finger}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button type="button" disabled={block.barres.length >= 6} onClick={addBarre}>
+            Add barre
+          </button>
+        </div>
+        {barreError ? <p className="workbook-field-error" role="status">{barreError}</p> : null}
+        {block.barres.map((barre, index) => (
+          <div className="workbook-chord-barres__item" key={index}>
+            <span>
+              Fret {barre.fret} · strings {barre.from_string}–{barre.to_string}
+              {barre.finger ? ` · finger ${barre.finger}` : ""}
+            </span>
+            <button
+              type="button"
+              aria-label={`Remove barre ${index + 1}`}
+              onClick={() => removeBarre(index)}
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+      </details>
       <p className="sr-only" aria-live="polite">
         {chordSummary(block)}
       </p>
