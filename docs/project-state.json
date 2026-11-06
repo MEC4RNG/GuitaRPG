@@ -14,20 +14,16 @@
     "production_cutover_authorized": false
   },
   "last_terminal_ticket": {
-    "id": "JRN-001",
-    "title": "Interactive Workbook Editor Prototype",
-    "status": "COMPLETE"
-  },
-  "active_ticket": {
     "id": "JRN-002",
     "title": "Workbook Persistence Foundation",
-    "status": "AWAITING_USER_INTERACTIVE_REVIEW"
+    "status": "COMPLETE"
   },
+  "active_ticket": null,
   "next_ticket": {
     "id": "JRN-003",
     "title": "Editable Guitar Tablature & Chord Diagrams",
     "authorized_to_start": false,
-    "condition": "JRN-002 completion and explicit JRN-003 authorization are required"
+    "condition": "JRN-002 is complete; explicit JRN-003 authorization is still required"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -48,5 +44,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_USER_INTERACTIVE_REVIEW"
+  "execution_status": "AWAITING_EXPLICIT_JRN_003_AUTHORIZATION"
 }
