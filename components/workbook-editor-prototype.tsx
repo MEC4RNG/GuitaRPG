@@ -14,6 +14,8 @@ import { closeHistory } from "@tiptap/pm/history";
 import { Plugin } from "@tiptap/pm/state";
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 
+import { ChordFretboardSvg, TabStringGuideSvg } from "@/components/workbook-musical-svg";
+
 import {
   createId,
   editorJsonToWorkbook,
@@ -308,6 +310,7 @@ function GuitarTabView({
                     </span>
                   ))}
                 </div>
+                <TabStringGuideSvg positionsPerLine={positionsPerLine} />
                 {pitches.map((pitch) => (
                   <div
                     className="workbook-tab-row"
@@ -555,7 +558,14 @@ function ChordDiagramView({
         ? {
             string_number: stringNumber,
             state,
-            ...(state === "FRETTED" ? { fret } : {}),
+            ...(state === "FRETTED"
+              ? {
+                  fret,
+                  ...(item.state === "FRETTED" && item.finger !== undefined
+                    ? { finger: item.finger }
+                    : {}),
+                }
+              : {}),
           }
         : item,
     );
@@ -651,6 +661,7 @@ function ChordDiagramView({
           })}
         </div>
         <div className="workbook-chord__grid" role="grid" aria-label="Chord fretboard">
+          <ChordFretboardSvg block={block} />
           {visibleFrets.map((fret) => (
             <div className="workbook-chord__fret" role="row" key={fret}>
               <span aria-hidden="true">{fret}</span>
