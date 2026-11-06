@@ -18,7 +18,7 @@ describe("structured musical SVG presentation", () => {
     expect(svg).toContain('viewBox="0 0 600 500"');
     expect(svg).toContain('stroke-width="10"');
     expect(svg).toContain('rx="25"');
-    expect(svg).toContain('>3</text>');
+    expect(svg).toContain(">3</text>");
     expect(svg).toContain('aria-hidden="true"');
   });
 
@@ -34,9 +34,7 @@ describe("structured musical SVG presentation", () => {
 
   it("draws six strings for each supported tab system density", () => {
     for (const positionsPerLine of [4, 8, 12, 16] as const) {
-      const svg = renderToStaticMarkup(
-        createElement(TabStringGuideSvg, { positionsPerLine }),
-      );
+      const svg = renderToStaticMarkup(createElement(TabStringGuideSvg, { positionsPerLine }));
       expect(svg).toContain(`viewBox="0 0 ${positionsPerLine * 100} 600"`);
       expect(svg.match(/<line/g)).toHaveLength(6);
       expect(svg).toContain('aria-hidden="true"');
