@@ -10,6 +10,7 @@ type Query<T> = Result<T> & {
   select(columns: string): Query<T>;
   eq(column: string, value: string | boolean): Query<T>;
   order(column: string, options?: { ascending?: boolean }): Query<T>;
+  maybeSingle(): Result<T>;
 };
 
 export type WorkbookClient = {
@@ -52,6 +53,19 @@ export type WorkbookRevisionRow = {
   revision: number;
   title: string;
   document: WorkbookDocumentV1;
+  created_at: string;
+};
+
+export type WorkbookContextStage = "MAP" | "EXPLORE" | "CRAFT";
+export type WorkbookContextRelationship = "REFERENCE" | "CREATED_DURING" | "APPLIES_TO";
+export type WorkbookContextLinkRow = {
+  id: string;
+  player_id: string;
+  page_id: string;
+  quest_id: string;
+  stage: WorkbookContextStage | null;
+  relationship: WorkbookContextRelationship;
+  session_id: string | null;
   created_at: string;
 };
 
@@ -215,4 +229,54 @@ export async function restoreRevision(
     revision: number;
     page: WorkbookPageRow;
   };
+}
+
+export async function readQuestWorkbookLinks(client: WorkbookClient, questId: string) {
+  const result = await client
+    .from<WorkbookContextLinkRow[]>("player_workbook_context_links")
+    .select("*")
+    .eq("quest_id", questId)
+    .order("created_at");
+  fail(result.error, "Quest Workbook links could not be loaded");
+  return result.data ?? [];
+}
+
+export async function readOwnedQuestWorkbookContext(client: WorkbookClient, questId: string) {
+  const result = await client
+    .from<{ resolved_snapshot: { identity?: { title?: string } } }>("quests")
+    .select("resolved_snapshot")
+    .eq("id", questId)
+    .maybeSingle();
+  fail(result.error, "Quest context could not be loaded");
+  if (!result.data) return null;
+  return {
+    title: result.data.resolved_snapshot.identity?.title?.trim() || "Quest Journey",
+  };
+}
+
+export async function attachWorkbookContext(
+  client: WorkbookClient,
+  context: {
+    pageId: string;
+    questId: string;
+    stage: WorkbookContextStage;
+    relationship: WorkbookContextRelationship;
+    sessionId?: string | null;
+  },
+) {
+  const result = await client.rpc("attach_player_workbook_context_v1", {
+    p_page_id: context.pageId,
+    p_quest_id: context.questId,
+    p_stage: context.stage,
+    p_relationship: context.relationship,
+    p_session_id: context.sessionId ?? null,
+  });
+  fail(result.error, "Workbook page could not be linked");
+  return result.data as WorkbookContextLinkRow;
+}
+
+export async function detachWorkbookContext(client: WorkbookClient, linkId: string) {
+  const result = await client.rpc("detach_player_workbook_context_v1", { p_link_id: linkId });
+  fail(result.error, "Workbook page could not be unlinked");
+  return Boolean(result.data);
 }

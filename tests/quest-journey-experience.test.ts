@@ -68,9 +68,11 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(questConstraintText(quest).join(" ")).toMatch(/90/);
   });
 
-  it("keeps Craft invitational and avoids fake completion or artifact persistence", () => {
+  it("keeps Craft invitational and offers truthful optional Workbook persistence", () => {
     expect(surface).toContain("Create something using what you discovered.");
-    expect(surface).toMatch(/These prompts do not save or\s+grade an artifact\./);
+    expect(surface).toMatch(/Save the idea in a linked\s+Workbook page/);
+    expect(surface).toContain("it is never graded");
+    expect(surface).toContain("Open Workbooks");
     expect(surface).not.toMatch(/Submit creation|Mark Craft complete|Artifact saved|upload/i);
   });
 

@@ -224,10 +224,16 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       }
       if (state.active_ticket.id === "JRN-004") {
         expect(state.phase).toEqual({ id: 6, name: "Hardening & Launch", status: "IN_PROGRESS" });
-        expect(state.active_ticket.status).toBe("IN_PROGRESS");
+        expect(["IN_PROGRESS", "AWAITING_USER_INTERACTIVE_REVIEW"]).toContain(
+          state.active_ticket.status,
+        );
         expect(state.next_ticket).toMatchObject({ id: "JRN-005", authorized_to_start: false });
-        expect(state.execution_status).toBe("JRN_004_IN_PROGRESS");
-        expect(read("docs/tickets/JRN-004.md")).toContain("**Status:** IN PROGRESS");
+        expect(["JRN_004_IN_PROGRESS", "AWAITING_USER_INTERACTIVE_REVIEW"]).toContain(
+          state.execution_status,
+        );
+        expect(read("docs/tickets/JRN-004.md")).toMatch(
+          /\*\*Status:\*\* (?:IN PROGRESS|AWAITING USER INTERACTIVE REVIEW)/,
+        );
         return;
       }
       expect(state.active_ticket).toMatchObject({ id: "P5-GATE-001", status: "IN_PROGRESS" });

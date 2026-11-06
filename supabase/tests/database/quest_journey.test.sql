@@ -112,5 +112,46 @@ select extensions.is((select lifecycle_status||'/'||current_stage from public.pl
 select extensions.ok((select opened_at=(select min(started_at) from public.practice_sessions where quest_id='a6444444-4444-4444-8444-444444444444') from public.player_quest_journeys where quest_id='a6444444-4444-4444-8444-444444444444'),'lazy overlay derives truthful first Session time');
 select extensions.throws_ok($$delete from public.quests where id='a6444444-4444-4444-8444-444444444444'$$,'23503',null,'attempted Quest deletion guard remains intact');
 
+-- JRN-004 optional Workbook context remains separate from content and progression.
+select extensions.has_table('public','player_workbook_context_links','Workbook context relation exists');
+select extensions.ok((select relrowsecurity from pg_class where oid='public.player_workbook_context_links'::regclass),'Workbook context RLS enabled');
+select extensions.ok(not has_table_privilege('authenticated','public.player_workbook_context_links','insert'),'direct context insert denied');
+create temporary table journey_workbook as
+select public.create_player_workbook_v1(
+  'Journey notes',null,'WORKBOOK','{"type":"GUITARPG_WORKBOOK_DOCUMENT_V1","schema_version":1,"blocks":[]}',
+  'a6555555-5555-4555-8555-555555555555'
+) value;
+create temporary table journey_workbook_ids as select
+  (value#>>'{page,id}')::uuid page_id,
+  (value#>>'{page,revision}')::integer revision
+from journey_workbook;
+select extensions.lives_ok(
+  $$select public.attach_player_workbook_context_v1(
+    (select page_id from journey_workbook_ids),'a6333333-3333-4333-8333-333333333333','MAP','REFERENCE',null
+  )$$,'owner links page to Quest stage');
+select extensions.lives_ok(
+  $$select public.attach_player_workbook_context_v1(
+    (select page_id from journey_workbook_ids),'a6333333-3333-4333-8333-333333333333','MAP','REFERENCE',null
+  )$$,'equivalent link retry is idempotent');
+select extensions.is((select count(*)::bigint from public.player_workbook_context_links where quest_id='a6333333-3333-4333-8333-333333333333'),1::bigint,'duplicate equivalent link is prevented');
+select extensions.is((select revision from public.player_workbook_pages where id=(select page_id from journey_workbook_ids)),(select revision from journey_workbook_ids),'linking creates no document revision');
+select extensions.lives_ok(
+  $$select public.attach_player_workbook_context_v1(
+    (select page_id from journey_workbook_ids),'a6444444-4444-4444-8444-444444444444','EXPLORE','APPLIES_TO',
+    (select id from public.practice_sessions where quest_id='a6444444-4444-4444-8444-444444444444' limit 1)
+  )$$,'owner explicitly links an existing Quest Session');
+select extensions.is((select count(*)::bigint from public.practice_xp_ledger where player_id='a6111111-1111-4111-8111-111111111111'),0::bigint,'Workbook associations create no XP');
+set local request.jwt.claim.sub='a6222222-2222-4222-8222-222222222222';
+select extensions.is((select count(*)::bigint from public.player_workbook_context_links),0::bigint,'RLS hides another Player links');
+select extensions.throws_ok(
+  $$select public.attach_player_workbook_context_v1(
+    (select page_id from journey_workbook_ids),'a6333333-3333-4333-8333-333333333333','MAP','REFERENCE',null
+  )$$,'42501',null,'another Player cannot forge a Workbook link');
+set local request.jwt.claim.sub='a6111111-1111-4111-8111-111111111111';
+select extensions.ok(public.detach_player_workbook_context_v1(
+  (select id from public.player_workbook_context_links where quest_id='a6333333-3333-4333-8333-333333333333' limit 1)
+),'owner detaches context');
+select extensions.is((select revision from public.player_workbook_pages where id=(select page_id from journey_workbook_ids)),(select revision from journey_workbook_ids),'detaching creates no document revision');
+
 select * from extensions.finish();
 rollback;

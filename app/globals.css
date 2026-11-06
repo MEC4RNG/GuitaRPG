@@ -1696,6 +1696,44 @@ a {
   display: grid;
   gap: 1rem;
 }
+.workbook-context,
+.journey-workbook {
+  border: 1px solid var(--surface-border);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: 0.75rem;
+  background: var(--surface-panel);
+  padding: 1rem;
+}
+.workbook-context,
+.workbook-context__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.workbook-context h2,
+.journey-workbook h2,
+.workbook-context p,
+.journey-workbook p {
+  margin: 0.25rem 0;
+}
+.workbook-context__actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.journey-workbook {
+  display: grid;
+  gap: 0.75rem;
+}
+.journey-workbook ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.journey-workbook li small {
+  margin-left: 0.5rem;
+}
 .workbook-library__header,
 .workbook-library__actions,
 .workbook-library__list article > div,
@@ -1785,6 +1823,17 @@ a {
   }
   .workbook-library__actions {
     flex-wrap: wrap;
+  }
+  .workbook-context {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .workbook-context__actions {
+    justify-content: stretch;
+  }
+  .workbook-context__actions button {
+    min-height: 44px;
+    flex: 1 1 100%;
   }
 }
 

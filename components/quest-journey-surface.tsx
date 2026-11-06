@@ -30,9 +30,17 @@ import {
   type JourneyPracticeClient,
 } from "@/lib/quest/start-journey-practice";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { workbookContextHref } from "@/lib/workbook/context";
+import {
+  readQuestWorkbookLinks,
+  readWorkbookSnapshot,
+  type WorkbookClient,
+  type WorkbookContextLinkRow,
+  type WorkbookPageRow,
+} from "@/lib/workbook/repository";
 
 type Detail = SavedQuestSummary & { recentSessions: QuestSessionSummary[] };
-type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient;
+type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient & WorkbookClient;
 const client = () => createBrowserSupabaseClient() as unknown as JourneyClient;
 const stages = ["MAP", "EXPLORE", "CRAFT"] as const;
 type MapTab = "primary" | "supporting" | "concepts" | "techniques" | "context";
@@ -47,11 +55,22 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mapTab, setMapTab] = useState<MapTab>("primary");
+  const [workbookLinks, setWorkbookLinks] = useState<WorkbookContextLinkRow[]>([]);
+  const [workbookPages, setWorkbookPages] = useState<WorkbookPageRow[]>([]);
 
   useEffect(() => {
     const api = client();
     void ensureQuestJourney(api, questId)
-      .then(() => readQuestJourneyDetail(api, questId))
+      .then(async () => {
+        const [next, links, snapshot] = await Promise.all([
+          readQuestJourneyDetail(api, questId),
+          readQuestWorkbookLinks(api, questId),
+          readWorkbookSnapshot(api),
+        ]);
+        setWorkbookLinks(links);
+        setWorkbookPages(snapshot.pages);
+        return next;
+      })
       .then((next) => {
         if (!next) throw new Error("Quest unavailable");
         setDetail(next);
@@ -140,6 +159,13 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
       present: references.contexts.length > 0 || context.length > 0,
     },
   ].filter((tab) => tab.present);
+  const stageRelationship =
+    journey.currentStage === "MAP"
+      ? "REFERENCE"
+      : journey.currentStage === "EXPLORE"
+        ? "APPLIES_TO"
+        : "CREATED_DURING";
+  const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
 
   function moveMapTab(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next = index;
@@ -219,6 +245,52 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
 
       <div className="journey-layout">
         <main className="panel journey-canvas" aria-live="polite">
+          <section className="journey-workbook" aria-labelledby="journey-workbook-title">
+            <div>
+              <p className="eyebrow">WORKBOOK</p>
+              <h2 id="journey-workbook-title">
+                {journey.currentStage === "MAP"
+                  ? "Notes and references"
+                  : journey.currentStage === "EXPLORE"
+                    ? "Observations"
+                    : "Creative work"}
+              </h2>
+              <p>Optional private pages for this stage. They do not measure progress.</p>
+            </div>
+            {stageLinks.length ? (
+              <ul>
+                {stageLinks.map((link) => {
+                  const page = workbookPages.find((item) => item.id === link.page_id);
+                  return page ? (
+                    <li key={link.id}>
+                      <Link
+                        href={workbookContextHref(
+                          questId,
+                          journey.currentStage,
+                          link.relationship,
+                          {
+                            pageId: page.id,
+                            sessionId: link.session_id ?? undefined,
+                          },
+                        )}
+                      >
+                        {page.title}
+                      </Link>
+                      {link.session_id ? <small>Session-linked</small> : null}
+                    </li>
+                  ) : null;
+                })}
+              </ul>
+            ) : (
+              <p>No linked pages yet.</p>
+            )}
+            <Link
+              className="action-button action-button--secondary"
+              href={workbookContextHref(questId, journey.currentStage, stageRelationship)}
+            >
+              Open Workbooks
+            </Link>
+          </section>
           {journey.currentStage === "MAP" ? (
             <>
               <div className="map-tabs" role="tablist" aria-label="Quest Map information">
@@ -348,8 +420,8 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
               <div className="craft-invitation">
                 <strong>Create something using what you discovered.</strong>
                 <p>
-                  Use the Quest ingredients as a creative launch point. These prompts do not save or
-                  grade an artifact.
+                  Use the Quest ingredients as a creative launch point. Save the idea in a linked
+                  Workbook page when it becomes worth keeping; it is never graded.
                 </p>
               </div>
               <div className="craft-prompts" aria-label="Creative prompt ideas">
@@ -497,6 +569,14 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                   </div>
                   <Link className="text-link" href={action.href}>
                     {action.label}
+                  </Link>
+                  <Link
+                    className="text-link"
+                    href={workbookContextHref(questId, journey.currentStage, "APPLIES_TO", {
+                      sessionId: session.id,
+                    })}
+                  >
+                    Session Workbook
                   </Link>
                 </li>
               );
