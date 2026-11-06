@@ -834,7 +834,12 @@ export function WorkbookEditorPrototype({
   useEffect(() => {
     if (!pageActionsOpen) return;
     const closeOutside = (event: PointerEvent) => {
-      if (!pageActionsRef.current?.contains(event.target as Node)) setPageActionsOpen(false);
+      if (
+        event.target instanceof globalThis.Node &&
+        !pageActionsRef.current?.contains(event.target)
+      ) {
+        setPageActionsOpen(false);
+      }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
