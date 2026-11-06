@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   editorJsonToWorkbook,
+  emptyChordBlock,
   emptyTabBlock,
   parseWorkbookDocument,
   tuningSnapshot,
@@ -115,5 +116,71 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
       original: future,
     });
     expect(editorJsonToWorkbook(workbookToEditorJson(parsed))).toEqual(parsed);
+  });
+
+  it("rejects malformed known musical blocks rather than downgrading them to unsupported", () => {
+    const doc = structuredClone(fixture);
+    const tab = doc.blocks.find((block) => block.type === "guitar_tab");
+    if (!tab || tab.type !== "guitar_tab") throw new Error("Missing fixture tab");
+    tab.events[0].notes.push({ string_number: 6, state: "FRETTED", fret: 3 });
+    expect(() => parseWorkbookDocument(doc)).toThrow("malformed known");
+    expect(() => parseWorkbookDocument({
+      ...doc,
+      blocks: [{ ...tab, events: [{ id: "one", ordinal: 0, notes: [
+        { string_number: 1, state: "OPEN", fret: 4 },
+      ] }] }],
+    })).toThrow("malformed known");
+  });
+
+  it("rejects duplicate event ids and invalid event ordinals", () => {
+    const tab = emptyTabBlock();
+    tab.events[1].id = tab.events[0].id;
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [tab] })).toThrow("malformed known");
+    tab.events[1].id = "unique-event";
+    tab.events[1].ordinal = 8;
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [tab] })).toThrow("malformed known");
+  });
+
+  it("validates each chord string, finger, fret, and barre span", () => {
+    const chord = emptyChordBlock();
+    chord.strings[0] = { string_number: 6, state: "FRETTED", fret: 3, finger: 2 };
+    chord.barres = [{ from_string: 6, to_string: 1, fret: 1, finger: 1 }];
+    const valid = { ...fixture, blocks: [chord] };
+    expect(editorJsonToWorkbook(workbookToEditorJson(valid))).toEqual(valid);
+
+    const duplicate = structuredClone(chord);
+    duplicate.strings[1].string_number = 6;
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [duplicate] })).toThrow("malformed known");
+
+    const missingFret = structuredClone(chord);
+    missingFret.strings[0].fret = 37;
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [missingFret] })).toThrow("malformed known");
+
+    const badFinger = structuredClone(chord);
+    badFinger.strings[0].finger = 5;
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [badFinger] })).toThrow("malformed known");
+
+    const badBarre = structuredClone(chord);
+    badBarre.barres = [{ from_string: 1, to_string: 6, fret: 1 }];
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [badBarre] })).toThrow("malformed known");
+  });
+
+  it("round trips a deterministic sample of editable frets and tuning snapshots", () => {
+    for (const tuning of ["standard", "dadgad"] as const) {
+      for (let fret = 1; fret <= 36; fret++) {
+        const tab = emptyTabBlock();
+        tab.tuning = tuningSnapshot(tuning);
+        tab.events[0].notes = [
+          { string_number: 6, state: "FRETTED", fret },
+          { string_number: 1, state: "OPEN" },
+        ];
+        const chord = emptyChordBlock();
+        chord.name = `${tuning} fret ${fret}`;
+        chord.tuning = tuningSnapshot(tuning);
+        chord.strings[0] = { string_number: 6, state: "FRETTED", fret };
+        const doc: WorkbookDocumentV1 = { ...fixture, blocks: [tab, chord] };
+        expect(editorJsonToWorkbook(workbookToEditorJson(doc))).toEqual(doc);
+      }
+    }
   });
 });
