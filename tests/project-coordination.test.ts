@@ -80,6 +80,7 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
       "CODEX-002",
       "JRN-001",
       "JRN-002",
+      "JRN-003",
       "JRN-000",
     ]).toContain(state.last_terminal_ticket.id);
     expect(state.last_terminal_ticket.status).toBe("COMPLETE");
@@ -271,6 +272,11 @@ describe("GuitaRPG Master Build Plan coordination state", () => {
         expect(state.next_ticket).toMatchObject({ id: "JRN-003", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_003_AUTHORIZATION");
         expect(read("docs/tickets/JRN-002.md")).toContain("**COMPLETE — USER ACCEPTED");
+      } else if (state.last_terminal_ticket.id === "JRN-003") {
+        expect(state.active_ticket).toBeNull();
+        expect(state.next_ticket).toMatchObject({ id: "JRN-004", authorized_to_start: false });
+        expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_004_AUTHORIZATION");
+        expect(read("docs/tickets/JRN-003.md")).toContain("**COMPLETE — USER ACCEPTED**");
       } else if (state.last_terminal_ticket.id === "JRN-000") {
         expect(state.next_ticket).toMatchObject({ id: "JRN-001", authorized_to_start: false });
         expect(state.execution_status).toBe("AWAITING_EXPLICIT_JRN_001_AUTHORIZATION");
