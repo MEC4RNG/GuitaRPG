@@ -934,8 +934,8 @@ function UnsupportedView({ node }: NodeViewProps) {
     <NodeViewWrapper className="workbook-unsupported" role="note" contentEditable={false}>
       <strong>Unsupported block preserved</strong>
       <p>
-        This future block cannot be edited in this Workbook Editor. Exporting the document preserves its
-        original data.
+        This future block cannot be edited in this Workbook Editor. Exporting the document preserves
+        its original data.
       </p>
       <pre>{JSON.stringify(node.attrs.original, null, 2)}</pre>
     </NodeViewWrapper>
