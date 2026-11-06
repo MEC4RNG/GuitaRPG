@@ -49,8 +49,10 @@ export function ChordFretboardSvg({ block }: { block: ChordBlock }) {
         />
       ))}
       {barres.map((barre, index) => {
-        const left = 50 + (6 - barre.from_string) * 100;
-        const right = 50 + (6 - barre.to_string) * 100;
+        const x1 = 50 + (6 - barre.from_string) * 100;
+        const x2 = 50 + (6 - barre.to_string) * 100;
+        const left = Math.min(x1, x2);
+        const right = Math.max(x1, x2);
         const center = (barre.fret - start + 0.5) * 100;
         return (
           <g key={`barre-${index}`}>
