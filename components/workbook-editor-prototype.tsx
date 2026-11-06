@@ -933,7 +933,7 @@ function UnsupportedView({ node }: NodeViewProps) {
     <NodeViewWrapper className="workbook-unsupported" role="note" contentEditable={false}>
       <strong>Unsupported block preserved</strong>
       <p>
-        This future block cannot be edited by this prototype. Exporting the document preserves its
+        This future block cannot be edited in this Workbook Editor. Exporting the document preserves its
         original data.
       </p>
       <pre>{JSON.stringify(node.attrs.original, null, 2)}</pre>
@@ -1194,7 +1194,7 @@ export function WorkbookEditorPrototype({
     if (editor && page)
       editor.commands.setContent(workbookToEditorJson(page.document), { emitUpdate: false });
   }, [activePageId, editor]);
-  if (!editor) return <p>Preparing the temporary workbook editor…</p>;
+  if (!editor) return <p>Preparing the Workbook editor…</p>;
   const switchPage = (id: string) => {
     setPageActionsOpen(false);
     const current = editorJsonToWorkbook(editor.getJSON());
