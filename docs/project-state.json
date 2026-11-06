@@ -18,12 +18,16 @@
     "title": "Editable Guitar Tablature & Chord Diagrams",
     "status": "COMPLETE"
   },
-  "active_ticket": null,
-  "next_ticket": {
+  "active_ticket": {
     "id": "JRN-004",
     "title": "MEC Workbook Integration",
+    "status": "IN_PROGRESS"
+  },
+  "next_ticket": {
+    "id": "JRN-005",
+    "title": "Codex Personal Content Integration",
     "authorized_to_start": false,
-    "condition": "JRN-003 is complete; separate explicit JRN-004 authorization required"
+    "condition": "JRN-004 user acceptance, required CI, protected merge, and separate explicit JRN-005 authorization required"
   },
   "phase_gate": {
     "id": "P5-GATE-001",
@@ -44,5 +48,5 @@
     "docs/tickets/DIF-002.md",
     "docs/tickets/DIF-003.md"
   ],
-  "execution_status": "AWAITING_EXPLICIT_JRN_004_AUTHORIZATION"
+  "execution_status": "JRN_004_IN_PROGRESS"
 }
