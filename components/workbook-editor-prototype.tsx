@@ -743,12 +743,13 @@ function ChordDiagramView({
                         returnToDocument();
                         return;
                       }
-                      const target = {
+                      const moves: Record<string, [number, number]> = {
                         ArrowLeft: [stringNumber + 1, fret],
                         ArrowRight: [stringNumber - 1, fret],
                         ArrowUp: [stringNumber, fret - 1],
                         ArrowDown: [stringNumber, fret + 1],
-                      }[event.key];
+                      };
+                      const target = moves[event.key];
                       if (!target) return;
                       const [nextString, nextFret] = target;
                       if (
