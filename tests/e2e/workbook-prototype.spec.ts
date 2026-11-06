@@ -582,6 +582,41 @@ test("ordinary text entry after musical editing never replaces the musical block
   await expect(document).toContainText("Text beside adjacent blocks");
 });
 
+
+test("edits accessible SVG-backed chord fingering and barres without changing absolute frets", async ({
+  page,
+}) => {
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  const chord = page.locator('[data-block-type="chord-diagram"]').last();
+  await expect(chord.locator("svg.workbook-chord__svg")).toBeVisible();
+  await chord.getByRole("gridcell", { name: "Set string 6 to fret 3" }).click();
+  await chord.getByLabel("Finger for selected string").selectOption("2");
+  await expect(chord).toHaveAccessibleName(/string 6 fret 3, finger 2/);
+  await expect(chord.locator("svg.workbook-chord__svg text")).toContainText(["2"]);
+
+  await chord.getByText("Barres (0)").click();
+  await chord.getByLabel("Barre fret").fill("1");
+  await chord.getByLabel("Barre finger (optional)").selectOption("1");
+  await chord.getByRole("button", { name: "Add barre" }).click();
+  await expect(chord).toHaveAccessibleName(/barre fret 1, strings 6 to 1, finger 1/);
+  await expect(chord.locator("svg.workbook-chord__svg rect")).toHaveCount(1);
+  await chord.getByRole("button", { name: "Remove barre 1" }).click();
+  await expect(chord.locator("svg.workbook-chord__svg rect")).toHaveCount(0);
+
+  const initialCell = chord.getByRole("gridcell", { name: "Set string 6 to fret 3" });
+  await initialCell.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(chord.getByRole("gridcell", { name: "Set string 5 to fret 3" })).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toBeFocused();
+
+  await chord.getByLabel("Displayed frets start at").fill("8");
+  await expect(chord.getByRole("status")).toContainText("string 6, fret 3");
+  await expect(chord.locator("svg.workbook-chord__svg circle")).toHaveCount(0);
+  await chord.getByLabel("Displayed frets start at").fill("1");
+  await expect(chord.locator("svg.workbook-chord__svg circle")).toHaveCount(1);
+});
+
 test("meets the automated accessibility and responsive overflow gates", async ({ page }) => {
   await page.getByRole("button", { name: "Insert tablature" }).click();
   await page.getByRole("button", { name: "Insert chord diagram" }).click();
