@@ -124,12 +124,19 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
     if (!tab || tab.type !== "guitar_tab") throw new Error("Missing fixture tab");
     tab.events[0].notes.push({ string_number: 6, state: "FRETTED", fret: 3 });
     expect(() => parseWorkbookDocument(doc)).toThrow("malformed known");
-    expect(() => parseWorkbookDocument({
-      ...doc,
-      blocks: [{ ...tab, events: [{ id: "one", ordinal: 0, notes: [
-        { string_number: 1, state: "OPEN", fret: 4 },
-      ] }] }],
-    })).toThrow("malformed known");
+    expect(() =>
+      parseWorkbookDocument({
+        ...doc,
+        blocks: [
+          {
+            ...tab,
+            events: [
+              { id: "one", ordinal: 0, notes: [{ string_number: 1, state: "OPEN", fret: 4 }] },
+            ],
+          },
+        ],
+      }),
+    ).toThrow("malformed known");
   });
 
   it("rejects duplicate event ids and invalid event ordinals", () => {
@@ -150,19 +157,27 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
 
     const duplicate = structuredClone(chord);
     duplicate.strings[1].string_number = 6;
-    expect(() => parseWorkbookDocument({ ...fixture, blocks: [duplicate] })).toThrow("malformed known");
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [duplicate] })).toThrow(
+      "malformed known",
+    );
 
     const missingFret = structuredClone(chord);
     missingFret.strings[0].fret = 37;
-    expect(() => parseWorkbookDocument({ ...fixture, blocks: [missingFret] })).toThrow("malformed known");
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [missingFret] })).toThrow(
+      "malformed known",
+    );
 
     const badFinger = structuredClone(chord);
     badFinger.strings[0].finger = 5;
-    expect(() => parseWorkbookDocument({ ...fixture, blocks: [badFinger] })).toThrow("malformed known");
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [badFinger] })).toThrow(
+      "malformed known",
+    );
 
     const badBarre = structuredClone(chord);
     badBarre.barres = [{ from_string: 1, to_string: 6, fret: 1 }];
-    expect(() => parseWorkbookDocument({ ...fixture, blocks: [badBarre] })).toThrow("malformed known");
+    expect(() => parseWorkbookDocument({ ...fixture, blocks: [badBarre] })).toThrow(
+      "malformed known",
+    );
   });
 
   it("round trips a deterministic sample of editable frets and tuning snapshots", () => {
