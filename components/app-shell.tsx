@@ -51,7 +51,7 @@ export function AppShell({ children }: AppShellProps) {
             </main>
           </div>
 
-          <MobileNav pathname={pathname} />
+          <MobileNav key={pathname} pathname={pathname} />
         </div>
       </CodexPeekProvider>
     </div>
