@@ -310,8 +310,9 @@ function GuitarTabView({
                     </span>
                   ))}
                 </div>
-                <TabStringGuideSvg positionsPerLine={positionsPerLine} />
-                {pitches.map((pitch) => (
+                <div className="workbook-tab-note-rows" role="rowgroup">
+                  <TabStringGuideSvg positionsPerLine={positionsPerLine} />
+                  {pitches.map((pitch) => (
                   <div
                     className="workbook-tab-row"
                     role="row"
@@ -414,7 +415,8 @@ function GuitarTabView({
                       );
                     })}
                   </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
