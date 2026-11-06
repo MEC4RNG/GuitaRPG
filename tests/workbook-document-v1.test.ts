@@ -169,9 +169,7 @@ describe("GUITARPG_WORKBOOK_DOCUMENT_V1", () => {
     expect(editorJsonToWorkbook(workbookToEditorJson(valid))).toEqual(valid);
     const reverse = structuredClone(chord);
     reverse.barres = [{ from_string: 1, to_string: 6, fret: 1 }];
-    expect(parseWorkbookDocument({ ...fixture, blocks: [reverse] }).blocks[0]).toEqual(
-      reverse,
-    );
+    expect(parseWorkbookDocument({ ...fixture, blocks: [reverse] }).blocks[0]).toEqual(reverse);
 
     const duplicate = structuredClone(chord);
     duplicate.strings[1].string_number = 6;
