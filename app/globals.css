@@ -1530,6 +1530,38 @@ a {
   pointer-events: none;
 }
 
+.workbook-chord__finger,
+.workbook-chord-barres label {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  font-size: 0.85rem;
+}
+
+.workbook-chord-barres {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.workbook-chord-barres summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.workbook-chord-barres[open] summary {
+  margin-bottom: var(--space-3);
+}
+
+.workbook-chord-barres__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+}
+
 .workbook-chord__notice,
 .workbook-field-error {
   margin: 0;
