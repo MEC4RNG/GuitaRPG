@@ -210,14 +210,27 @@ test("aligns direct chord editing with its visible strings and preserves absolut
   const chord = page.locator('[data-block-type="chord-diagram"]').last();
   await chord.getByRole("gridcell", { name: "Set string 6 to fret 3" }).click();
   await expect(chord.getByRole("button", { name: /Select string 6, Fret 3/ })).toBeVisible();
+  // Measure the actual rendered SVG marker, not the retired inline
+  // glyph span (hidden by the new data-derived SVG presentation).
   const alignment = await chord
-    .locator(".workbook-chord__fret button.is-fretted")
+    .getByRole("gridcell", { name: "Set string 6 to fret 3" })
     .evaluate((cell) => {
-      const marker = cell.querySelector("span")!.getBoundingClientRect();
+      const svg = cell.closest(".workbook-chord__grid")?.querySelector("svg.workbook-chord__svg");
+      const marker = svg?.querySelector("circle");
+      const matrix = marker?.getScreenCTM();
+      if (!marker || !matrix) throw new Error("Chord SVG marker has no rendered transform");
+      const point = new DOMPoint(
+        Number(marker.getAttribute("cx")),
+        Number(marker.getAttribute("cy")),
+      ).matrixTransform(matrix);
       const hitbox = cell.getBoundingClientRect();
-      return Math.abs(marker.left + marker.width / 2 - (hitbox.left + hitbox.width / 2));
+      return {
+        horizontal: Math.abs(point.x - (hitbox.left + hitbox.width / 2)),
+        vertical: Math.abs(point.y - (hitbox.top + hitbox.height / 2)),
+      };
     });
-  expect(alignment).toBeLessThan(1);
+  expect(alignment.horizontal).toBeLessThan(1);
+  expect(alignment.vertical).toBeLessThan(1);
   await expect(chord.locator(".workbook-chord__states small")).toHaveCount(6);
   await chord.getByLabel("Displayed frets start at").fill("8");
   await expect(chord.getByRole("status")).toContainText("string 6, fret 3");
