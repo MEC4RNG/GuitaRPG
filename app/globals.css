@@ -1278,15 +1278,20 @@ a {
   padding: var(--space-1);
 }
 
+.workbook-tab-note-rows {
+  position: relative;
+  width: max-content;
+}
+
 .workbook-tab-guide-svg {
   position: absolute;
   z-index: 0;
-  top: calc(var(--space-1) + 1.15rem);
-  left: calc(var(--space-1) + 3rem);
-  width: calc(100% - 3rem - 2 * var(--space-1));
-  height: 12rem;
+  top: 0;
+  left: 3rem;
+  width: calc(100% - 3rem);
+  height: 100%;
   color: var(--surface-muted);
-  opacity: 0.5;
+  opacity: 0.65;
   pointer-events: none;
 }
 
@@ -1348,7 +1353,7 @@ a {
   height: 2rem;
   min-height: 2rem;
   padding: 0;
-  border-width: 0 0 1px;
+  border: 0;
   border-radius: 0;
   background: transparent;
   font-family: var(--font-data);
@@ -1434,37 +1439,34 @@ a {
 .workbook-chord {
   display: grid;
   gap: var(--space-2);
-  justify-content: start;
-  justify-content: safe center;
+  justify-items: center;
   min-width: 0;
   width: 100%;
   max-width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  padding: var(--space-4);
+  padding: var(--space-2) 0;
 }
 
 .workbook-chord__states {
   display: grid;
-  grid-template-columns: repeat(6, minmax(2.5rem, 3.25rem));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
-  width: max-content;
+  box-sizing: border-box;
+  width: min(100%, 23rem);
+  min-width: 0;
+  padding-left: 2rem;
 }
 
 .workbook-chord__fret {
   display: grid;
-  grid-template-columns: 2rem repeat(6, minmax(2.5rem, 3.25rem));
+  grid-template-columns: 2rem repeat(6, minmax(0, 1fr));
   align-items: center;
-}
-
-.workbook-chord__states {
-  padding-left: 2rem;
 }
 
 .workbook-chord__states button {
   display: grid;
   place-items: center;
-  min-width: var(--touch-target-min);
+  min-width: 0;
+  min-height: var(--touch-target-min);
   padding: 0;
   border-color: transparent;
   background: transparent;
@@ -1482,7 +1484,9 @@ a {
 
 .workbook-chord__grid {
   position: relative;
-  width: max-content;
+  box-sizing: border-box;
+  width: min(100%, 23rem);
+  min-width: 0;
 }
 
 .workbook-chord__svg {
@@ -1502,7 +1506,8 @@ a {
 
 .workbook-chord__fret button {
   position: relative;
-  min-width: var(--touch-target-min);
+  min-width: 0;
+  min-height: var(--touch-target-min);
   padding: 0;
   border: 0;
   border-radius: 0;
