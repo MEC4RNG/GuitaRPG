@@ -658,6 +658,8 @@ function ChordDiagramView({
             value={chordName}
             onChange={(event) => {
               setChordName(event.target.value);
+              if (event.target.value.trim())
+                commit({ ...blockRef.current, name: event.target.value });
             }}
             onBlur={(event) => {
               const trimmed = event.currentTarget.value.trim();
