@@ -66,7 +66,15 @@ export type WorkbookContextLinkRow = {
   stage: WorkbookContextStage | null;
   relationship: WorkbookContextRelationship;
   session_id: string | null;
+  module_key: string | null;
   created_at: string;
+};
+
+export type ExploreModuleOrderRow = {
+  player_id: string;
+  quest_id: string;
+  module_keys: string[];
+  updated_at: string;
 };
 
 export type WorkbookSnapshot = {
@@ -252,6 +260,57 @@ export async function readOwnedQuestWorkbookContext(client: WorkbookClient, ques
   return {
     title: result.data.resolved_snapshot.identity?.title?.trim() || "Quest Journey",
   };
+}
+
+export async function readExploreModuleOrder(client: WorkbookClient, questId: string) {
+  const result = await client
+    .from<ExploreModuleOrderRow>("player_quest_explore_module_orders")
+    .select("*")
+    .eq("quest_id", questId)
+    .maybeSingle();
+  fail(result.error, "Explore module order could not be loaded");
+  return result.data?.module_keys ?? null;
+}
+
+export async function saveExploreModuleOrder(
+  client: WorkbookClient,
+  questId: string,
+  moduleKeys: string[],
+) {
+  const result = await client.rpc("save_player_quest_explore_module_order_v1", {
+    p_quest_id: questId,
+    p_module_keys: moduleKeys,
+  });
+  fail(result.error, "Explore module order could not be saved");
+  return result.data as string[];
+}
+
+export async function attachExploreModulePage(
+  client: WorkbookClient,
+  pageId: string,
+  questId: string,
+  moduleKey: string,
+) {
+  const result = await client.rpc("attach_player_workbook_explore_module_v1", {
+    p_page_id: pageId,
+    p_quest_id: questId,
+    p_module_key: moduleKey,
+  });
+  fail(result.error, "Workbook page could not be assigned to this Explore module");
+  return result.data as WorkbookContextLinkRow;
+}
+
+export async function assignExploreModulePage(
+  client: WorkbookClient,
+  linkId: string,
+  moduleKey: string,
+) {
+  const result = await client.rpc("assign_player_workbook_explore_module_v1", {
+    p_link_id: linkId,
+    p_module_key: moduleKey,
+  });
+  fail(result.error, "Explore page assignment could not be saved");
+  return result.data as WorkbookContextLinkRow;
 }
 
 export async function attachWorkbookContext(

@@ -9,6 +9,7 @@ import {
   type WorkbookEditorPage,
 } from "@/components/workbook-editor-prototype";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { starterWorkbookDocument } from "@/lib/workbook/document-v1";
 import {
   attachWorkbookContext,
   createPage,
@@ -33,7 +34,13 @@ import {
 } from "@/lib/workbook/repository";
 import type { WorkbookRouteContext } from "@/lib/workbook/context";
 
-export function WorkbookPersistenceSurface({ context }: { context: WorkbookRouteContext | null }) {
+export function WorkbookPersistenceSurface({
+  context,
+  embeddedCraft = false,
+}: {
+  context: WorkbookRouteContext | null;
+  embeddedCraft?: boolean;
+}) {
   const router = useRouter();
   const clientRef = useRef<WorkbookClient | null>(null);
   const getClient = useCallback(() => {
@@ -74,21 +81,34 @@ export function WorkbookPersistenceSurface({ context }: { context: WorkbookRoute
       setQuestContextTitle(questContext?.title ?? null);
       if (context && !questContext)
         setMessage("This Quest context is unavailable. Your standalone Workbooks are unchanged.");
+      const eligibleCraftPages = embeddedCraft
+        ? links
+            .filter((link) => link.stage === "CRAFT")
+            .map((link) => snapshot.pages.find((page) => page.id === link.page_id))
+            .filter((page): page is WorkbookPageRow => Boolean(page))
+            .filter((page) =>
+              snapshot.workbooks.some(
+                (workbook) => workbook.id === page.workbook_id && !workbook.archived_at,
+              ),
+            )
+            .sort((a, b) => b.updated_at.localeCompare(a.updated_at) || a.id.localeCompare(b.id))
+        : [];
+      const requestedPage = snapshot.pages.find((item) => item.id === context?.pageId);
+      const defaultPage = requestedPage ?? eligibleCraftPages[0];
       setSelectedId((current) =>
         current && snapshot.workbooks.some((item) => item.id === current)
           ? current
-          : (snapshot.pages.find((item) => item.id === context?.pageId)?.workbook_id ??
+          : (defaultPage?.workbook_id ??
             snapshot.workbooks.find((item) => !item.archived_at)?.id ??
             null),
       );
-      if (context?.pageId && snapshot.pages.some((item) => item.id === context.pageId))
-        setInitialPageId(context.pageId);
+      if (defaultPage) setInitialPageId(defaultPage.id);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Workbooks are unavailable.");
     } finally {
       setLoading(false);
     }
-  }, [context, getClient, router]);
+  }, [context, embeddedCraft, getClient, router]);
 
   useEffect(() => {
     // Initial owner-scoped hydration is intentionally driven by the browser Auth client.
@@ -256,7 +276,206 @@ export function WorkbookPersistenceSurface({ context }: { context: WorkbookRoute
     }
   };
 
+  const createComposition = async () => {
+    if (!context || pendingEdits) {
+      if (pendingEdits)
+        setMessage("Wait for the current page to show Saved before creating a composition.");
+      return;
+    }
+    const title = window.prompt("Composition title", "New composition")?.trim();
+    if (!title) return;
+    try {
+      let acceptedPage: WorkbookPageRow;
+      let workbookId = selected?.archived_at ? null : selected?.id;
+      if (!workbookId) {
+        const created = await createWorkbook(getClient(), "Compositions");
+        setWorkbooks((current) => [created.workbook, ...current]);
+        acceptedPage = created.page;
+        workbookId = created.workbook.id;
+      } else {
+        acceptedPage = await createPage(getClient(), workbookId, title, starterWorkbookDocument());
+      }
+      if (acceptedPage.title !== title) {
+        const saved = await savePage(
+          getClient(),
+          { ...acceptedPage, title, revision: acceptedPage.revision ?? 1 },
+          crypto.randomUUID(),
+        );
+        if (saved.status === "accepted") acceptedPage = saved.page;
+      }
+      upsertPage(acceptedPage);
+      setSelectedId(workbookId);
+      setInitialPageId(acceptedPage.id);
+      try {
+        const link = await attachWorkbookContext(getClient(), {
+          pageId: acceptedPage.id,
+          questId: context.questId,
+          stage: "CRAFT",
+          relationship: "CREATED_DURING",
+        });
+        setContextLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+        setMessage("Composition created and linked to this Quest.");
+      } catch (error) {
+        setMessage(
+          `${error instanceof Error ? error.message : "The composition could not be linked."} The page is safe in your Workbook and can be linked later.`,
+        );
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Composition could not be created.");
+    }
+  };
+
   if (loading) return <p role="status">Loading your Workbooks…</p>;
+
+  const craftLinks = contextLinks.filter((link) => link.stage === "CRAFT");
+  const craftPages = craftLinks
+    .map((link) => pages.find((page) => page.id === link.page_id))
+    .filter((page): page is WorkbookPageRow => Boolean(page))
+    .filter((page) => workbooks.some((book) => book.id === page.workbook_id && !book.archived_at))
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at) || a.id.localeCompare(b.id));
+
+  if (embeddedCraft && context) {
+    return (
+      <section className="craft-workspace" aria-labelledby="craft-workspace-title">
+        <header className="craft-workspace__header">
+          <div>
+            <p className="eyebrow">COMPOSITION WORKBOOK</p>
+            <h2 id="craft-workspace-title">Create something using what you discovered</h2>
+            <p>Private, persistent work. Editing never starts a Session or claims progress.</p>
+          </div>
+          <div className="craft-workspace__actions">
+            {workbooks.some((workbook) => !workbook.archived_at) ? (
+              <label>
+                Save new composition in
+                <select
+                  value={selectedId ?? ""}
+                  disabled={pendingEdits}
+                  onChange={(event) => selectWorkbook(event.target.value)}
+                >
+                  {workbooks
+                    .filter((workbook) => !workbook.archived_at)
+                    .map((workbook) => (
+                      <option key={workbook.id} value={workbook.id}>
+                        {workbook.title}
+                      </option>
+                    ))}
+                </select>
+              </label>
+            ) : (
+              <small>A Compositions Workbook will be created after confirmation.</small>
+            )}
+            <button type="button" disabled={pendingEdits} onClick={() => void createComposition()}>
+              New Composition
+            </button>
+            {activePage ? (
+              <Link
+                className="action-button action-button--secondary"
+                aria-disabled={pendingEdits}
+                href={
+                  pendingEdits
+                    ? "#craft-workspace-title"
+                    : `/workbooks?quest=${context.questId}&stage=CRAFT&relationship=CREATED_DURING&page=${activePage.id}`
+                }
+                onClick={(event) => {
+                  if (pendingEdits) event.preventDefault();
+                }}
+              >
+                Open in Full Workbook Editor
+              </Link>
+            ) : null}
+          </div>
+        </header>
+        <p role="status" className="workbook-library__message">
+          {message}
+        </p>
+        {craftPages.length ? (
+          <label className="craft-workspace__selector">
+            Composition
+            <select
+              value={activePage?.id ?? initialPageId ?? ""}
+              disabled={pendingEdits}
+              onChange={(event) => {
+                const page = craftPages.find((item) => item.id === event.target.value);
+                if (page) selectWorkbook(page.workbook_id, page.id);
+              }}
+            >
+              {craftPages.map((page) => {
+                const owner = workbooks.find((book) => book.id === page.workbook_id);
+                return (
+                  <option key={page.id} value={page.id}>
+                    {owner?.title ?? "Workbook"} · {page.title}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+        ) : (
+          <div className="craft-workspace__empty">
+            <h3>No Quest composition yet</h3>
+            <p>Create one explicitly when you are ready. Nothing has been created automatically.</p>
+            <button type="button" onClick={() => void createComposition()}>
+              New Composition
+            </button>
+          </div>
+        )}
+        {selected && selectedPages.length && craftPages.length ? (
+          <WorkbookEditorPrototype
+            key={`${selected.id}-${initialPageId ?? "first"}`}
+            persistent
+            workbookTitle={selected.title}
+            initialActivePageId={initialPageId ?? undefined}
+            initialPages={selectedPages.filter((page) =>
+              craftPages.some((craftPage) => craftPage.id === page.id),
+            )}
+            onActivePageChange={setActivePage}
+            onPendingChange={setPendingEdits}
+            onCreatePage={async (title, document) => {
+              const page = await createPage(getClient(), selected.id, title, document);
+              upsertPage(page);
+              const link = await attachWorkbookContext(getClient(), {
+                pageId: page.id,
+                questId: context.questId,
+                stage: "CRAFT",
+                relationship: "CREATED_DURING",
+              });
+              setContextLinks((current) => [...current, link]);
+              return page;
+            }}
+            onDuplicatePage={async (pageId) => {
+              const page = await duplicatePage(getClient(), pageId);
+              upsertPage(page);
+              const link = await attachWorkbookContext(getClient(), {
+                pageId: page.id,
+                questId: context.questId,
+                stage: "CRAFT",
+                relationship: "CREATED_DURING",
+              });
+              setContextLinks((current) => [...current, link]);
+              return page;
+            }}
+            onDeletePage={async (pageId) => {
+              await deletePage(getClient(), pageId);
+              setPages((current) => current.filter((page) => page.id !== pageId));
+            }}
+            onReorderPages={async (ids) => {
+              await reorderPages(getClient(), selected.id, ids);
+            }}
+            onSavePage={async (page, requestId) => {
+              const result = await savePage(
+                getClient(),
+                { ...page, revision: page.revision ?? 1 },
+                requestId,
+              );
+              if (result.status === "conflict")
+                return { status: "conflict", revision: result.revision, serverPage: result.page };
+              upsertPage(result.page);
+              return { status: "accepted", revision: result.revision };
+            }}
+          />
+        ) : null}
+      </section>
+    );
+  }
 
   return (
     <section className="workbook-library" aria-labelledby="workbook-library-title">

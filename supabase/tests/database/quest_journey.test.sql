@@ -135,6 +135,26 @@ select extensions.lives_ok(
   )$$,'equivalent link retry is idempotent');
 select extensions.is((select count(*)::bigint from public.player_workbook_context_links where quest_id='a6333333-3333-4333-8333-333333333333'),1::bigint,'duplicate equivalent link is prevented');
 select extensions.is((select revision from public.player_workbook_pages where id=(select page_id from journey_workbook_ids)),(select revision from journey_workbook_ids),'linking creates no document revision');
+select extensions.has_table('public','player_quest_explore_module_orders','Explore module presentation order relation exists');
+select extensions.ok((select relrowsecurity from pg_class where oid='public.player_quest_explore_module_orders'::regclass),'Explore module order RLS enabled');
+select extensions.ok(not has_table_privilege('authenticated','public.player_quest_explore_module_orders','insert'),'direct module order insert denied');
+select extensions.lives_ok(
+  $$select public.attach_player_workbook_explore_module_v1(
+    (select page_id from journey_workbook_ids),'a6333333-3333-4333-8333-333333333333','hybrid_picking'
+  )$$,'owner assigns page to canonical Quest module');
+select extensions.throws_ok(
+  $$select public.attach_player_workbook_explore_module_v1(
+    (select page_id from journey_workbook_ids),'a6333333-3333-4333-8333-333333333333','invented_skill'
+  )$$,'22023',null,'module outside immutable Quest snapshot is rejected');
+select extensions.lives_ok(
+  $$select public.save_player_quest_explore_module_order_v1(
+    'a6333333-3333-4333-8333-333333333333',array['hybrid_picking']
+  )$$,'owner saves exact Quest module presentation order');
+select extensions.throws_ok(
+  $$select public.save_player_quest_explore_module_order_v1(
+    'a6333333-3333-4333-8333-333333333333',array['invented_skill']
+  )$$,'22023',null,'order cannot add a non-Quest module');
+select extensions.is((select revision from public.player_workbook_pages where id=(select page_id from journey_workbook_ids)),(select revision from journey_workbook_ids),'module assignment and ordering create no document revision');
 select extensions.lives_ok(
   $$select public.attach_player_workbook_context_v1(
     (select page_id from journey_workbook_ids),'a6444444-4444-4444-8444-444444444444','EXPLORE','APPLIES_TO',

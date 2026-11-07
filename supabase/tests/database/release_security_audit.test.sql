@@ -6,8 +6,8 @@ select * from extensions.no_plan();
 
 select extensions.is(
   (select count(*)::bigint from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r'),
-  31::bigint,
-  'release surface contains the expected 31 public tables'
+  32::bigint,
+  'release surface contains the expected 32 public tables'
 );
 select extensions.is(
   (select count(*)::bigint from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('v','m')),
@@ -21,13 +21,13 @@ select extensions.is(
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'),
-  33::bigint,
-  'public function surface is exactly 33 functions'
+  36::bigint,
+  'public function surface is exactly 36 functions'
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='private'),
-  38::bigint,
-  'private function surface is exactly 38 functions'
+  39::bigint,
+  'private function surface is exactly 39 functions'
 );
 select extensions.is(
   (select count(*)::bigint from pg_proc p join pg_namespace n on n.oid=p.pronamespace
@@ -60,13 +60,15 @@ select extensions.is(
    from pg_proc p join pg_namespace n on n.oid=p.pronamespace
    where n.nspname='public' and has_function_privilege('authenticated',p.oid,'execute')),
   array[
-    'adjust_practice_session_reps','attach_player_workbook_context_v1','complete_player_onboarding','create_player_quick_note_v1',
+    'adjust_practice_session_reps','assign_player_workbook_explore_module_v1','attach_player_workbook_context_v1',
+    'attach_player_workbook_explore_module_v1','complete_player_onboarding','create_player_quick_note_v1',
     'create_player_workbook_page_v1','create_player_workbook_v1','delete_player_workbook_page_v1',
     'delete_player_workbook_v1','detach_player_workbook_context_v1','duplicate_player_workbook_page_v1','end_practice_session',
     'ensure_player_quest_journeys','ensure_quest_journey','export_player_data_v1','finalize_quest_result','pause_practice_session',
     'persist_generated_quest','practice_session_active_seconds','read_player_quest_session_summaries',
     'refresh_player_readiness','reorder_player_workbook_pages_v1','restore_player_workbook_page_revision_v1',
-    'resume_practice_session','save_generated_quest_journey','save_player_profile_v1','save_player_workbook_page_v1',
+    'resume_practice_session','save_generated_quest_journey','save_player_profile_v1',
+    'save_player_quest_explore_module_order_v1','save_player_workbook_page_v1',
     'set_practice_session_metronome_bpm','set_quest_journey_stage','start_practice_session',
     'transition_quest_journey','update_player_workbook_v1'
   ]::text[],

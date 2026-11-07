@@ -2,8 +2,11 @@ import { describe, expect, it, vi } from "vitest";
 
 import { parseWorkbookRouteContext, workbookContextHref } from "@/lib/workbook/context";
 import {
+  assignExploreModulePage,
+  attachExploreModulePage,
   attachWorkbookContext,
   detachWorkbookContext,
+  saveExploreModuleOrder,
   type WorkbookClient,
 } from "@/lib/workbook/repository";
 
@@ -52,6 +55,30 @@ describe("JRN-004 Workbook context", () => {
     });
     expect(rpc).toHaveBeenNthCalledWith(2, "detach_player_workbook_context_v1", {
       p_link_id: "link",
+    });
+  });
+
+  it("uses bounded trusted operations for Quest-scoped Explore modules", async () => {
+    const rpc = vi.fn(async (name: string) => ({
+      data: name.includes("order") ? ["hybrid_picking", "scale_mapping"] : { id: "link" },
+      error: null,
+    }));
+    const client = { rpc } as unknown as WorkbookClient;
+    await attachExploreModulePage(client, page, quest, "hybrid_picking");
+    await assignExploreModulePage(client, "link", "scale_mapping");
+    await saveExploreModuleOrder(client, quest, ["scale_mapping", "hybrid_picking"]);
+    expect(rpc).toHaveBeenNthCalledWith(1, "attach_player_workbook_explore_module_v1", {
+      p_page_id: page,
+      p_quest_id: quest,
+      p_module_key: "hybrid_picking",
+    });
+    expect(rpc).toHaveBeenNthCalledWith(2, "assign_player_workbook_explore_module_v1", {
+      p_link_id: "link",
+      p_module_key: "scale_mapping",
+    });
+    expect(rpc).toHaveBeenNthCalledWith(3, "save_player_quest_explore_module_order_v1", {
+      p_quest_id: quest,
+      p_module_keys: ["scale_mapping", "hybrid_picking"],
     });
   });
 });

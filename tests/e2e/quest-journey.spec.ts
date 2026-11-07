@@ -112,14 +112,19 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expectAccessible(page, "Quest Journey Map");
 
   await page.getByRole("button", { name: "Explore" }).click();
-  await expect(page.getByText("Practice focus", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
+  const primaryModule = page.locator(".explore-module__disclosure").first();
+  await primaryModule.click();
+  await expect(primaryModule).toHaveAttribute("aria-expanded", "true");
+  await expect(page.getByText("No module-assigned pages yet.")).toBeVisible();
   await expectAccessible(page, "Quest Journey Explore");
   await page.reload();
-  await expect(page.getByText("Practice focus", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
   await page.getByRole("button", { name: "Craft" }).click();
   await expect(
-    page.getByText("Create something using what you discovered.", { exact: true }),
+    page.getByRole("heading", { name: "Create something using what you discovered" }),
   ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "No Quest composition yet" })).toBeVisible();
   await expectAccessible(page, "Quest Journey Craft");
   await page.locator(".mec-stage", { hasText: "Map" }).click();
   await expect(page.getByRole("tab", { name: "Primary Focus" })).toBeVisible();
