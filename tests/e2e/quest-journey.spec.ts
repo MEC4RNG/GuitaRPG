@@ -76,21 +76,21 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   const questId = new URL(page.url()).pathname.split("/").at(-1)!;
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
   await expect(page.getByText("In progress", { exact: true })).toBeVisible();
-  const primaryTab = page.getByRole("tab", { name: "Primary Focus" });
-  await expect(primaryTab).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel")).toContainText("Primary focus");
+  const primaryTopic = page.locator(".journey-header__topics button").first();
+  await expect(primaryTopic).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("heading", { name: "What it is" })).toBeVisible();
   const mapReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
   await mapReference.click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(mapReference).toBeFocused();
-  await expect(primaryTab).toHaveAttribute("aria-selected", "true");
+  await expect(primaryTopic).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(".mec-stage", { hasText: "Map" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
-  await expect(page.getByRole("heading", { name: "Notes and references" })).toBeVisible();
-  await page.getByRole("link", { name: "Open Workbooks" }).click();
+  await expect(page.getByRole("heading", { name: "Linked pages" })).toBeVisible();
+  await page.getByRole("link", { name: "Open or link a Workbook" }).click();
   await expect(page).toHaveURL(/\/workbooks\?quest=[0-9a-f-]+&stage=MAP&relationship=REFERENCE/);
   await expect(page.locator(".workbook-context")).toBeVisible();
   await page.getByRole("button", { name: "Quick Note" }).click();
@@ -99,12 +99,10 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(page.getByText("Page linked to this Quest Journey.", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Return to Journey" }).click();
   await expect(page).toHaveURL(`/quest/${questId}`);
-  await expect(page.locator(".journey-workbook li a").first()).toBeVisible();
-  await primaryTab.press("ArrowRight");
-  await expect(page.getByRole("tab", { name: "Musical Concepts" })).toHaveAttribute(
-    "aria-selected",
-    "true",
-  );
+  await expect(page.locator(".journey-practice li a").first()).toBeVisible();
+  const anotherTopic = page.locator(".journey-header__topics button").nth(1);
+  await anotherTopic.click();
+  await expect(anotherTopic).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(".mec-stage", { hasText: "Map" })).toHaveAttribute(
     "aria-pressed",
     "true",
@@ -127,7 +125,7 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(page.getByRole("heading", { name: "No Quest composition yet" })).toBeVisible();
   await expectAccessible(page, "Quest Journey Craft");
   await page.locator(".mec-stage", { hasText: "Map" }).click();
-  await expect(page.getByRole("tab", { name: "Primary Focus" })).toBeVisible();
+  await expect(page.locator(".journey-header__topics button").first()).toBeVisible();
   await expectNoHorizontalOverflow(page);
 
   await page.getByRole("button", { name: "Start Practice" }).click();
