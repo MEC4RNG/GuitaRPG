@@ -141,6 +141,6 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
 
   await page.goto(`/quest/${questId}`);
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
-  await expect(page.getByRole("tab", { name: "Primary Focus" })).toBeVisible();
+  await expect(page.locator(".journey-header__topics button").first()).toBeVisible();
   await expect(page.getByRole("link", { name: "Session Workbook" })).toBeVisible();
 });
