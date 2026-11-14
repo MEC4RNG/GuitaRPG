@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { type KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
 import { WorkbookPersistenceSurface } from "@/components/workbook-persistence-surface";
 import { questCodexReferences } from "@/lib/quest/codex-references";
+import { questJourneyTopics, topicWorkbookDocument } from "@/lib/quest/journey-topics";
 import {
   ensureQuestJourney,
   setQuestJourneyStage,
@@ -16,7 +17,6 @@ import {
   journeyStageContent,
   journeyStatusLabel,
   questConstraintText,
-  questContextEntries,
   questTargetTempo,
 } from "@/lib/quest/journey-presentation";
 import type { QuestJourneyAction, QuestJourneyStage } from "@/lib/quest/journey-runtime";
@@ -35,6 +35,8 @@ import { workbookContextHref } from "@/lib/workbook/context";
 import {
   assignExploreModulePage,
   attachExploreModulePage,
+  attachWorkbookContext,
+  createWorkbook,
   createQuickNote,
   readExploreModuleOrder,
   readQuestWorkbookLinks,
@@ -43,13 +45,13 @@ import {
   type WorkbookClient,
   type WorkbookContextLinkRow,
   type WorkbookPageRow,
+  type WorkbookRow,
 } from "@/lib/workbook/repository";
 
 type Detail = SavedQuestSummary & { recentSessions: QuestSessionSummary[] };
 type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient & WorkbookClient;
 const client = () => createBrowserSupabaseClient() as unknown as JourneyClient;
 const stages = ["MAP", "EXPLORE", "CRAFT"] as const;
-type MapTab = "primary" | "supporting" | "concepts" | "techniques" | "context";
 const dateTime = (value: string) =>
   new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(
     new Date(value),
@@ -60,12 +62,18 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const [detail, setDetail] = useState<Detail | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [mapTab, setMapTab] = useState<MapTab>("primary");
+  const [selectedTopicKey, setSelectedTopicKey] = useState<string | null>(null);
   const [workbookLinks, setWorkbookLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [workbookPages, setWorkbookPages] = useState<WorkbookPageRow[]>([]);
+  const [workbooks, setWorkbooks] = useState<WorkbookRow[]>([]);
   const [moduleOrder, setModuleOrder] = useState<string[] | null>(null);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
   const [moduleMessage, setModuleMessage] = useState("");
+  const [openExplorePage, setOpenExplorePage] = useState<{
+    pageId: string;
+    moduleKey: string | null;
+  } | null>(null);
+  const mapCreateRequest = useRef<{ topicKey: string; requestId: string } | null>(null);
 
   useEffect(() => {
     const api = client();
@@ -79,6 +87,7 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
         ]);
         setWorkbookLinks(links);
         setWorkbookPages(snapshot.pages);
+        setWorkbooks(snapshot.workbooks);
         setModuleOrder(savedOrder);
         return next;
       })
@@ -143,39 +152,11 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const { quest, journey } = detail;
   const references = questCodexReferences(quest);
   const constraints = questConstraintText(quest);
-  const context = questContextEntries(quest);
   const targetTempo = questTargetTempo(quest);
   const archived = journey.lifecycleStatus === "ARCHIVED";
   const practiceLabel = detail.sessionCount ? "Practice Again" : "Start Practice";
-  const mapTabs = [
-    { id: "primary" as const, label: "Primary Focus", present: true },
-    {
-      id: "supporting" as const,
-      label: "Supporting Skills",
-      present: references.secondarySkills.length > 0,
-    },
-    {
-      id: "concepts" as const,
-      label: "Musical Concepts",
-      present: references.concepts.length > 0,
-    },
-    {
-      id: "techniques" as const,
-      label: "Required Techniques",
-      present: references.requiredTechniques.length > 0,
-    },
-    {
-      id: "context" as const,
-      label: "Context",
-      present: references.contexts.length > 0 || context.length > 0,
-    },
-  ].filter((tab) => tab.present);
-  const stageRelationship =
-    journey.currentStage === "MAP"
-      ? "REFERENCE"
-      : journey.currentStage === "EXPLORE"
-        ? "APPLIES_TO"
-        : "CREATED_DURING";
+  const topics = questJourneyTopics(quest);
+  const selectedTopic = topics.find((topic) => topic.key === selectedTopicKey) ?? topics[0];
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -240,19 +221,70 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
     }
   }
 
-  function moveMapTab(event: KeyboardEvent<HTMLButtonElement>, index: number) {
-    let next = index;
-    if (event.key === "ArrowRight" || event.key === "ArrowDown")
-      next = (index + 1) % mapTabs.length;
-    else if (event.key === "ArrowLeft" || event.key === "ArrowUp")
-      next = (index - 1 + mapTabs.length) % mapTabs.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = mapTabs.length - 1;
-    else return;
-    event.preventDefault();
-    const nextTab = mapTabs[next];
-    setMapTab(nextTab.id);
-    document.getElementById(`map-tab-${nextTab.id}`)?.focus();
+  async function createTopicWorkbook() {
+    if (!selectedTopic || pending || archived) return;
+    setPending(true);
+    setError(null);
+    const receipt =
+      mapCreateRequest.current?.topicKey === selectedTopic.key
+        ? mapCreateRequest.current
+        : { topicKey: selectedTopic.key, requestId: crypto.randomUUID() };
+    mapCreateRequest.current = receipt;
+    try {
+      const created = await createWorkbook(
+        client(),
+        `${selectedTopic.name} — ${quest.identity.title}`,
+        {
+          document: topicWorkbookDocument(selectedTopic, quest.identity.title),
+          requestId: receipt.requestId,
+        },
+      );
+      setWorkbooks((current) => [
+        created.workbook,
+        ...current.filter((item) => item.id !== created.workbook.id),
+      ]);
+      setWorkbookPages((current) => [
+        ...current.filter((item) => item.id !== created.page.id),
+        created.page,
+      ]);
+      const mapLink = await attachWorkbookContext(client(), {
+        pageId: created.page.id,
+        questId,
+        stage: "MAP",
+        relationship: "REFERENCE",
+      });
+      const exploreLink = selectedTopic.moduleKey
+        ? await attachExploreModulePage(client(), created.page.id, questId, selectedTopic.moduleKey)
+        : await attachWorkbookContext(client(), {
+            pageId: created.page.id,
+            questId,
+            stage: "EXPLORE",
+            relationship: "APPLIES_TO",
+          });
+      setWorkbookLinks((current) => [
+        ...current.filter((item) => item.id !== mapLink.id && item.id !== exploreLink.id),
+        mapLink,
+        exploreLink,
+      ]);
+      mapCreateRequest.current = null;
+      if (selectedTopic.moduleKey)
+        setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
+      setOpenExplorePage({ pageId: created.page.id, moduleKey: selectedTopic.moduleKey });
+      const nextJourney = await setQuestJourneyStage(client(), questId, "EXPLORE");
+      setDetail((current) => (current ? { ...current, journey: nextJourney } : current));
+      setModuleMessage("Workbook created, linked, and opened in Explore.");
+    } catch {
+      setError(
+        "Your Workbook may already be safe. Retry to resume the same creation and linking operation.",
+      );
+    } finally {
+      setPending(false);
+    }
+  }
+
+  async function selectTopicAndMap(topicKey: string) {
+    setSelectedTopicKey(topicKey);
+    if (journey.currentStage !== "MAP") await chooseStage("MAP");
   }
 
   return (
@@ -262,7 +294,6 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
       </Link>
       <header className="journey-header">
         <div>
-          <p className="eyebrow">{quest.identity.type} QUEST JOURNEY</p>
           <h1 id="quest-journey-title">{quest.identity.title}</h1>
           <p>{quest.objective.summary}</p>
         </div>
@@ -288,6 +319,61 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
             <dd>{quest.execution.estimated_minutes} minutes</dd>
           </div>
         </dl>
+        <div className="journey-header__topics" aria-label="Quest challenge items">
+          {topics.map((topic) => (
+            <button
+              key={topic.key}
+              type="button"
+              aria-pressed={selectedTopic?.key === topic.key}
+              disabled={pending || archived}
+              onClick={() => void selectTopicAndMap(topic.key)}
+            >
+              <span>{topic.name}</span>
+              <small>{topic.roles.join(" · ")}</small>
+            </button>
+          ))}
+        </div>
+        <div className="journey-header__actions">
+          {archived ? (
+            <button
+              className="action-button action-button--primary"
+              disabled={pending}
+              onClick={() => void lifecycle("UNARCHIVE")}
+            >
+              Restore Quest
+            </button>
+          ) : (
+            <>
+              {journey.lifecycleStatus === "SAVED" ? (
+                <button
+                  className="action-button action-button--secondary"
+                  disabled={pending}
+                  onClick={() => void lifecycle("START")}
+                >
+                  Start Quest
+                </button>
+              ) : null}
+              <button
+                className="action-button action-button--primary"
+                disabled={pending}
+                onClick={() => void practice()}
+              >
+                {pending ? "Working…" : practiceLabel}
+              </button>
+              {journey.lifecycleStatus === "CONCLUDED" ||
+              journey.lifecycleStatus === "ABANDONED" ? (
+                <button
+                  className="action-button action-button--secondary"
+                  disabled={pending}
+                  onClick={() => void lifecycle("REOPEN")}
+                >
+                  Reopen Quest
+                </button>
+              ) : null}
+            </>
+          )}
+          <small>This Quest can span multiple practice Sessions.</small>
+        </div>
       </header>
       {error ? (
         <p className="session-notice" role="alert">
@@ -319,140 +405,65 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
       <div className="journey-layout">
         <main className="panel journey-canvas" aria-live="polite">
           {journey.currentStage === "MAP" ? (
-            <section className="journey-workbook" aria-labelledby="journey-workbook-title">
-              <div>
-                <p className="eyebrow">WORKBOOK</p>
-                <h2 id="journey-workbook-title">
-                  {journey.currentStage === "MAP"
-                    ? "Notes and references"
-                    : journey.currentStage === "EXPLORE"
-                      ? "Observations"
-                      : "Creative work"}
-                </h2>
-                <p>Optional private pages for this stage. They do not measure progress.</p>
-              </div>
-              {stageLinks.length ? (
-                <ul>
-                  {stageLinks.map((link) => {
-                    const page = workbookPages.find((item) => item.id === link.page_id);
-                    return page ? (
-                      <li key={link.id}>
-                        <Link
-                          href={workbookContextHref(
-                            questId,
-                            journey.currentStage,
-                            link.relationship,
-                            {
-                              pageId: page.id,
-                              sessionId: link.session_id ?? undefined,
-                            },
-                          )}
-                        >
-                          {page.title}
-                        </Link>
-                        {link.session_id ? <small>Session-linked</small> : null}
-                      </li>
-                    ) : null;
-                  })}
-                </ul>
-              ) : (
-                <p>No linked pages yet.</p>
-              )}
-              <Link
-                className="action-button action-button--secondary"
-                href={workbookContextHref(questId, journey.currentStage, stageRelationship)}
-              >
-                Open Workbooks
-              </Link>
-            </section>
-          ) : null}
-          {journey.currentStage === "MAP" ? (
-            <>
-              <div className="map-tabs" role="tablist" aria-label="Quest Map information">
-                {mapTabs.map((tab, index) => (
-                  <button
-                    key={tab.id}
-                    id={`map-tab-${tab.id}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={mapTab === tab.id}
-                    aria-controls={`map-panel-${tab.id}`}
-                    tabIndex={mapTab === tab.id ? 0 : -1}
-                    onClick={() => setMapTab(tab.id)}
-                    onKeyDown={(event) => moveMapTab(event, index)}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-              {mapTabs.map((tab) => (
-                <section
-                  key={tab.id}
-                  className="map-tab-panel"
-                  role="tabpanel"
-                  id={`map-panel-${tab.id}`}
-                  aria-labelledby={`map-tab-${tab.id}`}
-                  tabIndex={mapTab === tab.id ? 0 : -1}
-                  hidden={mapTab !== tab.id}
-                >
-                  {tab.id === "primary" ? (
-                    <div className="journey-focus">
-                      <span>Primary focus</span>
-                      <strong>
-                        <CodexReferenceLink reference={references.primarySkill} />
-                      </strong>
-                    </div>
-                  ) : null}
-                  {tab.id === "supporting" ? (
-                    <div className="map-reference-list">
-                      <h3>Supporting Skills</h3>
-                      <p>
-                        <CodexReferenceList references={references.secondarySkills} />
-                      </p>
-                    </div>
-                  ) : null}
-                  {tab.id === "concepts" ? (
-                    <div className="map-reference-list">
-                      <h3>Musical Concepts</h3>
-                      <p>
-                        <CodexReferenceList references={references.concepts} />
-                      </p>
-                    </div>
-                  ) : null}
-                  {tab.id === "techniques" ? (
-                    <div className="map-reference-list">
-                      <h3>Required Techniques</h3>
-                      <p>
-                        <CodexReferenceList references={references.requiredTechniques} />
-                      </p>
-                    </div>
-                  ) : null}
-                  {tab.id === "context" ? (
-                    references.contexts.length ? (
-                      <dl className="journey-detail-list">
-                        {references.contexts.map((reference) => (
-                          <div key={`${reference.role}-${reference.slug}`}>
-                            <dt>{reference.role.replaceAll("_", " ")}</dt>
-                            <dd>
-                              <CodexReferenceLink reference={reference} />
-                            </dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : (
-                      <dl className="journey-detail-list">
-                        {context.map((item) => (
-                          <div key={item.label}>
-                            <dt>{item.label}</dt>
-                            <dd>{item.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    )
-                  ) : null}
+            selectedTopic ? (
+              <section className="map-topic" aria-labelledby="map-topic-title">
+                <header>
+                  <p className="eyebrow">{selectedTopic.roles.join(" · ")}</p>
+                  <h2 id="map-topic-title">{selectedTopic.name}</h2>
+                </header>
+                <section>
+                  <h3>What it is</h3>
+                  {selectedTopic.codex ? (
+                    <>
+                      <p>{selectedTopic.codex.definition}</p>
+                      <CodexReferenceLink
+                        reference={{
+                          kind: selectedTopic.codex.kind,
+                          slug: selectedTopic.codex.slug,
+                          name: selectedTopic.codex.name,
+                          role: selectedTopic.roles[0] ?? "Quest item",
+                          href: selectedTopic.codex.href,
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <p>No verified Codex definition is available for this snapshot item.</p>
+                  )}
                 </section>
-              ))}
-            </>
+                <section>
+                  <h3>Within this Quest</h3>
+                  <ul className="journey-list">
+                    {selectedTopic.questDetails.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+                <section>
+                  <h3>How to explore</h3>
+                  <p>
+                    Use a private Workbook to record observations, examples, tablature, or chord
+                    shapes. The Quest does not prescribe a separate lesson for this item.
+                  </p>
+                </section>
+                <section className="map-topic__action">
+                  <h3>Take this into Explore</h3>
+                  <p>
+                    Create a new persistent Workbook seeded with this verified context. It will open
+                    in Explore without starting a Session or changing progression.
+                  </p>
+                  <button
+                    className="action-button action-button--primary"
+                    type="button"
+                    disabled={pending || archived}
+                    onClick={() => void createTopicWorkbook()}
+                  >
+                    {pending ? "Preparing Workbook…" : "New Workbook"}
+                  </button>
+                </section>
+              </section>
+            ) : (
+              <p>No selectable Quest items are available.</p>
+            )
           ) : null}
           {journey.currentStage === "EXPLORE" ? (
             <>
@@ -545,13 +556,18 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                               const page = workbookPages.find((item) => item.id === link.page_id);
                               return page ? (
                                 <li key={link.id}>
-                                  <Link
-                                    href={workbookContextHref(questId, "EXPLORE", "APPLIES_TO", {
-                                      pageId: page.id,
-                                    })}
+                                  <button
+                                    type="button"
+                                    className="text-link"
+                                    onClick={() =>
+                                      setOpenExplorePage({
+                                        pageId: page.id,
+                                        moduleKey: module.slug,
+                                      })
+                                    }
                                   >
                                     {page.title}
-                                  </Link>
+                                  </button>
                                 </li>
                               ) : null;
                             })}
@@ -616,7 +632,15 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                           const page = workbookPages.find((item) => item.id === link.page_id);
                           return page ? (
                             <li key={link.id}>
-                              <span>{page.title}</span>
+                              <button
+                                type="button"
+                                className="text-link"
+                                onClick={() =>
+                                  setOpenExplorePage({ pageId: page.id, moduleKey: null })
+                                }
+                              >
+                                {page.title}
+                              </button>
                               <label>
                                 Assign to
                                 <select
@@ -654,6 +678,17 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                   </details>
                 ) : null}
               </section>
+              {openExplorePage ? (
+                <WorkbookPersistenceSurface
+                  context={{
+                    questId,
+                    stage: "EXPLORE",
+                    relationship: "APPLIES_TO",
+                    pageId: openExplorePage.pageId,
+                  }}
+                  embeddedExplore={openExplorePage}
+                />
+              ) : null}
             </>
           ) : null}
           {journey.currentStage === "CRAFT" ? (
@@ -666,11 +701,58 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
 
         <aside className="panel journey-practice" aria-labelledby="journey-practice-title">
           <p className="eyebrow">
-            {journey.currentStage === "CRAFT" ? "QUEST TOOLKIT" : "PRACTICE THIS JOURNEY"}
+            {journey.currentStage === "CRAFT"
+              ? "QUEST TOOLKIT"
+              : journey.currentStage === "MAP"
+                ? "QUEST WORKBOOKS"
+                : "EXPLORE"}
           </p>
           <h2 id="journey-practice-title">
-            {journey.currentStage === "CRAFT" ? "Quest ingredients" : "Suggested Session"}
+            {journey.currentStage === "CRAFT"
+              ? "Quest ingredients"
+              : journey.currentStage === "MAP"
+                ? "Linked pages"
+                : "Practice workspaces"}
           </h2>
+          {journey.currentStage === "MAP" ? (
+            <>
+              {stageLinks.length ? (
+                <ul className="journey-list">
+                  {stageLinks.map((link) => {
+                    const page = workbookPages.find((item) => item.id === link.page_id);
+                    const owner = page
+                      ? workbooks.find((item) => item.id === page.workbook_id)
+                      : null;
+                    return page ? (
+                      <li key={link.id}>
+                        <Link
+                          href={workbookContextHref(questId, "MAP", link.relationship, {
+                            pageId: page.id,
+                          })}
+                        >
+                          {owner?.title ?? "Workbook"} · {page.title}
+                        </Link>
+                      </li>
+                    ) : null;
+                  })}
+                </ul>
+              ) : (
+                <p>No Map-linked pages yet.</p>
+              )}
+              <Link
+                className="action-button action-button--secondary"
+                href={workbookContextHref(questId, "MAP", "REFERENCE")}
+              >
+                Open or link a Workbook
+              </Link>
+            </>
+          ) : null}
+          {journey.currentStage === "EXPLORE" ? (
+            <p>
+              Select a module page to edit it here. Select any challenge item above to return to its
+              Map detail.
+            </p>
+          ) : null}
           {journey.currentStage === "CRAFT" ? (
             <details className="quest-toolkit" open>
               <summary>Creative guidance</summary>
@@ -714,50 +796,14 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
               </div>
             </details>
           ) : null}
-          <div className={journey.currentStage === "CRAFT" ? "quest-toolkit__practice" : undefined}>
-            <strong className="journey-duration">
-              {quest.execution.estimated_minutes} minutes
-            </strong>
-            <p>This Quest can span multiple practice Sessions.</p>
-            {archived ? (
-              <button
-                className="action-button action-button--primary"
-                disabled={pending}
-                onClick={() => void lifecycle("UNARCHIVE")}
-              >
-                Restore Quest
-              </button>
-            ) : (
-              <>
-                {journey.lifecycleStatus === "SAVED" ? (
-                  <button
-                    className="action-button action-button--secondary"
-                    disabled={pending}
-                    onClick={() => void lifecycle("START")}
-                  >
-                    Start Quest
-                  </button>
-                ) : null}
-                <button
-                  className="action-button action-button--primary"
-                  disabled={pending}
-                  onClick={() => void practice()}
-                >
-                  {pending ? "Working…" : practiceLabel}
-                </button>
-                {journey.lifecycleStatus === "CONCLUDED" ||
-                journey.lifecycleStatus === "ABANDONED" ? (
-                  <button
-                    className="action-button action-button--secondary"
-                    disabled={pending}
-                    onClick={() => void lifecycle("REOPEN")}
-                  >
-                    Reopen Quest
-                  </button>
-                ) : null}
-              </>
-            )}
-          </div>
+          {journey.currentStage === "CRAFT" ? (
+            <div className="quest-toolkit__practice">
+              <strong className="journey-duration">
+                {quest.execution.estimated_minutes} minutes
+              </strong>
+              <p>Start Practice from the shared Quest header.</p>
+            </div>
+          ) : null}
         </aside>
       </div>
 

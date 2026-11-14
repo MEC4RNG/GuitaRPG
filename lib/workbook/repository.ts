@@ -112,13 +112,17 @@ export async function readWorkbookSnapshot(client: WorkbookClient): Promise<Work
   };
 }
 
-export async function createWorkbook(client: WorkbookClient, title: string) {
+export async function createWorkbook(
+  client: WorkbookClient,
+  title: string,
+  options: { document?: WorkbookDocumentV1; requestId?: string } = {},
+) {
   const result = await client.rpc("create_player_workbook_v1", {
     p_title: title,
     p_description: null,
     p_kind: "WORKBOOK",
-    p_document: starterWorkbookDocument(),
-    p_request_id: crypto.randomUUID(),
+    p_document: parseWorkbookDocument(options.document ?? starterWorkbookDocument()),
+    p_request_id: options.requestId ?? crypto.randomUUID(),
   });
   fail(result.error, "Workbook could not be created");
   return result.data as { workbook: WorkbookRow; page: WorkbookPageRow };

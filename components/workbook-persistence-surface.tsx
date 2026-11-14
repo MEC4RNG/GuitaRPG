@@ -12,6 +12,7 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { starterWorkbookDocument } from "@/lib/workbook/document-v1";
 import {
   attachWorkbookContext,
+  attachExploreModulePage,
   createPage,
   createQuickNote,
   createWorkbook,
@@ -37,9 +38,11 @@ import type { WorkbookRouteContext } from "@/lib/workbook/context";
 export function WorkbookPersistenceSurface({
   context,
   embeddedCraft = false,
+  embeddedExplore,
 }: {
   context: WorkbookRouteContext | null;
   embeddedCraft?: boolean;
+  embeddedExplore?: { pageId: string; moduleKey: string | null };
 }) {
   const router = useRouter();
   const clientRef = useRef<WorkbookClient | null>(null);
@@ -93,8 +96,19 @@ export function WorkbookPersistenceSurface({
             )
             .sort((a, b) => b.updated_at.localeCompare(a.updated_at) || a.id.localeCompare(b.id))
         : [];
+      const eligibleExplorePages = embeddedExplore
+        ? links
+            .filter(
+              (link) => link.stage === "EXPLORE" && link.module_key === embeddedExplore.moduleKey,
+            )
+            .map((link) => snapshot.pages.find((page) => page.id === link.page_id))
+            .filter((page): page is WorkbookPageRow => Boolean(page))
+        : [];
       const requestedPage = snapshot.pages.find((item) => item.id === context?.pageId);
-      const defaultPage = requestedPage ?? eligibleCraftPages[0];
+      const defaultPage =
+        requestedPage ??
+        eligibleExplorePages.find((item) => item.id === embeddedExplore?.pageId) ??
+        eligibleCraftPages[0];
       setSelectedId((current) =>
         current && snapshot.workbooks.some((item) => item.id === current)
           ? current
@@ -108,7 +122,7 @@ export function WorkbookPersistenceSurface({
     } finally {
       setLoading(false);
     }
-  }, [context, embeddedCraft, getClient, router]);
+  }, [context, embeddedCraft, embeddedExplore, getClient, router]);
 
   useEffect(() => {
     // Initial owner-scoped hydration is intentionally driven by the browser Auth client.
@@ -334,6 +348,102 @@ export function WorkbookPersistenceSurface({
     .filter((page) => workbooks.some((book) => book.id === page.workbook_id && !book.archived_at))
     .sort((a, b) => b.updated_at.localeCompare(a.updated_at) || a.id.localeCompare(b.id));
 
+  if (embeddedExplore && context) {
+    const exploreLinks = contextLinks.filter(
+      (link) => link.stage === "EXPLORE" && link.module_key === embeddedExplore.moduleKey,
+    );
+    const explorePages = exploreLinks
+      .map((link) => pages.find((page) => page.id === link.page_id))
+      .filter((page): page is WorkbookPageRow => Boolean(page));
+    const page = explorePages.find((item) => item.id === embeddedExplore.pageId) ?? explorePages[0];
+    const owner = page ? workbooks.find((item) => item.id === page.workbook_id) : null;
+    if (!page || !owner) return <p role="status">This Explore page is unavailable.</p>;
+    return (
+      <section className="explore-editor" aria-labelledby="explore-editor-title">
+        <header className="craft-workspace__header">
+          <div>
+            <p className="eyebrow">EXPLORE WORKBOOK</p>
+            <h2 id="explore-editor-title">
+              {owner.title} · {page.title}
+            </h2>
+          </div>
+          <Link
+            className="action-button action-button--secondary"
+            href={`/workbooks?quest=${context.questId}&stage=EXPLORE&relationship=APPLIES_TO&page=${page.id}`}
+          >
+            Open Full Editor
+          </Link>
+        </header>
+        <p role="status" className="workbook-library__message">
+          {message}
+        </p>
+        <WorkbookEditorPrototype
+          key={page.id}
+          persistent
+          workbookTitle={owner.title}
+          initialActivePageId={page.id}
+          initialPages={[page]}
+          onActivePageChange={setActivePage}
+          onPendingChange={setPendingEdits}
+          onCreatePage={async (title, document) => {
+            const created = await createPage(getClient(), owner.id, title, document);
+            upsertPage(created);
+            const link = embeddedExplore.moduleKey
+              ? await attachExploreModulePage(
+                  getClient(),
+                  created.id,
+                  context.questId,
+                  embeddedExplore.moduleKey,
+                )
+              : await attachWorkbookContext(getClient(), {
+                  pageId: created.id,
+                  questId: context.questId,
+                  stage: "EXPLORE",
+                  relationship: "APPLIES_TO",
+                });
+            setContextLinks((current) => [...current, link]);
+            return created;
+          }}
+          onDuplicatePage={async (pageId) => {
+            const created = await duplicatePage(getClient(), pageId);
+            upsertPage(created);
+            const link = embeddedExplore.moduleKey
+              ? await attachExploreModulePage(
+                  getClient(),
+                  created.id,
+                  context.questId,
+                  embeddedExplore.moduleKey,
+                )
+              : await attachWorkbookContext(getClient(), {
+                  pageId: created.id,
+                  questId: context.questId,
+                  stage: "EXPLORE",
+                  relationship: "APPLIES_TO",
+                });
+            setContextLinks((current) => [...current, link]);
+            return created;
+          }}
+          onDeletePage={async (pageId) => {
+            await deletePage(getClient(), pageId);
+            setPages((current) => current.filter((item) => item.id !== pageId));
+          }}
+          onReorderPages={async () => undefined}
+          onSavePage={async (next, requestId) => {
+            const result = await savePage(
+              getClient(),
+              { ...next, revision: next.revision ?? 1 },
+              requestId,
+            );
+            if (result.status === "conflict")
+              return { status: "conflict", revision: result.revision, serverPage: result.page };
+            upsertPage(result.page);
+            return { status: "accepted", revision: result.revision };
+          }}
+        />
+      </section>
+    );
+  }
+
   if (embeddedCraft && context) {
     return (
       <section className="craft-workspace" aria-labelledby="craft-workspace-title">
@@ -344,26 +454,6 @@ export function WorkbookPersistenceSurface({
             <p>Private, persistent work. Editing never starts a Session or claims progress.</p>
           </div>
           <div className="craft-workspace__actions">
-            {workbooks.some((workbook) => !workbook.archived_at) ? (
-              <label>
-                Save new composition in
-                <select
-                  value={selectedId ?? ""}
-                  disabled={pendingEdits}
-                  onChange={(event) => selectWorkbook(event.target.value)}
-                >
-                  {workbooks
-                    .filter((workbook) => !workbook.archived_at)
-                    .map((workbook) => (
-                      <option key={workbook.id} value={workbook.id}>
-                        {workbook.title}
-                      </option>
-                    ))}
-                </select>
-              </label>
-            ) : (
-              <small>A Compositions Workbook will be created after confirmation.</small>
-            )}
             <button type="button" disabled={pendingEdits} onClick={() => void createComposition()}>
               New Composition
             </button>
@@ -388,28 +478,26 @@ export function WorkbookPersistenceSurface({
         <p role="status" className="workbook-library__message">
           {message}
         </p>
-        {craftPages.length ? (
+        {[...new Set(craftPages.map((page) => page.workbook_id))].length > 1 ? (
           <label className="craft-workspace__selector">
-            Composition
+            Composition Workbook
             <select
-              value={activePage?.id ?? initialPageId ?? ""}
+              value={selectedId ?? ""}
               disabled={pendingEdits}
               onChange={(event) => {
-                const page = craftPages.find((item) => item.id === event.target.value);
-                if (page) selectWorkbook(page.workbook_id, page.id);
+                const next = craftPages.find((page) => page.workbook_id === event.target.value);
+                if (next) selectWorkbook(next.workbook_id, next.id);
               }}
             >
-              {craftPages.map((page) => {
-                const owner = workbooks.find((book) => book.id === page.workbook_id);
-                return (
-                  <option key={page.id} value={page.id}>
-                    {owner?.title ?? "Workbook"} · {page.title}
-                  </option>
-                );
-              })}
+              {[...new Set(craftPages.map((page) => page.workbook_id))].map((workbookId) => (
+                <option key={workbookId} value={workbookId}>
+                  {workbooks.find((book) => book.id === workbookId)?.title ?? "Workbook"}
+                </option>
+              ))}
             </select>
           </label>
-        ) : (
+        ) : null}
+        {!craftPages.length ? (
           <div className="craft-workspace__empty">
             <h3>No Quest composition yet</h3>
             <p>Create one explicitly when you are ready. Nothing has been created automatically.</p>
@@ -417,7 +505,7 @@ export function WorkbookPersistenceSurface({
               New Composition
             </button>
           </div>
-        )}
+        ) : null}
         {selected && selectedPages.length && craftPages.length ? (
           <WorkbookEditorPrototype
             key={`${selected.id}-${initialPageId ?? "first"}`}
