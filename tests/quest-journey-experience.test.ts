@@ -68,19 +68,23 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(questConstraintText(quest).join(" ")).toMatch(/90/);
   });
 
-  it("keeps Craft invitational and avoids fake completion or artifact persistence", () => {
-    expect(surface).toContain("Create something using what you discovered.");
-    expect(surface).toMatch(/These prompts do not save or\s+grade an artifact\./);
+  it("keeps Craft invitational and embeds truthful optional Workbook persistence", () => {
+    const workbook = readFileSync("components/workbook-persistence-surface.tsx", "utf8");
+    expect(workbook).toContain("Create something using what you discovered");
+    expect(workbook).toContain("Editing never starts a Session or claims progress");
+    expect(workbook).toContain("Open in Full Workbook Editor");
+    expect(surface).toContain("embeddedCraft");
     expect(surface).not.toMatch(/Submit creation|Mark Craft complete|Artifact saved|upload/i);
   });
 
-  it("uses local accessible Map tabs and removes redundant stage introductions", () => {
-    expect(surface).toContain('role="tablist"');
-    expect(surface).toContain('role="tab"');
-    expect(surface).toContain('role="tabpanel"');
-    expect(surface).toContain("aria-selected={mapTab === tab.id}");
-    expect(surface).toContain('event.key === "Home"');
-    expect(surface).toContain('event.key === "End"');
+  it("uses selectable snapshot topics and consolidated Map detail", () => {
+    expect(surface).toContain('aria-label="Quest challenge items"');
+    expect(surface).toContain("aria-pressed={selectedTopic?.key === topic.key}");
+    expect(surface).toContain("What it is");
+    expect(surface).toContain("Within this Quest");
+    expect(surface).toContain("How to explore");
+    expect(surface).toContain("New Workbook");
+    expect(surface).not.toContain('role="tablist"');
     expect(surface).toContain("Quest requirements");
     expect(surface).not.toContain("Map the territory");
     expect(surface).not.toContain("Explore it on the instrument");
