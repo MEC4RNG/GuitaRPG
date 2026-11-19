@@ -77,6 +77,24 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(surface).not.toMatch(/Submit creation|Mark Craft complete|Artifact saved|upload/i);
   });
 
+  it("uses a slim, labeled-for-accessibility in-card Quest overview instead of metadata cards", () => {
+    const styles = readFileSync(join(root, "app/globals.css"), "utf8");
+    expect(surface).toContain('className="journey-header__status-strip"');
+    expect(surface).toContain('aria-label="Quest overview"');
+    expect(surface).toContain('className="journey-header__intro"');
+    expect(surface).not.toContain('className="journey-header__meta"');
+    expect(styles).toContain(".journey-header__status-strip {");
+    expect(styles).toContain(".journey-header__stat dt {");
+    expect(styles).toContain(".journey-header__stat--status[data-lifecycle=\"SAVED\"]");
+    expect(styles).not.toContain(".journey-header__meta");
+    const strip = surface.indexOf('className="journey-header__status-strip"');
+    const intro = surface.indexOf('className="journey-header__intro"');
+    const topics = surface.indexOf('className="journey-header__topics"');
+    expect(strip).toBeGreaterThan(0);
+    expect(intro).toBeGreaterThan(strip);
+    expect(topics).toBeGreaterThan(intro);
+  });
+
   it("uses selectable snapshot topics and consolidated Map detail", () => {
     expect(surface).toContain('aria-label="Quest challenge items"');
     expect(surface).toContain("aria-pressed={selectedTopic?.key === topic.key}");
