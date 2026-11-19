@@ -293,32 +293,35 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
         ← Saved Quests
       </Link>
       <header className="journey-header">
-        <div>
-          <h1 id="quest-journey-title">{quest.identity.title}</h1>
-          <p>{quest.objective.summary}</p>
-        </div>
-        <dl className="journey-header__meta">
-          <div>
+        <dl className="journey-header__status-strip" aria-label="Quest overview">
+          <div
+            className="journey-header__stat journey-header__stat--status"
+            data-lifecycle={journey.lifecycleStatus}
+          >
             <dt>Status</dt>
             <dd>{journeyStatusLabel[journey.lifecycleStatus]}</dd>
           </div>
-          <div>
+          <div className="journey-header__stat journey-header__stat--stage">
             <dt>Working stage</dt>
             <dd>{journeyStageContent[journey.currentStage].label}</dd>
           </div>
-          <div>
+          <div className="journey-header__stat journey-header__stat--demand">
             <dt>Demand</dt>
             <dd>Level {quest.difficulty_profile.declared_overall_demand}</dd>
           </div>
-          <div>
+          <div className="journey-header__stat journey-header__stat--skill">
             <dt>Primary Skill</dt>
             <dd>{quest.execution.primary_skill.name}</dd>
           </div>
-          <div>
+          <div className="journey-header__stat journey-header__stat--duration">
             <dt>Suggested Session</dt>
-            <dd>{quest.execution.estimated_minutes} minutes</dd>
+            <dd>{quest.execution.estimated_minutes} min</dd>
           </div>
         </dl>
+        <div className="journey-header__intro">
+          <h1 id="quest-journey-title">{quest.identity.title}</h1>
+          <p>{quest.objective.summary}</p>
+        </div>
         <div className="journey-header__topics" aria-label="Quest challenge items">
           {topics.map((topic) => (
             <button
