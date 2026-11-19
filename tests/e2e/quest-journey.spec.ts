@@ -75,6 +75,38 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(page).toHaveURL(/\/quest\/[0-9a-f-]+$/);
   const questId = new URL(page.url()).pathname.split("/").at(-1)!;
   await expect(page.getByRole("heading", { name: title })).toBeVisible();
+  const overview = page.locator(".journey-header__status-strip");
+  await expect(overview).toBeVisible();
+  await expect(overview.locator(".journey-header__stat")).toHaveCount(5);
+  await expect(page.locator(".journey-header__meta")).toHaveCount(0);
+  await expect(page.locator(".journey-header__stat--status")).toHaveAttribute(
+    "data-lifecycle",
+    "ACTIVE",
+  );
+  const headerGeometry = await page.locator(".journey-header").evaluate((header) => {
+    const region = (selector: string) => {
+      const element = header.querySelector(selector);
+      if (!element) throw new Error(`Missing header region: ${selector}`);
+      return element.getBoundingClientRect();
+    };
+    const strip = region(".journey-header__status-strip");
+    const intro = region(".journey-header__intro");
+    const challenges = region(".journey-header__topics");
+    return {
+      stripBeforeTitle: strip.bottom < intro.top,
+      titleBeforeChallenges: intro.bottom < challenges.top,
+      stripFitsCard: strip.right <= header.getBoundingClientRect().right + 1,
+      noStripOverflow:
+        (header.querySelector(".journey-header__status-strip")?.scrollWidth ?? Infinity) <=
+        (header.querySelector(".journey-header__status-strip")?.clientWidth ?? 0) + 1,
+    };
+  });
+  expect(headerGeometry).toEqual({
+    stripBeforeTitle: true,
+    titleBeforeChallenges: true,
+    stripFitsCard: true,
+    noStripOverflow: true,
+  });
   await expect(page.getByText("In progress", { exact: true })).toBeVisible();
   const primaryTopic = page.locator(".journey-header__topics button").first();
   await expect(primaryTopic).toHaveAttribute("aria-pressed", "true");
