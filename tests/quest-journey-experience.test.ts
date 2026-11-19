@@ -77,7 +77,7 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(surface).not.toMatch(/Submit creation|Mark Craft complete|Artifact saved|upload/i);
   });
 
-  it("uses a slim, labeled-for-accessibility in-card Quest overview instead of metadata cards", () => {
+  it("uses slim in-card Quest overview instead of metadata cards", () => {
     const styles = readFileSync(join(root, "app/globals.css"), "utf8");
     expect(surface).toContain('className="journey-header__status-strip"');
     expect(surface).toContain('aria-label="Quest overview"');
@@ -85,7 +85,7 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(surface).not.toContain('className="journey-header__meta"');
     expect(styles).toContain(".journey-header__status-strip {");
     expect(styles).toContain(".journey-header__stat dt {");
-    expect(styles).toContain(".journey-header__stat--status[data-lifecycle=\"SAVED\"]");
+    expect(styles).toContain('.journey-header__stat--status[data-lifecycle="SAVED"]');
     expect(styles).not.toContain(".journey-header__meta");
     const strip = surface.indexOf('className="journey-header__status-strip"');
     const intro = surface.indexOf('className="journey-header__intro"');
