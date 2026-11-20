@@ -1,14 +1,17 @@
 {
   "schema": "SOUND_UNCHARTED_CODEX_V2",
   "content_version": "CODEX_CONTENT_V2",
+  "editorial_source": "Codex V2 v5 unified design pilot; draft only; not published",
   "entries": [
     {
       "entity_id": "20000000-0000-4000-8000-000000000056",
       "kind": "SKILL",
       "slug": "scale_degree_recognition",
-      "revision": "draft-1",
+      "revision": "draft-r1",
       "editorial_status": "DRAFT_REVIEW",
-      "one_line": "Hear, find, and use notes by the role they play in a key.",
+      "one_line": "Hear, find, and use the notes of a key by the role they play—not just by their names.",
+      "overview": "Every note in a key has a relationship to its tonal center, the note that feels like home. Scale-degree recognition means noticing that relationship: by ear, on the fretboard, in a melody, or while making musical choices. The number describes the note’s place relative to the tonic, so the idea travels with you when the key changes.",
+      "key_distinction": "A scale degree is measured relative to the tonic; chord membership is measured relative to the current chord. These are not the same label.",
       "intro": [
         {
           "text": "Every note has a relationship to the "
@@ -21,18 +24,69 @@
           "text": " — the home note of a key. Scale-degree recognition helps you hear, locate, and choose those relationships on purpose."
         }
       ],
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Establish a tonal center, number the notes of a key, and recognize a few stable reference points."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Recognize less obvious degrees, change keys, and apply the relationships in melodies."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Track tonal relationships through changing harmony and use them intentionally in musical decisions."
+        }
+      ],
       "applications": [
         {
           "id": "aural",
-          "title": "Listening"
-        },
-        {
-          "id": "theory",
-          "title": "Music theory"
+          "title": "Aural recognition",
+          "summary": "Hear where a note sits relative to a tonal center.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
         },
         {
           "id": "fretboard",
-          "title": "Fretboard"
+          "title": "Fretboard navigation",
+          "summary": "Locate scale degrees without relying on one memorized shape.",
+          "level_ids": [
+            "foundational",
+            "intermediate"
+          ]
+        },
+        {
+          "id": "theory",
+          "title": "Theory & function",
+          "summary": "Describe tonal roles and distinguish scale degrees from chord tones.",
+          "level_ids": [
+            "foundational",
+            "intermediate"
+          ]
+        },
+        {
+          "id": "improvisation",
+          "title": "Improvisation",
+          "summary": "Choose notes for arrival, motion, and tension in real time.",
+          "level_ids": [
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "composition",
+          "title": "Composition",
+          "summary": "Shape melodic expectations with scale-degree choices.",
+          "level_ids": [
+            "intermediate",
+            "advanced"
+          ]
         }
       ],
       "modules": [
@@ -41,11 +95,176 @@
           "level": "foundational",
           "application_id": "aural",
           "title": "Hear the tonal home",
-          "explanation": "Settle on C as home. Compare C (1), E (3), and G (5) against that tonal center.",
+          "outcomes": [
+            "Keep C in mind as a tonic",
+            "Compare 1, 3, and 5 against that tonic"
+          ],
+          "explanation": "Start with C as home. In C major, C is 1, E is 3, and G is 5. Over a sustained C, these are useful reference points. Their character changes when the harmony or key changes.",
+          "exercises": [
+            {
+              "id": "sdr.ex.tonic-anchor",
+              "title": "Find home",
+              "setup": "Use a quiet C drone or repeatedly play C on your guitar.",
+              "steps": [
+                "Play or sing C and call it 1.",
+                "Play E and G, naming 3 and 5.",
+                "Close your eyes, play one of the three, and name its scale degree.",
+                "Confirm by replaying C, then your target."
+              ],
+              "self_check": "Can you identify the relationship to C without guessing from finger position?",
+              "suggested_minutes": 4,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Play or sustain C as a reference.",
-            "Sing C, E and G, naming their scale degrees.",
-            "Return to C after each note and listen for the feeling of home."
+            "Play or sing C and call it 1.",
+            "Play E and G, naming 3 and 5.",
+            "Close your eyes, play one of the three, and name its scale degree.",
+            "Confirm by replaying C, then your target."
+          ],
+          "visual_components": [
+            "scale_degree_keyboard",
+            "playable_degree_strip"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.theory.f1",
+          "level": "foundational",
+          "application_id": "theory",
+          "title": "Number a major scale",
+          "outcomes": [
+            "Label all seven degrees in one major key",
+            "Separate note name from relative degree"
+          ],
+          "explanation": "In C major the notes C D E F G A B correspond to 1 2 3 4 5 6 7. In G major, G is 1 and B is 3. A degree number stays meaningful when the notes change with the key.",
+          "exercises": [
+            {
+              "id": "sdr.ex.number-the-scale",
+              "title": "Number the scale",
+              "setup": "Write a one-octave C-major scale on paper or in a Workbook.",
+              "steps": [
+                "Label C as 1 and continue to B as 7.",
+                "Switch to G major and label G through F♯.",
+                "Cover the numbers and reconstruct them."
+              ],
+              "self_check": "Can you find degree 3 in both keys without using the same letter name?",
+              "suggested_minutes": 4,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Label C as 1 and continue to B as 7.",
+            "Switch to G major and label G through F♯.",
+            "Cover the numbers and reconstruct them."
+          ],
+          "visual_components": [
+            "degree_note_table"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Locate 1, 3, and 5",
+          "outcomes": [
+            "Find the tonic in more than one place",
+            "Locate major scale degrees 3 and 5 relative to it"
+          ],
+          "explanation": "In C major, the tonic C is your reference; E and G are degrees 3 and 5. Try one string set, then locate the same relationships elsewhere on the neck.",
+          "exercises": [
+            {
+              "id": "sdr.ex.find-135",
+              "title": "Three notes, multiple locations",
+              "setup": "Use standard tuning and C major; no speed target.",
+              "steps": [
+                "Find C, E, and G on the first two strings.",
+                "Find another C elsewhere on the instrument.",
+                "Without reading note names, identify which played note is 1, 3, or 5."
+              ],
+              "self_check": "Can you name the degree and the pitch separately?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Find C, E, and G on the first two strings.",
+            "Find another C elsewhere on the instrument.",
+            "Without reading note names, identify which played note is 1, 3, or 5."
+          ],
+          "visual_components": [
+            "fretboard_degree_overlay"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.aural.i1",
+          "level": "intermediate",
+          "application_id": "aural",
+          "title": "Hear the other degrees",
+          "outcomes": [
+            "Compare 2, 4, 6, and 7 with tonic",
+            "Identify short patterns with a tonal center"
+          ],
+          "explanation": "Try D, F, A, and B against C as home. Notice their different colors and likely melodic movements. These tendencies depend on the musical context; they are not fixed emotional rules.",
+          "exercises": [
+            {
+              "id": "sdr.ex.247",
+              "title": "The four colors",
+              "setup": "Keep a C tonic sounding clearly.",
+              "steps": [
+                "Alternate C→D→C, C→F→E, C→A→G, and C→B→C.",
+                "Sing the target degree before playing it.",
+                "Change the order, then identify each by its relationship to C."
+              ],
+              "self_check": "Does recognizing the degree survive when you start on a different octave?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Alternate C→D→C, C→F→E, C→A→G, and C→B→C.",
+            "Sing the target degree before playing it.",
+            "Change the order, then identify each by its relationship to C."
+          ],
+          "visual_components": [
+            "call_response_cards"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.fretboard.i1",
+          "level": "intermediate",
+          "application_id": "fretboard",
+          "title": "Move the relationship to a new key",
+          "outcomes": [
+            "Find the same degrees in two keys",
+            "Identify them across at least two positions"
+          ],
+          "explanation": "The relationship—not a fret number—is the goal. Degree 3 in C major is E; degree 3 in G major is B. Move the tonal center and rebuild the degree map.",
+          "exercises": [
+            {
+              "id": "sdr.ex.transpose-degree",
+              "title": "Keep the number, change the note",
+              "setup": "Work in C major and G major in standard tuning.",
+              "steps": [
+                "Locate 1, 3, 5, and 7 in C major on a chosen string pair.",
+                "Move to G major and locate 1, 3, 5, and 7 there.",
+                "Name the changing pitches and unchanged degrees."
+              ],
+              "self_check": "Can you find degree 7 without tracing the entire scale shape?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Locate 1, 3, 5, and 7 in C major on a chosen string pair.",
+            "Move to G major and locate 1, 3, 5, and 7 there.",
+            "Name the changing pitches and unchanged degrees."
+          ],
+          "visual_components": [
+            "two_key_fretboard_compare"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
@@ -53,25 +272,180 @@
           "id": "sdr.theory.i1",
           "level": "intermediate",
           "application_id": "theory",
-          "title": "Name degrees in different keys",
-          "explanation": "A note's scale degree depends on the key. E is degree 3 in C major and degree 6 in G major.",
+          "title": "Separate scale degrees from chord tones",
+          "outcomes": [
+            "Identify degree relative to the key",
+            "Identify whether it belongs to the current triad"
+          ],
+          "explanation": "Scale-degree 3 in C major is always E while C remains the tonal center. But if the harmony moves to F major, E is not one of the F–A–C triad notes. Scale degree and chord-tone role are related but not identical.",
+          "exercises": [
+            {
+              "id": "sdr.ex.key-v-chord",
+              "title": "One note, two relationships",
+              "setup": "Use the progression C–F–G–C in C major.",
+              "steps": [
+                "Choose E and identify it as scale degree 3 throughout.",
+                "Over each chord, decide whether E belongs to the chord triad.",
+                "Listen to E against C major and then F major."
+              ],
+              "self_check": "Can you keep the key reference while hearing the local chord change?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Write the C major scale and number each note.",
-            "Write the G major scale and number its notes.",
-            "Compare how E changes its role."
+            "Choose E and identify it as scale degree 3 throughout.",
+            "Over each chord, decide whether E belongs to the chord triad.",
+            "Listen to E against C major and then F major."
+          ],
+          "visual_components": [
+            "scale_degree_vs_chord_tone"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
-          "id": "sdr.fretboard.a1",
-          "level": "advanced",
-          "application_id": "fretboard",
-          "title": "Target degrees while improvising",
-          "explanation": "Navigate to chosen scale degrees in multiple positions without depending on one memorized pattern.",
+          "id": "sdr.improv.i1",
+          "level": "intermediate",
+          "application_id": "improvisation",
+          "title": "Aim a phrase at a degree",
+          "outcomes": [
+            "Land deliberately on 1, 3, or 5",
+            "Describe the resulting melodic shape without claiming universal emotions"
+          ],
+          "explanation": "Choose a destination note first, then build a short melodic path to it. Over C major, try landing on E (degree 3) or G (degree 5) and hear the difference from landing on C.",
+          "exercises": [
+            {
+              "id": "sdr.ex.target-tone",
+              "title": "Three destinations",
+              "setup": "Use a C-major vamp and a comfortable tempo.",
+              "steps": [
+                "Improvise a two-bar phrase that ends on 1.",
+                "Repeat with an ending on 3, then on 5.",
+                "Record a note about which ending sounds finished or open to you."
+              ],
+              "self_check": "Can you choose the destination before your fingers arrive?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Choose a tonal center and a limited string set.",
-            "Locate degrees 3 and 7 in several positions.",
-            "Create short phrases that approach each target note."
+            "Improvise a two-bar phrase that ends on 1.",
+            "Repeat with an ending on 3, then on 5.",
+            "Record a note about which ending sounds finished or open to you."
+          ],
+          "visual_components": [
+            "phrase_target_map"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.aural.a1",
+          "level": "advanced",
+          "application_id": "aural",
+          "title": "Track degrees through a moving progression",
+          "outcomes": [
+            "Maintain a tonal reference across chord changes",
+            "Transcribe a short melodic outline in degrees"
+          ],
+          "explanation": "A melody does not stop having scale degrees when the chords change underneath it. Follow the tonal center while also noticing how each note changes color against the local chord.",
+          "exercises": [
+            {
+              "id": "sdr.ex.degree-dictation",
+              "title": "Degree-outline transcription",
+              "setup": "Use an uncomplicated melody in C major over C–Am–F–G.",
+              "steps": [
+                "Listen once and hum the melody.",
+                "Mark likely degrees for each melody note.",
+                "Check your outline on the guitar and revise what you heard.",
+                "Identify where the same scale degree changes harmonic role."
+              ],
+              "self_check": "Can you explain the difference between degree-from-key and note-against-chord?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Listen once and hum the melody.",
+            "Mark likely degrees for each melody note.",
+            "Check your outline on the guitar and revise what you heard.",
+            "Identify where the same scale degree changes harmonic role."
+          ],
+          "visual_components": [
+            "melody_degree_timeline"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.improv.a1",
+          "level": "advanced",
+          "application_id": "improvisation",
+          "title": "Connect chord tones with intention",
+          "outcomes": [
+            "Track degrees while harmony changes",
+            "Use approach notes that resolve into targets"
+          ],
+          "explanation": "Plan your destination by both scale degree and chord membership. A single note can be familiar relative to the key and surprising relative to the current chord.",
+          "exercises": [
+            {
+              "id": "sdr.ex.changes",
+              "title": "Target-note bridge",
+              "setup": "Play over C–Am–F–G in C major.",
+              "steps": [
+                "Mark a chord tone to target on each change.",
+                "Connect the targets with small stepwise movements.",
+                "Name the scale degrees of your targets.",
+                "Record which notes feel like anticipation or arrival in context."
+              ],
+              "self_check": "Can you explain what the note does relative to the key and to the chord?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Mark a chord tone to target on each change.",
+            "Connect the targets with small stepwise movements.",
+            "Name the scale degrees of your targets.",
+            "Record which notes feel like anticipation or arrival in context."
+          ],
+          "visual_components": [
+            "target_note_connection_graph"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.compose.a1",
+          "level": "advanced",
+          "application_id": "composition",
+          "title": "Design melodic tension and release",
+          "outcomes": [
+            "Compose one contrasting phrase pair",
+            "Explain a note choice as scale degree and musical context"
+          ],
+          "explanation": "Write a short melody that deliberately postpones and then provides resolution. Treat these as compositional choices rather than fixed emotional labels for particular numbers.",
+          "exercises": [
+            {
+              "id": "sdr.ex.compose",
+              "title": "Question and answer",
+              "setup": "Choose C major and a slow, comfortable tempo.",
+              "steps": [
+                "Write a two-bar phrase that ends somewhere other than 1.",
+                "Write a second phrase that responds and settles on 1.",
+                "Try the same melodic contour in another key.",
+                "Use a Workbook page to notate or tab the two phrases."
+              ],
+              "self_check": "Can you describe what changed, and why you chose the final degree?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write a two-bar phrase that ends somewhere other than 1.",
+            "Write a second phrase that responds and settles on 1.",
+            "Try the same melodic contour in another key.",
+            "Use a Workbook page to notate or tab the two phrases."
+          ],
+          "visual_components": [
+            "two_phrase_composer"
           ],
           "editorial_status": "DRAFT_REVIEW"
         }
@@ -81,13 +455,64 @@
           "type": "RECOMMENDED_FOUNDATION",
           "kind": "CONCEPT",
           "slug": "major_scale",
+          "scope": "theory/foundational",
+          "why": "Understanding the collection of notes makes numbering degrees easier.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "scope": "aural/foundational",
+          "why": "A reference tonic is necessary to interpret a degree; the concept can be taught within the lesson.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "interval_recognition",
+          "scope": "aural/intermediate",
+          "why": "Hearing pitch distances helps, but need not precede all degree-recognition work.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "note_location",
+          "scope": "fretboard/foundational",
+          "why": "Basic note location supports pitch-to-degree mapping.",
           "review_status": "PROPOSED"
         },
         {
           "type": "RELATED",
-          "kind": "CONTEXT",
-          "slug": "tonal_center",
+          "kind": "SKILL",
+          "slug": "scale_mapping",
+          "scope": "fretboard/*",
+          "why": "Mapping patterns provides one of several ways to visualize degrees.",
           "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "scale_application",
+          "scope": "improvisation/advanced",
+          "why": "Degree recognition supports intentional melodic note choice.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "melody",
+          "scope": "composition/*",
+          "why": "Scale degrees describe relationships used to shape melodies.",
+          "review_status": "PROPOSED"
+        }
+      ],
+      "reference_blocks": [
+        {
+          "id": "scale_degree_recognition.reference",
+          "kind": "SCALE_DEGREES",
+          "location": "overview"
         }
       ]
     },
@@ -95,9 +520,11 @@
       "entity_id": "20000000-0000-4000-8000-000000000066",
       "kind": "SKILL",
       "slug": "triad_construction",
-      "revision": "draft-1",
+      "revision": "draft-r1",
       "editorial_status": "DRAFT_REVIEW",
-      "one_line": "Build three-note chords from their root, third, and fifth.",
+      "one_line": "Build three-note chords from the notes that give them their identity.",
+      "overview": "A triad is made from three different chord tones: a root, a third and a fifth. Change the third and you can change the chord from major to minor. Learn to name the notes first, then find and arrange them across the fretboard. You can use the same idea in any key.",
+      "key_distinction": "A chord root is not necessarily the tonic of the key. A triad can also be voiced in different orders (inversions), and octave doubling does not add a new chord tone.",
       "intro": [
         {
           "text": "A "
@@ -110,18 +537,58 @@
           "text": " contains a root, a third, and a fifth. Changing the third changes a major chord to a minor chord while the root and perfect fifth remain."
         }
       ],
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Identify root, third and fifth; build major and minor triads; verify simple guitar voicings by note name."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Reorder chord tones into inversions and recognize what major/minor quality sounds like."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Use minimal voice movement and deliberate voicing choices in a progression and original arrangement."
+        }
+      ],
       "applications": [
         {
           "id": "theory",
-          "title": "Harmony"
+          "title": "Harmony & construction",
+          "summary": "Spell the three chord tones and understand chord quality.",
+          "level_ids": [
+            "foundational",
+            "intermediate"
+          ]
         },
         {
           "id": "fretboard",
-          "title": "Fretboard"
+          "title": "Fretboard shapes & inversions",
+          "summary": "Locate triads across string sets, inversions and tunings.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "aural",
+          "title": "Listening & chord quality",
+          "summary": "Hear what changes when the third moves between major and minor.",
+          "level_ids": [
+            "intermediate"
+          ]
         },
         {
           "id": "composition",
-          "title": "Composition"
+          "title": "Arrangement & voice leading",
+          "summary": "Use triads as connected melodic and harmonic voices.",
+          "level_ids": [
+            "advanced"
+          ]
         }
       ],
       "modules": [
@@ -129,12 +596,73 @@
           "id": "triad.theory.f1",
           "level": "foundational",
           "application_id": "theory",
-          "title": "Spell a major and minor triad",
-          "explanation": "C major is C–E–G. C minor is C–E♭–G: the third moves down one semitone.",
+          "title": "Find the three chord tones",
+          "outcomes": [
+            "Spell C major and C minor correctly",
+            "Understand the effect of changing the third"
+          ],
+          "explanation": "A major triad uses a root, a major third and a perfect fifth. A minor triad uses the same root and perfect fifth but replaces the major third with a minor third. For C, compare C–E–G with C–E♭–G.",
+          "exercises": [
+            {
+              "id": "triad.ex.spell",
+              "title": "Spell and compare",
+              "setup": "Use note names; you do not need the instrument initially.",
+              "steps": [
+                "Write C, E and G, and label root, third, fifth.",
+                "Move E down one semitone to E♭ without changing C or G.",
+                "Repeat with G major (G–B–D) and G minor (G–B♭–D).",
+                "Explain which interval changed and why."
+              ],
+              "self_check": "Can you identify the only chord tone that changes between these major and minor pairs?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Write C–E–G as root, third and fifth.",
-            "Lower E to E♭ and listen for the change.",
-            "Try the same comparison with G major and minor."
+            "Write C, E and G, and label root, third, fifth.",
+            "Move E down one semitone to E♭ without changing C or G.",
+            "Repeat with G major (G–B–D) and G minor (G–B♭–D).",
+            "Explain which interval changed and why."
+          ],
+          "visual_components": [
+            "interval_comparison_card"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Find one major and minor triad on guitar",
+          "outcomes": [
+            "Locate C major on strings 3–2–1",
+            "Change its quality without changing the root or fifth"
+          ],
+          "explanation": "In standard tuning, fret 5 of the G string is C, fret 5 of the B string is E, and fret 3 of the high E string is G. Those three notes form C major. Lower the B-string note by one fret to E♭ for C minor.",
+          "exercises": [
+            {
+              "id": "triad.ex.topstrings",
+              "title": "The movable third",
+              "setup": "Use standard tuning and only strings 3, 2 and 1.",
+              "steps": [
+                "Play G-string fret 5, B-string fret 5, high-E fret 3: C–E–G.",
+                "Play the B string at fret 4 instead: C–E♭–G.",
+                "Name every note before you play it again.",
+                "Check the open-string tuning before trying another string set."
+              ],
+              "self_check": "Can you explain the change without relying on the chord-shape silhouette?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play G-string fret 5, B-string fret 5, high-E fret 3: C–E–G.",
+            "Play the B string at fret 4 instead: C–E♭–G.",
+            "Name every note before you play it again.",
+            "Check the open-string tuning before trying another string set."
+          ],
+          "visual_components": [
+            "fretboard_voicing_triplet_standard"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
@@ -142,25 +670,150 @@
           "id": "triad.fretboard.i1",
           "level": "intermediate",
           "application_id": "fretboard",
-          "title": "Find three inversions",
-          "explanation": "The same chord tones can appear in different orders. Verify each note and fingering against the actual tuning.",
+          "title": "Inversions: same notes, new bass",
+          "outcomes": [
+            "Recognize root position and two inversions",
+            "Move among inversions while retaining chord identity"
+          ],
+          "explanation": "A C major triad contains C, E and G in every inversion. C–E–G is root position; E–G–C and G–C–E are the first and second inversions. Guitar voicings can spread or double notes, so verify the actual pitches.",
+          "exercises": [
+            {
+              "id": "triad.ex.invert",
+              "title": "Reorder, then locate",
+              "setup": "Write C–E–G on paper before moving to guitar.",
+              "steps": [
+                "Write C–E–G, E–G–C and G–C–E; circle the lowest note each time.",
+                "Find each bass note on your chosen string set.",
+                "Find the other two chord tones nearby; write their string/fret positions.",
+                "Check each voicing against note names rather than a memorized shape."
+              ],
+              "self_check": "Can you explain why these arrangements remain C major even when the bass note changes?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Spell a three-note chord before choosing fret positions.",
-            "Find a root-position voicing on three adjacent strings.",
-            "Reorder the same notes into first and second inversion."
+            "Write C–E–G, E–G–C and G–C–E; circle the lowest note each time.",
+            "Find each bass note on your chosen string set.",
+            "Find the other two chord tones nearby; write their string/fret positions.",
+            "Check each voicing against note names rather than a memorized shape."
+          ],
+          "visual_components": [
+            "inversion_note_stack",
+            "fretboard_intervals"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
-          "id": "triad.composition.a1",
+          "id": "triad.aural.i1",
+          "level": "intermediate",
+          "application_id": "aural",
+          "title": "Hear the difference between major and minor",
+          "outcomes": [
+            "Distinguish a major third from a minor third",
+            "Compare major/minor quality against the same root"
+          ],
+          "explanation": "The third is a major contributor to a triad’s quality. Keep C and G fixed while comparing E with E♭, and listen to the change without assigning a universal emotion to either chord.",
+          "exercises": [
+            {
+              "id": "triad.ex.listen",
+              "title": "One-note change",
+              "setup": "Use a keyboard, carefully tuned guitar or notes played by a partner.",
+              "steps": [
+                "Play or listen to C–E–G, then C–E♭–G with the same root and register.",
+                "Focus on which individual pitch changes between the two.",
+                "Cover the labels and alternate the two voicings in random order.",
+                "Reveal the labels only after naming the third."
+              ],
+              "self_check": "Can you distinguish the changed third by ear when the register and dynamics stay similar?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play or listen to C–E–G, then C–E♭–G with the same root and register.",
+            "Focus on which individual pitch changes between the two.",
+            "Cover the labels and alternate the two voicings in random order.",
+            "Reveal the labels only after naming the third."
+          ],
+          "visual_components": [
+            "major_minor_triads_playback"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Connect shapes with small voice movements",
+          "outcomes": [
+            "Identify common tones across two chords",
+            "Choose voice movement based on note distance"
+          ],
+          "explanation": "Voice leading means connecting individual chord tones from one harmony to the next. On the top three strings in standard tuning, C major at 5–5–3 can move to an F-major inversion at 5–6–5: C remains, E moves to F, and G moves to A. This is an example, not the only correct solution.",
+          "exercises": [
+            {
+              "id": "triad.ex.voiceleading",
+              "title": "C major to F major",
+              "setup": "Use standard tuning, strings 3–2–1 (G–B–E), and low-to-high fret sets.",
+              "steps": [
+                "Play C major as frets 5–5–3 (notes C–E–G).",
+                "Move to F major as frets 5–6–5 (notes C–F–A).",
+                "Name the retained C and the two moving voices.",
+                "Find an alternative voicing and compare total movement by semitones."
+              ],
+              "self_check": "Can you show one common tone and explain how the other two voices move?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play C major as frets 5–5–3 (notes C–E–G).",
+            "Move to F major as frets 5–6–5 (notes C–F–A).",
+            "Name the retained C and the two moving voices.",
+            "Find an alternative voicing and compare total movement by semitones."
+          ],
+          "visual_components": [
+            "fretboard_dual_voicing",
+            "voice_leading_arrows"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.compose.a1",
           "level": "advanced",
           "application_id": "composition",
-          "title": "Connect chords smoothly",
-          "explanation": "Use voice leading to connect voicings with small movements while keeping each chord's notes correct.",
+          "title": "Write a triad-led progression",
+          "outcomes": [
+            "Arrange one progression in connected voices",
+            "Describe why each inversion was chosen"
+          ],
+          "explanation": "The same chord sequence can feel different when you change register, inversion and how inner voices move. Arrange C–Am–F–G using three-note voicings, choosing a deliberate line in the highest voice.",
+          "exercises": [
+            {
+              "id": "triad.ex.arrange",
+              "title": "Top-voice melody",
+              "setup": "Use C–Am–F–G in any comfortable register and three-note voicings.",
+              "steps": [
+                "Spell each chord: C–E–G, A–C–E, F–A–C, G–B–D.",
+                "Choose one inversion for each and write the highest note of every chord.",
+                "Change inversions to make a smoother or more dramatic highest-note line.",
+                "Record your chosen voicings and reasoning in a Workbook page."
+              ],
+              "self_check": "Can you connect the highest notes as a purposeful melodic line without changing the chord roots?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Choose a three-chord progression.",
-            "Write several nearby voicings for each chord.",
-            "Compare which voices move least between chords."
+            "Spell each chord: C–E–G, A–C–E, F–A–C, G–B–D.",
+            "Choose one inversion for each and write the highest note of every chord.",
+            "Change inversions to make a smoother or more dramatic highest-note line.",
+            "Record your chosen voicings and reasoning in a Workbook page."
+          ],
+          "visual_components": [
+            "chord_voicing_sequence",
+            "top_voice_path"
           ],
           "editorial_status": "DRAFT_REVIEW"
         }
@@ -170,13 +823,64 @@
           "type": "RECOMMENDED_FOUNDATION",
           "kind": "CONCEPT",
           "slug": "major_scale",
+          "scope": "theory/foundational",
+          "why": "A familiar major scale makes the meaning of scale degrees 1, 3 and 5 easier to recognize.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "note_location",
+          "scope": "fretboard/foundational",
+          "why": "Knowing a few note locations makes it easier to verify shapes instead of memorizing diagrams.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "interval_recognition",
+          "scope": "aural/intermediate",
+          "why": "Hearing the major and minor third supports aural comparison; it need not precede building a chord.",
           "review_status": "PROPOSED"
         },
         {
           "type": "RELATED",
           "kind": "CONCEPT",
           "slug": "chord_inversion",
+          "scope": "fretboard/intermediate",
+          "why": "Inversions rearrange the same chord members without changing the triad identity.",
           "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "chord_voicing",
+          "scope": "fretboard/*",
+          "why": "A voicing describes which octave/arrangement of chord tones is played.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "voice_leading",
+          "scope": "composition/advanced",
+          "why": "Recognizing common chord tones supports economical movement between voices.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "chord_inversion_navigation",
+          "scope": "fretboard/advanced",
+          "why": "Moving inversions across the guitar is a distinct trainable application.",
+          "review_status": "PROPOSED"
+        }
+      ],
+      "reference_blocks": [
+        {
+          "id": "triad_construction.reference",
+          "kind": "TRIAD_FRETBOARD",
+          "location": "overview"
         }
       ]
     },
@@ -184,9 +888,11 @@
       "entity_id": "20000000-0000-4000-8000-000000000061",
       "kind": "SKILL",
       "slug": "subdivision_control",
-      "revision": "draft-1",
+      "revision": "draft-r1",
       "editorial_status": "DRAFT_REVIEW",
-      "one_line": "Feel the space between beats and choose when notes land.",
+      "one_line": "Feel the space between beats—and choose exactly where your notes land.",
+      "overview": "A steady beat gives music its pulse. Subdivision divides each beat into smaller, evenly spaced parts: two eighths, three eighth-note triplets, or four sixteenths per quarter-note beat. Learn to hear those spaces and play in them without rushing or dragging. The beat stays put while the pattern inside it changes.",
+      "key_distinction": "Tempo is the speed of the reference beat; meter organizes beats; subdivision divides a beat. Switching subdivision at the same quarter-note BPM is not automatically metric modulation or a meter change. Straight eighth-note triplets are not a universal definition of swing.",
       "intro": [
         {
           "text": "A steady "
@@ -206,18 +912,70 @@
           "text": " divides that pulse into smaller, evenly spaced parts."
         }
       ],
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Feel a steady quarter-note beat and count simple straight subdivisions without changing the pulse."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Move between different subdivisions, keep an internal count through silence and place accents off the beat."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Reframe subdivision across uneven groupings, displaced accents and expressive rhythm-density changes."
+        }
+      ],
       "applications": [
         {
           "id": "aural",
-          "title": "Listening"
+          "title": "Listening & internal pulse",
+          "summary": "Hear the beat and its subdivision without depending on note pitches.",
+          "level_ids": [
+            "foundational",
+            "intermediate"
+          ]
         },
         {
           "id": "picking",
-          "title": "Picking"
+          "title": "Picking & coordination",
+          "summary": "Align pick attacks with even subdivision grids.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
         },
         {
           "id": "groove",
-          "title": "Groove"
+          "title": "Groove & accents",
+          "summary": "Separate an underlying beat from where attacks are emphasized.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "reading",
+          "title": "Counting & notation",
+          "summary": "Understand subdivision counts, rests and odd-meter grouping.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "composition",
+          "title": "Composing rhythm",
+          "summary": "Use changes in rhythmic density to develop a musical idea.",
+          "level_ids": [
+            "advanced"
+          ]
         }
       ],
       "modules": [
@@ -225,12 +983,184 @@
           "id": "subdiv.aural.f1",
           "level": "foundational",
           "application_id": "aural",
-          "title": "Keep a steady pulse",
-          "explanation": "Count 1, 2, 3, 4 over four steady quarter-note beats. Adding 'and' between counts doubles the events without changing the underlying beat.",
+          "title": "Find the steady pulse",
+          "outcomes": [
+            "Keep a steady pulse",
+            "Distinguish beat from subdivision"
+          ],
+          "explanation": "The pulse is the even beat you can tap your foot to. Subdivision does not replace that pulse: it fits smaller, evenly spaced sounds inside each beat.",
+          "exercises": [
+            {
+              "id": "subdiv.aural.f1.ex",
+              "title": "Find the steady pulse",
+              "setup": "Use the 4/4 rhythm reference at 72 BPM with quarter notes, then eighths.",
+              "steps": [
+                "Listen to four steady clicks and say “1, 2, 3, 4.”",
+                "Continue tapping once per click while quietly saying “1 and 2 and 3 and 4 and.”",
+                "Stop speaking the “ands,” but keep your foot moving at the same rate.",
+                "Listen again: are the numbered beats still in the same places?"
+              ],
+              "self_check": "Can you keep the foot-tap steady when the subdivision doubles?",
+              "suggested_minutes": 4,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Tap four equally spaced quarter-note beats.",
-            "Keep tapping while saying 1-and-2-and-3-and-4-and.",
-            "Stop saying 'and' without changing your tapping speed."
+            "Listen to four steady clicks and say “1, 2, 3, 4.”",
+            "Continue tapping once per click while quietly saying “1 and 2 and 3 and 4 and.”",
+            "Stop speaking the “ands,” but keep your foot moving at the same rate.",
+            "Listen again: are the numbered beats still in the same places?"
+          ],
+          "visual_components": [
+            "quarter_pulse_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.picking.f1",
+          "level": "foundational",
+          "application_id": "picking",
+          "title": "Two notes per beat",
+          "outcomes": [
+            "Count eight even events in 4/4",
+            "Coordinate alternate pick strokes to an eighth grid"
+          ],
+          "explanation": "Straight eighth notes divide each quarter-note beat into two equal parts. At 80 BPM, the beat lasts 0.75 seconds; each eighth-note interval lasts 0.375 seconds.",
+          "exercises": [
+            {
+              "id": "subdiv.picking.f1.ex",
+              "title": "Two notes per beat",
+              "setup": "Use a comfortably muted guitar string in standard or any preferred tuning.",
+              "steps": [
+                "Set the example to 80 BPM and choose eighth notes.",
+                "Count “1 and 2 and 3 and 4 and” aloud.",
+                "Pick one muted string on each count, alternating down and up strokes.",
+                "Switch back to quarter notes without changing the tempo."
+              ],
+              "self_check": "Can you keep two even pick attacks inside each quarter-note beat?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Set the example to 80 BPM and choose eighth notes.",
+            "Count “1 and 2 and 3 and 4 and” aloud.",
+            "Pick one muted string on each count, alternating down and up strokes.",
+            "Switch back to quarter notes without changing the tempo."
+          ],
+          "visual_components": [
+            "interactive_subdivision_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.groove.f1",
+          "level": "foundational",
+          "application_id": "groove",
+          "title": "Four spaces inside a beat",
+          "outcomes": [
+            "Count a sixteenth-note grid",
+            "Maintain the quarter-note pulse"
+          ],
+          "explanation": "Straight sixteenth notes divide one beat into four equal parts. Count each beat as “1 e and a”; all four sounds are evenly spaced, even when you choose not to play every space.",
+          "exercises": [
+            {
+              "id": "subdiv.groove.f1.ex",
+              "title": "Four spaces inside a beat",
+              "setup": "Use a slow pulse first; accuracy matters more than speed.",
+              "steps": [
+                "Choose sixteenth notes with the quarter-note tempo at 64 BPM.",
+                "Speak each group: “1 e and a, 2 e and a...”",
+                "Tap once on each numbered beat while counting all sixteen positions.",
+                "Play only the numbered beats, but continue thinking the smaller divisions."
+              ],
+              "self_check": "Do the numbered beats keep their places while you count 16 subdivisions?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Choose sixteenth notes with the quarter-note tempo at 64 BPM.",
+            "Speak each group: “1 e and a, 2 e and a...”",
+            "Tap once on each numbered beat while counting all sixteen positions.",
+            "Play only the numbered beats, but continue thinking the smaller divisions."
+          ],
+          "visual_components": [
+            "sixteenth_count_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.reading.f1",
+          "level": "foundational",
+          "application_id": "reading",
+          "title": "Read a one-bar count grid",
+          "outcomes": [
+            "Identify beats in 4/4",
+            "Explain subdivision count without changing meter"
+          ],
+          "explanation": "A 4/4 measure contains four quarter-note beats. It can be mapped into four, eight, twelve, or sixteen equal positions depending on the subdivision. Notation and the count grid are two ways to describe the same timing.",
+          "exercises": [
+            {
+              "id": "subdiv.reading.f1.ex",
+              "title": "Read a one-bar count grid",
+              "setup": "Use the on-screen 4/4 diagram without an instrument.",
+              "steps": [
+                "Set the rhythm reference to quarter notes, and label all four beats.",
+                "Switch to eighth notes and count eight equally spaced positions.",
+                "Switch to triplets and count twelve positions in the same four-beat measure.",
+                "Explain why the number of beats stayed at four."
+              ],
+              "self_check": "Can you distinguish beat count (four) from grid positions (four, eight, twelve, or sixteen)?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Set the rhythm reference to quarter notes, and label all four beats.",
+            "Switch to eighth notes and count eight equally spaced positions.",
+            "Switch to triplets and count twelve positions in the same four-beat measure.",
+            "Explain why the number of beats stayed at four."
+          ],
+          "visual_components": [
+            "count_comparison"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.aural.i1",
+          "level": "intermediate",
+          "application_id": "aural",
+          "title": "Hear three inside one",
+          "outcomes": [
+            "Hear two-vs-three subdivision",
+            "Distinguish straight triplet from swung eighth phrasing"
+          ],
+          "explanation": "An eighth-note triplet divides each quarter-note beat into three equal parts, which is different from the two equal parts of straight eighth notes. A triplet is not automatically the same thing as swung eighth notes.",
+          "exercises": [
+            {
+              "id": "subdiv.aural.i1.ex",
+              "title": "Hear three inside one",
+              "setup": "Start with a quarter-note pulse of 72 BPM.",
+              "steps": [
+                "Listen to eighth notes at 72 BPM, then choose eighth-note triplets.",
+                "Keep tapping four quarter-note beats while you speak “1 trip let, 2 trip let...”",
+                "Alternate the two and three-part patterns without changing the tap.",
+                "Record or replay the switch and listen for any unintended speeding up."
+              ],
+              "self_check": "Can you switch from two equal notes per beat to three without shifting the beat?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Listen to eighth notes at 72 BPM, then choose eighth-note triplets.",
+            "Keep tapping four quarter-note beats while you speak “1 trip let, 2 trip let...”",
+            "Alternate the two and three-part patterns without changing the tap.",
+            "Record or replay the switch and listen for any unintended speeding up."
+          ],
+          "visual_components": [
+            "triplet_count_grid"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
@@ -238,12 +1168,110 @@
           "id": "subdiv.picking.i1",
           "level": "intermediate",
           "application_id": "picking",
-          "title": "Switch between subdivisions",
-          "explanation": "Alternate quarter notes, eighth notes and sixteenths while keeping the same tempo.",
+          "title": "Move between eighths and sixteenths",
+          "outcomes": [
+            "Preserve tempo when density changes",
+            "Control alternate-picking subdivisions"
+          ],
+          "explanation": "Switching from two attacks per beat to four changes the number of attacks, not the tempo. The number you tap or count stays in the same place throughout the switch.",
+          "exercises": [
+            {
+              "id": "subdiv.picking.i1.ex",
+              "title": "Move between eighths and sixteenths",
+              "setup": "Mute a guitar string with the fretting hand so pitch is not a distraction.",
+              "steps": [
+                "Choose 72 BPM, and pick straight eighths for one bar.",
+                "Switch to sixteenths for one bar while tapping the same four quarter beats.",
+                "Alternate one bar of each subdivision for four cycles.",
+                "Notice and correct any rushing during the transition."
+              ],
+              "self_check": "Can you double the attack rate without speeding up the underlying beats?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Play one note on each beat for one bar.",
-            "Play two even notes per beat for one bar.",
-            "Play four even notes per beat for one bar."
+            "Choose 72 BPM, and pick straight eighths for one bar.",
+            "Switch to sixteenths for one bar while tapping the same four quarter beats.",
+            "Alternate one bar of each subdivision for four cycles.",
+            "Notice and correct any rushing during the transition."
+          ],
+          "visual_components": [
+            "interactive_subdivision_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.groove.i1",
+          "level": "intermediate",
+          "application_id": "groove",
+          "title": "Accents move; the beat does not",
+          "outcomes": [
+            "Distinguish accents from pulse",
+            "Practice a simple offbeat accent pattern"
+          ],
+          "explanation": "An accent is emphasis on a note. Try placing accents on the “ands” of eighth notes, while continuing to feel the numbered quarter-note beats. This creates offbeat energy without necessarily changing tempo or meter.",
+          "exercises": [
+            {
+              "id": "subdiv.groove.i1.ex",
+              "title": "Accents move; the beat does not",
+              "setup": "Use one muted string or a quiet percussive strum.",
+              "steps": [
+                "Count straight eighths at 80 BPM.",
+                "Play one muted note per eighth-note position.",
+                "Accent only the “ands”: 1-AND 2-AND 3-AND 4-AND.",
+                "Return to accented numbered beats and compare the feel."
+              ],
+              "self_check": "Are your strong attacks on the offbeats while the numbered beats remain steady?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count straight eighths at 80 BPM.",
+            "Play one muted note per eighth-note position.",
+            "Accent only the “ands”: 1-AND 2-AND 3-AND 4-AND.",
+            "Return to accented numbered beats and compare the feel."
+          ],
+          "visual_components": [
+            "accent_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.reading.i1",
+          "level": "intermediate",
+          "application_id": "reading",
+          "title": "Hear the notes you do not play",
+          "outcomes": [
+            "Preserve a silent internal subdivision grid",
+            "Place sparse attacks correctly"
+          ],
+          "explanation": "Rests and gaps are part of rhythmic timing. A sixteenth-note grid can continue underneath a phrase with only a few audible notes. Learning to count silent spaces keeps syncopated rhythms from drifting.",
+          "exercises": [
+            {
+              "id": "subdiv.reading.i1.ex",
+              "title": "Hear the notes you do not play",
+              "setup": "Use 60–70 BPM and a muted string; 4/4 meter.",
+              "steps": [
+                "Count one bar of sixteenths slowly.",
+                "Play only on “1”, the “a” after 2, and “4 and.”",
+                "Say the unplayed count positions quietly or internally.",
+                "Repeat while keeping the same foot tap on 1, 2, 3, 4."
+              ],
+              "self_check": "Can you place attacks accurately after silence without guessing?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count one bar of sixteenths slowly.",
+            "Play only on “1”, the “a” after 2, and “4 and.”",
+            "Say the unplayed count positions quietly or internally.",
+            "Repeat while keeping the same foot tap on 1, 2, 3, 4."
+          ],
+          "visual_components": [
+            "rest_grid"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
@@ -251,12 +1279,147 @@
           "id": "subdiv.groove.a1",
           "level": "advanced",
           "application_id": "groove",
-          "title": "Shape accents independently",
-          "explanation": "Make an accent pattern move against a steady pulse without accidentally changing tempo or meter.",
+          "title": "Displace the accent by one sixteenth",
+          "outcomes": [
+            "Move accents independently of the pulse",
+            "Maintain a stable reference beat"
+          ],
+          "explanation": "A short rhythmic motif can sound transformed when its accents begin a sixteenth later. The motif shifts, but the reference quarter-note pulse and the 4/4 measure do not.",
+          "exercises": [
+            {
+              "id": "subdiv.groove.a1.ex",
+              "title": "Displace the accent by one sixteenth",
+              "setup": "Use muted picking, claps, or a single-pitch riff.",
+              "steps": [
+                "Count one bar of straight sixteenths at 64 BPM.",
+                "Accent the first position of each beat for one bar.",
+                "Shift each accent forward one sixteenth (“e” positions) in the next bar.",
+                "Alternate the two bars without changing your foot tap."
+              ],
+              "self_check": "Can you clearly hear accent displacement while retaining the same downbeats?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
           "steps": [
-            "Choose a consistent beat and subdivision.",
-            "Accent every third subdivision without moving the beat.",
-            "Return to a simple accent pattern to test pulse stability."
+            "Count one bar of straight sixteenths at 64 BPM.",
+            "Accent the first position of each beat for one bar.",
+            "Shift each accent forward one sixteenth (“e” positions) in the next bar.",
+            "Alternate the two bars without changing your foot tap."
+          ],
+          "visual_components": [
+            "accent_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.picking.a1",
+          "level": "advanced",
+          "application_id": "picking",
+          "title": "Change the grid without changing the pulse",
+          "outcomes": [
+            "Move between three- and four-part subdivision",
+            "Keep reference tempo stable"
+          ],
+          "explanation": "Moving between straight sixteenths and eighth-note triplets requires changing from four equal subdivisions per quarter to three, while holding the quarter note steady.",
+          "exercises": [
+            {
+              "id": "subdiv.picking.a1.ex",
+              "title": "Change the grid without changing the pulse",
+              "setup": "Use one muted string and focus on rhythmic accuracy rather than pitch.",
+              "steps": [
+                "Tap four quarter notes at 72 BPM.",
+                "Pick four equal sixteenths per beat for one bar.",
+                "Switch to three equally spaced triplets per beat for the next bar.",
+                "Repeat the alternation and check whether the quarter-note tap shifts."
+              ],
+              "self_check": "Can you alternate four-per-beat and three-per-beat attacks cleanly at one tempo?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Tap four quarter notes at 72 BPM.",
+            "Pick four equal sixteenths per beat for one bar.",
+            "Switch to three equally spaced triplets per beat for the next bar.",
+            "Repeat the alternation and check whether the quarter-note tap shifts."
+          ],
+          "visual_components": [
+            "comparison_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.reading.a1",
+          "level": "advanced",
+          "application_id": "reading",
+          "title": "Bring the skill into an odd meter",
+          "outcomes": [
+            "Apply steady subdivision to 7/8",
+            "Hear grouping versus pulse"
+          ],
+          "explanation": "Subdivision also applies in uneven meters. In a seven-eighths passage grouped 2+2+3, the eighth-note units can remain equal while the accents define an asymmetrical larger pattern. This example is conceptual; the interactive player demonstrates only 4/4.",
+          "exercises": [
+            {
+              "id": "subdiv.reading.a1.ex",
+              "title": "Bring the skill into an odd meter",
+              "setup": "Use a seven-eighths practice phrase; do not use the on-page 4/4 audio player as evidence for odd meter.",
+              "steps": [
+                "Count seven equal eighth-note positions as 1-2 | 1-2 | 1-2-3.",
+                "Clap the start of each group, keeping the eighths even.",
+                "Play a short seven-eighths figure and repeat it without adding an eighth note.",
+                "Compare grouping changes such as 3+2+2 while preserving seven equal eighths."
+              ],
+              "self_check": "Can you keep all seven eighth-note intervals equal while changing accent grouping?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count seven equal eighth-note positions as 1-2 | 1-2 | 1-2-3.",
+            "Clap the start of each group, keeping the eighths even.",
+            "Play a short seven-eighths figure and repeat it without adding an eighth note.",
+            "Compare grouping changes such as 3+2+2 while preserving seven equal eighths."
+          ],
+          "visual_components": [
+            "odd_meter_illustration_proposed"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.composition.a1",
+          "level": "advanced",
+          "application_id": "composition",
+          "title": "Build tension with rhythmic density",
+          "outcomes": [
+            "Use subdivision to shape a musical phrase",
+            "Separate density from BPM"
+          ],
+          "explanation": "Composers can create energy by increasing the number of attacks without increasing tempo. A phrase may move from quarter notes to eighths to sixteenths while its quarter-note pulse stays steady.",
+          "exercises": [
+            {
+              "id": "subdiv.composition.a1.ex",
+              "title": "Build tension with rhythmic density",
+              "setup": "Use a Workbook, pencil, or muted guitar at 70–90 BPM.",
+              "steps": [
+                "Write a three-bar idea in 4/4 using one harmony or pitch.",
+                "Use quarter notes in bar one, eighth notes in bar two, and sixteenths in bar three.",
+                "Keep the quarter-note pulse constant; add rests if the pattern feels crowded.",
+                "Play the phrase and describe where the energy changed."
+              ],
+              "self_check": "Can you create more rhythmic activity while preserving the tempo throughout?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write a three-bar idea in 4/4 using one harmony or pitch.",
+            "Use quarter notes in bar one, eighth notes in bar two, and sixteenths in bar three.",
+            "Keep the quarter-note pulse constant; add rests if the pattern feels crowded.",
+            "Play the phrase and describe where the energy changed."
+          ],
+          "visual_components": [
+            "composition_density_grid"
           ],
           "editorial_status": "DRAFT_REVIEW"
         }
@@ -266,13 +1429,88 @@
           "type": "RECOMMENDED_FOUNDATION",
           "kind": "CONCEPT",
           "slug": "quarter_note_subdivision",
+          "scope": "aural/foundational",
+          "why": "Understanding an even quarter-note pulse makes subdivision easier to hear.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "CONCEPT",
+          "slug": "eighth_note_subdivision",
+          "scope": "picking/foundational",
+          "why": "Straight eighth-note counting offers a first two-part grid.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "triplet_feel",
+          "scope": "aural/intermediate",
+          "why": "Three equal parts per beat introduce a different grid from straight eighths.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "swing_eighths",
+          "scope": "aural/intermediate",
+          "why": "Swing is related to subdivision but must not be automatically equated with exact triplets.",
           "review_status": "PROPOSED"
         },
         {
           "type": "RELATED",
           "kind": "CONCEPT",
           "slug": "syncopation",
+          "scope": "groove/intermediate",
+          "why": "Offbeat emphasis depends on knowing where the underlying pulse falls.",
           "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "backbeat_placement",
+          "scope": "groove/intermediate",
+          "why": "Backbeat accents are an accessible way to hear beat emphasis.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "syncopation_control",
+          "scope": "groove/advanced",
+          "why": "Accurate subdivision makes the timing of displaced attacks easier to control.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "odd_meter_fluency",
+          "scope": "reading/advanced",
+          "why": "Subdivision can transfer to uneven meter patterns when grouping is explicitly taught.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "rhythmic_displacement_control",
+          "scope": "groove/advanced",
+          "why": "Moving attacks by small rhythmic offsets requires a steady subdivision reference.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "metric_modulation",
+          "scope": "picking/advanced",
+          "why": "Changes of rhythmic unit can support metric modulation, but merely switching subdivision is not itself metric modulation.",
+          "review_status": "PROPOSED"
+        }
+      ],
+      "reference_blocks": [
+        {
+          "id": "subdivision_control.reference",
+          "kind": "RHYTHM_GRID",
+          "location": "overview"
         }
       ]
     }
@@ -282,8 +1520,9 @@
       "id": "vocab:tonic",
       "slug": "tonic",
       "term": "Tonic",
-      "definition": "The home note of a key, heard as a point of arrival or rest.",
-      "detail": "In C major, C is the tonic. A passage can change its tonal center; the tonic depends on musical context.",
+      "definition": "The home note of a key: the pitch everything else is heard in relation to.",
+      "detail": "In C major, C is the tonic (scale degree 1). A passage may establish or shift its tonal center, so tonic depends on context.",
+      "group": "Pitch, Notes & Tonality",
       "editorial_status": "DRAFT_REVIEW",
       "related": {
         "kind": "CONTEXT",
@@ -291,43 +1530,182 @@
       }
     },
     {
-      "id": "vocab:beat",
-      "slug": "beat",
-      "term": "Beat",
-      "definition": "A steady pulse that helps organize music in time.",
-      "detail": "A beat can be divided into smaller parts without changing the tempo.",
+      "id": "vocab:key",
+      "slug": "key",
+      "term": "Key",
+      "definition": "The collection of notes and tonal relationships organized around a tonic.",
+      "detail": "C major uses C as its tonic and normally draws from C D E F G A B. The same notes also belong to A natural minor, where A can function as tonic.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONTEXT",
+        "slug": "tonal_center"
+      }
+    },
+    {
+      "id": "vocab:pitch",
+      "slug": "pitch",
+      "term": "Pitch",
+      "definition": "How high or low a sound is heard.",
+      "detail": "Two notes may share a letter name yet sound an octave apart; pitch is distinct from note spelling.",
+      "group": "Pitch, Notes & Tonality",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
-      "id": "vocab:subdivision",
-      "slug": "subdivision",
-      "term": "Subdivision",
-      "definition": "Dividing one beat into smaller equal time units.",
-      "detail": "Straight eighth notes place two events in a quarter-note beat; triplets place three.",
+      "id": "vocab:pitch_class",
+      "slug": "pitch_class",
+      "term": "Pitch Class",
+      "definition": "A note identity across octaves, such as all Cs.",
+      "detail": "Pitch class ignores which octave a note sounds in.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:frequency",
+      "slug": "frequency",
+      "term": "Frequency",
+      "definition": "The number of vibrations per second, measured in hertz (Hz).",
+      "detail": "Higher fundamental frequency usually means a higher perceived musical pitch.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:octave",
+      "slug": "octave",
+      "term": "Octave",
+      "definition": "The interval between notes whose frequencies are in a 2:1 relationship.",
+      "detail": "C4 and C5 are an octave apart and share the same note name.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:tonal_center",
+      "slug": "tonal_center",
+      "term": "Tonal Center",
+      "definition": "The pitch or harmony perceived as the musical center.",
+      "detail": "In tonal music this often aligns with the tonic; context can establish that center without naming a major or minor scale.",
+      "group": "Pitch, Notes & Tonality",
       "editorial_status": "DRAFT_REVIEW",
       "related": {
-        "kind": "CONCEPT",
-        "slug": "eighth_note_subdivision"
+        "kind": "CONTEXT",
+        "slug": "tonal_center"
       }
     },
     {
-      "id": "vocab:triad",
-      "slug": "triad",
-      "term": "Triad",
-      "definition": "A chord built from three different pitch classes, commonly stacked in thirds.",
-      "detail": "Major and minor triads are often described by their root, third and fifth.",
-      "editorial_status": "DRAFT_REVIEW",
-      "related": {
-        "kind": "SKILL",
-        "slug": "triad_construction"
-      }
+      "id": "vocab:tonality",
+      "slug": "tonality",
+      "term": "Tonality",
+      "definition": "A musical organization in which pitches and harmonies relate to a center.",
+      "detail": "Tonality includes key relationships and a sense of stability or direction.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:key_signature",
+      "slug": "key_signature",
+      "term": "Key Signature",
+      "definition": "Sharps or flats at the start of a staff that indicate a key-related collection of pitches.",
+      "detail": "A key signature alone does not always tell you the tonic; relative keys can share it.",
+      "group": "Pitch, Notes & Tonality; Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:accidental",
+      "slug": "accidental",
+      "term": "Accidental",
+      "definition": "A notation symbol that alters the written pitch of a note.",
+      "detail": "Sharps, flats and naturals are common accidentals.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:sharp",
+      "slug": "sharp",
+      "term": "Sharp",
+      "definition": "A symbol that usually raises a note by one semitone in twelve-tone equal temperament.",
+      "detail": "C♯ is one semitone above C.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:flat",
+      "slug": "flat",
+      "term": "Flat",
+      "definition": "A symbol that usually lowers a note by one semitone in twelve-tone equal temperament.",
+      "detail": "B♭ is one semitone below B.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:natural_sign",
+      "slug": "natural_sign",
+      "term": "Natural Sign",
+      "definition": "A notation symbol (♮) that cancels a sharp or flat where it applies.",
+      "detail": "A notation symbol (♮) that cancels a sharp or flat where it applies.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:enharmonic_equivalent",
+      "slug": "enharmonic_equivalent",
+      "term": "Enharmonic Equivalent",
+      "definition": "Two differently named notes that sound the same in common equal-tempered tuning.",
+      "detail": "C♯ and D♭ are enharmonically equivalent on a standard-tuned piano.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:semitone",
+      "slug": "semitone",
+      "term": "Semitone",
+      "definition": "The smallest step in the common twelve-tone equal-tempered chromatic system.",
+      "detail": "On a standard fretted guitar, adjacent frets are one semitone apart.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:whole_tone_interval",
+      "slug": "whole_tone_interval",
+      "term": "Whole Tone Interval",
+      "definition": "An interval of two semitones, such as C to D.",
+      "detail": "An interval of two semitones, such as C to D.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:consonance",
+      "slug": "consonance",
+      "term": "Consonance",
+      "definition": "A quality of relative stability or blending between tones, influenced by context and listening tradition.",
+      "detail": "A quality of relative stability or blending between tones, influenced by context and listening tradition.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:dissonance",
+      "slug": "dissonance",
+      "term": "Dissonance",
+      "definition": "A quality of relative tension or friction between tones, influenced by style, tuning, and context.",
+      "detail": "A quality of relative tension or friction between tones, influenced by style, tuning, and context.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:leading_tone",
+      "slug": "leading_tone",
+      "term": "Leading Tone",
+      "definition": "A pitch a semitone below the tonic, often scale degree 7 in a major key.",
+      "detail": "B is the leading tone in C major. Its tendency to move to C depends on harmonic and melodic context.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
     },
     {
       "id": "vocab:scale_degree",
       "slug": "scale_degree",
-      "term": "Scale degree",
-      "definition": "The position of a note within a scale, counted from its first degree.",
-      "detail": "The tonic is scale degree 1. In C major, E is degree 3.",
+      "term": "Scale Degree",
+      "definition": "A note’s numbered position relative to the tonic of a scale or key.",
+      "detail": "In C major, E is scale degree 3. In G major, B is scale degree 3.",
+      "group": "Pitch, Notes & Tonality",
       "editorial_status": "DRAFT_REVIEW",
       "related": {
         "kind": "SKILL",
@@ -335,11 +1713,60 @@
       }
     },
     {
-      "id": "vocab:root",
-      "slug": "root",
-      "term": "Root",
-      "definition": "The pitch a chord is named after and built around.",
-      "detail": "The root of C major is C, even when another chord tone is the lowest note.",
+      "id": "vocab:scale",
+      "slug": "scale",
+      "term": "Scale",
+      "definition": "A set of pitches arranged in ascending or descending order, often within an octave.",
+      "detail": "A major scale has seven distinct notes before the octave repeats its tonic.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "major_scale"
+      }
+    },
+    {
+      "id": "vocab:major_scale",
+      "slug": "major_scale",
+      "term": "Major Scale",
+      "definition": "A seven-note scale built from a particular sequence of whole and half steps.",
+      "detail": "The major-scale steps are whole, whole, half, whole, whole, whole, half. C major is C D E F G A B.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "major_scale"
+      }
+    },
+    {
+      "id": "vocab:minor_scale",
+      "slug": "minor_scale",
+      "term": "Minor Scale",
+      "definition": "A family of scales whose third degree is a minor third above the tonic.",
+      "detail": "Natural, harmonic and melodic minor differ in their sixth and seventh degree behavior.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "natural_minor"
+      }
+    },
+    {
+      "id": "vocab:chromatic_scale",
+      "slug": "chromatic_scale",
+      "term": "Chromatic Scale",
+      "definition": "The collection of all twelve pitch classes within an octave in common Western equal temperament.",
+      "detail": "The collection of all twelve pitch classes within an octave in common Western equal temperament.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:diatonic",
+      "slug": "diatonic",
+      "term": "Diatonic",
+      "definition": "Belonging to or derived from a particular seven-note scale or key, without introducing outside notes.",
+      "detail": "Belonging to or derived from a particular seven-note scale or key, without introducing outside notes.",
+      "group": "Pitch, Notes & Tonality",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -347,12 +1774,1513 @@
       "slug": "interval",
       "term": "Interval",
       "definition": "The distance between two pitches.",
-      "detail": "Intervals can be described by numbered sizes and qualities, such as major third.",
+      "detail": "C to E is a major third; C to G is a perfect fifth.",
+      "group": "Pitch, Notes & Tonality",
       "editorial_status": "DRAFT_REVIEW",
       "related": {
         "kind": "SKILL",
         "slug": "interval_recognition"
       }
+    },
+    {
+      "id": "vocab:unison",
+      "slug": "unison",
+      "term": "Unison",
+      "definition": "Two notes with the same pitch, whether played together or in succession.",
+      "detail": "Two notes with the same pitch, whether played together or in succession.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:perfect_fifth",
+      "slug": "perfect_fifth",
+      "term": "Perfect Fifth",
+      "definition": "An interval spanning seven semitones, such as C up to G.",
+      "detail": "An interval spanning seven semitones, such as C up to G.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:major_third",
+      "slug": "major_third",
+      "term": "Major Third",
+      "definition": "An interval spanning four semitones, such as C up to E.",
+      "detail": "An interval spanning four semitones, such as C up to E.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:minor_third",
+      "slug": "minor_third",
+      "term": "Minor Third",
+      "definition": "An interval spanning three semitones, such as C up to E-flat.",
+      "detail": "An interval spanning three semitones, such as C up to E-flat.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:root",
+      "slug": "root",
+      "term": "Root",
+      "definition": "The note from which a chord is named or constructed.",
+      "detail": "C is the root of a C major triad, even if E is the lowest note in an inversion.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:solfege",
+      "slug": "solfege",
+      "term": "Solfège",
+      "definition": "A naming system for pitches or scale degrees using syllables such as do, re, and mi.",
+      "detail": "A naming system for pitches or scale degrees using syllables such as do, re, and mi.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:movable_do",
+      "slug": "movable_do",
+      "term": "Movable Do",
+      "definition": "A solfège approach where do follows the tonic of the current key rather than naming a fixed pitch.",
+      "detail": "A solfège approach where do follows the tonic of the current key rather than naming a fixed pitch.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:relative_pitch",
+      "slug": "relative_pitch",
+      "term": "Relative Pitch",
+      "definition": "The ability to hear or recognize a pitch by its relationship to another pitch or tonal center.",
+      "detail": "The ability to hear or recognize a pitch by its relationship to another pitch or tonal center.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:absolute_pitch",
+      "slug": "absolute_pitch",
+      "term": "Absolute Pitch",
+      "definition": "The ability to recognize or produce a pitch without an externally supplied reference pitch.",
+      "detail": "The ability to recognize or produce a pitch without an externally supplied reference pitch.",
+      "group": "Pitch, Notes & Tonality",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:chord",
+      "slug": "chord",
+      "term": "Chord",
+      "definition": "Two or more pitches heard together as a harmony; some traditions require at least three.",
+      "detail": "A C major triad consists of C, E and G.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:triad",
+      "slug": "triad",
+      "term": "Triad",
+      "definition": "A three-note chord commonly built by stacking thirds.",
+      "detail": "C E G forms a C major triad; C E♭ G forms a C minor triad.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "triad_construction"
+      }
+    },
+    {
+      "id": "vocab:major_triad",
+      "slug": "major_triad",
+      "term": "Major Triad",
+      "definition": "A triad containing a major third and perfect fifth above its root.",
+      "detail": "C major: C E G.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "triad_construction"
+      }
+    },
+    {
+      "id": "vocab:minor_triad",
+      "slug": "minor_triad",
+      "term": "Minor Triad",
+      "definition": "A triad containing a minor third and perfect fifth above its root.",
+      "detail": "C minor: C E♭ G.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "triad_construction"
+      }
+    },
+    {
+      "id": "vocab:diminished_triad",
+      "slug": "diminished_triad",
+      "term": "Diminished Triad",
+      "definition": "A three-note chord built from a root, minor third, and diminished fifth.",
+      "detail": "A three-note chord built from a root, minor third, and diminished fifth.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:augmented_triad",
+      "slug": "augmented_triad",
+      "term": "Augmented Triad",
+      "definition": "A three-note chord built from a root, major third, and augmented fifth.",
+      "detail": "A three-note chord built from a root, major third, and augmented fifth.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:chord_tone",
+      "slug": "chord_tone",
+      "term": "Chord Tone",
+      "definition": "A pitch that belongs to the chord sounding at that moment.",
+      "detail": "E is a chord tone over C major but not over an F major triad.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:nonchord_tone",
+      "slug": "nonchord_tone",
+      "term": "Nonchord Tone",
+      "definition": "A note in a musical passage that is not part of the chord sounding at that moment.",
+      "detail": "A note in a musical passage that is not part of the chord sounding at that moment.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:seventh_chord",
+      "slug": "seventh_chord",
+      "term": "Seventh Chord",
+      "definition": "A chord that adds a seventh above the root to a basic three-note chord structure.",
+      "detail": "A chord that adds a seventh above the root to a basic three-note chord structure.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:chord_extension",
+      "slug": "chord_extension",
+      "term": "Chord Extension",
+      "definition": "A chord tone commonly described above the seventh, such as a ninth, eleventh, or thirteenth.",
+      "detail": "A chord tone commonly described above the seventh, such as a ninth, eleventh, or thirteenth.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:inversion",
+      "slug": "inversion",
+      "term": "Inversion",
+      "definition": "A chord position with a note other than the root in the bass.",
+      "detail": "C/E is a first-inversion C major chord because E is the lowest note.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "chord_inversion"
+      }
+    },
+    {
+      "id": "vocab:voicing",
+      "slug": "voicing",
+      "term": "Voicing",
+      "definition": "The arrangement of notes within a chord, including their spacing and doubling.",
+      "detail": "Two C major voicings may use the same pitch classes but different registers.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "chord_voicing"
+      }
+    },
+    {
+      "id": "vocab:voice_leading",
+      "slug": "voice_leading",
+      "term": "Voice Leading",
+      "definition": "How individual notes or musical voices move when one chord or harmony changes to another.",
+      "detail": "How individual notes or musical voices move when one chord or harmony changes to another.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "voice_leading"
+      }
+    },
+    {
+      "id": "vocab:cadence",
+      "slug": "cadence",
+      "term": "Cadence",
+      "definition": "A musical gesture that creates a sense of arrival, pause or continuation.",
+      "detail": "A V–I motion can create a strong tonal arrival.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:functional_harmony",
+      "slug": "functional_harmony",
+      "term": "Functional Harmony",
+      "definition": "A way of describing how chords behave relative to a key or tonal center.",
+      "detail": "A way of describing how chords behave relative to a key or tonal center.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:tonic_function",
+      "slug": "tonic_function",
+      "term": "Tonic Function",
+      "definition": "The harmonic role associated with establishing or returning to a sense of home in a key.",
+      "detail": "The harmonic role associated with establishing or returning to a sense of home in a key.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:dominant_function",
+      "slug": "dominant_function",
+      "term": "Dominant Function",
+      "definition": "The harmonic role commonly associated with motion or tension toward tonic harmony.",
+      "detail": "The harmonic role commonly associated with motion or tension toward tonic harmony.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:subdominant_function",
+      "slug": "subdominant_function",
+      "term": "Subdominant Function",
+      "definition": "A harmonic role that often moves away from tonic and prepares other harmonic functions.",
+      "detail": "A harmonic role that often moves away from tonic and prepares other harmonic functions.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:harmonic_rhythm",
+      "slug": "harmonic_rhythm",
+      "term": "Harmonic Rhythm",
+      "definition": "The rate at which chords or underlying harmonies change in a piece of music.",
+      "detail": "The rate at which chords or underlying harmonies change in a piece of music.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:roman_numeral_analysis",
+      "slug": "roman_numeral_analysis",
+      "term": "Roman Numeral Analysis",
+      "definition": "A notation system that labels chords by their scale-degree roots and qualities within a key.",
+      "detail": "A notation system that labels chords by their scale-degree roots and qualities within a key.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:chord_progression",
+      "slug": "chord_progression",
+      "term": "Chord Progression",
+      "definition": "An ordered sequence of chords that creates the harmonic movement of a piece.",
+      "detail": "An ordered sequence of chords that creates the harmonic movement of a piece.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:arpeggio",
+      "slug": "arpeggio",
+      "term": "Arpeggio",
+      "definition": "The notes of a chord played separately rather than all at the same time.",
+      "detail": "The notes of a chord played separately rather than all at the same time.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "arpeggio"
+      }
+    },
+    {
+      "id": "vocab:pedal_tone",
+      "slug": "pedal_tone",
+      "term": "Pedal Tone",
+      "definition": "A sustained or repeatedly sounded note beneath or against changing harmonies.",
+      "detail": "A sustained or repeatedly sounded note beneath or against changing harmonies.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:suspension",
+      "slug": "suspension",
+      "term": "Suspension",
+      "definition": "A note held from a previous harmony that temporarily clashes with a new chord before moving, often by step.",
+      "detail": "A note held from a previous harmony that temporarily clashes with a new chord before moving, often by step.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:resolution",
+      "slug": "resolution",
+      "term": "Resolution",
+      "definition": "A movement toward a more stable musical point.",
+      "detail": "The leading tone B often resolves upward to C in C major tonal contexts.",
+      "group": "Harmony & Chords",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:beat",
+      "slug": "beat",
+      "term": "Beat",
+      "definition": "A regular pulse used to organize musical time.",
+      "detail": "You might tap quarter-note beats while notes move faster or slower around them.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:pulse",
+      "slug": "pulse",
+      "term": "Pulse",
+      "definition": "The underlying regular beat a listener senses in music.",
+      "detail": "A drummer can reinforce the pulse even when the rhythm is syncopated.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:tempo",
+      "slug": "tempo",
+      "term": "Tempo",
+      "definition": "The speed of the musical pulse.",
+      "detail": "Tempo is often specified in beats per minute (BPM).",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONSTRAINT",
+        "slug": "target_tempo"
+      }
+    },
+    {
+      "id": "vocab:bpm",
+      "slug": "bpm",
+      "term": "BPM",
+      "definition": "Beats per minute, a common tempo measurement.",
+      "detail": "At 60 BPM, one beat occurs each second.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONSTRAINT",
+        "slug": "target_tempo"
+      }
+    },
+    {
+      "id": "vocab:meter",
+      "slug": "meter",
+      "term": "Meter",
+      "definition": "The recurring organization of strong and weak beats.",
+      "detail": "4/4 groups four quarter-note beats into a measure; 7/8 groups seven eighth-note units.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:time_signature",
+      "slug": "time_signature",
+      "term": "Time Signature",
+      "definition": "A notation marking that organizes how beats are grouped and represented in measures.",
+      "detail": "A notation marking that organizes how beats are grouped and represented in measures.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:subdivision",
+      "slug": "subdivision",
+      "term": "Subdivision",
+      "definition": "A division of a beat into smaller time units.",
+      "detail": "Counting 1-and-2-and divides quarter-note beats into eighth notes.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "subdivision_control"
+      }
+    },
+    {
+      "id": "vocab:bar",
+      "slug": "bar",
+      "term": "Bar",
+      "definition": "A segment of music bounded by barlines; often another word for measure.",
+      "detail": "A segment of music bounded by barlines; often another word for measure.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:measure",
+      "slug": "measure",
+      "term": "Measure",
+      "definition": "A group of beats set off by barlines in written music.",
+      "detail": "A group of beats set off by barlines in written music.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:downbeat",
+      "slug": "downbeat",
+      "term": "Downbeat",
+      "definition": "The first beat of a measure, often heard as a point of arrival.",
+      "detail": "The first beat of a measure, often heard as a point of arrival.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:upbeat",
+      "slug": "upbeat",
+      "term": "Upbeat",
+      "definition": "A beat or part of a beat that leads toward a stronger beat; it can also mean a pickup.",
+      "detail": "A beat or part of a beat that leads toward a stronger beat; it can also mean a pickup.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:offbeat",
+      "slug": "offbeat",
+      "term": "Offbeat",
+      "definition": "A position between or away from the main emphasized beats of a rhythmic pattern.",
+      "detail": "A position between or away from the main emphasized beats of a rhythmic pattern.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:syncopation",
+      "slug": "syncopation",
+      "term": "Syncopation",
+      "definition": "A rhythmic emphasis placed away from an expected strong beat.",
+      "detail": "An accent on the “and” of a beat can create syncopation.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "syncopation"
+      }
+    },
+    {
+      "id": "vocab:swing",
+      "slug": "swing",
+      "term": "Swing",
+      "definition": "A rhythmic feel in which paired subdivisions are played unevenly or phrased with a lilting timing.",
+      "detail": "Swing ratio varies with tempo and style; it is not a fixed triplet formula.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "swing_eighths"
+      }
+    },
+    {
+      "id": "vocab:triplet",
+      "slug": "triplet",
+      "term": "Triplet",
+      "definition": "Three notes or subdivisions performed in the time normally allocated to two of the same written value.",
+      "detail": "Three notes or subdivisions performed in the time normally allocated to two of the same written value.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:polyrhythm",
+      "slug": "polyrhythm",
+      "term": "Polyrhythm",
+      "definition": "Two or more contrasting rhythmic groupings or pulses sounding at the same time.",
+      "detail": "Two or more contrasting rhythmic groupings or pulses sounding at the same time.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "polyrhythm"
+      }
+    },
+    {
+      "id": "vocab:cross_rhythm",
+      "slug": "cross_rhythm",
+      "term": "Cross Rhythm",
+      "definition": "A rhythmic pattern that emphasizes a grouping different from the underlying meter.",
+      "detail": "A rhythmic pattern that emphasizes a grouping different from the underlying meter.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "cross_rhythm"
+      }
+    },
+    {
+      "id": "vocab:rubato",
+      "slug": "rubato",
+      "term": "Rubato",
+      "definition": "Expressive flexibility in timing, often speeding up or slowing down without changing the written notes.",
+      "detail": "Expressive flexibility in timing, often speeding up or slowing down without changing the written notes.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:accent",
+      "slug": "accent",
+      "term": "Accent",
+      "definition": "Extra emphasis placed on a note or beat through volume, attack, duration, or articulation.",
+      "detail": "Extra emphasis placed on a note or beat through volume, attack, duration, or articulation.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:rest",
+      "slug": "rest",
+      "term": "Rest",
+      "definition": "A notated period of silence with a defined rhythmic duration.",
+      "detail": "A notated period of silence with a defined rhythmic duration.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:note_duration",
+      "slug": "note_duration",
+      "term": "Note Duration",
+      "definition": "The length of time a note is held or allowed to sound.",
+      "detail": "The length of time a note is held or allowed to sound.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:eighth_note",
+      "slug": "eighth_note",
+      "term": "Eighth Note",
+      "definition": "A written note value equal to one-eighth of a whole note; often half a beat in 4/4.",
+      "detail": "A written note value equal to one-eighth of a whole note; often half a beat in 4/4.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:sixteenth_note",
+      "slug": "sixteenth_note",
+      "term": "Sixteenth Note",
+      "definition": "A written note value equal to one-sixteenth of a whole note; often a quarter-beat in 4/4.",
+      "detail": "A written note value equal to one-sixteenth of a whole note; often a quarter-beat in 4/4.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:metronome",
+      "slug": "metronome",
+      "term": "Metronome",
+      "definition": "A device or app that provides repeated pulses at a selected tempo.",
+      "detail": "A device or app that provides repeated pulses at a selected tempo.",
+      "group": "Rhythm & Meter",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:tonicization",
+      "slug": "tonicization",
+      "term": "Tonicization",
+      "definition": "A temporary emphasis on a chord or pitch as though it were a tonic, without necessarily changing keys.",
+      "detail": "A temporary emphasis on a chord or pitch as though it were a tonic, without necessarily changing keys.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:aural_recognition",
+      "slug": "aural_recognition",
+      "term": "Aural Recognition",
+      "definition": "Identifying musical sounds or relationships by listening, rather than relying on visual patterns alone.",
+      "detail": "Identifying musical sounds or relationships by listening, rather than relying on visual patterns alone.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:interval_recognition",
+      "slug": "interval_recognition",
+      "term": "Interval Recognition",
+      "definition": "Identifying the distance between two pitches, by sound or another musical representation.",
+      "detail": "Identifying the distance between two pitches, by sound or another musical representation.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "interval_recognition"
+      }
+    },
+    {
+      "id": "vocab:ear_training",
+      "slug": "ear_training",
+      "term": "Ear Training",
+      "definition": "Practice that develops the ability to recognize musical relationships by listening.",
+      "detail": "Examples include identifying intervals, scale degrees, chords and short melodies by sound.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "scale_degree_recognition"
+      }
+    },
+    {
+      "id": "vocab:dictation",
+      "slug": "dictation",
+      "term": "Dictation",
+      "definition": "Listening to music and writing or otherwise recording what you hear.",
+      "detail": "Listening to music and writing or otherwise recording what you hear.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:melodic_transcription",
+      "slug": "melodic_transcription",
+      "term": "Melodic Transcription",
+      "definition": "Working out and recording the notes and rhythm of a melody by listening.",
+      "detail": "Working out and recording the notes and rhythm of a melody by listening.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:audiation",
+      "slug": "audiation",
+      "term": "Audiation",
+      "definition": "Imagining or understanding music internally without hearing it performed.",
+      "detail": "Silently hearing the next note before playing it is an example of audiation.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:drone",
+      "slug": "drone",
+      "term": "Drone",
+      "definition": "A sustained or repeated reference pitch or chord.",
+      "detail": "A tonic drone helps you hear other pitches relative to a stable center.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:call_and_response",
+      "slug": "call_and_response",
+      "term": "Call And Response",
+      "definition": "A musical exchange where one phrase or performer is answered by another.",
+      "detail": "A musical exchange where one phrase or performer is answered by another.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:singing_in_tune",
+      "slug": "singing_in_tune",
+      "term": "Singing In Tune",
+      "definition": "Matching intended pitches accurately with your voice relative to a reference or musical context.",
+      "detail": "Matching intended pitches accurately with your voice relative to a reference or musical context.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:timbre",
+      "slug": "timbre",
+      "term": "Timbre",
+      "definition": "The sound quality that helps distinguish instruments or voices playing the same pitch.",
+      "detail": "The sound quality that helps distinguish instruments or voices playing the same pitch.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:overtones",
+      "slug": "overtones",
+      "term": "Overtones",
+      "definition": "Higher-frequency components that accompany a musical tone, affecting its sound quality.",
+      "detail": "Higher-frequency components that accompany a musical tone, affecting its sound quality.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:overtone_series",
+      "slug": "overtone_series",
+      "term": "Overtone Series",
+      "definition": "The sequence of harmonic frequencies at integer multiples of a fundamental frequency.",
+      "detail": "The sequence of harmonic frequencies at integer multiples of a fundamental frequency.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:pitch_memory",
+      "slug": "pitch_memory",
+      "term": "Pitch Memory",
+      "definition": "The ability to remember and recall a pitch or pitch relationship after hearing it.",
+      "detail": "The ability to remember and recall a pitch or pitch relationship after hearing it.",
+      "group": "Ear Training & Listening",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:fret",
+      "slug": "fret",
+      "term": "Fret",
+      "definition": "A metal strip on the guitar neck that divides string lengths into pitch positions.",
+      "detail": "A metal strip on the guitar neck that divides string lengths into pitch positions.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:fretboard",
+      "slug": "fretboard",
+      "term": "Fretboard",
+      "definition": "The surface of a fretted instrument where notes are selected by pressing strings against frets.",
+      "detail": "Guitarists can find the same pitch in several fretboard positions.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "note_location"
+      }
+    },
+    {
+      "id": "vocab:string_set",
+      "slug": "string_set",
+      "term": "String Set",
+      "definition": "A selected group of guitar strings used in a passage, exercise, or chord shape.",
+      "detail": "A selected group of guitar strings used in a passage, exercise, or chord shape.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONSTRAINT",
+        "slug": "string_set"
+      }
+    },
+    {
+      "id": "vocab:fret_position",
+      "slug": "fret_position",
+      "term": "Fret Position",
+      "definition": "A location along the guitar neck, commonly described by a fret number or left-hand position.",
+      "detail": "A location along the guitar neck, commonly described by a fret number or left-hand position.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:open_string",
+      "slug": "open_string",
+      "term": "Open String",
+      "definition": "A string sounded without fretting a note.",
+      "detail": "The open sixth string in standard tuning sounds E2.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONTEXT",
+        "slug": "standard_tuning"
+      }
+    },
+    {
+      "id": "vocab:fretted_note",
+      "slug": "fretted_note",
+      "term": "Fretted Note",
+      "definition": "A pitch produced by pressing a string against a fret and sounding the string.",
+      "detail": "A pitch produced by pressing a string against a fret and sounding the string.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:string_numbering",
+      "slug": "string_numbering",
+      "term": "String Numbering",
+      "definition": "The convention of naming the thinnest guitar string 1 and the thickest string 6.",
+      "detail": "The convention of naming the thinnest guitar string 1 and the thickest string 6.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:standard_tuning",
+      "slug": "standard_tuning",
+      "term": "Standard Tuning",
+      "definition": "The common six-string guitar tuning E–A–D–G–B–E from lowest to highest string.",
+      "detail": "The common six-string guitar tuning E–A–D–G–B–E from lowest to highest string.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONTEXT",
+        "slug": "standard_tuning"
+      }
+    },
+    {
+      "id": "vocab:alternate_tuning",
+      "slug": "alternate_tuning",
+      "term": "Alternate Tuning",
+      "definition": "A string-pitch arrangement different from the instrument’s conventional tuning.",
+      "detail": "A string-pitch arrangement different from the instrument’s conventional tuning.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:capo",
+      "slug": "capo",
+      "term": "Capo",
+      "definition": "A clamp placed across strings at a fret to raise the effective open-string pitches.",
+      "detail": "A clamp placed across strings at a fret to raise the effective open-string pitches.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:barre",
+      "slug": "barre",
+      "term": "Barre",
+      "definition": "Using one finger to fret two or more strings at the same fret.",
+      "detail": "Using one finger to fret two or more strings at the same fret.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:hammer_on",
+      "slug": "hammer_on",
+      "term": "Hammer On",
+      "definition": "Sounding a higher fretted note by bringing a fretting finger down without repicking.",
+      "detail": "Sounding a higher fretted note by bringing a fretting finger down without repicking.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "hammer_on"
+      }
+    },
+    {
+      "id": "vocab:pull_off",
+      "slug": "pull_off",
+      "term": "Pull Off",
+      "definition": "Sounding a lower note by releasing a fretting finger, often with a slight plucking motion.",
+      "detail": "Sounding a lower note by releasing a fretting finger, often with a slight plucking motion.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "pull_off"
+      }
+    },
+    {
+      "id": "vocab:slide",
+      "slug": "slide",
+      "term": "Slide",
+      "definition": "Moving a fretting finger along a string from one pitch to another while keeping contact.",
+      "detail": "Moving a fretting finger along a string from one pitch to another while keeping contact.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:bend",
+      "slug": "bend",
+      "term": "Bend",
+      "definition": "Pushing or pulling a fretted string to change its pitch, often upward.",
+      "detail": "Pushing or pulling a fretted string to change its pitch, often upward.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:vibrato",
+      "slug": "vibrato",
+      "term": "Vibrato",
+      "definition": "A deliberate, repeated variation in pitch or intensity used to shape a sustained note.",
+      "detail": "A deliberate, repeated variation in pitch or intensity used to shape a sustained note.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "vibrato"
+      }
+    },
+    {
+      "id": "vocab:legato",
+      "slug": "legato",
+      "term": "Legato",
+      "definition": "A smooth connected playing style that minimizes audible gaps between notes.",
+      "detail": "A smooth connected playing style that minimizes audible gaps between notes.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "legato"
+      }
+    },
+    {
+      "id": "vocab:alternate_picking",
+      "slug": "alternate_picking",
+      "term": "Alternate Picking",
+      "definition": "A picking technique that alternates downstrokes and upstrokes, subject to the musical pattern.",
+      "detail": "A picking technique that alternates downstrokes and upstrokes, subject to the musical pattern.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "alternate_picking"
+      }
+    },
+    {
+      "id": "vocab:hybrid_picking",
+      "slug": "hybrid_picking",
+      "term": "Hybrid Picking",
+      "definition": "Using a pick together with one or more fingers of the picking hand.",
+      "detail": "Using a pick together with one or more fingers of the picking hand.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "hybrid_picking"
+      }
+    },
+    {
+      "id": "vocab:fingerstyle",
+      "slug": "fingerstyle",
+      "term": "Fingerstyle",
+      "definition": "Playing the guitar by plucking strings directly with fingers rather than only with a pick.",
+      "detail": "Playing the guitar by plucking strings directly with fingers rather than only with a pick.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "fingerstyle"
+      }
+    },
+    {
+      "id": "vocab:muting",
+      "slug": "muting",
+      "term": "Muting",
+      "definition": "Deliberately preventing or shortening the sound of selected strings.",
+      "detail": "Deliberately preventing or shortening the sound of selected strings.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:palm_muting",
+      "slug": "palm_muting",
+      "term": "Palm Muting",
+      "definition": "Damping strings lightly with the edge of the picking-hand palm near the bridge.",
+      "detail": "Damping strings lightly with the edge of the picking-hand palm near the bridge.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "palm_muting"
+      }
+    },
+    {
+      "id": "vocab:articulation",
+      "slug": "articulation",
+      "term": "Articulation",
+      "definition": "The way notes begin, connect, separate, or end during performance.",
+      "detail": "The way notes begin, connect, separate, or end during performance.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:fingering",
+      "slug": "fingering",
+      "term": "Fingering",
+      "definition": "A choice of which hand or finger plays each note in a musical passage.",
+      "detail": "A choice of which hand or finger plays each note in a musical passage.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:position_shift",
+      "slug": "position_shift",
+      "term": "Position Shift",
+      "definition": "Moving the fretting hand to a different region of the fretboard while playing.",
+      "detail": "Moving the fretting hand to a different region of the fretboard while playing.",
+      "group": "Fretboard & Technique",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:motif",
+      "slug": "motif",
+      "term": "Motif",
+      "definition": "A short musical idea that can be repeated or developed.",
+      "detail": "A three-note melodic cell can become the basis of a longer phrase.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:phrase",
+      "slug": "phrase",
+      "term": "Phrase",
+      "definition": "A connected musical idea that feels like a meaningful unit.",
+      "detail": "A melody may be organized into short phrases with pauses or cadences.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:period",
+      "slug": "period",
+      "term": "Period",
+      "definition": "A musical phrase structure commonly involving an opening idea and an answering phrase.",
+      "detail": "A musical phrase structure commonly involving an opening idea and an answering phrase.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:melodic_contour",
+      "slug": "melodic_contour",
+      "term": "Melodic Contour",
+      "definition": "The overall upward, downward or repeated-pitch shape of a melody.",
+      "detail": "A contour can be remembered even when the melody is transposed to another key.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "melody"
+      }
+    },
+    {
+      "id": "vocab:sequence",
+      "slug": "sequence",
+      "term": "Sequence",
+      "definition": "A musical pattern repeated at different pitch levels, sometimes with rhythmic changes.",
+      "detail": "A musical pattern repeated at different pitch levels, sometimes with rhythmic changes.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:repetition",
+      "slug": "repetition",
+      "term": "Repetition",
+      "definition": "The return of the same musical idea, whether immediately or later in a piece.",
+      "detail": "The return of the same musical idea, whether immediately or later in a piece.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:variation",
+      "slug": "variation",
+      "term": "Variation",
+      "definition": "A changed version of an existing musical idea that retains recognizable features.",
+      "detail": "A changed version of an existing musical idea that retains recognizable features.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:tension_and_release",
+      "slug": "tension_and_release",
+      "term": "Tension And Release",
+      "definition": "A musical sense of buildup and easing created through harmony, rhythm, melody, texture, or dynamics.",
+      "detail": "A musical sense of buildup and easing created through harmony, rhythm, melody, texture, or dynamics.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:melody",
+      "slug": "melody",
+      "term": "Melody",
+      "definition": "A sequence of musical notes perceived as a connected musical line.",
+      "detail": "A sequence of musical notes perceived as a connected musical line.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "melody"
+      }
+    },
+    {
+      "id": "vocab:counterpoint",
+      "slug": "counterpoint",
+      "term": "Counterpoint",
+      "definition": "The combination of independent melodic lines that work together musically.",
+      "detail": "The combination of independent melodic lines that work together musically.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "counterpoint"
+      }
+    },
+    {
+      "id": "vocab:improvisation",
+      "slug": "improvisation",
+      "term": "Improvisation",
+      "definition": "Creating musical ideas while performing.",
+      "detail": "Improvisers may use scale degrees or chord tones as melodic targets.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:composition",
+      "slug": "composition",
+      "term": "Composition",
+      "definition": "The process or result of creating and organizing music.",
+      "detail": "The process or result of creating and organizing music.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:form",
+      "slug": "form",
+      "term": "Form",
+      "definition": "The large-scale organization of sections and ideas in a piece of music.",
+      "detail": "The large-scale organization of sections and ideas in a piece of music.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:verse",
+      "slug": "verse",
+      "term": "Verse",
+      "definition": "A repeated song section whose lyrics often change between appearances.",
+      "detail": "A repeated song section whose lyrics often change between appearances.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:chorus",
+      "slug": "chorus",
+      "term": "Chorus",
+      "definition": "A recurring song section that usually carries a repeated central idea or hook.",
+      "detail": "A recurring song section that usually carries a repeated central idea or hook.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:bridge",
+      "slug": "bridge",
+      "term": "Bridge",
+      "definition": "A contrasting section that provides a different perspective before returning to familiar material.",
+      "detail": "A contrasting section that provides a different perspective before returning to familiar material.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:refrain",
+      "slug": "refrain",
+      "term": "Refrain",
+      "definition": "A recurring lyric or musical line, sometimes shorter than a full chorus.",
+      "detail": "A recurring lyric or musical line, sometimes shorter than a full chorus.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:hook",
+      "slug": "hook",
+      "term": "Hook",
+      "definition": "A memorable musical or lyrical idea that helps a piece stand out.",
+      "detail": "A memorable musical or lyrical idea that helps a piece stand out.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:ornamentation",
+      "slug": "ornamentation",
+      "term": "Ornamentation",
+      "definition": "Decorative notes or gestures added around a primary melodic idea.",
+      "detail": "Decorative notes or gestures added around a primary melodic idea.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:transposition",
+      "slug": "transposition",
+      "term": "Transposition",
+      "definition": "Moving a musical idea to a new pitch level while preserving its relationships.",
+      "detail": "A melody in C major can be transposed to G major with the same degree pattern.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:modulation",
+      "slug": "modulation",
+      "term": "Modulation",
+      "definition": "A change from one tonal center or key to another.",
+      "detail": "A change from one tonal center or key to another.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "modulation"
+      }
+    },
+    {
+      "id": "vocab:modal_interchange",
+      "slug": "modal_interchange",
+      "term": "Modal Interchange",
+      "definition": "Borrowing chords or musical color from a parallel mode or related modal collection.",
+      "detail": "Borrowing chords or musical color from a parallel mode or related modal collection.",
+      "group": "Melody & Form",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "modal_interchange"
+      }
+    },
+    {
+      "id": "vocab:staff",
+      "slug": "staff",
+      "term": "Staff",
+      "definition": "The five horizontal lines on which notes and other musical symbols are written.",
+      "detail": "The five horizontal lines on which notes and other musical symbols are written.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:treble_clef",
+      "slug": "treble_clef",
+      "term": "Treble Clef",
+      "definition": "A clef indicating that the second line from the bottom represents G above middle C.",
+      "detail": "A clef indicating that the second line from the bottom represents G above middle C.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:bass_clef",
+      "slug": "bass_clef",
+      "term": "Bass Clef",
+      "definition": "A clef indicating that the second line from the top represents F below middle C.",
+      "detail": "A clef indicating that the second line from the top represents F below middle C.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:ledger_line",
+      "slug": "ledger_line",
+      "term": "Ledger Line",
+      "definition": "A short extra staff line used to write notes above or below the main staff.",
+      "detail": "A short extra staff line used to write notes above or below the main staff.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:tablature",
+      "slug": "tablature",
+      "term": "Tablature (Tab)",
+      "definition": "A notation system that shows which strings and frets to play.",
+      "detail": "Guitar tab uses six lines; a number on a line identifies the fret to play on that string.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:guitar_tab",
+      "slug": "guitar_tab",
+      "term": "Guitar Tab",
+      "definition": "Guitar tablature: a notation showing which string and fret to play, usually with rhythm supplied separately or alongside.",
+      "detail": "Guitar tablature: a notation showing which string and fret to play, usually with rhythm supplied separately or alongside.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:chord_diagram",
+      "slug": "chord_diagram",
+      "term": "Chord Diagram",
+      "definition": "A fretboard-style picture showing the strings and finger placements for a chord shape.",
+      "detail": "A fretboard-style picture showing the strings and finger placements for a chord shape.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:scale_diagram",
+      "slug": "scale_diagram",
+      "term": "Scale Diagram",
+      "definition": "A visual pattern showing where the notes of a scale occur on an instrument.",
+      "detail": "A visual pattern showing where the notes of a scale occur on an instrument.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:interval_diagram",
+      "slug": "interval_diagram",
+      "term": "Interval Diagram",
+      "definition": "A visual representation of the distance or relationship between musical pitches.",
+      "detail": "A visual representation of the distance or relationship between musical pitches.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:note_name",
+      "slug": "note_name",
+      "term": "Note Name",
+      "definition": "A letter-based pitch label such as C, F-sharp, or B-flat.",
+      "detail": "A letter-based pitch label such as C, F-sharp, or B-flat.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:scale_degree_number",
+      "slug": "scale_degree_number",
+      "term": "Scale Degree Number",
+      "definition": "A number describing a note’s position relative to the tonic of a scale, such as 1, 3, or 5.",
+      "detail": "A number describing a note’s position relative to the tonic of a scale, such as 1, 3, or 5.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:roman_numeral",
+      "slug": "roman_numeral",
+      "term": "Roman Numeral",
+      "definition": "A symbol such as I, ii, or V used to describe a chord’s scale-degree root and often its quality.",
+      "detail": "A symbol such as I, ii, or V used to describe a chord’s scale-degree root and often its quality.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:rhythm_grid",
+      "slug": "rhythm_grid",
+      "term": "Rhythm Grid",
+      "definition": "A visual layout of beats and subdivisions used to locate attacks, rests, and accents in time.",
+      "detail": "A visual layout of beats and subdivisions used to locate attacks, rests, and accents in time.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:dynamics",
+      "slug": "dynamics",
+      "term": "Dynamics",
+      "definition": "Changes in loudness or intensity used for musical expression.",
+      "detail": "Changes in loudness or intensity used for musical expression.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:articulation_mark",
+      "slug": "articulation_mark",
+      "term": "Articulation Mark",
+      "definition": "A notation symbol indicating how a note should be attacked or shaped, such as staccato or an accent.",
+      "detail": "A notation symbol indicating how a note should be attacked or shaped, such as staccato or an accent.",
+      "group": "Notation & Representations",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:skill",
+      "slug": "skill",
+      "term": "Skill",
+      "definition": "A musical ability that can be developed through practice and applied in different contexts.",
+      "detail": "A musical ability that can be developed through practice and applied in different contexts.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:application",
+      "slug": "application",
+      "term": "Application",
+      "definition": "A particular way of using a musical Skill, such as hearing an interval or locating it on guitar.",
+      "detail": "A particular way of using a musical Skill, such as hearing an interval or locating it on guitar.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:learning_level",
+      "slug": "learning_level",
+      "term": "Learning Level",
+      "definition": "A label for the complexity of instructional material, not a claim about a Player’s ability.",
+      "detail": "A label for the complexity of instructional material, not a claim about a Player’s ability.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:foundational",
+      "slug": "foundational",
+      "term": "Foundational",
+      "definition": "Introductory knowledge or a building-block task within a Skill’s learning progression.",
+      "detail": "Introductory knowledge or a building-block task within a Skill’s learning progression.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:intermediate",
+      "slug": "intermediate",
+      "term": "Intermediate",
+      "definition": "Instruction that connects foundational ideas in more varied or demanding situations.",
+      "detail": "Instruction that connects foundational ideas in more varied or demanding situations.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:advanced",
+      "slug": "advanced",
+      "term": "Advanced",
+      "definition": "Instruction that applies a Skill in complex, less predictable, or highly integrated situations.",
+      "detail": "Instruction that applies a Skill in complex, less predictable, or highly integrated situations.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:required_prerequisite",
+      "slug": "required_prerequisite",
+      "term": "Required Prerequisite",
+      "definition": "Knowledge needed to follow a particular lesson or exercise as written.",
+      "detail": "Knowledge needed to follow a particular lesson or exercise as written.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:recommended_foundation",
+      "slug": "recommended_foundation",
+      "term": "Recommended Foundation",
+      "definition": "Background that is helpful for a lesson but can often be learned alongside it.",
+      "detail": "Background that is helpful for a lesson but can often be learned alongside it.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:related_skill",
+      "slug": "related_skill",
+      "term": "Related Skill",
+      "definition": "Another musical ability connected to a Skill without implying a strict learning order.",
+      "detail": "Another musical ability connected to a Skill without implying a strict learning order.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:learning_objective",
+      "slug": "learning_objective",
+      "term": "Learning Objective",
+      "definition": "A statement of what a learner should understand or be able to do after an activity.",
+      "detail": "A statement of what a learner should understand or be able to do after an activity.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:exercise",
+      "slug": "exercise",
+      "term": "Exercise",
+      "definition": "A deliberately structured activity intended to develop or investigate a musical ability.",
+      "detail": "A deliberately structured activity intended to develop or investigate a musical ability.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:quest",
+      "slug": "quest",
+      "term": "Quest",
+      "definition": "A GuitaRPG musical challenge with defined objectives and practice parameters.",
+      "detail": "A GuitaRPG musical challenge with defined objectives and practice parameters.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:quest_constraint",
+      "slug": "quest_constraint",
+      "term": "Quest Constraint",
+      "definition": "A rule limiting or shaping how a particular GuitaRPG challenge is performed.",
+      "detail": "A rule limiting or shaping how a particular GuitaRPG challenge is performed.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:practice_session",
+      "slug": "practice_session",
+      "term": "Practice Session",
+      "definition": "A bounded period of actual practice in GuitaRPG.",
+      "detail": "Reading a Codex entry or editing a Workbook does not automatically create a Practice Session.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:practice_evidence",
+      "slug": "practice_evidence",
+      "term": "Practice Evidence",
+      "definition": "Recorded information about a practice attempt, such as a Session result or completed criterion.",
+      "detail": "Recorded information about a practice attempt, such as a Session result or completed criterion.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:self_assessment",
+      "slug": "self_assessment",
+      "term": "Self Assessment",
+      "definition": "A learner’s own evaluation of what happened during practice or how confidently they performed a task.",
+      "detail": "A learner’s own evaluation of what happened during practice or how confidently they performed a task.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:workbook",
+      "slug": "workbook",
+      "term": "Workbook",
+      "definition": "A private, editable collection of Player-owned musical pages.",
+      "detail": "Workbooks can be linked to a Quest or Skill without becoming official Codex content.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:codex",
+      "slug": "codex",
+      "term": "Codex",
+      "definition": "GuitaRPG’s official library of musical knowledge and instructional references.",
+      "detail": "Personal notes remain in Player-owned Workbooks, separate from official reference material.",
+      "group": "Learning & GuitaRPG",
+      "editorial_status": "DRAFT_REVIEW"
     }
   ]
 }
