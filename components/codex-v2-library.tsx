@@ -211,15 +211,15 @@ export function CodexV2Library({
           <div className="cv2-dictionary-grid">
             <div className="cv2-term-list" role="list" aria-label="Dictionary entries">
               {matchingTerms.map((term) => (
-                <button
-                  key={term.id}
-                  type="button"
-                  role="listitem"
-                  aria-current={term.id === selectedTermId ? "true" : undefined}
-                  onClick={() => setSelectedTermId(term.id)}
-                >
-                  {term.term}
-                </button>
+                <div role="listitem" key={term.id}>
+                  <button
+                    type="button"
+                    aria-current={term.id === selectedTermId ? "true" : undefined}
+                    onClick={() => setSelectedTermId(term.id)}
+                  >
+                    {term.term}
+                  </button>
+                </div>
               ))}
             </div>
             <article className="cv2-term-detail">
