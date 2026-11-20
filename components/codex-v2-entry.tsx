@@ -67,9 +67,12 @@ function DefinitionDialog({
     }
   }
   return (
-    <div className="cv2-definition-backdrop" onMouseDown={(event) => {
-      if (event.currentTarget === event.target) onClose();
-    }}>
+    <div
+      className="cv2-definition-backdrop"
+      onMouseDown={(event) => {
+        if (event.currentTarget === event.target) onClose();
+      }}
+    >
       <div
         ref={panelRef}
         role="dialog"
@@ -80,12 +83,7 @@ function DefinitionDialog({
       >
         <header>
           <span className="cv2-eyebrow">Music Dictionary</span>
-          <button
-            ref={closeRef}
-            type="button"
-            aria-label="Close definition"
-            onClick={onClose}
-          >
+          <button ref={closeRef} type="button" aria-label="Close definition" onClick={onClose}>
             ×
           </button>
         </header>
@@ -97,8 +95,11 @@ function DefinitionDialog({
             Read full dictionary entry
           </button>
           {term.related ? (
-            <Link href={canonicalCodexHref(term.related.kind, term.related.slug)}
-              target="_blank" rel="noopener noreferrer">
+            <Link
+              href={canonicalCodexHref(term.related.kind, term.related.slug)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Related Codex entry ↗
             </Link>
           ) : null}
@@ -129,7 +130,8 @@ export function CodexV2Entry({
 
   const dictionary = useMemo(() => new Map(terms.map((term) => [term.id, term])), [terms]);
   const modules = entry.modules.filter(
-    (item) => item.level === level && (application === "all" || item.application_id === application),
+    (item) =>
+      item.level === level && (application === "all" || item.application_id === application),
   );
 
   function closeTerm() {
@@ -164,14 +166,22 @@ export function CodexV2Entry({
   return (
     <article className="cv2-entry" aria-labelledby="cv2-entry-title">
       <div className="cv2-breadcrumb">
-        {onBack ? <button type="button" onClick={onBack}>← Library</button> : (
+        {onBack ? (
+          <button type="button" onClick={onBack}>
+            ← Library
+          </button>
+        ) : (
           <Link href="/codex">← Codex Library</Link>
         )}
         <span> / {entry.kind.toLocaleLowerCase()} reference</span>
       </div>
       <header className="cv2-entry-hero">
-        <span className="cv2-eyebrow">Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex</span>
-        {preview ? <span className="cv2-draft-label">Design draft · not a published lesson</span> : null}
+        <span className="cv2-eyebrow">
+          Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex
+        </span>
+        {preview ? (
+          <span className="cv2-draft-label">Design draft · not a published lesson</span>
+        ) : null}
         <h1 id="cv2-entry-title">{canonicalCodexName(entry.kind, entry.slug)}</h1>
         <p className="cv2-lead">{entry.one_line}</p>
         <span className="cv2-edition">Codex V2 · {entry.revision}</span>
@@ -194,9 +204,13 @@ export function CodexV2Entry({
           <h2>What it is</h2>
           <p>{richText(entry.intro)}</p>
           <h3>Find your starting point</h3>
-          <p>Choose a learning level or musical application in Lessons. These describe
-            educational material, not your personal ability or Quest difficulty.</p>
-          <button type="button" onClick={() => setSection("lessons")}>Explore lessons →</button>
+          <p>
+            Choose a learning level or musical application in Lessons. These describe educational
+            material, not your personal ability or Quest difficulty.
+          </p>
+          <button type="button" onClick={() => setSection("lessons")}>
+            Explore lessons →
+          </button>
         </section>
       ) : null}
       {section === "lessons" ? (
@@ -204,8 +218,13 @@ export function CodexV2Entry({
           <h2>Learn and explore</h2>
           <div className="cv2-level-controls" role="group" aria-label="Learning level">
             {levels.map((item) => (
-              <button type="button" key={item} aria-pressed={level === item}
-                className={level === item ? "is-active" : ""} onClick={() => setLevel(item)}>
+              <button
+                type="button"
+                key={item}
+                aria-pressed={level === item}
+                className={level === item ? "is-active" : ""}
+                onClick={() => setLevel(item)}
+              >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
               </button>
             ))}
@@ -215,21 +234,33 @@ export function CodexV2Entry({
             <select value={application} onChange={(event) => setApplication(event.target.value)}>
               <option value="all">All applications</option>
               {entry.applications.map((item) => (
-                <option key={item.id} value={item.id}>{item.title}</option>
+                <option key={item.id} value={item.id}>
+                  {item.title}
+                </option>
               ))}
             </select>
           </label>
-          {modules.length ? modules.map((module) => (
-            <details className="cv2-module" key={module.id} open={modules.length === 1}>
-              <summary>{module.title} <span>{module.application_id}</span></summary>
-              <p>{module.explanation}</p>
-              <h3>Try it</h3>
-              <ol>{module.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>
-              {preview ? <small>Educational draft · does not record progress</small> : null}
-            </details>
-          )) : (
-            <p role="status">No reviewed module is available for this combination yet.
-              Choose another level or application.</p>
+          {modules.length ? (
+            modules.map((module) => (
+              <details className="cv2-module" key={module.id} open={modules.length === 1}>
+                <summary>
+                  {module.title} <span>{module.application_id}</span>
+                </summary>
+                <p>{module.explanation}</p>
+                <h3>Try it</h3>
+                <ol>
+                  {module.steps.map((step, index) => (
+                    <li key={index}>{step}</li>
+                  ))}
+                </ol>
+                {preview ? <small>Educational draft · does not record progress</small> : null}
+              </details>
+            ))
+          ) : (
+            <p role="status">
+              No reviewed module is available for this combination yet. Choose another level or
+              application.
+            </p>
           )}
         </section>
       ) : null}
@@ -238,11 +269,18 @@ export function CodexV2Entry({
           <h2>Where you can use it</h2>
           <div className="cv2-application-grid">
             {entry.applications.map((item) => (
-              <button type="button" key={item.id} onClick={() => {
-                setApplication(item.id);
-                setLevel(entry.modules.find((m) => m.application_id === item.id)?.level ?? "foundational");
-                setSection("lessons");
-              }}>
+              <button
+                type="button"
+                key={item.id}
+                onClick={() => {
+                  setApplication(item.id);
+                  setLevel(
+                    entry.modules.find((m) => m.application_id === item.id)?.level ??
+                      "foundational",
+                  );
+                  setSection("lessons");
+                }}
+              >
                 <strong>{item.title}</strong>
                 <span>Explore related lessons →</span>
               </button>
@@ -254,28 +292,38 @@ export function CodexV2Entry({
         <section className="cv2-reading-panel">
           <h2>Musical connections</h2>
           {entry.relationships.length ? (
-            <ul className="cv2-connections">{entry.relationships.map((relationship) => (
-              <li key={`${relationship.type}:${relationship.kind}:${relationship.slug}`}>
-                <span>{connectionName[relationship.type]}</span>
-                <Link href={canonicalCodexHref(relationship.kind, relationship.slug)}
-                  target="_blank" rel="noopener noreferrer">
-                  {canonicalCodexName(relationship.kind, relationship.slug)} ↗
-                </Link>
-                {relationship.review_status !== "REVIEWED" ? (
-                  <small>Proposed relationship · not a prerequisite gate</small>
-                ) : null}
-              </li>
-            ))}</ul>
-          ) : <p>No verified relationship content has been published for this entry.</p>}
+            <ul className="cv2-connections">
+              {entry.relationships.map((relationship) => (
+                <li key={`${relationship.type}:${relationship.kind}:${relationship.slug}`}>
+                  <span>{connectionName[relationship.type]}</span>
+                  <Link
+                    href={canonicalCodexHref(relationship.kind, relationship.slug)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {canonicalCodexName(relationship.kind, relationship.slug)} ↗
+                  </Link>
+                  {relationship.review_status !== "REVIEWED" ? (
+                    <small>Proposed relationship · not a prerequisite gate</small>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No verified relationship content has been published for this entry.</p>
+          )}
         </section>
       ) : null}
       {openTerm ? (
-        <DefinitionDialog term={openTerm} onClose={closeTerm}
+        <DefinitionDialog
+          term={openTerm}
+          onClose={closeTerm}
           onReadFull={(term) => {
             closeTerm();
             if (onReadDictionary) onReadDictionary(term);
             else window.location.assign(`/codex/dictionary/${term.slug}`);
-          }} />
+          }}
+        />
       ) : null}
     </article>
   );
