@@ -219,3 +219,8 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
 export function canonicalCodexHref(kindValue: CodexKind, slugValue: string) {
   return canonical(kindValue, slugValue).href;
 }
+
+/** Published canonical identity remains the authority for display names. */
+export function canonicalCodexName(kindValue: CodexKind, slugValue: string) {
+  return canonical(kindValue, slugValue).name;
+}
