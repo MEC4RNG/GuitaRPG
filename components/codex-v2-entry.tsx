@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CodexV2Reference } from "./codex-v2-reference";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   canonicalCodexHref,
@@ -12,10 +13,11 @@ import {
 } from "@/lib/codex/v2/content";
 
 const levels: LearningLevel[] = ["foundational", "intermediate", "advanced"];
-type Section = "overview" | "lessons" | "applications" | "connections";
+type Section = "overview" | "lessons" | "explore" | "applications" | "connections";
 const sections: Array<{ id: Section; title: string }> = [
   { id: "overview", title: "Overview" },
   { id: "lessons", title: "Lessons" },
+  { id: "explore", title: "How to Explore" },
   { id: "applications", title: "Applications" },
   { id: "connections", title: "Connections" },
 ];
@@ -127,12 +129,15 @@ export function CodexV2Entry({
   const [application, setApplication] = useState("all");
   const [openTerm, setOpenTerm] = useState<CodexV2Term | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
-
   const dictionary = useMemo(() => new Map(terms.map((term) => [term.id, term])), [terms]);
+
   const modules = entry.modules.filter(
     (item) =>
       item.level === level && (application === "all" || item.application_id === application),
   );
+  const goal = entry.learning_levels.find((item) => item.id === level)?.goal;
+  const applicationLabel = (id: string) =>
+    entry.applications.find((item) => item.id === id)?.title ?? id;
 
   function closeTerm() {
     setOpenTerm(null);
@@ -163,157 +168,189 @@ export function CodexV2Entry({
     });
   }
 
+  const chooseApplication = (id: string) => {
+    setApplication(id);
+    setLevel(entry.modules.find((item) => item.application_id === id)?.level ?? "foundational");
+    setSection("lessons");
+  };
+
+  const filters = (
+    <div className="cv2-study-filters">
+      <div className="cv2-level-controls" role="group" aria-label="Learning level">
+        {levels.map((item) => (
+          <button type="button" key={item} aria-pressed={level === item}
+            className={level === item ? "is-active" : ""} onClick={() => setLevel(item)}>
+            {item.charAt(0).toUpperCase() + item.slice(1)}
+          </button>
+        ))}
+      </div>
+      <label className="cv2-application-filter">
+        Musical application
+        <select value={application} onChange={(event) => setApplication(event.target.value)}>
+          <option value="all">All applications</option>
+          {entry.applications.map((item) => (
+            <option key={item.id} value={item.id}>{item.title}</option>
+          ))}
+        </select>
+      </label>
+      {goal ? <p className="cv2-level-goal">{goal}</p> : null}
+    </div>
+  );
+
   return (
     <article className="cv2-entry" aria-labelledby="cv2-entry-title">
       <div className="cv2-breadcrumb">
         {onBack ? (
-          <button type="button" onClick={onBack}>
-            ← Library
-          </button>
+          <button type="button" onClick={onBack}>← Library</button>
         ) : (
           <Link href="/codex">← Codex Library</Link>
         )}
-        <span> / {entry.kind.toLocaleLowerCase()} reference</span>
+        <span>/ {entry.kind.toLocaleLowerCase()} reference</span>
       </div>
       <header className="cv2-entry-hero">
-        <span className="cv2-eyebrow">
-          Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex
-        </span>
-        {preview ? (
-          <span className="cv2-draft-label">Design draft · not a published lesson</span>
-        ) : null}
+        <span className="cv2-eyebrow">Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex</span>
         <h1 id="cv2-entry-title">{canonicalCodexName(entry.kind, entry.slug)}</h1>
         <p className="cv2-lead">{entry.one_line}</p>
-        <span className="cv2-edition">Codex V2 · {entry.revision}</span>
+        {preview ? <span className="cv2-draft-label">Design draft · not a published lesson</span> : null}
       </header>
+
       <nav className="cv2-entry-tabs" aria-label="Codex entry sections">
         {sections.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            aria-pressed={section === item.id}
+          <button type="button" key={item.id} aria-pressed={section === item.id}
             className={section === item.id ? "is-active" : ""}
-            onClick={() => setSection(item.id)}
-          >
+            onClick={() => setSection(item.id)}>
             {item.title}
           </button>
         ))}
       </nav>
-      {section === "overview" ? (
-        <section className="cv2-reading-panel" aria-label="Skill overview">
-          <h2>What it is</h2>
-          <p>{richText(entry.intro)}</p>
-          <h3>Find your starting point</h3>
-          <p>
-            Choose a learning level or musical application in Lessons. These describe educational
-            material, not your personal ability or Quest difficulty.
-          </p>
-          <button type="button" onClick={() => setSection("lessons")}>
-            Explore lessons →
-          </button>
-        </section>
-      ) : null}
-      {section === "lessons" ? (
-        <section className="cv2-reading-panel" aria-label="Learning modules">
-          <h2>Learn and explore</h2>
-          <div className="cv2-level-controls" role="group" aria-label="Learning level">
-            {levels.map((item) => (
-              <button
-                type="button"
-                key={item}
-                aria-pressed={level === item}
-                className={level === item ? "is-active" : ""}
-                onClick={() => setLevel(item)}
-              >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </button>
-            ))}
+
+      <div className="cv2-section-frame">
+        {section === "overview" ? (
+          <div className="cv2-overview-grid">
+            <section className="cv2-reading-panel" aria-label="Skill overview">
+              <span className="cv2-eyebrow">The musical idea</span>
+              <h2>What it is</h2>
+              <p className="cv2-introduction">{richText(entry.intro)}</p>
+              <p>{entry.overview}</p>
+              <div className="cv2-distinction">
+                <h3>Important distinction</h3>
+                <p>{entry.key_distinction}</p>
+              </div>
+              <button type="button" onClick={() => setSection("lessons")}>Explore lessons →</button>
+            </section>
+            <CodexV2Reference blocks={entry.reference_blocks} />
           </div>
-          <label className="cv2-application-filter">
-            Musical application
-            <select value={application} onChange={(event) => setApplication(event.target.value)}>
-              <option value="all">All applications</option>
+        ) : null}
+
+        {section === "lessons" ? (
+          <section className="cv2-reading-panel" aria-label="Learning modules">
+            <div className="cv2-panel-heading">
+              <span className="cv2-eyebrow">Learning progression</span>
+              <h2>Lessons</h2>
+              <p>{entry.modules.length} draft instructional modules · exercises do not record progress</p>
+            </div>
+            {filters}
+            {modules.length ? (
+              <div className="cv2-modules">
+                {modules.map((module) => (
+                  <details className="cv2-module" key={module.id}>
+                    <summary>{module.title} <span>{applicationLabel(module.application_id)}</span></summary>
+                    <p>{module.explanation}</p>
+                    <h3>Learning objectives</h3>
+                    <ul>{module.outcomes.map((outcome, index) => <li key={index}>{outcome}</li>)}</ul>
+                    <h3>Try it</h3>
+                    {module.exercises.map((exercise) => (
+                      <div key={exercise.id} className="cv2-exercise">
+                        <strong>{exercise.title}</strong>
+                        <p>{exercise.setup}</p>
+                        <ol>{exercise.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>
+                        <p><strong>Self-check: </strong>{exercise.self_check}</p>
+                        <small>Suggested exploration: {exercise.suggested_minutes} minutes · no progress recorded</small>
+                      </div>
+                    ))}
+                  </details>
+                ))}
+              </div>
+            ) : (
+              <p role="status">No draft lesson matches this level and application. Choose another combination.</p>
+            )}
+            <button type="button" onClick={() => setSection("overview")}>View interactive reference →</button>
+          </section>
+        ) : null}
+
+        {section === "explore" ? (
+          <section className="cv2-reading-panel" aria-label="How to explore this Skill">
+            <div className="cv2-panel-heading">
+              <span className="cv2-eyebrow">Guided discovery</span>
+              <h2>How to Explore</h2>
+              <p>Activities you can try without starting or grading a Quest.</p>
+            </div>
+            {filters}
+            {modules.length ? (
+              <div className="cv2-explore-grid">
+                {modules.flatMap((module) => module.exercises.map((exercise) => (
+                  <article className="cv2-exercise" key={exercise.id}>
+                    <span className="cv2-eyebrow">{applicationLabel(module.application_id)}</span>
+                    <h3>{exercise.title}</h3>
+                    <p>{exercise.setup}</p>
+                    <ol>{exercise.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>
+                    <p><strong>Check yourself: </strong>{exercise.self_check}</p>
+                    <small>{exercise.suggested_minutes} minutes suggested · no automatic evidence</small>
+                  </article>
+                )))}
+              </div>
+            ) : <p role="status">No exercises match this combination yet.</p>}
+          </section>
+        ) : null}
+
+        {section === "applications" ? (
+          <section className="cv2-reading-panel" aria-label="Musical applications">
+            <div className="cv2-panel-heading">
+              <span className="cv2-eyebrow">Musical contexts</span>
+              <h2>Where you can use it</h2>
+              <p>One Skill can support several musical pursuits. Select an application to explore its lessons.</p>
+            </div>
+            <div className="cv2-application-grid">
               {entry.applications.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.title}
-                </option>
+                <button type="button" key={item.id} onClick={() => chooseApplication(item.id)}>
+                  <strong>{item.title}</strong>
+                  <span className="cv2-app-description">{item.summary}</span>
+                  <span className="cv2-app-levels">Material: {item.level_ids.join(" · ")}</span>
+                  <span>Explore related lessons →</span>
+                </button>
               ))}
-            </select>
-          </label>
-          {modules.length ? (
-            modules.map((module) => (
-              <details className="cv2-module" key={module.id} open={modules.length === 1}>
-                <summary>
-                  {module.title} <span>{module.application_id}</span>
-                </summary>
-                <p>{module.explanation}</p>
-                <h3>Try it</h3>
-                <ol>
-                  {module.steps.map((step, index) => (
-                    <li key={index}>{step}</li>
-                  ))}
-                </ol>
-                {preview ? <small>Educational draft · does not record progress</small> : null}
-              </details>
-            ))
-          ) : (
-            <p role="status">
-              No reviewed module is available for this combination yet. Choose another level or
-              application.
-            </p>
-          )}
-        </section>
-      ) : null}
-      {section === "applications" ? (
-        <section className="cv2-reading-panel">
-          <h2>Where you can use it</h2>
-          <div className="cv2-application-grid">
-            {entry.applications.map((item) => (
-              <button
-                type="button"
-                key={item.id}
-                onClick={() => {
-                  setApplication(item.id);
-                  setLevel(
-                    entry.modules.find((m) => m.application_id === item.id)?.level ??
-                      "foundational",
-                  );
-                  setSection("lessons");
-                }}
-              >
-                <strong>{item.title}</strong>
-                <span>Explore related lessons →</span>
-              </button>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      {section === "connections" ? (
-        <section className="cv2-reading-panel">
-          <h2>Musical connections</h2>
-          {entry.relationships.length ? (
-            <ul className="cv2-connections">
-              {entry.relationships.map((relationship) => (
-                <li key={`${relationship.type}:${relationship.kind}:${relationship.slug}`}>
-                  <span>{connectionName[relationship.type]}</span>
-                  <Link
-                    href={canonicalCodexHref(relationship.kind, relationship.slug)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {canonicalCodexName(relationship.kind, relationship.slug)} ↗
-                  </Link>
-                  {relationship.review_status !== "REVIEWED" ? (
-                    <small>Proposed relationship · not a prerequisite gate</small>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No verified relationship content has been published for this entry.</p>
-          )}
-        </section>
-      ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        {section === "connections" ? (
+          <section className="cv2-reading-panel" aria-label="Skill relationships">
+            <div className="cv2-panel-heading">
+              <span className="cv2-eyebrow">Knowledge connections</span>
+              <h2>Musical connections</h2>
+              <p>Suggestions for exploration, not official prerequisite requirements until reviewed.</p>
+            </div>
+            {entry.relationships.length ? (
+              <ul className="cv2-connections">
+                {entry.relationships.map((relationship) => (
+                  <li key={`${relationship.type}:${relationship.kind}:${relationship.slug}`}>
+                    <span>{connectionName[relationship.type]} · {relationship.scope.replaceAll("/", " / ")}</span>
+                    <Link href={canonicalCodexHref(relationship.kind, relationship.slug)}
+                      target="_blank" rel="noopener noreferrer">
+                      {canonicalCodexName(relationship.kind, relationship.slug)} ↗
+                    </Link>
+                    <p>{relationship.why}</p>
+                    {relationship.review_status !== "REVIEWED" ? (
+                      <small>Proposed educational connection · not a prerequisite gate</small>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            ) : <p>No reviewed relationship content is available for this entry.</p>}
+          </section>
+        ) : null}
+      </div>
+
       {openTerm ? (
         <DefinitionDialog
           term={openTerm}
