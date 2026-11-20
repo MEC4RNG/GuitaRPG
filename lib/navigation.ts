@@ -71,6 +71,8 @@ export function isRouteActive(pathname: string, href: string) {
 }
 
 export function getNavigationItem(pathname: string) {
+  if (pathname.startsWith("/prototype/codex-v2"))
+    return ALL_NAVIGATION_ITEMS.find((item) => item.href === "/codex")!;
   if (pathname.startsWith("/quest/"))
     return ALL_NAVIGATION_ITEMS.find((item) => item.href === "/quests")!;
   return (
