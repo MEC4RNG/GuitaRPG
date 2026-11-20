@@ -178,8 +178,13 @@ export function CodexV2Entry({
     <div className="cv2-study-filters">
       <div className="cv2-level-controls" role="group" aria-label="Learning level">
         {levels.map((item) => (
-          <button type="button" key={item} aria-pressed={level === item}
-            className={level === item ? "is-active" : ""} onClick={() => setLevel(item)}>
+          <button
+            type="button"
+            key={item}
+            aria-pressed={level === item}
+            className={level === item ? "is-active" : ""}
+            onClick={() => setLevel(item)}
+          >
             {item.charAt(0).toUpperCase() + item.slice(1)}
           </button>
         ))}
@@ -189,7 +194,9 @@ export function CodexV2Entry({
         <select value={application} onChange={(event) => setApplication(event.target.value)}>
           <option value="all">All applications</option>
           {entry.applications.map((item) => (
-            <option key={item.id} value={item.id}>{item.title}</option>
+            <option key={item.id} value={item.id}>
+              {item.title}
+            </option>
           ))}
         </select>
       </label>
@@ -201,24 +208,34 @@ export function CodexV2Entry({
     <article className="cv2-entry" aria-labelledby="cv2-entry-title">
       <div className="cv2-breadcrumb">
         {onBack ? (
-          <button type="button" onClick={onBack}>← Library</button>
+          <button type="button" onClick={onBack}>
+            ← Library
+          </button>
         ) : (
           <Link href="/codex">← Codex Library</Link>
         )}
         <span>/ {entry.kind.toLocaleLowerCase()} reference</span>
       </div>
       <header className="cv2-entry-hero">
-        <span className="cv2-eyebrow">Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex</span>
+        <span className="cv2-eyebrow">
+          Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex
+        </span>
         <h1 id="cv2-entry-title">{canonicalCodexName(entry.kind, entry.slug)}</h1>
         <p className="cv2-lead">{entry.one_line}</p>
-        {preview ? <span className="cv2-draft-label">Design draft · not a published lesson</span> : null}
+        {preview ? (
+          <span className="cv2-draft-label">Design draft · not a published lesson</span>
+        ) : null}
       </header>
 
       <nav className="cv2-entry-tabs" aria-label="Codex entry sections">
         {sections.map((item) => (
-          <button type="button" key={item.id} aria-pressed={section === item.id}
+          <button
+            type="button"
+            key={item.id}
+            aria-pressed={section === item.id}
             className={section === item.id ? "is-active" : ""}
-            onClick={() => setSection(item.id)}>
+            onClick={() => setSection(item.id)}
+          >
             {item.title}
           </button>
         ))}
@@ -236,7 +253,9 @@ export function CodexV2Entry({
                 <h3>Important distinction</h3>
                 <p>{entry.key_distinction}</p>
               </div>
-              <button type="button" onClick={() => setSection("lessons")}>Explore lessons →</button>
+              <button type="button" onClick={() => setSection("lessons")}>
+                Explore lessons →
+              </button>
             </section>
             <CodexV2Reference blocks={entry.reference_blocks} />
           </div>
@@ -247,34 +266,57 @@ export function CodexV2Entry({
             <div className="cv2-panel-heading">
               <span className="cv2-eyebrow">Learning progression</span>
               <h2>Lessons</h2>
-              <p>{entry.modules.length} draft instructional modules · exercises do not record progress</p>
+              <p>
+                {entry.modules.length} draft instructional modules · exercises do not record
+                progress
+              </p>
             </div>
             {filters}
             {modules.length ? (
               <div className="cv2-modules">
                 {modules.map((module) => (
                   <details className="cv2-module" key={module.id}>
-                    <summary>{module.title} <span>{applicationLabel(module.application_id)}</span></summary>
+                    <summary>
+                      {module.title} <span>{applicationLabel(module.application_id)}</span>
+                    </summary>
                     <p>{module.explanation}</p>
                     <h3>Learning objectives</h3>
-                    <ul>{module.outcomes.map((outcome, index) => <li key={index}>{outcome}</li>)}</ul>
+                    <ul>
+                      {module.outcomes.map((outcome, index) => (
+                        <li key={index}>{outcome}</li>
+                      ))}
+                    </ul>
                     <h3>Try it</h3>
                     {module.exercises.map((exercise) => (
                       <div key={exercise.id} className="cv2-exercise">
                         <strong>{exercise.title}</strong>
                         <p>{exercise.setup}</p>
-                        <ol>{exercise.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>
-                        <p><strong>Self-check: </strong>{exercise.self_check}</p>
-                        <small>Suggested exploration: {exercise.suggested_minutes} minutes · no progress recorded</small>
+                        <ol>
+                          {exercise.steps.map((step, index) => (
+                            <li key={index}>{step}</li>
+                          ))}
+                        </ol>
+                        <p>
+                          <strong>Self-check: </strong>
+                          {exercise.self_check}
+                        </p>
+                        <small>
+                          Suggested exploration: {exercise.suggested_minutes} minutes · no progress
+                          recorded
+                        </small>
                       </div>
                     ))}
                   </details>
                 ))}
               </div>
             ) : (
-              <p role="status">No draft lesson matches this level and application. Choose another combination.</p>
+              <p role="status">
+                No draft lesson matches this level and application. Choose another combination.
+              </p>
             )}
-            <button type="button" onClick={() => setSection("overview")}>View interactive reference →</button>
+            <button type="button" onClick={() => setSection("overview")}>
+              View interactive reference →
+            </button>
           </section>
         ) : null}
 
@@ -288,18 +330,31 @@ export function CodexV2Entry({
             {filters}
             {modules.length ? (
               <div className="cv2-explore-grid">
-                {modules.flatMap((module) => module.exercises.map((exercise) => (
-                  <article className="cv2-exercise" key={exercise.id}>
-                    <span className="cv2-eyebrow">{applicationLabel(module.application_id)}</span>
-                    <h3>{exercise.title}</h3>
-                    <p>{exercise.setup}</p>
-                    <ol>{exercise.steps.map((step, index) => <li key={index}>{step}</li>)}</ol>
-                    <p><strong>Check yourself: </strong>{exercise.self_check}</p>
-                    <small>{exercise.suggested_minutes} minutes suggested · no automatic evidence</small>
-                  </article>
-                )))}
+                {modules.flatMap((module) =>
+                  module.exercises.map((exercise) => (
+                    <article className="cv2-exercise" key={exercise.id}>
+                      <span className="cv2-eyebrow">{applicationLabel(module.application_id)}</span>
+                      <h3>{exercise.title}</h3>
+                      <p>{exercise.setup}</p>
+                      <ol>
+                        {exercise.steps.map((step, index) => (
+                          <li key={index}>{step}</li>
+                        ))}
+                      </ol>
+                      <p>
+                        <strong>Check yourself: </strong>
+                        {exercise.self_check}
+                      </p>
+                      <small>
+                        {exercise.suggested_minutes} minutes suggested · no automatic evidence
+                      </small>
+                    </article>
+                  )),
+                )}
               </div>
-            ) : <p role="status">No exercises match this combination yet.</p>}
+            ) : (
+              <p role="status">No exercises match this combination yet.</p>
+            )}
           </section>
         ) : null}
 
@@ -308,7 +363,10 @@ export function CodexV2Entry({
             <div className="cv2-panel-heading">
               <span className="cv2-eyebrow">Musical contexts</span>
               <h2>Where you can use it</h2>
-              <p>One Skill can support several musical pursuits. Select an application to explore its lessons.</p>
+              <p>
+                One Skill can support several musical pursuits. Select an application to explore its
+                lessons.
+              </p>
             </div>
             <div className="cv2-application-grid">
               {entry.applications.map((item) => (
@@ -328,15 +386,23 @@ export function CodexV2Entry({
             <div className="cv2-panel-heading">
               <span className="cv2-eyebrow">Knowledge connections</span>
               <h2>Musical connections</h2>
-              <p>Suggestions for exploration, not official prerequisite requirements until reviewed.</p>
+              <p>
+                Suggestions for exploration, not official prerequisite requirements until reviewed.
+              </p>
             </div>
             {entry.relationships.length ? (
               <ul className="cv2-connections">
                 {entry.relationships.map((relationship) => (
                   <li key={`${relationship.type}:${relationship.kind}:${relationship.slug}`}>
-                    <span>{connectionName[relationship.type]} · {relationship.scope.replaceAll("/", " / ")}</span>
-                    <Link href={canonicalCodexHref(relationship.kind, relationship.slug)}
-                      target="_blank" rel="noopener noreferrer">
+                    <span>
+                      {connectionName[relationship.type]} ·{" "}
+                      {relationship.scope.replaceAll("/", " / ")}
+                    </span>
+                    <Link
+                      href={canonicalCodexHref(relationship.kind, relationship.slug)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {canonicalCodexName(relationship.kind, relationship.slug)} ↗
                     </Link>
                     <p>{relationship.why}</p>
@@ -346,7 +412,9 @@ export function CodexV2Entry({
                   </li>
                 ))}
               </ul>
-            ) : <p>No reviewed relationship content is available for this entry.</p>}
+            ) : (
+              <p>No reviewed relationship content is available for this entry.</p>
+            )}
           </section>
         ) : null}
       </div>
