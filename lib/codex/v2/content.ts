@@ -84,7 +84,10 @@ function kind(value: unknown, name: string): CodexKind {
 }
 function canonical(kindValue: CodexKind, slugValue: string) {
   const resolved = byIdentity.get(`${kindValue}:${slugValue}`);
-  if (!resolved) throw new Error(`Invalid CODEX_CONTENT_V2: unknown canonical reference ${kindValue}:${slugValue}`);
+  if (!resolved)
+    throw new Error(
+      `Invalid CODEX_CONTENT_V2: unknown canonical reference ${kindValue}:${slugValue}`,
+    );
   return resolved;
 }
 function editorial(value: unknown, allowDrafts: boolean, name: string): EditorialStatus {
@@ -97,8 +100,10 @@ function editorial(value: unknown, allowDrafts: boolean, name: string): Editoria
 
 export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalog {
   const document = object(input, "catalog");
-  if (document.schema !== "SOUND_UNCHARTED_CODEX_V2" ||
-      document.content_version !== "CODEX_CONTENT_V2")
+  if (
+    document.schema !== "SOUND_UNCHARTED_CODEX_V2" ||
+    document.content_version !== "CODEX_CONTENT_V2"
+  )
     throw new Error("Invalid CODEX_CONTENT_V2: unsupported catalog version");
 
   const terms: CodexV2Term[] = [];
@@ -152,7 +157,10 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
     });
     const applications = array(data.applications, "applications", 30).map((rawApplication) => {
       const application = object(rawApplication, "application");
-      return { id: slug(application.id, "application id"), title: string(application.title, "application title", 120) };
+      return {
+        id: slug(application.id, "application id"),
+        title: string(application.title, "application title", 120),
+      };
     });
     if (new Set(applications.map((application) => application.id)).size !== applications.length)
       throw new Error("Invalid CODEX_CONTENT_V2: duplicate application");
@@ -164,12 +172,17 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       seenModules.add(id);
       const level = string(item.level, "module level", 30);
       const applicationId = slug(item.application_id, "module application");
-      if (!levels.has(level) || !applications.some((application) => application.id === applicationId))
+      if (
+        !levels.has(level) ||
+        !applications.some((application) => application.id === applicationId)
+      )
         throw new Error("Invalid CODEX_CONTENT_V2: unknown module level or application");
       const moduleStatus = editorial(item.editorial_status, allowDrafts, "module");
       if (status === "PUBLISHED" && moduleStatus !== "PUBLISHED")
         throw new Error("Invalid CODEX_CONTENT_V2: published entry contains draft module");
-      const steps = array(item.steps, "exercise steps", 30).map((step) => string(step, "exercise step", 1000));
+      const steps = array(item.steps, "exercise steps", 30).map((step) =>
+        string(step, "exercise step", 1000),
+      );
       return {
         id,
         level: level as LearningLevel,
@@ -181,7 +194,9 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       };
     });
     const relationships: CodexV2Entry["relationships"] = array(
-      data.relationships, "relationships", 50,
+      data.relationships,
+      "relationships",
+      50,
     ).map((rawRelationship) => {
       const relation = object(rawRelationship, "relationship");
       const relationKind = kind(relation.kind, "relationship kind");
@@ -213,7 +228,12 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       relationships,
     });
   }
-  return { schema: "SOUND_UNCHARTED_CODEX_V2", content_version: "CODEX_CONTENT_V2", entries, terms };
+  return {
+    schema: "SOUND_UNCHARTED_CODEX_V2",
+    content_version: "CODEX_CONTENT_V2",
+    entries,
+    terms,
+  };
 }
 
 export function canonicalCodexHref(kindValue: CodexKind, slugValue: string) {
