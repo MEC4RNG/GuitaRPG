@@ -1,0 +1,358 @@
+{
+  "schema": "SOUND_UNCHARTED_CODEX_V2",
+  "content_version": "CODEX_CONTENT_V2",
+  "entries": [
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000056",
+      "kind": "SKILL",
+      "slug": "scale_degree_recognition",
+      "revision": "draft-1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Hear, find, and use notes by the role they play in a key.",
+      "intro": [
+        {
+          "text": "Every note has a relationship to the "
+        },
+        {
+          "text": "tonic",
+          "term_id": "vocab:tonic"
+        },
+        {
+          "text": " — the home note of a key. Scale-degree recognition helps you hear, locate, and choose those relationships on purpose."
+        }
+      ],
+      "applications": [
+        {
+          "id": "aural",
+          "title": "Listening"
+        },
+        {
+          "id": "theory",
+          "title": "Music theory"
+        },
+        {
+          "id": "fretboard",
+          "title": "Fretboard"
+        }
+      ],
+      "modules": [
+        {
+          "id": "sdr.aural.f1",
+          "level": "foundational",
+          "application_id": "aural",
+          "title": "Hear the tonal home",
+          "explanation": "Settle on C as home. Compare C (1), E (3), and G (5) against that tonal center.",
+          "steps": [
+            "Play or sustain C as a reference.",
+            "Sing C, E and G, naming their scale degrees.",
+            "Return to C after each note and listen for the feeling of home."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.theory.i1",
+          "level": "intermediate",
+          "application_id": "theory",
+          "title": "Name degrees in different keys",
+          "explanation": "A note's scale degree depends on the key. E is degree 3 in C major and degree 6 in G major.",
+          "steps": [
+            "Write the C major scale and number each note.",
+            "Write the G major scale and number its notes.",
+            "Compare how E changes its role."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Target degrees while improvising",
+          "explanation": "Navigate to chosen scale degrees in multiple positions without depending on one memorized pattern.",
+          "steps": [
+            "Choose a tonal center and a limited string set.",
+            "Locate degrees 3 and 7 in several positions.",
+            "Create short phrases that approach each target note."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "CONCEPT",
+          "slug": "major_scale",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONTEXT",
+          "slug": "tonal_center",
+          "review_status": "PROPOSED"
+        }
+      ]
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000066",
+      "kind": "SKILL",
+      "slug": "triad_construction",
+      "revision": "draft-1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Build three-note chords from their root, third, and fifth.",
+      "intro": [
+        {
+          "text": "A "
+        },
+        {
+          "text": "triad",
+          "term_id": "vocab:triad"
+        },
+        {
+          "text": " contains a root, a third, and a fifth. Changing the third changes a major chord to a minor chord while the root and perfect fifth remain."
+        }
+      ],
+      "applications": [
+        {
+          "id": "theory",
+          "title": "Harmony"
+        },
+        {
+          "id": "fretboard",
+          "title": "Fretboard"
+        },
+        {
+          "id": "composition",
+          "title": "Composition"
+        }
+      ],
+      "modules": [
+        {
+          "id": "triad.theory.f1",
+          "level": "foundational",
+          "application_id": "theory",
+          "title": "Spell a major and minor triad",
+          "explanation": "C major is C–E–G. C minor is C–E♭–G: the third moves down one semitone.",
+          "steps": [
+            "Write C–E–G as root, third and fifth.",
+            "Lower E to E♭ and listen for the change.",
+            "Try the same comparison with G major and minor."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.fretboard.i1",
+          "level": "intermediate",
+          "application_id": "fretboard",
+          "title": "Find three inversions",
+          "explanation": "The same chord tones can appear in different orders. Verify each note and fingering against the actual tuning.",
+          "steps": [
+            "Spell a three-note chord before choosing fret positions.",
+            "Find a root-position voicing on three adjacent strings.",
+            "Reorder the same notes into first and second inversion."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.composition.a1",
+          "level": "advanced",
+          "application_id": "composition",
+          "title": "Connect chords smoothly",
+          "explanation": "Use voice leading to connect voicings with small movements while keeping each chord's notes correct.",
+          "steps": [
+            "Choose a three-chord progression.",
+            "Write several nearby voicings for each chord.",
+            "Compare which voices move least between chords."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "CONCEPT",
+          "slug": "major_scale",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "chord_inversion",
+          "review_status": "PROPOSED"
+        }
+      ]
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000061",
+      "kind": "SKILL",
+      "slug": "subdivision_control",
+      "revision": "draft-1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Feel the space between beats and choose when notes land.",
+      "intro": [
+        {
+          "text": "A steady "
+        },
+        {
+          "text": "beat",
+          "term_id": "vocab:beat"
+        },
+        {
+          "text": " is the pulse you can tap. "
+        },
+        {
+          "text": "Subdivision",
+          "term_id": "vocab:subdivision"
+        },
+        {
+          "text": " divides that pulse into smaller, evenly spaced parts."
+        }
+      ],
+      "applications": [
+        {
+          "id": "aural",
+          "title": "Listening"
+        },
+        {
+          "id": "picking",
+          "title": "Picking"
+        },
+        {
+          "id": "groove",
+          "title": "Groove"
+        }
+      ],
+      "modules": [
+        {
+          "id": "subdiv.aural.f1",
+          "level": "foundational",
+          "application_id": "aural",
+          "title": "Keep a steady pulse",
+          "explanation": "Count 1, 2, 3, 4 over four steady quarter-note beats. Adding 'and' between counts doubles the events without changing the underlying beat.",
+          "steps": [
+            "Tap four equally spaced quarter-note beats.",
+            "Keep tapping while saying 1-and-2-and-3-and-4-and.",
+            "Stop saying 'and' without changing your tapping speed."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.picking.i1",
+          "level": "intermediate",
+          "application_id": "picking",
+          "title": "Switch between subdivisions",
+          "explanation": "Alternate quarter notes, eighth notes and sixteenths while keeping the same tempo.",
+          "steps": [
+            "Play one note on each beat for one bar.",
+            "Play two even notes per beat for one bar.",
+            "Play four even notes per beat for one bar."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.groove.a1",
+          "level": "advanced",
+          "application_id": "groove",
+          "title": "Shape accents independently",
+          "explanation": "Make an accent pattern move against a steady pulse without accidentally changing tempo or meter.",
+          "steps": [
+            "Choose a consistent beat and subdivision.",
+            "Accent every third subdivision without moving the beat.",
+            "Return to a simple accent pattern to test pulse stability."
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "CONCEPT",
+          "slug": "quarter_note_subdivision",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "CONCEPT",
+          "slug": "syncopation",
+          "review_status": "PROPOSED"
+        }
+      ]
+    }
+  ],
+  "terms": [
+    {
+      "id": "vocab:tonic",
+      "slug": "tonic",
+      "term": "Tonic",
+      "definition": "The home note of a key, heard as a point of arrival or rest.",
+      "detail": "In C major, C is the tonic. A passage can change its tonal center; the tonic depends on musical context.",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONTEXT",
+        "slug": "tonal_center"
+      }
+    },
+    {
+      "id": "vocab:beat",
+      "slug": "beat",
+      "term": "Beat",
+      "definition": "A steady pulse that helps organize music in time.",
+      "detail": "A beat can be divided into smaller parts without changing the tempo.",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:subdivision",
+      "slug": "subdivision",
+      "term": "Subdivision",
+      "definition": "Dividing one beat into smaller equal time units.",
+      "detail": "Straight eighth notes place two events in a quarter-note beat; triplets place three.",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "CONCEPT",
+        "slug": "eighth_note_subdivision"
+      }
+    },
+    {
+      "id": "vocab:triad",
+      "slug": "triad",
+      "term": "Triad",
+      "definition": "A chord built from three different pitch classes, commonly stacked in thirds.",
+      "detail": "Major and minor triads are often described by their root, third and fifth.",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "triad_construction"
+      }
+    },
+    {
+      "id": "vocab:scale_degree",
+      "slug": "scale_degree",
+      "term": "Scale degree",
+      "definition": "The position of a note within a scale, counted from its first degree.",
+      "detail": "The tonic is scale degree 1. In C major, E is degree 3.",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "scale_degree_recognition"
+      }
+    },
+    {
+      "id": "vocab:root",
+      "slug": "root",
+      "term": "Root",
+      "definition": "The pitch a chord is named after and built around.",
+      "detail": "The root of C major is C, even when another chord tone is the lowest note.",
+      "editorial_status": "DRAFT_REVIEW"
+    },
+    {
+      "id": "vocab:interval",
+      "slug": "interval",
+      "term": "Interval",
+      "definition": "The distance between two pitches.",
+      "detail": "Intervals can be described by numbered sizes and qualities, such as major third.",
+      "editorial_status": "DRAFT_REVIEW",
+      "related": {
+        "kind": "SKILL",
+        "slug": "interval_recognition"
+      }
+    }
+  ]
+}
