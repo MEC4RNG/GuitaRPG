@@ -29,3 +29,33 @@ Implement a versioned, source-controlled **public educational content** contract
 4. Deterministic tests for published/draft gating and identity. Browser smoke for responsive, keyboard, no horizontal overflow and overlay behavior.
 5. Format, lint, strict TypeScript, tests, production build and required CI evidence. No claims of visual acceptance from automated checks.
 6. Remain draft/unmerged until JRN-004 is accepted/merged, rebase onto protected `v1-production`, and separately obtain Codex preview acceptance and final-head required CI.
+
+## CODEX-V2-A-R1 — Restore Interactive Content and Entry-Focused Layout
+
+**User authorization:** "Let's proceed with CODEX-V2-A-R1, or do I need to switch over to chatgpt codex?" (2026-11-20).
+**Disposition:** IMPLEMENTED ON DRAFT BRANCH; AWAITING FINAL-HEAD CI AND USER DESKTOP/MOBILE VISUAL REVIEW. Do not merge PR #14.
+
+### Review findings
+
+User review did not accept V2-A's visual/content parity. The integrated renderer lost the original pilot's musical references and educational depth, displaying 9 modules, 9 applications, 6 proposed relationships, and 7 glossary examples in place of 28 / 14 / 24 / 178 respectively. The Library banner repeated on individual Skill pages, making entry hierarchy clunky; Overview and other section panels used inconsistent composition.
+
+### R1 implementation
+
+- Restored design-pilot **28 instructional modules** (10 Scale-Degree Recognition, 6 Triad Construction, 12 Subdivision Control), **14 applications**, **24 proposed relationships** and **178 draft vocabulary definitions** directly from the retained V5 unified pilot manifest. Exercise objectives, setup, self-check, suggested minutes, learning goals, relationship rationale/scope and application summaries are preserved.
+- Added strict bounded parsing for additional instructional fields and a typed, allowlisted reference-block contract. Published content remains empty; preview material is **DRAFT_REVIEW**, not a published or mastery-evidence authority.
+- Restored a playable 4/4 rhythm reference with BPM control (40–180), quarter/eighth/triplet/sixteenth grids, beat indication, explicit Play/Stop and an AudioContext scheduler initiated by user gesture. No audio runs by default and no Session/progression is written.
+- Restored verified standard-tuning triad placements on strings 3/2/1: C major (5/5/3 = C4/E4/G4), C minor (5/4/3 = C4/E♭4/G4), F-major first inversion (2/1/1 = A3/C4/F4). Diagram is derived from stable typed note/fret data; wrong alternate-tuning mappings are not implied.
+- Restored interactive C-major scale-degree selection (1–7), audio note preview, related Major Scale and Tonal Center references. Added related chord inversion/voicing and subdivision/triplet references beneath their corresponding tools.
+- Introduced a dedicated **How to Explore** section and restored full application descriptions, learning-level scope and proposed connection reasoning.
+- Reorganized UI to show a compact Library banner on Library only, compact Dictionary header in Dictionary, and a Skill-first hero within entries; the overview pairs instructional content with the musical reference. Section panels share widths/spacing, use a bounded desktop minimum height and natural mobile height.
+
+### R1 review and validation requirements
+
+1. Verify media **functionality**, not only component presence: C/Cm/F first-inversion note and fret labels; quarter/eighth/triplet/sixteenth grid counts 4/8/12/16; Play/Stop/BPM; C-major 7-degree selector and audio fallback.
+2. Test original content coverage 28/14/24/178 and ensure each exercise remains private, unsaved, and ungraded; learn levels ≠ Player proficiency.
+3. Confirm proposed relationships have rationales/scopes, never becoming official prerequisites without editorial approval.
+4. Confirm consistent desktop tab frames and a compact mobile entry, no horizontal overflow, readable diagram, and keyboard/focus recovery for glossary.
+5. Protect canonical 197 V1 entries, all existing Workbooks, auth, sessions, and data identifiers; V2 published corpus stays empty.
+6. Require a final-head protected-branch CI receipt and **user interactive visual approval**; PR #14 remains DRAFT/OPEN/UNMERGED until parent JRN-004 is accepted and stacked branch is ready for protected integration.
+
+No Supabase migration, Vercel production traffic change, public Codex publication, or JRN-005 implementation is authorized by R1.
