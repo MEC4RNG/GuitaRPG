@@ -295,7 +295,6 @@ function RhythmGridReference() {
   const [step, setStep] = useState(-1);
   const playbackRef = useRef<Playback | null>(null);
   const choice = subdivisions.find((item) => item.id === divisionId) ?? subdivisions[1];
-  const count = 4 * choice.count;
 
   function stop() {
     const playback = playbackRef.current;
