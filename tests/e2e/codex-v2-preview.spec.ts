@@ -8,7 +8,7 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
   await expect(page.getByText("Design review only")).toBeVisible();
 
   await page.getByRole("button", { name: "Explore this Skill" }).first().click();
-  await expect(page.getByRole("heading", { name: "Scale Degree Recognition" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Scale-Degree Recognition" })).toBeVisible();
   const define = page.getByRole("button", { name: "Define Tonic" });
   await define.click();
   await expect(page.getByRole("dialog", { name: "Tonic" })).toBeVisible();
