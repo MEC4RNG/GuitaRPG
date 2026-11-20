@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   canonicalCodexHref,
+  canonicalCodexName,
   type CodexV2Entry as Entry,
   type CodexV2Inline,
   type CodexV2Term,
@@ -166,14 +167,12 @@ export function CodexV2Entry({
         {onBack ? <button type="button" onClick={onBack}>← Library</button> : (
           <Link href="/codex">← Codex Library</Link>
         )}
-        <span> / Skill reference</span>
+        <span> / {entry.kind.toLocaleLowerCase()} reference</span>
       </div>
       <header className="cv2-entry-hero">
-        <span className="cv2-eyebrow">Sound Uncharted · Skill Codex</span>
+        <span className="cv2-eyebrow">Sound Uncharted · {entry.kind.toLocaleLowerCase()} Codex</span>
         {preview ? <span className="cv2-draft-label">Design draft · not a published lesson</span> : null}
-        <h1 id="cv2-entry-title">{entry.slug.split("_").map(
-          (part) => part.charAt(0).toUpperCase() + part.slice(1),
-        ).join(" ")}</h1>
+        <h1 id="cv2-entry-title">{canonicalCodexName(entry.kind, entry.slug)}</h1>
         <p className="cv2-lead">{entry.one_line}</p>
         <span className="cv2-edition">Codex V2 · {entry.revision}</span>
       </header>
@@ -260,7 +259,7 @@ export function CodexV2Entry({
                 <span>{connectionName[relationship.type]}</span>
                 <Link href={canonicalCodexHref(relationship.kind, relationship.slug)}
                   target="_blank" rel="noopener noreferrer">
-                  {relationship.slug.replaceAll("_", " ")} ↗
+                  {canonicalCodexName(relationship.kind, relationship.slug)} ↗
                 </Link>
                 {relationship.review_status !== "REVIEWED" ? (
                   <small>Proposed relationship · not a prerequisite gate</small>
