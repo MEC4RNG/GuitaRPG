@@ -63,7 +63,7 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
 
   await page.getByRole("button", { name: "How to Explore" }).click();
   await expect(page.getByRole("heading", { name: "How to Explore" })).toBeVisible();
-  await expect(page.locator(".cv2-explore-grid .cv2-exercise")).toHaveCount(1);
+  await expect(page.locator(".cv2-explore-grid .cv2-exercise")).toHaveCount(2);
   await expect(page.locator(".cv2-explore-grid")).toContainText("Check yourself");
 
   await page.getByRole("button", { name: "Lessons" }).click();
