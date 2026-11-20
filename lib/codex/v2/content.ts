@@ -184,12 +184,20 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       const item = object(rawLevel, "learning level");
       const id = string(item.id, "learning level id", 30);
       if (!levels.has(id)) throw new Error("Invalid CODEX_CONTENT_V2: unknown learning level");
-      return { id: id as LearningLevel, title: string(item.title, "learning level title", 100), goal: string(item.goal, "learning level goal", 600) };
+      return {
+        id: id as LearningLevel,
+        title: string(item.title, "learning level title", 100),
+        goal: string(item.goal, "learning level goal", 600),
+      };
     });
     if (new Set(levelGoals.map((goal) => goal.id)).size !== levelGoals.length)
       throw new Error("Invalid CODEX_CONTENT_V2: duplicate learning level");
 
-    const blocks: CodexV2ReferenceBlock[] = array(data.reference_blocks, "reference blocks", 12).map((rawBlock) => {
+    const blocks: CodexV2ReferenceBlock[] = array(
+      data.reference_blocks,
+      "reference blocks",
+      12,
+    ).map((rawBlock) => {
       const item = object(rawBlock, "reference block");
       const id = string(item.id, "reference block id", 150);
       const mediaKind = string(item.kind, "reference block kind", 40);
@@ -199,7 +207,9 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         subdivision_control: "RHYTHM_GRID",
       };
       if (mediaKind !== expected[entrySlug] || item.location !== "overview")
-        throw new Error("Invalid CODEX_CONTENT_V2: unsupported reference block or musical identity");
+        throw new Error(
+          "Invalid CODEX_CONTENT_V2: unsupported reference block or musical identity",
+        );
       return { id, kind: mediaKind as CodexV2ReferenceBlock["kind"], location: "overview" };
     });
     if (new Set(blocks.map((block) => block.id)).size !== blocks.length)
@@ -213,7 +223,8 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         summary: string(application.summary, "application summary", 1000),
         level_ids: array(application.level_ids, "application levels", 3).map((value) => {
           const level = string(value, "application level", 30);
-          if (!levels.has(level)) throw new Error("Invalid CODEX_CONTENT_V2: unknown application level");
+          if (!levels.has(level))
+            throw new Error("Invalid CODEX_CONTENT_V2: unknown application level");
           return level as LearningLevel;
         }),
       };
@@ -242,26 +253,30 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       const outcomes = array(item.outcomes, "module outcomes", 20).map((value) =>
         string(value, "module outcome", 700),
       );
-      const exercises: CodexV2Exercise[] = array(item.exercises, "module exercises", 15).map((rawExercise) => {
-        const exercise = object(rawExercise, "exercise");
-        const duration = exercise.suggested_minutes;
-        if (!Number.isInteger(duration) || (duration as number) < 1 || (duration as number) > 120)
-          throw new Error("Invalid CODEX_CONTENT_V2: exercise duration outside bounds");
-        if (exercise.records_progress !== false)
-          throw new Error("Invalid CODEX_CONTENT_V2: Codex exercises cannot record progress");
-        return {
-          id: string(exercise.id, "exercise id", 150),
-          title: string(exercise.title, "exercise title", 250),
-          setup: string(exercise.setup, "exercise setup", 1000),
-          steps: array(exercise.steps, "exercise steps", 30).map((value) =>
-            string(value, "exercise step", 1000)),
-          self_check: string(exercise.self_check, "exercise self-check", 800),
-          suggested_minutes: duration as number,
-          records_progress: false,
-        };
-      });
-      const visual_components = array(item.visual_components, "visual component hints", 20)
-        .map((value) => string(value, "visual component hint", 120));
+      const exercises: CodexV2Exercise[] = array(item.exercises, "module exercises", 15).map(
+        (rawExercise) => {
+          const exercise = object(rawExercise, "exercise");
+          const duration = exercise.suggested_minutes;
+          if (!Number.isInteger(duration) || (duration as number) < 1 || (duration as number) > 120)
+            throw new Error("Invalid CODEX_CONTENT_V2: exercise duration outside bounds");
+          if (exercise.records_progress !== false)
+            throw new Error("Invalid CODEX_CONTENT_V2: Codex exercises cannot record progress");
+          return {
+            id: string(exercise.id, "exercise id", 150),
+            title: string(exercise.title, "exercise title", 250),
+            setup: string(exercise.setup, "exercise setup", 1000),
+            steps: array(exercise.steps, "exercise steps", 30).map((value) =>
+              string(value, "exercise step", 1000),
+            ),
+            self_check: string(exercise.self_check, "exercise self-check", 800),
+            suggested_minutes: duration as number,
+            records_progress: false,
+          };
+        },
+      );
+      const visual_components = array(item.visual_components, "visual component hints", 20).map(
+        (value) => string(value, "visual component hint", 120),
+      );
       return {
         id,
         level: level as LearningLevel,
