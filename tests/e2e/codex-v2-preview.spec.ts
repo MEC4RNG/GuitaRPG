@@ -138,10 +138,15 @@ test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictiona
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but disabled", async ({ page }) => {
+test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but disabled", async ({
+  page,
+}) => {
   await page.goto("/prototype/codex-v2");
-  await page.locator(".cv2-card").filter({ hasText: "Scale-Degree Recognition" })
-    .getByRole("button", { name: /Explore this Skill/ }).click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
 
   await page.getByRole("button", { name: "Lessons" }).click();
   const application = page.getByRole("combobox", { name: "Musical application" });
@@ -153,8 +158,9 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
   await page.getByRole("button", { name: "Advanced", exact: true }).click();
   await expect(application).toHaveValue("all");
   await expect(application.locator('option[value="theory"]')).toBeDisabled();
-  await expect(application.locator('option[value="theory"]'))
-    .toContainText("no lesson at this level");
+  await expect(application.locator('option[value="theory"]')).toContainText(
+    "no lesson at this level",
+  );
   await expect(application.locator('option[value="aural"]')).toBeEnabled();
   await expect(application.locator('option[value="improvisation"]')).toBeEnabled();
   await expect(page.getByText("Dimmed applications have no advanced lessons yet.")).toBeVisible();
@@ -172,12 +178,17 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R1 maintains the overview's combined width across desktop sections", async ({ page }, testInfo) => {
+test("CODEX-V2-A-R1 maintains the overview's combined width across desktop sections", async ({
+  page,
+}, testInfo) => {
   test.skip(testInfo.project.name.includes("mobile"), "Desktop width comparison");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/prototype/codex-v2");
-  await page.locator(".cv2-card").filter({ hasText: "Subdivision Control" })
-    .getByRole("button", { name: /Explore this Skill/ }).click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Subdivision Control" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
 
   const overview = page.locator(".cv2-overview-grid");
   await expect(overview).toBeVisible();
