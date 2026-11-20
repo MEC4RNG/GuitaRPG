@@ -141,9 +141,7 @@ export function CodexV2Entry({
   const applicationLabel = (id: string) =>
     entry.applications.find((item) => item.id === id)?.title ?? id;
   const hasLessonAtLevel = (applicationId: string, atLevel: LearningLevel) =>
-    entry.modules.some(
-      (item) => item.application_id === applicationId && item.level === atLevel,
-    );
+    entry.modules.some((item) => item.application_id === applicationId && item.level === atLevel);
   const availableLevels = (applicationId: string) =>
     levels.filter((candidate) => hasLessonAtLevel(applicationId, candidate));
 
@@ -212,7 +210,8 @@ export function CodexV2Entry({
             const hasLesson = hasLessonAtLevel(item.id, level);
             return (
               <option key={item.id} value={item.id} disabled={!hasLesson}>
-                {item.title}{hasLesson ? "" : " — no lesson at this level"}
+                {item.title}
+                {hasLesson ? "" : " — no lesson at this level"}
               </option>
             );
           })}
@@ -299,7 +298,9 @@ export function CodexV2Entry({
                   <details className="cv2-module" key={module.id}>
                     <summary>
                       <span className="cv2-module-summary-main">
-                        <span className="cv2-module-chevron" aria-hidden="true">▸</span>
+                        <span className="cv2-module-chevron" aria-hidden="true">
+                          ▸
+                        </span>
                         <strong>{module.title}</strong>
                       </span>
                       <span className="cv2-module-application">
