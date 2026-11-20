@@ -78,5 +78,6 @@ Changes on the same stacked draft PR:
 - Entry and all section frames use the Overview's combined content width on desktop (full width up to the same 68rem max), while remaining fluid on mobile. Stable scrollbar gutters prevent horizontal shifts when section content changes document height; do not use a fixed minimum that overflows smaller viewports.
 - New focused browser assertions cover Scale-Degree Recognition / Theory & function / Advanced as a disabled option, clearing an invalid selection when switching learning levels, lesson disclosure open/close, discovery of disabled applications in Applications, and section width parity at desktop size.
 - Browser tests resolve the exact **Lessons** tab label to avoid matching the separate **Explore lessons** call-to-action on Overview; the initial strict-selector failure did not reflect a feature failure.
+- A separate Playwright compatibility issue was found: `<option disabled>` is rendered correctly, but `toBeDisabled()` on an `option` returned a false negative. The browser contract now checks the HTML `disabled` attribute and verifies the active selection clears to All when needed.
 
 Preview and existing 197 official Codex entries remain unchanged by publication. Await final-head CI and user visual acceptance; PR #14 remains draft.
