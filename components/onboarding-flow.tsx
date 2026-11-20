@@ -124,7 +124,7 @@ export function OnboardingFlow({ next }: { next?: string }) {
     return (
       <section className="onboarding">
         <span className="panel__label">PLAYER READY</span>
-        <h1>Welcome to GuitaRPG.</h1>
+        <h1>Welcome to Sound Uncharted.</h1>
         <p>
           Your preferences are saved. Skills remain UNRATED until future practice evidence or an
           honest diagnostic can assess them.
