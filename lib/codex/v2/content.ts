@@ -4,12 +4,29 @@ import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
 export type LearningLevel = "foundational" | "intermediate" | "advanced";
 export type EditorialStatus = "DRAFT_REVIEW" | "PUBLISHED";
 export type CodexV2Inline = { text: string; term_id?: string };
+export type CodexV2Exercise = {
+  id: string;
+  title: string;
+  setup: string;
+  steps: string[];
+  self_check: string;
+  suggested_minutes: number;
+  records_progress: false;
+};
+export type CodexV2ReferenceBlock = {
+  id: string;
+  kind: "SCALE_DEGREES" | "TRIAD_FRETBOARD" | "RHYTHM_GRID";
+  location: "overview";
+};
 export type CodexV2Module = {
   id: string;
   level: LearningLevel;
   application_id: string;
   title: string;
   explanation: string;
+  outcomes: string[];
+  exercises: CodexV2Exercise[];
+  visual_components: string[];
   steps: string[];
   editorial_status: EditorialStatus;
 };
@@ -21,12 +38,18 @@ export type CodexV2Entry = {
   editorial_status: EditorialStatus;
   one_line: string;
   intro: CodexV2Inline[];
-  applications: Array<{ id: string; title: string }>;
+  overview: string;
+  key_distinction: string;
+  learning_levels: Array<{ id: LearningLevel; title: string; goal: string }>;
+  reference_blocks: CodexV2ReferenceBlock[];
+  applications: Array<{ id: string; title: string; summary: string; level_ids: LearningLevel[] }>;
   modules: CodexV2Module[];
   relationships: Array<{
     type: "REQUIRED_PREREQUISITE" | "RECOMMENDED_FOUNDATION" | "RELATED" | "DEVELOPS_TOWARD";
     kind: CodexKind;
     slug: string;
+    scope: string;
+    why: string;
     review_status: "PROPOSED" | "REVIEWED";
   }>;
 };
@@ -36,6 +59,7 @@ export type CodexV2Term = {
   term: string;
   definition: string;
   detail: string;
+  group?: string;
   editorial_status: EditorialStatus;
   related?: { kind: CodexKind; slug: string };
 };
@@ -125,6 +149,7 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       term: string(data.term, "term name", 110),
       definition: string(data.definition, "term definition", 600),
       detail: string(data.detail, "term detail", 2000),
+      ...(data.group === undefined ? {} : { group: string(data.group, "term group", 160) }),
       editorial_status: editorial(data.editorial_status, allowDrafts, "term"),
       ...(relatedKind && relatedSlug ? { related: { kind: relatedKind, slug: relatedSlug } } : {}),
     });
@@ -155,11 +180,42 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       }
       return run;
     });
+    const levelGoals = array(data.learning_levels, "learning levels", 3).map((rawLevel) => {
+      const item = object(rawLevel, "learning level");
+      const id = string(item.id, "learning level id", 30);
+      if (!levels.has(id)) throw new Error("Invalid CODEX_CONTENT_V2: unknown learning level");
+      return { id: id as LearningLevel, title: string(item.title, "learning level title", 100), goal: string(item.goal, "learning level goal", 600) };
+    });
+    if (new Set(levelGoals.map((goal) => goal.id)).size !== levelGoals.length)
+      throw new Error("Invalid CODEX_CONTENT_V2: duplicate learning level");
+
+    const blocks: CodexV2ReferenceBlock[] = array(data.reference_blocks, "reference blocks", 12).map((rawBlock) => {
+      const item = object(rawBlock, "reference block");
+      const id = string(item.id, "reference block id", 150);
+      const mediaKind = string(item.kind, "reference block kind", 40);
+      const expected: Record<string, CodexV2ReferenceBlock["kind"]> = {
+        scale_degree_recognition: "SCALE_DEGREES",
+        triad_construction: "TRIAD_FRETBOARD",
+        subdivision_control: "RHYTHM_GRID",
+      };
+      if (mediaKind !== expected[entrySlug] || item.location !== "overview")
+        throw new Error("Invalid CODEX_CONTENT_V2: unsupported reference block or musical identity");
+      return { id, kind: mediaKind as CodexV2ReferenceBlock["kind"], location: "overview" };
+    });
+    if (new Set(blocks.map((block) => block.id)).size !== blocks.length)
+      throw new Error("Invalid CODEX_CONTENT_V2: duplicate reference block");
+
     const applications = array(data.applications, "applications", 30).map((rawApplication) => {
       const application = object(rawApplication, "application");
       return {
         id: slug(application.id, "application id"),
         title: string(application.title, "application title", 120),
+        summary: string(application.summary, "application summary", 1000),
+        level_ids: array(application.level_ids, "application levels", 3).map((value) => {
+          const level = string(value, "application level", 30);
+          if (!levels.has(level)) throw new Error("Invalid CODEX_CONTENT_V2: unknown application level");
+          return level as LearningLevel;
+        }),
       };
     });
     if (new Set(applications.map((application) => application.id)).size !== applications.length)
@@ -183,12 +239,38 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       const steps = array(item.steps, "exercise steps", 30).map((step) =>
         string(step, "exercise step", 1000),
       );
+      const outcomes = array(item.outcomes, "module outcomes", 20).map((value) =>
+        string(value, "module outcome", 700),
+      );
+      const exercises: CodexV2Exercise[] = array(item.exercises, "module exercises", 15).map((rawExercise) => {
+        const exercise = object(rawExercise, "exercise");
+        const duration = exercise.suggested_minutes;
+        if (!Number.isInteger(duration) || (duration as number) < 1 || (duration as number) > 120)
+          throw new Error("Invalid CODEX_CONTENT_V2: exercise duration outside bounds");
+        if (exercise.records_progress !== false)
+          throw new Error("Invalid CODEX_CONTENT_V2: Codex exercises cannot record progress");
+        return {
+          id: string(exercise.id, "exercise id", 150),
+          title: string(exercise.title, "exercise title", 250),
+          setup: string(exercise.setup, "exercise setup", 1000),
+          steps: array(exercise.steps, "exercise steps", 30).map((value) =>
+            string(value, "exercise step", 1000)),
+          self_check: string(exercise.self_check, "exercise self-check", 800),
+          suggested_minutes: duration as number,
+          records_progress: false,
+        };
+      });
+      const visual_components = array(item.visual_components, "visual component hints", 20)
+        .map((value) => string(value, "visual component hint", 120));
       return {
         id,
         level: level as LearningLevel,
         application_id: applicationId,
         title: string(item.title, "module title", 200),
         explanation: string(item.explanation, "module explanation", 4000),
+        outcomes,
+        exercises,
+        visual_components,
         steps,
         editorial_status: moduleStatus,
       };
@@ -212,6 +294,8 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         type: relation.type as CodexV2Entry["relationships"][number]["type"],
         kind: relationKind,
         slug: relationSlug,
+        scope: string(relation.scope, "relationship scope", 120),
+        why: string(relation.why, "relationship rationale", 1200),
         review_status: relation.review_status as "REVIEWED" | "PROPOSED",
       };
     });
@@ -223,6 +307,10 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       editorial_status: status,
       one_line: string(data.one_line, "entry summary", 400),
       intro,
+      overview: string(data.overview, "full overview", 3000),
+      key_distinction: string(data.key_distinction, "key distinction", 1500),
+      learning_levels: levelGoals,
+      reference_blocks: blocks,
       applications,
       modules: moduleList,
       relationships,
