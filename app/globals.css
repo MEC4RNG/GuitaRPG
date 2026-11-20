@@ -4474,3 +4474,73 @@ a {
 .cv2-term-list [role="listitem"] > button {
   width: 100%;
 }
+
+/* CODEX-V2-A-R1 follow-up: stable desktop entry width and clear lesson availability. */
+.cv2-entry {
+  width: 100%;
+  max-width: 68rem;
+  min-width: 0;
+}
+.cv2-section-frame,
+.cv2-section-frame > .cv2-reading-panel,
+.cv2-section-frame > .cv2-overview-grid {
+  width: 100%;
+  min-width: 0;
+}
+.cv2-study-filters .cv2-availability-note {
+  margin: 0;
+  color: var(--codex-muted);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+.cv2-application-filter option:disabled {
+  color: #8f8b80;
+}
+.cv2-module summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.cv2-module summary::-webkit-details-marker {
+  display: none;
+}
+.cv2-module summary::marker {
+  content: "";
+}
+.cv2-module-summary-main {
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 0.6rem;
+}
+.cv2-module-summary-main > strong {
+  font-size: 1rem;
+  color: var(--codex-text);
+  line-height: 1.4;
+}
+.cv2-module summary .cv2-module-chevron {
+  display: inline-block;
+  flex: none;
+  color: var(--codex-gold);
+  font-size: 1.35rem;
+  line-height: 1;
+  transition: transform 150ms ease;
+  transform-origin: 50% 50%;
+}
+.cv2-module[open] .cv2-module-chevron {
+  transform: rotate(90deg);
+}
+.cv2-module summary .cv2-module-application {
+  color: var(--codex-muted);
+  text-align: right;
+  line-height: 1.4;
+  font-size: 0.83rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cv2-module summary .cv2-module-chevron {
+    transition: none;
+  }
+}
