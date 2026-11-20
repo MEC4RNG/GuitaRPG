@@ -3126,7 +3126,7 @@
       "term": "Skill",
       "definition": "A musical ability that can be developed through practice and applied in different contexts.",
       "detail": "A musical ability that can be developed through practice and applied in different contexts.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3135,7 +3135,7 @@
       "term": "Application",
       "definition": "A particular way of using a musical Skill, such as hearing an interval or locating it on guitar.",
       "detail": "A particular way of using a musical Skill, such as hearing an interval or locating it on guitar.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3144,7 +3144,7 @@
       "term": "Learning Level",
       "definition": "A label for the complexity of instructional material, not a claim about a Player’s ability.",
       "detail": "A label for the complexity of instructional material, not a claim about a Player’s ability.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3153,7 +3153,7 @@
       "term": "Foundational",
       "definition": "Introductory knowledge or a building-block task within a Skill’s learning progression.",
       "detail": "Introductory knowledge or a building-block task within a Skill’s learning progression.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3162,7 +3162,7 @@
       "term": "Intermediate",
       "definition": "Instruction that connects foundational ideas in more varied or demanding situations.",
       "detail": "Instruction that connects foundational ideas in more varied or demanding situations.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3171,7 +3171,7 @@
       "term": "Advanced",
       "definition": "Instruction that applies a Skill in complex, less predictable, or highly integrated situations.",
       "detail": "Instruction that applies a Skill in complex, less predictable, or highly integrated situations.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3180,7 +3180,7 @@
       "term": "Required Prerequisite",
       "definition": "Knowledge needed to follow a particular lesson or exercise as written.",
       "detail": "Knowledge needed to follow a particular lesson or exercise as written.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3189,7 +3189,7 @@
       "term": "Recommended Foundation",
       "definition": "Background that is helpful for a lesson but can often be learned alongside it.",
       "detail": "Background that is helpful for a lesson but can often be learned alongside it.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3198,7 +3198,7 @@
       "term": "Related Skill",
       "definition": "Another musical ability connected to a Skill without implying a strict learning order.",
       "detail": "Another musical ability connected to a Skill without implying a strict learning order.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3207,7 +3207,7 @@
       "term": "Learning Objective",
       "definition": "A statement of what a learner should understand or be able to do after an activity.",
       "detail": "A statement of what a learner should understand or be able to do after an activity.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3216,34 +3216,34 @@
       "term": "Exercise",
       "definition": "A deliberately structured activity intended to develop or investigate a musical ability.",
       "detail": "A deliberately structured activity intended to develop or investigate a musical ability.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
       "id": "vocab:quest",
       "slug": "quest",
       "term": "Quest",
-      "definition": "A GuitaRPG musical challenge with defined objectives and practice parameters.",
-      "detail": "A GuitaRPG musical challenge with defined objectives and practice parameters.",
-      "group": "Learning & GuitaRPG",
+      "definition": "A Sound Uncharted musical challenge with defined objectives and practice parameters.",
+      "detail": "A Sound Uncharted musical challenge with defined objectives and practice parameters.",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
       "id": "vocab:quest_constraint",
       "slug": "quest_constraint",
       "term": "Quest Constraint",
-      "definition": "A rule limiting or shaping how a particular GuitaRPG challenge is performed.",
-      "detail": "A rule limiting or shaping how a particular GuitaRPG challenge is performed.",
-      "group": "Learning & GuitaRPG",
+      "definition": "A rule limiting or shaping how a particular Sound Uncharted challenge is performed.",
+      "detail": "A rule limiting or shaping how a particular Sound Uncharted challenge is performed.",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
       "id": "vocab:practice_session",
       "slug": "practice_session",
       "term": "Practice Session",
-      "definition": "A bounded period of actual practice in GuitaRPG.",
+      "definition": "A bounded period of actual practice in Sound Uncharted.",
       "detail": "Reading a Codex entry or editing a Workbook does not automatically create a Practice Session.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3252,7 +3252,7 @@
       "term": "Practice Evidence",
       "definition": "Recorded information about a practice attempt, such as a Session result or completed criterion.",
       "detail": "Recorded information about a practice attempt, such as a Session result or completed criterion.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3261,7 +3261,7 @@
       "term": "Self Assessment",
       "definition": "A learner’s own evaluation of what happened during practice or how confidently they performed a task.",
       "detail": "A learner’s own evaluation of what happened during practice or how confidently they performed a task.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
@@ -3270,16 +3270,16 @@
       "term": "Workbook",
       "definition": "A private, editable collection of Player-owned musical pages.",
       "detail": "Workbooks can be linked to a Quest or Skill without becoming official Codex content.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     },
     {
       "id": "vocab:codex",
       "slug": "codex",
       "term": "Codex",
-      "definition": "GuitaRPG’s official library of musical knowledge and instructional references.",
+      "definition": "Sound Uncharted’s official library of musical knowledge and instructional references.",
       "detail": "Personal notes remain in Player-owned Workbooks, separate from official reference material.",
-      "group": "Learning & GuitaRPG",
+      "group": "Learning & Sound Uncharted",
       "editorial_status": "DRAFT_REVIEW"
     }
   ]
