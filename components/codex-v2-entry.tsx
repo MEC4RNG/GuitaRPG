@@ -140,6 +140,19 @@ export function CodexV2Entry({
   const goal = entry.learning_levels.find((item) => item.id === level)?.goal;
   const applicationLabel = (id: string) =>
     entry.applications.find((item) => item.id === id)?.title ?? id;
+  const hasLessonAtLevel = (applicationId: string, atLevel: LearningLevel) =>
+    entry.modules.some(
+      (item) => item.application_id === applicationId && item.level === atLevel,
+    );
+  const availableLevels = (applicationId: string) =>
+    levels.filter((candidate) => hasLessonAtLevel(applicationId, candidate));
+
+  function chooseLevel(nextLevel: LearningLevel) {
+    setLevel(nextLevel);
+    if (application !== "all" && !hasLessonAtLevel(application, nextLevel)) {
+      setApplication("all");
+    }
+  }
 
   function closeTerm() {
     setOpenTerm(null);
@@ -185,7 +198,7 @@ export function CodexV2Entry({
             key={item}
             aria-pressed={level === item}
             className={level === item ? "is-active" : ""}
-            onClick={() => setLevel(item)}
+            onClick={() => chooseLevel(item)}
           >
             {item.charAt(0).toUpperCase() + item.slice(1)}
           </button>
@@ -195,14 +208,20 @@ export function CodexV2Entry({
         Musical application
         <select value={application} onChange={(event) => setApplication(event.target.value)}>
           <option value="all">All applications</option>
-          {entry.applications.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.title}
-            </option>
-          ))}
+          {entry.applications.map((item) => {
+            const hasLesson = hasLessonAtLevel(item.id, level);
+            return (
+              <option key={item.id} value={item.id} disabled={!hasLesson}>
+                {item.title}{hasLesson ? "" : " — no lesson at this level"}
+              </option>
+            );
+          })}
         </select>
       </label>
       {goal ? <p className="cv2-level-goal">{goal}</p> : null}
+      <p className="cv2-availability-note">
+        Dimmed applications have no {level} lessons yet. They remain listed for future exploration.
+      </p>
     </div>
   );
 
@@ -279,7 +298,13 @@ export function CodexV2Entry({
                 {modules.map((module) => (
                   <details className="cv2-module" key={module.id}>
                     <summary>
-                      {module.title} <span>{applicationLabel(module.application_id)}</span>
+                      <span className="cv2-module-summary-main">
+                        <span className="cv2-module-chevron" aria-hidden="true">▸</span>
+                        <strong>{module.title}</strong>
+                      </span>
+                      <span className="cv2-module-application">
+                        {applicationLabel(module.application_id)}
+                      </span>
                     </summary>
                     <p>{module.explanation}</p>
                     <h3>Learning objectives</h3>
@@ -375,7 +400,9 @@ export function CodexV2Entry({
                 <button type="button" key={item.id} onClick={() => chooseApplication(item.id)}>
                   <strong>{item.title}</strong>
                   <span className="cv2-app-description">{item.summary}</span>
-                  <span className="cv2-app-levels">Material: {item.level_ids.join(" · ")}</span>
+                  <span className="cv2-app-levels">
+                    Lessons available: {availableLevels(item.id).join(" · ") || "none yet"}
+                  </span>
                   <span>Explore related lessons →</span>
                 </button>
               ))}
