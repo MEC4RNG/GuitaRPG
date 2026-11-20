@@ -72,7 +72,7 @@ export function CodexV2Library({
             <p>A connected reference for understanding, practicing, and creating music.</p>
             <p className="cv2-draft-label">Design review only · not an official published curriculum</p>
           </>
-        ) : <h2>Music Dictionary</h2>}
+        ) : <span className="cv2-mini-title">Music Dictionary</span>}
         <div className="cv2-library-nav" role="group" aria-label="Library destinations">
           <button
             type="button"
