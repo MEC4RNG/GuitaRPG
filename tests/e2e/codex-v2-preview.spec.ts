@@ -70,7 +70,7 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expect(page.locator(".cv2-explore-grid .cv2-exercise")).toHaveCount(2);
   await expect(page.locator(".cv2-explore-grid")).toContainText("Check yourself");
 
-  await page.getByRole("button", { name: "Lessons" }).click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
   await expect(page.getByText("6 draft instructional modules")).toBeVisible();
   await expectAccessible(page, "Codex V2 Triad Construction R1");
   await expectNoHorizontalOverflow(page);
@@ -148,7 +148,7 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
     .getByRole("button", { name: /Explore this Skill/ })
     .click();
 
-  await page.getByRole("button", { name: "Lessons" }).click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
   const application = page.getByRole("combobox", { name: "Musical application" });
 
   await application.selectOption("theory");
