@@ -150,6 +150,7 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
 
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
   const application = page.getByRole("combobox", { name: "Musical application" });
+  const improvisationOption = application.locator('option[value="improvisation"]');
 
   await application.selectOption("theory");
   await expect(application).toHaveValue("theory");
@@ -162,7 +163,7 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
     "no lesson at this level",
   );
   await expect(application.locator('option[value="aural"]')).not.toHaveAttribute("disabled");
-  await expect(application.locator('option[value="improvisation"]')).not.toHaveAttribute("disabled");
+  await expect(improvisationOption).not.toHaveAttribute("disabled");
   await expect(page.getByText("Dimmed applications have no advanced lessons yet.")).toBeVisible();
 
   const firstLesson = page.locator(".cv2-modules .cv2-module").first();
