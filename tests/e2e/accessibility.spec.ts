@@ -28,7 +28,7 @@ test("desktop navigation exposes natural names with presentation-only uppercase"
   await page.goto("/");
 
   await expect(
-    page.getByRole("link", { name: "GuitaRPG home, Practice operating system" }),
+    page.getByRole("link", { name: "Sound Uncharted home, Practice operating system" }),
   ).toBeVisible();
   for (const name of ["Play", "Development", "Learn", "System"] as const) {
     const heading = page.getByRole("heading", { name, exact: true });
