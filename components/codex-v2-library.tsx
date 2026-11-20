@@ -21,15 +21,32 @@ export function CodexV2Library({
   const [level, setLevel] = useState<LearningLevel | "all">("all");
   const selected = entries.find((entry) => entry.slug === selectedSlug) ?? null;
   const selectedTerm = terms.find((term) => term.id === selectedTermId) ?? null;
-  const results = useMemo(() => entries.filter((entry) =>
-    (level === "all" || entry.modules.some((module) => module.level === level)) &&
-    [entry.slug.replaceAll("_", " "), entry.one_line, ...entry.applications.map((item) => item.title)]
-      .join(" ").toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
-  ), [entries, level, search]);
-  const matchingTerms = useMemo(() => terms.filter((term) =>
-    [term.term, term.definition].join(" ").toLocaleLowerCase()
-      .includes(termSearch.trim().toLocaleLowerCase()),
-  ), [terms, termSearch]);
+  const results = useMemo(
+    () =>
+      entries.filter(
+        (entry) =>
+          (level === "all" || entry.modules.some((module) => module.level === level)) &&
+          [
+            entry.slug.replaceAll("_", " "),
+            entry.one_line,
+            ...entry.applications.map((item) => item.title),
+          ]
+            .join(" ")
+            .toLocaleLowerCase()
+            .includes(search.trim().toLocaleLowerCase()),
+      ),
+    [entries, level, search],
+  );
+  const matchingTerms = useMemo(
+    () =>
+      terms.filter((term) =>
+        [term.term, term.definition]
+          .join(" ")
+          .toLocaleLowerCase()
+          .includes(termSearch.trim().toLocaleLowerCase()),
+      ),
+    [terms, termSearch],
+  );
 
   function openEntry(slug: string) {
     setSelectedSlug(slug);
@@ -49,20 +66,38 @@ export function CodexV2Library({
         <p>A connected reference for understanding, practicing, and creating music.</p>
         <p className="cv2-draft-label">Design review only · not an official published curriculum</p>
         <div className="cv2-library-nav" role="group" aria-label="Library destinations">
-          <button type="button" aria-pressed={view !== "dictionary"}
-            onClick={() => { setView("library"); setSelectedSlug(null); }}>
+          <button
+            type="button"
+            aria-pressed={view !== "dictionary"}
+            onClick={() => {
+              setView("library");
+              setSelectedSlug(null);
+            }}
+          >
             Codex Library
           </button>
-          <button type="button" aria-pressed={view === "dictionary"}
-            onClick={() => { setView("dictionary"); setSelectedTermId(null); }}>
+          <button
+            type="button"
+            aria-pressed={view === "dictionary"}
+            onClick={() => {
+              setView("dictionary");
+              setSelectedTermId(null);
+            }}
+          >
             Music Dictionary
           </button>
           <Link href="/codex">Current Codex ↗</Link>
         </div>
       </header>
       {view === "entry" && selected ? (
-        <CodexV2Entry key={selected.slug} entry={selected} terms={terms} preview
-          onBack={() => setView("library")} onReadDictionary={openTerm} />
+        <CodexV2Entry
+          key={selected.slug}
+          entry={selected}
+          terms={terms}
+          preview
+          onBack={() => setView("library")}
+          onReadDictionary={openTerm}
+        />
       ) : null}
       {view === "library" ? (
         <section className="cv2-library-index" aria-labelledby="cv2-library-index-title">
@@ -77,12 +112,19 @@ export function CodexV2Library({
           <div className="cv2-filters">
             <label>
               Search Skills
-              <input type="search" value={search} onChange={(event) => setSearch(event.target.value)}
-                placeholder="Try rhythm, triads, or scale degrees" />
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Try rhythm, triads, or scale degrees"
+              />
             </label>
             <label>
               Learning material
-              <select value={level} onChange={(event) => setLevel(event.target.value as LearningLevel | "all")}>
+              <select
+                value={level}
+                onChange={(event) => setLevel(event.target.value as LearningLevel | "all")}
+              >
                 <option value="all">All levels</option>
                 <option value="foundational">Foundational</option>
                 <option value="intermediate">Intermediate</option>
@@ -94,7 +136,11 @@ export function CodexV2Library({
             {results.map((entry) => (
               <article className="cv2-card" key={entry.slug}>
                 <span className="cv2-eyebrow">Skill · {entry.modules.length} sample lessons</span>
-                <h3>{entry.slug.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase())}</h3>
+                <h3>
+                  {entry.slug
+                    .replaceAll("_", " ")
+                    .replace(/\b\w/g, (letter) => letter.toUpperCase())}
+                </h3>
                 <p>{entry.one_line}</p>
                 <button type="button" onClick={() => openEntry(entry.slug)}>
                   Explore this Skill →
@@ -117,16 +163,27 @@ export function CodexV2Library({
             </div>
             <span>{terms.length} preview terms</span>
           </div>
-          <label className="cv2-dictionary-search">Find a term
-            <input type="search" value={termSearch} onChange={(event) => setTermSearch(event.target.value)}
-              placeholder="Try tonic or subdivision" />
+          <label className="cv2-dictionary-search">
+            Find a term
+            <input
+              type="search"
+              value={termSearch}
+              onChange={(event) => setTermSearch(event.target.value)}
+              placeholder="Try tonic or subdivision"
+            />
           </label>
           <div className="cv2-dictionary-grid">
             <div className="cv2-term-list" role="list" aria-label="Dictionary entries">
               {matchingTerms.map((term) => (
-                <button key={term.id} type="button" role="listitem"
+                <button
+                  key={term.id}
+                  type="button"
+                  role="listitem"
                   aria-current={term.id === selectedTermId ? "true" : undefined}
-                  onClick={() => setSelectedTermId(term.id)}>{term.term}</button>
+                  onClick={() => setSelectedTermId(term.id)}
+                >
+                  {term.term}
+                </button>
               ))}
             </div>
             <article className="cv2-term-detail">
@@ -137,13 +194,21 @@ export function CodexV2Library({
                   <p>{selectedTerm.definition}</p>
                   <p>{selectedTerm.detail}</p>
                   {selectedTerm.related ? (
-                    <Link href={canonicalCodexHref(selectedTerm.related.kind, selectedTerm.related.slug)}
-                      target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href={canonicalCodexHref(
+                        selectedTerm.related.kind,
+                        selectedTerm.related.slug,
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Related Codex reference ↗
                     </Link>
                   ) : null}
                 </>
-              ) : <p>Select a term to read its full definition.</p>}
+              ) : (
+                <p>Select a term to read its full definition.</p>
+              )}
             </article>
           </div>
         </section>
