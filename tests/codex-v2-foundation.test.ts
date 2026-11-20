@@ -100,12 +100,12 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
         expect(application.summary.length).toBeGreaterThan(15);
         expect(application.level_ids.length).toBeGreaterThan(0);
       }
-      for (const module of entry.modules) {
-        expect(module.outcomes.length).toBeGreaterThan(0);
-        expect(module.exercises.length).toBeGreaterThan(0);
-        expect(module.exercises[0].steps.length).toBeGreaterThan(0);
-        expect(module.exercises[0].setup.length).toBeGreaterThan(0);
-        expect(module.exercises[0].self_check.length).toBeGreaterThan(0);
+      for (const lesson of entry.modules) {
+        expect(lesson.outcomes.length).toBeGreaterThan(0);
+        expect(lesson.exercises.length).toBeGreaterThan(0);
+        expect(lesson.exercises[0].steps.length).toBeGreaterThan(0);
+        expect(lesson.exercises[0].setup.length).toBeGreaterThan(0);
+        expect(lesson.exercises[0].self_check.length).toBeGreaterThan(0);
         expect(lesson.exercises[0].records_progress).toBe(false);
       }
       for (const edge of entry.relationships) {
@@ -128,7 +128,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
         modules: Array<{ exercises: Array<{ records_progress: boolean }> }>;
       }>
     )[0].modules[0];
-    module.exercises[0].records_progress = true;
+    lesson.exercises[0].records_progress = true;
     expect(() => parseCodexV2(badProgress, true)).toThrow(/cannot record progress/);
   });
 
