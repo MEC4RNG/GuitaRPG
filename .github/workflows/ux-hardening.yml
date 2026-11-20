@@ -99,6 +99,9 @@ jobs:
       - name: Run accessibility, browser, responsive, recovery, and performance gates
         run: npm run test:ux-hardening
 
+      - name: Verify Codex V2 preview and dictionary interactions
+        run: npx playwright test tests/e2e/codex-v2-preview.spec.ts --project=chromium --project=mobile-webkit --workers=1
+
       - name: Run contextual Codex Peek journey matrix
         run: npm run test:codex-peek-e2e
 
