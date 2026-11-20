@@ -56,11 +56,13 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
 
   it("rejects unknown module applications and levels", () => {
     const badApplication = copy();
-    (badApplication.entries as Array<{ modules: Array<{ application_id: string }> }>)[0]
-      .modules[0].application_id = "imaginary";
+    (
+      badApplication.entries as Array<{ modules: Array<{ application_id: string }> }>
+    )[0].modules[0].application_id = "imaginary";
     expect(() => parseCodexV2(badApplication, true)).toThrow(/unknown module level or application/);
     const badLevel = copy();
-    (badLevel.entries as Array<{ modules: Array<{ level: string }> }>)[0].modules[0].level = "mastery";
+    (badLevel.entries as Array<{ modules: Array<{ level: string }> }>)[0].modules[0].level =
+      "mastery";
     expect(() => parseCodexV2(badLevel, true)).toThrow(/unknown module level or application/);
   });
 
@@ -82,7 +84,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     const broken = copy();
     const entries = broken.entries as Array<Record<string, unknown>>;
     entries[0].editorial_status = "PUBLISHED";
-    for (const item of (entries[0].modules as Array<Record<string, unknown>>)) {
+    for (const item of entries[0].modules as Array<Record<string, unknown>>) {
       item.editorial_status = "PUBLISHED";
     }
     expect(() => parseCodexV2(broken, true)).toThrow(/proposed relationship/);
