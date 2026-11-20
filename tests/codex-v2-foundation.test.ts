@@ -132,6 +132,34 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(() => parseCodexV2(badProgress, true)).toThrow(/cannot record progress/);
   });
 
+  it("keeps missing application-level combinations explicit in the draft pilot", () => {
+    const entries = readCodexV2DraftPreview().entries;
+    const coverage = entries.flatMap((entry) =>
+      entry.applications.flatMap((application) =>
+        (["foundational", "intermediate", "advanced"] as const).map((level) => ({
+          skill: entry.slug,
+          application: application.id,
+          level,
+          hasLesson: entry.modules.some(
+            (lesson) => lesson.application_id === application.id && lesson.level === level,
+          ),
+        })),
+      ),
+    );
+
+    expect(coverage).toHaveLength(42);
+    expect(coverage.filter((item) => item.hasLesson)).toHaveLength(28);
+    expect(coverage.filter((item) => !item.hasLesson)).toHaveLength(14);
+    expect(
+      coverage.find(
+        (item) =>
+          item.skill === "scale_degree_recognition" &&
+          item.application === "theory" &&
+          item.level === "advanced",
+      )?.hasLesson,
+    ).toBe(false);
+  });
+
   it("never conflates learning material level with Quest demand or Player proficiency", () => {
     const entries = readCodexV2DraftPreview().entries;
     expect(entries.flatMap((entry) => entry.modules.map((module) => module.level))).toEqual(
