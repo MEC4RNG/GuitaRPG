@@ -4471,3 +4471,6 @@ a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+.cv2-term-list [role="listitem"] > button {
+  width: 100%;
+}
