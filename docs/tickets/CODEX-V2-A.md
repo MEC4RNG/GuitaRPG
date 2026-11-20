@@ -65,3 +65,17 @@ The subdivision reference uses four **quarter-note** beats per 4/4 bar. Grid den
 6. Require a final-head protected-branch CI receipt and **user interactive visual approval**; PR #14 remains DRAFT/OPEN/UNMERGED until parent JRN-004 is accepted and stacked branch is ready for protected integration.
 
 No Supabase migration, Vercel production traffic change, public Codex publication, or JRN-005 implementation is authorized by R1.
+
+### R1 follow-up — application availability and desktop sizing (2026-11-20)
+
+User interactive review requested clearer progress coverage: a Skill's educational levels are not a promise that every Application has a lesson at each level. Editorial expansion may aim for Foundational, Intermediate, and Advanced material for each Application, but **never fabricate modules or mark a Player proficient** to fill an empty cell.
+
+Changes on the same stacked draft PR:
+- Lessons and How to Explore retain the complete application list in the native selector. For the selected *instructional* level, options without any actual matching module are visibly labelled "no lesson at this level" and disabled, rather than silently filtering them away.
+- Level changes recover from a stale application choice by selecting All applications; available options remain selectable.
+- The Applications view shows learning levels with **existing modules**, not declared editorial applicability where the actual module coverage is incomplete. The application and its explanation remain discoverable even when a lesson is unavailable.
+- Collapsible lesson summaries have a visible, rotating disclosure arrow and retain native keyboard/assistive technology `details/summary` behavior.
+- Entry and all section frames use the Overview's combined content width on desktop (full width up to the same 68rem max), while remaining fluid on mobile. Stable scrollbar gutters prevent horizontal shifts when section content changes document height; do not use a fixed minimum that overflows smaller viewports.
+- New focused browser assertions cover Scale-Degree Recognition / Theory & function / Advanced as a disabled option, clearing an invalid selection when switching learning levels, lesson disclosure open/close, discovery of disabled applications in Applications, and section width parity at desktop size.
+
+Preview and existing 197 official Codex entries remain unchanged by publication. Await final-head CI and user visual acceptance; PR #14 remains draft.
