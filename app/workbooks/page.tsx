@@ -5,7 +5,12 @@ import { WorkbookPersistenceSurface } from "@/components/workbook-persistence-su
 
 export const metadata: Metadata = { title: "Workbooks" };
 
-export default function WorkbooksPage() {
+export default async function WorkbooksPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   if (process.env.VERCEL_ENV === "production") notFound();
-  return <WorkbookPersistenceSurface />;
+  const { parseWorkbookRouteContext } = await import("@/lib/workbook/context");
+  return <WorkbookPersistenceSurface context={parseWorkbookRouteContext(await searchParams)} />;
 }

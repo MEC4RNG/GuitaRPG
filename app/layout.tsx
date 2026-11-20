@@ -7,10 +7,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "GuitaRPG",
-    template: "%s · GuitaRPG",
+    default: "Sound Uncharted",
+    template: "%s · Sound Uncharted",
   },
-  description: "A guitar practice RPG that turns musical development into generated quests.",
+  description:
+    "Sound Uncharted turns guitar practice into musical quests, learning, and exploration.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

@@ -12,12 +12,16 @@ export function Sidebar({ pathname }: SidebarProps) {
   return (
     <aside className="sidebar" aria-label="Primary navigation">
       <div className="sidebar__brand">
-        <Link className="brand-mark" href="/" aria-label="GuitaRPG home, Practice operating system">
+        <Link
+          className="brand-mark"
+          href="/"
+          aria-label="Sound Uncharted home, Practice operating system"
+        >
           <span className="brand-mark__glyph" aria-hidden="true">
-            GR
+            SU
           </span>
           <span>
-            <strong>GuitaRPG</strong>
+            <strong>Sound Uncharted</strong>
             <small aria-hidden="true">Practice OS</small>
           </span>
         </Link>

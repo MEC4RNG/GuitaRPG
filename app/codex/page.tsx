@@ -12,7 +12,7 @@ export default function CodexPage() {
       <PageHeader
         eyebrow="LEARN · CODEX"
         title="Musical reference"
-        description="Browse the canonical Skills, Concepts, Contexts, and Constraints used by GuitaRPG."
+        description="Browse the canonical Skills, Concepts, Contexts, and Constraints used by Sound Uncharted."
       />
       <CodexSurface entries={CODEX_ENTRIES} />
     </div>

@@ -476,7 +476,7 @@ test("imports a validated local JSON file without uploading or losing failed-imp
 
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download JSON file" }).click();
-  expect((await download).suggestedFilename()).toBe("guitarpg-workbook.json");
+  expect((await download).suggestedFilename()).toBe("sound-uncharted-workbook.json");
 
   await page.getByRole("button", { name: "Reset prototype" }).click();
   page.once("dialog", (dialog) => dialog.accept());

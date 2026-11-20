@@ -287,7 +287,7 @@ export function parseWorkbookDocument(input: unknown): WorkbookDocumentV1 {
     new TextEncoder().encode(JSON.stringify(input)).byteLength >
       WORKBOOK_DOCUMENT_LIMITS.serializedBytes
   )
-    throw new Error("This is not a valid GUITARPG_WORKBOOK_DOCUMENT_V1 document.");
+    throw new Error("This is not a valid Sound Uncharted workbook document.");
   const blocks = input.blocks.map((block) => {
     if (validateBlock(block)) return structuredClone(block);
     // A malformed V1 musical block must not masquerade as a valid editable block

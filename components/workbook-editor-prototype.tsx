@@ -1311,7 +1311,7 @@ export function WorkbookEditorPrototype({
     );
     const anchor = window.document.createElement("a");
     anchor.href = href;
-    anchor.download = "guitarpg-workbook.json";
+    anchor.download = "sound-uncharted-workbook.json";
     anchor.click();
     URL.revokeObjectURL(href);
     setStatus("Document JSON downloaded to this device");
@@ -1623,7 +1623,7 @@ export function WorkbookEditorPrototype({
                 spellCheck={false}
                 value={jsonText}
                 onChange={(event) => setJsonText(event.target.value)}
-                placeholder="Exported GUITARPG_WORKBOOK_DOCUMENT_V1 appears here"
+                placeholder="Exported workbook document JSON appears here"
               />
             </label>
           </section>
