@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CodexV2Reference } from "./codex-v2-reference";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
@@ -124,6 +125,7 @@ export function CodexV2Entry({
   onReadDictionary?: (term: CodexV2Term) => void;
   preview?: boolean;
 }) {
+  const router = useRouter();
   const [section, setSection] = useState<Section>("overview");
   const [level, setLevel] = useState<LearningLevel>("foundational");
   const [application, setApplication] = useState("all");
@@ -426,7 +428,7 @@ export function CodexV2Entry({
           onReadFull={(term) => {
             closeTerm();
             if (onReadDictionary) onReadDictionary(term);
-            else window.location.assign(`/codex/dictionary/${term.slug}`);
+            else router.push(`/codex/dictionary/${term.slug}`);
           }}
         />
       ) : null}
