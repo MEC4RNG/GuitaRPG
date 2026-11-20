@@ -153,16 +153,16 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
 
   await application.selectOption("theory");
   await expect(application).toHaveValue("theory");
-  await expect(application.locator('option[value="theory"]')).toBeEnabled();
+  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
 
   await page.getByRole("button", { name: "Advanced", exact: true }).click();
   await expect(application).toHaveValue("all");
-  await expect(application.locator('option[value="theory"]')).toBeDisabled();
+  await expect(application.locator('option[value="theory"]')).toHaveAttribute("disabled", "");
   await expect(application.locator('option[value="theory"]')).toContainText(
     "no lesson at this level",
   );
-  await expect(application.locator('option[value="aural"]')).toBeEnabled();
-  await expect(application.locator('option[value="improvisation"]')).toBeEnabled();
+  await expect(application.locator('option[value="aural"]')).not.toHaveAttribute("disabled");
+  await expect(application.locator('option[value="improvisation"]')).not.toHaveAttribute("disabled");
   await expect(page.getByText("Dimmed applications have no advanced lessons yet.")).toBeVisible();
 
   const firstLesson = page.locator(".cv2-modules .cv2-module").first();
