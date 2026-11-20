@@ -137,3 +137,59 @@ test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictiona
   await expect(page.getByRole("button", { name: "Tonic", exact: true })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
+
+test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but disabled", async ({ page }) => {
+  await page.goto("/prototype/codex-v2");
+  await page.locator(".cv2-card").filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ }).click();
+
+  await page.getByRole("button", { name: "Lessons" }).click();
+  const application = page.getByRole("combobox", { name: "Musical application" });
+
+  await application.selectOption("theory");
+  await expect(application).toHaveValue("theory");
+  await expect(application.locator('option[value="theory"]')).toBeEnabled();
+
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await expect(application).toHaveValue("all");
+  await expect(application.locator('option[value="theory"]')).toBeDisabled();
+  await expect(application.locator('option[value="theory"]'))
+    .toContainText("no lesson at this level");
+  await expect(application.locator('option[value="aural"]')).toBeEnabled();
+  await expect(application.locator('option[value="improvisation"]')).toBeEnabled();
+  await expect(page.getByText("Dimmed applications have no advanced lessons yet.")).toBeVisible();
+
+  const firstLesson = page.locator(".cv2-modules .cv2-module").first();
+  await expect(firstLesson.locator(".cv2-module-chevron")).toBeVisible();
+  await expect(firstLesson).not.toHaveAttribute("open");
+  await firstLesson.locator("summary").click();
+  await expect(firstLesson).toHaveAttribute("open");
+  await firstLesson.locator("summary").click();
+  await expect(firstLesson).not.toHaveAttribute("open");
+
+  await page.getByRole("button", { name: "Applications", exact: true }).click();
+  await expect(page.locator(".cv2-application-grid")).toContainText("Theory & function");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R1 maintains the overview's combined width across desktop sections", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name.includes("mobile"), "Desktop width comparison");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/prototype/codex-v2");
+  await page.locator(".cv2-card").filter({ hasText: "Subdivision Control" })
+    .getByRole("button", { name: /Explore this Skill/ }).click();
+
+  const overview = page.locator(".cv2-overview-grid");
+  await expect(overview).toBeVisible();
+  const overviewWidth = await overview.evaluate((node) => node.getBoundingClientRect().width);
+  expect(overviewWidth).toBeGreaterThan(700);
+
+  for (const name of ["Lessons", "How to Explore", "Applications", "Connections"]) {
+    await page.getByRole("button", { name, exact: true }).click();
+    const content = page.locator(".cv2-section-frame > .cv2-reading-panel");
+    await expect(content).toBeVisible();
+    const width = await content.evaluate((node) => node.getBoundingClientRect().width);
+    expect(Math.abs(width - overviewWidth)).toBeLessThanOrEqual(2);
+  }
+  await expectNoHorizontalOverflow(page);
+});
