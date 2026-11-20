@@ -3679,3 +3679,333 @@ a {
     font-size: 1rem;
   }
 }
+
+/* CODEX-V2-A: isolated musical archive renderer. No V1 selectors are changed. */
+.cv2-library,
+.cv2-entry,
+.cv2-reading-panel,
+.cv2-library-index,
+.cv2-dictionary {
+  display: grid;
+  min-width: 0;
+  gap: clamp(1rem, 2.6vw, 1.75rem);
+}
+
+.cv2-library {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+  color: var(--codex-text);
+}
+
+.cv2-eyebrow,
+.cv2-edition,
+.cv2-draft-label,
+.cv2-card > span,
+.cv2-index-header > span {
+  font-family: var(--font-data);
+  font-size: 0.73rem;
+  letter-spacing: 0.055em;
+  color: var(--codex-gold);
+}
+
+.cv2-draft-label {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid var(--codex-rust);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.75rem;
+  color: #edbe9c;
+}
+
+.cv2-library-header,
+.cv2-entry-hero {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  border: 1px solid var(--codex-border);
+  border-top: 3px solid var(--codex-gold);
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  background:
+    radial-gradient(ellipse at 90% 0%, rgb(214 168 75 / 14%), transparent 65%),
+    linear-gradient(135deg, var(--codex-surface), var(--codex-raised));
+}
+
+.cv2-library-header h1,
+.cv2-entry-hero h1,
+.cv2-index-header h2,
+.cv2-dictionary h2,
+.cv2-reading-panel h2,
+.cv2-card h3 {
+  font-family: var(--font-codex);
+  font-weight: 500;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.cv2-library-header h1,
+.cv2-entry-hero h1 {
+  font-size: clamp(2.15rem, 6.8vw, 4.8rem);
+  max-width: 21ch;
+  overflow-wrap: break-word;
+}
+
+.cv2-library-header p,
+.cv2-entry-hero p,
+.cv2-index-header p,
+.cv2-reading-panel p,
+.cv2-card p,
+.cv2-term-detail p {
+  margin: 0;
+  line-height: 1.72;
+  color: var(--codex-text);
+}
+
+.cv2-library-header > p:not(.cv2-draft-label),
+.cv2-lead,
+.cv2-index-header p,
+.cv2-card p {
+  color: var(--codex-muted);
+}
+
+.cv2-library-nav,
+.cv2-entry-tabs,
+.cv2-level-controls,
+.cv2-definition-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.cv2-library-nav > *,
+.cv2-entry-tabs button,
+.cv2-level-controls button,
+.cv2-definition-actions > *,
+.cv2-breadcrumb button,
+.cv2-reading-panel > button,
+.cv2-card button,
+.cv2-term-list button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  border: 1px solid var(--codex-border);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 0.9rem;
+  color: var(--codex-text);
+  background: var(--codex-raised);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.cv2-library-nav [aria-pressed="true"],
+.cv2-entry-tabs .is-active,
+.cv2-level-controls .is-active {
+  color: var(--codex-gold);
+  border-color: var(--codex-gold);
+  background: rgb(214 168 75 / 10%);
+}
+
+.cv2-library-nav > :hover,
+.cv2-entry-tabs button:hover,
+.cv2-card button:hover,
+.cv2-term-list button:hover,
+.cv2-breadcrumb button:hover {
+  border-color: var(--codex-gold);
+}
+
+.cv2-index-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+}
+.cv2-index-header > div { display: grid; gap: 0.5rem; }
+.cv2-index-header h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); }
+
+.cv2-filters,
+.cv2-dictionary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+.cv2-filters label,
+.cv2-dictionary-search,
+.cv2-application-filter {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--codex-muted);
+  font-size: 0.9rem;
+}
+
+.cv2-filters input,
+.cv2-filters select,
+.cv2-dictionary-search input,
+.cv2-application-filter select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  color: var(--codex-text);
+  background: var(--codex-raised);
+  font: inherit;
+}
+
+.cv2-cards,
+.cv2-application-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+}
+.cv2-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.85rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.9rem;
+  background: linear-gradient(165deg, var(--codex-surface), var(--codex-raised));
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+.cv2-card h3 { font-size: clamp(1.45rem, 3vw, 2rem); }
+.cv2-card button { margin-top: auto; align-self: start; color: var(--codex-gold); }
+
+.cv2-entry {
+  max-width: 68rem;
+  margin: 0 auto;
+}
+.cv2-breadcrumb { display: flex; align-items: center; gap: 0.5rem; color: var(--codex-muted); }
+.cv2-breadcrumb button,
+.cv2-breadcrumb a { color: var(--codex-gold); }
+.cv2-entry-tabs {
+  border-bottom: 1px solid var(--codex-border);
+  padding-bottom: 0.75rem;
+}
+.cv2-reading-panel {
+  border: 1px solid var(--codex-border);
+  border-radius: 1rem;
+  background: var(--codex-surface);
+  padding: clamp(1rem, 3vw, 2rem);
+}
+.cv2-reading-panel h2 { font-size: clamp(1.6rem, 4vw, 2.55rem); }
+.cv2-reading-panel h3 { font-size: 1.15rem; margin: 0; }
+.cv2-reading-panel > button { width: fit-content; color: var(--codex-gold); }
+.cv2-glossary-term {
+  display: inline;
+  border: 0;
+  border-bottom: 1px dotted var(--codex-gold);
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--codex-gold);
+  font: inherit;
+  cursor: help;
+}
+
+.cv2-module,
+.cv2-term-detail {
+  min-width: 0;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: var(--codex-raised);
+}
+.cv2-module summary { cursor: pointer; font-weight: 700; min-height: 44px; }
+.cv2-module summary span { float: right; color: var(--codex-muted); font-weight: 400; }
+.cv2-module p { margin: 0.9rem 0; }
+.cv2-module ol { padding-left: 1.35rem; line-height: 1.65; }
+.cv2-module li { margin-bottom: 0.5rem; }
+.cv2-module small { color: var(--codex-muted); }
+.cv2-application-grid button {
+  min-height: 6rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.8rem;
+  padding: 1rem;
+  background: var(--codex-raised);
+  color: var(--codex-text);
+  text-align: left;
+  cursor: pointer;
+}
+.cv2-application-grid strong,
+.cv2-application-grid span { display: block; }
+.cv2-application-grid span { color: var(--codex-gold); margin-top: 0.7rem; }
+.cv2-connections { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+.cv2-connections li {
+  display: grid;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--codex-border);
+  padding: 0.8rem 0;
+}
+.cv2-connections span,
+.cv2-connections small { color: var(--codex-muted); }
+.cv2-connections a,
+.cv2-term-detail a { color: var(--codex-gold); text-transform: capitalize; }
+
+.cv2-term-list { display: grid; align-content: start; gap: 0.4rem; }
+.cv2-term-list button { border-radius: 0.5rem; }
+.cv2-term-list button[aria-current="true"] { border-color: var(--codex-gold); color: var(--codex-gold); }
+.cv2-term-detail { display: grid; align-content: start; gap: 0.9rem; }
+.cv2-term-detail h3 { font-family: var(--font-codex); font-size: 2rem; margin: 0; }
+
+.cv2-definition-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(0 0 0 / 68%);
+}
+.cv2-definition-dialog {
+  width: min(100%, 31rem);
+  max-height: min(85vh, 48rem);
+  overflow: auto;
+  border: 2px solid var(--codex-gold);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 4rem rgb(0 0 0 / 55%);
+  background: var(--codex-surface);
+  color: var(--codex-text);
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+.cv2-definition-dialog header { display: flex; justify-content: space-between; align-items: center; }
+.cv2-definition-dialog header button {
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid var(--codex-border);
+  border-radius: 50%;
+  background: var(--codex-raised);
+  color: var(--codex-text);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.cv2-definition-dialog h2 { font-family: var(--font-codex); font-size: 2rem; }
+.cv2-definition-dialog p { line-height: 1.65; }
+.cv2-definition-actions { margin-top: 1rem; }
+.cv2-definition-actions button,
+.cv2-definition-actions a { color: var(--codex-gold); }
+
+@media (min-width: 48rem) {
+  .cv2-filters { grid-template-columns: minmax(0, 2fr) minmax(12rem, 1fr); }
+  .cv2-dictionary-grid { grid-template-columns: minmax(12rem, 0.33fr) minmax(0, 1fr); }
+}
+
+@media (max-width: 47.99rem) {
+  .cv2-definition-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+  .cv2-definition-dialog {
+    width: 100%;
+    max-height: min(85dvh, 46rem);
+    border-radius: 1.1rem 1.1rem 0 0;
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  }
+}
