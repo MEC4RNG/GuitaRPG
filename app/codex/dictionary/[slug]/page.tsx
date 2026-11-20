@@ -25,9 +25,11 @@ export default async function DictionaryTermPage({ params }: DictionaryProps) {
       <p>{term.definition}</p>
       <p>{term.detail}</p>
       {term.related ? (
-        <p><Link href={canonicalCodexHref(term.related.kind, term.related.slug)}>
-          Read related Codex entry ↗
-        </Link></p>
+        <p>
+          <Link href={canonicalCodexHref(term.related.kind, term.related.slug)}>
+            Read related Codex entry ↗
+          </Link>
+        </p>
       ) : null}
       <Link href="/codex">← Back to the Codex</Link>
     </article>
