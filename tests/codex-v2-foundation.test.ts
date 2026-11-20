@@ -123,9 +123,11 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(() => parseCodexV2(badMedia, true)).toThrow(/unsupported reference block/);
 
     const badProgress = copy();
-    const module = (badProgress.entries as Array<{
-      modules: Array<{ exercises: Array<{ records_progress: boolean }> }>;
-    }>)[0].modules[0];
+    const module = (
+      badProgress.entries as Array<{
+        modules: Array<{ exercises: Array<{ records_progress: boolean }> }>;
+      }>
+    )[0].modules[0];
     module.exercises[0].records_progress = true;
     expect(() => parseCodexV2(badProgress, true)).toThrow(/cannot record progress/);
   });
