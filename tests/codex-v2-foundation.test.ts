@@ -14,11 +14,14 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(CODEX_ENTRIES).toHaveLength(197);
   });
 
-  it("validates the three isolated pilot excerpts and seven dictionary terms", () => {
+  it("validates the full three-Skill pilot and 178 draft dictionary terms", () => {
     const catalog = readCodexV2DraftPreview();
     expect(catalog.entries).toHaveLength(3);
-    expect(catalog.terms).toHaveLength(7);
-    expect(catalog.entries.reduce((sum, entry) => sum + entry.modules.length, 0)).toBe(9);
+    expect(catalog.terms).toHaveLength(178);
+    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([10, 6, 12]);
+    expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(14);
+    expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(24);
+    expect(catalog.entries.every((entry) => entry.reference_blocks.length === 1)).toBe(true);
     expect(catalog.entries.every((entry) => entry.editorial_status === "DRAFT_REVIEW")).toBe(true);
   });
 
@@ -88,6 +91,43 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
       item.editorial_status = "PUBLISHED";
     }
     expect(() => parseCodexV2(broken, true)).toThrow(/proposed relationship/);
+  });
+
+  it("retains exercise setup, self-check, application purpose and connection rationale", () => {
+    const entries = readCodexV2DraftPreview().entries;
+    for (const entry of entries) {
+      for (const application of entry.applications) {
+        expect(application.summary.length).toBeGreaterThan(15);
+        expect(application.level_ids.length).toBeGreaterThan(0);
+      }
+      for (const module of entry.modules) {
+        expect(module.outcomes.length).toBeGreaterThan(0);
+        expect(module.exercises.length).toBeGreaterThan(0);
+        expect(module.exercises[0].steps.length).toBeGreaterThan(0);
+        expect(module.exercises[0].setup.length).toBeGreaterThan(0);
+        expect(module.exercises[0].self_check.length).toBeGreaterThan(0);
+        expect(module.exercises[0].records_progress).toBe(false);
+      }
+      for (const edge of entry.relationships) {
+        expect(edge.why.length).toBeGreaterThan(15);
+        expect(edge.scope.length).toBeGreaterThan(0);
+        expect(edge.review_status).toBe("PROPOSED");
+      }
+    }
+  });
+
+  it("rejects unauthorized musical references and progress claims", () => {
+    const badMedia = copy();
+    const entries = badMedia.entries as Array<{ reference_blocks: Array<{ kind: string }> }>;
+    entries[1].reference_blocks[0].kind = "UNSAFE_HTML";
+    expect(() => parseCodexV2(badMedia, true)).toThrow(/unsupported reference block/);
+
+    const badProgress = copy();
+    const module = (badProgress.entries as Array<{
+      modules: Array<{ exercises: Array<{ records_progress: boolean }> }>;
+    }>)[0].modules[0];
+    module.exercises[0].records_progress = true;
+    expect(() => parseCodexV2(badProgress, true)).toThrow(/cannot record progress/);
   });
 
   it("never conflates learning material level with Quest demand or Player proficiency", () => {
