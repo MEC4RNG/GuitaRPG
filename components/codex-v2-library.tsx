@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { CodexV2Entry as Entry, CodexV2Term, LearningLevel } from "@/lib/codex/v2/content";
-import { canonicalCodexHref } from "@/lib/codex/v2/content";
+import { canonicalCodexHref, canonicalCodexName } from "@/lib/codex/v2/content";
 import { CodexV2Entry } from "./codex-v2-entry";
 
 export function CodexV2Library({
@@ -18,6 +18,8 @@ export function CodexV2Library({
   const [selectedTermId, setSelectedTermId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [termSearch, setTermSearch] = useState("");
+  const [termGroup, setTermGroup] = useState("all");
+  const termGroups = useMemo(() => Array.from(new Set(terms.map((term) => term.group ?? "Other"))).sort(), [terms]);
   const [level, setLevel] = useState<LearningLevel | "all">("all");
   const selected = entries.find((entry) => entry.slug === selectedSlug) ?? null;
   const selectedTerm = terms.find((term) => term.id === selectedTermId) ?? null;
@@ -40,12 +42,13 @@ export function CodexV2Library({
   const matchingTerms = useMemo(
     () =>
       terms.filter((term) =>
+        (termGroup === "all" || term.group === termGroup) &&
         [term.term, term.definition]
           .join(" ")
           .toLocaleLowerCase()
           .includes(termSearch.trim().toLocaleLowerCase()),
       ),
-    [terms, termSearch],
+    [terms, termSearch, termGroup],
   );
 
   function openEntry(slug: string) {
@@ -60,11 +63,16 @@ export function CodexV2Library({
 
   return (
     <div className="cv2-library">
-      <header className="cv2-library-header">
+      {view !== "entry" ? (
+      <header className={view === "library" ? "cv2-library-header cv2-library-header--compact" : "cv2-library-mini-header"}>
         <span className="cv2-eyebrow">Sound Uncharted · Learn</span>
-        <h1>Explore the musical library.</h1>
-        <p>A connected reference for understanding, practicing, and creating music.</p>
-        <p className="cv2-draft-label">Design review only · not an official published curriculum</p>
+        {view === "library" ? (
+          <>
+            <h1>Explore the musical library.</h1>
+            <p>A connected reference for understanding, practicing, and creating music.</p>
+            <p className="cv2-draft-label">Design review only · not an official published curriculum</p>
+          </>
+        ) : <h2>Music Dictionary</h2>}
         <div className="cv2-library-nav" role="group" aria-label="Library destinations">
           <button
             type="button"
@@ -89,6 +97,7 @@ export function CodexV2Library({
           <Link href="/codex">Current Codex ↗</Link>
         </div>
       </header>
+      ) : null}
       {view === "entry" && selected ? (
         <CodexV2Entry
           key={selected.slug}
@@ -135,11 +144,9 @@ export function CodexV2Library({
           <div className="cv2-cards">
             {results.map((entry) => (
               <article className="cv2-card" key={entry.slug}>
-                <span className="cv2-eyebrow">Skill · {entry.modules.length} sample lessons</span>
+                <span className="cv2-eyebrow">Skill · {entry.modules.length} draft learning modules</span>
                 <h3>
-                  {entry.slug
-                    .replaceAll("_", " ")
-                    .replace(/\b\w/g, (letter) => letter.toUpperCase())}
+                  {canonicalCodexName(entry.kind, entry.slug)}
                 </h3>
                 <p>{entry.one_line}</p>
                 <button type="button" onClick={() => openEntry(entry.slug)}>
@@ -172,6 +179,12 @@ export function CodexV2Library({
               placeholder="Try tonic or subdivision"
             />
           </label>
+          <label className="cv2-application-filter">Dictionary subject
+            <select aria-label="Dictionary subject" value={termGroup} onChange={(event) => setTermGroup(event.target.value)}>
+              <option value="all">All subjects</option>
+              {termGroups.map((group) => <option key={group} value={group}>{group}</option>)}
+            </select>
+          </label>
           <div className="cv2-dictionary-grid">
             <div className="cv2-term-list" role="list" aria-label="Dictionary entries">
               {matchingTerms.map((term) => (
@@ -189,7 +202,7 @@ export function CodexV2Library({
             <article className="cv2-term-detail">
               {selectedTerm ? (
                 <>
-                  <span className="cv2-eyebrow">Dictionary entry · design draft</span>
+                  <span className="cv2-eyebrow">{selectedTerm.group ?? "Music"} · design draft</span>
                   <h3>{selectedTerm.term}</h3>
                   <p>{selectedTerm.definition}</p>
                   <p>{selectedTerm.detail}</p>
