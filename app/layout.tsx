@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     default: "Sound Uncharted",
     template: "%s · Sound Uncharted",
   },
-  description: "Sound Uncharted turns guitar practice into musical quests, learning, and exploration.",
+  description:
+    "Sound Uncharted turns guitar practice into musical quests, learning, and exploration.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
