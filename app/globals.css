@@ -4544,3 +4544,8 @@ a {
     transition: none;
   }
 }
+@media (min-width: 48rem) {
+  html:has(.cv2-library) {
+    scrollbar-gutter: stable;
+  }
+}
