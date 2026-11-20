@@ -56,9 +56,6 @@ const relationTypes = new Set([
 ]);
 const byIdentity = new Map(CODEX_ENTRIES.map((entry) => [`${entry.kind}:${entry.slug}`, entry]));
 
-const assert = (condition: unknown, message: string): asserts condition => {
-  if (!condition) throw new Error(`Invalid CODEX_CONTENT_V2: ${message}`);
-};
 function object(value: unknown, name: string): Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value))
     throw new Error(`Invalid CODEX_CONTENT_V2: ${name} must be an object`);
