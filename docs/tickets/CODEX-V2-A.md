@@ -49,6 +49,12 @@ User review did not accept V2-A's visual/content parity. The integrated renderer
 - Introduced a dedicated **How to Explore** section and restored full application descriptions, learning-level scope and proposed connection reasoning.
 - Reorganized UI to show a compact Library banner on Library only, compact Dictionary header in Dictionary, and a Skill-first hero within entries; the overview pairs instructional content with the musical reference. Section panels share widths/spacing, use a bounded desktop minimum height and natural mobile height.
 
+### Musical verification assumptions
+
+The triad display uses concert-pitch standard guitar tuning. On the G3/B3/E4 strings, fret positions [5,5,3] yield C4/E4/G4 (C major), [5,4,3] yield C4/E♭4/G4 (C minor), and [2,1,1] yield A3/C4/F4 (F major first inversion). No default tuning adjustment is inferred.
+
+The subdivision reference uses four **quarter-note** beats per 4/4 bar. Grid density is 4, 8, 12 or 16 events for 1, 2, 3 or 4 evenly spaced subdivisions per beat; BPM remains the quarter-note reference. Audio uses explicit user gesture and is not a persisted Session.
+
 ### R1 review and validation requirements
 
 1. Verify media **functionality**, not only component presence: C/Cm/F first-inversion note and fret labels; quarter/eighth/triplet/sixteenth grid counts 4/8/12/16; Play/Stop/BPM; C-major 7-degree selector and audio fallback.
