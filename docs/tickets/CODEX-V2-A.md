@@ -73,6 +73,7 @@ User interactive review requested clearer progress coverage: a Skill's education
 Changes on the same stacked draft PR:
 - Lessons and How to Explore retain the complete application list in the native selector. For the selected *instructional* level, options without any actual matching module are visibly labelled "no lesson at this level" and disabled, rather than silently filtering them away.
 - Level changes recover from a stale application choice by selecting All applications; available options remain selectable.
+- The level selector is a manual **instructional-content filter** only. It does not read or write Player proficiency, and missing level/application combinations remain editorial backlog rather than inferred completion.
 - The Applications view shows learning levels with **existing modules**, not declared editorial applicability where the actual module coverage is incomplete. The application and its explanation remain discoverable even when a lesson is unavailable.
 - Collapsible lesson summaries have a visible, rotating disclosure arrow and retain native keyboard/assistive technology `details/summary` behavior.
 - Entry and all section frames use the Overview's combined content width on desktop (full width up to the same 68rem max), while remaining fluid on mobile. Stable scrollbar gutters prevent horizontal shifts when section content changes document height; do not use a fixed minimum that overflows smaller viewports.
