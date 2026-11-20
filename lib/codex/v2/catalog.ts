@@ -14,7 +14,7 @@ export function publishedCodexV2Entry(kind: string, slug: string) {
     contexts: "CONTEXT",
     constraints: "CONSTRAINT",
   };
-  return catalog.entries.find(
-    (entry) => entry.kind === routeKind[kind] && entry.slug === slug,
-  ) ?? null;
+  return (
+    catalog.entries.find((entry) => entry.kind === routeKind[kind] && entry.slug === slug) ?? null
+  );
 }
