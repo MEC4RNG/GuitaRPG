@@ -106,7 +106,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
         expect(module.exercises[0].steps.length).toBeGreaterThan(0);
         expect(module.exercises[0].setup.length).toBeGreaterThan(0);
         expect(module.exercises[0].self_check.length).toBeGreaterThan(0);
-        expect(module.exercises[0].records_progress).toBe(false);
+        expect(lesson.exercises[0].records_progress).toBe(false);
       }
       for (const edge of entry.relationships) {
         expect(edge.why.length).toBeGreaterThan(15);
@@ -123,7 +123,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(() => parseCodexV2(badMedia, true)).toThrow(/unsupported reference block/);
 
     const badProgress = copy();
-    const module = (
+    const lesson = (
       badProgress.entries as Array<{
         modules: Array<{ exercises: Array<{ records_progress: boolean }> }>;
       }>
