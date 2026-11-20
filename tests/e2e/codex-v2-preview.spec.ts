@@ -37,11 +37,15 @@ test("CODEX-V2-A preserves published V1 Skill routes", async ({ page }) => {
   await expect(page.getByText(/trainable ability/i)).toBeVisible();
 });
 
-
-test("CODEX-V2-A-R1 restores the interactive triad reference and complete educational sections", async ({ page }) => {
+test("CODEX-V2-A-R1 restores the interactive triad reference and complete educational sections", async ({
+  page,
+}) => {
   await page.goto("/prototype/codex-v2");
-  await page.locator(".cv2-card").filter({ hasText: "Triad Construction" })
-    .getByRole("button", { name: /Explore this Skill/ }).click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Triad Construction" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
 
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the musical library." })).toHaveCount(0);
@@ -72,10 +76,15 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R1 restores the subdivided metronome and readable beat grids", async ({ page }) => {
+test("CODEX-V2-A-R1 restores the subdivided metronome and readable beat grids", async ({
+  page,
+}) => {
   await page.goto("/prototype/codex-v2");
-  await page.locator(".cv2-card").filter({ hasText: "Subdivision Control" })
-    .getByRole("button", { name: /Explore this Skill/ }).click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Subdivision Control" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
 
   await expect(page.getByRole("heading", { name: "Subdivision Control" })).toBeVisible();
   await expect(page.locator(".cv2-beat-parts span")).toHaveCount(8);
@@ -86,9 +95,15 @@ test("CODEX-V2-A-R1 restores the subdivided metronome and readable beat grids", 
   await page.getByRole("button", { name: "Quarter" }).click();
   await expect(page.locator(".cv2-beat-parts span")).toHaveCount(4);
   await page.getByRole("button", { name: /Play metronome/ }).click();
-  await expect(page.getByRole("button", { name: /Stop metronome/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: /Stop metronome/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
   await page.getByRole("button", { name: /Stop metronome/ }).click();
-  await expect(page.getByRole("button", { name: /Play metronome/ })).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByRole("button", { name: /Play metronome/ })).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
 
   await page.getByRole("button", { name: "Applications" }).click();
   await expect(page.locator(".cv2-application-grid button")).toHaveCount(5);
@@ -97,17 +112,25 @@ test("CODEX-V2-A-R1 restores the subdivided metronome and readable beat grids", 
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictionary", async ({ page }) => {
+test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictionary", async ({
+  page,
+}) => {
   await page.goto("/prototype/codex-v2");
-  await page.locator(".cv2-card").filter({ hasText: "Scale-Degree Recognition" })
-    .getByRole("button", { name: /Explore this Skill/ }).click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
 
   await expect(page.locator(".cv2-degree-list button")).toHaveCount(7);
   await page.locator(".cv2-degree-list button").nth(4).click();
   await expect(page.locator(".cv2-reference-detail")).toContainText("Degree 5 · G");
   await page.getByRole("button", { name: "Connections" }).click();
   await expect(page.locator(".cv2-connections li")).toHaveCount(7);
-  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .getByRole("button", { name: /Library/ })
+    .first()
+    .click();
   await page.getByRole("button", { name: "Music Dictionary" }).click();
   await expect(page.getByText("178 preview terms")).toBeVisible();
   await page.getByLabel("Find a term").fill("tonic");
