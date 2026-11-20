@@ -1,0 +1,32 @@
+name: Codex V2 availability formatting receipt
+on:
+  push:
+    branches: [codex-v2-a-content-renderer]
+permissions:
+  contents: read
+jobs:
+  formatted-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Use Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.23.2
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps --no-audit --no-fund
+      - name: Format and emit bounded receipt
+        run: |
+          FILES=(
+            'components/codex-v2-entry.tsx'
+            'app/globals.css'
+            'tests/e2e/codex-v2-preview.spec.ts'
+          )
+          npx prettier --write "${FILES[@]}"
+          for file in "${FILES[@]}"; do
+            echo "GAV_START:$file"
+            base64 -w 0 "$file" | fold -w 1600
+            echo "GAV_END:$file"
+          done
