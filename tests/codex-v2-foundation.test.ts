@@ -76,6 +76,18 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(() => parseCodexV2(broken, true)).toThrow(/missing glossary annotation/);
   });
 
+  it("rejects editorial level labels that are not backed by authored lessons", () => {
+    const broken = copy();
+    const entries = broken.entries as Array<{
+      applications: Array<{ id: string; level_ids: string[] }>;
+    }>;
+    const theory = entries[0].applications.find((item) => item.id === "theory");
+    expect(theory).toBeDefined();
+    if (!theory) return;
+    theory.level_ids = ["foundational"];
+    expect(() => parseCodexV2(broken, true)).toThrow(/application level coverage mismatch/);
+  });
+
   it("rejects duplicated glossary identities", () => {
     const broken = copy();
     const terms = broken.terms as unknown[];
