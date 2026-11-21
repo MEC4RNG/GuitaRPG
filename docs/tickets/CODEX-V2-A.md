@@ -122,3 +122,31 @@ They are **not** inferred, automatically created, or treated as prerequisites or
 Review harmonic meaning of **secondary dominants/tonicization** and spelling of altered scale degrees; check major-scale diatonic triad construction and diminished quality; ensure standard-tuning pitch and interval examples are accurate; verify beginner listening exercises avoid fixed emotional stereotypes; and distinguish rhythm density, accent and underlying beat. Confirm applicability to guitar while allowing neutral notation/piano equivalents where appropriate.
 
 Tests must verify 37 authored modules, 37/42 coverage, the nine new DRAFT_REVIEW module IDs, accurate available and unavailable application-level options, no XP/progression writes, and that 197 canonical V1 entries stay published with V2 published material still empty. Terminal CI, desktop/mobile user review and parent PR #13 acceptance remain outstanding merge gates.
+
+## CODEX-V2-A-R3 — Complete Three-Skill Pilot Curriculum (2026-11-21)
+
+**Authorization:** User asked to proceed after accepting the prior R2 direction: complete the final five learning-level/application gaps and undertake a music-accuracy and teaching-quality review. This is part of the existing Codex V2-A draft scope, **not** a new Quest Map or Player-data implementation ticket.
+
+### Implemented
+
+The existing pilot applications now each have **one draft instructional lesson at Foundational, Intermediate and Advanced levels**, for 42/42 coverage across 3 Skills and 14 applications. The user-requested disabled/visible availability behavior remains in the renderer for future entries whose authored content is incomplete.
+
+- Scale-Degree Recognition / Improvisation / Foundational — **Answer the tonic with three notes**: begin with pitches C/D/E as degrees 1/2/3, make musical question-and-answer phrases, and choose the destination intentionally.
+- Triad Construction / Harmony & construction / Advanced — **Construct diminished and augmented triads by interval**: major, minor, diminished and augmented C triads with correct chord-letter spelling and semitone signatures.
+- Triad Construction / Listening & chord quality / Advanced — **Hear individual voices between neighboring triads**: compare C4–E4–G4 with C4–F4–A4 (F major second inversion), retaining the C and hearing upper-voice movements of +1/+2 semitones.
+- Triad Construction / Arrangement & voice leading / Intermediate — **Arrange four triads with a connected top voice**: validated standard-tuned G/B/E triples for C–Am–F–G, with top notes G4–A4–A4–G4.
+- Subdivision Control / Composing rhythm / Intermediate — **Compose a two-bar response with rests and offbeats**: an explicit 16-slot count grid in 4/4, at fixed quarter-note tempo, with accurate placement of the '&' and 'a' subdivisions.
+
+Each new module is an **unreviewed DRAFT_REVIEW** with outcomes, explanation, setup, procedural exercise, self-check, and `records_progress: false`. Original instructional/relationship/dictionary content remains intact; **V2 published corpus is still empty**.
+
+### First-pass music quality and additional enforcement
+
+- `docs/codex-v2-r3-complete-curriculum-quality-review.md` records an internal 42-module review matrix with individual music-example focus, priority for further review, and a checklist for external music-educator sign-off. This is not a claim of professional certification.
+- Clarified an inherited ambiguous 16th-grid attack instruction and expanded two overly terse listening/improvisation setups.
+- Added runtime validation that every application's `level_ids` reflects **actual authored modules** (reject duplicate, missing or fictitious levels). Future missing lessons remain shown as disabled rather than silently enabled.
+- Added targeted deterministic note-spelling, fret-pitch, triad-inversion, scale-transposition, secondary-dominant and rhythmic-grid unit tests; E2E now exercises the five R3 additions and full 42-slot coverage.
+
+### Stop / release conditions
+
+Keep this as a preview-only draft branch (PR #14) stacked on the still-open JRN-004 PR #13; do **not** merge, cut over to production, publish any V2 content, start JRN-005 or connect Codex to Quest Map without the next explicit authorization and required review. Validate format/lint/typecheck/unit/build, database/security/account and Playwright desktop/mobile including Workbook regressions, then obtain user visual and music-editor sign-off before any content publication.
+
