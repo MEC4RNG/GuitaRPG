@@ -1,0 +1,28 @@
+name: R5 isolated format diagnostics (temporary)
+on:
+  push:
+    branches:
+      - codex-v2-r5-learning-workbook
+    paths:
+      - ".github/workflows/r5-format-probe.yml"
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.23.2
+          cache: npm
+          cache-dependency-path: npm-shrinkwrap.json
+      - name: Install
+        run: npm ci --legacy-peer-deps --no-audit --no-fund
+      - name: Print exact Prettier output without writing to GitHub
+        run: |
+          npx prettier --write app/workbooks/page.tsx components/codex-v2-reference.tsx components/workbook-persistence-surface.tsx lib/codex/v2/triad-voicings.ts lib/workbook/lesson-template.ts tests/codex-v2-triad-voicings.test.ts
+          git --no-pager diff -- app/workbooks/page.tsx components/codex-v2-reference.tsx components/workbook-persistence-surface.tsx lib/codex/v2/triad-voicings.ts lib/workbook/lesson-template.ts tests/codex-v2-triad-voicings.test.ts
