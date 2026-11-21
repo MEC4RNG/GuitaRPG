@@ -257,7 +257,9 @@ export function WorkbookPersistenceSurface({
           setContextLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
           setMessage(`Lesson page created and linked to this Quest.${titleWarning}`);
         } catch {
-          setMessage(`Lesson page created but not linked to this Quest. Attach it later.${titleWarning}`);
+          setMessage(
+            `Lesson page created but not linked to this Quest. Attach it later.${titleWarning}`,
+          );
         }
       } else {
         setMessage(`Lesson page created in your Workbook.${titleWarning}`);
@@ -693,7 +695,9 @@ export function WorkbookPersistenceSurface({
               notes. Only a deliberate button press creates private content.
             </p>
             {lessonSource.status === "DRAFT_REVIEW" ? (
-              <p>Preview curriculum draft · not a published lesson or automatic progress evidence.</p>
+              <p>
+                Preview curriculum draft · not a published lesson or automatic progress evidence.
+              </p>
             ) : null}
           </div>
           <div className="workbook-context__actions">
@@ -709,7 +713,9 @@ export function WorkbookPersistenceSurface({
             ))}
             <button
               type="button"
-              disabled={!selected || Boolean(selected.archived_at) || pendingEdits || creatingLesson}
+              disabled={
+                !selected || Boolean(selected.archived_at) || pendingEdits || creatingLesson
+              }
               onClick={() => void createFromLesson(false)}
             >
               Add Page to selected Workbook
