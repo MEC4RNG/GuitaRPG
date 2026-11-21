@@ -343,6 +343,14 @@ export function CodexV2Entry({
                         </small>
                       </div>
                     ))}
+                    {preview ? (
+                      <Link
+                        className="cv2-lesson-workbook-link"
+                        href={`/workbooks?codex_module=${encodeURIComponent(module.id)}`}
+                      >
+                        Practice in Workbook →
+                      </Link>
+                    ) : null}
                   </details>
                 ))}
               </div>
@@ -396,6 +404,14 @@ export function CodexV2Entry({
                         <small>
                           {exercise.suggested_minutes} minutes suggested · no automatic evidence
                         </small>
+                        {preview ? (
+                          <Link
+                            className="cv2-lesson-workbook-link"
+                            href={`/workbooks?codex_module=${encodeURIComponent(module.id)}`}
+                          >
+                            Practice in Workbook →
+                          </Link>
+                        ) : null}
                       </div>
                     </details>
                   )),

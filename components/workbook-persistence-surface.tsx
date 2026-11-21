@@ -11,6 +11,11 @@ import {
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { starterWorkbookDocument } from "@/lib/workbook/document-v1";
 import {
+  buildLessonWorkbookDocument,
+  hasLessonSource,
+  type CodexLessonWorkbookSource,
+} from "@/lib/workbook/lesson-template";
+import {
   attachWorkbookContext,
   attachExploreModulePage,
   createPage,
@@ -33,16 +38,18 @@ import {
   type WorkbookRevisionRow,
   type WorkbookRow,
 } from "@/lib/workbook/repository";
-import type { WorkbookRouteContext } from "@/lib/workbook/context";
+import { workbookContextHref, type WorkbookRouteContext } from "@/lib/workbook/context";
 
 export function WorkbookPersistenceSurface({
   context,
   embeddedCraft = false,
   embeddedExplore,
+  lessonSource = null,
 }: {
   context: WorkbookRouteContext | null;
   embeddedCraft?: boolean;
   embeddedExplore?: { pageId: string; moduleKey: string | null };
+  lessonSource?: CodexLessonWorkbookSource | null;
 }) {
   const router = useRouter();
   const clientRef = useRef<WorkbookClient | null>(null);
@@ -62,6 +69,8 @@ export function WorkbookPersistenceSurface({
   const [pendingEdits, setPendingEdits] = useState(false);
   const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
+  const [creatingLesson, setCreatingLesson] = useState(false);
+  const lessonCreatePendingRef = useRef(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -74,7 +83,20 @@ export function WorkbookPersistenceSurface({
           : Promise.resolve(null),
       ]);
       if (!snapshot.authenticated) {
-        router.replace("/onboarding?next=/workbooks");
+        const contextPath = context
+          ? workbookContextHref(context.questId, context.stage, context.relationship, {
+              pageId: context.pageId,
+              sessionId: context.sessionId,
+            })
+          : "/workbooks";
+        const nextPath = lessonSource
+          ? `${contextPath}${contextPath.includes("?") ? "&" : "?"}codex_module=${encodeURIComponent(lessonSource.moduleId)}`
+          : contextPath;
+        router.replace(
+          nextPath === "/workbooks"
+            ? "/onboarding?next=/workbooks"
+            : `/onboarding?next=${encodeURIComponent(nextPath)}`,
+        );
         return;
       }
       setAnonymous(snapshot.anonymous);
@@ -122,7 +144,7 @@ export function WorkbookPersistenceSurface({
     } finally {
       setLoading(false);
     }
-  }, [context, embeddedCraft, embeddedExplore, getClient, router]);
+  }, [context, embeddedCraft, embeddedExplore, getClient, lessonSource, router]);
 
   useEffect(() => {
     // Initial owner-scoped hydration is intentionally driven by the browser Auth client.
@@ -137,6 +159,11 @@ export function WorkbookPersistenceSurface({
   const recentPages = [...pages]
     .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     .slice(0, 5);
+  const lessonPages = lessonSource
+    ? pages
+        .filter((page) => hasLessonSource(page.document, lessonSource.moduleId))
+        .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
+    : [];
 
   const upsertPage = useCallback((accepted: WorkbookPageRow) => {
     setPages((current) => [...current.filter((page) => page.id !== accepted.id), accepted]);
@@ -167,6 +194,81 @@ export function WorkbookPersistenceSurface({
       selectWorkbook(accepted.workbook.id);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Workbook could not be created.");
+    }
+  };
+
+  const createFromLesson = async (newWorkbook: boolean) => {
+    if (!lessonSource || lessonCreatePendingRef.current) return;
+    if (pendingEdits) {
+      setMessage("Wait for the current page to show Saved before creating another page.");
+      return;
+    }
+    if (!newWorkbook && (!selected || selected.archived_at)) {
+      setMessage("Select an active Workbook first, or create a new one.");
+      return;
+    }
+    lessonCreatePendingRef.current = true;
+    setCreatingLesson(true);
+    try {
+      const document = buildLessonWorkbookDocument(lessonSource);
+      const title = lessonSource.title.slice(0, 120);
+      let page: WorkbookPageRow;
+      let targetWorkbookId: string;
+      if (newWorkbook) {
+        const created = await createWorkbook(getClient(), `${lessonSource.skillName} Practice`, {
+          document,
+        });
+        setWorkbooks((current) => [created.workbook, ...current]);
+        page = created.page;
+        targetWorkbookId = created.workbook.id;
+      } else {
+        targetWorkbookId = selected!.id;
+        page = await createPage(getClient(), targetWorkbookId, title, document);
+      }
+      // The initial Page title for createWorkbook is supplied by its existing
+      // trusted RPC. Rename through normal revision-checked save, never by
+      // bypassing the document repository.
+      let titleWarning = "";
+      if (page.title !== title) {
+        try {
+          const saved = await savePage(
+            getClient(),
+            { ...page, title, revision: page.revision },
+            crypto.randomUUID(),
+          );
+          if (saved.status === "accepted") page = saved.page;
+          else titleWarning = " Its title could not be updated because a newer revision exists.";
+        } catch {
+          titleWarning = " Its title could not be updated; the saved lesson content is intact.";
+        }
+      }
+      upsertPage(page);
+      setSelectedId(targetWorkbookId);
+      setInitialPageId(page.id);
+      if (context && questContextTitle) {
+        try {
+          const link = await attachWorkbookContext(getClient(), {
+            pageId: page.id,
+            questId: context.questId,
+            stage: context.stage,
+            relationship: context.relationship,
+            sessionId: context.sessionId,
+          });
+          setContextLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+          setMessage(`Lesson page created and linked to this Quest.${titleWarning}`);
+        } catch {
+          setMessage(
+            `Lesson page created but not linked to this Quest. Attach it later.${titleWarning}`,
+          );
+        }
+      } else {
+        setMessage(`Lesson page created in your Workbook.${titleWarning}`);
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "The lesson page could not be created.");
+    } finally {
+      lessonCreatePendingRef.current = false;
+      setCreatingLesson(false);
     }
   };
 
@@ -582,6 +684,52 @@ export function WorkbookPersistenceSurface({
           </button>
         </div>
       </header>
+      {lessonSource ? (
+        <section className="workbook-context" aria-labelledby="workbook-lesson-title">
+          <div>
+            <span className="eyebrow">CODEX LESSON → WORKBOOK</span>
+            <h2 id="workbook-lesson-title">{lessonSource.title}</h2>
+            <p>
+              {lessonSource.skillName} · {lessonSource.applicationTitle} · {lessonSource.level}.
+              Create an editable starting Page with the lesson, objectives, exercises, and room for
+              notes. Only a deliberate button press creates private content.
+            </p>
+            {lessonSource.status === "DRAFT_REVIEW" ? (
+              <p>
+                Preview curriculum draft · not a published lesson or automatic progress evidence.
+              </p>
+            ) : null}
+          </div>
+          <div className="workbook-context__actions">
+            {lessonPages.slice(0, 3).map((page) => (
+              <button
+                key={page.id}
+                type="button"
+                disabled={pendingEdits || creatingLesson}
+                onClick={() => selectWorkbook(page.workbook_id, page.id)}
+              >
+                Open existing: {page.title}
+              </button>
+            ))}
+            <button
+              type="button"
+              disabled={
+                !selected || Boolean(selected.archived_at) || pendingEdits || creatingLesson
+              }
+              onClick={() => void createFromLesson(false)}
+            >
+              Add Page to selected Workbook
+            </button>
+            <button
+              type="button"
+              disabled={pendingEdits || creatingLesson}
+              onClick={() => void createFromLesson(true)}
+            >
+              Create new Workbook from lesson
+            </button>
+          </div>
+        </section>
+      ) : null}
       {context ? (
         <section className="workbook-context" aria-labelledby="workbook-context-title">
           <div>

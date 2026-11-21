@@ -1,8 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CodexV2ReferenceBlock } from "@/lib/codex/v2/content";
+import {
+  describeTriadTones,
+  generateTriadVoicings,
+  INVERSION_NAMES,
+  STRING_GROUPS,
+  TRIAD_ROOTS,
+  type TriadRoot,
+  type TriadQuality,
+  type TriadStringGroup,
+  type TriadInversion,
+} from "@/lib/codex/v2/triad-voicings";
 
 type AudioContextRef = { current: AudioContext | null };
 
@@ -93,157 +104,238 @@ function ScaleDegreesReference() {
   );
 }
 
-type Voicing = {
-  id: string;
-  label: string;
-  quality: string;
-  inversion: string;
-  frets: readonly [number, number, number];
-  notes: readonly [string, string, string];
-  degrees: readonly [string, string, string];
-  explanation: string;
-};
-const voicings: readonly Voicing[] = [
-  {
-    id: "c-major",
-    label: "C major",
-    quality: "Major",
-    inversion: "Root position",
-    frets: [5, 5, 3],
-    notes: ["C4", "E4", "G4"],
-    degrees: ["1", "3", "5"],
-    explanation: "C–E–G. The major third is E, four semitones above C.",
-  },
-  {
-    id: "c-minor",
-    label: "C minor",
-    quality: "Minor",
-    inversion: "Root position",
-    frets: [5, 4, 3],
-    notes: ["C4", "E♭4", "G4"],
-    degrees: ["1", "♭3", "5"],
-    explanation: "C–E♭–G. Only the third moves down a semitone; C and G stay.",
-  },
-  {
-    id: "f-first",
-    label: "F major",
-    quality: "Major",
-    inversion: "First inversion",
-    frets: [2, 1, 1],
-    notes: ["A3", "C4", "F4"],
-    degrees: ["3", "5", "1"],
-    explanation: "A–C–F is F major in first inversion: the third, A, is the lowest note.",
-  },
+const STRING_GROUP_LABELS: readonly { id: TriadStringGroup; label: string }[] = [
+  { id: "1-3", label: "Strings 1–3 · G B E" },
+  { id: "2-4", label: "Strings 2–4 · D G B" },
+  { id: "3-5", label: "Strings 3–5 · A D G" },
+  { id: "4-6", label: "Strings 4–6 · E A D" },
 ];
 
+const OPEN_STRING_LABELS: Readonly<Record<number, string>> = {
+  6: "E2",
+  5: "A2",
+  4: "D3",
+  3: "G3",
+  2: "B3",
+  1: "E4",
+};
+const INVERSION_OPTIONS: readonly TriadInversion[] = ["root", "first", "second"];
+
 function TriadFretboardReference() {
-  const [selection, setSelection] = useState(voicings[0].id);
-  const voicing = voicings.find((candidate) => candidate.id === selection) ?? voicings[0];
-  const strings = [
-    { no: 3, tuning: "G3", x: 78 },
-    { no: 2, tuning: "B3", x: 191 },
-    { no: 1, tuning: "E4", x: 304 },
-  ];
-  const firstY = 48;
+  const [root, setRoot] = useState<TriadRoot>("C");
+  const [quality, setQuality] = useState<TriadQuality>("major");
+  const [group, setGroup] = useState<TriadStringGroup>("1-3");
+  const [inversion, setInversion] = useState<TriadInversion>("root");
+  const [voicingId, setVoicingId] = useState<string | null>(null);
+  const voicings = useMemo(
+    () => generateTriadVoicings(root, quality, group),
+    [root, quality, group],
+  );
+  const availableInversions = INVERSION_OPTIONS.filter((item) =>
+    voicings.some((voicing) => voicing.inversion === item),
+  );
+  const effectiveInversion = availableInversions.includes(inversion)
+    ? inversion
+    : availableInversions[0];
+  const matchingVoicings = voicings
+    .filter((item) => item.inversion === effectiveInversion)
+    .slice(0, 12);
+  const selectedVoicing =
+    matchingVoicings.find((item) => item.id === voicingId) ?? matchingVoicings[0] ?? null;
+  const names = describeTriadTones(root, quality);
+
+  function changeRoot(next: TriadRoot) {
+    setRoot(next);
+    setInversion("root");
+    setVoicingId(null);
+  }
+  function changeQuality(next: TriadQuality) {
+    setQuality(next);
+    setInversion("root");
+    setVoicingId(null);
+  }
+  function changeGroup(next: TriadStringGroup) {
+    setGroup(next);
+    setInversion("root");
+    setVoicingId(null);
+  }
+
+  const firstY = 58;
   const fretHeight = 46;
   return (
     <div className="cv2-interactive">
       <span className="cv2-eyebrow">Interactive guitar reference</span>
       <h3>Triad voicings · standard tuning</h3>
       <p>
-        Compare the same three strings (G, B and high E). Each dot gives the note at that string and
-        fret, not a suggested fingering.
+        Choose a root, chord quality and three-string group. Dots represent sounding pitches and
+        fret locations, not suggested finger assignments.
       </p>
-      <div className="cv2-voicing-select" role="group" aria-label="Choose a triad voicing">
-        {voicings.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            aria-pressed={item.id === selection}
-            onClick={() => setSelection(item.id)}
+      <div className="cv2-triad-controls">
+        <label>
+          Root note
+          <select value={root} onChange={(event) => changeRoot(event.target.value as TriadRoot)}>
+            {TRIAD_ROOTS.map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Triad quality
+          <select
+            value={quality}
+            onChange={(event) => changeQuality(event.target.value as TriadQuality)}
           >
-            {item.label}
-            {item.id === "f-first" ? " · inversion" : ""}
-          </button>
+            <option value="major">Major</option>
+            <option value="minor">Minor</option>
+          </select>
+        </label>
+        <label>
+          String group
+          <select
+            value={group}
+            onChange={(event) => changeGroup(event.target.value as TriadStringGroup)}
+          >
+            {STRING_GROUP_LABELS.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Inversion
+          <select
+            value={effectiveInversion ?? ""}
+            onChange={(event) => {
+              setInversion(event.target.value as TriadInversion);
+              setVoicingId(null);
+            }}
+            disabled={!availableInversions.length}
+          >
+            {INVERSION_OPTIONS.map((item) => (
+              <option key={item} value={item} disabled={!availableInversions.includes(item)}>
+                {INVERSION_NAMES[item]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Fretboard voicing
+          <select
+            value={selectedVoicing?.id ?? ""}
+            onChange={(event) => setVoicingId(event.target.value)}
+            disabled={!matchingVoicings.length}
+          >
+            {matchingVoicings.map((voicing) => (
+              <option value={voicing.id} key={voicing.id}>
+                {voicing.frets.map((fret) => (fret === 0 ? "open" : fret)).join(" / ")}
+                {" · frets low to high"}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div className="cv2-triad-tone-line">
+        {names.map((item) => (
+          <span key={item.tone}>
+            <strong>{item.name}</strong> · {item.description}
+          </span>
         ))}
       </div>
-      <svg
-        className="cv2-fret-svg"
-        viewBox="0 0 385 350"
-        role="img"
-        aria-label={`${voicing.label} ${voicing.inversion}: string 3 fret ${voicing.frets[0]} ${voicing.notes[0]}, string 2 fret ${voicing.frets[1]} ${voicing.notes[1]}, string 1 fret ${voicing.frets[2]} ${voicing.notes[2]}`}
-      >
-        <title>{`${voicing.label} on strings G, B, high E in standard tuning`}</title>
-        {Array.from({ length: 6 }, (_, fret) => (
-          <g key={fret}>
-            <line
-              x1="60"
-              x2="325"
-              y1={firstY + fret * fretHeight}
-              y2={firstY + fret * fretHeight}
-              stroke="currentColor"
-              strokeOpacity={fret === 0 ? 0.65 : 0.25}
-              strokeWidth={fret === 0 ? 5 : 2}
-            />
-            {fret < 5 ? (
-              <text
-                x="33"
-                y={firstY + fret * fretHeight + fretHeight / 2 + 5}
-                textAnchor="middle"
-                fill="currentColor"
-                opacity="0.65"
-                fontSize="13"
-              >
-                {fret + 1}
-              </text>
-            ) : null}
-          </g>
-        ))}
-        {strings.map((string, index) => (
-          <g key={string.no}>
-            <line
-              x1={string.x}
-              x2={string.x}
-              y1={firstY}
-              y2={firstY + 5 * fretHeight}
-              stroke="currentColor"
-              strokeOpacity="0.42"
-              strokeWidth="2"
-            />
-            <text x={string.x} y="26" textAnchor="middle" fill="currentColor" fontSize="14">
-              {string.tuning}
-            </text>
-            <text x={string.x} y="305" textAnchor="middle" fill="currentColor" fontSize="13">
-              String {string.no}
-            </text>
-            <circle
-              cx={string.x}
-              cy={firstY + (voicing.frets[index] - 0.5) * fretHeight}
-              r="19"
-              fill="#d3a956"
-              stroke="#2d2415"
-              strokeWidth="2"
-            />
-            <text
-              x={string.x}
-              y={firstY + (voicing.frets[index] - 0.5) * fretHeight + 5}
-              textAnchor="middle"
-              fill="#222017"
-              fontSize="13"
-              fontWeight="700"
-            >
-              {voicing.notes[index].replace(/[0-9]/g, "")}
-            </text>
-          </g>
-        ))}
-      </svg>
-      <div className="cv2-reference-detail" role="status">
-        <strong>
-          {voicing.label} · {voicing.inversion}
-        </strong>
-        <span>{voicing.notes.join(" · ")} (low to high)</span>
-        <p>{voicing.explanation}</p>
-      </div>
+      {selectedVoicing ? (
+        <>
+          <svg
+            className="cv2-fret-svg"
+            viewBox="0 0 385 350"
+            role="img"
+            aria-label={`${root} ${quality} ${INVERSION_NAMES[selectedVoicing.inversion]}: ${selectedVoicing.strings.map((stringNumber, index) => `string ${stringNumber} fret ${selectedVoicing.frets[index]} ${selectedVoicing.notes[index]}`).join(", ")}`}
+          >
+            <title>{`${root} ${quality}, ${INVERSION_NAMES[selectedVoicing.inversion]} on strings ${STRING_GROUPS[group].join(", ")}`}</title>
+            {Array.from({ length: 6 }, (_, fret) => (
+              <g key={fret}>
+                <line
+                  x1="60"
+                  x2="325"
+                  y1={firstY + fret * fretHeight}
+                  y2={firstY + fret * fretHeight}
+                  stroke="currentColor"
+                  strokeOpacity={fret === 0 ? 0.65 : 0.25}
+                  strokeWidth={fret === 0 && selectedVoicing.fretStart === 1 ? 5 : 2}
+                />
+                {fret < 5 ? (
+                  <text
+                    x="33"
+                    y={firstY + fret * fretHeight + fretHeight / 2 + 5}
+                    textAnchor="middle"
+                    fill="currentColor"
+                    opacity="0.65"
+                    fontSize="13"
+                  >
+                    {selectedVoicing.fretStart + fret}
+                  </text>
+                ) : null}
+              </g>
+            ))}
+            {selectedVoicing.strings.map((stringNumber, index) => {
+              const x = 78 + index * 113;
+              const fret = selectedVoicing.frets[index];
+              const y =
+                fret === 0 ? 39 : firstY + (fret - selectedVoicing.fretStart + 0.5) * fretHeight;
+              return (
+                <g key={stringNumber}>
+                  <line
+                    x1={x}
+                    x2={x}
+                    y1={firstY}
+                    y2={firstY + 5 * fretHeight}
+                    stroke="currentColor"
+                    strokeOpacity="0.42"
+                    strokeWidth="2"
+                  />
+                  <text x={x} y="22" textAnchor="middle" fill="currentColor" fontSize="14">
+                    {OPEN_STRING_LABELS[stringNumber]}
+                  </text>
+                  <text x={x} y="324" textAnchor="middle" fill="currentColor" fontSize="13">
+                    String {stringNumber}
+                  </text>
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={fret === 0 ? 15 : 19}
+                    fill={fret === 0 ? "none" : "#d3a956"}
+                    stroke={fret === 0 ? "currentColor" : "#2d2415"}
+                    strokeWidth="2"
+                  />
+                  <text
+                    x={x}
+                    y={y + 5}
+                    textAnchor="middle"
+                    fill={fret === 0 ? "currentColor" : "#222017"}
+                    fontSize="13"
+                    fontWeight="700"
+                  >
+                    {selectedVoicing.notes[index].replace(/[0-9]/g, "")}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+          <div className="cv2-reference-detail" role="status">
+            <strong>
+              {root} {quality} · {INVERSION_NAMES[selectedVoicing.inversion]}
+            </strong>
+            <span>{selectedVoicing.notes.join(" · ")} (low to high)</span>
+            <p>{selectedVoicing.description}</p>
+          </div>
+        </>
+      ) : (
+        <p role="status">
+          No verified three-string voicing is available under the current fret-span limits. Choose
+          another root, quality, string group or inversion.
+        </p>
+      )}
       <p className="cv2-related-reference">
         Why does order matter? Read about{" "}
         <Link href="/codex/concepts/chord_inversion" target="_blank" rel="noopener noreferrer">
