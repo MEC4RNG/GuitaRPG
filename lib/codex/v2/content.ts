@@ -158,6 +158,7 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
   const entries: CodexV2Entry[] = [];
   const seenEntries = new Set<string>();
   const seenModules = new Set<string>();
+  const seenExercises = new Set<string>();
   for (const [index, raw] of array(document.entries, "entries", 500).entries()) {
     const data = object(raw, `entry ${index}`);
     const entryKind = kind(data.kind, "entry kind");
@@ -253,21 +254,33 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       const outcomes = array(item.outcomes, "module outcomes", 20).map((value) =>
         string(value, "module outcome", 700),
       );
-      const exercises: CodexV2Exercise[] = array(item.exercises, "module exercises", 15).map(
+      if (!steps.length || !outcomes.length)
+        throw new Error("Invalid CODEX_CONTENT_V2: module needs steps and outcomes");
+      const rawExercises = array(item.exercises, "module exercises", 15);
+      if (!rawExercises.length)
+        throw new Error("Invalid CODEX_CONTENT_V2: module needs an exercise");
+      const exercises: CodexV2Exercise[] = rawExercises.map(
         (rawExercise) => {
           const exercise = object(rawExercise, "exercise");
+          const exerciseId = string(exercise.id, "exercise id", 150);
+          if (!/^[a-z0-9._-]+$/.test(exerciseId) || seenExercises.has(exerciseId))
+            throw new Error("Invalid CODEX_CONTENT_V2: duplicate or invalid exercise id");
+          seenExercises.add(exerciseId);
+          const exerciseSteps = array(exercise.steps, "exercise steps", 30).map((value) =>
+            string(value, "exercise step", 1000),
+          );
+          if (!exerciseSteps.length)
+            throw new Error("Invalid CODEX_CONTENT_V2: exercise needs at least one step");
           const duration = exercise.suggested_minutes;
           if (!Number.isInteger(duration) || (duration as number) < 1 || (duration as number) > 120)
             throw new Error("Invalid CODEX_CONTENT_V2: exercise duration outside bounds");
           if (exercise.records_progress !== false)
             throw new Error("Invalid CODEX_CONTENT_V2: Codex exercises cannot record progress");
           return {
-            id: string(exercise.id, "exercise id", 150),
+            id: exerciseId,
             title: string(exercise.title, "exercise title", 250),
             setup: string(exercise.setup, "exercise setup", 1000),
-            steps: array(exercise.steps, "exercise steps", 30).map((value) =>
-              string(value, "exercise step", 1000),
-            ),
+            steps: exerciseSteps,
             self_check: string(exercise.self_check, "exercise self-check", 800),
             suggested_minutes: duration as number,
             records_progress: false,
