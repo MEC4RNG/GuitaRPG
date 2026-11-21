@@ -290,6 +290,24 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         editorial_status: moduleStatus,
       };
     });
+    // Application-level availability must be derived from authored modules, not
+    // optimistic editorial scope. This prevents empty lessons from appearing enabled.
+    for (const application of applications) {
+      const actualLevels = (["foundational", "intermediate", "advanced"] as const).filter(
+        (level) =>
+          moduleList.some(
+            (lesson) => lesson.application_id === application.id && lesson.level === level,
+          ),
+      );
+      if (
+        new Set(application.level_ids).size !== application.level_ids.length ||
+        application.level_ids.length !== actualLevels.length ||
+        application.level_ids.some((level, index) => level !== actualLevels[index])
+      )
+        throw new Error(
+          `Invalid CODEX_CONTENT_V2: application level coverage mismatch: ${entrySlug}/${application.id}`,
+        );
+    }
     const relationships: CodexV2Entry["relationships"] = array(
       data.relationships,
       "relationships",
