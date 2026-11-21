@@ -18,8 +18,7 @@ describe("Codex V2 42-lesson draft musical and teaching-quality checks", () => {
         for (const level of levels) {
           const key = `${entry.slug}/${application.id}/${level}`;
           const lessons = entry.modules.filter(
-            (lesson) =>
-              lesson.application_id === application.id && lesson.level === level,
+            (lesson) => lesson.application_id === application.id && lesson.level === level,
           );
           expect(lessons, key).toHaveLength(1);
           expect(seen.has(key)).toBe(false);
@@ -55,8 +54,7 @@ describe("Codex V2 42-lesson draft musical and teaching-quality checks", () => {
   it("verifies standard-tuned guitar triads and the intermediate top-voice line", () => {
     // Guitar strings 3, 2 and 1 are G3, B3 and E4 in concert-pitch MIDI.
     const open: readonly number[] = [55, 59, 64];
-    const sounds = (frets: readonly number[]) =>
-      open.map((pitch, index) => pitch + frets[index]);
+    const sounds = (frets: readonly number[]) => open.map((pitch, index) => pitch + frets[index]);
     expect(sounds([5, 5, 3])).toEqual([60, 64, 67]); // C4 E4 G4
     expect(sounds([5, 4, 3])).toEqual([60, 63, 67]); // C4 Eb4 G4
     expect(sounds([2, 1, 1])).toEqual([57, 60, 65]); // A3 C4 F4: F first inversion
@@ -64,9 +62,12 @@ describe("Codex V2 42-lesson draft musical and teaching-quality checks", () => {
     expect(sounds([5, 6, 5])).toEqual([60, 65, 69]); // C4 F4 A4: F second inversion
     expect(sounds([4, 3, 3])).toEqual([59, 62, 67]); // B3 D4 G4: G first inversion
 
-    const line = [[5, 5, 3], [5, 5, 5], [5, 6, 5], [4, 3, 3]].map(
-      (frets) => sounds(frets)[2],
-    );
+    const line = [
+      [5, 5, 3],
+      [5, 5, 5],
+      [5, 6, 5],
+      [4, 3, 3],
+    ].map((frets) => sounds(frets)[2]);
     expect(line).toEqual([67, 69, 69, 67]); // G4 A4 A4 G4
     expect(getLesson("triad.composition.i1")?.explanation).toContain("G4–A4–A4–G4");
     expect(getLesson("triad.aural.a1")?.explanation).toContain("second inversion");
@@ -83,10 +84,7 @@ describe("Codex V2 42-lesson draft musical and teaching-quality checks", () => {
     const triads = scale.map((_, degree) =>
       [0, 2, 4].map((offset) => scale[(degree + offset) % 7]).join("–"),
     );
-    expect(triads).toEqual([
-      "C–E–G", "D–F–A", "E–G–B", "F–A–C",
-      "G–B–D", "A–C–E", "B–D–F",
-    ]);
+    expect(triads).toEqual(["C–E–G", "D–F–A", "E–G–B", "F–A–C", "G–B–D", "A–C–E", "B–D–F"]);
     expect(getLesson("triad.theory.i1")?.explanation).toContain("B°");
     expect(getLesson("triad.theory.a1")?.explanation).toContain("C–E–G♯");
   });
@@ -121,8 +119,6 @@ describe("Codex V2 42-lesson draft musical and teaching-quality checks", () => {
     expect(barB).toEqual([0, 6, 10, 12]);
     expect(getLesson("subdiv.composition.i1")?.explanation).toContain("16 equally spaced");
     expect(getLesson("subdiv.reading.a1")?.explanation).toContain("2+2+3");
-    expect(getLesson("subdiv.reading.i1")?.exercises[0].steps[1]).toContain(
-      "the “&” of beat 4",
-    );
+    expect(getLesson("subdiv.reading.i1")?.exercises[0].steps[1]).toContain("the “&” of beat 4");
   });
 });
