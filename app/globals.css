@@ -4235,6 +4235,13 @@ a {
   border-radius: 0.75rem;
   background: var(--codex-raised);
 }
+.cv2-explore-module > .cv2-exercise {
+  margin-top: 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
 .cv2-exercise h3 {
   margin: 0;
 }
