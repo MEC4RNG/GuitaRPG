@@ -193,3 +193,13 @@ The first R3-R2 final-head run reached GitHub Actions but `Production scaffold C
 ### Second formatting check and final-head verification (R3-R2)
 
 The first format remediation reduced Prettier warnings from four files to two; the remaining warnings were in the preview-access helper and new test-matrix assertions. Those were simplified into short explicit branches and a reusable test fixture for deterministic formatting. These source-only edits do not change any published lesson, review status, application coverage, Player data or database schema. The terminal results of the subsequent final-head GitHub workflows determine acceptance; this note does not certify a pass by itself.
+
+## CODEX-V2-A-R4 — How to Explore disclosure parity (2026-11-21)
+
+**User review:** The How to Explore activity cards lacked the visible expand/collapse arrows already available in Lessons. The user also proposed Codex lesson/activity → Player Workbook → optional Quest linking, and configurable triad note/quality/string-group controls.
+
+**Implemented in this bounded review fix:** How to Explore now uses native `details/summary` panels with the same rotating arrow and visible title/application as Lessons. Each activity independently expands/collapses; step-by-step setup and self-check remain intact. CSS removes nested-card double borders. Focused browser coverage now verifies closed and open states, arrow presence, pointer click, Enter-key collapse, and original exercise counts.
+
+**Design-only disposition for larger proposals:** `docs/codex-v2-workbook-triad-integration-proposal.md` records the recommended on-demand source-to-Page generator (not 42 premade Workbooks), explicit existing/new Workbook selection, optional owner-validated Quest association, and a parameterized triad-voicing resolver (root, quality, adjacent string set, available inversion). **Neither Workbook creation nor generalized triad controls were implemented by R4.** They require separate authorization/implementation and music/owner-security acceptance. No draft Codex content is published in production.
+
+**Gates:** Final-head CI, keyboard/mobile visual review, parent JRN-004 approval, and qualified music-editor sign-off remain open. PR #14 remains draft/unmerged and stacked on PR #13.
