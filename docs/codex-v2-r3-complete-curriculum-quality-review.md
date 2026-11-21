@@ -83,3 +83,17 @@ The first-pass inspection covered all 42 instructional modules and their 42 exer
 ## Editorial gates still open
 
 This is an internal first-pass quality check, not an external music-educator review. Before promotion, obtain human editorial review of advanced harmonic function, note spelling, voice-leading registers, odd meter, accessibility of diagrams/audio, and pedagogical suitability across age/ability. Test real guitar playback and mobile UI visually. Keep the published corpus empty, leave PR #14 draft/unmerged while parent JRN-004 is awaiting acceptance, and do not begin JRN-005 or CODEX-V2-B solely on content coverage.
+
+## Reviewer interaction checklist (pre-acceptance)
+
+This checklist is a **human visual and musical acceptance guide**, not an automated result or substitute for external educator sign-off.
+
+1. On a desktop viewport, open the nonproduction `/prototype/codex-v2` Library; verify three canonical Skill cards, Library-only banner, and full-width entry panels in Overview, Lessons, How to Explore, Applications and Connections. On mobile, repeat at phone widths, checking readable dialogs/diagrams, visible controls and no horizontal clipping.
+2. Open each Skill and inspect the Foundational, Intermediate and Advanced filters. The 14 named applications have **42/42** authored drafts, so the availability note should state that all applications have lessons for each selected level. If a future entry lacks a level/application lesson, its option should remain visible but disabled, and selection should recover when changing levels.
+3. Expand and collapse lessons using pointer and keyboard. Check the disclosure arrow, setup, objectives, ordered exercise steps, self-check and suggested minutes. None should claim automatic proficiency, completed Quests, grades, rewards, or XP.
+4. Use the interactive C-major scale-degree selector, switching degrees 1–7; verify labeling and user-initiated tone playback. In the Triad Construction entry check standard-tuning top-string C major, C minor and F major first-inversion note/fret labels. In Subdivision Control check the 4/8/12/16-position 4/4 reference grids and explicit Play/Stop/BPM behavior; the demonstration is not a custom rhythm sequencer.
+5. Open a glossary definition from the entry, close with Escape, and confirm keyboard focus returns to the same term. Use the full Dictionary route inside the preview, filter its 178 draft definitions, and verify related canonical Codex links open to meaningful V1 entries.
+6. Open official `/codex` separately and confirm the original 197 published V1 references and their canonical URLs still work. A normal Vercel production deployment must not expose the draft preview route or its navigation link; local browser tests use an explicit test-only opt-in.
+7. Musically scrutinize each R3 lesson using the 42-row matrix above; give special attention to chromatic tonicization versus modulation, enharmonic spelling, actual guitar note registers, inversion bass notes, subdivision metrical grouping and instructional difficulty progression.
+
+**Status:** Review guide prepared. The 42 lessons, 178 dictionary entries and 24 proposed relationships remain `DRAFT_REVIEW`; no human visual acceptance or independent music-editor approval has been recorded.
