@@ -259,8 +259,7 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
       const rawExercises = array(item.exercises, "module exercises", 15);
       if (!rawExercises.length)
         throw new Error("Invalid CODEX_CONTENT_V2: module needs an exercise");
-      const exercises: CodexV2Exercise[] = rawExercises.map(
-        (rawExercise) => {
+      const exercises: CodexV2Exercise[] = rawExercises.map((rawExercise) => {
           const exercise = object(rawExercise, "exercise");
           const exerciseId = string(exercise.id, "exercise id", 150);
           if (!/^[a-z0-9._-]+$/.test(exerciseId) || seenExercises.has(exerciseId))
@@ -285,8 +284,7 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
             suggested_minutes: duration as number,
             records_progress: false,
           };
-        },
-      );
+      });
       const visual_components = array(item.visual_components, "visual component hints", 20).map(
         (value) => string(value, "visual component hint", 120),
       );
