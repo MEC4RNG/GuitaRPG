@@ -162,15 +162,11 @@ test("CODEX-V2-A-R2 keeps genuine missing lessons visibly disabled", async ({ pa
   await expect(application.locator('option[value="improvisation"]')).toContainText(
     "no lesson at this level",
   );
-  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute(
-    "disabled",
-  );
+  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
 
   // Previously absent, now a substantive Advanced Theory & function lesson.
   await page.getByRole("button", { name: "Advanced", exact: true }).click();
-  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute(
-    "disabled",
-  );
+  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
   await application.selectOption("theory");
   const advancedLesson = page.locator(".cv2-modules .cv2-module").first();
   await expect(advancedLesson.locator("summary")).toContainText(
