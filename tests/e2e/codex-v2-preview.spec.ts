@@ -50,12 +50,23 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the musical library." })).toHaveCount(0);
   await expect(page.locator(".cv2-fret-svg")).toBeVisible();
+  const root = page.getByRole("combobox", { name: "Root note" });
+  const quality = page.getByRole("combobox", { name: "Triad quality" });
+  const group = page.getByRole("combobox", { name: "String group" });
+  const inversion = page.getByRole("combobox", { name: "Inversion" });
   await expect(page.locator(".cv2-reference-detail")).toContainText("C4 · E4 · G4");
-  await page.getByRole("button", { name: "C minor" }).click();
+  await quality.selectOption("minor");
   await expect(page.locator(".cv2-reference-detail")).toContainText("C4 · E♭4 · G4");
-  await page.getByRole("button", { name: /F major.*inversion/ }).click();
+  await root.selectOption("F");
+  await quality.selectOption("major");
+  await inversion.selectOption("first");
   await expect(page.locator(".cv2-reference-detail")).toContainText("A3 · C4 · F4");
   await expect(page.locator(".cv2-reference-detail")).toContainText("First inversion");
+  await root.selectOption("C♯");
+  await expect(page.locator(".cv2-triad-tone-line")).toContainText("E♯");
+  await group.selectOption("2-4");
+  await expect(page.locator(".cv2-fret-svg")).toBeVisible();
+  await expect(page.getByRole("combobox", { name: "Fretboard voicing" })).toBeEnabled();
 
   await page.getByRole("button", { name: "Applications" }).click();
   await expect(page.locator(".cv2-application-grid button")).toHaveCount(4);
