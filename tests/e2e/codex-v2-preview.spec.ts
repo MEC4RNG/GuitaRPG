@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessibility";
+import { completeGuestOnboarding } from "./helpers/player-flow";
 
 test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
@@ -294,5 +295,42 @@ test("CODEX-V2-A-R1 maintains the overview's combined width across desktop secti
     const width = await content.evaluate((node) => node.getBoundingClientRect().width);
     expect(Math.abs(width - overviewWidth)).toBeLessThanOrEqual(2);
   }
+  await expectNoHorizontalOverflow(page);
+});
+
+test("Codex lesson creates one persistent Player-owned Workbook only after explicit action", async ({
+  page,
+}) => {
+  await completeGuestOnboarding(page);
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = page.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  await lesson.getByRole("link", { name: "Practice in Workbook" }).click();
+  await expect(page).toHaveURL(/\/workbooks\?codex_module=sdr\.aural\.f1/);
+  await expect(page.getByRole("heading", { name: "Workbooks" })).toBeVisible();
+  await expect(page.locator("#workbook-lesson-title")).toHaveText("Hear the tonal home");
+  await expect(page.getByRole("button", { name: "Open existing:" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Create new Workbook from lesson" }).click();
+  await expect(page.locator(".workbook-library__message")).toContainText(
+    "Lesson page created in your Workbook.",
+  );
+  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+    "Find home",
+  );
+
+  await page.reload();
+  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(1);
+  await page.getByRole("button", { name: /^Open existing:/ }).click();
+  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+    "Find home",
+  );
   await expectNoHorizontalOverflow(page);
 });
