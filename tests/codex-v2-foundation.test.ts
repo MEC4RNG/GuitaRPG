@@ -18,7 +18,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     const catalog = readCodexV2DraftPreview();
     expect(catalog.entries).toHaveLength(3);
     expect(catalog.terms).toHaveLength(178);
-    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([14, 9, 14]);
+    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([15, 12, 15]);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(14);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(24);
     expect(catalog.entries.every((entry) => entry.reference_blocks.length === 1)).toBe(true);
@@ -132,7 +132,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(() => parseCodexV2(badProgress, true)).toThrow(/cannot record progress/);
   });
 
-  it("keeps missing application-level combinations explicit in the draft pilot", () => {
+  it("covers all 42 application-level combinations without inventing Player proficiency", () => {
     const entries = readCodexV2DraftPreview().entries;
     const coverage = entries.flatMap((entry) =>
       entry.applications.flatMap((application) =>
@@ -148,8 +148,8 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     );
 
     expect(coverage).toHaveLength(42);
-    expect(coverage.filter((item) => item.hasLesson)).toHaveLength(37);
-    expect(coverage.filter((item) => !item.hasLesson)).toHaveLength(5);
+    expect(coverage.filter((item) => item.hasLesson)).toHaveLength(42);
+    expect(coverage.filter((item) => !item.hasLesson)).toHaveLength(0);
     expect(
       coverage.find(
         (item) =>
@@ -165,7 +165,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
           item.application === "improvisation" &&
           item.level === "foundational",
       )?.hasLesson,
-    ).toBe(false);
+    ).toBe(true);
 
     // Application learning-level metadata must represent actual authored modules.
     for (const entry of entries) {
@@ -208,6 +208,50 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(advancedTheory?.explanation).toMatch(/D7.*F♯.*G/);
     const diatonicTriads = modules.find((candidate) => candidate.id === "triad.theory.i1");
     expect(diatonicTriads?.explanation).toContain("B–D–F");
+  });
+
+  it("keeps the five final curriculum lessons in editorial review with detailed exercises", () => {
+    const ids = [
+      "sdr.improv.f1",
+      "triad.theory.a1",
+      "triad.aural.a1",
+      "triad.composition.i1",
+      "subdiv.composition.i1",
+    ];
+    const entries = readCodexV2DraftPreview().entries;
+    const allLessons = entries.flatMap((entry) => entry.modules);
+    expect(allLessons).toHaveLength(42);
+
+    for (const id of ids) {
+      const lesson = allLessons.find((item) => item.id === id);
+      expect(lesson, id).toBeDefined();
+      expect(lesson?.editorial_status).toBe("DRAFT_REVIEW");
+      expect(lesson?.outcomes.length).toBeGreaterThanOrEqual(3);
+      expect(lesson?.exercises).toHaveLength(1);
+      expect(lesson?.exercises[0].steps.length).toBeGreaterThanOrEqual(4);
+      expect(lesson?.exercises[0].self_check.length).toBeGreaterThan(40);
+      expect(lesson?.exercises[0].records_progress).toBe(false);
+      expect(lesson?.exercises[0].suggested_minutes).toBeGreaterThan(0);
+    }
+
+    const qualityLesson = allLessons.find((item) => item.id === "triad.theory.a1");
+    expect(qualityLesson?.explanation).toContain("C–E♭–G♭");
+    expect(qualityLesson?.explanation).toContain("C–E–G♯");
+    const voiceLesson = allLessons.find((item) => item.id === "triad.composition.i1");
+    expect(voiceLesson?.explanation).toContain("G4–A4–A4–G4");
+    const rhythmLesson = allLessons.find((item) => item.id === "subdiv.composition.i1");
+    expect(rhythmLesson?.explanation).toContain("16 equally spaced positions");
+  });
+
+  it("retains deterministic and distinct exercises for every authored module", () => {
+    const entries = readCodexV2DraftPreview().entries;
+    const lessons = entries.flatMap((entry) => entry.modules);
+    const lessonIds = lessons.map((lesson) => lesson.id);
+    const exerciseIds = lessons.flatMap((lesson) => lesson.exercises.map((item) => item.id));
+    expect(new Set(lessonIds).size).toBe(42);
+    expect(new Set(exerciseIds).size).toBe(42);
+    expect(lessons.every((lesson) => lesson.exercises.every((exercise) =>
+      exercise.records_progress === false))).toBe(true);
   });
 
   it("never conflates learning material level with Quest demand or Player proficiency", () => {
