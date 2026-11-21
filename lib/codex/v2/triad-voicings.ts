@@ -3,7 +3,18 @@
  * No finger assignment, Player state, persistence, or audio side effects.
  */
 export const TRIAD_ROOTS = [
-  "C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B",
+  "C",
+  "C♯",
+  "D",
+  "E♭",
+  "E",
+  "F",
+  "F♯",
+  "G",
+  "A♭",
+  "A",
+  "B♭",
+  "B",
 ] as const;
 export type TriadRoot = (typeof TRIAD_ROOTS)[number];
 export type TriadQuality = "major" | "minor";
@@ -11,29 +22,55 @@ export type TriadStringGroup = "1-3" | "2-4" | "3-5" | "4-6";
 export type TriadInversion = "root" | "first" | "second";
 export type TriadTone = "root" | "third" | "fifth";
 
-export const STRING_GROUPS: Readonly<Record<TriadStringGroup, readonly [number, number, number]>> = {
-  "1-3": [3, 2, 1],
-  "2-4": [4, 3, 2],
-  "3-5": [5, 4, 3],
-  "4-6": [6, 5, 4],
-};
+export const STRING_GROUPS: Readonly<Record<TriadStringGroup, readonly [number, number, number]>> =
+  {
+    "1-3": [3, 2, 1],
+    "2-4": [4, 3, 2],
+    "3-5": [5, 4, 3],
+    "4-6": [6, 5, 4],
+  };
 
 const OPEN_MIDI: Readonly<Record<number, number>> = {
-  6: 40, 5: 45, 4: 50, 3: 55, 2: 59, 1: 64,
+  6: 40,
+  5: 45,
+  4: 50,
+  3: 55,
+  2: 59,
+  1: 64,
 };
 const LETTERS = ["C", "D", "E", "F", "G", "A", "B"] as const;
 const NATURAL_PCS: Readonly<Record<string, number>> = {
-  C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11,
+  C: 0,
+  D: 2,
+  E: 4,
+  F: 5,
+  G: 7,
+  A: 9,
+  B: 11,
 };
 const ROOT_PCS: Readonly<Record<TriadRoot, number>> = {
-  C: 0, "C♯": 1, D: 2, "E♭": 3, E: 4, F: 5,
-  "F♯": 6, G: 7, "A♭": 8, A: 9, "B♭": 10, B: 11,
+  C: 0,
+  "C♯": 1,
+  D: 2,
+  "E♭": 3,
+  E: 4,
+  F: 5,
+  "F♯": 6,
+  G: 7,
+  "A♭": 8,
+  A: 9,
+  "B♭": 10,
+  B: 11,
 };
 const TONE_NAMES: Readonly<Record<TriadTone, string>> = {
-  root: "Root", third: "Third", fifth: "Fifth",
+  root: "Root",
+  third: "Third",
+  fifth: "Fifth",
 };
 export const INVERSION_NAMES: Readonly<Record<TriadInversion, string>> = {
-  root: "Root position", first: "First inversion", second: "Second inversion",
+  root: "Root position",
+  first: "First inversion",
+  second: "Second inversion",
 };
 
 export type TriadVoicing = {
@@ -93,12 +130,11 @@ export function generateTriadVoicings(
     Array.from({ length: maxFret + 1 }, (_, fret) => ({
       fret,
       midi: OPEN_MIDI[stringNumber] + fret,
-    }))
-      .flatMap((item) =>
-        toneOffsets
-          .filter(([, semitone]) => mod12(item.midi) === mod12(ROOT_PCS[root] + semitone))
-          .map(([tone]) => ({ ...item, tone })),
-      ),
+    })).flatMap((item) =>
+      toneOffsets
+        .filter(([, semitone]) => mod12(item.midi) === mod12(ROOT_PCS[root] + semitone))
+        .map(([tone]) => ({ ...item, tone })),
+    ),
   );
   const resolved: TriadVoicing[] = [];
   for (const low of choices[0]) {
@@ -133,7 +169,10 @@ export function generateTriadVoicings(
           midi: sounding.map((item) => item.midi) as [number, number, number],
           fretStart,
           description: `${root} ${quality} · ${INVERSION_NAMES[inversion]} · ${sounding
-            .map((item, index) => `string ${strings[index]} ${item.fret === 0 ? "open" : `fret ${item.fret}`}`)
+            .map(
+              (item, index) =>
+                `string ${strings[index]} ${item.fret === 0 ? "open" : `fret ${item.fret}`}`,
+            )
             .join(", ")}. ${notes.join("–")} (low to high).`,
         });
       }
