@@ -18,7 +18,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     const catalog = readCodexV2DraftPreview();
     expect(catalog.entries).toHaveLength(3);
     expect(catalog.terms).toHaveLength(178);
-    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([10, 6, 12]);
+    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([14, 9, 14]);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(14);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(24);
     expect(catalog.entries.every((entry) => entry.reference_blocks.length === 1)).toBe(true);
@@ -148,8 +148,8 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     );
 
     expect(coverage).toHaveLength(42);
-    expect(coverage.filter((item) => item.hasLesson)).toHaveLength(28);
-    expect(coverage.filter((item) => !item.hasLesson)).toHaveLength(14);
+    expect(coverage.filter((item) => item.hasLesson)).toHaveLength(37);
+    expect(coverage.filter((item) => !item.hasLesson)).toHaveLength(5);
     expect(
       coverage.find(
         (item) =>
@@ -157,7 +157,57 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
           item.application === "theory" &&
           item.level === "advanced",
       )?.hasLesson,
+    ).toBe(true);
+    expect(
+      coverage.find(
+        (item) =>
+          item.skill === "scale_degree_recognition" &&
+          item.application === "improvisation" &&
+          item.level === "foundational",
+      )?.hasLesson,
     ).toBe(false);
+
+    // Application learning-level metadata must represent actual authored modules.
+    for (const entry of entries) {
+      for (const application of entry.applications) {
+        const authoredLevels = (["foundational", "intermediate", "advanced"] as const).filter(
+          (level) =>
+            entry.modules.some(
+              (lesson) => lesson.application_id === application.id && lesson.level === level,
+            ),
+        );
+        expect(application.level_ids).toEqual(authoredLevels);
+      }
+    }
+  });
+
+  it("protects nine newly authored musical lessons as review-only content", () => {
+    const entries = readCodexV2DraftPreview().entries;
+    const additions = [
+      "sdr.theory.a1",
+      "sdr.fretboard.a1",
+      "sdr.composition.f1",
+      "sdr.composition.i1",
+      "triad.aural.f1",
+      "triad.theory.i1",
+      "triad.composition.f1",
+      "subdiv.aural.a1",
+      "subdiv.composition.f1",
+    ];
+    const modules = entries.flatMap((entry) => entry.modules);
+    for (const id of additions) {
+      const lesson = modules.find((candidate) => candidate.id === id);
+      expect(lesson, id).toBeDefined();
+      expect(lesson?.editorial_status).toBe("DRAFT_REVIEW");
+      expect(lesson?.outcomes.length).toBeGreaterThanOrEqual(3);
+      expect(lesson?.exercises).toHaveLength(1);
+      expect(lesson?.exercises[0].steps.length).toBeGreaterThanOrEqual(4);
+      expect(lesson?.exercises[0].records_progress).toBe(false);
+    }
+    const advancedTheory = modules.find((candidate) => candidate.id === "sdr.theory.a1");
+    expect(advancedTheory?.explanation).toMatch(/D7.*F♯.*G/);
+    const diatonicTriads = modules.find((candidate) => candidate.id === "triad.theory.i1");
+    expect(diatonicTriads?.explanation).toContain("B–D–F");
   });
 
   it("never conflates learning material level with Quest demand or Player proficiency", () => {
