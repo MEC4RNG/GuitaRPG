@@ -71,7 +71,7 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expect(page.locator(".cv2-explore-grid")).toContainText("Check yourself");
 
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
-  await expect(page.getByText("6 draft instructional modules")).toBeVisible();
+  await expect(page.getByText("9 draft instructional modules")).toBeVisible();
   await expectAccessible(page, "Codex V2 Triad Construction R1");
   await expectNoHorizontalOverflow(page);
 });
@@ -138,9 +138,7 @@ test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictiona
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but disabled", async ({
-  page,
-}) => {
+test("CODEX-V2-A-R2 keeps genuine missing lessons visibly disabled", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await page
     .locator(".cv2-card")
@@ -150,29 +148,41 @@ test("CODEX-V2-A-R1 keeps unavailable level/application combinations visible but
 
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
   const application = page.getByRole("combobox", { name: "Musical application" });
-  const improvisationOption = application.locator('option[value="improvisation"]');
 
-  await application.selectOption("theory");
-  await expect(application).toHaveValue("theory");
-  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
+  await page.getByRole("button", { name: "Intermediate", exact: true }).click();
+  await application.selectOption("improvisation");
+  await expect(application).toHaveValue("improvisation");
 
-  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await page.getByRole("button", { name: "Foundational", exact: true }).click();
   await expect(application).toHaveValue("all");
-  await expect(application.locator('option[value="theory"]')).toHaveAttribute("disabled", "");
-  await expect(application.locator('option[value="theory"]')).toContainText(
+  await expect(application.locator('option[value="improvisation"]')).toHaveAttribute(
+    "disabled",
+    "",
+  );
+  await expect(application.locator('option[value="improvisation"]')).toContainText(
     "no lesson at this level",
   );
-  await expect(application.locator('option[value="aural"]')).not.toHaveAttribute("disabled");
-  await expect(improvisationOption).not.toHaveAttribute("disabled");
-  await expect(page.getByText("Dimmed applications have no advanced lessons yet.")).toBeVisible();
+  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute(
+    "disabled",
+  );
 
-  const firstLesson = page.locator(".cv2-modules .cv2-module").first();
-  await expect(firstLesson.locator(".cv2-module-chevron")).toBeVisible();
-  await expect(firstLesson).not.toHaveAttribute("open");
-  await firstLesson.locator("summary").click();
-  await expect(firstLesson).toHaveAttribute("open");
-  await firstLesson.locator("summary").click();
-  await expect(firstLesson).not.toHaveAttribute("open");
+  // Previously absent, now a substantive Advanced Theory & function lesson.
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute(
+    "disabled",
+  );
+  await application.selectOption("theory");
+  const advancedLesson = page.locator(".cv2-modules .cv2-module").first();
+  await expect(advancedLesson.locator("summary")).toContainText(
+    "Hear temporary tonicization without losing the key",
+  );
+  await expect(advancedLesson.locator(".cv2-module-chevron")).toBeVisible();
+  await expect(advancedLesson).not.toHaveAttribute("open");
+  await advancedLesson.locator("summary").click();
+  await expect(advancedLesson).toHaveAttribute("open");
+  await expect(advancedLesson).toContainText("F♯");
+  await advancedLesson.locator("summary").click();
+  await expect(advancedLesson).not.toHaveAttribute("open");
 
   await page.getByRole("button", { name: "Applications", exact: true }).click();
   await expect(page.locator(".cv2-application-grid")).toContainText("Theory & function");
