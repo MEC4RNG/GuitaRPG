@@ -148,6 +148,13 @@ export function CodexV2Entry({
     (item) => !hasLessonAtLevel(item.id, level),
   ).length;
   const isDraftContent = preview || entry.editorial_status === "DRAFT_REVIEW";
+  const hasProposedConnections = entry.relationships.some(
+    (relationship) => relationship.review_status === "PROPOSED",
+  );
+  const availabilityText =
+    unavailableApplicationCount === 0
+      ? `All ${entry.applications.length} applications include ${level} lessons.`
+      : `${unavailableApplicationCount} ${unavailableApplicationCount === 1 ? "application has" : "applications have"} no ${level} lesson yet. Unavailable options remain visible for exploration.`;
 
   function chooseLevel(nextLevel: LearningLevel) {
     setLevel(nextLevel);
@@ -222,11 +229,7 @@ export function CodexV2Entry({
         </select>
       </label>
       {goal ? <p className="cv2-level-goal">{goal}</p> : null}
-      <p className="cv2-availability-note">
-        {unavailableApplicationCount > 0
-          ? `${unavailableApplicationCount} ${unavailableApplicationCount === 1 ? "application has" : "applications have"} no ${level} lesson yet. Unavailable options remain visible for exploration.`
-          : `All ${entry.applications.length} applications include ${level} lessons.`}
-      </p>
+      <p className="cv2-availability-note">{availabilityText}</p>
     </div>
   );
 
@@ -424,7 +427,7 @@ export function CodexV2Entry({
               <span className="cv2-eyebrow">Knowledge connections</span>
               <h2>Musical connections</h2>
               <p>
-                {entry.relationships.some((relationship) => relationship.review_status === "PROPOSED")
+                {hasProposedConnections
                   ? "Proposed connections for exploration, not approved prerequisites."
                   : "Reviewed musical relationships for further exploration."}
               </p>
