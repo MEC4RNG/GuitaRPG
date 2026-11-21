@@ -293,11 +293,10 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
     // Application-level availability must be derived from authored modules, not
     // optimistic editorial scope. This prevents empty lessons from appearing enabled.
     for (const application of applications) {
-      const actualLevels = (["foundational", "intermediate", "advanced"] as const).filter(
-        (level) =>
-          moduleList.some(
-            (lesson) => lesson.application_id === application.id && lesson.level === level,
-          ),
+      const actualLevels = (["foundational", "intermediate", "advanced"] as const).filter((level) =>
+        moduleList.some(
+          (lesson) => lesson.application_id === application.id && lesson.level === level,
+        ),
       );
       if (
         new Set(application.level_ids).size !== application.level_ids.length ||
