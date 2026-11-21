@@ -1,13 +1,13 @@
 {
   "schema": "SOUND_UNCHARTED_CODEX_V2",
   "content_version": "CODEX_CONTENT_V2",
-  "editorial_source": "Archived three-Skill v5 pilot, plus CODEX-V2-A-R2 editorial first-pass lesson expansion; DRAFT_REVIEW only, not published or graded.",
+  "editorial_source": "Codex V2 v5 pilot + CODEX-V2-A-R2/R3 music-theory editorial expansions; DRAFT_REVIEW only, not independently approved or published.",
   "entries": [
     {
       "entity_id": "20000000-0000-4000-8000-000000000056",
       "kind": "SKILL",
       "slug": "scale_degree_recognition",
-      "revision": "draft-r2-curriculum-expansion",
+      "revision": "draft-r3-curriculum-complete",
       "editorial_status": "DRAFT_REVIEW",
       "one_line": "Hear, find, and use the notes of a key by the role they play—not just by their names.",
       "overview": "Every note in a key has a relationship to its tonal center, the note that feels like home. Scale-degree recognition means noticing that relationship: by ear, on the fretboard, in a melody, or while making musical choices. The number describes the note’s place relative to the tonic, so the idea travels with you when the key changes.",
@@ -77,6 +77,7 @@
           "title": "Improvisation",
           "summary": "Choose notes for arrival, motion, and tension in real time.",
           "level_ids": [
+            "foundational",
             "intermediate",
             "advanced"
           ]
@@ -199,6 +200,44 @@
           "visual_components": [
             "degree_note_table"
           ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.improv.f1",
+          "level": "foundational",
+          "application_id": "improvisation",
+          "title": "Answer the tonic with three notes",
+          "explanation": "Improvisation begins with making small musical choices, not with playing quickly. Over a clear C-major tonic, C, D, and E function as scale degrees 1, 2, and 3. Limit the available notes so you can hear how a phrase changes when it finishes on degree 1 instead of degree 3. Degrees describe relationships to the key; they are not a universal formula for emotion.",
+          "outcomes": [
+            "Choose an intentional destination among degrees 1, 2, and 3",
+            "Play short phrases over a tonic without requiring a scale shape",
+            "Name note pitches separately from their scale-degree functions"
+          ],
+          "steps": [
+            "Play C as degree 1; listen to it over the tonic before adding any notes.",
+            "Create a short question using C–D–E (degrees 1–2–3), keeping a steady rhythm.",
+            "Answer with E–D–C (3–2–1), finishing on C without increasing tempo.",
+            "Improvise three new answers using only C, D, and E; choose the ending degree before playing.",
+            "Name both the pitch and the scale degree of your final note in each answer."
+          ],
+          "exercises": [
+            {
+              "id": "sdr.improv.f1.ex",
+              "title": "Three-note question and answer",
+              "setup": "Use a repeating C-major chord or C tonic drone at a relaxed tempo. Choose nearby C, D, and E positions in standard tuning or on another pitched instrument.",
+              "steps": [
+                "Play C as degree 1; listen to it over the tonic before adding any notes.",
+                "Create a short question using C–D–E (degrees 1–2–3), keeping a steady rhythm.",
+                "Answer with E–D–C (3–2–1), finishing on C without increasing tempo.",
+                "Improvise three new answers using only C, D, and E; choose the ending degree before playing.",
+                "Name both the pitch and the scale degree of your final note in each answer."
+              ],
+              "self_check": "Can you decide whether to finish on degree 1 or 3 and then play that decision without guessing which fret to use?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
@@ -671,7 +710,7 @@
       "entity_id": "20000000-0000-4000-8000-000000000066",
       "kind": "SKILL",
       "slug": "triad_construction",
-      "revision": "draft-r2-curriculum-expansion",
+      "revision": "draft-r3-curriculum-complete",
       "editorial_status": "DRAFT_REVIEW",
       "one_line": "Build three-note chords from the notes that give them their identity.",
       "overview": "A triad is made from three different chord tones: a root, a third and a fifth. Change the third and you can change the chord from major to minor. Learn to name the notes first, then find and arrange them across the fretboard. You can use the same idea in any key.",
@@ -712,7 +751,8 @@
           "summary": "Spell the three chord tones and understand chord quality.",
           "level_ids": [
             "foundational",
-            "intermediate"
+            "intermediate",
+            "advanced"
           ]
         },
         {
@@ -731,7 +771,8 @@
           "summary": "Hear what changes when the third moves between major and minor.",
           "level_ids": [
             "foundational",
-            "intermediate"
+            "intermediate",
+            "advanced"
           ]
         },
         {
@@ -740,6 +781,7 @@
           "summary": "Use triads as connected melodic and harmonic voices.",
           "level_ids": [
             "foundational",
+            "intermediate",
             "advanced"
           ]
         }
@@ -1003,6 +1045,82 @@
           "editorial_status": "DRAFT_REVIEW"
         },
         {
+          "id": "triad.composition.i1",
+          "level": "intermediate",
+          "application_id": "composition",
+          "title": "Arrange four triads with a connected top voice",
+          "explanation": "A chord progression can become a melodic arrangement when the highest note of each voicing forms a deliberate line. In standard tuning on strings 3–2–1, C major (frets 5–5–3) sounds C4–E4–G4; A minor (5–5–5) sounds C4–E4–A4; F major (5–6–5) sounds C4–F4–A4; G major (4–3–3) sounds B3–D4–G4. The top line is G4–A4–A4–G4. These are one possible set of voicings, not universal fingerings across tunings.",
+          "outcomes": [
+            "Build an accurate three-note voicing for each chord in C–Am–F–G",
+            "Trace the top note as a melodic sequence",
+            "Compare the movement of all three chord voices between adjacent shapes"
+          ],
+          "steps": [
+            "Play C major at 5–5–3 and A minor at 5–5–5; identify their top notes as G4 and A4.",
+            "Add F major at 5–6–5, with top note A4. Note that its bass is C4, making it second inversion.",
+            "Add G major at 4–3–3 (B3–D4–G4), which has top note G4.",
+            "Play C–Am–F–G slowly; sing the highest voice G–A–A–G while keeping chord names clear.",
+            "Write the four fret triples and compare the movement of the middle voice E–E–F–D and the lowest voice C–C–C–B."
+          ],
+          "exercises": [
+            {
+              "id": "triad.composition.i1.ex",
+              "title": "Make the melody rise and return",
+              "setup": "Use standard tuning and only strings 3 (G3), 2 (B3), and 1 (E4). The fret triples below are written low to high as string 3 / string 2 / string 1.",
+              "steps": [
+                "Play C major at 5–5–3 and A minor at 5–5–5; identify their top notes as G4 and A4.",
+                "Add F major at 5–6–5, with top note A4. Note that its bass is C4, making it second inversion.",
+                "Add G major at 4–3–3 (B3–D4–G4), which has top note G4.",
+                "Play C–Am–F–G slowly; sing the highest voice G–A–A–G while keeping chord names clear.",
+                "Write the four fret triples and compare the movement of the middle voice E–E–F–D and the lowest voice C–C–C–B."
+              ],
+              "self_check": "Can you verify every sounding note, identify the top melody G–A–A–G, and explain why the G-major voicing has B in the bass?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.theory.a1",
+          "level": "advanced",
+          "application_id": "theory",
+          "title": "Construct diminished and augmented triads by interval",
+          "explanation": "Triad qualities can be defined by the intervals above the root. In twelve-tone equal temperament, C major is C–E–G (0, 4, 7 semitones), C minor is C–E♭–G (0, 3, 7), C diminished is C–E♭–G♭ (0, 3, 6), and C augmented is C–E–G♯ (0, 4, 8). Preserve the correctly lettered third and fifth; changing the quality changes the interval structure, not merely the sound.",
+          "outcomes": [
+            "Spell major, minor, diminished, and augmented triads from one root",
+            "Check each chord's third and fifth using interval size and spelling",
+            "Distinguish augmented fifths from enharmonically equivalent minor sixths in written harmony"
+          ],
+          "steps": [
+            "Write C–E–G and label the intervals above C as 4 and 7 semitones.",
+            "Lower the third one semitone to spell C minor: C–E♭–G, or 3 and 7.",
+            "Lower the fifth of C minor one semitone to spell C diminished: C–E♭–G♭, or 3 and 6.",
+            "Raise the fifth of C major one semitone to spell C augmented: C–E–G♯, or 4 and 8.",
+            "Repeat with D as the root and verify the accidentals from each required interval rather than copying C's note letters."
+          ],
+          "exercises": [
+            {
+              "id": "triad.theory.a1.ex",
+              "title": "Four qualities, one root",
+              "setup": "Use C as the fixed root, a written chromatic pitch chart, and a piano or guitar for checking the sounds. The on-page fretboard selector currently demonstrates only C major, C minor and an F-major inversion.",
+              "steps": [
+                "Write C–E–G and label the intervals above C as 4 and 7 semitones.",
+                "Lower the third one semitone to spell C minor: C–E♭–G, or 3 and 7.",
+                "Lower the fifth of C minor one semitone to spell C diminished: C–E♭–G♭, or 3 and 6.",
+                "Raise the fifth of C major one semitone to spell C augmented: C–E–G♯, or 4 and 8.",
+                "Repeat with D as the root and verify the accidentals from each required interval rather than copying C's note letters."
+              ],
+              "self_check": "Can you spell C augmented as C–E–G♯ rather than C–E–A♭, and explain why the chord calls for a fifth above its root?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
           "id": "triad.fretboard.a1",
           "level": "advanced",
           "application_id": "fretboard",
@@ -1038,6 +1156,44 @@
             "fretboard_dual_voicing",
             "voice_leading_arrows"
           ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.aural.a1",
+          "level": "advanced",
+          "application_id": "aural",
+          "title": "Hear individual voices between neighboring triads",
+          "explanation": "Voice leading describes the motion of each chord tone, even when several notes sound at once. Compare C major (C4–E4–G4) with F major in second inversion (C4–F4–A4). C4 stays fixed, E4 rises one semitone to F4, and G4 rises two semitones to A4. Hearing those individual movements is a different skill from simply naming the overall chord quality.",
+          "outcomes": [
+            "Identify a retained common tone when harmony changes",
+            "Hear one-semitone versus two-semitone upper-voice movement",
+            "Explain why C4–F4–A4 is F major in second inversion, not C major"
+          ],
+          "steps": [
+            "Play C4–E4–G4 slowly as an arpeggio; then hold the C4 and play F4–A4 to hear the resulting F-major voicing.",
+            "Identify the one pitch that did not move: C4.",
+            "Isolate the middle voice E4→F4 and sing its one-semitone rise.",
+            "Isolate the top voice G4→A4 and sing its two-semitone rise.",
+            "Play the two complete triads again and describe the three voice motions without looking at the fret positions."
+          ],
+          "exercises": [
+            {
+              "id": "triad.aural.a1.ex",
+              "title": "Follow one voice at a time",
+              "setup": "Use a keyboard, recording, or standard-tuned guitar on strings 3–2–1. C major: frets 5–5–3 (C4–E4–G4); F major: frets 5–6–5 (C4–F4–A4). This F voicing is second inversion and differs from the first-inversion F example in the Overview tool.",
+              "steps": [
+                "Play C4–E4–G4 slowly as an arpeggio; then hold the C4 and play F4–A4 to hear the resulting F-major voicing.",
+                "Identify the one pitch that did not move: C4.",
+                "Isolate the middle voice E4→F4 and sing its one-semitone rise.",
+                "Isolate the top voice G4→A4 and sing its two-semitone rise.",
+                "Play the two complete triads again and describe the three voice motions without looking at the fret positions."
+              ],
+              "self_check": "Can you name which voice stays, which moves one semitone, and which moves two—and correctly identify C as the fifth of the F-major chord?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
@@ -1149,7 +1305,7 @@
       "entity_id": "20000000-0000-4000-8000-000000000061",
       "kind": "SKILL",
       "slug": "subdivision_control",
-      "revision": "draft-r2-curriculum-expansion",
+      "revision": "draft-r3-curriculum-complete",
       "editorial_status": "DRAFT_REVIEW",
       "one_line": "Feel the space between beats—and choose exactly where your notes land.",
       "overview": "A steady beat gives music its pulse. Subdivision divides each beat into smaller, evenly spaced parts: two eighths, three eighth-note triplets, or four sixteenths per quarter-note beat. Learn to hear those spaces and play in them without rushing or dragging. The beat stays put while the pattern inside it changes.",
@@ -1237,6 +1393,7 @@
           "summary": "Use changes in rhythmic density to develop a musical idea.",
           "level_ids": [
             "foundational",
+            "intermediate",
             "advanced"
           ]
         }
@@ -1572,6 +1729,44 @@
           "visual_components": [
             "rest_grid"
           ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.composition.i1",
+          "level": "intermediate",
+          "application_id": "composition",
+          "title": "Compose a two-bar response with rests and offbeats",
+          "explanation": "You can develop a rhythm by moving attacks to subdivisions and leaving other positions silent while the quarter-note beat remains steady. In a four-beat 4/4 bar, sixteenth-note counting gives 16 equally spaced positions: 1-e-&-a, 2-e-&-a, 3-e-&-a, 4-e-&-a. An attack on the '& of 2' lands halfway through beat 2; an attack on the 'a of 4' lands on the final sixteenth of the bar. These are placement instructions, not custom patterns played by the on-page metronome.",
+          "outcomes": [
+            "Locate offbeat attacks within a four-beat sixteenth-note grid",
+            "Write two related one-bar rhythms with intentional rests",
+            "Perform a response pattern without changing the quarter-note tempo"
+          ],
+          "steps": [
+            "Count all 16 positions of bar A aloud as 1-e-&-a, 2-e-&-a, 3-e-&-a, 4-e-&-a.",
+            "Mark attacks in bar A on beat 1, the '& of 2', beat 3, and the 'a of 4'; leave all other slots silent.",
+            "For bar B, mark attacks on beat 1, the '& of 2', the '& of 3', and beat 4.",
+            "Play or clap A then B at one steady quarter-note BPM, counting silently through the rests.",
+            "Repeat without sounding the reference for one cycle, then turn it back on to check alignment."
+          ],
+          "exercises": [
+            {
+              "id": "subdiv.composition.i1.ex",
+              "title": "Change the spaces, not the tempo",
+              "setup": "Use a pencil/Workbook or percussive muted guitar. Choose 4/4 and a quarter-note pulse near 72 BPM. The on-page rhythm tool supplies an even reference grid; it does not perform the custom composed attacks.",
+              "steps": [
+                "Count all 16 positions of bar A aloud as 1-e-&-a, 2-e-&-a, 3-e-&-a, 4-e-&-a.",
+                "Mark attacks in bar A on beat 1, the '& of 2', beat 3, and the 'a of 4'; leave all other slots silent.",
+                "For bar B, mark attacks on beat 1, the '& of 2', the '& of 3', and beat 4.",
+                "Play or clap A then B at one steady quarter-note BPM, counting silently through the rests.",
+                "Repeat without sounding the reference for one cycle, then turn it back on to check alignment."
+              ],
+              "self_check": "Can you identify each attack's sixteenth position and execute both bars with the same quarter-note interval even when several slots are silent?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
