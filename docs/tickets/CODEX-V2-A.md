@@ -157,3 +157,23 @@ Keep this as a preview-only draft branch (PR #14) stacked on the still-open JRN-
 - `tests/codex-v2-music-accuracy.test.ts` checks selected exact standard-tuning note/fret triples, inversion names, triad interval signatures, scale transposition, tonicization vocabulary and 4/4 rhythmic subdivision arithmetic. Parser tests require real authored module coverage. E2E checks the formerly disabled combinations.
 - The compiled V2 catalog in `domain/codex/v2/published.json` still has **zero** entries and terms; no one can earn or claim progress by reading the draft preview.
 - Required CI, Preview acceptance and parent JRN-004 resolution remain merge/publishing gates. No production traffic or Supabase state was modified.
+
+## CODEX-V2-A-R3-R1 — Editorial Truthfulness and Content Integrity (2026-11-21)
+
+**Purpose:** A bounded review-readiness hardening step within CODEX-V2-A; not a new Quest Map, database or production ticket.
+
+### Improvements
+
+- The Lessons and How to Explore selectors continue showing genuinely unavailable application×instructional-level combinations as disabled. When all applications **do** have lessons at the selected level (as in the 42/42 pilot), the availability text now truthfully reports full coverage rather than implying nonexistent disabled lessons.
+- The shared entry renderer labels modules as **draft** only for a draft/preview entry. The eventual editorially approved published V2 renderer must not mislabel its lessons as drafts. Connection guidance now distinguishes proposed from reviewed relationships.
+- The V2 parser rejects empty lesson objectives, empty module step lists, modules without an exercise, exercises without actionable steps, malformed exercise IDs, and duplicate exercise IDs across modules/Skills. Future incomplete Skills may still declare applications without lessons; the unavailable-option UX continues to support these real gaps.
+- Deterministic negative tests and a browser assertion verify these contracts. This does not add, delete or publish any musical content: **42 draft lessons, 178 draft terms, 14 applications, 24 proposed relationships** remain in the preview-only source.
+
+### Final-head validation and review requirements
+
+- **Prior head:** `46f18315a77955fd0f9c2f0d23d7ec813e1c3317` had five successful workflows plus a successful Vercel preview. UX hardening [run 44922826075](https://github.com/MEC4RNG/GuitaRPG/actions/runs/44922826075) initially failed one inherited Workbook prototype tab-focus test on mobile WebKit while 90 passed and 6 skipped; rerunning the failed job succeeded, including the previously skipped persistent Workbook regression. Treat this as intermittent risk to investigate if it recurs, not evidence of a proven fix.
+- **R3-R1 head:** the updated branch must independently pass final-head formatting, lint, TypeScript, unit tests, production build, database/security/identity CI, and Chromium/mobile-WebKit responsive/browser checks. Earlier-head CI does **not** certify these edits.
+- **Player/reviewer walkthrough:** on `/prototype/codex-v2`, inspect all three Skills at desktop and phone widths, each five-section navigation, lesson level/application filtering, visible disclosure arrows, glossary definition keyboard/touch and focus return, 178-term Dictionary navigation, and C-major degree / triad fretboard / 4/4 rhythm reference tools. Confirm that the full pilot correctly reports all applications available at each instructional level. Verify the existing V1 Codex continues to show its 197 canonical entries.
+- **Music-editor gate:** human review remains required for advanced harmony, alternate note spellings, actual guitar voicing/audio behavior, odd meter, accessibility, age/skill progression and exercise usability.
+
+**Disposition:** DRAFT/OPEN/UNMERGED. Parent JRN-004 PR #13 still awaits user interactive acceptance. Do not publish V2 content, merge stacked work, or begin JRN-005/CODEX-V2-B until separately authorized and all release gates are satisfied.
