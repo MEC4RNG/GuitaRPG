@@ -177,3 +177,11 @@ Keep this as a preview-only draft branch (PR #14) stacked on the still-open JRN-
 - **Music-editor gate:** human review remains required for advanced harmony, alternate note spellings, actual guitar voicing/audio behavior, odd meter, accessibility, age/skill progression and exercise usability.
 
 **Disposition:** DRAFT/OPEN/UNMERGED. Parent JRN-004 PR #13 still awaits user interactive acceptance. Do not publish V2 content, merge stacked work, or begin JRN-005/CODEX-V2-B until separately authorized and all release gates are satisfied.
+
+## CODEX-V2-A-R3-R2 — Fail-Closed Preview Access (2026-11-21)
+
+**Why:** The previous prototype route denied `VERCEL_ENV=production` but unintentionally permitted a production-mode deployment where `VERCEL_ENV` was **unset** (for example, an ordinary self-hosted Next.js server). The matching Codex link had the same assumption. This did not change the current Vercel production rollout, but was inconsistent with the preview-only content contract.
+
+**Correction:** A shared server-side access predicate now allows the draft preview only under recognized Vercel `preview`/`development`, local `NODE_ENV=development`, or an **explicit** `CODEX_V2_PREVIEW_ENABLED=true` opt-in when there is no `VERCEL_ENV`. Vercel `production` always fails closed even if the opt-in is set; unknown `VERCEL_ENV` values also fail closed. The prototype route is dynamic to evaluate this gate at request time, and the current Codex page uses the same predicate before displaying its preview link. The Playwright-managed local `next start` server receives the explicit opt-in so the existing CI preview/browser tests remain meaningful without weakening production behavior. A focused unit test covers production, preview, local-development, self-hosted opt-in and unknown-host cases.
+
+**Remaining release gate:** This new head requires final-head GitHub Actions verification; the previous six passing workflows and new Vercel deployment alone do not establish that the revised server and browser configuration passes. The 42-lesson curriculum and 178-term dictionary remain draft-only, with published V2 still empty. PR #14 remains stacked/draft/open/unmerged and PR #13 remains unmerged. No Supabase, Player, Quest, Workbook, Session, XP or production data were altered.
