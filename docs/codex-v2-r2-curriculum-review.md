@@ -46,3 +46,7 @@ The empty combinations remain **visible but dimmed** in the relevant Lessons and
 7. **Regression:** formatting, strict TypeScript, lint, unit tests, production build, focused Chromium/mobile WebKit Playwright and broader UX/Workbook gates must pass before review. User desktop/mobile review remains required before protected merge.
 
 This sheet is an editorial planning artifact; it does not establish new canonical taxonomy relationships, authored Skill mastery, or authorization to merge PR #14 or implement JRN-005.
+
+## Focused browser regression note
+
+The first R2 browser suite surfaced a **stale assertion** inherited from R1: the Foundational Triad Construction / How to Explore view previously had two exercises but now correctly has four after adding Listening and Composition. The implementation rendered all four. The test has been updated to assert the expanded, authored exercise count. This was a test expectation mismatch, not lost instructional data. Recheck the final-head Chromium/mobile WebKit result before accepting the R2 gate.
