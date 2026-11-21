@@ -332,5 +332,16 @@ test("Codex lesson creates one persistent Player-owned Workbook only after expli
   await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
     "Find home",
   );
+  await page.getByRole("button", { name: "Add Page to selected Workbook" }).click();
+  await expect(page.locator(".workbook-library__message")).toContainText(
+    "Lesson page created in your Workbook.",
+  );
+  await page.reload();
+  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(2);
   await expectNoHorizontalOverflow(page);
+});
+
+test("invalid Codex source IDs cannot create arbitrary Workbook templates", async ({ page }) => {
+  const response = await page.request.get("/workbooks?codex_module=not-a-real-module");
+  expect(response.status()).toBe(404);
 });
