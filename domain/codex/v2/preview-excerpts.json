@@ -1,13 +1,13 @@
 {
   "schema": "SOUND_UNCHARTED_CODEX_V2",
   "content_version": "CODEX_CONTENT_V2",
-  "editorial_source": "Codex V2 v5 unified design pilot; draft only; not published",
+  "editorial_source": "Archived three-Skill v5 pilot, plus CODEX-V2-A-R2 editorial first-pass lesson expansion; DRAFT_REVIEW only, not published or graded.",
   "entries": [
     {
       "entity_id": "20000000-0000-4000-8000-000000000056",
       "kind": "SKILL",
       "slug": "scale_degree_recognition",
-      "revision": "draft-r1",
+      "revision": "draft-r2-curriculum-expansion",
       "editorial_status": "DRAFT_REVIEW",
       "one_line": "Hear, find, and use the notes of a key by the role they play—not just by their names.",
       "overview": "Every note in a key has a relationship to its tonal center, the note that feels like home. Scale-degree recognition means noticing that relationship: by ear, on the fretboard, in a melody, or while making musical choices. The number describes the note’s place relative to the tonic, so the idea travels with you when the key changes.",
@@ -58,7 +58,8 @@
           "summary": "Locate scale degrees without relying on one memorized shape.",
           "level_ids": [
             "foundational",
-            "intermediate"
+            "intermediate",
+            "advanced"
           ]
         },
         {
@@ -67,7 +68,8 @@
           "summary": "Describe tonal roles and distinguish scale degrees from chord tones.",
           "level_ids": [
             "foundational",
-            "intermediate"
+            "intermediate",
+            "advanced"
           ]
         },
         {
@@ -84,6 +86,7 @@
           "title": "Composition",
           "summary": "Shape melodic expectations with scale-degree choices.",
           "level_ids": [
+            "foundational",
             "intermediate",
             "advanced"
           ]
@@ -129,6 +132,41 @@
           "editorial_status": "DRAFT_REVIEW"
         },
         {
+          "id": "sdr.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Locate 1, 3, and 5",
+          "outcomes": [
+            "Find the tonic in more than one place",
+            "Locate major scale degrees 3 and 5 relative to it"
+          ],
+          "explanation": "In C major, the tonic C is your reference; E and G are degrees 3 and 5. Try one string set, then locate the same relationships elsewhere on the neck.",
+          "exercises": [
+            {
+              "id": "sdr.ex.find-135",
+              "title": "Three notes, multiple locations",
+              "setup": "Use standard tuning and C major; no speed target.",
+              "steps": [
+                "Find C, E, and G on the first two strings.",
+                "Find another C elsewhere on the instrument.",
+                "Without reading note names, identify which played note is 1, 3, or 5."
+              ],
+              "self_check": "Can you name the degree and the pitch separately?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Find C, E, and G on the first two strings.",
+            "Find another C elsewhere on the instrument.",
+            "Without reading note names, identify which played note is 1, 3, or 5."
+          ],
+          "visual_components": [
+            "fretboard_degree_overlay"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
           "id": "sdr.theory.f1",
           "level": "foundational",
           "application_id": "theory",
@@ -164,38 +202,39 @@
           "editorial_status": "DRAFT_REVIEW"
         },
         {
-          "id": "sdr.fretboard.f1",
+          "id": "sdr.composition.f1",
           "level": "foundational",
-          "application_id": "fretboard",
-          "title": "Locate 1, 3, and 5",
+          "application_id": "composition",
+          "title": "Write a melody with numbered destinations",
+          "explanation": "Scale-degree numbers let you describe a melody without tying it permanently to one note name. In C major, 1–2–3–2 is C–D–E–D and 3–2–1–1 is E–D–C–C. Make a two-phrase answer using this limited vocabulary, leaving enough rhythmic space for each note to be heard.",
           "outcomes": [
-            "Find the tonic in more than one place",
-            "Locate major scale degrees 3 and 5 relative to it"
+            "Write a melody from a short sequence of scale degrees",
+            "Translate the degrees into notes in one major key",
+            "Distinguish the chosen destination from the physical fingering"
           ],
-          "explanation": "In C major, the tonic C is your reference; E and G are degrees 3 and 5. Try one string set, then locate the same relationships elsewhere on the neck.",
           "exercises": [
             {
-              "id": "sdr.ex.find-135",
-              "title": "Three notes, multiple locations",
-              "setup": "Use standard tuning and C major; no speed target.",
+              "id": "sdr.composition.f1.ex",
+              "title": "A two-phrase conversation",
+              "setup": "Use C major, 4/4, and a slow steady tempo. Write or tab your idea before playing.",
               "steps": [
-                "Find C, E, and G on the first two strings.",
-                "Find another C elsewhere on the instrument.",
-                "Without reading note names, identify which played note is 1, 3, or 5."
+                "Write a first four-beat phrase using degrees 1–2–3–2 (C–D–E–D).",
+                "Answer with 3–2–1–1 (E–D–C–C), one note per beat.",
+                "Play both phrases and circle the final degree of each.",
+                "Change one degree without changing the rhythm, then compare the resulting sense of arrival."
               ],
-              "self_check": "Can you name the degree and the pitch separately?",
-              "suggested_minutes": 5,
+              "self_check": "Can you write both note names and scale degrees correctly and explain which note was your intended final destination?",
+              "suggested_minutes": 6,
               "records_progress": false
             }
           ],
           "steps": [
-            "Find C, E, and G on the first two strings.",
-            "Find another C elsewhere on the instrument.",
-            "Without reading note names, identify which played note is 1, 3, or 5."
+            "Write a first four-beat phrase using degrees 1–2–3–2 (C–D–E–D).",
+            "Answer with 3–2–1–1 (E–D–C–C), one note per beat.",
+            "Play both phrases and circle the final degree of each.",
+            "Change one degree without changing the rhythm, then compare the resulting sense of arrival."
           ],
-          "visual_components": [
-            "fretboard_degree_overlay"
-          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
@@ -339,6 +378,42 @@
           "editorial_status": "DRAFT_REVIEW"
         },
         {
+          "id": "sdr.composition.i1",
+          "level": "intermediate",
+          "application_id": "composition",
+          "title": "Transpose a melodic idea by degree",
+          "explanation": "A degree-based melody can retain its melodic function when moved between keys. The pattern 1–2–3–5 is C–D–E–G in C major and G–A–B–D in G major. Keeping the rhythm and the degree relationships consistent is more important than keeping absolute fret locations.",
+          "outcomes": [
+            "Build a reusable degree-based melodic motif",
+            "Transpose a phrase between two major keys",
+            "Recognize which pitches change while the scale-degree pattern remains"
+          ],
+          "exercises": [
+            {
+              "id": "sdr.composition.i1.ex",
+              "title": "Same pattern, new tonic",
+              "setup": "Write a four-note motif in C major. Keep the same rhythm when moving it to G major.",
+              "steps": [
+                "Write the motif 1–2–3–5 and spell it as C–D–E–G in C major.",
+                "Move the same numbered motif to G major: G–A–B–D.",
+                "Play both over their appropriate tonic references without reusing the same pitches by accident.",
+                "Change the ending to degree 1 in both keys and compare the contour and phrase ending."
+              ],
+              "self_check": "Can you identify the changed tonic, changed pitches, and unchanged degree pattern independently?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write the motif 1–2–3–5 and spell it as C–D–E–G in C major.",
+            "Move the same numbered motif to G major: G–A–B–D.",
+            "Play both over their appropriate tonic references without reusing the same pitches by accident.",
+            "Change the ending to degree 1 in both keys and compare the contour and phrase ending."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
           "id": "sdr.aural.a1",
           "level": "advanced",
           "application_id": "aural",
@@ -373,6 +448,82 @@
           "visual_components": [
             "melody_degree_timeline"
           ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Reinterpret pitches when the tonal center changes",
+          "explanation": "A fret position has a stable sounding pitch, but its scale-degree function depends on the tonic. For example, C is degree 1 in C major and degree 4 in G major; E is degree 3 in C major and degree 6 in G major. Keep a small physical position fixed while changing the tonal reference. This tests musical understanding rather than one memorized scale pattern.",
+          "outcomes": [
+            "Identify one pitch as different degrees in two tonal contexts",
+            "Retain note-name accuracy while changing the tonic",
+            "Map a passage without sliding to a new root-position shape"
+          ],
+          "exercises": [
+            {
+              "id": "sdr.fretboard.a1.ex",
+              "title": "One position, two maps",
+              "setup": "Use standard tuning, a comfortable neck position, and separate C and G drone references.",
+              "steps": [
+                "Find the pitch C in a chosen area and play it over a C tonal reference; name degree 1.",
+                "Without moving that fret, switch the reference to G and name the same pitch degree 4.",
+                "Repeat with E: degree 3 against C, degree 6 against G.",
+                "Add G: degree 5 against C and degree 1 against G.",
+                "Record three string/fret locations and both sets of degree labels without changing the physical positions."
+              ],
+              "self_check": "Can you change the degree labels while keeping the sounding pitches and fret positions the same?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Find the pitch C in a chosen area and play it over a C tonal reference; name degree 1.",
+            "Without moving that fret, switch the reference to G and name the same pitch degree 4.",
+            "Repeat with E: degree 3 against C, degree 6 against G.",
+            "Add G: degree 5 against C and degree 1 against G.",
+            "Record three string/fret locations and both sets of degree labels without changing the physical positions."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "sdr.theory.a1",
+          "level": "advanced",
+          "application_id": "theory",
+          "title": "Hear temporary tonicization without losing the key",
+          "explanation": "A chord can briefly make another pitch sound like a destination without establishing a permanent key change. In C major, D7 (D–F♯–A–C) moving to G (G–B–D) is V7/V → V: D7 points toward G. F♯ is chromatic to C major (raised scale degree 4) yet is the leading tone to G (degree 7 if G is momentarily heard as tonic). Distinguish the prevailing key, local chord membership, and the brief tonal emphasis; one D7–G alone does not prove modulation.",
+          "outcomes": [
+            "Distinguish global scale degree from local tonicization",
+            "Explain F♯ relative to C major and momentarily emphasized G",
+            "Avoid treating every chromatic note as evidence of a permanent key change"
+          ],
+          "exercises": [
+            {
+              "id": "sdr.theory.a1.ex",
+              "title": "Two tonal reference points",
+              "setup": "Use C–D7–G7–C slowly in concert pitch; a piano or guitar is suitable, or write out the notes first.",
+              "steps": [
+                "Write the C-major scale C–D–E–F–G–A–B and retain C as your initial tonic.",
+                "Spell D7 as D–F♯–A–C and G7 as G–B–D–F; identify F♯ as ♯4 relative to C major.",
+                "Play or listen to D7 resolving to G7, and explain why F♯ approaches G by a semitone.",
+                "Finish on C and compare the temporary emphasis on G with the return to the prevailing tonic.",
+                "Try a longer passage ending on G and discuss what additional context would support a real key change."
+              ],
+              "self_check": "Can you name the same F♯ as chromatic ♯4 relative to C and as a leading tone toward G without declaring that the music must have modulated?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write the C-major scale C–D–E–F–G–A–B and retain C as your initial tonic.",
+            "Spell D7 as D–F♯–A–C and G7 as G–B–D–F; identify F♯ as ♯4 relative to C major.",
+            "Play or listen to D7 resolving to G7, and explain why F♯ approaches G by a semitone.",
+            "Finish on C and compare the temporary emphasis on G with the return to the prevailing tonic.",
+            "Try a longer passage ending on G and discuss what additional context would support a real key change."
+          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
@@ -520,7 +671,7 @@
       "entity_id": "20000000-0000-4000-8000-000000000066",
       "kind": "SKILL",
       "slug": "triad_construction",
-      "revision": "draft-r1",
+      "revision": "draft-r2-curriculum-expansion",
       "editorial_status": "DRAFT_REVIEW",
       "one_line": "Build three-note chords from the notes that give them their identity.",
       "overview": "A triad is made from three different chord tones: a root, a third and a fifth. Change the third and you can change the chord from major to minor. Learn to name the notes first, then find and arrange them across the fretboard. You can use the same idea in any key.",
@@ -579,6 +730,7 @@
           "title": "Listening & chord quality",
           "summary": "Hear what changes when the third moves between major and minor.",
           "level_ids": [
+            "foundational",
             "intermediate"
           ]
         },
@@ -587,6 +739,7 @@
           "title": "Arrangement & voice leading",
           "summary": "Use triads as connected melodic and harmonic voices.",
           "level_ids": [
+            "foundational",
             "advanced"
           ]
         }
@@ -664,6 +817,114 @@
           "visual_components": [
             "fretboard_voicing_triplet_standard"
           ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.aural.f1",
+          "level": "foundational",
+          "application_id": "aural",
+          "title": "Hear the third change chord quality",
+          "explanation": "A C-major triad contains C–E–G; C minor contains C–E♭–G. Holding the root and perfect fifth constant makes it easier to hear the role of the third. You do not need to associate either sound with a fixed emotional label.",
+          "outcomes": [
+            "Hear the contrast between major and minor thirds above one root",
+            "Attend to one changing pitch while two chord tones remain constant",
+            "Identify the changed chord quality in simple repeated examples"
+          ],
+          "exercises": [
+            {
+              "id": "triad.aural.f1.ex",
+              "title": "Same frame, different third",
+              "setup": "Use a keyboard, carefully tuned guitar voicing, or a partner. Keep timbre, volume and register as similar as possible.",
+              "steps": [
+                "Play C–E–G slowly as an arpeggio; then play C–E♭–G with the same C and G.",
+                "Sing or identify only the middle chord tone before playing the full triad.",
+                "Alternate the two chords in a random order and label major or minor.",
+                "Reveal the notes after each attempt and replay any examples you missed."
+              ],
+              "self_check": "Can you identify the change in the third rather than relying on loudness, register or a remembered emotional description?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play C–E–G slowly as an arpeggio; then play C–E♭–G with the same C and G.",
+            "Sing or identify only the middle chord tone before playing the full triad.",
+            "Alternate the two chords in a random order and label major or minor.",
+            "Reveal the notes after each attempt and replay any examples you missed."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.composition.f1",
+          "level": "foundational",
+          "application_id": "composition",
+          "title": "Create a two-chord texture with shared tones",
+          "explanation": "C major (C–E–G) and A minor (A–C–E) share C and E. A simple arrangement can connect these chords by keeping a common note present while another voice moves. This is an introductory use of voice leading; it does not require advanced inversions.",
+          "outcomes": [
+            "Spell two related triads",
+            "Identify common chord tones and changed tones",
+            "Arrange a short alternation using a sustained or repeated shared note"
+          ],
+          "exercises": [
+            {
+              "id": "triad.composition.f1.ex",
+              "title": "Hold one note in common",
+              "setup": "Use C major and A minor in a comfortable register; a piano or written note layout also works.",
+              "steps": [
+                "Write C–E–G and A–C–E and underline the shared notes C and E.",
+                "Choose one of those notes as a repeated upper voice over both chords.",
+                "Play or write two bars alternating C major and A minor with that note retained.",
+                "Try the other shared note and describe how the sound of the connection changes."
+              ],
+              "self_check": "Does every bar still contain the correct chord tones, and can you name the note that remains common?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write C–E–G and A–C–E and underline the shared notes C and E.",
+            "Choose one of those notes as a repeated upper voice over both chords.",
+            "Play or write two bars alternating C major and A minor with that note retained.",
+            "Try the other shared note and describe how the sound of the connection changes."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "triad.theory.i1",
+          "level": "intermediate",
+          "application_id": "theory",
+          "title": "Build the diatonic triads of a major key",
+          "explanation": "Stack two diatonic thirds above each scale degree in C major. The resulting triads are C (C–E–G), Dm (D–F–A), Em (E–G–B), F (F–A–C), G (G–B–D), Am (A–C–E), and B° (B–D–F). The leading-tone triad is diminished because B–F spans a diminished fifth rather than a perfect fifth.",
+          "outcomes": [
+            "Spell all seven diatonic triads in C major",
+            "Explain which degrees yield major, minor and diminished triads",
+            "Distinguish scale-degree roots from Roman-numeral chord quality"
+          ],
+          "exercises": [
+            {
+              "id": "triad.theory.i1.ex",
+              "title": "Seven roots, seven triads",
+              "setup": "Use the written C-major scale C–D–E–F–G–A–B and a pencil or Workbook.",
+              "steps": [
+                "Start on degree 1 and take every other scale note: C–E–G.",
+                "Repeat from D through B, wrapping to the beginning of the scale as needed.",
+                "Label each triad: I, ii, iii, IV, V, vi, vii°.",
+                "Play at least two contrasting triads and verify each spelled root, third and fifth."
+              ],
+              "self_check": "Can you explain why B–D–F is diminished while G–B–D is major using intervals, not memorized labels?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Start on degree 1 and take every other scale note: C–E–G.",
+            "Repeat from D through B, wrapping to the beginning of the scale as needed.",
+            "Label each triad: I, ii, iii, IV, V, vi, vii°.",
+            "Play at least two contrasting triads and verify each spelled root, third and fifth."
+          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
@@ -888,7 +1149,7 @@
       "entity_id": "20000000-0000-4000-8000-000000000061",
       "kind": "SKILL",
       "slug": "subdivision_control",
-      "revision": "draft-r1",
+      "revision": "draft-r2-curriculum-expansion",
       "editorial_status": "DRAFT_REVIEW",
       "one_line": "Feel the space between beats—and choose exactly where your notes land.",
       "overview": "A steady beat gives music its pulse. Subdivision divides each beat into smaller, evenly spaced parts: two eighths, three eighth-note triplets, or four sixteenths per quarter-note beat. Learn to hear those spaces and play in them without rushing or dragging. The beat stays put while the pattern inside it changes.",
@@ -936,7 +1197,8 @@
           "summary": "Hear the beat and its subdivision without depending on note pitches.",
           "level_ids": [
             "foundational",
-            "intermediate"
+            "intermediate",
+            "advanced"
           ]
         },
         {
@@ -974,6 +1236,7 @@
           "title": "Composing rhythm",
           "summary": "Use changes in rhythmic density to develop a musical idea.",
           "level_ids": [
+            "foundational",
             "advanced"
           ]
         }
@@ -1128,6 +1391,42 @@
           "editorial_status": "DRAFT_REVIEW"
         },
         {
+          "id": "subdiv.composition.f1",
+          "level": "foundational",
+          "application_id": "composition",
+          "title": "Write two bars at one tempo with different densities",
+          "explanation": "Four quarter-note beats can contain four quarter-note attacks or eight equally spaced eighth-note attacks. Changing rhythmic density does not require a tempo change. Write two measures that demonstrate this difference before adding pitch or harmonic complexity.",
+          "outcomes": [
+            "Distinguish the number of beats from the number of attacks",
+            "Write a quarter-note bar and an eighth-note bar in 4/4",
+            "Perform both measures with one unchanging BPM"
+          ],
+          "exercises": [
+            {
+              "id": "subdiv.composition.f1.ex",
+              "title": "Four then eight",
+              "setup": "Use a single muted guitar string, a pencil or your preferred notation tool. Set the quarter-note reference near 72 BPM.",
+              "steps": [
+                "Write one bar of four quarter notes and label the attacks 1–2–3–4.",
+                "Write a second bar of eight evenly spaced eighth notes labelled 1-and-2-and-3-and-4-and.",
+                "Clap or pick both bars in sequence while tapping four unchanged quarter beats in each.",
+                "Repeat and verify that the second bar has twice as many attacks but not a faster tempo."
+              ],
+              "self_check": "Can you count exactly four quarter-note beats in both measures and explain why the attack count differs?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write one bar of four quarter notes and label the attacks 1–2–3–4.",
+            "Write a second bar of eight evenly spaced eighth notes labelled 1-and-2-and-3-and-4-and.",
+            "Clap or pick both bars in sequence while tapping four unchanged quarter beats in each.",
+            "Repeat and verify that the second bar has twice as many attacks but not a faster tempo."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
           "id": "subdiv.aural.i1",
           "level": "intermediate",
           "application_id": "aural",
@@ -1276,40 +1575,41 @@
           "editorial_status": "DRAFT_REVIEW"
         },
         {
-          "id": "subdiv.groove.a1",
+          "id": "subdiv.aural.a1",
           "level": "advanced",
-          "application_id": "groove",
-          "title": "Displace the accent by one sixteenth",
+          "application_id": "aural",
+          "title": "Recover the beat beneath displaced accents",
+          "explanation": "Strong attacks do not always fall on quarter-note beats. A syncopated pattern may emphasize eighth-note offbeats while the underlying 4/4 pulse continues. Listening for the repeated beat interval helps you avoid mistaking louder offbeat attacks for a new tempo or meter.",
           "outcomes": [
-            "Move accents independently of the pulse",
-            "Maintain a stable reference beat"
+            "Maintain a quarter-note reference while listening to syncopation",
+            "Distinguish accent placement from subdivision rate",
+            "Recover the downbeat after hearing a sparse or offbeat phrase"
           ],
-          "explanation": "A short rhythmic motif can sound transformed when its accents begin a sixteenth later. The motif shifts, but the reference quarter-note pulse and the 4/4 measure do not.",
           "exercises": [
             {
-              "id": "subdiv.groove.a1.ex",
-              "title": "Displace the accent by one sixteenth",
-              "setup": "Use muted picking, claps, or a single-pitch riff.",
+              "id": "subdiv.aural.a1.ex",
+              "title": "Find the hidden quarter-note pulse",
+              "setup": "Use a recorded syncopated phrase or ask a partner to clap offbeats. The built-in 4/4 player can establish tempo, but does not generate custom offbeat accent patterns.",
               "steps": [
-                "Count one bar of straight sixteenths at 64 BPM.",
-                "Accent the first position of each beat for one bar.",
-                "Shift each accent forward one sixteenth (“e” positions) in the next bar.",
-                "Alternate the two bars without changing your foot tap."
+                "Listen to a steady 4/4 quarter-note reference at about 72 BPM and tap the beat.",
+                "Play a recording or have a partner accent the 'ands' between the numbered beats.",
+                "Continue tapping the quarter notes while listening for the accent pattern above them.",
+                "Stop the reference click and keep the tap through one bar of offbeat accents.",
+                "Restore the quarter-note reference and check whether your beat aligns."
               ],
-              "self_check": "Can you clearly hear accent displacement while retaining the same downbeats?",
-              "suggested_minutes": 7,
+              "self_check": "Can you locate beats 1–4 when the loudest attacks happen between them, without changing your tapping rate?",
+              "suggested_minutes": 9,
               "records_progress": false
             }
           ],
           "steps": [
-            "Count one bar of straight sixteenths at 64 BPM.",
-            "Accent the first position of each beat for one bar.",
-            "Shift each accent forward one sixteenth (“e” positions) in the next bar.",
-            "Alternate the two bars without changing your foot tap."
+            "Listen to a steady 4/4 quarter-note reference at about 72 BPM and tap the beat.",
+            "Play a recording or have a partner accent the 'ands' between the numbered beats.",
+            "Continue tapping the quarter notes while listening for the accent pattern above them.",
+            "Stop the reference click and keep the tap through one bar of offbeat accents.",
+            "Restore the quarter-note reference and check whether your beat aligns."
           ],
-          "visual_components": [
-            "accent_grid"
-          ],
+          "visual_components": [],
           "editorial_status": "DRAFT_REVIEW"
         },
         {
@@ -1346,6 +1646,43 @@
           ],
           "visual_components": [
             "comparison_grid"
+          ],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "subdiv.groove.a1",
+          "level": "advanced",
+          "application_id": "groove",
+          "title": "Displace the accent by one sixteenth",
+          "outcomes": [
+            "Move accents independently of the pulse",
+            "Maintain a stable reference beat"
+          ],
+          "explanation": "A short rhythmic motif can sound transformed when its accents begin a sixteenth later. The motif shifts, but the reference quarter-note pulse and the 4/4 measure do not.",
+          "exercises": [
+            {
+              "id": "subdiv.groove.a1.ex",
+              "title": "Displace the accent by one sixteenth",
+              "setup": "Use muted picking, claps, or a single-pitch riff.",
+              "steps": [
+                "Count one bar of straight sixteenths at 64 BPM.",
+                "Accent the first position of each beat for one bar.",
+                "Shift each accent forward one sixteenth (“e” positions) in the next bar.",
+                "Alternate the two bars without changing your foot tap."
+              ],
+              "self_check": "Can you clearly hear accent displacement while retaining the same downbeats?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count one bar of straight sixteenths at 64 BPM.",
+            "Accent the first position of each beat for one bar.",
+            "Shift each accent forward one sixteenth (“e” positions) in the next bar.",
+            "Alternate the two bars without changing your foot tap."
+          ],
+          "visual_components": [
+            "accent_grid"
           ],
           "editorial_status": "DRAFT_REVIEW"
         },
