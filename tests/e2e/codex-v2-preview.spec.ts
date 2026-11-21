@@ -31,6 +31,31 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
   await expectNoHorizontalOverflow(page);
 });
 
+test("Codex lessons and exploration activities open the same Workbook template route", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = page.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  const lessonLink = lesson.getByRole("link", { name: "Practice in Workbook" });
+  await expect(lessonLink).toHaveAttribute("href", "/workbooks?codex_module=sdr.aural.f1");
+
+  await page.getByRole("button", { name: "How to Explore" }).click();
+  const activity = page.locator(".cv2-explore-module").first();
+  await activity.locator("summary").click();
+  await expect(activity.getByRole("link", { name: "Practice in Workbook" })).toHaveAttribute(
+    "href",
+    "/workbooks?codex_module=sdr.aural.f1",
+  );
+  await expectNoHorizontalOverflow(page);
+});
+
 test("CODEX-V2-A preserves published V1 Skill routes", async ({ page }) => {
   await page.goto("/codex/skills/triad_construction");
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
