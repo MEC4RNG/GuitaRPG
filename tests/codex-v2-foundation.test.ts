@@ -4,10 +4,40 @@ import { parseCodexV2 } from "@/lib/codex/v2/content";
 import { PUBLISHED_CODEX_V2_ENTRIES, PUBLISHED_CODEX_V2_TERMS } from "@/lib/codex/v2/catalog";
 import { readCodexV2DraftPreview } from "@/lib/codex/v2/preview";
 import draft from "@/domain/codex/v2/preview-excerpts.json";
+import { canAccessCodexV2DraftPreview } from "@/lib/codex/v2/preview-access";
 
 const copy = (): Record<string, unknown> => structuredClone(draft);
 
 describe("CODEX-V2-A editorially gated content foundation", () => {
+  it("fails closed for draft previews on production or unknown hosting environments", () => {
+    expect(canAccessCodexV2DraftPreview({ NODE_ENV: "production" })).toBe(false);
+    expect(canAccessCodexV2DraftPreview({})).toBe(false);
+    expect(
+      canAccessCodexV2DraftPreview({
+        NODE_ENV: "production",
+        VERCEL_ENV: "production",
+        CODEX_V2_PREVIEW_ENABLED: "true",
+      }),
+    ).toBe(false);
+    expect(
+      canAccessCodexV2DraftPreview({
+        NODE_ENV: "production",
+        VERCEL_ENV: "unknown",
+        CODEX_V2_PREVIEW_ENABLED: "true",
+      }),
+    ).toBe(false);
+    expect(
+      canAccessCodexV2DraftPreview({ NODE_ENV: "production", VERCEL_ENV: "preview" }),
+    ).toBe(true);
+    expect(canAccessCodexV2DraftPreview({ NODE_ENV: "development" })).toBe(true);
+    expect(
+      canAccessCodexV2DraftPreview({
+        NODE_ENV: "production",
+        CODEX_V2_PREVIEW_ENABLED: "true",
+      }),
+    ).toBe(true);
+  });
+
   it("does not publish unreviewed source material into official routes", () => {
     expect(PUBLISHED_CODEX_V2_ENTRIES).toHaveLength(0);
     expect(PUBLISHED_CODEX_V2_TERMS).toHaveLength(0);
