@@ -8,6 +8,16 @@ import { canAccessCodexV2DraftPreview } from "@/lib/codex/v2/preview-access";
 
 const copy = (): Record<string, unknown> => structuredClone(draft);
 
+type EditablePreviewModule = {
+  steps: string[];
+  outcomes: string[];
+  exercises: Array<{ id: string; steps: string[] }>;
+};
+function firstLesson(document: Record<string, unknown>, entryIndex = 0): EditablePreviewModule {
+  const entries = document.entries as Array<{ modules: EditablePreviewModule[] }>;
+  return entries[entryIndex].modules[0];
+}
+
 describe("CODEX-V2-A editorially gated content foundation", () => {
   it("fails closed for draft previews on production or unknown hosting environments", () => {
     expect(canAccessCodexV2DraftPreview({ NODE_ENV: "production" })).toBe(false);
@@ -89,46 +99,31 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
 
   it("rejects empty authored lesson scaffolds", () => {
     const noOutcomes = copy();
-    const outcomes = (noOutcomes.entries as Array<{ modules: Array<{ outcomes: string[] }> }>)[0]
-      .modules[0];
-    outcomes.outcomes = [];
+    firstLesson(noOutcomes).outcomes = [];
     expect(() => parseCodexV2(noOutcomes, true)).toThrow(/module needs steps and outcomes/);
 
     const noModuleSteps = copy();
-    const moduleSteps = (noModuleSteps.entries as Array<{ modules: Array<{ steps: string[] }> }>)[0]
-      .modules[0];
-    moduleSteps.steps = [];
+    firstLesson(noModuleSteps).steps = [];
     expect(() => parseCodexV2(noModuleSteps, true)).toThrow(/module needs steps and outcomes/);
 
     const noExercise = copy();
-    const modules = (noExercise.entries as Array<{ modules: Array<{ exercises: unknown[] }> }>)[0]
-      .modules;
-    modules[0].exercises = [];
+    firstLesson(noExercise).exercises = [];
     expect(() => parseCodexV2(noExercise, true)).toThrow(/module needs an exercise/);
 
     const noExerciseSteps = copy();
-    const exercise = (
-      noExerciseSteps.entries as Array<{ modules: Array<{ exercises: Array<{ steps: string[] }> }> }>
-    )[0].modules[0].exercises[0];
-    exercise.steps = [];
+    firstLesson(noExerciseSteps).exercises[0].steps = [];
     expect(() => parseCodexV2(noExerciseSteps, true)).toThrow(/exercise needs at least one step/);
   });
 
   it("rejects repeated exercise IDs across separate modules", () => {
     const broken = copy();
-    const entries = broken.entries as Array<{
-      modules: Array<{ exercises: Array<{ id: string }> }>;
-    }>;
-    entries[1].modules[0].exercises[0].id = entries[0].modules[0].exercises[0].id;
+    firstLesson(broken, 1).exercises[0].id = firstLesson(broken).exercises[0].id;
     expect(() => parseCodexV2(broken, true)).toThrow(/duplicate or invalid exercise id/);
   });
 
   it("rejects malformed exercise identifiers", () => {
     const broken = copy();
-    const entries = broken.entries as Array<{
-      modules: Array<{ exercises: Array<{ id: string }> }>;
-    }>;
-    entries[0].modules[0].exercises[0].id = "../not-an-id";
+    firstLesson(broken).exercises[0].id = "../not-an-id";
     expect(() => parseCodexV2(broken, true)).toThrow(/duplicate or invalid exercise id/);
   });
 
