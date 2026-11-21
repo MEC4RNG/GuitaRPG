@@ -189,3 +189,7 @@ Keep this as a preview-only draft branch (PR #14) stacked on the still-open JRN-
 ### Final-head CI formatting remediation (R3-R2)
 
 The first R3-R2 final-head run reached GitHub Actions but `Production scaffold CI` stopped at Prettier's format check. The warning identified only four newly edited files: the shared Codex entry component, V2 content parser, preview-access predicate and content-foundation tests. Their callback indentation, long conditional layout and test fixture formatting were normalized on the draft branch without changing the 42-module corpus or the production publication boundary. A fresh **new-head** CI run is required; no earlier passing workflow should be reported as proof of this remediation.
+
+### Second formatting check and final-head verification (R3-R2)
+
+The first format remediation reduced Prettier warnings from four files to two; the remaining warnings were in the preview-access helper and new test-matrix assertions. Those were simplified into short explicit branches and a reusable test fixture for deterministic formatting. These source-only edits do not change any published lesson, review status, application coverage, Player data or database schema. The terminal results of the subsequent final-head GitHub workflows determine acceptance; this note does not certify a pass by itself.
