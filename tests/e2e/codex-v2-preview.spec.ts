@@ -149,6 +149,9 @@ test("CODEX-V2-A-R3 enables the previously unavailable Scale-Degree lessons", as
   const application = page.getByRole("combobox", { name: "Musical application" });
 
   await page.getByRole("button", { name: "Foundational", exact: true }).click();
+  await expect(page.locator(".cv2-availability-note")).toHaveText(
+    "All 5 applications include foundational lessons.",
+  );
   await expect(application.locator('option[value="improvisation"]')).not.toHaveAttribute(
     "disabled",
   );
