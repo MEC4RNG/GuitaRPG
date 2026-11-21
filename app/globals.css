@@ -4345,6 +4345,48 @@ a {
   color: var(--codex-gold);
   text-decoration: underline;
 }
+.cv2-triad-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.cv2-triad-controls label {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  color: var(--codex-muted);
+}
+.cv2-triad-controls select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.4rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.5rem;
+  background: var(--codex-raised);
+  color: var(--codex-text);
+  font: inherit;
+}
+.cv2-triad-tone-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  color: var(--codex-muted);
+  font-size: 0.86rem;
+}
+.cv2-triad-tone-line strong {
+  color: var(--codex-text);
+}
+@media (max-width: 45rem) {
+  .cv2-triad-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cv2-triad-controls label:last-child {
+    grid-column: 1 / -1;
+  }
+}
 .cv2-voicing-select {
   display: flex;
   flex-wrap: wrap;
