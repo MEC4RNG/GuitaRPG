@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CodexV2Library } from "@/components/codex-v2-library";
+import { canAccessCodexV2DraftPreview } from "@/lib/codex/v2/preview-access";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Codex V2 Design Preview",
@@ -8,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CodexV2PreviewPage() {
-  if (process.env.VERCEL_ENV === "production") notFound();
+  if (!canAccessCodexV2DraftPreview()) notFound();
 
   // Keep draft content out of the published Codex catalog and ordinary routes.
   const { readCodexV2DraftPreview } = await import("@/lib/codex/v2/preview");
