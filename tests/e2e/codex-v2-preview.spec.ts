@@ -71,7 +71,7 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expect(page.locator(".cv2-explore-grid")).toContainText("Check yourself");
 
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
-  await expect(page.getByText("9 draft instructional modules")).toBeVisible();
+  await expect(page.getByText("12 draft instructional modules")).toBeVisible();
   await expectAccessible(page, "Codex V2 Triad Construction R1");
   await expectNoHorizontalOverflow(page);
 });
@@ -138,50 +138,84 @@ test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictiona
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R2 keeps genuine missing lessons visibly disabled", async ({ page }) => {
+test("CODEX-V2-A-R3 enables the previously unavailable Scale-Degree lessons", async ({
+  page,
+}) => {
   await page.goto("/prototype/codex-v2");
   await page
     .locator(".cv2-card")
     .filter({ hasText: "Scale-Degree Recognition" })
     .getByRole("button", { name: /Explore this Skill/ })
     .click();
-
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
   const application = page.getByRole("combobox", { name: "Musical application" });
 
-  await page.getByRole("button", { name: "Intermediate", exact: true }).click();
-  await application.selectOption("improvisation");
-  await expect(application).toHaveValue("improvisation");
-
   await page.getByRole("button", { name: "Foundational", exact: true }).click();
-  await expect(application).toHaveValue("all");
-  await expect(application.locator('option[value="improvisation"]')).toHaveAttribute(
+  await expect(application.locator('option[value="improvisation"]')).not.toHaveAttribute(
     "disabled",
-    "",
   );
-  await expect(application.locator('option[value="improvisation"]')).toContainText(
-    "no lesson at this level",
-  );
-  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
+  await application.selectOption("improvisation");
+  await expect(page.locator(".cv2-modules .cv2-module").first().locator("summary"))
+    .toContainText("Answer the tonic with three notes");
 
-  // Previously absent, now a substantive Advanced Theory & function lesson.
   await page.getByRole("button", { name: "Advanced", exact: true }).click();
-  await expect(application.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
+  await expect(application).toHaveValue("improvisation");
   await application.selectOption("theory");
-  const advancedLesson = page.locator(".cv2-modules .cv2-module").first();
-  await expect(advancedLesson.locator("summary")).toContainText(
+  const advancedTheory = page.locator(".cv2-modules .cv2-module").first();
+  await expect(advancedTheory.locator("summary")).toContainText(
     "Hear temporary tonicization without losing the key",
   );
-  await expect(advancedLesson.locator(".cv2-module-chevron")).toBeVisible();
-  await expect(advancedLesson).not.toHaveAttribute("open");
-  await advancedLesson.locator("summary").click();
-  await expect(advancedLesson).toHaveAttribute("open");
-  await expect(advancedLesson).toContainText("F♯");
-  await advancedLesson.locator("summary").click();
-  await expect(advancedLesson).not.toHaveAttribute("open");
+  await expect(advancedTheory.locator(".cv2-module-chevron")).toBeVisible();
+  await advancedTheory.locator("summary").click();
+  await expect(advancedTheory).toHaveAttribute("open");
+  await expect(advancedTheory).toContainText("F♯");
+  await advancedTheory.locator("summary").click();
+  await expect(advancedTheory).not.toHaveAttribute("open");
 
   await page.getByRole("button", { name: "Applications", exact: true }).click();
   await expect(page.locator(".cv2-application-grid")).toContainText("Theory & function");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R3 exposes newly written Triad and Subdivision lessons", async ({ page }) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Triad Construction" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const triadApp = page.getByRole("combobox", { name: "Musical application" });
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await expect(triadApp.locator('option[value="theory"]')).not.toHaveAttribute("disabled");
+  await triadApp.selectOption("theory");
+  await expect(page.locator(".cv2-modules summary")).toContainText(
+    "Construct diminished and augmented triads by interval",
+  );
+  await triadApp.selectOption("aural");
+  await expect(page.locator(".cv2-modules summary")).toContainText(
+    "Hear individual voices between neighboring triads",
+  );
+  await page.getByRole("button", { name: "Intermediate", exact: true }).click();
+  await triadApp.selectOption("composition");
+  await expect(page.locator(".cv2-modules summary")).toContainText(
+    "Arrange four triads with a connected top voice",
+  );
+
+  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Subdivision Control" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await page.getByRole("button", { name: "Intermediate", exact: true }).click();
+  const rhythmApp = page.getByRole("combobox", { name: "Musical application" });
+  await expect(rhythmApp.locator('option[value="composition"]')).not.toHaveAttribute("disabled");
+  await rhythmApp.selectOption("composition");
+  await expect(page.locator(".cv2-modules summary")).toContainText(
+    "Compose a two-bar response with rests and offbeats",
+  );
   await expectNoHorizontalOverflow(page);
 });
 
