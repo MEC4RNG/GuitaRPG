@@ -262,8 +262,11 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     const exerciseIds = lessons.flatMap((lesson) => lesson.exercises.map((item) => item.id));
     expect(new Set(lessonIds).size).toBe(42);
     expect(new Set(exerciseIds).size).toBe(42);
-    expect(lessons.every((lesson) => lesson.exercises.every((exercise) =>
-      exercise.records_progress === false))).toBe(true);
+    expect(
+      lessons.every((lesson) =>
+        lesson.exercises.every((exercise) => exercise.records_progress === false),
+      ),
+    ).toBe(true);
   });
 
   it("never conflates learning material level with Quest demand or Player proficiency", () => {
