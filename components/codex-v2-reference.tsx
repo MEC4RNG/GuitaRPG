@@ -112,7 +112,12 @@ const STRING_GROUP_LABELS: readonly { id: TriadStringGroup; label: string }[] = 
 ];
 
 const OPEN_STRING_LABELS: Readonly<Record<number, string>> = {
-  6: "E2", 5: "A2", 4: "D3", 3: "G3", 2: "B3", 1: "E4",
+  6: "E2",
+  5: "A2",
+  4: "D3",
+  3: "G3",
+  2: "B3",
+  1: "E4",
 };
 const INVERSION_OPTIONS: readonly TriadInversion[] = ["root", "first", "second"];
 
@@ -122,7 +127,10 @@ function TriadFretboardReference() {
   const [group, setGroup] = useState<TriadStringGroup>("1-3");
   const [inversion, setInversion] = useState<TriadInversion>("root");
   const [voicingId, setVoicingId] = useState<string | null>(null);
-  const voicings = useMemo(() => generateTriadVoicings(root, quality, group), [root, quality, group]);
+  const voicings = useMemo(
+    () => generateTriadVoicings(root, quality, group),
+    [root, quality, group],
+  );
   const availableInversions = INVERSION_OPTIONS.filter((item) =>
     voicings.some((voicing) => voicing.inversion === item),
   );
@@ -159,15 +167,17 @@ function TriadFretboardReference() {
       <span className="cv2-eyebrow">Interactive guitar reference</span>
       <h3>Triad voicings · standard tuning</h3>
       <p>
-        Choose a root, chord quality and three-string group. Dots represent sounding
-        pitches and fret locations, not suggested finger assignments.
+        Choose a root, chord quality and three-string group. Dots represent sounding pitches and
+        fret locations, not suggested finger assignments.
       </p>
       <div className="cv2-triad-controls">
         <label>
           Root note
           <select value={root} onChange={(event) => changeRoot(event.target.value as TriadRoot)}>
             {TRIAD_ROOTS.map((item) => (
-              <option value={item} key={item}>{item}</option>
+              <option value={item} key={item}>
+                {item}
+              </option>
             ))}
           </select>
         </label>
@@ -188,7 +198,9 @@ function TriadFretboardReference() {
             onChange={(event) => changeGroup(event.target.value as TriadStringGroup)}
           >
             {STRING_GROUP_LABELS.map((item) => (
-              <option key={item.id} value={item.id}>{item.label}</option>
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
             ))}
           </select>
         </label>
@@ -227,7 +239,9 @@ function TriadFretboardReference() {
       </div>
       <div className="cv2-triad-tone-line">
         {names.map((item) => (
-          <span key={item.tone}><strong>{item.name}</strong> · {item.description}</span>
+          <span key={item.tone}>
+            <strong>{item.name}</strong> · {item.description}
+          </span>
         ))}
       </div>
       {selectedVoicing ? (
@@ -268,9 +282,7 @@ function TriadFretboardReference() {
               const x = 78 + index * 113;
               const fret = selectedVoicing.frets[index];
               const y =
-                fret === 0
-                  ? 39
-                  : firstY + (fret - selectedVoicing.fretStart + 0.5) * fretHeight;
+                fret === 0 ? 39 : firstY + (fret - selectedVoicing.fretStart + 0.5) * fretHeight;
               return (
                 <g key={stringNumber}>
                   <line
@@ -311,15 +323,17 @@ function TriadFretboardReference() {
             })}
           </svg>
           <div className="cv2-reference-detail" role="status">
-            <strong>{root} {quality} · {INVERSION_NAMES[selectedVoicing.inversion]}</strong>
+            <strong>
+              {root} {quality} · {INVERSION_NAMES[selectedVoicing.inversion]}
+            </strong>
             <span>{selectedVoicing.notes.join(" · ")} (low to high)</span>
             <p>{selectedVoicing.description}</p>
           </div>
         </>
       ) : (
         <p role="status">
-          No verified three-string voicing is available under the current fret-span limits.
-          Choose another root, quality, string group or inversion.
+          No verified three-string voicing is available under the current fret-span limits. Choose
+          another root, quality, string group or inversion.
         </p>
       )}
       <p className="cv2-related-reference">
