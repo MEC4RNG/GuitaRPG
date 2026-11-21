@@ -31,12 +31,7 @@ jobs:
         run: npm ci --legacy-peer-deps --no-audit --no-fund
 
       - name: Format check
-        run: |
-          if ! npm run format:check; then
-            npx prettier --write app/workbooks/page.tsx components/codex-v2-reference.tsx components/workbook-persistence-surface.tsx lib/codex/v2/triad-voicings.ts lib/workbook/lesson-template.ts tests/codex-v2-triad-voicings.test.ts
-            git --no-pager diff -- app/workbooks/page.tsx components/codex-v2-reference.tsx components/workbook-persistence-surface.tsx lib/codex/v2/triad-voicings.ts lib/workbook/lesson-template.ts tests/codex-v2-triad-voicings.test.ts
-            exit 1
-          fi
+        run: npm run format:check
 
       - name: Lint
         run: npm run lint
