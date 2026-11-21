@@ -150,3 +150,10 @@ Each new module is an **unreviewed DRAFT_REVIEW** with outcomes, explanation, se
 
 Keep this as a preview-only draft branch (PR #14) stacked on the still-open JRN-004 PR #13; do **not** merge, cut over to production, publish any V2 content, start JRN-005 or connect Codex to Quest Map without the next explicit authorization and required review. Validate format/lint/typecheck/unit/build, database/security/account and Playwright desktop/mobile including Workbook regressions, then obtain user visual and music-editor sign-off before any content publication.
 
+### R3 implementation receipts and editorial status
+
+- All five missing pilot curriculum cells have newly authored, non-grading `DRAFT_REVIEW` modules. The pilot now contains exactly **42 lessons for 42 application × level cells**. All 178 draft vocabulary terms, 14 applications, 24 proposed educational links and three interactive references remain separate from the published V1 Codex.
+- A first-pass item-by-item pedagogical review record for all 42 modules is at `docs/codex-v2-r3-complete-curriculum-quality-review.md`. This includes a factual-example checklist and explicit external educator-review requirements; it is **not** independent editorial approval.
+- `tests/codex-v2-music-accuracy.test.ts` checks selected exact standard-tuning note/fret triples, inversion names, triad interval signatures, scale transposition, tonicization vocabulary and 4/4 rhythmic subdivision arithmetic. Parser tests require real authored module coverage. E2E checks the formerly disabled combinations.
+- The compiled V2 catalog in `domain/codex/v2/published.json` still has **zero** entries and terms; no one can earn or claim progress by reading the draft preview.
+- Required CI, Preview acceptance and parent JRN-004 resolution remain merge/publishing gates. No production traffic or Supabase state was modified.
