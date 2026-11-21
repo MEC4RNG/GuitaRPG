@@ -34,7 +34,9 @@ export default async function WorkbooksPage({
       item.modules.some((candidate) => candidate.id === requestedModule),
     );
     const lessonModule = entry?.modules.find((item) => item.id === requestedModule);
-    const application = entry?.applications.find((item) => item.id === lessonModule?.application_id);
+    const application = entry?.applications.find(
+      (item) => item.id === lessonModule?.application_id,
+    );
     if (!entry || !lessonModule || !application) notFound();
 
     const { canonicalCodexName } = await import("@/lib/codex/v2/content");
