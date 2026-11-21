@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CodexV2Entry } from "@/components/codex-v2-entry";
+import { publishedCodexV2Entry, PUBLISHED_CODEX_V2_TERMS } from "@/lib/codex/v2/catalog";
 import { CODEX_ENTRIES, getCodexEntry } from "@/lib/codex/catalog-v1";
 type DetailProps = { params: Promise<{ kind: string; slug: string }> };
 export function generateStaticParams() {
@@ -9,14 +11,17 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: DetailProps): Promise<Metadata> {
   const { kind, slug } = await params;
   const entry = getCodexEntry(kind, slug);
+  const v2 = publishedCodexV2Entry(kind, slug);
   return entry
-    ? { title: `${entry.name} · Codex`, description: entry.definition }
+    ? { title: `${entry.name} · Codex`, description: v2?.one_line ?? entry.definition }
     : { title: "Codex entry not found" };
 }
 export default async function CodexDetailPage({ params }: DetailProps) {
   const { kind, slug } = await params;
   const entry = getCodexEntry(kind, slug);
   if (!entry) notFound();
+  const v2 = publishedCodexV2Entry(kind, slug);
+  if (v2) return <CodexV2Entry entry={v2} terms={PUBLISHED_CODEX_V2_TERMS} />;
   const tuning = entry.kind === "CONTEXT" && entry.metadata.context_family === "TUNING";
   return (
     <article className="codex-article">
