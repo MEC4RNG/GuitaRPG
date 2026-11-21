@@ -14,8 +14,18 @@ const qualityChoices: TriadQuality[] = ["major", "minor"];
 const groups: TriadStringGroup[] = ["1-3", "2-4", "3-5", "4-6"];
 const openMidi: Record<number, number> = { 6: 40, 5: 45, 4: 50, 3: 55, 2: 59, 1: 64 };
 const rootPitch: Record<(typeof TRIAD_ROOTS)[number], number> = {
-  C: 0, "C♯": 1, D: 2, "E♭": 3, E: 4, F: 5,
-  "F♯": 6, G: 7, "A♭": 8, A: 9, "B♭": 10, B: 11,
+  C: 0,
+  "C♯": 1,
+  D: 2,
+  "E♭": 3,
+  E: 4,
+  F: 5,
+  "F♯": 6,
+  G: 7,
+  "A♭": 8,
+  A: 9,
+  "B♭": 10,
+  B: 11,
 };
 const pc = (midi: number) => ((midi % 12) + 12) % 12;
 
@@ -38,12 +48,9 @@ describe("Codex V2 reusable standard-tuning triad voicings", () => {
   });
 
   it("produces chromatically and diatonically correct note names", () => {
-    expect(describeTriadTones("C♯", "major").map((item) => item.name))
-      .toEqual(["C♯", "E♯", "G♯"]);
-    expect(describeTriadTones("A♭", "minor").map((item) => item.name))
-      .toEqual(["A♭", "C♭", "E♭"]);
-    expect(describeTriadTones("B", "major").map((item) => item.name))
-      .toEqual(["B", "D♯", "F♯"]);
+    expect(describeTriadTones("C♯", "major").map((item) => item.name)).toEqual(["C♯", "E♯", "G♯"]);
+    expect(describeTriadTones("A♭", "minor").map((item) => item.name)).toEqual(["A♭", "C♭", "E♭"]);
+    expect(describeTriadTones("B", "major").map((item) => item.name)).toEqual(["B", "D♯", "F♯"]);
   });
 
   it("covers all 96 combinations without inventing chords or fingerings", () => {
@@ -56,8 +63,9 @@ describe("Codex V2 reusable standard-tuning triad voicings", () => {
           for (const voicing of voicings) {
             expect(voicing.strings).toEqual(STRING_GROUPS[group]);
             expect(new Set(voicing.tones)).toEqual(new Set(["root", "third", "fifth"]));
-            const chordPitches = [0, quality === "major" ? 4 : 3, 7]
-              .map((offset) => pc(rootPitch[root] + offset));
+            const chordPitches = [0, quality === "major" ? 4 : 3, 7].map((offset) =>
+              pc(rootPitch[root] + offset),
+            );
             expect(voicing.midi.map(pc).sort()).toEqual([...chordPitches].sort());
             for (const [index, string] of voicing.strings.entries()) {
               expect(voicing.midi[index]).toBe(openMidi[string] + voicing.frets[index]);
