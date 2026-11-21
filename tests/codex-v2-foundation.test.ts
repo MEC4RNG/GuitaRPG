@@ -57,6 +57,51 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(() => parseCodexV2(broken, true)).toThrow(/duplicate or invalid module id/);
   });
 
+  it("rejects empty authored lesson scaffolds", () => {
+    const noOutcomes = copy();
+    const outcomes = (noOutcomes.entries as Array<{ modules: Array<{ outcomes: string[] }> }>)[0]
+      .modules[0];
+    outcomes.outcomes = [];
+    expect(() => parseCodexV2(noOutcomes, true)).toThrow(/module needs steps and outcomes/);
+
+    const noModuleSteps = copy();
+    const moduleSteps = (noModuleSteps.entries as Array<{ modules: Array<{ steps: string[] }> }>)[0]
+      .modules[0];
+    moduleSteps.steps = [];
+    expect(() => parseCodexV2(noModuleSteps, true)).toThrow(/module needs steps and outcomes/);
+
+    const noExercise = copy();
+    const modules = (noExercise.entries as Array<{ modules: Array<{ exercises: unknown[] }> }>)[0]
+      .modules;
+    modules[0].exercises = [];
+    expect(() => parseCodexV2(noExercise, true)).toThrow(/module needs an exercise/);
+
+    const noExerciseSteps = copy();
+    const exercise = (
+      noExerciseSteps.entries as Array<{ modules: Array<{ exercises: Array<{ steps: string[] }> }> }>
+    )[0].modules[0].exercises[0];
+    exercise.steps = [];
+    expect(() => parseCodexV2(noExerciseSteps, true)).toThrow(/exercise needs at least one step/);
+  });
+
+  it("rejects repeated exercise IDs across separate modules", () => {
+    const broken = copy();
+    const entries = broken.entries as Array<{
+      modules: Array<{ exercises: Array<{ id: string }> }>;
+    }>;
+    entries[1].modules[0].exercises[0].id = entries[0].modules[0].exercises[0].id;
+    expect(() => parseCodexV2(broken, true)).toThrow(/duplicate or invalid exercise id/);
+  });
+
+  it("rejects malformed exercise identifiers", () => {
+    const broken = copy();
+    const entries = broken.entries as Array<{
+      modules: Array<{ exercises: Array<{ id: string }> }>;
+    }>;
+    entries[0].modules[0].exercises[0].id = "../not-an-id";
+    expect(() => parseCodexV2(broken, true)).toThrow(/duplicate or invalid exercise id/);
+  });
+
   it("rejects unknown module applications and levels", () => {
     const badApplication = copy();
     (
