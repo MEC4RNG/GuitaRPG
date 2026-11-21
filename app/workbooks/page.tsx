@@ -31,7 +31,7 @@ export default async function WorkbooksPage({
     const { readCodexV2DraftPreview } = await import("@/lib/codex/v2/preview");
     const catalog = readCodexV2DraftPreview();
     const entry = catalog.entries.find((item) =>
-      item.modules.some((module) => lessonModule.id === requestedModule),
+      item.modules.some((candidate) => candidate.id === requestedModule),
     );
     const lessonModule = entry?.modules.find((item) => item.id === requestedModule);
     const application = entry?.applications.find((item) => item.id === lessonModule?.application_id);
