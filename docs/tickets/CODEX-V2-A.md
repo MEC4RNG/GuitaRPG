@@ -82,3 +82,43 @@ Changes on the same stacked draft PR:
 - A separate Playwright compatibility issue was found: `<option disabled>` is rendered correctly, but `toBeDisabled()` on an `option` returned a false negative. The browser contract now checks the HTML `disabled` attribute and verifies the active selection clears to All when needed.
 
 Preview and existing 197 official Codex entries remain unchanged by publication. Await final-head CI and user visual acceptance; PR #14 remains draft.
+
+## CODEX-V2-A-R2 — Curriculum Coverage: First Editorial Expansion (2026-11-21)
+
+**User direction:** continue development in the most valuable direction after accepting the new desktop content width. This is a bounded continuation of the existing CODEX-V2-A review branch; do not begin CODEX-V2-B or JRN-005.
+
+### Rationale and scope
+
+The shared renderer, navigation, musical references and mobile behavior are established. The largest remaining content gap is the 14 missing combinations of three instructional levels (Foundational, Intermediate, Advanced) across the three pilot Skills and 14 named musical applications. R2 adds **nine original lessons** that address common entry points and advanced musical reasoning while retaining the user's requested grayed-out behavior for genuine gaps. This is an editorial draft, not a claim of pedagogical verification or published instruction.
+
+| Skill | Previously authored | New R2 drafts | Total draft modules | Application/level coverage |
+| --- | ---: | ---: | ---: | ---: |
+| Scale-Degree Recognition | 10 | 4 | 14 | 14 / 15 |
+| Triad Construction | 6 | 3 | 9 | 9 / 12 |
+| Subdivision Control | 12 | 2 | 14 | 14 / 15 |
+| **Total** | **28** | **9** | **37** | **37 / 42** |
+
+**New Scale-Degree Recognition drafts:** Advanced Theory & function (distinguishing D7→G tonicization from an established modulation; F♯ as chromatic raised fourth relative to C and leading tone toward G), Advanced Fretboard (reinterpret the same pitches against different tonics), Foundational Composition (two short degree-based phrases), Intermediate Composition (degree-preserving transposition between C and G major).
+
+**New Triad Construction drafts:** Foundational Listening (hear the changing third in C major/minor), Intermediate Harmony & construction (diatonic triads on all seven major-scale degrees, including B diminished), Foundational Arrangement & voice leading (shared notes C and E between C major and A minor).
+
+**New Subdivision Control drafts:** Advanced Listening (recover a 4/4 quarter-note beat beneath displaced accents; explicitly do not claim custom accent generation by the demo player), Foundational Composition (4 quarter-note attacks versus 8 eighth-note attacks at an unchanged tempo).
+
+Each new lesson has three or more explicit outcomes and a self-contained exercise with setup, four or more steps, self-check, suggested minutes, no automatic progress, and `DRAFT_REVIEW` editorial status. New module IDs are distinct; original modules are preserved. Application `level_ids` represent actual authored coverage rather than optimistic curriculum intent.
+
+### Remaining review-only curricular gaps
+
+The following five combinations remain visible and disabled in Lessons until authentic material is written:
+- Scale-Degree Recognition — **Improvisation / Foundational**
+- Triad Construction — **Harmony & construction / Advanced**
+- Triad Construction — **Listening & chord quality / Advanced**
+- Triad Construction — **Arrangement & voice leading / Intermediate**
+- Subdivision Control — **Composing rhythm / Intermediate**
+
+They are **not** inferred, automatically created, or treated as prerequisites or proficiency signals. Existing `hasLessonAtLevel` UI behavior and correct disabled option labels remain active.
+
+### Music-editor review gate before any promotion
+
+Review harmonic meaning of **secondary dominants/tonicization** and spelling of altered scale degrees; check major-scale diatonic triad construction and diminished quality; ensure standard-tuning pitch and interval examples are accurate; verify beginner listening exercises avoid fixed emotional stereotypes; and distinguish rhythm density, accent and underlying beat. Confirm applicability to guitar while allowing neutral notation/piano equivalents where appropriate.
+
+Tests must verify 37 authored modules, 37/42 coverage, the nine new DRAFT_REVIEW module IDs, accurate available and unavailable application-level options, no XP/progression writes, and that 197 canonical V1 entries stay published with V2 published material still empty. Terminal CI, desktop/mobile user review and parent PR #13 acceptance remain outstanding merge gates.
