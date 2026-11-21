@@ -38,7 +38,7 @@ import {
   type WorkbookRevisionRow,
   type WorkbookRow,
 } from "@/lib/workbook/repository";
-import type { WorkbookRouteContext } from "@/lib/workbook/context";
+import { workbookContextHref, type WorkbookRouteContext } from "@/lib/workbook/context";
 
 export function WorkbookPersistenceSurface({
   context,
@@ -83,7 +83,20 @@ export function WorkbookPersistenceSurface({
           : Promise.resolve(null),
       ]);
       if (!snapshot.authenticated) {
-        router.replace("/onboarding?next=/workbooks");
+        const contextPath = context
+          ? workbookContextHref(context.questId, context.stage, context.relationship, {
+              pageId: context.pageId,
+              sessionId: context.sessionId,
+            })
+          : "/workbooks";
+        const nextPath = lessonSource
+          ? `${contextPath}${contextPath.includes("?") ? "&" : "?"}codex_module=${encodeURIComponent(lessonSource.moduleId)}`
+          : contextPath;
+        router.replace(
+          nextPath === "/workbooks"
+            ? "/onboarding?next=/workbooks"
+            : `/onboarding?next=${encodeURIComponent(nextPath)}`,
+        );
         return;
       }
       setAnonymous(snapshot.anonymous);
@@ -131,7 +144,7 @@ export function WorkbookPersistenceSurface({
     } finally {
       setLoading(false);
     }
-  }, [context, embeddedCraft, embeddedExplore, getClient, router]);
+  }, [context, embeddedCraft, embeddedExplore, getClient, lessonSource, router]);
 
   useEffect(() => {
     // Initial owner-scoped hydration is intentionally driven by the browser Auth client.
