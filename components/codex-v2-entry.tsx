@@ -370,23 +370,34 @@ export function CodexV2Entry({
               <div className="cv2-explore-grid">
                 {modules.flatMap((module) =>
                   module.exercises.map((exercise) => (
-                    <article className="cv2-exercise" key={exercise.id}>
-                      <span className="cv2-eyebrow">{applicationLabel(module.application_id)}</span>
-                      <h3>{exercise.title}</h3>
-                      <p>{exercise.setup}</p>
-                      <ol>
-                        {exercise.steps.map((step, index) => (
-                          <li key={index}>{step}</li>
-                        ))}
-                      </ol>
-                      <p>
-                        <strong>Check yourself: </strong>
-                        {exercise.self_check}
-                      </p>
-                      <small>
-                        {exercise.suggested_minutes} minutes suggested · no automatic evidence
-                      </small>
-                    </article>
+                    <details className="cv2-module cv2-explore-module" key={exercise.id}>
+                      <summary>
+                        <span className="cv2-module-summary-main">
+                          <span className="cv2-module-chevron" aria-hidden="true">
+                            ▸
+                          </span>
+                          <strong>{exercise.title}</strong>
+                        </span>
+                        <span className="cv2-module-application">
+                          {applicationLabel(module.application_id)}
+                        </span>
+                      </summary>
+                      <div className="cv2-exercise">
+                        <p>{exercise.setup}</p>
+                        <ol>
+                          {exercise.steps.map((step, index) => (
+                            <li key={index}>{step}</li>
+                          ))}
+                        </ol>
+                        <p>
+                          <strong>Check yourself: </strong>
+                          {exercise.self_check}
+                        </p>
+                        <small>
+                          {exercise.suggested_minutes} minutes suggested · no automatic evidence
+                        </small>
+                      </div>
+                    </details>
                   )),
                 )}
               </div>
