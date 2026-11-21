@@ -39,10 +39,7 @@ const headingBlock = (text: string, level: 1 | 2 = 2): WorkbookBlockV1 => ({
   level,
   content: [{ text }],
 });
-const listBlock = (
-  items: string[],
-  type: "bullet_list" | "ordered_list",
-): WorkbookBlockV1 => ({
+const listBlock = (items: string[], type: "bullet_list" | "ordered_list"): WorkbookBlockV1 => ({
   id: createId(),
   version: 1,
   type,
@@ -54,9 +51,7 @@ export function lessonWorkbookSourceMarker(moduleId: string) {
 }
 
 /** Private editable starting page. Creates no Quest, Session, Result, or XP evidence. */
-export function buildLessonWorkbookDocument(
-  lesson: CodexLessonWorkbookSource,
-): WorkbookDocumentV1 {
+export function buildLessonWorkbookDocument(lesson: CodexLessonWorkbookSource): WorkbookDocumentV1 {
   const blocks: WorkbookBlockV1[] = [
     headingBlock(lesson.title, 1),
     textBlock(
@@ -74,12 +69,16 @@ export function buildLessonWorkbookDocument(
       textBlock(exercise.setup),
       listBlock(exercise.steps, "ordered_list"),
       textBlock(`Self-check: ${exercise.selfCheck}`),
-      textBlock(`Suggested exploration: ${exercise.suggestedMinutes} minutes (no progress recorded automatically).`),
+      textBlock(
+        `Suggested exploration: ${exercise.suggestedMinutes} minutes (no progress recorded automatically).`,
+      ),
     );
   }
   blocks.push(
     headingBlock("My observations"),
-    textBlock("Record what you notice as you practice. Add tablature or chord diagrams using the editor."),
+    textBlock(
+      "Record what you notice as you practice. Add tablature or chord diagrams using the editor.",
+    ),
     textBlock(""),
   );
   return parseWorkbookDocument({
@@ -94,7 +93,6 @@ export function hasLessonSource(document: WorkbookDocumentV1, moduleId: string):
   const marker = lessonWorkbookSourceMarker(moduleId);
   return document.blocks.some(
     (block) =>
-      block.type === "paragraph" &&
-      block.content.some((fragment) => fragment.text === marker),
+      block.type === "paragraph" && block.content.some((fragment) => fragment.text === marker),
   );
 }
