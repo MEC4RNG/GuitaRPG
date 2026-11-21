@@ -144,6 +144,10 @@ export function CodexV2Entry({
     entry.modules.some((item) => item.application_id === applicationId && item.level === atLevel);
   const availableLevels = (applicationId: string) =>
     levels.filter((candidate) => hasLessonAtLevel(applicationId, candidate));
+  const unavailableApplicationCount = entry.applications.filter(
+    (item) => !hasLessonAtLevel(item.id, level),
+  ).length;
+  const isDraftContent = preview || entry.editorial_status === "DRAFT_REVIEW";
 
   function chooseLevel(nextLevel: LearningLevel) {
     setLevel(nextLevel);
@@ -219,7 +223,9 @@ export function CodexV2Entry({
       </label>
       {goal ? <p className="cv2-level-goal">{goal}</p> : null}
       <p className="cv2-availability-note">
-        Dimmed applications have no {level} lessons yet. They remain listed for future exploration.
+        {unavailableApplicationCount > 0
+          ? `${unavailableApplicationCount} ${unavailableApplicationCount === 1 ? "application has" : "applications have"} no ${level} lesson yet. Unavailable options remain visible for exploration.`
+          : `All ${entry.applications.length} applications include ${level} lessons.`}
       </p>
     </div>
   );
@@ -287,8 +293,8 @@ export function CodexV2Entry({
               <span className="cv2-eyebrow">Learning progression</span>
               <h2>Lessons</h2>
               <p>
-                {entry.modules.length} draft instructional modules · exercises do not record
-                progress
+                {entry.modules.length} {isDraftContent ? "draft " : ""}instructional modules ·
+                exercises do not record progress
               </p>
             </div>
             {filters}
@@ -339,7 +345,8 @@ export function CodexV2Entry({
               </div>
             ) : (
               <p role="status">
-                No draft lesson matches this level and application. Choose another combination.
+                No {isDraftContent ? "draft " : ""}lesson matches this level and application. Choose
+                another combination.
               </p>
             )}
             <button type="button" onClick={() => setSection("overview")}>
@@ -417,7 +424,9 @@ export function CodexV2Entry({
               <span className="cv2-eyebrow">Knowledge connections</span>
               <h2>Musical connections</h2>
               <p>
-                Suggestions for exploration, not official prerequisite requirements until reviewed.
+                {entry.relationships.some((relationship) => relationship.review_status === "PROPOSED")
+                  ? "Proposed connections for exploration, not approved prerequisites."
+                  : "Reviewed musical relationships for further exploration."}
               </p>
             </div>
             {entry.relationships.length ? (
@@ -443,7 +452,7 @@ export function CodexV2Entry({
                 ))}
               </ul>
             ) : (
-              <p>No reviewed relationship content is available for this entry.</p>
+              <p>No musical connections are available for this entry yet.</p>
             )}
           </section>
         ) : null}
