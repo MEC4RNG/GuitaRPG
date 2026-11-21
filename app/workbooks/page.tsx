@@ -31,26 +31,26 @@ export default async function WorkbooksPage({
     const { readCodexV2DraftPreview } = await import("@/lib/codex/v2/preview");
     const catalog = readCodexV2DraftPreview();
     const entry = catalog.entries.find((item) =>
-      item.modules.some((module) => module.id === requestedModule),
+      item.modules.some((module) => lessonModule.id === requestedModule),
     );
-    const module = entry?.modules.find((item) => item.id === requestedModule);
-    const application = entry?.applications.find((item) => item.id === module?.application_id);
-    if (!entry || !module || !application) notFound();
+    const lessonModule = entry?.modules.find((item) => item.id === requestedModule);
+    const application = entry?.applications.find((item) => item.id === lessonModule?.application_id);
+    if (!entry || !lessonModule || !application) notFound();
 
     const { canonicalCodexName } = await import("@/lib/codex/v2/content");
     lessonSource = {
-      moduleId: module.id,
+      moduleId: lessonModule.id,
       skillName: canonicalCodexName(entry.kind, entry.slug),
       skillKind: "SKILL",
       skillSlug: entry.slug,
       revision: entry.revision,
       status: entry.editorial_status,
-      title: module.title,
+      title: lessonModule.title,
       applicationTitle: application.title,
-      level: module.level,
-      explanation: module.explanation,
-      outcomes: module.outcomes,
-      exercises: module.exercises.map((exercise) => ({
+      level: lessonModule.level,
+      explanation: lessonModule.explanation,
+      outcomes: lessonModule.outcomes,
+      exercises: lessonModule.exercises.map((exercise) => ({
         title: exercise.title,
         setup: exercise.setup,
         steps: exercise.steps,
