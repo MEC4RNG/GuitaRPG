@@ -4345,6 +4345,21 @@ a {
   color: var(--codex-gold);
   text-decoration: underline;
 }
+.cv2-lesson-workbook-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  width: fit-content;
+  margin-top: 0.7rem;
+  color: var(--codex-gold);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+.cv2-lesson-workbook-link:hover,
+.cv2-lesson-workbook-link:focus-visible {
+  text-decoration-thickness: 2px;
+}
 .cv2-triad-controls {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
