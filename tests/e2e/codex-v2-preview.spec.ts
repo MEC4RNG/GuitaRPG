@@ -68,7 +68,17 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await page.getByRole("button", { name: "How to Explore" }).click();
   await expect(page.getByRole("heading", { name: "How to Explore" })).toBeVisible();
   await expect(page.locator(".cv2-explore-grid .cv2-exercise")).toHaveCount(4);
-  await expect(page.locator(".cv2-explore-grid")).toContainText("Check yourself");
+  const activity = page.locator(".cv2-explore-grid .cv2-explore-module").first();
+  const disclosure = activity.locator("summary");
+  await expect(page.locator(".cv2-explore-grid .cv2-explore-module")).toHaveCount(4);
+  await expect(activity.locator(".cv2-module-chevron")).toBeVisible();
+  await expect(activity).not.toHaveAttribute("open");
+  await expect(activity.getByText("Check yourself:")).toBeHidden();
+  await disclosure.click();
+  await expect(activity).toHaveAttribute("open");
+  await expect(activity.getByText("Check yourself:")).toBeVisible();
+  await disclosure.press("Enter");
+  await expect(activity).not.toHaveAttribute("open");
 
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
   await expect(page.getByText("12 draft instructional modules")).toBeVisible();
