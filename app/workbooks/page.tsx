@@ -23,7 +23,8 @@ export default async function WorkbooksPage({
       typeof requestedModule !== "string" ||
       !/^[a-z0-9._-]{1,120}$/.test(requestedModule) ||
       !canAccessCodexV2DraftPreview()
-    ) notFound();
+    )
+      notFound();
 
     // Validate against the trusted server-side editorial catalog; do not accept
     // lesson copy, taxonomy identities or JSON documents from the URL.
