@@ -138,9 +138,7 @@ test("CODEX-V2-A-R1 restores the C-major degree explorer and full draft dictiona
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R3 enables the previously unavailable Scale-Degree lessons", async ({
-  page,
-}) => {
+test("CODEX-V2-A-R3 enables the previously unavailable Scale-Degree lessons", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await page
     .locator(".cv2-card")
@@ -155,8 +153,9 @@ test("CODEX-V2-A-R3 enables the previously unavailable Scale-Degree lessons", as
     "disabled",
   );
   await application.selectOption("improvisation");
-  await expect(page.locator(".cv2-modules .cv2-module").first().locator("summary"))
-    .toContainText("Answer the tonic with three notes");
+  await expect(page.locator(".cv2-modules .cv2-module").first().locator("summary")).toContainText(
+    "Answer the tonic with three notes",
+  );
 
   await page.getByRole("button", { name: "Advanced", exact: true }).click();
   await expect(application).toHaveValue("improvisation");
@@ -202,7 +201,10 @@ test("CODEX-V2-A-R3 exposes newly written Triad and Subdivision lessons", async 
     "Arrange four triads with a connected top voice",
   );
 
-  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .getByRole("button", { name: /Library/ })
+    .first()
+    .click();
   await page
     .locator(".cv2-card")
     .filter({ hasText: "Subdivision Control" })
