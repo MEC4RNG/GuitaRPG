@@ -13,11 +13,8 @@ export function canAccessCodexV2DraftPreview(
   environment: PreviewEnvironment = process.env,
 ): boolean {
   if (environment.VERCEL_ENV === "production") return false;
-  if (
-    environment.VERCEL_ENV === "preview" ||
-    environment.VERCEL_ENV === "development"
-  )
-    return true;
+  if (environment.VERCEL_ENV === "preview") return true;
+  if (environment.VERCEL_ENV === "development") return true;
   if (environment.VERCEL_ENV !== undefined) return false;
   if (environment.NODE_ENV === "development") return true;
   return environment.CODEX_V2_PREVIEW_ENABLED === "true";
