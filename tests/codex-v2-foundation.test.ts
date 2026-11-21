@@ -20,32 +20,29 @@ function firstLesson(document: Record<string, unknown>, entryIndex = 0): Editabl
 
 describe("CODEX-V2-A editorially gated content foundation", () => {
   it("fails closed for draft previews on production or unknown hosting environments", () => {
-    expect(canAccessCodexV2DraftPreview({ NODE_ENV: "production" })).toBe(false);
-    expect(canAccessCodexV2DraftPreview({})).toBe(false);
-    expect(
-      canAccessCodexV2DraftPreview({
-        NODE_ENV: "production",
-        VERCEL_ENV: "production",
-        CODEX_V2_PREVIEW_ENABLED: "true",
-      }),
-    ).toBe(false);
-    expect(
-      canAccessCodexV2DraftPreview({
-        NODE_ENV: "production",
-        VERCEL_ENV: "unknown",
-        CODEX_V2_PREVIEW_ENABLED: "true",
-      }),
-    ).toBe(false);
-    expect(
-      canAccessCodexV2DraftPreview({ NODE_ENV: "production", VERCEL_ENV: "preview" }),
-    ).toBe(true);
-    expect(canAccessCodexV2DraftPreview({ NODE_ENV: "development" })).toBe(true);
-    expect(
-      canAccessCodexV2DraftPreview({
-        NODE_ENV: "production",
-        CODEX_V2_PREVIEW_ENABLED: "true",
-      }),
-    ).toBe(true);
+    const check = canAccessCodexV2DraftPreview;
+    const vercelProduction = {
+      NODE_ENV: "production",
+      VERCEL_ENV: "production",
+      CODEX_V2_PREVIEW_ENABLED: "true",
+    };
+    const unknownVercelHost = {
+      NODE_ENV: "production",
+      VERCEL_ENV: "unknown",
+      CODEX_V2_PREVIEW_ENABLED: "true",
+    };
+    const explicitLocalOptIn = {
+      NODE_ENV: "production",
+      CODEX_V2_PREVIEW_ENABLED: "true",
+    };
+
+    expect(check({ NODE_ENV: "production" })).toBe(false);
+    expect(check({})).toBe(false);
+    expect(check(vercelProduction)).toBe(false);
+    expect(check(unknownVercelHost)).toBe(false);
+    expect(check({ NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(true);
+    expect(check({ NODE_ENV: "development" })).toBe(true);
+    expect(check(explicitLocalOptIn)).toBe(true);
   });
 
   it("does not publish unreviewed source material into official routes", () => {
