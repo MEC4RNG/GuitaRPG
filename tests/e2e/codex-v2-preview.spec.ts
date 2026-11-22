@@ -4,7 +4,7 @@ import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessib
 test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await expect(page.getByRole("heading", { name: "Explore the musical library." })).toBeVisible();
-  await expect(page.locator(".cv2-card")).toHaveCount(3);
+  await expect(page.locator(".cv2-card")).toHaveCount(5);
   await expect(page.getByText("Design review only")).toBeVisible();
 
   await page.getByRole("button", { name: "Explore this Skill" }).first().click();
@@ -24,10 +24,60 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
 
   await page.getByRole("button", { name: "Codex Library" }).click();
   await page.getByLabel("Learning material").selectOption("intermediate");
-  await expect(page.locator(".cv2-card")).toHaveCount(3);
+  await expect(page.locator(".cv2-card")).toHaveCount(5);
   await page.getByLabel("Search Skills").fill("triad");
   await expect(page.locator(".cv2-card")).toHaveCount(1);
   await expectAccessible(page, "Codex V2 library preview");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing layout", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await expect(page.locator(".cv2-card")).toHaveCount(5);
+
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Interval Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await expect(page.getByRole("heading", { name: "Interval Recognition" })).toBeVisible();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await expect(page.getByText("12 draft instructional modules")).toBeVisible();
+  await expect(page.locator(".cv2-availability-note")).toContainText(
+    "All 4 applications include foundational lessons",
+  );
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await page.getByRole("combobox", { name: "Musical application" }).selectOption("theory");
+  const inverseLesson = page.locator(".cv2-modules .cv2-module").first();
+  await expect(inverseLesson.locator("summary")).toContainText(
+    "Invert and extend intervals without losing quality",
+  );
+  await inverseLesson.locator("summary").click();
+  await expect(inverseLesson).toContainText("major tenth");
+
+  await page.getByRole("button", { name: "How to Explore" }).click();
+  await expect(page.locator(".cv2-explore-module")).toHaveCount(1);
+  const activity = page.locator(".cv2-explore-module").first();
+  await activity.locator("summary").click();
+  await expect(activity).toContainText("Self-check");
+  await page.getByRole("button", { name: "Connections" }).click();
+  await expect(page.locator(".cv2-connections li")).toHaveCount(4);
+
+  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Arpeggio Sequencing" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await expect(page.getByRole("heading", { name: "Arpeggio Sequencing" })).toBeVisible();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await page.getByRole("combobox", { name: "Musical application" }).selectOption("harmony");
+  await expect(page.locator(".cv2-modules summary")).toContainText(
+    "Expand from triads to seventh-chord arpeggios",
+  );
   await expectNoHorizontalOverflow(page);
 });
 
