@@ -12,7 +12,7 @@ const isNew = (slug: string) => newSlugs.has(slug);
 describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
   it("adds exactly 24 new lessons in canonical Skills without publishing content", () => {
     const catalog = readCodexV2DraftPreview();
-    expect(catalog.entries).toHaveLength(5);
+    expect(catalog.entries).toHaveLength(7);
     expect(catalog.terms).toHaveLength(178);
     expect(PUBLISHED_CODEX_V2_ENTRIES).toHaveLength(0);
     expect(PUBLISHED_CODEX_V2_TERMS).toHaveLength(0);
@@ -53,18 +53,20 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
 
   it("preserves the previous 42 lessons and all review-only glossary terms", () => {
     const catalog = readCodexV2DraftPreview();
-    const earlier = catalog.entries.filter((entry) => !isNew(entry.slug));
+    const earlier = catalog.entries.filter((entry) =>
+      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(entry.slug),
+    );
     expect(earlier).toHaveLength(3);
     expect(earlier.flatMap((entry) => entry.modules)).toHaveLength(42);
-    expect(catalog.entries.flatMap((entry) => entry.modules)).toHaveLength(66);
+    expect(catalog.entries.flatMap((entry) => entry.modules)).toHaveLength(90);
 
     const lessons = catalog.entries.flatMap((entry) => entry.modules);
     const lessonIds = lessons.map((lesson) => lesson.id);
     const exerciseIds = lessons.flatMap((lesson) =>
       lesson.exercises.map((exercise) => exercise.id),
     );
-    expect(new Set(lessonIds).size).toBe(66);
-    expect(new Set(exerciseIds).size).toBe(66);
+    expect(new Set(lessonIds).size).toBe(90);
+    expect(new Set(exerciseIds).size).toBe(90);
     expect(expansion.terms).toHaveLength(0);
   });
 
