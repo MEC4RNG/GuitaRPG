@@ -65,7 +65,10 @@ test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing lay
   await page.getByRole("button", { name: "Connections" }).click();
   await expect(page.locator(".cv2-connections li")).toHaveCount(4);
 
-  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .getByRole("button", { name: /Library/ })
+    .first()
+    .click();
   await page
     .locator(".cv2-card")
     .filter({ hasText: "Arpeggio Sequencing" })
