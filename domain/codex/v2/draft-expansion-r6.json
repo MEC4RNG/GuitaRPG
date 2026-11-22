@@ -1,0 +1,1156 @@
+{
+  "schema": "SOUND_UNCHARTED_CODEX_V2",
+  "content_version": "CODEX_CONTENT_V2",
+  "editorial_source": "CODEX-V2-A-R6 interval recognition + arpeggio sequencing; human draft only, not published.",
+  "entries": [
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000032",
+      "kind": "SKILL",
+      "slug": "interval_recognition",
+      "revision": "draft-r6-intervals-v1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Hear, name, locate, and deliberately use the distance between two musical pitches.",
+      "overview": "An interval is the relationship between two pitches. Its size can be described in semitones, while its proper written name also depends on letter names and accidentals. Guitar players encounter intervals as successive melodic moves, simultaneous dyads, fretboard distances, and independent voice-leading choices. The ear, pitch spelling, and physical layout are complementary tools—not interchangeable shortcuts.",
+      "key_distinction": "An interval describes two pitch events; a scale degree describes a pitch relative to a tonic, and a chord tone describes membership relative to the current chord. Equal semitone distance alone does not determine written interval spelling.",
+      "intro": [
+        {
+          "text": "An "
+        },
+        {
+          "text": "interval",
+          "term_id": "vocab:interval"
+        },
+        {
+          "text": " names the distance between pitches. Learn to hear its size, locate it on the fretboard, and spell it correctly before using it in musical phrases."
+        }
+      ],
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Hear and name common intervals from one fixed pitch, then translate them into guitar frets and short melodic moves."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Recognize changing interval qualities, compare string sets, and distinguish enharmonic spellings and simultaneous dyads."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Integrate interval inversions, compound distances, chromatic approaches and context-sensitive listening or voice-leading."
+        }
+      ],
+      "applications": [
+        {
+          "id": "aural",
+          "title": "Aural recognition",
+          "summary": "Hear melodic and harmonic distances while controlling register and listening conditions.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "fretboard",
+          "title": "Fretboard navigation",
+          "summary": "Find an interval across frets and string sets using real standard-tuning notes.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "theory",
+          "title": "Interval spelling & function",
+          "summary": "Name interval numbers and qualities precisely, including inversions and enharmonic pairs.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "composition",
+          "title": "Melody & arrangement",
+          "summary": "Choose interval motion to shape one or more independent musical lines.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "id": "ir.aural.f1",
+          "level": "foundational",
+          "application_id": "aural",
+          "title": "Hear the second, third, and fifth",
+          "explanation": "A melodic interval is heard when one pitch follows another. With C4 as an anchor, D4 is a major second above it (2 semitones), E4 a major third (4), and G4 a perfect fifth (7). Practice sound first, name second; interval identity is not a fixed emotion.",
+          "outcomes": [
+            "Distinguish three common ascending melodic intervals",
+            "Retain the first note as an aural reference",
+            "Confirm an interval rather than guessing from a tune"
+          ],
+          "exercises": [
+            {
+              "id": "ir.aural.f1.ex",
+              "title": "Practice: Hear the second, third, and fifth",
+              "setup": "Use a keyboard, tuner-confirmed guitar notes, or a recording that clearly gives C4 before each comparison.",
+              "steps": [
+                "Play C4–D4 twice, and name the 2-semitone major second.",
+                "Play C4–E4 twice, and name the 4-semitone major third.",
+                "Play C4–G4 twice, and name the 7-semitone perfect fifth.",
+                "Mix the three in an unpredictable order; sing the destination before checking.",
+                "Replay your missed pair slowly, keeping C4 and the register consistent."
+              ],
+              "self_check": "Can you identify C4–D4, C4–E4, and C4–G4 without watching the player's fingers?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play C4–D4 twice, and name the 2-semitone major second.",
+            "Play C4–E4 twice, and name the 4-semitone major third.",
+            "Play C4–G4 twice, and name the 7-semitone perfect fifth.",
+            "Mix the three in an unpredictable order; sing the destination before checking.",
+            "Replay your missed pair slowly, keeping C4 and the register consistent."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Measure distances along one string",
+          "explanation": "On a single guitar string, each fret advances one semitone. In standard tuning, the low E2 open string moves to F2 at fret 1, G2 at fret 3, and A2 at fret 5. Counting frets measures chromatic distance; interval names also require letter spelling.",
+          "outcomes": [
+            "Count semitones without changing strings",
+            "Relate frets to actual notes in standard tuning",
+            "Distinguish semitone distance from interval name"
+          ],
+          "exercises": [
+            {
+              "id": "ir.fretboard.f1.ex",
+              "title": "Practice: Measure distances along one string",
+              "setup": "Tune the sixth string to E2 using standard tuning. Use only this string for the first pass.",
+              "steps": [
+                "Play open string 6 (E2), then fret 1 (F2), and count one semitone.",
+                "Return to E2, then fret 3 (G2), and count three semitones (minor third).",
+                "Return to E2, then fret 5 (A2), and count five semitones (perfect fourth).",
+                "Close your eyes before choosing a destination; say the expected note and interval.",
+                "Check each result with a tuner or a separately known pitch reference."
+              ],
+              "self_check": "Can you identify the starting note, fret distance, and spelled interval independently?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play open string 6 (E2), then fret 1 (F2), and count one semitone.",
+            "Return to E2, then fret 3 (G2), and count three semitones (minor third).",
+            "Return to E2, then fret 5 (A2), and count five semitones (perfect fourth).",
+            "Close your eyes before choosing a destination; say the expected note and interval.",
+            "Check each result with a tuner or a separately known pitch reference."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.theory.f1",
+          "level": "foundational",
+          "application_id": "theory",
+          "title": "Give an interval its number and quality",
+          "explanation": "Count letter names inclusively to find an interval's generic number, then check semitones for quality. C–D spans two letter names and 2 semitones: major second. C–E spans three and 4 semitones: major third. C–F is a perfect fourth (5 semitones); C–G a perfect fifth (7).",
+          "outcomes": [
+            "Count letter-name distance accurately",
+            "Distinguish major and perfect interval families",
+            "Check a spelled interval against its semitone count"
+          ],
+          "exercises": [
+            {
+              "id": "ir.theory.f1.ex",
+              "title": "Practice: Give an interval its number and quality",
+              "setup": "Write the notes C, D, E, F, and G. Keep the first C fixed.",
+              "steps": [
+                "Count C–D as a second and confirm 2 semitones.",
+                "Count C–E as a third and confirm 4 semitones.",
+                "Count C–F as a fourth and confirm 5 semitones.",
+                "Count C–G as a fifth and confirm 7 semitones.",
+                "Replace E with E♭ and explain why C–E♭ is a minor third, not a differently numbered interval."
+              ],
+              "self_check": "Can you name the generic number before inspecting the accidental and semitone quality?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count C–D as a second and confirm 2 semitones.",
+            "Count C–E as a third and confirm 4 semitones.",
+            "Count C–F as a fourth and confirm 5 semitones.",
+            "Count C–G as a fifth and confirm 7 semitones.",
+            "Replace E with E♭ and explain why C–E♭ is a minor third, not a differently numbered interval."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.composition.f1",
+          "level": "foundational",
+          "application_id": "composition",
+          "title": "Write a short melody from interval moves",
+          "explanation": "A melody can be described by movements between successive pitches, not only by chord or scale membership. C4–D4–E4–C4 uses up a major second, up a major second, then down a major third. Keep the rhythm fixed to hear the contour change clearly.",
+          "outcomes": [
+            "Construct a melody from an interval sequence",
+            "Distinguish ascending and descending motion",
+            "Check pitches against the intended interval directions"
+          ],
+          "exercises": [
+            {
+              "id": "ir.composition.f1.ex",
+              "title": "Practice: Write a short melody from interval moves",
+              "setup": "Use C major, a 4/4 bar, and one quarter note per pitch at a comfortable tempo.",
+              "steps": [
+                "Write C4–D4–E4–C4 and label each change of pitch.",
+                "Play the four notes at a steady quarter-note pulse.",
+                "Rewrite the third pitch as G4 and identify the new D4–G4 perfect fourth.",
+                "Play both versions and describe their melodic contours without assigning universal emotions.",
+                "Write the alternate notes in your own notation or tablature."
+              ],
+              "self_check": "Can you explain which specific interval changed when you edited the melody?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write C4–D4–E4–C4 and label each change of pitch.",
+            "Play the four notes at a steady quarter-note pulse.",
+            "Rewrite the third pitch as G4 and identify the new D4–G4 perfect fourth.",
+            "Play both versions and describe their melodic contours without assigning universal emotions.",
+            "Write the alternate notes in your own notation or tablature."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.aural.i1",
+          "level": "intermediate",
+          "application_id": "aural",
+          "title": "Separate melodic and harmonic thirds",
+          "explanation": "Two notes heard in succession make a melodic interval; two notes sounded together form a harmonic interval. Compare C4–E4 (major third, 4 semitones) and C4–E♭4 (minor third, 3) in both presentations with consistent register and volume.",
+          "outcomes": [
+            "Identify major versus minor thirds by listening",
+            "Distinguish melodic from simultaneous presentation",
+            "Control distracting differences in loudness and register"
+          ],
+          "exercises": [
+            {
+              "id": "ir.aural.i1.ex",
+              "title": "Practice: Separate melodic and harmonic thirds",
+              "setup": "Use equal-loudness C4/E4 and C4/E♭4 pairs with a clear initial pitch. Play each as successive and simultaneous notes.",
+              "steps": [
+                "Play C4–E4 and C4–E♭4 in succession; sing the upper note after each.",
+                "Sound each pair together; listen for the changed upper pitch.",
+                "Alternate between melodic and harmonic presentations without changing their octave.",
+                "Record six random trials and label the third as major or minor before checking.",
+                "Repeat misses slowly, verifying that both pairs start on C4."
+              ],
+              "self_check": "Can you still distinguish the quality when the notes change from successive to simultaneous?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play C4–E4 and C4–E♭4 in succession; sing the upper note after each.",
+            "Sound each pair together; listen for the changed upper pitch.",
+            "Alternate between melodic and harmonic presentations without changing their octave.",
+            "Record six random trials and label the third as major or minor before checking.",
+            "Repeat misses slowly, verifying that both pairs start on C4."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.fretboard.i1",
+          "level": "intermediate",
+          "application_id": "fretboard",
+          "title": "Find one interval in two string sets",
+          "explanation": "The same sounding interval can occupy different fretboard locations. In standard tuning, C3 on string 5 fret 3 to E3 on string 4 fret 2 is a major third; C3 on string 6 fret 8 to E3 on string 5 fret 7 produces the same two pitches one string pair lower.",
+          "outcomes": [
+            "Locate a known major third in separate positions",
+            "Confirm note registers rather than assuming fret patterns",
+            "Move between string sets without changing the actual interval"
+          ],
+          "exercises": [
+            {
+              "id": "ir.fretboard.i1.ex",
+              "title": "Practice: Find one interval in two string sets",
+              "setup": "Use standard tuning and a tuner or note chart. Sound the lower note before the upper note for each example.",
+              "steps": [
+                "Play string 5 fret 3 (C3), then string 4 fret 2 (E3).",
+                "Name both notes and verify a 4-semitone ascending major third.",
+                "Play string 6 fret 8 (C3), then string 5 fret 7 (E3).",
+                "Compare the two versions and confirm the same pitches and interval.",
+                "Transpose either two-note idea to D3–F♯3 using verified notes rather than copying fret numbers blindly."
+              ],
+              "self_check": "Can you distinguish equivalent pitch pairs from patterns that only look similar on the neck?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play string 5 fret 3 (C3), then string 4 fret 2 (E3).",
+            "Name both notes and verify a 4-semitone ascending major third.",
+            "Play string 6 fret 8 (C3), then string 5 fret 7 (E3).",
+            "Compare the two versions and confirm the same pitches and interval.",
+            "Transpose either two-note idea to D3–F♯3 using verified notes rather than copying fret numbers blindly."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.theory.i1",
+          "level": "intermediate",
+          "application_id": "theory",
+          "title": "Spell the same six semitones two ways",
+          "explanation": "A semitone count alone does not specify an interval's spelling. C–F♯ is an augmented fourth (four letter names and six semitones); C–G♭ is a diminished fifth (five letter names and six semitones). Equal-tempered pitch classes can sound identical while their harmonic notation and function differ.",
+          "outcomes": [
+            "Separate chromatic distance from diatonic letter distance",
+            "Spell an augmented fourth versus diminished fifth correctly",
+            "Explain why enharmonic equivalence does not mean identical notation"
+          ],
+          "exercises": [
+            {
+              "id": "ir.theory.i1.ex",
+              "title": "Practice: Spell the same six semitones two ways",
+              "setup": "Use a written chromatic scale and count letter names as well as semitones.",
+              "steps": [
+                "Count C–F♯ as four note letters: C, D, E, F.",
+                "Count the six semitones from C to F♯ and label an augmented fourth.",
+                "Count C–G♭ as five note letters: C, D, E, F, G.",
+                "Verify the same six semitones, then label a diminished fifth.",
+                "Play or enter both pairs in 12-tone equal temperament and compare the notation."
+              ],
+              "self_check": "Can you say why C–F♯ and C–G♭ are named differently without claiming a fixed emotional distinction?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count C–F♯ as four note letters: C, D, E, F.",
+            "Count the six semitones from C to F♯ and label an augmented fourth.",
+            "Count C–G♭ as five note letters: C, D, E, F, G.",
+            "Verify the same six semitones, then label a diminished fifth.",
+            "Play or enter both pairs in 12-tone equal temperament and compare the notation."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.composition.i1",
+          "level": "intermediate",
+          "application_id": "composition",
+          "title": "Design two voices by controlled steps",
+          "explanation": "Voice leading concerns the independent motion of notes in more than one part. Move the lower voice C4→B3 (down a semitone) and the upper voice E4→D4 (down a whole tone). The first vertical interval C4–E4 is a major third; the second B3–D4 is a minor third.",
+          "outcomes": [
+            "Track two melodic lines independently",
+            "Distinguish each voice's motion from a vertical interval",
+            "Write pitches that match the intended semitone movements"
+          ],
+          "exercises": [
+            {
+              "id": "ir.composition.i1.ex",
+              "title": "Practice: Design two voices by controlled steps",
+              "setup": "Use two written voices or two guitar recordings; play the pairs as C4/E4 then B3/D4.",
+              "steps": [
+                "Write lower voice C4 to B3 and label its descending semitone.",
+                "Write upper voice E4 to D4 and label its descending whole tone.",
+                "Check vertical intervals: C4–E4 is a major third; B3–D4 is a minor third.",
+                "Play the two dyads in order, listening to each part separately.",
+                "Change only the upper second note and describe the resulting movement."
+              ],
+              "self_check": "Can you independently name the lower-line move, upper-line move, and each dyad's interval?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write lower voice C4 to B3 and label its descending semitone.",
+            "Write upper voice E4 to D4 and label its descending whole tone.",
+            "Check vertical intervals: C4–E4 is a major third; B3–D4 is a minor third.",
+            "Play the two dyads in order, listening to each part separately.",
+            "Change only the upper second note and describe the resulting movement."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.aural.a1",
+          "level": "advanced",
+          "application_id": "aural",
+          "title": "Compare the tritone by spelling and context",
+          "explanation": "C4–F♯4 is an augmented fourth; C4–G♭4 is a diminished fifth in standard 12-tone equal temperament. Both span six semitones, so the sounding interval alone does not determine the intended spelling or harmonic role. Context and notation settle that question.",
+          "outcomes": [
+            "Recognize a six-semitone gap by ear",
+            "Distinguish audible size from written interval spelling",
+            "Explain why harmonic context matters for interpretation"
+          ],
+          "exercises": [
+            {
+              "id": "ir.aural.a1.ex",
+              "title": "Practice: Compare the tritone by spelling and context",
+              "setup": "Use a known C4 and its equal-tempered six-semitone neighbor. Keep the pitches and register unchanged.",
+              "steps": [
+                "Listen to C4 followed by the pitch six semitones above it.",
+                "Name the audible chromatic distance without guessing whether it is written F♯ or G♭.",
+                "Write C–F♯ as augmented fourth and C–G♭ as diminished fifth.",
+                "Place F♯ before G in a C-centered melody and hear its upward semitone approach.",
+                "Compare this local motion with a written G♭ context; explain what pitch alone cannot tell you."
+              ],
+              "self_check": "Can you distinguish evidence obtained by listening from evidence that requires spelling or context?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Listen to C4 followed by the pitch six semitones above it.",
+            "Name the audible chromatic distance without guessing whether it is written F♯ or G♭.",
+            "Write C–F♯ as augmented fourth and C–G♭ as diminished fifth.",
+            "Place F♯ before G in a C-centered melody and hear its upward semitone approach.",
+            "Compare this local motion with a written G♭ context; explain what pitch alone cannot tell you."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Account for the G-to-B tuning exception",
+          "explanation": "Most adjacent guitar strings in standard tuning are tuned a perfect fourth apart, but string 3 G3 to string 2 B3 is a major third. Thus a fret shape transferred unchanged across this pair changes the sounding interval. C4 on string 3 fret 5 to F4 on string 2 fret 6 is a perfect fourth (five semitones), not an identical-fret pattern.",
+          "outcomes": [
+            "Know the G3–B3 major-third tuning relationship",
+            "Derive fret shifts from actual sounding pitch",
+            "Verify a perfect fourth across different adjacent pairs"
+          ],
+          "exercises": [
+            {
+              "id": "ir.fretboard.a1.ex",
+              "title": "Practice: Account for the G-to-B tuning exception",
+              "setup": "Use standard tuning. Confirm third string G3 and second string B3 before using frets.",
+              "steps": [
+                "Play G3 open to B3 open; count four semitones, a major third.",
+                "Play G3 open to C4 on second string fret 1; count five semitones, a perfect fourth.",
+                "Play C4 on third string fret 5 and F4 on second string fret 6; verify five semitones.",
+                "Compare C3 on fifth string fret 3 to F3 on fourth string fret 3 (also five semitones).",
+                "Write down why unchanged fret alignment works differently across string pairs."
+              ],
+              "self_check": "Can you calculate an interval from actual notes when moving between the G and B strings?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play G3 open to B3 open; count four semitones, a major third.",
+            "Play G3 open to C4 on second string fret 1; count five semitones, a perfect fourth.",
+            "Play C4 on third string fret 5 and F4 on second string fret 6; verify five semitones.",
+            "Compare C3 on fifth string fret 3 to F3 on fourth string fret 3 (also five semitones).",
+            "Write down why unchanged fret alignment works differently across string pairs."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.theory.a1",
+          "level": "advanced",
+          "application_id": "theory",
+          "title": "Invert and extend intervals without losing quality",
+          "explanation": "Inverting C4–E4 (major third, four semitones) yields E4–C5 (minor sixth, eight semitones). The simple interval numbers add to nine and semitones to twelve. Extending C4–E4 up another octave gives C4–E5, a major tenth spanning sixteen semitones.",
+          "outcomes": [
+            "Use correct interval-inversion quality rules",
+            "Differentiate a simple third from a compound tenth",
+            "Verify octaves and semitones rather than relying on naming alone"
+          ],
+          "exercises": [
+            {
+              "id": "ir.theory.a1.ex",
+              "title": "Practice: Invert and extend intervals without losing quality",
+              "setup": "Use written pitches C4, E4, C5, and E5, with equal-tempered semitone counts.",
+              "steps": [
+                "Label C4–E4 a major third and count four semitones.",
+                "Raise C4 by one octave to C5, then label E4–C5 a minor sixth with eight semitones.",
+                "Check the third-plus-sixth generic-number sum of nine.",
+                "Compare C4–E5: sixteen semitones, a major tenth (compound third).",
+                "Invert a perfect fourth in writing and verify that it becomes a perfect fifth."
+              ],
+              "self_check": "Can you explain why E4–C5 is a minor sixth even though it uses the same pitch classes as C–E?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Label C4–E4 a major third and count four semitones.",
+            "Raise C4 by one octave to C5, then label E4–C5 a minor sixth with eight semitones.",
+            "Check the third-plus-sixth generic-number sum of nine.",
+            "Compare C4–E5: sixteen semitones, a major tenth (compound third).",
+            "Invert a perfect fourth in writing and verify that it becomes a perfect fifth."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "ir.composition.a1",
+          "level": "advanced",
+          "application_id": "composition",
+          "title": "Use chromatic approach tones deliberately",
+          "explanation": "In a C-major context, an F♯ can approach G by semitone. If the phrase is C4–F♯4–G4, C4→F♯4 is an augmented fourth and F♯4→G4 is an ascending semitone. This color does not, on its own, establish a key modulation.",
+          "outcomes": [
+            "Create a melodic approach to a chord tone",
+            "Spell the chromatic pitch accurately in its stated context",
+            "Separate an expressive device from a claim of modulation"
+          ],
+          "exercises": [
+            {
+              "id": "ir.composition.a1.ex",
+              "title": "Practice: Use chromatic approach tones deliberately",
+              "setup": "Use a sustained C-major accompaniment with G as a clear chord tone, or notate the phrase first.",
+              "steps": [
+                "Write C4–F♯4–G4 and label C4→F♯4 an augmented fourth.",
+                "Play slowly and isolate the F♯4→G4 semitone approach.",
+                "Replace F♯4 with F4 and compare the different two-semitone approach to G4.",
+                "Write a four-beat phrase with the chromatic note on a weak position before G.",
+                "State what the chosen chromatic pitch does locally, without declaring a new tonic."
+              ],
+              "self_check": "Can you describe the altered approach in intervals and musical context without mislabeling it as a modulation?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write C4–F♯4–G4 and label C4→F♯4 an augmented fourth.",
+            "Play slowly and isolate the F♯4→G4 semitone approach.",
+            "Replace F♯4 with F4 and compare the different two-semitone approach to G4.",
+            "Write a four-beat phrase with the chromatic note on a weak position before G.",
+            "State what the chosen chromatic pitch does locally, without declaring a new tonic."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        }
+      ],
+      "reference_blocks": [],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "note_location",
+          "scope": "fretboard/foundational",
+          "why": "Knowing actual note names makes interval verification possible without memorizing one physical pattern.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "scale_degree_recognition",
+          "scope": "theory/aural",
+          "why": "Interval size concerns the gap between pitches; scale-degree recognition depends on the tonal center and gives that gap context.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "triad_construction",
+          "scope": "harmony",
+          "why": "The major or minor thirds and perfect fifths used to build triads can be understood as intervals above their root.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "voice_leading",
+          "scope": "composition",
+          "why": "Voice leading combines vertical harmonic intervals with horizontal note-to-note movement within independent parts.",
+          "review_status": "PROPOSED"
+        }
+      ]
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000003",
+      "kind": "SKILL",
+      "slug": "arpeggio_sequencing",
+      "revision": "draft-r6-arpeggio-v1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Turn chord tones into intentional melodic and rhythmic sequences across the guitar.",
+      "overview": "An arpeggio presents chord tones one after another instead of sounding them as a single chord attack. Sequencing means choosing their order, direction, register, rhythm, and continuity as the harmony changes. Start by naming each tone relative to its chord, then connect deliberate patterns across strings and through progressions. One guitar can convey an accompaniment outline and a melodic destination when these choices are coordinated.",
+      "key_distinction": "An arpeggio uses chord tones, but not every melodic run is an arpeggio. Chord root, scale tonic, inversion bass and the melody's highest pitch are different musical roles.",
+      "intro": [
+        {
+          "text": "An "
+        },
+        {
+          "text": "arpeggio",
+          "term_id": "vocab:arpeggio"
+        },
+        {
+          "text": " separates a chord into individual notes. Sequence those notes with clear rhythmic and melodic intentions to connect harmony and a single-guitar melody."
+        }
+      ],
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Identify root/third/fifth, play short three-note routes, and align chord-tone attacks with a quarter pulse."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Connect chord tones through progressions, registers and eighth-note picking without losing harmonic identity."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Use seventh chords, close-position voice leading and complex subdivision to shape independent melodic lines on one guitar."
+        }
+      ],
+      "applications": [
+        {
+          "id": "harmony",
+          "title": "Chord-tone mapping",
+          "summary": "Identify the notes and functions that each arpeggiated harmony contains.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "fretboard",
+          "title": "Fretboard routes",
+          "summary": "Find accurate note positions and move between registers or neighboring triad voicings.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "picking",
+          "title": "Picking & rhythmic control",
+          "summary": "Synchronize independent string attacks with quarter, eighth and triplet subdivisions.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "composition",
+          "title": "Melodic arrangement",
+          "summary": "Build clear melodies and accompaniment outlines from successive chord tones.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "id": "arp.harmony.f1",
+          "level": "foundational",
+          "application_id": "harmony",
+          "title": "Separate chord tones into a sequence",
+          "explanation": "An arpeggio sounds chord tones in succession rather than as one simultaneous block. C major contains C–E–G (root, major third, perfect fifth), so C–E–G–E outlines the same triad melodically. A minor contains A–C–E and can be outlined A–C–E–C.",
+          "outcomes": [
+            "Name root, third and fifth of simple triads",
+            "Distinguish a chord strike from sequential chord tones",
+            "Keep chord identity while changing the note order"
+          ],
+          "exercises": [
+            {
+              "id": "arp.harmony.f1.ex",
+              "title": "Practice: Separate chord tones into a sequence",
+              "setup": "Use a C-major chord reference and an A-minor chord reference. Do not require a specific guitar fingering.",
+              "steps": [
+                "Name C, E and G as the three notes of C major.",
+                "Play C–E–G–E slowly as separate notes.",
+                "Play C–E–G together if possible; compare sequential and simultaneous presentation.",
+                "Repeat with A–C–E–C over A minor.",
+                "Name the chord and chord-tone role of each note in the sequence."
+              ],
+              "self_check": "Can you name which chord both sequences outline without mistaking the root for the key's tonic?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Name C, E and G as the three notes of C major.",
+            "Play C–E–G–E slowly as separate notes.",
+            "Play C–E–G together if possible; compare sequential and simultaneous presentation.",
+            "Repeat with A–C–E–C over A minor.",
+            "Name the chord and chord-tone role of each note in the sequence."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Find C major on three guitar strings",
+          "explanation": "In standard tuning, C3 can be played on string 5 fret 3, E3 on string 4 fret 2, and G3 on open string 3. Those pitches form a rising C-major arpeggio when sounded separately; no finger assignment is prescribed.",
+          "outcomes": [
+            "Locate three C-major chord tones with verified pitches",
+            "Play ascending then descending without extra notes",
+            "Check string numbering and open-string pitch"
+          ],
+          "exercises": [
+            {
+              "id": "arp.fretboard.f1.ex",
+              "title": "Practice: Find C major on three guitar strings",
+              "setup": "Tune standard E–A–D–G–B–E and identify strings 5, 4 and 3.",
+              "steps": [
+                "Play string 5 fret 3 and name C3.",
+                "Play string 4 fret 2 and name E3.",
+                "Play open string 3 and name G3.",
+                "Connect C3–E3–G3 as three even separate attacks, then return G3–E3–C3.",
+                "Write the corresponding string/fret sequence as a short tab."
+              ],
+              "self_check": "Can you verify C3, E3 and G3 from tuning, not merely memorizing the shape?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play string 5 fret 3 and name C3.",
+            "Play string 4 fret 2 and name E3.",
+            "Play open string 3 and name G3.",
+            "Connect C3–E3–G3 as three even separate attacks, then return G3–E3–C3.",
+            "Write the corresponding string/fret sequence as a short tab."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.picking.f1",
+          "level": "foundational",
+          "application_id": "picking",
+          "title": "Give each chord tone one deliberate attack",
+          "explanation": "Start C–E–G–E as four quarter-note attacks in 4/4 at a comfortable quarter-note tempo. Each note receives one beat; the arpeggio does not need to be fast, and the metronome measures beats rather than the number of chord tones.",
+          "outcomes": [
+            "Coordinate note changes with a stable pulse",
+            "Distinguish four attacks from four separate beats",
+            "Identify unwanted string noise without increasing tempo"
+          ],
+          "exercises": [
+            {
+              "id": "arp.picking.f1.ex",
+              "title": "Practice: Give each chord tone one deliberate attack",
+              "setup": "Use any reachable C–E–G notes and a quiet metronome at 60 BPM with a quarter-note click.",
+              "steps": [
+                "Count 1–2–3–4 aloud at one count per quarter-note beat.",
+                "Play C, E, G, E as one separate picked note on beats 1, 2, 3 and 4.",
+                "Repeat with a softer attack while keeping tempo stable.",
+                "Check whether strings ring intentionally or create unwanted overlapping notes.",
+                "Stop, reset and repeat at the same tempo before raising speed."
+              ],
+              "self_check": "Can you keep one note on each quarter beat for a full four-beat bar?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count 1–2–3–4 aloud at one count per quarter-note beat.",
+            "Play C, E, G, E as one separate picked note on beats 1, 2, 3 and 4.",
+            "Repeat with a softer attack while keeping tempo stable.",
+            "Check whether strings ring intentionally or create unwanted overlapping notes.",
+            "Stop, reset and repeat at the same tempo before raising speed."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.composition.f1",
+          "level": "foundational",
+          "application_id": "composition",
+          "title": "Make a two-chord arpeggio melody",
+          "explanation": "A sequence of chord tones can serve as a simple melody. In 4/4, play C–E–G–E over C major, then A–C–E–C over A minor, with one quarter-note attack per beat. The chord name identifies harmony; the note sequence provides melodic contour.",
+          "outcomes": [
+            "Use two arpeggio patterns over distinct chords",
+            "Keep the pulse unchanged across a chord change",
+            "Label chord tones without confusing the chord root and global key"
+          ],
+          "exercises": [
+            {
+              "id": "arp.composition.f1.ex",
+              "title": "Practice: Make a two-chord arpeggio melody",
+              "setup": "Use a written C–Am two-bar accompaniment; choose registers that are playable on your instrument.",
+              "steps": [
+                "Write one bar of C–E–G–E, one note per quarter beat.",
+                "Write a second bar of A–C–E–C using the same rhythm.",
+                "Play the two bars with the harmony or with a quiet chord recording.",
+                "Circle the common note E and compare its role in C major versus A minor.",
+                "Change the order of A-minor notes while preserving the chord tones."
+              ],
+              "self_check": "Can you tell which chord is outlined in each bar even after changing the order of notes?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write one bar of C–E–G–E, one note per quarter beat.",
+            "Write a second bar of A–C–E–C using the same rhythm.",
+            "Play the two bars with the harmony or with a quiet chord recording.",
+            "Circle the common note E and compare its role in C major versus A minor.",
+            "Change the order of A-minor notes while preserving the chord tones."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.harmony.i1",
+          "level": "intermediate",
+          "application_id": "harmony",
+          "title": "Track chord tones through C–Am–F–G",
+          "explanation": "In a C-major progression, C major is C–E–G, A minor A–C–E, F major F–A–C, and G major G–B–D. Arpeggios can outline each chord using its own root, third and fifth, while shared tones may connect one harmony to the next.",
+          "outcomes": [
+            "Spell four diatonic triads accurately",
+            "Notice shared chord tones between adjacent harmonies",
+            "Choose note sequences by local chord identity"
+          ],
+          "exercises": [
+            {
+              "id": "arp.harmony.i1.ex",
+              "title": "Practice: Track chord tones through C–Am–F–G",
+              "setup": "Use C–Am–F–G in C major, holding each chord for one 4/4 bar.",
+              "steps": [
+                "Write chord tones C–E–G, A–C–E, F–A–C, and G–B–D.",
+                "For each chord play root–third–fifth–third using four quarter-note attacks.",
+                "Circle shared C and E between C and Am; circle C between Am and F.",
+                "Reorder one pattern to start near the final pitch of the previous bar.",
+                "Identify each arpeggio's chord root even when it does not sound first."
+              ],
+              "self_check": "Can you describe why E belongs to C major and A minor but is not a note of the F-major triad?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write chord tones C–E–G, A–C–E, F–A–C, and G–B–D.",
+            "For each chord play root–third–fifth–third using four quarter-note attacks.",
+            "Circle shared C and E between C and Am; circle C between Am and F.",
+            "Reorder one pattern to start near the final pitch of the previous bar.",
+            "Identify each arpeggio's chord root even when it does not sound first."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.fretboard.i1",
+          "level": "intermediate",
+          "application_id": "fretboard",
+          "title": "Carry C major between two registers",
+          "explanation": "C-major arpeggios need not rely on one diagram. On strings 5–4–3, C3/E3/G3 appears as frets 3/2/0. On strings 3–2–1, C4/E4/G4 appears as frets 5/5/3 in standard tuning. These are the same chord pitch classes in different registers.",
+          "outcomes": [
+            "Locate two accurate C-major arpeggio routes",
+            "Identify registers of each note",
+            "Move between lower and higher voicings without transposing the chord"
+          ],
+          "exercises": [
+            {
+              "id": "arp.fretboard.i1.ex",
+              "title": "Practice: Carry C major between two registers",
+              "setup": "Use standard tuning and verify the open string pitches before moving.",
+              "steps": [
+                "Play C3–E3–G3 on strings 5–4–3 at frets 3–2–0.",
+                "Play C4–E4–G4 on strings 3–2–1 at frets 5–5–3.",
+                "Name the octave difference of each corresponding C, E and G.",
+                "Choose an alternating low/high two-bar pattern at a steady tempo.",
+                "Check your tab so the string numbers and pitch registers stay accurate."
+              ],
+              "self_check": "Can you say what changed between the two patterns, and what harmonic information remained the same?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play C3–E3–G3 on strings 5–4–3 at frets 3–2–0.",
+            "Play C4–E4–G4 on strings 3–2–1 at frets 5–5–3.",
+            "Name the octave difference of each corresponding C, E and G.",
+            "Choose an alternating low/high two-bar pattern at a steady tempo.",
+            "Check your tab so the string numbers and pitch registers stay accurate."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.picking.i1",
+          "level": "intermediate",
+          "application_id": "picking",
+          "title": "Keep tempo while doubling the note density",
+          "explanation": "A four-note C–E–G–E pattern can occupy four quarter beats or two quarter beats if played as eighth-note attacks. At a constant 80 BPM, eight eighth notes across one 4/4 bar might be C–E–G–E–C–E–G–E. Picking technique is an option, not a requirement of the note sequence.",
+          "outcomes": [
+            "Distinguish beat tempo from attack rate",
+            "Coordinate alternating pick directions with eight attacks",
+            "Maintain accurate chord notes under increased density"
+          ],
+          "exercises": [
+            {
+              "id": "arp.picking.i1.ex",
+              "title": "Practice: Keep tempo while doubling the note density",
+              "setup": "Use C-major notes, a metronome at 80 quarter-note BPM, and a comfortable string route.",
+              "steps": [
+                "Play C–E–G–E once as four quarter-note attacks.",
+                "Keep 80 BPM fixed; play C–E–G–E–C–E–G–E as eighths, two attacks per beat.",
+                "Try alternating down/up strokes across eight attacks while keeping note order.",
+                "Listen for uneven note spacing when changing strings.",
+                "Return to quarter attacks if accuracy breaks; do not accelerate the metronome."
+              ],
+              "self_check": "Can you hear eight evenly spaced attacks while still counting only four quarter-note beats?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Play C–E–G–E once as four quarter-note attacks.",
+            "Keep 80 BPM fixed; play C–E–G–E–C–E–G–E as eighths, two attacks per beat.",
+            "Try alternating down/up strokes across eight attacks while keeping note order.",
+            "Listen for uneven note spacing when changing strings.",
+            "Return to quarter attacks if accuracy breaks; do not accelerate the metronome."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.composition.i1",
+          "level": "intermediate",
+          "application_id": "composition",
+          "title": "Make an arpeggio answer from chord-tone targets",
+          "explanation": "Instead of repeating root–third–fifth in every bar, choose a melodic destination and organize chord tones around it. For C–Am, try the top-line goal G4→A4 while the harmony changes; chord-tone order and register can create a recognizable melody.",
+          "outcomes": [
+            "Distinguish melodic destination from chord root",
+            "Compose two related arpeggio phrases",
+            "Retain valid notes over each named chord"
+          ],
+          "exercises": [
+            {
+              "id": "arp.composition.i1.ex",
+              "title": "Practice: Make an arpeggio answer from chord-tone targets",
+              "setup": "Use two bars in C major with C and Am, in standard tuning or written notes.",
+              "steps": [
+                "Write C4–E4–G4–E4 as four quarter notes over C.",
+                "Write C4–E4–A4–E4 over Am, keeping each note within A–C–E chord tones.",
+                "Circle the changed upper destination G4→A4.",
+                "Play both phrases and compare their different top-line trajectories.",
+                "Make a second answer by changing note order but not chord membership."
+              ],
+              "self_check": "Can you show why A4 belongs to A minor while G4 is the fifth of C major?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write C4–E4–G4–E4 as four quarter notes over C.",
+            "Write C4–E4–A4–E4 over Am, keeping each note within A–C–E chord tones.",
+            "Circle the changed upper destination G4→A4.",
+            "Play both phrases and compare their different top-line trajectories.",
+            "Make a second answer by changing note order but not chord membership."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.harmony.a1",
+          "level": "advanced",
+          "application_id": "harmony",
+          "title": "Expand from triads to seventh-chord arpeggios",
+          "explanation": "A seventh-chord arpeggio outlines four chord tones. Cmaj7 contains C–E–G–B; Am7 contains A–C–E–G. The seventh adds a distinct chord tone, but a single melodic note by itself does not establish the surrounding harmony.",
+          "outcomes": [
+            "Spell major-seventh and minor-seventh chords correctly",
+            "Extend a triad sequence to four-note arpeggios",
+            "Distinguish chord membership from overall key degrees"
+          ],
+          "exercises": [
+            {
+              "id": "arp.harmony.a1.ex",
+              "title": "Practice: Expand from triads to seventh-chord arpeggios",
+              "setup": "Use Cmaj7 and Am7 over a stable accompaniment; do not claim the current triad diagram plays seventh chords.",
+              "steps": [
+                "Write C–E–G–B and label root, third, fifth and major seventh.",
+                "Write A–C–E–G and label root, minor third, fifth and minor seventh.",
+                "Play each four-note sequence ascending and descending.",
+                "Compare the top note of each sequence against the held chord.",
+                "Explain how a seven-note scale and a four-tone seventh chord serve different descriptions."
+              ],
+              "self_check": "Can you specify whether the seventh is measured above the current chord root rather than relative to the global tonic?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write C–E–G–B and label root, third, fifth and major seventh.",
+            "Write A–C–E–G and label root, minor third, fifth and minor seventh.",
+            "Play each four-note sequence ascending and descending.",
+            "Compare the top note of each sequence against the held chord.",
+            "Explain how a seven-note scale and a four-tone seventh chord serve different descriptions."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Voice-lead a four-chord upper-string path",
+          "explanation": "Three-string arpeggios can join smoothly when their chord tones are selected for small movements. On standard-tuning strings 3–2–1 (G–B–E), C at frets 5–5–3 spells C4–E4–G4; Am at 5–5–5 spells C4–E4–A4; F at 5–6–5 spells C4–F4–A4; G at 4–3–3 spells B3–D4–G4.",
+          "outcomes": [
+            "Verify exact pitches for four close-position voicings",
+            "Follow individual notes through chord changes",
+            "Arpeggiate instead of strumming the same triad sets"
+          ],
+          "exercises": [
+            {
+              "id": "arp.fretboard.a1.ex",
+              "title": "Practice: Voice-lead a four-chord upper-string path",
+              "setup": "Use standard tuning and limit the three-string group to G3, B3 and E4; no finger numbers are prescribed.",
+              "steps": [
+                "Verify C major at 5–5–3 as C4–E4–G4.",
+                "Verify Am at 5–5–5 as C4–E4–A4 and F at 5–6–5 as C4–F4–A4.",
+                "Verify G at 4–3–3 as B3–D4–G4.",
+                "Arpeggiate the three notes of each chord, low to high and back, slowly.",
+                "Track the top voice G4–A4–A4–G4 while changing the underlying chord."
+              ],
+              "self_check": "Can you explain how inversion and top-voice movement differ, and identify each chord's actual lowest tone?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Verify C major at 5–5–3 as C4–E4–G4.",
+            "Verify Am at 5–5–5 as C4–E4–A4 and F at 5–6–5 as C4–F4–A4.",
+            "Verify G at 4–3–3 as B3–D4–G4.",
+            "Arpeggiate the three notes of each chord, low to high and back, slowly.",
+            "Track the top voice G4–A4–A4–G4 while changing the underlying chord."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.picking.a1",
+          "level": "advanced",
+          "application_id": "picking",
+          "title": "Cross strings with a stable triplet subdivision",
+          "explanation": "A six-note arpeggio can occupy two quarter-note beats as eighth-note triplets: three attacks per beat while the quarter pulse remains unchanged. Use C3–E3–G3–E3–G3–C3 with deliberate string crossings and no assumption that a basic 4/4 reference metronome plays this custom sequence.",
+          "outcomes": [
+            "Subdivide two beats into six equal attacks",
+            "Maintain independent quarter-note counting",
+            "Control unwanted strings during repeated crossings"
+          ],
+          "exercises": [
+            {
+              "id": "arp.picking.a1.ex",
+              "title": "Practice: Cross strings with a stable triplet subdivision",
+              "setup": "Use standard tuning and 5th/4th/3rd strings for C3/E3/G3. Start at 60 quarter BPM.",
+              "steps": [
+                "Count beat 1 as trip-let and beat 2 as trip-let.",
+                "Play C3–E3–G3 across the first triplet beat.",
+                "Play E3–G3–C3 across the second triplet beat, reusing the same registers.",
+                "Continue counting the quarter-note pulse while picking six equal attacks.",
+                "Record and listen for timing gaps at string crossings before changing tempo."
+              ],
+              "self_check": "Can you sustain two quarter beats beneath six equally spaced attacks without turning the exercise into six quarter beats?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Count beat 1 as trip-let and beat 2 as trip-let.",
+            "Play C3–E3–G3 across the first triplet beat.",
+            "Play E3–G3–C3 across the second triplet beat, reusing the same registers.",
+            "Continue counting the quarter-note pulse while picking six equal attacks.",
+            "Record and listen for timing gaps at string crossings before changing tempo."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        },
+        {
+          "id": "arp.composition.a1",
+          "level": "advanced",
+          "application_id": "composition",
+          "title": "Connect harmony and melody on one guitar",
+          "explanation": "An arpeggiated accompaniment can carry harmony and a clearly chosen top voice without a second guitar. For C–Am–F–G, target top pitches G4–A4–A4–G4 in successive bars while sounding supporting triad notes; control duration and string overlap to keep the melody audible.",
+          "outcomes": [
+            "Create a four-bar arpeggiated harmonic outline",
+            "Preserve a deliberate melody note through changing chords",
+            "Separate performance voicing from notation and chord identity"
+          ],
+          "exercises": [
+            {
+              "id": "arp.composition.a1.ex",
+              "title": "Practice: Connect harmony and melody on one guitar",
+              "setup": "Use C–Am–F–G in C major, one bar per chord, with verified notes or the established standard-tuning top-string triads.",
+              "steps": [
+                "Write C–E–G with G4 as the top target for the C bar.",
+                "Write A–C–E with A4 as the top target for Am; keep the chord spelling accurate.",
+                "Write F–A–C with A4 as the top target for F.",
+                "Write G–B–D with G4 as the top target for G.",
+                "Arpeggiate each bar and let the target melody pitch be heard before the next chord."
+              ],
+              "self_check": "Can a listener follow G4–A4–A4–G4 as a melodic line while the full chord identities remain recognizable?",
+              "suggested_minutes": 12,
+              "records_progress": false
+            }
+          ],
+          "steps": [
+            "Write C–E–G with G4 as the top target for the C bar.",
+            "Write A–C–E with A4 as the top target for Am; keep the chord spelling accurate.",
+            "Write F–A–C with A4 as the top target for F.",
+            "Write G–B–D with G4 as the top target for G.",
+            "Arpeggiate each bar and let the target melody pitch be heard before the next chord."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW"
+        }
+      ],
+      "reference_blocks": [],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "triad_construction",
+          "scope": "harmony/foundational",
+          "why": "Knowing the root, third and fifth of a chord allows an arpeggio to remain harmonically meaningful when its note order changes.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "alternate_picking",
+          "scope": "guitar-technique",
+          "why": "Alternating strokes can support even arpeggio attacks but are not an intrinsic requirement of every arpeggio technique.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "subdivision_control",
+          "scope": "rhythm",
+          "why": "The quarter-note pulse remains a distinct reference when arpeggio attacks increase from quarters to eighths or triplets.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "chord_melody_playing",
+          "scope": "arrangement",
+          "why": "Sequencing chord tones around a chosen top voice is a useful preparation for integrating melody with chordal accompaniment.",
+          "review_status": "PROPOSED"
+        }
+      ]
+    }
+  ],
+  "terms": []
+}
