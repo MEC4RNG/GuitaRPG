@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import expansion from "@/domain/codex/v2/draft-expansion-r8.json";
+import pilot from "@/domain/codex/v2/preview-excerpts.json";
+import expansionR6 from "@/domain/codex/v2/draft-expansion-r6.json";
+import expansionR7 from "@/domain/codex/v2/draft-expansion-r7.json";
 import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
 import { PUBLISHED_CODEX_V2_ENTRIES, PUBLISHED_CODEX_V2_TERMS } from "@/lib/codex/v2/catalog";
 import { readCodexV2DraftPreview } from "@/lib/codex/v2/preview";
@@ -19,6 +22,24 @@ describe("CODEX-V2-A-R8 Scale Mapping and Chord Inversion Navigation", () => {
     expect(draft.entries.flatMap((entry) => entry.relationships)).toHaveLength(48);
     expect(draft.terms).toHaveLength(178);
     expect(expansion.terms).toHaveLength(0);
+  });
+
+  it("retains all 90 earlier draft lessons verbatim in the composed preview", () => {
+    const inherited = [...pilot.entries, ...expansionR6.entries, ...expansionR7.entries];
+    const draft = readCodexV2DraftPreview();
+    const expectedLessonIds = inherited.flatMap((entry) => entry.modules.map((module) => module.id));
+    expect(expectedLessonIds).toHaveLength(90);
+    for (const earlier of inherited) {
+      const current = draft.entries.find((entry) => entry.slug === earlier.slug);
+      expect(current, earlier.slug).toBeDefined();
+      expect(current?.modules).toEqual(earlier.modules);
+      expect(current?.applications).toEqual(earlier.applications);
+    }
+    expect(new Set(expectedLessonIds).size).toBe(90);
+    expect(expansion.entries.map((entry) => entry.slug)).toEqual([
+      "scale_mapping",
+      "chord_inversion_navigation",
+    ]);
   });
 
   it("has one actual authored lesson at every application and level for both Skills", () => {
