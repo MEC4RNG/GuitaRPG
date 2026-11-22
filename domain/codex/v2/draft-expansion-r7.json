@@ -543,7 +543,7 @@
       ],
       "relationships": [
         {
-          "type": "RECOMMENDED_FOUNDATION",
+          "type": "DEVELOPS_TOWARD",
           "kind": "SKILL",
           "slug": "scale_mapping",
           "scope": "fretboard/foundational",
