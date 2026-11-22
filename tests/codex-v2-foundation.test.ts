@@ -58,12 +58,12 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([15, 12, 15, 12, 12]);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(22);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(32);
-    expect(
-      catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1),
-    ).toBe(true);
-    expect(
-      catalog.entries.slice(3).every((entry) => entry.reference_blocks.length === 0),
-    ).toBe(true);
+    expect(catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1)).toBe(
+      true,
+    );
+    expect(catalog.entries.slice(3).every((entry) => entry.reference_blocks.length === 0)).toBe(
+      true,
+    );
     expect(catalog.entries.every((entry) => entry.editorial_status === "DRAFT_REVIEW")).toBe(true);
   });
 
@@ -218,7 +218,9 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
 
   it("covers all 42 application-level combinations without inventing Player proficiency", () => {
     const entries = readCodexV2DraftPreview().entries.filter((entry) =>
-      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(entry.slug),
+      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(
+        entry.slug,
+      ),
     );
     const coverage = entries.flatMap((entry) =>
       entry.applications.flatMap((application) =>
@@ -305,7 +307,9 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
       "subdiv.composition.i1",
     ];
     const entries = readCodexV2DraftPreview().entries.filter((entry) =>
-      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(entry.slug),
+      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(
+        entry.slug,
+      ),
     );
     const allLessons = entries.flatMap((entry) => entry.modules);
     expect(allLessons).toHaveLength(42);
