@@ -14,11 +14,11 @@ describe("CODEX-V2-A-R7 Note Location and Voice Leading editorial pilot", () => 
     expect(CODEX_ENTRIES).toHaveLength(197);
     expect(PUBLISHED_CODEX_V2_ENTRIES).toHaveLength(0);
     expect(PUBLISHED_CODEX_V2_TERMS).toHaveLength(0);
-    expect(catalog.entries).toHaveLength(7);
+    expect(catalog.entries).toHaveLength(9);
     expect(catalog.terms).toHaveLength(178);
-    expect(catalog.entries.flatMap((entry) => entry.modules)).toHaveLength(90);
-    expect(catalog.entries.flatMap((entry) => entry.applications)).toHaveLength(30);
-    expect(catalog.entries.flatMap((entry) => entry.relationships)).toHaveLength(40);
+    expect(catalog.entries.flatMap((entry) => entry.modules)).toHaveLength(114);
+    expect(catalog.entries.flatMap((entry) => entry.applications)).toHaveLength(38);
+    expect(catalog.entries.flatMap((entry) => entry.relationships)).toHaveLength(48);
   });
 
   it("authors exactly 24 R7 lessons in 8 application-by-level progressions", () => {
@@ -58,8 +58,8 @@ describe("CODEX-V2-A-R7 Note Location and Voice Leading editorial pilot", () => 
     const exerciseIds = allLessons.flatMap((lesson) =>
       lesson.exercises.map((exercise) => exercise.id),
     );
-    expect(new Set(moduleIds).size).toBe(90);
-    expect(new Set(exerciseIds).size).toBe(90);
+    expect(new Set(moduleIds).size).toBe(114);
+    expect(new Set(exerciseIds).size).toBe(114);
     expect(expansion.terms).toHaveLength(0);
   });
 

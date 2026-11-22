@@ -51,15 +51,15 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(CODEX_ENTRIES).toHaveLength(197);
   });
 
-  it("validates all seven draft Skills while keeping 178 dictionary terms", () => {
+  it("validates all nine draft Skills while keeping 178 dictionary terms", () => {
     const catalog = readCodexV2DraftPreview();
-    expect(catalog.entries).toHaveLength(7);
+    expect(catalog.entries).toHaveLength(9);
     expect(catalog.terms).toHaveLength(178);
     expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([
-      15, 12, 15, 12, 12, 12, 12,
+      15, 12, 15, 12, 12, 12, 12, 12, 12,
     ]);
-    expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(30);
-    expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(40);
+    expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(38);
+    expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(48);
     expect(catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1)).toBe(
       true,
     );
@@ -342,8 +342,8 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     const lessons = entries.flatMap((entry) => entry.modules);
     const lessonIds = lessons.map((lesson) => lesson.id);
     const exerciseIds = lessons.flatMap((lesson) => lesson.exercises.map((item) => item.id));
-    expect(new Set(lessonIds).size).toBe(90);
-    expect(new Set(exerciseIds).size).toBe(90);
+    expect(new Set(lessonIds).size).toBe(114);
+    expect(new Set(exerciseIds).size).toBe(114);
     expect(
       lessons.every((lesson) =>
         lesson.exercises.every((exercise) => exercise.records_progress === false),

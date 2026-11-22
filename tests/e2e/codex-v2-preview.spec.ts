@@ -4,7 +4,7 @@ import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessib
 test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await expect(page.getByRole("heading", { name: "Explore the musical library." })).toBeVisible();
-  await expect(page.locator(".cv2-card")).toHaveCount(7);
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
   await expect(page.getByText("Design review only")).toBeVisible();
 
   await page.getByRole("button", { name: "Explore this Skill" }).first().click();
@@ -24,7 +24,7 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
 
   await page.getByRole("button", { name: "Codex Library" }).click();
   await page.getByLabel("Learning material").selectOption("intermediate");
-  await expect(page.locator(".cv2-card")).toHaveCount(7);
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
   await page.getByLabel("Search Skills").fill("triad");
   await expect(page.locator(".cv2-card")).toHaveCount(1);
   await expectAccessible(page, "Codex V2 library preview");
@@ -35,7 +35,7 @@ test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing lay
   page,
 }) => {
   await page.goto("/prototype/codex-v2");
-  await expect(page.locator(".cv2-card")).toHaveCount(7);
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
 
   await page
     .locator(".cv2-card")
@@ -86,7 +86,7 @@ test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing lay
 
 test("CODEX-V2-A-R7 expands Note Location and Voice Leading without redesign", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
-  await expect(page.locator(".cv2-card")).toHaveCount(7);
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
 
   await page
     .locator(".cv2-card")
@@ -130,6 +130,61 @@ test("CODEX-V2-A-R7 expands Note Location and Voice Leading without redesign", a
   );
   await suspensionLesson.locator("summary").click();
   await expect(suspensionLesson).toContainText("C4→B3");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R8 expands Scale Mapping and Chord Inversion Navigation without redesign", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
+
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale Mapping" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await expect(page.getByRole("heading", { name: "Scale Mapping" })).toBeVisible();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await expect(page.getByText("12 draft instructional modules")).toBeVisible();
+  await expect(page.locator(".cv2-availability-note")).toContainText(
+    "All 4 applications include foundational lessons",
+  );
+  await page.getByRole("button", { name: "Advanced", exact: true }).click();
+  await page.getByRole("combobox", { name: "Musical application" }).selectOption("fretboard");
+  const minorScale = page.locator(".cv2-modules .cv2-module").first();
+  await expect(minorScale.locator("summary")).toContainText("Re-map A natural and harmonic minor");
+  await minorScale.locator("summary").click();
+  await expect(minorScale).toContainText("G♯");
+  await page.getByRole("button", { name: "How to Explore" }).click();
+  const explore = page.locator(".cv2-explore-module").first();
+  await expect(explore.locator(".cv2-module-chevron")).toBeVisible();
+  await explore.locator("summary").click();
+  await expect(explore).toHaveAttribute("open");
+  await page.getByRole("button", { name: "Connections" }).click();
+  await expect(page.locator(".cv2-connections li")).toHaveCount(4);
+
+  await page
+    .getByRole("button", { name: /Library/ })
+    .first()
+    .click();
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Chord Inversion Navigation" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await expect(page.getByRole("heading", { name: "Chord Inversion Navigation" })).toBeVisible();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  await page.getByRole("button", { name: "Intermediate", exact: true }).click();
+  await page.getByRole("combobox", { name: "Musical application" }).selectOption("fretboard");
+  const inversions = page.locator(".cv2-modules .cv2-module").first();
+  await expect(inversions.locator("summary")).toContainText(
+    "Compare C major across a single upper-string group",
+  );
+  await inversions.locator("summary").click();
+  await expect(inversions).toContainText("9–8–8");
+  await page.getByRole("button", { name: "Connections" }).click();
+  await expect(page.locator(".cv2-connections li")).toHaveCount(4);
   await expectNoHorizontalOverflow(page);
 });
 
