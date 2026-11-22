@@ -1,0 +1,1156 @@
+{
+  "schema": "SOUND_UNCHARTED_CODEX_V2",
+  "content_version": "CODEX_CONTENT_V2",
+  "editorial_source": "R7 Note Location + Voice Leading. Draft educational content only; not independently music-educator-reviewed or published.",
+  "entries": [
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000038",
+      "kind": "SKILL",
+      "slug": "note_location",
+      "revision": "draft-r7-note-location-v1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Find named musical pitches across the neck, registers and tunings without confusing note names, octave numbers and fret coordinates.",
+      "intro": [
+        {
+          "text": "Knowing "
+        },
+        {
+          "text": "intervals",
+          "term_id": "vocab:interval"
+        },
+        {
+          "text": " helps, but reliable Note Location starts by naming sounding pitches and recalculating their position when the tuning changes."
+        }
+      ],
+      "overview": "Note Location is the ability to locate a sounding pitch by note name and register, rather than relying only on the apparent shape of a scale. The same C4 can occur on several guitar strings; C5 uses the same letter but sounds a whole octave higher. The fretboard is a predictable semitone grid only after its open strings are known. Reading notation, finding melodies, and using alternate tunings all depend on respecting those distinctions.",
+      "key_distinction": "Fret number is a physical position, scale degree is relative to a key's tonic, and a note name with octave identifies a sounding pitch. Written standard guitar notation commonly appears an octave above concert sound; tablature and MIDI may use different display conventions.",
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Name open strings, calculate nearby semitone positions and locate a simple melody with precise sounding pitches."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Recognize unisons versus octaves, enharmonic spelling and fretboard changes across standard and alternate tunings."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Map the same pitch across multiple positions, interpret guitar's written-octave convention and choose melodic routes intentionally."
+        }
+      ],
+      "applications": [
+        {
+          "id": "fretboard",
+          "title": "Fretboard navigation",
+          "summary": "Identify exact pitches across strings, positions and octaves.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "reading",
+          "title": "Pitch naming & notation",
+          "summary": "Separate sound registers, written note names and enharmonic interpretations.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "tuning",
+          "title": "Tuning & recalculation",
+          "summary": "Predict accurate fretboard locations from the instrument's actual open pitches.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "melody",
+          "title": "Melody & transposition",
+          "summary": "Place melodic phrases accurately and choose positions without changing the intended notes.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "id": "nl.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Name all six open strings",
+          "explanation": "In standard guitar tuning, the open pitches from lowest string 6 to highest string 1 are E2, A2, D3, G3, B3 and E4. String numbers run in the opposite direction from the usual low-to-high note list: string 1 is the high E string. A repeated letter does not mean the same register.",
+          "outcomes": [
+            "Name open strings from 6 to 1",
+            "Identify string number independently of pitch",
+            "Distinguish the two open E notes by octave"
+          ],
+          "steps": [
+            "Play string 6 and say E2, then string 5 A2 and string 4 D3.",
+            "Continue string 3 G3, string 2 B3 and string 1 E4.",
+            "Reverse the order and speak the string numbers as well as the notes.",
+            "Without looking, choose three random strings and name the note before playing.",
+            "Compare the low open E2 with high open E4, recognizing a two-octave distance."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.fretboard.f1.ex",
+              "title": "Try it: Name all six open strings",
+              "setup": "Use a six-string guitar in standard tuning and a reliable pitch reference or tuner.",
+              "steps": [
+                "Play string 6 and say E2, then string 5 A2 and string 4 D3.",
+                "Continue string 3 G3, string 2 B3 and string 1 E4.",
+                "Reverse the order and speak the string numbers as well as the notes.",
+                "Without looking, choose three random strings and name the note before playing.",
+                "Compare the low open E2 with high open E4, recognizing a two-octave distance."
+              ],
+              "self_check": "Can you name and play every open string, including its octave, without reversing the guitar string numbers?",
+              "suggested_minutes": 5,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.reading.f1",
+          "level": "foundational",
+          "application_id": "reading",
+          "title": "Find one C4 in several places",
+          "explanation": "One sounding pitch can have several fingerboard locations. In standard tuning C4 occurs on string 2 fret 1 and string 3 fret 5. Both sound middle C, even though their string number and fingering differ. Keep the octave number attached to the note name.",
+          "outcomes": [
+            "Identify middle C4 by sounding register",
+            "Locate C4 on at least two standard-tuned strings",
+            "Separate a note's identity from its fretboard coordinates"
+          ],
+          "steps": [
+            "Play string 2 fret 1 and label the sounding note C4.",
+            "Play string 3 fret 5 and verify the same C4, not a different octave.",
+            "Write both string/fret locations beside a single C4 label.",
+            "Alternate locations while trying to keep dynamics comparable.",
+            "Identify which information belongs to the pitch name and which to the physical position."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.reading.f1.ex",
+              "title": "Try it: Find one C4 in several places",
+              "setup": "Use standard tuning and check C4 against a keyboard middle C or pitch reference.",
+              "steps": [
+                "Play string 2 fret 1 and label the sounding note C4.",
+                "Play string 3 fret 5 and verify the same C4, not a different octave.",
+                "Write both string/fret locations beside a single C4 label.",
+                "Alternate locations while trying to keep dynamics comparable.",
+                "Identify which information belongs to the pitch name and which to the physical position."
+              ],
+              "self_check": "Can you play either C4 position and explain why changing strings did not change the sounding pitch?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.tuning.f1",
+          "level": "foundational",
+          "application_id": "tuning",
+          "title": "Use frets as measured semitone steps",
+          "explanation": "Each fret raises a string's open pitch by one equal-tempered semitone. On string 6, open E2 moves to F2 at fret 1, F♯2 at fret 2, and G2 at fret 3. Relative pitches only help after the guitar has a trusted initial tuning reference.",
+          "outcomes": [
+            "Count semitone movement accurately",
+            "Spell three neighboring chromatic pitches from E2",
+            "Avoid treating a fret number as a pitch without a tuning"
+          ],
+          "steps": [
+            "Sound open string 6 and name E2.",
+            "Move to fret 1 and identify F2, one semitone above E2.",
+            "Move to fret 2 and fret 3, naming F♯2 and G2.",
+            "Return to open E2, then choose a fret from 0 to 3 without looking at the names.",
+            "Verify every pitch with the tuner and explain any accidental used."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.tuning.f1.ex",
+              "title": "Try it: Use frets as measured semitone steps",
+              "setup": "Check that string 6 is tuned to E2; have a tuner or known-pitch reference available.",
+              "steps": [
+                "Sound open string 6 and name E2.",
+                "Move to fret 1 and identify F2, one semitone above E2.",
+                "Move to fret 2 and fret 3, naming F♯2 and G2.",
+                "Return to open E2, then choose a fret from 0 to 3 without looking at the names.",
+                "Verify every pitch with the tuner and explain any accidental used."
+              ],
+              "self_check": "Can you predict the pitch from open E2 plus the fret distance, rather than memorizing a shape alone?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.melody.f1",
+          "level": "foundational",
+          "application_id": "melody",
+          "title": "Play a melody on a single string",
+          "explanation": "On the standard-tuned B3 string (string 2), fret 1 sounds C4, fret 3 sounds D4 and fret 5 sounds E4. C4–D4–E4–C4 is therefore 1–3–5–1 on that string's fret locations, though it is scale degrees 1–2–3–1 in C major. Fret numbers are not scale degrees.",
+          "outcomes": [
+            "Locate a four-note melody using real pitches",
+            "Distinguish fret locations from scale degrees",
+            "Hold a steady rhythm while changing position"
+          ],
+          "steps": [
+            "Play string 2 fret 1 (C4) on beat 1.",
+            "Play fret 3 (D4) on beat 2 and fret 5 (E4) on beat 3.",
+            "Return to fret 1 (C4) on beat 4.",
+            "Write the fret sequence 1–3–5–1 and the note sequence C4–D4–E4–C4 separately.",
+            "Name the scale degrees 1–2–3–1 in C major without confusing them with fret numbers."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.melody.f1.ex",
+              "title": "Try it: Play a melody on a single string",
+              "setup": "Use the standard-tuned second string and count four quarter beats in 4/4.",
+              "steps": [
+                "Play string 2 fret 1 (C4) on beat 1.",
+                "Play fret 3 (D4) on beat 2 and fret 5 (E4) on beat 3.",
+                "Return to fret 1 (C4) on beat 4.",
+                "Write the fret sequence 1–3–5–1 and the note sequence C4–D4–E4–C4 separately.",
+                "Name the scale degrees 1–2–3–1 in C major without confusing them with fret numbers."
+              ],
+              "self_check": "Can you say which numbers are frets, which are scale degrees and which note names actually sound?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.fretboard.i1",
+          "level": "intermediate",
+          "application_id": "fretboard",
+          "title": "Compare matching notes and octaves",
+          "explanation": "In standard tuning, string 5 fret 3 sounds C3, string 3 fret 5 sounds C4, and string 2 fret 1 also sounds C4. The first pair C3–C4 spans an octave; the latter two locations are the same sounding pitch. A guitar player must track register as well as the letter name.",
+          "outcomes": [
+            "Identify an octave on separate string groups",
+            "Recognize unisons at distinct fret locations",
+            "Label C3 and C4 without treating them as interchangeable"
+          ],
+          "steps": [
+            "Play C3 on string 5 fret 3.",
+            "Play C4 on string 3 fret 5 and confirm a twelve-semitone octave.",
+            "Play C4 on string 2 fret 1 and compare it with the previous C4 as a unison.",
+            "Write an octave arrow from C3 to either C4, then a unison link between the C4 positions.",
+            "Make a short sequence alternating both C4 fingerboard locations while retaining the same pitch."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.fretboard.i1.ex",
+              "title": "Try it: Compare matching notes and octaves",
+              "setup": "Use standard tuning and tune all three strings before comparing the pitches.",
+              "steps": [
+                "Play C3 on string 5 fret 3.",
+                "Play C4 on string 3 fret 5 and confirm a twelve-semitone octave.",
+                "Play C4 on string 2 fret 1 and compare it with the previous C4 as a unison.",
+                "Write an octave arrow from C3 to either C4, then a unison link between the C4 positions.",
+                "Make a short sequence alternating both C4 fingerboard locations while retaining the same pitch."
+              ],
+              "self_check": "Can you tell whether two identical letter names represent a unison or an octave by checking their registers?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.reading.i1",
+          "level": "intermediate",
+          "application_id": "reading",
+          "title": "Recognize enharmonic pitch labels",
+          "explanation": "In 12-tone equal temperament, F♯3 and G♭3 represent the same sounding pitch class but are written differently. In standard tuning, both can sound at string 4 fret 4, one semitone below G3. Harmonic context determines which note spelling is useful; the fret alone cannot.",
+          "outcomes": [
+            "Find a shared equal-tempered pitch on the guitar",
+            "Explain the difference between sound and written spelling",
+            "Choose an enharmonic spelling from musical context"
+          ],
+          "steps": [
+            "Play string 4 fret 4 and verify the sounding pitch is F♯3/G♭3.",
+            "In G major, write F♯ as scale degree 7, followed by G.",
+            "In D♭ major, identify G♭ as scale degree 4, not F♯.",
+            "Compare the two written names while keeping the physical note unchanged.",
+            "Explain why one sounding guitar fret does not determine the intended spelling."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.reading.i1.ex",
+              "title": "Try it: Recognize enharmonic pitch labels",
+              "setup": "Use standard tuning and a scale reference for G major and D♭ major.",
+              "steps": [
+                "Play string 4 fret 4 and verify the sounding pitch is F♯3/G♭3.",
+                "In G major, write F♯ as scale degree 7, followed by G.",
+                "In D♭ major, identify G♭ as scale degree 4, not F♯.",
+                "Compare the two written names while keeping the physical note unchanged.",
+                "Explain why one sounding guitar fret does not determine the intended spelling."
+              ],
+              "self_check": "Can you name both spellings of the same equal-tempered guitar pitch and justify each within its stated key?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.tuning.i1",
+          "level": "intermediate",
+          "application_id": "tuning",
+          "title": "Update your note map in DADGAD",
+          "explanation": "In DADGAD tuning, open pitches from strings 6 to 1 are D2, A2, D3, G3, A3 and D4. A standard-tuning fretboard chart is not valid unchanged: in standard tuning string 2 fret 1 sounds C4, whereas in DADGAD string 2 fret 3 sounds C4. The third string stays G3 in both tunings.",
+          "outcomes": [
+            "Identify all six DADGAD open pitches",
+            "Recalculate a known note after retuning",
+            "Keep unchanged strings distinct from retuned strings"
+          ],
+          "steps": [
+            "Name and check the open D2, A2, D3, G3, A3, D4 pitches from string 6 to 1.",
+            "Play C4 on standard-tuned string 2 fret 1, before retuning.",
+            "After tuning string 2 to A3, play C4 at fret 3 and verify with a tuner.",
+            "Check C4 at string 3 fret 5, which remains unchanged because G3 remains the open pitch.",
+            "Record the two different C4 positions and their corresponding tunings."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.tuning.i1.ex",
+              "title": "Try it: Update your note map in DADGAD",
+              "setup": "Use a tuner; change to DADGAD only when the guitar can safely be retuned.",
+              "steps": [
+                "Name and check the open D2, A2, D3, G3, A3, D4 pitches from string 6 to 1.",
+                "Play C4 on standard-tuned string 2 fret 1, before retuning.",
+                "After tuning string 2 to A3, play C4 at fret 3 and verify with a tuner.",
+                "Check C4 at string 3 fret 5, which remains unchanged because G3 remains the open pitch.",
+                "Record the two different C4 positions and their corresponding tunings."
+              ],
+              "self_check": "Can you compute a fret location from the actual open string pitch rather than using a standard-tuning diagram indiscriminately?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.melody.i1",
+          "level": "intermediate",
+          "application_id": "melody",
+          "title": "Transpose a one-string melody by a whole step",
+          "explanation": "The C-major motif C4–D4–E4–C4 can be played on standard-tuned string 2 as frets 1–3–5–1. Transpose every note up a whole tone: D4–E4–F♯4–D4 appears on that same string at frets 3–5–7–3. The relative melodic pattern is preserved while the absolute notes and frets move.",
+          "outcomes": [
+            "Transpose an explicit melody by two semitones",
+            "Keep contour and interval pattern unchanged",
+            "Verify the resulting notes and frets"
+          ],
+          "steps": [
+            "Write C4–D4–E4–C4 and frets 1–3–5–1.",
+            "Shift each written pitch up two semitones to D4–E4–F♯4–D4.",
+            "Calculate the new second-string frets 3–5–7–3 from the B3 open pitch.",
+            "Play both motifs with one quarter-note attack per note.",
+            "Check that each corresponding pitch moved up two semitones, not just one fret."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.melody.i1.ex",
+              "title": "Try it: Transpose a one-string melody by a whole step",
+              "setup": "Use standard tuning on string 2 (B3 open), writing both versions before playing.",
+              "steps": [
+                "Write C4–D4–E4–C4 and frets 1–3–5–1.",
+                "Shift each written pitch up two semitones to D4–E4–F♯4–D4.",
+                "Calculate the new second-string frets 3–5–7–3 from the B3 open pitch.",
+                "Play both motifs with one quarter-note attack per note.",
+                "Check that each corresponding pitch moved up two semitones, not just one fret."
+              ],
+              "self_check": "Can you verify the note names, retained contour and two-semitone transposition using a tuner or pitch reference?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Find a pitch beyond its first position",
+          "explanation": "A single C4 is reachable on multiple strings in standard tuning: string 4 fret 10, string 3 fret 5, string 2 fret 1, and string 5 fret 15. These four placements all sound C4; C5 on string 1 fret 8 instead sounds one octave higher. Efficient guitar navigation starts with the desired pitch and register, then selects a playable location.",
+          "outcomes": [
+            "Calculate four locations for the same sounded C4",
+            "Distinguish C4 from C5 by octave",
+            "Choose fretboard positions for practical phrase connection"
+          ],
+          "steps": [
+            "Calculate string 4 fret 10 as D3 plus ten semitones = C4.",
+            "Confirm string 3 fret 5, string 2 fret 1 and string 5 fret 15 also give C4.",
+            "Play C5 on string 1 fret 8 and identify it as a distinct octave.",
+            "Choose the shortest practical route from E4 on string 1 open to one C4 location.",
+            "Write two equivalent pitches in tab using different strings and discuss how hand position changes."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.fretboard.a1.ex",
+              "title": "Try it: Find a pitch beyond its first position",
+              "setup": "Use standard tuning; check the open pitches D3, G3, B3, A2 and E4.",
+              "steps": [
+                "Calculate string 4 fret 10 as D3 plus ten semitones = C4.",
+                "Confirm string 3 fret 5, string 2 fret 1 and string 5 fret 15 also give C4.",
+                "Play C5 on string 1 fret 8 and identify it as a distinct octave.",
+                "Choose the shortest practical route from E4 on string 1 open to one C4 location.",
+                "Write two equivalent pitches in tab using different strings and discuss how hand position changes."
+              ],
+              "self_check": "Can you produce C4 in several locations without accidentally labeling C5 as the same sounding note?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.reading.a1",
+          "level": "advanced",
+          "application_id": "reading",
+          "title": "Account for the guitar's notated octave",
+          "explanation": "Standard guitar parts in treble clef are usually written one octave higher than the instrument sounds. Open sixth string E2 is therefore conventionally notated as E3, and open first string E4 as E5 in that written convention. Tablature and concert-pitch MIDI instead identify the actual sounding note and octave; recognize which convention a source uses.",
+          "outcomes": [
+            "Distinguish sounding pitch from conventional guitar staff notation",
+            "Identify the guitar's octave-transposing convention",
+            "Avoid double-transposing notes in a Workbook or MIDI example"
+          ],
+          "steps": [
+            "Play open sixth string and identify its sounding pitch as E2.",
+            "Write the conventional treble-clef guitar pitch one octave higher, E3.",
+            "Play open first string and compare sounding E4 with conventional written E5.",
+            "Write the two strings as actual concert pitches separately from the staff convention.",
+            "Check a digital score setting to see whether it displays sounding or transposed pitch."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.reading.a1.ex",
+              "title": "Try it: Account for the guitar's notated octave",
+              "setup": "Compare a standard treble-clef guitar part with a concert-pitch reference or tuner.",
+              "steps": [
+                "Play open sixth string and identify its sounding pitch as E2.",
+                "Write the conventional treble-clef guitar pitch one octave higher, E3.",
+                "Play open first string and compare sounding E4 with conventional written E5.",
+                "Write the two strings as actual concert pitches separately from the staff convention.",
+                "Check a digital score setting to see whether it displays sounding or transposed pitch."
+              ],
+              "self_check": "Can you state the actual pitch and standard written guitar pitch without adding or removing the octave twice?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.tuning.a1",
+          "level": "advanced",
+          "application_id": "tuning",
+          "title": "Relocate notes after dropping the low string",
+          "explanation": "In drop-D tuning, only the sixth string moves from E2 to D2; the other five strings retain standard tuning. C3 therefore moves from string 6 fret 8 in standard tuning to string 6 fret 10 in drop D. The pitch of C3 itself does not change, and C3 on string 5 fret 3 remains available in either tuning.",
+          "outcomes": [
+            "Identify what changes in drop D",
+            "Recalculate fret locations from the new open D2",
+            "Retain unchanged string references accurately"
+          ],
+          "steps": [
+            "Play C3 on sixth string fret 8 while it is tuned to E2.",
+            "Retune string 6 to D2 and confirm its new open pitch.",
+            "Locate C3 at sixth string fret 10 (D2 plus ten semitones).",
+            "Play C3 at fifth string fret 3; observe that its location did not move.",
+            "Write the equivalent notes in both tunings with explicit string/fret notation."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.tuning.a1.ex",
+              "title": "Try it: Relocate notes after dropping the low string",
+              "setup": "Use standard tuning and a reliable tuner to drop only the sixth string to D2.",
+              "steps": [
+                "Play C3 on sixth string fret 8 while it is tuned to E2.",
+                "Retune string 6 to D2 and confirm its new open pitch.",
+                "Locate C3 at sixth string fret 10 (D2 plus ten semitones).",
+                "Play C3 at fifth string fret 3; observe that its location did not move.",
+                "Write the equivalent notes in both tunings with explicit string/fret notation."
+              ],
+              "self_check": "Can you explain why a two-semitone lowering of the open string requires two higher frets for the same C3?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "nl.melody.a1",
+          "level": "advanced",
+          "application_id": "melody",
+          "title": "Preserve a melody across different fingerings",
+          "explanation": "A four-note melody C4–E4–G4–E4 can be voiced on standard guitar in at least two ways. One route uses C4 on string 2 fret 1, E4 on string 1 open, G4 on string 1 fret 3, then E4 open. Another uses C4 on string 3 fret 5, E4 on string 2 fret 5, G4 on string 1 fret 3, then E4 on string 2 fret 5. Both sound the same pitches, though technique, position and tone color differ.",
+          "outcomes": [
+            "Keep pitch identity stable across alternate fingerings",
+            "Write two accurate tablature realizations",
+            "Choose a route based on playability rather than assuming identical tone"
+          ],
+          "steps": [
+            "Write the first route: string 2 fret 1, string 1 open, string 1 fret 3, string 1 open.",
+            "Write the second: string 3 fret 5, string 2 fret 5, string 1 fret 3, string 2 fret 5.",
+            "Name each note in both versions as C4–E4–G4–E4.",
+            "Play both at the same tempo and listen to how timbre or unwanted string ringing changes.",
+            "Choose which route better fits the next phrase and explain the physical reason."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "nl.melody.a1.ex",
+              "title": "Try it: Preserve a melody across different fingerings",
+              "setup": "Use standard tuning and a quiet 4/4 pulse; do not require any specific finger numbering.",
+              "steps": [
+                "Write the first route: string 2 fret 1, string 1 open, string 1 fret 3, string 1 open.",
+                "Write the second: string 3 fret 5, string 2 fret 5, string 1 fret 3, string 2 fret 5.",
+                "Name each note in both versions as C4–E4–G4–E4.",
+                "Play both at the same tempo and listen to how timbre or unwanted string ringing changes.",
+                "Choose which route better fits the next phrase and explain the physical reason."
+              ],
+              "self_check": "Can you prove the two arrangements preserve their sounding pitches even though their tablature differs?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "scale_mapping",
+          "scope": "fretboard/foundational",
+          "why": "Knowing exact guitar note locations enables later scale maps to be verified rather than inferred from a fixed physical shape.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "interval_recognition",
+          "scope": "fretboard/ear",
+          "why": "A named note location supplies the pitch reference for computing or hearing distances to other notes.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "arpeggio_sequencing",
+          "scope": "guitar-harmony",
+          "why": "Accurate fretboard note identification supports transporting a chord-tone sequence into a different register.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "scale_degree_recognition",
+          "scope": "theory",
+          "why": "Note Location names an absolute pitch and octave, while Scale-Degree Recognition identifies a role relative to the tonic.",
+          "review_status": "PROPOSED"
+        }
+      ],
+      "reference_blocks": []
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000071",
+      "kind": "SKILL",
+      "slug": "voice_leading",
+      "revision": "draft-r7-voice-leading-v1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Connect chord tones as independent moving or held musical voices, with deliberate bass, inner-voice and melodic choices.",
+      "intro": [
+        {
+          "text": "Good "
+        },
+        {
+          "text": "voice leading",
+          "term_id": "vocab:voice_leading"
+        },
+        {
+          "text": " lets each note of a chord have its own destination as the harmony changes. Hear the individual lines, not only the resulting chord labels."
+        }
+      ],
+      "overview": "Voice leading traces how separate pitches move or remain fixed as successive harmonies unfold. Two chords can share notes, move by semitone, or preserve a compelling melodic top line. On guitar, a voicing is a set of sounding pitches, not a mandatory finger assignment; the same harmonic motion can be arranged by arpeggiating, alternating bass and melody, or sustaining notes. Written pitch register is important because chord names alone do not describe any individual voice's path.",
+      "key_distinction": "Chord root describes the harmony, the bass defines inversion, and the highest or inner voice can carry a distinct melody. Voice leading concerns horizontal motion between pitches, not simply choosing the next chord name or moving every finger together.",
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Hear and locate common chord tones and make one deliberate note move between neighboring triads."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Track low, middle and high voices across successive chords, distinguishing oblique, contrary and efficient movement."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Write and perform independent lines across extended chords, bass-plus-melody guitar textures and prepared suspensions."
+        }
+      ],
+      "applications": [
+        {
+          "id": "harmony",
+          "title": "Harmony & inversions",
+          "summary": "Spell successive chords and trace where each sounding chord tone moves.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "fretboard",
+          "title": "Guitar voicing routes",
+          "summary": "Verify actual fret positions, bass notes and playable registral movement.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "aural",
+          "title": "Aural voice tracking",
+          "summary": "Hear stationary, contrary and resolved moving tones inside chord changes.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "composition",
+          "title": "Composition & arrangement",
+          "summary": "Design melodic top lines and independent supporting voices.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "id": "vl.harmony.f1",
+          "level": "foundational",
+          "application_id": "harmony",
+          "title": "Keep two notes while one voice moves",
+          "explanation": "C major contains C–E–G and A minor contains A–C–E. As an upper three-note voicing, C4–E4–G4 can change to C4–E4–A4: C4 and E4 are held while G4 rises a whole tone to A4. The second voicing is A minor with C in the bass, so it is first inversion even though A is the chord root.",
+          "outcomes": [
+            "Identify shared tones in successive triads",
+            "Distinguish chord root from lowest sounding chord tone",
+            "Track one moving voice through a chord change"
+          ],
+          "steps": [
+            "Write the C-major tones C4–E4–G4 in ascending order.",
+            "Write the next voicing C4–E4–A4 and name A–C–E as A minor.",
+            "Underline the unchanged C4 and E4 voices.",
+            "Play or sing G4 then A4 and count the ascending two semitones.",
+            "Identify C4 as the lowest tone of the A-minor voicing, not its root."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.harmony.f1.ex",
+              "title": "Try it: Keep two notes while one voice moves",
+              "setup": "Use a piano or standard-tuned upper three guitar strings with verified pitches C4, E4, G4 and A4.",
+              "steps": [
+                "Write the C-major tones C4–E4–G4 in ascending order.",
+                "Write the next voicing C4–E4–A4 and name A–C–E as A minor.",
+                "Underline the unchanged C4 and E4 voices.",
+                "Play or sing G4 then A4 and count the ascending two semitones.",
+                "Identify C4 as the lowest tone of the A-minor voicing, not its root."
+              ],
+              "self_check": "Can you point to the two common tones, the moving voice, and the second chord's actual inversion?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.fretboard.f1",
+          "level": "foundational",
+          "application_id": "fretboard",
+          "title": "Move one note on three guitar strings",
+          "explanation": "In standard tuning, strings 3/2/1 are open G3/B3/E4. C major at frets 5/5/3 gives C4/E4/G4. Changing only the first-string fret to 5 gives C4/E4/A4, an A-minor first-inversion voicing. Fret diagrams describe sounding notes; they do not automatically assign fingers.",
+          "outcomes": [
+            "Verify the three sounding notes in each guitar voicing",
+            "Move just one voice while retaining two",
+            "Connect guitar frets to chord spelling"
+          ],
+          "steps": [
+            "Verify string 3 fret 5 as C4, string 2 fret 5 as E4 and string 1 fret 3 as G4.",
+            "Sound the C-major notes individually and then as a chord if comfortable.",
+            "Move only string 1 from fret 3 to fret 5 (G4→A4).",
+            "Sound C4/E4/A4 and name A minor, first inversion.",
+            "Record both fret triples 5–5–3 and 5–5–5, noting which positions stayed."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.fretboard.f1.ex",
+              "title": "Try it: Move one note on three guitar strings",
+              "setup": "Use standard tuning and gently sound the three highest strings without rushing a finger position.",
+              "steps": [
+                "Verify string 3 fret 5 as C4, string 2 fret 5 as E4 and string 1 fret 3 as G4.",
+                "Sound the C-major notes individually and then as a chord if comfortable.",
+                "Move only string 1 from fret 3 to fret 5 (G4→A4).",
+                "Sound C4/E4/A4 and name A minor, first inversion.",
+                "Record both fret triples 5–5–3 and 5–5–5, noting which positions stayed."
+              ],
+              "self_check": "Can you identify the changing note and verify that the new chord's root is A rather than C?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.aural.f1",
+          "level": "foundational",
+          "application_id": "aural",
+          "title": "Listen for held tones across neighboring chords",
+          "explanation": "In the transition from C4–E4–G4 to C4–F4–A4, the C4 stays, E4 rises one semitone to F4, and G4 rises two semitones to A4. The first sonority is C major; the second is F major with C as its lowest note (second inversion). Listening for separate voices reveals the motion inside the harmonic change.",
+          "outcomes": [
+            "Hear an unchanged tone beneath a changing chord",
+            "Identify one-semitone and two-semitone upward moves",
+            "Avoid treating the whole chord as a single moving object"
+          ],
+          "steps": [
+            "Play C4–E4–G4 simultaneously and identify the lowest C4.",
+            "Move to C4–F4–A4 at comparable volume.",
+            "Sing the unchanged C4 during the change.",
+            "Sing the E4→F4 and G4→A4 motions separately.",
+            "Replay both chords and name one unchanged voice and two moving voices."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.aural.f1.ex",
+              "title": "Try it: Listen for held tones across neighboring chords",
+              "setup": "Play or program these exact three-note voicings at the same register and volume.",
+              "steps": [
+                "Play C4–E4–G4 simultaneously and identify the lowest C4.",
+                "Move to C4–F4–A4 at comparable volume.",
+                "Sing the unchanged C4 during the change.",
+                "Sing the E4→F4 and G4→A4 motions separately.",
+                "Replay both chords and name one unchanged voice and two moving voices."
+              ],
+              "self_check": "Can you isolate which note stayed and which two changed without assuming all three chord notes moved together?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.composition.f1",
+          "level": "foundational",
+          "application_id": "composition",
+          "title": "Write a two-bar top-voice line",
+          "explanation": "A top melody can emerge from chord changes. For a two-bar C-to-Am idea, place C4–E4–G4 in the first bar and C4–E4–A4 in the second, arpeggiated slowly. Their highest notes G4→A4 make an upward melodic gesture while the lower two pitches remain constant.",
+          "outcomes": [
+            "Outline two distinct chords using correct triads",
+            "Keep a shared lower pair stable",
+            "Make an explicit melodic top-note choice"
+          ],
+          "steps": [
+            "Write C major as C4–E4–G4 and A minor as C4–E4–A4.",
+            "Play or arpeggiate the first group slowly, emphasizing G4.",
+            "Play the second group at the same tempo, emphasizing A4.",
+            "Circle C4 and E4 as common tones and mark G4→A4 as the chosen melody.",
+            "Write an alternative A-minor note order, still ending on A4."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.composition.f1.ex",
+              "title": "Try it: Write a two-bar top-voice line",
+              "setup": "Use C and Am in consecutive 4/4 bars with one chord per bar.",
+              "steps": [
+                "Write C major as C4–E4–G4 and A minor as C4–E4–A4.",
+                "Play or arpeggiate the first group slowly, emphasizing G4.",
+                "Play the second group at the same tempo, emphasizing A4.",
+                "Circle C4 and E4 as common tones and mark G4→A4 as the chosen melody.",
+                "Write an alternative A-minor note order, still ending on A4."
+              ],
+              "self_check": "Can a listener follow the highest note changing while hearing both harmonies as distinct chords?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.harmony.i1",
+          "level": "intermediate",
+          "application_id": "harmony",
+          "title": "Choose efficient motion across three triads",
+          "explanation": "A practical voice-leading path can use C major C4/E4/G4 → F major second inversion C4/F4/A4 → G major first inversion B3/D4/G4. Voice motions are 0, +1 and +2 semitones for C→F, then −1, −3 and −2 for F→G, respectively. Keeping pitch registers explicit prevents vague claims about minimal movement.",
+          "outcomes": [
+            "Identify the inversions used by each chord",
+            "Track low, middle and high voices independently",
+            "Quantify each voice's motion in semitones"
+          ],
+          "steps": [
+            "Write C4/E4/G4, C4/F4/A4 and B3/D4/G4 as three triad voicings.",
+            "For C→F, mark C4→C4 zero, E4→F4 +1, and G4→A4 +2 semitones.",
+            "For F→G, mark C4→B3 −1, F4→D4 −3, and A4→G4 −2.",
+            "Name F as second inversion and G as first inversion from their actual lowest tones.",
+            "Play each voice on its own before sounding the three-chord sequence."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.harmony.i1.ex",
+              "title": "Try it: Choose efficient motion across three triads",
+              "setup": "Write three vertically aligned note columns for C, F and G with fixed low/middle/high voices.",
+              "steps": [
+                "Write C4/E4/G4, C4/F4/A4 and B3/D4/G4 as three triad voicings.",
+                "For C→F, mark C4→C4 zero, E4→F4 +1, and G4→A4 +2 semitones.",
+                "For F→G, mark C4→B3 −1, F4→D4 −3, and A4→G4 −2.",
+                "Name F as second inversion and G as first inversion from their actual lowest tones.",
+                "Play each voice on its own before sounding the three-chord sequence."
+              ],
+              "self_check": "Can you trace and count the three individual voice movements without confusing the names of the chord roots?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.fretboard.i1",
+          "level": "intermediate",
+          "application_id": "fretboard",
+          "title": "Connect four triads on upper strings",
+          "explanation": "On standard-tuned strings 3/2/1, C frets 5–5–3 sound C4/E4/G4; Am 5–5–5 sounds C4/E4/A4; F 5–6–5 sounds C4/F4/A4; G 4–3–3 sounds B3/D4/G4. Their highest line is G4–A4–A4–G4. The voicings use inversions when a root is not the lowest sounding tone.",
+          "outcomes": [
+            "Verify actual notes in four upper-string positions",
+            "Follow the highest pitch through every chord",
+            "Separate harmonic root labels from voicing inversions"
+          ],
+          "steps": [
+            "Play C at 5–5–3 and name C4/E4/G4.",
+            "Play Am at 5–5–5 and name C4/E4/A4.",
+            "Play F at 5–6–5 and name C4/F4/A4.",
+            "Play G at 4–3–3 and name B3/D4/G4.",
+            "Sing G4–A4–A4–G4 above the four chords and identify their lowest pitches."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.fretboard.i1.ex",
+              "title": "Try it: Connect four triads on upper strings",
+              "setup": "Use standard tuning; treat the fret triplets as pitch locations, not mandatory fingerings.",
+              "steps": [
+                "Play C at 5–5–3 and name C4/E4/G4.",
+                "Play Am at 5–5–5 and name C4/E4/A4.",
+                "Play F at 5–6–5 and name C4/F4/A4.",
+                "Play G at 4–3–3 and name B3/D4/G4.",
+                "Sing G4–A4–A4–G4 above the four chords and identify their lowest pitches."
+              ],
+              "self_check": "Can you justify each chord and its top note directly from the fretboard rather than memorizing the sequence of shapes?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.aural.i1",
+          "level": "intermediate",
+          "application_id": "aural",
+          "title": "Distinguish oblique from contrary motion",
+          "explanation": "Two melodic voices move obliquely when one stays and the other moves. They move in contrary motion when one rises and the other falls. The dyad C4/E4→C4/F4 holds C4 while the upper voice rises a semitone; C4/E4→B3/F4 moves the lower voice down a semitone and the upper up a semitone.",
+          "outcomes": [
+            "Recognize one stationary part in oblique motion",
+            "Recognize opposing directions in contrary motion",
+            "Listen to independent voices instead of only overall chord color"
+          ],
+          "steps": [
+            "Play C4/E4 then C4/F4, singing the unchanged low C4.",
+            "Name the upper E4→F4 ascending semitone and label the motion oblique.",
+            "Reset to C4/E4, then play B3/F4.",
+            "Sing C4→B3 downward and E4→F4 upward, then label the motion contrary.",
+            "Mix both transformations and identify the motion type before reading the notes."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.aural.i1.ex",
+              "title": "Try it: Distinguish oblique from contrary motion",
+              "setup": "Use two-note instruments or a simple recording, sustaining the first dyad before each change.",
+              "steps": [
+                "Play C4/E4 then C4/F4, singing the unchanged low C4.",
+                "Name the upper E4→F4 ascending semitone and label the motion oblique.",
+                "Reset to C4/E4, then play B3/F4.",
+                "Sing C4→B3 downward and E4→F4 upward, then label the motion contrary.",
+                "Mix both transformations and identify the motion type before reading the notes."
+              ],
+              "self_check": "Can you state which voice moves in each case and correctly distinguish oblique from contrary motion?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.composition.i1",
+          "level": "intermediate",
+          "application_id": "composition",
+          "title": "Maintain a melodic destination through C–Am–F–G",
+          "explanation": "Voice leading can join chord outlines into a memorable top-line melody. Use upper-note targets G4, A4, A4, G4 over C, Am, F and G. The corresponding upper-string voicings C4/E4/G4, C4/E4/A4, C4/F4/A4, B3/D4/G4 preserve valid chord membership.",
+          "outcomes": [
+            "Design a four-bar melodic top-voice contour",
+            "Choose supporting notes that belong to each harmony",
+            "Keep the top-line identity clear while other voices change"
+          ],
+          "steps": [
+            "Mark the top melody G4–A4–A4–G4 over four bars.",
+            "Write the lower two notes for each chord, matching the stated triad voicings.",
+            "Play the upper voice alone across four quarter-note beats.",
+            "Sound or arpeggiate each full chord while emphasizing the top note.",
+            "Alter one middle voice or rhythm only after confirming all resulting chord tones."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.composition.i1.ex",
+              "title": "Try it: Maintain a melodic destination through C–Am–F–G",
+              "setup": "Write C–Am–F–G, one chord per 4/4 bar, and use the verified three-voice note sets.",
+              "steps": [
+                "Mark the top melody G4–A4–A4–G4 over four bars.",
+                "Write the lower two notes for each chord, matching the stated triad voicings.",
+                "Play the upper voice alone across four quarter-note beats.",
+                "Sound or arpeggiate each full chord while emphasizing the top note.",
+                "Alter one middle voice or rhythm only after confirming all resulting chord tones."
+              ],
+              "self_check": "Can you name the melodic top notes and chord roots separately, while every supporting note remains accurate?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.harmony.a1",
+          "level": "advanced",
+          "application_id": "harmony",
+          "title": "Voice-lead from Cmaj7 to Fmaj7",
+          "explanation": "Four-part voice leading can retain common tones across extended harmonies. Cmaj7 contains C–E–G–B. Moving C4/E4/G4/B4 to C4/E4/F4/A4 forms Fmaj7 (F–A–C–E): C4 and E4 stay, while G4 descends two semitones to F4 and B4 descends two to A4. The second chord's bass is C4, its fifth, rather than its root F.",
+          "outcomes": [
+            "Spell two seventh chords with accurate pitch registers",
+            "Preserve common tones while moving two upper voices",
+            "Identify an extended-chord inversion by its actual bass"
+          ],
+          "steps": [
+            "Write Cmaj7 as ascending C4/E4/G4/B4.",
+            "Write Fmaj7 as ascending C4/E4/F4/A4; mark the fifth C as the lowest sounding note.",
+            "Mark C4→C4 and E4→E4 as the two unchanged voices.",
+            "Mark G4→F4 and B4→A4 as two descending whole tones.",
+            "Play each voice separately, then listen to the combined harmonic transition."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.harmony.a1.ex",
+              "title": "Try it: Voice-lead from Cmaj7 to Fmaj7",
+              "setup": "Use four written voice lines or separate instrument tracks; no compact one-hand guitar grip is implied.",
+              "steps": [
+                "Write Cmaj7 as ascending C4/E4/G4/B4.",
+                "Write Fmaj7 as ascending C4/E4/F4/A4; mark the fifth C as the lowest sounding note.",
+                "Mark C4→C4 and E4→E4 as the two unchanged voices.",
+                "Mark G4→F4 and B4→A4 as two descending whole tones.",
+                "Play each voice separately, then listen to the combined harmonic transition."
+              ],
+              "self_check": "Can you verify all four chord tones in both harmonies and account for every horizontal voice movement?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.fretboard.a1",
+          "level": "advanced",
+          "application_id": "fretboard",
+          "title": "Plan bass and melody as separate guitar roles",
+          "explanation": "One guitar can outline both bass movement and a top-voice melody without requiring every note to sound simultaneously. For C–Am–F–G in standard tuning, possible basses are C3 on string 5 fret 3, A2 on open string 5, F2 on string 6 fret 1 and G2 on string 6 fret 3. A separate top line G4–A4–A4–G4 can be reached on string 1 frets 3–5–5–3.",
+          "outcomes": [
+            "Locate four actual bass notes and four top-voice notes",
+            "Separate sounding register from chord root labels",
+            "Arrange alternating bass and melody without assuming impossible simultaneous grips"
+          ],
+          "steps": [
+            "Confirm bass C3 at string 5 fret 3, then A2 at open string 5.",
+            "Confirm F2 at string 6 fret 1 and G2 at string 6 fret 3.",
+            "Play the top line G4–A4–A4–G4 on string 1 frets 3–5–5–3.",
+            "Alternate one bass event and one melody event in each bar at a comfortable tempo.",
+            "Only add middle chord tones when the resulting physical grip is genuinely comfortable."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.fretboard.a1.ex",
+              "title": "Try it: Plan bass and melody as separate guitar roles",
+              "setup": "Use standard tuning; play bass and top notes in alternation before attempting any combined fingerstyle texture.",
+              "steps": [
+                "Confirm bass C3 at string 5 fret 3, then A2 at open string 5.",
+                "Confirm F2 at string 6 fret 1 and G2 at string 6 fret 3.",
+                "Play the top line G4–A4–A4–G4 on string 1 frets 3–5–5–3.",
+                "Alternate one bass event and one melody event in each bar at a comfortable tempo.",
+                "Only add middle chord tones when the resulting physical grip is genuinely comfortable."
+              ],
+              "self_check": "Can you identify the actual bass register and keep the top line independent without claiming a required simultaneous fret grip?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.aural.a1",
+          "level": "advanced",
+          "application_id": "aural",
+          "title": "Hear a prepared 4-to-3 resolution",
+          "explanation": "In a C-major to G-major harmonic move, C4 can be retained from the C chord as G becomes the new chord root. Against G, that held C is a fourth above G; descending C4→B3 resolves to the third of G. In an appropriate metrical setting with preparation, this is a 4–3 suspension; simply placing C before B without preparation does not guarantee that label.",
+          "outcomes": [
+            "Hear a held nonchord tone against changed harmony",
+            "Identify the downward semitone resolution C4→B3",
+            "Distinguish a prepared suspension from an unprepared passing gesture"
+          ],
+          "steps": [
+            "Sound C major with C4 included, and sustain the C4 note.",
+            "Change the accompaniment to G major while C4 remains sounding.",
+            "Listen to the dissonant fourth C above G before moving C4 down to B3.",
+            "Verify B3 belongs to G–B–D as its third and is one semitone below C4.",
+            "Repeat with and without preparation; discuss when the suspension terminology is justified."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.aural.a1.ex",
+              "title": "Try it: Hear a prepared 4-to-3 resolution",
+              "setup": "Use a held C4 from C major, then change accompaniment to G while sustaining C4.",
+              "steps": [
+                "Sound C major with C4 included, and sustain the C4 note.",
+                "Change the accompaniment to G major while C4 remains sounding.",
+                "Listen to the dissonant fourth C above G before moving C4 down to B3.",
+                "Verify B3 belongs to G–B–D as its third and is one semitone below C4.",
+                "Repeat with and without preparation; discuss when the suspension terminology is justified."
+              ],
+              "self_check": "Can you explain both the harmonic change and the preparation/resolution needed to call this a true 4–3 suspension?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "vl.composition.a1",
+          "level": "advanced",
+          "application_id": "composition",
+          "title": "Arrange four independent voices across extended chords",
+          "explanation": "An arrangement can be shaped through held and moving voices rather than block-chord replacement. For Cmaj7→Fmaj7, use C4/E4/G4/B4 followed by C4/E4/F4/A4. The two lower voices stay while the upper two each descend a whole tone. The two resulting chords share C and E, though those notes occupy different chord-tone roles.",
+          "outcomes": [
+            "Write a four-voice progression with explicit chord spelling",
+            "Track shared tones as independent lines",
+            "Treat chord function, voicing and melodic contour as different descriptions"
+          ],
+          "steps": [
+            "Place C4, E4, G4 and B4 in separate low-to-high voices for Cmaj7.",
+            "Place C4, E4, F4 and A4 for Fmaj7 in the corresponding voices.",
+            "Underline the held C4 and E4; mark G4→F4 and B4→A4 as descending whole tones.",
+            "Perform or sequence each voice separately to hear its melodic contour.",
+            "Reorder the timing of the two moving voices, preserving the same valid chord tones at the end."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "vl.composition.a1.ex",
+              "title": "Try it: Arrange four independent voices across extended chords",
+              "setup": "Create four labeled voice rows for two 4/4 measures, using written notes or separate recordings.",
+              "steps": [
+                "Place C4, E4, G4 and B4 in separate low-to-high voices for Cmaj7.",
+                "Place C4, E4, F4 and A4 for Fmaj7 in the corresponding voices.",
+                "Underline the held C4 and E4; mark G4→F4 and B4→A4 as descending whole tones.",
+                "Perform or sequence each voice separately to hear its melodic contour.",
+                "Reorder the timing of the two moving voices, preserving the same valid chord tones at the end."
+              ],
+              "self_check": "Can you explain how the two shared pitches change chord-tone roles even though their sounding registers stay constant?",
+              "suggested_minutes": 12,
+              "records_progress": false
+            }
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "triad_construction",
+          "scope": "harmony/foundational",
+          "why": "Recognizing actual triad members is necessary before tracing their independent motion through adjacent chord voicings.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "chord_inversion_navigation",
+          "scope": "harmony/fretboard",
+          "why": "Inversion names the lowest chord tone; voice leading explains what that bass and the other tones do between successive chords.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "arpeggio_sequencing",
+          "scope": "arrangement",
+          "why": "Arpeggiating consecutive voicings allows independent note paths to be heard on one guitar without compulsory simultaneous grips.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "chord_melody_playing",
+          "scope": "guitar-composition",
+          "why": "A separately designed melodic top voice above moving harmony prepares a guitar player for integrated chord-melody arrangements.",
+          "review_status": "PROPOSED"
+        }
+      ],
+      "reference_blocks": []
+    }
+  ],
+  "terms": []
+}
