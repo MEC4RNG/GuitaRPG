@@ -68,9 +68,7 @@ describe("CODEX-V2-A-R7 Note Location and Voice Leading editorial pilot", () => 
     expect([open[6], open[5], open[4], open[3], open[2], open[1]]).toEqual([
       40, 45, 50, 55, 59, 64,
     ]);
-    expect([open[4] + 10, open[3] + 5, open[2] + 1, open[5] + 15]).toEqual([
-      60, 60, 60, 60,
-    ]); // Four genuine C4 locations
+    expect([open[4] + 10, open[3] + 5, open[2] + 1, open[5] + 15]).toEqual([60, 60, 60, 60]); // Four genuine C4 locations
     expect(open[1] + 8).toBe(72); // C5, not C4
     expect(open[4] + 4).toBe(54); // F♯3/G♭3 in equal temperament
     expect(open[3] + 5).toBe(open[2] + 1); // C4 on two string sets
