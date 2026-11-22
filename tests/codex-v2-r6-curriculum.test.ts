@@ -54,7 +54,9 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
   it("preserves the previous 42 lessons and all review-only glossary terms", () => {
     const catalog = readCodexV2DraftPreview();
     const earlier = catalog.entries.filter((entry) =>
-      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(entry.slug),
+      ["scale_degree_recognition", "triad_construction", "subdivision_control"].includes(
+        entry.slug,
+      ),
     );
     expect(earlier).toHaveLength(3);
     expect(earlier.flatMap((entry) => entry.modules)).toHaveLength(42);
