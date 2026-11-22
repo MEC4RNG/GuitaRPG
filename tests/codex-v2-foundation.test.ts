@@ -58,8 +58,12 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([15, 12, 15, 12, 12]);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(22);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(32);
-    expect(catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1)).toBe(true);
-    expect(catalog.entries.slice(3).every((entry) => entry.reference_blocks.length === 0)).toBe(true);
+    expect(
+      catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1),
+    ).toBe(true);
+    expect(
+      catalog.entries.slice(3).every((entry) => entry.reference_blocks.length === 0),
+    ).toBe(true);
     expect(catalog.entries.every((entry) => entry.editorial_status === "DRAFT_REVIEW")).toBe(true);
   });
 
