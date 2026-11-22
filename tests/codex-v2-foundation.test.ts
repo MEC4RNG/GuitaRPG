@@ -55,7 +55,9 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     const catalog = readCodexV2DraftPreview();
     expect(catalog.entries).toHaveLength(7);
     expect(catalog.terms).toHaveLength(178);
-    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([15, 12, 15, 12, 12, 12, 12]);
+    expect(catalog.entries.map((entry) => entry.modules.length)).toEqual([
+      15, 12, 15, 12, 12, 12, 12,
+    ]);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.applications.length, 0)).toBe(30);
     expect(catalog.entries.reduce((sum, entry) => sum + entry.relationships.length, 0)).toBe(40);
     expect(catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1)).toBe(
