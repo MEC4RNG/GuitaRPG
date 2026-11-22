@@ -6,7 +6,8 @@ import { PUBLISHED_CODEX_V2_ENTRIES, PUBLISHED_CODEX_V2_TERMS } from "@/lib/code
 import { readCodexV2DraftPreview } from "@/lib/codex/v2/preview";
 
 const levels = ["foundational", "intermediate", "advanced"] as const;
-const newSlugs = ["interval_recognition", "arpeggio_sequencing"] as const;
+const newSlugs = new Set(["interval_recognition", "arpeggio_sequencing"]);
+const isNew = (slug: string) => newSlugs.has(slug);
 
 describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
   it("adds exactly 24 new lessons in canonical Skills without publishing content", () => {
@@ -17,7 +18,7 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
     expect(PUBLISHED_CODEX_V2_TERMS).toHaveLength(0);
     expect(CODEX_ENTRIES).toHaveLength(197);
 
-    const added = catalog.entries.filter((entry) => newSlugs.includes(entry.slug as (typeof newSlugs)[number]));
+    const added = catalog.entries.filter((entry) => isNew(entry.slug));
     expect(added).toHaveLength(2);
     expect(added.flatMap((entry) => entry.modules)).toHaveLength(24);
     expect(added.flatMap((entry) => entry.applications)).toHaveLength(8);
@@ -28,7 +29,7 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
 
   it("uses exactly one real module per application and learning level", () => {
     const catalog = readCodexV2DraftPreview();
-    const added = catalog.entries.filter((entry) => newSlugs.includes(entry.slug as (typeof newSlugs)[number]));
+    const added = catalog.entries.filter((entry) => isNew(entry.slug));
     for (const entry of added) {
       expect(entry.applications).toHaveLength(4);
       expect(entry.modules).toHaveLength(12);
@@ -50,17 +51,20 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
     }
   });
 
-  it("preserves the previous 42 educational modules and all review-only glossary terms", () => {
+  it("preserves the previous 42 lessons and all review-only glossary terms", () => {
     const catalog = readCodexV2DraftPreview();
-    const earlier = catalog.entries.filter((entry) => !newSlugs.includes(entry.slug as (typeof newSlugs)[number]));
+    const earlier = catalog.entries.filter((entry) => !isNew(entry.slug));
     expect(earlier).toHaveLength(3);
     expect(earlier.flatMap((entry) => entry.modules)).toHaveLength(42);
     expect(catalog.entries.flatMap((entry) => entry.modules)).toHaveLength(66);
-    expect(new Set(catalog.entries.flatMap((entry) => entry.modules.map((module) => module.id))).size)
-      .toBe(66);
-    expect(new Set(catalog.entries.flatMap((entry) => entry.modules.flatMap(
-      (module) => module.exercises.map((exercise) => exercise.id),
-    ))).size).toBe(66);
+
+    const lessons = catalog.entries.flatMap((entry) => entry.modules);
+    const lessonIds = lessons.map((lesson) => lesson.id);
+    const exerciseIds = lessons.flatMap((lesson) =>
+      lesson.exercises.map((exercise) => exercise.id),
+    );
+    expect(new Set(lessonIds).size).toBe(66);
+    expect(new Set(exerciseIds).size).toBe(66);
     expect(expansion.terms).toHaveLength(0);
   });
 
