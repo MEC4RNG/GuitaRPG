@@ -153,9 +153,7 @@ test("CODEX-V2-A-R8 expands Scale Mapping and Chord Inversion Navigation without
   await page.getByRole("button", { name: "Advanced", exact: true }).click();
   await page.getByRole("combobox", { name: "Musical application" }).selectOption("fretboard");
   const minorScale = page.locator(".cv2-modules .cv2-module").first();
-  await expect(minorScale.locator("summary")).toContainText(
-    "Re-map A natural and harmonic minor",
-  );
+  await expect(minorScale.locator("summary")).toContainText("Re-map A natural and harmonic minor");
   await minorScale.locator("summary").click();
   await expect(minorScale).toContainText("G♯");
   await page.getByRole("button", { name: "How to Explore" }).click();
@@ -166,7 +164,10 @@ test("CODEX-V2-A-R8 expands Scale Mapping and Chord Inversion Navigation without
   await page.getByRole("button", { name: "Connections" }).click();
   await expect(page.locator(".cv2-connections li")).toHaveCount(4);
 
-  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .getByRole("button", { name: /Library/ })
+    .first()
+    .click();
   await page
     .locator(".cv2-card")
     .filter({ hasText: "Chord Inversion Navigation" })
