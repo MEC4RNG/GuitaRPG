@@ -61,7 +61,7 @@ test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing lay
   await expect(page.locator(".cv2-explore-module")).toHaveCount(1);
   const activity = page.locator(".cv2-explore-module").first();
   await activity.locator("summary").click();
-  await expect(activity).toContainText("Self-check");
+  await expect(activity).toContainText("Check yourself");
   await page.getByRole("button", { name: "Connections" }).click();
   await expect(page.locator(".cv2-connections li")).toHaveCount(4);
 
