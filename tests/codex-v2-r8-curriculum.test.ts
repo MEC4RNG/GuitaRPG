@@ -27,7 +27,9 @@ describe("CODEX-V2-A-R8 Scale Mapping and Chord Inversion Navigation", () => {
   it("retains all 90 earlier draft lessons verbatim in the composed preview", () => {
     const inherited = [...pilot.entries, ...expansionR6.entries, ...expansionR7.entries];
     const draft = readCodexV2DraftPreview();
-    const expectedLessonIds = inherited.flatMap((entry) => entry.modules.map((module) => module.id));
+    const expectedLessonIds = inherited.flatMap((entry) =>
+      entry.modules.map((module) => module.id),
+    );
     expect(expectedLessonIds).toHaveLength(90);
     for (const earlier of inherited) {
       const current = draft.entries.find((entry) => entry.slug === earlier.slug);
@@ -81,19 +83,16 @@ describe("CODEX-V2-A-R8 Scale Mapping and Chord Inversion Navigation", () => {
     const exerciseIds = all.flatMap((lesson) => lesson.exercises.map((exercise) => exercise.id));
     expect(new Set(moduleIds).size).toBe(114);
     expect(new Set(exerciseIds).size).toBe(114);
-    expect(all.every((lesson) => lesson.exercises.every((exercise) => !exercise.records_progress)))
-      .toBe(true);
+    expect(
+      all.every((lesson) => lesson.exercises.every((exercise) => !exercise.records_progress)),
+    ).toBe(true);
   });
 
   it("verifies the full C major map on the standard-tuned second string", () => {
     const openB3 = 59;
     const frets = [1, 3, 5, 6, 8, 10, 12, 13];
-    expect(frets.map((fret) => openB3 + fret)).toEqual([
-      60, 62, 64, 65, 67, 69, 71, 72,
-    ]);
-    expect(frets.slice(1).map((fret, index) => fret - frets[index])).toEqual([
-      2, 2, 1, 2, 2, 2, 1,
-    ]);
+    expect(frets.map((fret) => openB3 + fret)).toEqual([60, 62, 64, 65, 67, 69, 71, 72]);
+    expect(frets.slice(1).map((fret, index) => fret - frets[index])).toEqual([2, 2, 1, 2, 2, 2, 1]);
     const draft = readCodexV2DraftPreview();
     const skill = draft.entries.find((entry) => entry.slug === "scale_mapping");
     const lesson = skill?.modules.find((module) => module.id === "sm.fretboard.f1");
@@ -131,7 +130,12 @@ describe("CODEX-V2-A-R8 Scale Mapping and Chord Inversion Navigation", () => {
     const topOpen = [55, 59, 64] as const;
     const position = (frets: readonly number[]) =>
       frets.map((fret, index) => topOpen[index] + fret);
-    const chords = [[5, 5, 3], [5, 5, 5], [5, 6, 5], [4, 3, 3]];
+    const chords = [
+      [5, 5, 3],
+      [5, 5, 5],
+      [5, 6, 5],
+      [4, 3, 3],
+    ];
     const pitched = chords.map(position);
     expect(pitched).toEqual([
       [60, 64, 67],
@@ -154,7 +158,8 @@ describe("CODEX-V2-A-R8 Scale Mapping and Chord Inversion Navigation", () => {
     const entry = readCodexV2DraftPreview().entries.find(
       (candidate) => candidate.slug === "chord_inversion_navigation",
     );
-    expect(entry?.modules.find((lesson) => lesson.id === "cin.theory.a1")?.explanation)
-      .toContain("third inversion");
+    expect(entry?.modules.find((lesson) => lesson.id === "cin.theory.a1")?.explanation).toContain(
+      "third inversion",
+    );
   });
 });
