@@ -84,9 +84,7 @@ test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing lay
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R7 expands Note Location and Voice Leading without redesign", async ({
-  page,
-}) => {
+test("CODEX-V2-A-R7 expands Note Location and Voice Leading without redesign", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await expect(page.locator(".cv2-card")).toHaveCount(7);
 
@@ -113,7 +111,10 @@ test("CODEX-V2-A-R7 expands Note Location and Voice Leading without redesign", a
   await page.getByRole("button", { name: "Connections" }).click();
   await expect(page.locator(".cv2-connections li")).toHaveCount(4);
 
-  await page.getByRole("button", { name: /Library/ }).first().click();
+  await page
+    .getByRole("button", { name: /Library/ })
+    .first()
+    .click();
   await page
     .locator(".cv2-card")
     .filter({ hasText: "Voice Leading" })
