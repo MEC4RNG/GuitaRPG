@@ -18,16 +18,8 @@ export function readCodexV2DraftPreview() {
     {
       schema: draftExcerpts.schema,
       content_version: draftExcerpts.content_version,
-      entries: [
-        ...draftExcerpts.entries,
-        ...expansionR6.entries,
-        ...expansionR7.entries,
-      ],
-      terms: [
-        ...draftExcerpts.terms,
-        ...expansionR6.terms,
-        ...expansionR7.terms,
-      ],
+      entries: [...draftExcerpts.entries, ...expansionR6.entries, ...expansionR7.entries],
+      terms: [...draftExcerpts.terms, ...expansionR6.terms, ...expansionR7.terms],
     },
     true,
   );
