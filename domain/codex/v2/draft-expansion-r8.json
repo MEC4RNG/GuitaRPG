@@ -541,7 +541,13 @@
           ]
         }
       ],
-      "reference_blocks": [],
+      "reference_blocks": [
+        {
+          "id": "reference:scale-mapping-fretboard-v1",
+          "kind": "FRETBOARD_SCALE_MAP",
+          "location": "overview"
+        }
+      ],
       "relationships": [
         {
           "type": "RECOMMENDED_FOUNDATION",
