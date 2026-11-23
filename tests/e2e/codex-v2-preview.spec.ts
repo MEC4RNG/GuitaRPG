@@ -473,6 +473,95 @@ test("R10 chord tool stays inside the phone viewport and retains scroll-free con
   await expectNoHorizontalOverflow(page);
 });
 
+test("R11 arpeggio source uses real chord-tone pitches and editable quarter/eighth patterns", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  await expect(page.getByRole("heading", { name: "Arpeggio Sequencing" })).toBeVisible();
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  await expect(sequencer.getByRole("heading", { name: /Arpeggio sequencer/ })).toBeVisible();
+  await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("C4 · E4 · G4");
+  await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(4);
+  await expect(sequencer.getByRole("combobox", { name: "Beat 1, part 1" })).toHaveValue("root");
+  await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("third");
+  await expect(sequencer.getByRole("combobox", { name: "Beat 3, part 1" })).toHaveValue("fifth");
+  await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText(
+    "4 sounding attacks, 0 rests",
+  );
+
+  await sequencer.getByRole("combobox", { name: "Arpeggio subdivision" }).selectOption("eighth");
+  await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(8);
+  await sequencer.getByRole("combobox", { name: "Arpeggio preset" }).selectOption("space");
+  await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("rests");
+  await sequencer.getByRole("combobox", { name: "Beat 2, part 2" }).selectOption("rest");
+  await expect(sequencer.getByRole("combobox", { name: "Arpeggio preset" })).toHaveValue("custom");
+
+  await sequencer.getByRole("combobox", { name: "Arpeggio inversion" }).selectOption("first");
+  await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("E4 · G4 · C5");
+  await sequencer.getByRole("combobox", { name: "Arpeggio preset" }).selectOption("arch");
+  await expect(sequencer.locator(".cv2-arpeggio-beat").first()).toContainText("C5");
+  await sequencer.getByRole("combobox", { name: "Arpeggio quality" }).selectOption("minor");
+  await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("E♭");
+  await sequencer.getByRole("combobox", { name: "Arpeggio root" }).selectOption("C♯");
+  await sequencer.getByRole("combobox", { name: "Arpeggio quality" }).selectOption("major");
+  await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("E♯");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("R11 metrical subdivisions keep a 4/4 quarter-note pulse and a controllable bar", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  await sequencer.getByRole("combobox", { name: "Arpeggio subdivision" }).selectOption("triplet");
+  await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(12);
+  await expect(sequencer.locator(".cv2-arpeggio-beat").first()).toContainText("trip");
+  await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("12 sounding attacks");
+  await sequencer.getByRole("combobox", { name: "Arpeggio subdivision" }).selectOption("sixteenth");
+  await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(16);
+  await expect(sequencer.locator(".cv2-arpeggio-beat").first()).toContainText("&");
+  await sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" }).fill("120");
+  await expect(sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" })).toHaveValue(
+    "120",
+  );
+  await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("2.00 seconds");
+  await sequencer.getByRole("checkbox", { name: "Repeat bar until stopped" }).check();
+  await sequencer.getByRole("button", { name: "Play bar" }).click();
+  await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText(
+    /Playing|Audio is unavailable/,
+  );
+  const stop = sequencer.getByRole("button", { name: /Stop/ });
+  if (await stop.isEnabled()) {
+    await stop.click();
+    await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("Stopped");
+  }
+  await sequencer.getByRole("checkbox", { name: "Repeat bar until stopped" }).uncheck();
+  await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeEnabled();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("R11 arpeggio editor stays inside portrait and mobile-landscape Codex widths", async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 320, height: 720 },
+    { width: 740, height: 390 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+    const sequencer = page.locator(".cv2-arpeggio-engine");
+    await expect(sequencer).toBeVisible();
+    await sequencer
+      .getByRole("combobox", { name: "Arpeggio subdivision" })
+      .selectOption("sixteenth");
+    await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(16);
+    await sequencer.getByRole("combobox", { name: "Arpeggio tuning" }).selectOption("dadgad");
+    await sequencer.getByRole("combobox", { name: "Arpeggio string group" }).selectOption("3-5");
+    await expect(sequencer.locator(".cv2-arpeggio-source")).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 test("CODEX-V2-A preserves published V1 Skill routes", async ({ page }) => {
   await page.goto("/codex/skills/triad_construction");
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();

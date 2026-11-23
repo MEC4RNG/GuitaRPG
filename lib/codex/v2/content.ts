@@ -23,7 +23,8 @@ export type CodexV2ReferenceBlock = {
     | "FRETBOARD_SCALE_MAP"
     | "FRETBOARD_INTERVALS"
     | "CHORD_INVERSION_EXPLORER"
-    | "VOICE_LEADING_EXPLORER";
+    | "VOICE_LEADING_EXPLORER"
+    | "ARPEGGIO_SEQUENCER";
   location: "overview";
 };
 export type CodexV2Module = {
@@ -219,6 +220,7 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         interval_recognition: "FRETBOARD_INTERVALS",
         chord_inversion_navigation: "CHORD_INVERSION_EXPLORER",
         voice_leading: "VOICE_LEADING_EXPLORER",
+        arpeggio_sequencing: "ARPEGGIO_SEQUENCER",
       };
       if (mediaKind !== expected[entrySlug] || item.location !== "overview")
         throw new Error(
