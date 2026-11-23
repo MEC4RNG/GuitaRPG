@@ -1,0 +1,58 @@
+name: R10 temporary Codex browser smoke
+on:
+  push:
+    branches:
+      - codex-v2-r10-chord-voicing-engine
+    paths:
+      - ".github/workflows/r10-e2e.yml"
+permissions:
+  contents: read
+jobs:
+  codex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.23.2
+      - name: Install
+        run: npm ci --legacy-peer-deps --no-audit --no-fund
+      - name: Supabase CLI
+        uses: supabase/setup-cli@1dedf2c611547ede7232d26866dd3c56ab903bbb # v1.7.3
+        with:
+          version: 2.117.0
+      - name: Start test database
+        run: supabase start || { supabase stop --no-backup || true; supabase start; }
+      - name: Configure public test environment
+        shell: bash
+        run: |
+          status="$(supabase status -o json)"
+          secret="$(jq -r '.SECRET_KEY // .SERVICE_ROLE_KEY' <<< "$status")"
+          echo "::add-mask::$secret"
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(jq -r '.API_URL' <<< "$status")" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(jq -r '.PUBLISHABLE_KEY // .ANON_KEY' <<< "$status")" >> "$GITHUB_ENV"
+          echo "SUPABASE_SECRET_KEY=$secret" >> "$GITHUB_ENV"
+      - name: Bound Playwright apt waits
+        run: |
+          sudo tee /etc/apt/apt.conf.d/99-guitarpg-playwright-ci >/dev/null <<'EOF'
+          Acquire::Retries "1";
+          Acquire::http::Timeout "15";
+          Acquire::https::Timeout "15";
+          Acquire::ForceIPv4 "true";
+          EOF
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            sudo sed -i '/azure\.archive\.ubuntu\.com/d' /etc/apt/apt-mirrors.txt
+          fi
+      - name: Install browser engines
+        timeout-minutes: 10
+        run: npx playwright install --with-deps chromium webkit
+      - name: Build
+        run: npm run build
+      - name: Test all draft Codex interactions
+        run: npx playwright test tests/e2e/codex-v2-preview.spec.ts --project=chromium --project=mobile-webkit --workers=1
+      - name: Stop database
+        if: always()
+        run: supabase stop --no-backup
