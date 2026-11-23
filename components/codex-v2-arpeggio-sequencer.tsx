@@ -30,7 +30,6 @@ import {
 } from "@/lib/codex/v2/fretboard-engine";
 import { ChordDiagram } from "./codex-v2-chord-voicings";
 
-const qualityOptions: readonly TriadQuality[] = ["major", "minor"];
 const groupOptions: readonly TriadStringGroup[] = ["1-3", "2-4", "3-5", "4-6"];
 const inversionOptions: readonly TriadInversion[] = ["root", "first", "second"];
 const subdivisionOptions = Object.keys(ARPEGGIO_SUBDIVISIONS) as ArpeggioSubdivision[];
@@ -100,20 +99,9 @@ export function CodexV2ArpeggioSequencer() {
   const visibleVoicings = availableVoicings.slice(0, 30);
   const selectedVoicing =
     visibleVoicings.find((candidate) => candidate.id === voicingId) ?? visibleVoicings[0] ?? null;
-  const bar = useMemo(
-    () => (selectedVoicing ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern) : null),
-    [selectedVoicing, subdivision, bpm, pattern],
-  );
-  const definitions = selectedVoicing
-    ? selectedVoicing.tones.map((tone, index) => ({
-        tone,
-        midi: selectedVoicing.midi[index],
-        note: selectedVoicing.notes[index],
-        stringNumber: selectedVoicing.strings[index],
-        fret: selectedVoicing.frets[index],
-      }))
-    : [];
-  const spelled = new Map(definitions.map((item) => [item.tone, item]));
+  const bar = selectedVoicing
+    ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern)
+    : null;
   const soundingEvents = bar?.events.filter((event) => event.midi !== null).length ?? 0;
 
   function stopPlayback(message?: string) {
