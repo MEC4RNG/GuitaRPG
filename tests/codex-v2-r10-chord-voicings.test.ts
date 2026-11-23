@@ -44,31 +44,43 @@ describe("CODEX-V2-A-R10 reusable chord/voicing calculation", () => {
     const fMajor = generateTriadVoicings(chord("F"), "standard", "1-3");
 
     expect(findFrets(cMajor, [5, 5, 3])).toMatchObject({
-      notes: ["C4", "E4", "G4"], inversion: "root", tones: ["root", "third", "fifth"],
+      notes: ["C4", "E4", "G4"],
+      inversion: "root",
+      tones: ["root", "third", "fifth"],
     });
     expect(findFrets(cMinor, [5, 4, 3])).toMatchObject({
-      notes: ["C4", "E♭4", "G4"], inversion: "root",
+      notes: ["C4", "E♭4", "G4"],
+      inversion: "root",
     });
     expect(findFrets(fMajor, [2, 1, 1])).toMatchObject({
-      notes: ["A3", "C4", "F4"], inversion: "first",
+      notes: ["A3", "C4", "F4"],
+      inversion: "first",
     });
     expect(findFrets(cMajor, [9, 8, 8])).toMatchObject({
-      notes: ["E4", "G4", "C5"], inversion: "first",
+      notes: ["E4", "G4", "C5"],
+      inversion: "first",
     });
     expect(findFrets(cMajor, [0, 1, 0])).toMatchObject({
-      notes: ["G3", "C4", "E4"], inversion: "second",
+      notes: ["G3", "C4", "E4"],
+      inversion: "second",
     });
   });
 
   it("preserves correctly spelled triads instead of enharmonic shortcuts", () => {
     expect(chordToneDefinitions(chord("C♯")).map((item) => item.spelledName)).toEqual([
-      "C♯", "E♯", "G♯",
+      "C♯",
+      "E♯",
+      "G♯",
     ]);
     expect(chordToneDefinitions(chord("A♭", "minor")).map((item) => item.spelledName)).toEqual([
-      "A♭", "C♭", "E♭",
+      "A♭",
+      "C♭",
+      "E♭",
     ]);
     expect(chordToneDefinitions(chord("B")).map((item) => item.spelledName)).toEqual([
-      "B", "D♯", "F♯",
+      "B",
+      "D♯",
+      "F♯",
     ]);
     expect(chordLabel(chord("B♭", "minor"))).toBe("B♭ minor");
   });
@@ -102,8 +114,9 @@ describe("CODEX-V2-A-R10 reusable chord/voicing calculation", () => {
                 );
               }
               const fretted = voicing.frets.filter((fret) => fret > 0);
-              expect(Math.max(...fretted, 0) - Math.min(...fretted, Math.max(...fretted, 0)))
-                .toBeLessThanOrEqual(4);
+              expect(
+                Math.max(...fretted, 0) - Math.min(...fretted, Math.max(...fretted, 0)),
+              ).toBeLessThanOrEqual(4);
               if (voicing.frets.includes(0)) {
                 expect(Math.max(...voicing.frets)).toBeLessThanOrEqual(5);
               }
@@ -118,15 +131,15 @@ describe("CODEX-V2-A-R10 reusable chord/voicing calculation", () => {
   });
 
   it("compares exact semitone movements and keeps chord roots distinct from actual basses", () => {
-    const progression = [
-      chord("C"), chord("A", "minor"), chord("F"), chord("G"),
+    const progression = [chord("C"), chord("A", "minor"), chord("F"), chord("G")];
+    const frets = [
+      [5, 5, 3],
+      [5, 5, 5],
+      [5, 6, 5],
+      [4, 3, 3],
     ];
-    const frets = [[5, 5, 3], [5, 5, 5], [5, 6, 5], [4, 3, 3]];
     const path = progression.map((current, index) => {
-      const selected = findFrets(
-        generateTriadVoicings(current, "standard", "1-3"),
-        frets[index],
-      );
+      const selected = findFrets(generateTriadVoicings(current, "standard", "1-3"), frets[index]);
       expect(selected).toBeDefined();
       return selected!;
     });
@@ -136,19 +149,11 @@ describe("CODEX-V2-A-R10 reusable chord/voicing calculation", () => {
       ["C4", "F4", "A4"],
       ["B3", "D4", "G4"],
     ]);
-    expect(path.map((voicing) => voicing.inversion)).toEqual([
-      "root", "first", "second", "first",
-    ]);
+    expect(path.map((voicing) => voicing.inversion)).toEqual(["root", "first", "second", "first"]);
     expect(totalVoiceMotion(path)).toBe(9);
-    expect(compareVoicings(path[0], path[1]).map((item) => item.semitones)).toEqual([
-      0, 0, 2,
-    ]);
-    expect(compareVoicings(path[1], path[2]).map((item) => item.semitones)).toEqual([
-      0, 1, 0,
-    ]);
-    expect(compareVoicings(path[2], path[3]).map((item) => item.semitones)).toEqual([
-      -1, -3, -2,
-    ]);
+    expect(compareVoicings(path[0], path[1]).map((item) => item.semitones)).toEqual([0, 0, 2]);
+    expect(compareVoicings(path[1], path[2]).map((item) => item.semitones)).toEqual([0, 1, 0]);
+    expect(compareVoicings(path[2], path[3]).map((item) => item.semitones)).toEqual([-1, -3, -2]);
     expect(motionLabel(0)).toBe("Held (0)");
     expect(motionLabel(1)).toBe("Up 1 semitone");
     expect(motionLabel(-2)).toBe("Down 2 semitones");
@@ -169,9 +174,9 @@ describe("CODEX-V2-A-R10 reusable chord/voicing calculation", () => {
         for (const group of groups) {
           const path = suggestConnectedVoicings(preset.chords, tuning, group);
           if (path.length === 0) {
-            expect(preset.chords.some((item) =>
-              generateTriadVoicings(item, tuning, group).length === 0,
-            )).toBe(true);
+            expect(
+              preset.chords.some((item) => generateTriadVoicings(item, tuning, group).length === 0),
+            ).toBe(true);
           } else {
             expect(path).toHaveLength(preset.chords.length);
             expect(path.map((item) => item.chord)).toEqual(preset.chords);
@@ -190,24 +195,31 @@ describe("CODEX-V2-A-R10 reusable chord/voicing calculation", () => {
   });
 
   it("rejects unsupported groups, ranges and mismatched voicing comparisons", () => {
-    expect(() => generateTriadVoicings(chord("C"), "standard", "1-3", 25))
-      .toThrow(/range/);
-    expect(() => generateTriadVoicings(chord("C"), "standard", "none" as TriadStringGroup))
-      .toThrow(/group/);
+    expect(() => generateTriadVoicings(chord("C"), "standard", "1-3", 25)).toThrow(/range/);
+    expect(() => generateTriadVoicings(chord("C"), "standard", "none" as TriadStringGroup)).toThrow(
+      /group/,
+    );
     expect(() => suggestConnectedVoicings([], "standard", "1-3")).toThrow(/length/);
     const same = generateTriadVoicings(chord("C"), "standard", "1-3")[0];
     const other = generateTriadVoicings(chord("C"), "standard", "2-4")[0];
     expect(() => compareVoicings(same, other)).toThrow(/same tuning and string group/);
-    expect(() => compareVoicings(same, generateTriadVoicings(chord("C"), "drop_d", "1-3")[0]))
-      .toThrow(/same tuning and string group/);
+    expect(() =>
+      compareVoicings(same, generateTriadVoicings(chord("C"), "drop_d", "1-3")[0]),
+    ).toThrow(/same tuning and string group/);
   });
 
   it("allows only the correct canonical Skill to request a chord reference", () => {
     const preview = readCodexV2DraftPreview();
-    expect(preview.entries.find((entry) => entry.slug === "voice_leading")
-      ?.reference_blocks.map((block) => block.kind)).toEqual(["VOICE_LEADING_EXPLORER"]);
-    expect(preview.entries.find((entry) => entry.slug === "chord_inversion_navigation")
-      ?.reference_blocks.map((block) => block.kind)).toEqual(["CHORD_INVERSION_EXPLORER"]);
+    expect(
+      preview.entries
+        .find((entry) => entry.slug === "voice_leading")
+        ?.reference_blocks.map((block) => block.kind),
+    ).toEqual(["VOICE_LEADING_EXPLORER"]);
+    expect(
+      preview.entries
+        .find((entry) => entry.slug === "chord_inversion_navigation")
+        ?.reference_blocks.map((block) => block.kind),
+    ).toEqual(["CHORD_INVERSION_EXPLORER"]);
 
     const wrong = structuredClone(preview);
     const mutated = wrong.entries.find((entry) => entry.slug === "note_location")!;
