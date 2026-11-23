@@ -482,9 +482,7 @@ export function CodexV2Reference({ blocks }: { blocks: readonly CodexV2Reference
           {block.kind === "VOICE_LEADING_EXPLORER" ? (
             <CodexV2ChordVoicings mode="voice_leading" />
           ) : null}
-          {block.kind === "ARPEGGIO_SEQUENCER" ? (
-            <CodexV2ArpeggioSequencer />
-          ) : null}
+          {block.kind === "ARPEGGIO_SEQUENCER" ? <CodexV2ArpeggioSequencer /> : null}
         </div>
       ))}
     </aside>
