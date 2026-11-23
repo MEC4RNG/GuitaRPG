@@ -4556,3 +4556,165 @@ a {
     scrollbar-gutter: stable;
   }
 }
+
+/* CODEX-V2-A-R9: one reusable, locally scrollable guitar reference across three Skills. */
+.cv2-fretboard-interactive {
+  min-width: 0;
+}
+.cv2-fretboard-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
+  gap: 0.75rem;
+}
+.cv2-fretboard-controls label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  color: var(--codex-muted);
+  font-size: 0.89rem;
+}
+.cv2-fretboard-controls select {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.55rem;
+  padding: 0.55rem;
+  color: var(--codex-text);
+  background: var(--codex-raised);
+  font: inherit;
+}
+.cv2-fretboard-degree-line {
+  font-weight: 700;
+  color: var(--codex-text) !important;
+  overflow-wrap: anywhere;
+}
+.cv2-fretboard-scroll-help,
+.cv2-fretboard-note {
+  font-size: 0.85rem;
+  line-height: 1.5 !important;
+}
+.cv2-fretboard-scroll {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.65rem;
+  background: var(--codex-raised);
+}
+.cv2-fretboard-scroll:focus-visible,
+.cv2-fretboard-controls select:focus-visible {
+  outline: 3px solid var(--codex-gold);
+  outline-offset: 2px;
+}
+.cv2-fretboard-table {
+  width: 100%;
+  min-width: 830px;
+  border-collapse: separate;
+  border-spacing: 0.16rem;
+  table-layout: fixed;
+  color: var(--codex-text);
+  font-size: 0.78rem;
+}
+.cv2-fretboard-table th:first-child {
+  width: 5.75rem;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--codex-raised);
+}
+.cv2-fretboard-table th {
+  padding: 0.3rem 0.15rem;
+  color: var(--codex-muted);
+  font-weight: 650;
+  text-align: center;
+}
+.cv2-fretboard-table tbody th {
+  border-right: 1px solid var(--codex-border);
+  white-space: nowrap;
+  color: var(--codex-text);
+}
+.cv2-fretboard-table td {
+  padding: 0;
+}
+.cv2-fretboard-cell {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 43px;
+  height: 46px;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.35rem;
+  background: var(--codex-surface);
+  color: var(--codex-muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.cv2-fretboard-cell:hover {
+  border-color: var(--codex-gold);
+}
+.cv2-fretboard-cell:focus-visible {
+  position: relative;
+  z-index: 2;
+  outline: 3px solid var(--codex-gold);
+  outline-offset: 1px;
+}
+.cv2-fretboard-cell.is-highlight,
+.cv2-fretboard-cell.is-selected-degree,
+.cv2-fretboard-cell.is-anchor {
+  background: var(--codex-gold);
+  border-color: var(--codex-gold);
+  color: #211d14;
+}
+.cv2-fretboard-cell.is-scale-degree,
+.cv2-fretboard-cell.is-destination {
+  background: #315d76;
+  border-color: #7ebcd5;
+  color: #fff;
+}
+.cv2-fretboard-cell.is-alternate-root {
+  border-color: var(--codex-gold);
+  color: var(--codex-gold);
+  border-style: dashed;
+}
+.cv2-fretboard-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  color: var(--codex-muted);
+  font-size: 0.85rem;
+}
+.cv2-fretboard-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.cv2-fretboard-swatch {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: none;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.2rem;
+}
+.cv2-fretboard-swatch.is-highlight,
+.cv2-fretboard-swatch.is-selected-degree,
+.cv2-fretboard-swatch.is-anchor {
+  background: var(--codex-gold);
+}
+.cv2-fretboard-swatch.is-scale-degree,
+.cv2-fretboard-swatch.is-destination {
+  background: #315d76;
+  border-color: #7ebcd5;
+}
+.cv2-fretboard-swatch.is-alternate-root {
+  border: 2px dashed var(--codex-gold);
+}
