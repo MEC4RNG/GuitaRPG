@@ -15,7 +15,13 @@ export type CodexV2Exercise = {
 };
 export type CodexV2ReferenceBlock = {
   id: string;
-  kind: "SCALE_DEGREES" | "TRIAD_FRETBOARD" | "RHYTHM_GRID";
+  kind:
+    | "SCALE_DEGREES"
+    | "TRIAD_FRETBOARD"
+    | "RHYTHM_GRID"
+    | "FRETBOARD_NOTE_LOCATION"
+    | "FRETBOARD_SCALE_MAP"
+    | "FRETBOARD_INTERVALS";
   location: "overview";
 };
 export type CodexV2Module = {
@@ -206,6 +212,9 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         scale_degree_recognition: "SCALE_DEGREES",
         triad_construction: "TRIAD_FRETBOARD",
         subdivision_control: "RHYTHM_GRID",
+        note_location: "FRETBOARD_NOTE_LOCATION",
+        scale_mapping: "FRETBOARD_SCALE_MAP",
+        interval_recognition: "FRETBOARD_INTERVALS",
       };
       if (mediaKind !== expected[entrySlug] || item.location !== "overview")
         throw new Error(

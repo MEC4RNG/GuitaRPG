@@ -27,7 +27,9 @@ describe("CODEX-V2-A-R7 Note Location and Voice Leading editorial pilot", () => 
     expect(added.flatMap((entry) => entry.modules)).toHaveLength(24);
     for (const entry of added) {
       expect(entry.editorial_status).toBe("DRAFT_REVIEW");
-      expect(entry.reference_blocks).toHaveLength(0);
+      expect(entry.reference_blocks.map((block) => block.kind)).toEqual(
+        entry.slug === "note_location" ? ["FRETBOARD_NOTE_LOCATION"] : [],
+      );
       expect(entry.applications).toHaveLength(4);
       expect(entry.modules).toHaveLength(12);
       for (const application of entry.applications) {

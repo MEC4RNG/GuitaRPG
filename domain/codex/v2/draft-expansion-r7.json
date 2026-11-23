@@ -575,7 +575,13 @@
           "review_status": "PROPOSED"
         }
       ],
-      "reference_blocks": []
+      "reference_blocks": [
+        {
+          "id": "reference:note-location-fretboard-v1",
+          "kind": "FRETBOARD_NOTE_LOCATION",
+          "location": "overview"
+        }
+      ]
     },
     {
       "entity_id": "20000000-0000-4000-8000-000000000071",
