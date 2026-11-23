@@ -58,7 +58,7 @@ function scheduleNotes(
   }
 }
 
-function ChordDiagram({ voicing }: { voicing: TriadVoicing }) {
+export function ChordDiagram({ voicing }: { voicing: TriadVoicing }) {
   const fretted = voicing.frets.filter((fret) => fret > 0);
   const high = Math.max(...fretted, 0);
   const low = Math.min(...fretted, high);
