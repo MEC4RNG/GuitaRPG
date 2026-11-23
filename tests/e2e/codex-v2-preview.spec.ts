@@ -188,6 +188,131 @@ test("CODEX-V2-A-R8 expands Scale Mapping and Chord Inversion Navigation without
   await expectNoHorizontalOverflow(page);
 });
 
+test("CODEX-V2-A-R9 finds real pitches across standard tuning and DADGAD", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Note Location" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+
+  const fretboard = page.locator(".cv2-fretboard-interactive");
+  await expect(fretboard).toBeVisible();
+  await expect(fretboard.locator(".cv2-fretboard-cell")).toHaveCount(78);
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText("C occurs at");
+  const firstC = fretboard.getByRole("button", {
+    name: "String 2, fret 1, C4",
+  });
+  await expect(firstC).toHaveClass(/is-highlight/);
+  await firstC.focus();
+  await page.keyboard.press("ArrowRight");
+  const sharp = fretboard.getByRole("button", { name: "String 2, fret 2, C♯4" });
+  await expect(sharp).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(fretboard.getByRole("combobox", { name: "Find note" })).toHaveValue("C♯");
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText(
+    "Selected C♯4 on string 2, fret 2",
+  );
+
+  await fretboard.getByRole("combobox", { name: "Find note" }).selectOption("C");
+  await fretboard.getByRole("combobox", { name: "Guitar tuning" }).selectOption("dadgad");
+  await expect(fretboard.getByRole("button", { name: "String 2, fret 3, C4" })).toHaveClass(
+    /is-highlight/,
+  );
+  await expect(fretboard.locator(".cv2-fretboard-table")).toContainText("2 · A3");
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R9 spells and locates scale degrees across keys and tunings", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale Mapping" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  const fretboard = page.locator(".cv2-fretboard-interactive");
+  await expect(fretboard).toBeVisible();
+  await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText(
+    "C · D · E · F · G · A · B",
+  );
+  await fretboard.getByRole("combobox", { name: "Tonic" }).selectOption("G");
+  await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText("F♯");
+  await fretboard
+    .getByRole("button", { name: "String 1, fret 2, F♯4, scale degree 7" })
+    .click();
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText(
+    "Degree 7: F♯",
+  );
+
+  await fretboard.getByRole("combobox", { name: "Tonic" }).selectOption("C♯");
+  await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText("E♯");
+  await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText("B♯");
+  await fretboard.getByRole("combobox", { name: "Tonic" }).selectOption("A");
+  await fretboard.getByRole("combobox", { name: "Scale type" }).selectOption("harmonic_minor");
+  await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText(
+    "A · B · C · D · E · F · G♯",
+  );
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R9 distinguishes interval spelling and exact sounding octave", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Interval Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  const fretboard = page.locator(".cv2-fretboard-interactive");
+  await expect(fretboard).toBeVisible();
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText(
+    "C4 + major third (4 semitones) = E4",
+  );
+  const interval = fretboard.getByRole("combobox", { name: "Ascending interval" });
+  await interval.selectOption("A4");
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText("F♯4");
+  await interval.selectOption("d5");
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText("G♭4");
+  await expect(fretboard.locator(".cv2-fretboard-cell.is-destination").first()).toHaveAttribute(
+    "aria-label",
+    /G♭4.*exact interval destination/,
+  );
+  await interval.selectOption("P8");
+  await fretboard.getByRole("button", { name: "String 5, fret 3, C3" }).click();
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText(
+    "C3 + perfect octave (12 semitones) = C4",
+  );
+  await expect(fretboard.locator(".cv2-fretboard-cell.is-destination")).not.toHaveCount(0);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("CODEX-V2-A-R9 keeps phone-width overflow within the fretboard and supports touch", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Note Location" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  const scroller = page.locator(".cv2-fretboard-scroll");
+  await expect(scroller).toBeVisible();
+  const sizing = await scroller.evaluate((node) => ({
+    scrollWidth: node.scrollWidth,
+    clientWidth: node.clientWidth,
+  }));
+  expect(sizing.scrollWidth).toBeGreaterThan(sizing.clientWidth);
+  await expectNoHorizontalOverflow(page);
+  await page.locator(".cv2-fretboard-cell.is-highlight").first().click();
+  await expect(page.locator(".cv2-reference-detail")).toContainText("Selected");
+});
+
 test("CODEX-V2-A preserves published V1 Skill routes", async ({ page }) => {
   await page.goto("/codex/skills/triad_construction");
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
