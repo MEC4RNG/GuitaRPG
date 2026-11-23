@@ -85,8 +85,8 @@ describe("CODEX-V2-A-R9 deterministic shared guitar fretboard engine", () => {
           expect(degree.name[0]).toBe("CDEFGAB"[("CDEFGAB".indexOf(root[0]) + index) % 7]);
           // Find a visible physical realization if one exists; every highlighted degree must
           // agree with its spelled pitch class and sounding register.
-          const guitar = positionsForTuning("standard").find((position) =>
-            position.pitchClass === degree.pitchClass
+          const guitar = positionsForTuning("standard").find(
+            (position) => position.pitchClass === degree.pitchClass,
           );
           if (guitar) {
             const labeled = formatSoundingPitch(guitar.midi, degree.name);
@@ -96,31 +96,71 @@ describe("CODEX-V2-A-R9 deterministic shared guitar fretboard engine", () => {
       }
     }
     expect(scaleDegrees("C", "major").map((item) => item.name)).toEqual([
-      "C", "D", "E", "F", "G", "A", "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "A",
+      "B",
     ]);
     expect(scaleDegrees("G", "major").map((item) => item.name)).toEqual([
-      "G", "A", "B", "C", "D", "E", "F♯",
+      "G",
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F♯",
     ]);
     expect(scaleDegrees("A", "harmonic_minor").map((item) => item.name)).toEqual([
-      "A", "B", "C", "D", "E", "F", "G♯",
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G♯",
     ]);
     expect(scaleDegrees("C♯", "major").map((item) => item.name)).toEqual([
-      "C♯", "D♯", "E♯", "F♯", "G♯", "A♯", "B♯",
+      "C♯",
+      "D♯",
+      "E♯",
+      "F♯",
+      "G♯",
+      "A♯",
+      "B♯",
     ]);
     expect(scaleDegrees("A♭", "natural_minor").map((item) => item.name)).toEqual([
-      "A♭", "B♭", "C♭", "D♭", "E♭", "F♭", "G♭",
+      "A♭",
+      "B♭",
+      "C♭",
+      "D♭",
+      "E♭",
+      "F♭",
+      "G♭",
     ]);
     expect(scaleDegrees("F♯", "harmonic_minor").map((item) => item.name)).toEqual([
-      "F♯", "G♯", "A", "B", "C♯", "D", "E♯",
+      "F♯",
+      "G♯",
+      "A",
+      "B",
+      "C♯",
+      "D",
+      "E♯",
     ]);
   });
 
   it("distinguishes augmented fourth from diminished fifth despite equal semitone distance", () => {
     expect(intervalTarget("C", "A4")).toMatchObject({
-      targetName: "F♯", semitones: 6, targetPitchClass: 6,
+      targetName: "F♯",
+      semitones: 6,
+      targetPitchClass: 6,
     });
     expect(intervalTarget("C", "d5")).toMatchObject({
-      targetName: "G♭", semitones: 6, targetPitchClass: 6,
+      targetName: "G♭",
+      semitones: 6,
+      targetPitchClass: 6,
     });
     expect(intervalTarget("C", "M3").targetName).toBe("E");
     expect(intervalTarget("C", "m3").targetName).toBe("E♭");
@@ -147,8 +187,9 @@ describe("CODEX-V2-A-R9 deterministic shared guitar fretboard engine", () => {
           expect(anchor).not.toBeNull();
           expect(anchor?.pitchClass).toBe(rootPitchClass(root));
           const actualCandidates = positions.filter(
-            (position) => position.pitchClass === rootPitchClass(root)
-              && available.has(position.midi + interval.semitones),
+            (position) =>
+              position.pitchClass === rootPitchClass(root) &&
+              available.has(position.midi + interval.semitones),
           );
           if (actualCandidates.length) {
             expect(available.has(anchor!.midi + interval.semitones)).toBe(true);
@@ -179,7 +220,9 @@ describe("CODEX-V2-A-R9 deterministic shared guitar fretboard engine", () => {
     expect(() => parseCodexV2(wrongSkill, true)).toThrow(/unsupported reference block/);
 
     const wrongLocation = structuredClone(draft);
-    const intervalEntry = wrongLocation.entries.find((entry) => entry.slug === "interval_recognition")!;
+    const intervalEntry = wrongLocation.entries.find(
+      (entry) => entry.slug === "interval_recognition",
+    )!;
     intervalEntry.reference_blocks[0].location = "lessons" as "overview";
     expect(() => parseCodexV2(wrongLocation, true)).toThrow(/unsupported reference block/);
   });
