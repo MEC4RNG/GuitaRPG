@@ -31,6 +31,92 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
   await expectNoHorizontalOverflow(page);
 });
 
+test("R9-R1 browser Back and Forward restore Library, Skill, and Dictionary views", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Note Location" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await expect(page).toHaveURL(/\/prototype\/codex-v2\?skill=note_location$/);
+  await expect(page.getByRole("heading", { name: "Note Location" })).toBeVisible();
+
+  await page.goBack();
+  await expect(page).toHaveURL(/\/prototype\/codex-v2$/);
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
+  await page.goForward();
+  await expect(page.getByRole("heading", { name: "Note Location" })).toBeVisible();
+
+  await page.getByRole("button", { name: "← Library" }).click();
+  await expect(page).toHaveURL(/\/prototype\/codex-v2$/);
+  await page.getByRole("button", { name: "Music Dictionary" }).click();
+  await expect(page).toHaveURL(/\?dictionary=1$/);
+  await page.getByRole("button", { name: "Tonic", exact: true }).click();
+  await expect(page).toHaveURL(/dictionary=1&term=vocab%3Atonic$/);
+  await page.goBack();
+  await expect(page.getByRole("heading", { name: "Music Dictionary" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tonic" })).toHaveCount(0);
+  await page.goBack();
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
+
+  await page.goto("/prototype/codex-v2?skill=scale_mapping");
+  await expect(page.getByRole("heading", { name: "Scale Mapping" })).toBeVisible();
+  await page.getByRole("button", { name: "← Library" }).click();
+  await expect(page.locator(".cv2-card")).toHaveCount(9);
+  await expect(page).toHaveURL(/\/prototype\/codex-v2$/);
+});
+
+test("R9-R1 mobile landscape shows open strings and frets 1–12 without scrolling", async ({
+  page,
+}) => {
+  for (const width of [844, 740, 568]) {
+    await page.setViewportSize({ width, height: width === 568 ? 320 : 390 });
+    await page.goto("/prototype/codex-v2");
+    await page
+      .locator(".cv2-card")
+      .filter({ hasText: "Note Location" })
+      .getByRole("button", { name: /Explore this Skill/ })
+      .click();
+    const fretboard = page.locator(".cv2-fretboard-interactive");
+    const scroller = fretboard.locator(".cv2-fretboard-scroll");
+    await expect(scroller).toBeVisible();
+    const geometry = await scroller.evaluate((node) => {
+      const finalFret = node.querySelector("thead th:last-child");
+      if (!finalFret) throw new Error("Missing fret 12 column");
+      const bounds = node.getBoundingClientRect();
+      const last = finalFret.getBoundingClientRect();
+      return {
+        scrollWidth: node.scrollWidth,
+        clientWidth: node.clientWidth,
+        lastRight: last.right,
+        scrollerRight: bounds.right,
+      };
+    });
+    expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 2);
+    expect(geometry.lastRight).toBeLessThanOrEqual(geometry.scrollerRight + 2);
+    await expect(scroller.locator("thead th:last-child")).toHaveText("12");
+    await expect(fretboard.locator(".cv2-fretboard-cell")).toHaveCount(78);
+    await expectNoHorizontalOverflow(page);
+  }
+
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Note Location" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  const scroller = page.locator(".cv2-fretboard-scroll");
+  const portrait = await scroller.evaluate((node) => ({
+    scrollWidth: node.scrollWidth,
+    clientWidth: node.clientWidth,
+  }));
+  expect(portrait.scrollWidth).toBeGreaterThan(portrait.clientWidth);
+  await expectNoHorizontalOverflow(page);
+});
+
 test("CODEX-V2-A-R6 expands interval and arpeggio curricula without changing layout", async ({
   page,
 }) => {

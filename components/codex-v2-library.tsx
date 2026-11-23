@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CodexV2Entry as Entry, CodexV2Term, LearningLevel } from "@/lib/codex/v2/content";
 import { canonicalCodexHref, canonicalCodexName } from "@/lib/codex/v2/content";
 import { CodexV2Entry } from "./codex-v2-entry";
@@ -55,14 +55,60 @@ export function CodexV2Library({
     [terms, termSearch, termGroup],
   );
 
+  // The preview is intentionally one route, but each Skill and Dictionary destination
+  // must still get a browser-history entry. Otherwise mobile Back closes the
+  // preview instead of returning from a Skill to the Library.
+  useEffect(() => {
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get("skill");
+      const termId = params.get("term");
+      if (slug && entries.some((entry) => entry.slug === slug)) {
+        setSelectedSlug(slug);
+        setSelectedTermId(null);
+        setView("entry");
+      } else if (params.get("dictionary") === "1" || termId) {
+        setSelectedSlug(null);
+        setSelectedTermId(termId && terms.some((term) => term.id === termId) ? termId : null);
+        setView("dictionary");
+      } else {
+        setSelectedSlug(null);
+        setSelectedTermId(null);
+        setView("library");
+      }
+    };
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, [entries, terms]);
+
+  function navigate(view: "library" | "entry" | "dictionary", id?: string) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("skill");
+    url.searchParams.delete("dictionary");
+    url.searchParams.delete("term");
+    if (view === "entry" && id) url.searchParams.set("skill", id);
+    if (view === "dictionary") {
+      url.searchParams.set("dictionary", "1");
+      if (id) url.searchParams.set("term", id);
+    }
+    const nextUrl = url.pathname + url.search + url.hash;
+    const currentUrl = window.location.pathname + window.location.search + window.location.hash;
+    if (nextUrl !== currentUrl) {
+      // Preserve Next's internal history state when changing only this route's
+      // query parameters; the browser and Android Back buttons then work.
+      window.history.pushState(window.history.state, "", nextUrl);
+    }
+    setView(view);
+    setSelectedSlug(view === "entry" ? (id ?? null) : null);
+    setSelectedTermId(view === "dictionary" ? (id ?? null) : null);
+  }
+
   function openEntry(slug: string) {
-    setSelectedSlug(slug);
-    setSelectedTermId(null);
-    setView("entry");
+    navigate("entry", slug);
   }
   function openTerm(term: CodexV2Term) {
-    setSelectedTermId(term.id);
-    setView("dictionary");
+    navigate("dictionary", term.id);
   }
 
   return (
@@ -92,8 +138,7 @@ export function CodexV2Library({
               type="button"
               aria-pressed={view !== "dictionary"}
               onClick={() => {
-                setView("library");
-                setSelectedSlug(null);
+                navigate("library");
               }}
             >
               Codex Library
@@ -102,8 +147,7 @@ export function CodexV2Library({
               type="button"
               aria-pressed={view === "dictionary"}
               onClick={() => {
-                setView("dictionary");
-                setSelectedTermId(null);
+                navigate("dictionary");
               }}
             >
               Music Dictionary
@@ -118,7 +162,7 @@ export function CodexV2Library({
           entry={selected}
           terms={terms}
           preview
-          onBack={() => setView("library")}
+          onBack={() => navigate("library")}
           onReadDictionary={openTerm}
         />
       ) : null}
@@ -215,7 +259,7 @@ export function CodexV2Library({
                   <button
                     type="button"
                     aria-current={term.id === selectedTermId ? "true" : undefined}
-                    onClick={() => setSelectedTermId(term.id)}
+                    onClick={() => navigate("dictionary", term.id)}
                   >
                     {term.term}
                   </button>
