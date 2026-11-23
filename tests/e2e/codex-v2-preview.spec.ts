@@ -533,7 +533,7 @@ test("R11 metrical subdivisions keep a 4/4 quarter-note pulse and a controllable
   await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText(
     /Playing|Audio is unavailable/,
   );
-  const stop = sequencer.getByRole("button", { name: "Stop", exact: true });
+  const stop = sequencer.getByRole("button", { name: /Stop/ });
   if (await stop.isEnabled()) {
     await stop.click();
     await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("Stopped");
