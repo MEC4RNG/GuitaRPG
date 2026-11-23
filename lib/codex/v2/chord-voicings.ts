@@ -29,10 +29,7 @@ export type TriadVoicing = {
   fretPosition: number;
 };
 
-export const TRIAD_STRING_GROUPS: Record<
-  TriadStringGroup,
-  readonly [number, number, number]
-> = {
+export const TRIAD_STRING_GROUPS: Record<TriadStringGroup, readonly [number, number, number]> = {
   "1-3": [3, 2, 1],
   "2-4": [4, 3, 2],
   "3-5": [5, 4, 3],
@@ -109,9 +106,11 @@ export function generateTriadVoicings(
           strings,
           frets,
           midi,
-          notes: choices.map((choice) =>
-            formatSoundingPitch(choice.midi, choice.spelledName),
-          ) as [string, string, string],
+          notes: choices.map((choice) => formatSoundingPitch(choice.midi, choice.spelledName)) as [
+            string,
+            string,
+            string,
+          ],
           tones: choices.map((choice) => choice.tone) as [TriadTone, TriadTone, TriadTone],
           inversion: inversionForBass[low.tone],
           fretSpan: span,
@@ -121,10 +120,11 @@ export function generateTriadVoicings(
     }
   }
   // Favor a tighter and lower position, but retain all verified alternatives.
-  return generated.sort((a, b) =>
-    a.fretSpan - b.fretSpan ||
-    Math.max(...a.frets) - Math.max(...b.frets) ||
-    a.frets.join("-").localeCompare(b.frets.join("-")),
+  return generated.sort(
+    (a, b) =>
+      a.fretSpan - b.fretSpan ||
+      Math.max(...a.frets) - Math.max(...b.frets) ||
+      a.frets.join("-").localeCompare(b.frets.join("-")),
   );
 }
 
@@ -174,9 +174,7 @@ export function suggestConnectedVoicings(
 ): TriadVoicing[] {
   if (!progression.length || progression.length > 8)
     throw new Error("Unsupported progression length");
-  const layers = progression.map((chord) =>
-    generateTriadVoicings(chord, tuning, group, maxFret),
-  );
+  const layers = progression.map((chord) => generateTriadVoicings(chord, tuning, group, maxFret));
   if (layers.some((layer) => layer.length === 0)) return [];
 
   const costs: number[][] = [];
@@ -199,8 +197,10 @@ export function suggestConnectedVoicings(
           0,
         );
         const value =
-          costs[layer - 1][prior] + move +
-          candidate.fretPosition * 0.001 + candidate.fretSpan * 0.0001;
+          costs[layer - 1][prior] +
+          move +
+          candidate.fretPosition * 0.001 +
+          candidate.fretSpan * 0.0001;
         if (value < best) {
           best = value;
           chosen = prior;
