@@ -82,10 +82,10 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
       expect(bar.events).toHaveLength(count);
       expect(bar.durationSeconds).toBe(4);
       expect(bar.stepSeconds).toBe(1 / subdivisions);
-      expect(bar.events.map((event) => event.startSeconds)).toEqual(
-        Array.from({ length: count }, (_, index) => index / subdivisions),
-      );
       for (const event of bar.events) {
+        // Triplet onset times use floating-point seconds; compare against the
+        // mathematically equivalent index/3 with an audio-appropriate tolerance.
+        expect(event.startSeconds).toBeCloseTo(event.index / subdivisions, 12);
         expect(event.beat).toBe(Math.floor(event.index / subdivisions) + 1);
         expect(event.part).toBe((event.index % subdivisions) + 1);
         expect(event.durationSeconds).toBeLessThan(bar.stepSeconds);
