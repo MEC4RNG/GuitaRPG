@@ -3,7 +3,18 @@
  * No microphone, Player, Quest, Session, grading or network dependencies.
  */
 export const CHROMATIC_ROOTS = [
-  "C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B",
+  "C",
+  "C♯",
+  "D",
+  "E♭",
+  "E",
+  "F",
+  "F♯",
+  "G",
+  "A♭",
+  "A",
+  "B♭",
+  "B",
 ] as const;
 export type FretboardRoot = (typeof CHROMATIC_ROOTS)[number];
 export type FretboardTuning = "standard" | "drop_d" | "dadgad";
@@ -13,8 +24,18 @@ export type FretboardInterval = (typeof INTERVALS)[number]["id"];
 const NOTE_LETTERS = ["C", "D", "E", "F", "G", "A", "B"] as const;
 const NATURAL_PCS: Record<string, number> = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 const ROOT_PCS: Record<FretboardRoot, number> = {
-  C: 0, "C♯": 1, D: 2, "E♭": 3, E: 4, F: 5, "F♯": 6,
-  G: 7, "A♭": 8, A: 9, "B♭": 10, B: 11,
+  C: 0,
+  "C♯": 1,
+  D: 2,
+  "E♭": 3,
+  E: 4,
+  F: 5,
+  "F♯": 6,
+  G: 7,
+  "A♭": 8,
+  A: 9,
+  "B♭": 10,
+  B: 11,
 };
 
 export const TUNINGS: Record<
@@ -79,11 +100,7 @@ function letterAccidentalOffset(spelled: string): number {
 }
 
 /** Spell by diatonic letter first, then chromatic distance; handles E♯, C♭, double accidentals. */
-export function spellFromRoot(
-  root: FretboardRoot,
-  letterSteps: number,
-  semitones: number,
-): string {
+export function spellFromRoot(root: FretboardRoot, letterSteps: number, semitones: number): string {
   const rootIndex = NOTE_LETTERS.indexOf(root[0] as (typeof NOTE_LETTERS)[number]);
   const noteLetter = NOTE_LETTERS[(rootIndex + letterSteps) % NOTE_LETTERS.length];
   const targetPC = mod12(rootPitchClass(root) + semitones);
@@ -105,10 +122,7 @@ export function formatSoundingPitch(midi: number, spelledName: string): string {
   return `${spelledName}${octave}`;
 }
 
-export function positionsForTuning(
-  tuning: FretboardTuning,
-  maxFret = 12,
-): FretboardPosition[] {
+export function positionsForTuning(tuning: FretboardTuning, maxFret = 12): FretboardPosition[] {
   if (!Number.isInteger(maxFret) || maxFret < 0 || maxFret > 24)
     throw new Error("Fretboard position range is outside supported limits");
   const open = TUNINGS[tuning]?.openLowToHigh;
@@ -130,11 +144,7 @@ export function positionsForTuning(
   return positions;
 }
 
-export function pitchAt(
-  tuning: FretboardTuning,
-  stringNumber: number,
-  fret: number,
-): number {
+export function pitchAt(tuning: FretboardTuning, stringNumber: number, fret: number): number {
   if (!Number.isInteger(stringNumber) || stringNumber < 1 || stringNumber > 6) {
     throw new Error("Invalid guitar string number");
   }
