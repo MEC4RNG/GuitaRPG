@@ -391,6 +391,88 @@ test("CODEX-V2-A-R9 keeps phone-width overflow within the fretboard and supports
   await expect(page.locator(".cv2-reference-detail")).toContainText("Selected");
 });
 
+test("R10 chord inversions come from actual sounding bass and correct guitar frets", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2?skill=chord_inversion_navigation");
+  await expect(page.getByRole("heading", { name: "Chord Inversion Navigation" })).toBeVisible();
+
+  const explorer = page.locator(".cv2-chord-engine");
+  await expect(explorer.getByRole("heading", { name: "Chord inversion explorer" })).toBeVisible();
+  await expect(explorer.getByRole("combobox", { name: "Chord root" })).toHaveValue("C");
+  await expect(explorer.getByRole("combobox", { name: "Chord quality" })).toHaveValue("major");
+  await expect(explorer.locator(".cv2-chord-tone-line")).toContainText("C (root)");
+  await expect(explorer.locator(".cv2-chord-tone-line")).toContainText("E (third)");
+  await expect(explorer.locator(".cv2-chord-card")).toContainText("C4 · E4 · G4");
+  await expect(explorer.locator(".cv2-chord-card svg")).toHaveAccessibleName(/Root position/);
+
+  await explorer.getByRole("combobox", { name: "Chord inversion" }).selectOption("first");
+  await expect(explorer.locator(".cv2-chord-card")).toContainText("First inversion");
+  await expect(explorer.locator(".cv2-chord-card")).toContainText("E4 · G4 · C5");
+  await explorer.getByRole("combobox", { name: "Chord inversion" }).selectOption("second");
+  await expect(explorer.locator(".cv2-chord-card")).toContainText("G3 · C4 · E4");
+
+  await explorer.getByRole("combobox", { name: "Chord quality" }).selectOption("minor");
+  await expect(explorer.locator(".cv2-chord-tone-line")).toContainText("E♭ (third)");
+  await explorer.getByRole("combobox", { name: "Chord root" }).selectOption("C♯");
+  await explorer.getByRole("combobox", { name: "Chord quality" }).selectOption("major");
+  await expect(explorer.locator(".cv2-chord-tone-line")).toContainText("E♯ (third)");
+  await explorer.getByRole("combobox", { name: "Chord guitar tuning" }).selectOption("dadgad");
+  await explorer.getByRole("combobox", { name: "Three-string group" }).selectOption("3-5");
+  await expect(explorer.locator(".cv2-chord-card")).toHaveCount(1);
+  await explorer.getByRole("button", { name: "Hear arpeggio" }).click();
+  await expect(explorer.getByRole("status").last()).toContainText(/Played|Audio is unavailable/);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("R10 voice leading visualizes semitone movement and suggests a connected path", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2?skill=voice_leading");
+  await expect(page.getByRole("heading", { name: "Voice Leading" })).toBeVisible();
+
+  const explorer = page.locator(".cv2-chord-engine");
+  await expect(explorer.getByRole("heading", { name: "Voice-leading explorer" })).toBeVisible();
+  await expect(explorer.locator(".cv2-chord-card")).toHaveCount(4);
+  await expect(explorer.locator(".cv2-chord-motion-total")).toContainText(
+    "Total three-voice movement: 9 semitones",
+  );
+  await expect(explorer.locator(".cv2-chord-motion-table")).toContainText("G4 → A4");
+  await expect(explorer.locator(".cv2-chord-motion-table")).toContainText("Up 2 semitones");
+  await expect(explorer.locator(".cv2-chord-motion-table")).toContainText("Down 3 semitones");
+
+  await explorer.getByRole("button", { name: "Suggest smaller pitch movement" }).click();
+  const optimizedTotal = await explorer.locator(".cv2-chord-motion-total strong").innerText();
+  expect(Number(optimizedTotal.replace(/[^0-9]/g, ""))).toBeLessThanOrEqual(9);
+  await expect(explorer.getByRole("combobox", { name: "Chord 1 voicing" })).toBeVisible();
+  await explorer.getByRole("button", { name: "Restore lesson example" }).click();
+  await expect(explorer.locator(".cv2-chord-motion-total")).toContainText("9 semitones");
+  await explorer.getByRole("combobox", { name: "Harmonic progression" }).selectOption("c_f_g_c");
+  await expect(explorer.locator(".cv2-chord-card")).toHaveCount(4);
+  await explorer.getByRole("combobox", { name: "Three-string group" }).selectOption("2-4");
+  await expect(explorer.locator(".cv2-chord-motion-table tbody tr")).toHaveCount(3);
+  await explorer.getByRole("button", { name: "Hear progression" }).click();
+  await expect(explorer.getByRole("status").last()).toContainText(/Played|Audio is unavailable/);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("R10 chord tool stays inside the phone viewport and retains scroll-free controls", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/prototype/codex-v2?skill=voice_leading");
+  const explorer = page.locator(".cv2-chord-engine");
+  await expect(explorer).toBeVisible();
+  await expect(explorer.locator(".cv2-chord-card")).toHaveCount(4);
+  await expectNoHorizontalOverflow(page);
+  await explorer.getByRole("combobox", { name: "Harmonic progression" }).selectOption("g_em_c_d");
+  await expect(explorer.locator(".cv2-chord-card")).toHaveCount(4);
+  await explorer.getByRole("button", { name: "Suggest smaller pitch movement" }).click();
+  await expectNoHorizontalOverflow(page);
+  await page.setViewportSize({ width: 740, height: 390 });
+  await expectNoHorizontalOverflow(page);
+});
+
 test("CODEX-V2-A preserves published V1 Skill routes", async ({ page }) => {
   await page.goto("/codex/skills/triad_construction");
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
