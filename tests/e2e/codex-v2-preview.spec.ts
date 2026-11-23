@@ -188,9 +188,7 @@ test("CODEX-V2-A-R8 expands Scale Mapping and Chord Inversion Navigation without
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R9 finds real pitches across standard tuning and DADGAD", async ({
-  page,
-}) => {
+test("CODEX-V2-A-R9 finds real pitches across standard tuning and DADGAD", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await page
     .locator(".cv2-card")
@@ -225,9 +223,7 @@ test("CODEX-V2-A-R9 finds real pitches across standard tuning and DADGAD", async
   await expectNoHorizontalOverflow(page);
 });
 
-test("CODEX-V2-A-R9 spells and locates scale degrees across keys and tunings", async ({
-  page,
-}) => {
+test("CODEX-V2-A-R9 spells and locates scale degrees across keys and tunings", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
   await page
     .locator(".cv2-card")
@@ -241,12 +237,8 @@ test("CODEX-V2-A-R9 spells and locates scale degrees across keys and tunings", a
   );
   await fretboard.getByRole("combobox", { name: "Tonic" }).selectOption("G");
   await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText("F♯");
-  await fretboard
-    .getByRole("button", { name: "String 1, fret 2, F♯4, scale degree 7" })
-    .click();
-  await expect(fretboard.locator(".cv2-reference-detail")).toContainText(
-    "Degree 7: F♯",
-  );
+  await fretboard.getByRole("button", { name: "String 1, fret 2, F♯4, scale degree 7" }).click();
+  await expect(fretboard.locator(".cv2-reference-detail")).toContainText("Degree 7: F♯");
 
   await fretboard.getByRole("combobox", { name: "Tonic" }).selectOption("C♯");
   await expect(fretboard.locator(".cv2-fretboard-degree-line")).toContainText("E♯");
