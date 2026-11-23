@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { CodexV2ReferenceBlock } from "@/lib/codex/v2/content";
 import { CodexV2Fretboard } from "./codex-v2-fretboard";
 import { CodexV2ChordVoicings } from "./codex-v2-chord-voicings";
+import { CodexV2ArpeggioSequencer } from "./codex-v2-arpeggio-sequencer";
 
 type AudioContextRef = { current: AudioContext | null };
 
@@ -480,6 +481,9 @@ export function CodexV2Reference({ blocks }: { blocks: readonly CodexV2Reference
           ) : null}
           {block.kind === "VOICE_LEADING_EXPLORER" ? (
             <CodexV2ChordVoicings mode="voice_leading" />
+          ) : null}
+          {block.kind === "ARPEGGIO_SEQUENCER" ? (
+            <CodexV2ArpeggioSequencer />
           ) : null}
         </div>
       ))}
