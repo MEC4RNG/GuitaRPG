@@ -28,9 +28,7 @@ describe("CODEX-V2-A-R7 Note Location and Voice Leading editorial pilot", () => 
     for (const entry of added) {
       expect(entry.editorial_status).toBe("DRAFT_REVIEW");
       expect(entry.reference_blocks.map((block) => block.kind)).toEqual(
-        entry.slug === "note_location"
-          ? ["FRETBOARD_NOTE_LOCATION"]
-          : ["VOICE_LEADING_EXPLORER"],
+        entry.slug === "note_location" ? ["FRETBOARD_NOTE_LOCATION"] : ["VOICE_LEADING_EXPLORER"],
       );
       expect(entry.applications).toHaveLength(4);
       expect(entry.modules).toHaveLength(12);
