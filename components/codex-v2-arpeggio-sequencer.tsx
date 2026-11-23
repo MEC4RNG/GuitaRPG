@@ -99,9 +99,7 @@ export function CodexV2ArpeggioSequencer() {
   const visibleVoicings = availableVoicings.slice(0, 30);
   const selectedVoicing =
     visibleVoicings.find((candidate) => candidate.id === voicingId) ?? visibleVoicings[0] ?? null;
-  const bar = selectedVoicing
-    ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern)
-    : null;
+  const bar = selectedVoicing ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern) : null;
   const soundingEvents = bar?.events.filter((event) => event.midi !== null).length ?? 0;
 
   function stopPlayback(message?: string) {
