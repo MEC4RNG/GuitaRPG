@@ -99,14 +99,9 @@ export function CodexV2ArpeggioSequencer() {
   const availableVoicings = choices.filter((candidate) => candidate.inversion === activeInversion);
   const visibleVoicings = availableVoicings.slice(0, 30);
   const selectedVoicing =
-    visibleVoicings.find((candidate) => candidate.id === voicingId) ??
-    visibleVoicings[0] ??
-    null;
+    visibleVoicings.find((candidate) => candidate.id === voicingId) ?? visibleVoicings[0] ?? null;
   const bar = useMemo(
-    () =>
-      selectedVoicing
-        ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern)
-        : null,
+    () => (selectedVoicing ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern) : null),
     [selectedVoicing, subdivision, bpm, pattern],
   );
   const definitions = selectedVoicing
@@ -164,9 +159,7 @@ export function CodexV2ArpeggioSequencer() {
   function editStep(index: number, tone: ArpeggioStepTone) {
     stopPlayback("Stopped. Your note-order edit is ready to play.");
     setPreset("custom");
-    setPattern((previous) =>
-      previous.map((item, position) => (position === index ? tone : item)),
-    );
+    setPattern((previous) => previous.map((item, position) => (position === index ? tone : item)));
   }
 
   function playTone(run: AudioRun, midi: number, when: number, duration: number) {
@@ -217,10 +210,7 @@ export function CodexV2ArpeggioSequencer() {
         const totalSteps = run.bar.events.length;
         let scheduled = 0;
 
-        while (
-          (run.repeat || run.nextIndex < totalSteps) &&
-          scheduled < 24
-        ) {
+        while ((run.repeat || run.nextIndex < totalSteps) && scheduled < 24) {
           const index = run.nextIndex % totalSteps;
           const cycle = Math.floor(run.nextIndex / totalSteps);
           const note = run.bar.events[index];
@@ -271,11 +261,13 @@ export function CodexV2ArpeggioSequencer() {
           <select
             aria-label="Arpeggio root"
             value={root}
-            onChange={(event) =>
-              resetChord(() => setRoot(event.target.value as FretboardRoot))
-            }
+            onChange={(event) => resetChord(() => setRoot(event.target.value as FretboardRoot))}
           >
-            {CHROMATIC_ROOTS.map((item) => <option key={item} value={item}>{item}</option>)}
+            {CHROMATIC_ROOTS.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
           </select>
         </label>
         <label>
@@ -283,9 +275,7 @@ export function CodexV2ArpeggioSequencer() {
           <select
             aria-label="Arpeggio quality"
             value={quality}
-            onChange={(event) =>
-              resetChord(() => setQuality(event.target.value as TriadQuality))
-            }
+            onChange={(event) => resetChord(() => setQuality(event.target.value as TriadQuality))}
           >
             <option value="major">Major</option>
             <option value="minor">Minor</option>
@@ -296,12 +286,12 @@ export function CodexV2ArpeggioSequencer() {
           <select
             aria-label="Arpeggio tuning"
             value={tuning}
-            onChange={(event) =>
-              resetChord(() => setTuning(event.target.value as FretboardTuning))
-            }
+            onChange={(event) => resetChord(() => setTuning(event.target.value as FretboardTuning))}
           >
             {(Object.keys(TUNINGS) as FretboardTuning[]).map((item) => (
-              <option key={item} value={item}>{TUNINGS[item].title}</option>
+              <option key={item} value={item}>
+                {TUNINGS[item].title}
+              </option>
             ))}
           </select>
         </label>
@@ -310,12 +300,12 @@ export function CodexV2ArpeggioSequencer() {
           <select
             aria-label="Arpeggio string group"
             value={group}
-            onChange={(event) =>
-              resetChord(() => setGroup(event.target.value as TriadStringGroup))
-            }
+            onChange={(event) => resetChord(() => setGroup(event.target.value as TriadStringGroup))}
           >
             {groupOptions.map((item) => (
-              <option key={item} value={item}>Strings {TRIAD_STRING_GROUPS[item].join("–")}</option>
+              <option key={item} value={item}>
+                Strings {TRIAD_STRING_GROUPS[item].join("–")}
+              </option>
             ))}
           </select>
         </label>
@@ -351,8 +341,9 @@ export function CodexV2ArpeggioSequencer() {
           >
             {visibleVoicings.map((item) => (
               <option key={item.id} value={item.id}>
-                {item.frets.map((fret) => fret === 0 ? "open" : fret).join(" / ")}
-                {" · "}{item.notes.join("–")}
+                {item.frets.map((fret) => (fret === 0 ? "open" : fret)).join(" / ")}
+                {" · "}
+                {item.notes.join("–")}
               </option>
             ))}
           </select>
@@ -362,7 +353,9 @@ export function CodexV2ArpeggioSequencer() {
       {selectedVoicing ? (
         <div className="cv2-arpeggio-source">
           <div>
-            <h4>{chordLabel(chord)} · {TRIAD_INVERSION_LABELS[selectedVoicing.inversion]}</h4>
+            <h4>
+              {chordLabel(chord)} · {TRIAD_INVERSION_LABELS[selectedVoicing.inversion]}
+            </h4>
             <p>
               {selectedVoicing.notes.join(" · ")} · strings {selectedVoicing.strings.join("–")},
               frets {selectedVoicing.frets.map((fret) => fret || "open").join("–")}
@@ -392,7 +385,9 @@ export function CodexV2ArpeggioSequencer() {
             onChange={(event) => resetRhythm(event.target.value as ArpeggioSubdivision)}
           >
             {subdivisionOptions.map((item) => (
-              <option key={item} value={item}>{ARPEGGIO_SUBDIVISIONS[item].label}</option>
+              <option key={item} value={item}>
+                {ARPEGGIO_SUBDIVISIONS[item].label}
+              </option>
             ))}
           </select>
         </label>
@@ -404,7 +399,9 @@ export function CodexV2ArpeggioSequencer() {
             onChange={(event) => selectPreset(event.target.value as ArpeggioPreset | "custom")}
           >
             {presetOptions.map((item) => (
-              <option key={item} value={item}>{ARPEGGIO_PRESETS[item].title}</option>
+              <option key={item} value={item}>
+                {ARPEGGIO_PRESETS[item].title}
+              </option>
             ))}
             <option value="custom">Custom edited notes</option>
           </select>
@@ -455,13 +452,17 @@ export function CodexV2ArpeggioSequencer() {
                     >
                       {ARPEGGIO_STEP_TONES.map((tone) => (
                         <option key={tone} value={tone}>
-                          {tone === "rest" ? "Rest" : tone === "root" ? "Root" : tone === "third" ? "Third" : "Fifth"}
+                          {tone === "rest"
+                            ? "Rest"
+                            : tone === "root"
+                              ? "Root"
+                              : tone === "third"
+                                ? "Third"
+                                : "Fifth"}
                         </option>
                       ))}
                     </select>
-                    <span className="cv2-arpeggio-note">
-                      {event.note ?? "Silence"}
-                    </span>
+                    <span className="cv2-arpeggio-note">{event.note ?? "Silence"}</span>
                   </label>
                 ))}
             </div>
@@ -495,7 +496,8 @@ export function CodexV2ArpeggioSequencer() {
       <div className="cv2-reference-detail cv2-arpeggio-status" role="status" aria-live="polite">
         <strong>
           {soundingEvents} sounding attacks, {(bar?.events.length ?? 0) - soundingEvents} rests
-          {" · "}{subdivisionOptions.includes(subdivision) ? ARPEGGIO_SUBDIVISIONS[subdivision].label : ""}
+          {" · "}
+          {subdivisionOptions.includes(subdivision) ? ARPEGGIO_SUBDIVISIONS[subdivision].label : ""}
         </strong>
         <p>{audioStatus}</p>
         <p>
