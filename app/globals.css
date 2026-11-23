@@ -4891,3 +4891,192 @@ a {
   margin-top: 0.25rem;
   color: var(--codex-muted);
 }
+
+/* CODEX-V2-A-R11: one-bar interactive arpeggio sequencer within existing Codex panels. */
+.cv2-arpeggio-engine {
+  min-width: 0;
+}
+.cv2-arpeggio-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 0.65rem;
+}
+.cv2-arpeggio-controls label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  color: var(--codex-muted);
+  font-size: 0.87rem;
+}
+.cv2-arpeggio-controls select,
+.cv2-arpeggio-controls input[type="number"] {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.55rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.55rem;
+  background: var(--codex-raised);
+  color: var(--codex-text);
+  font: inherit;
+}
+.cv2-arpeggio-source {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.8rem;
+  min-width: 0;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.7rem;
+  background: var(--codex-raised);
+}
+.cv2-arpeggio-source h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--codex-text);
+}
+.cv2-arpeggio-source p {
+  margin: 0.35rem 0;
+  line-height: 1.5;
+  font-size: 0.86rem;
+  color: var(--codex-muted);
+}
+.cv2-arpeggio-diagram {
+  min-width: 0;
+  display: grid;
+  place-items: center;
+}
+.cv2-arpeggio-diagram .cv2-chord-diagram {
+  width: min(100%, 15rem);
+}
+.cv2-arpeggio-heading {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  color: var(--codex-text);
+  font-size: 0.87rem;
+}
+.cv2-arpeggio-heading span {
+  color: var(--codex-muted);
+  font-size: 0.82rem;
+}
+.cv2-arpeggio-beats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 0.65rem;
+  min-width: 0;
+}
+.cv2-arpeggio-beat {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.7rem;
+  background: var(--codex-raised);
+  border: 1px solid var(--codex-border);
+  border-radius: 0.65rem;
+}
+.cv2-arpeggio-beat > strong {
+  font-size: 0.88rem;
+  color: var(--codex-text);
+}
+.cv2-arpeggio-parts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 3rem), 1fr));
+  gap: 0.35rem;
+  min-width: 0;
+}
+.cv2-arpeggio-parts label {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  justify-items: stretch;
+  gap: 0.2rem;
+  padding: 0.28rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.45rem;
+  color: var(--codex-text);
+}
+.cv2-arpeggio-parts label.is-active {
+  border-color: var(--codex-gold);
+  background: rgb(214 168 75 / 12%);
+}
+.cv2-arpeggio-count {
+  text-align: center;
+  font-weight: 700;
+  color: var(--codex-gold);
+  font-size: 0.78rem;
+}
+.cv2-arpeggio-parts select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.15rem 0.1rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.35rem;
+  background: var(--codex-surface);
+  color: var(--codex-text);
+  font-size: 0.85rem;
+}
+.cv2-arpeggio-note {
+  min-height: 1rem;
+  text-align: center;
+  color: var(--codex-muted);
+  overflow-wrap: anywhere;
+  font-size: 0.75rem;
+}
+.cv2-arpeggio-controls select:focus-visible,
+.cv2-arpeggio-controls input:focus-visible,
+.cv2-arpeggio-parts select:focus-visible,
+.cv2-arpeggio-playback button:focus-visible,
+.cv2-arpeggio-playback input:focus-visible {
+  outline: 3px solid var(--codex-gold);
+  outline-offset: 2px;
+}
+.cv2-arpeggio-playback {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.cv2-arpeggio-playback button {
+  box-sizing: border-box;
+  min-height: 44px;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.55rem;
+  background: var(--codex-raised);
+  color: var(--codex-text);
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+.cv2-arpeggio-playback button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.cv2-arpeggio-playback label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--codex-muted);
+  font-size: 0.87rem;
+}
+.cv2-arpeggio-playback input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--codex-gold);
+}
+.cv2-arpeggio-status p {
+  margin: 0;
+}
+.cv2-arpeggio-footnote {
+  color: var(--codex-muted);
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.84rem;
+}
