@@ -541,7 +541,13 @@
           "editorial_status": "DRAFT_REVIEW"
         }
       ],
-      "reference_blocks": [],
+      "reference_blocks": [
+        {
+          "id": "reference:interval-recognition-fretboard-v1",
+          "kind": "FRETBOARD_INTERVALS",
+          "location": "overview"
+        }
+      ],
       "relationships": [
         {
           "type": "RECOMMENDED_FOUNDATION",
