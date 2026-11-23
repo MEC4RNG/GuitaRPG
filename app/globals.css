@@ -4718,3 +4718,28 @@ a {
 .cv2-fretboard-swatch.is-alternate-root {
   border: 2px dashed var(--codex-gold);
 }
+
+/* R9-R1: Fit all open/1–12 positions into mobile landscape without
+   changing the intentionally scrollable portrait fretboard. */
+@media (orientation: landscape) and (min-width: 35rem) and (max-width: 64rem) {
+  .cv2-fretboard-table {
+    width: 100%;
+    min-width: 0;
+    border-spacing: 1px;
+    font-size: 0.69rem;
+  }
+  .cv2-fretboard-table th:first-child {
+    width: 3.65rem;
+  }
+  .cv2-fretboard-table th {
+    padding-inline: 0;
+  }
+  .cv2-fretboard-cell {
+    min-width: 0;
+    width: 100%;
+    height: 44px;
+    padding: 0;
+    font-size: clamp(0.56rem, 1.2vw, 0.75rem);
+    white-space: nowrap;
+  }
+}
