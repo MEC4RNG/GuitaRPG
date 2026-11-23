@@ -28,8 +28,8 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
       added.find((entry) => entry.slug === "interval_recognition")?.reference_blocks[0]?.kind,
     ).toBe("FRETBOARD_INTERVALS");
     expect(
-      added.find((entry) => entry.slug === "arpeggio_sequencing")?.reference_blocks,
-    ).toHaveLength(0);
+      added.find((entry) => entry.slug === "arpeggio_sequencing")?.reference_blocks[0]?.kind,
+    ).toBe("ARPEGGIO_SEQUENCER");
   });
 
   it("uses exactly one real module per application and learning level", () => {
