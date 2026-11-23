@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CHROMATIC_ROOTS, TUNINGS, type FretboardRoot, type FretboardTuning } from "@/lib/codex/v2/fretboard-engine";
+import {
+  CHROMATIC_ROOTS,
+  TUNINGS,
+  type FretboardRoot,
+  type FretboardTuning,
+} from "@/lib/codex/v2/fretboard-engine";
 import {
   chordLabel,
   chordToneDefinitions,
@@ -72,7 +77,8 @@ function ChordDiagram({ voicing }: { voicing: TriadVoicing }) {
       {Array.from({ length: 6 }, (_, index) => (
         <g key={index}>
           <line
-            x1="40" x2="259"
+            x1="40"
+            x2="259"
             y1={firstY + index * fretHeight}
             y2={firstY + index * fretHeight}
             stroke="currentColor"
@@ -102,22 +108,31 @@ function ChordDiagram({ voicing }: { voicing: TriadVoicing }) {
         return (
           <g key={stringNumber}>
             <line
-              x1={x} x2={x}
-              y1={firstY} y2={firstY + 5 * fretHeight}
-              stroke="currentColor" strokeOpacity="0.45" strokeWidth="2"
+              x1={x}
+              x2={x}
+              y1={firstY}
+              y2={firstY + 5 * fretHeight}
+              stroke="currentColor"
+              strokeOpacity="0.45"
+              strokeWidth="2"
             />
             <text x={x} y="17" textAnchor="middle" fontSize="13" fill="currentColor">
               String {stringNumber}
             </text>
             <circle
-              cx={x} cy={y} r={fret === 0 ? 14 : 17}
+              cx={x}
+              cy={y}
+              r={fret === 0 ? 14 : 17}
               fill={fret === 0 ? "none" : "#d6a84b"}
               stroke={fret === 0 ? "currentColor" : "#302715"}
               strokeWidth="2"
             />
             <text
-              x={x} y={y + 4}
-              textAnchor="middle" fontWeight="700" fontSize="13"
+              x={x}
+              y={y + 4}
+              textAnchor="middle"
+              fontWeight="700"
+              fontSize="13"
               fill={fret === 0 ? "currentColor" : "#282216"}
             >
               {shortTone}
@@ -160,7 +175,9 @@ function VoicingCard({
         <span className="cv2-eyebrow">
           {index === undefined ? "Selected voicing" : `Chord ${index + 1}`}
         </span>
-        <h4>{chordLabel(voicing.chord)} · {TRIAD_INVERSION_LABELS[voicing.inversion]}</h4>
+        <h4>
+          {chordLabel(voicing.chord)} · {TRIAD_INVERSION_LABELS[voicing.inversion]}
+        </h4>
       </div>
       {candidates && onSelect ? (
         <label>
@@ -172,8 +189,9 @@ function VoicingCard({
           >
             {options.map((candidate) => (
               <option key={candidate.id} value={candidate.id}>
-                {candidate.frets.map((fret) => fret === 0 ? "open" : fret).join(" / ")}
-                {" · "}{TRIAD_INVERSION_LABELS[candidate.inversion]}
+                {candidate.frets.map((fret) => (fret === 0 ? "open" : fret)).join(" / ")}
+                {" · "}
+                {TRIAD_INVERSION_LABELS[candidate.inversion]}
               </option>
             ))}
           </select>
@@ -182,8 +200,8 @@ function VoicingCard({
       <ChordDiagram voicing={voicing} />
       <p>{voicing.notes.join(" · ")} (low to high)</p>
       <p className="cv2-chord-fret-label">
-        Frets {voicing.frets.map((fret) => fret === 0 ? "open" : fret).join("–")} on
-        strings {voicing.strings.join("–")}
+        Frets {voicing.frets.map((fret) => (fret === 0 ? "open" : fret)).join("–")} on strings{" "}
+        {voicing.strings.join("–")}
       </p>
       <div className="cv2-chord-audio">
         <button type="button" onClick={() => onHear(voicing, true)}>
@@ -231,32 +249,34 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
   const candidates = voicings.filter((voicing) => voicing.inversion === activeInversion);
   const shownCandidates = candidates.slice(0, 24);
   const selectedVoicing =
-    shownCandidates.find((voicing) => voicing.id === voicingId) ??
-    shownCandidates[0] ??
-    null;
+    shownCandidates.find((voicing) => voicing.id === voicingId) ?? shownCandidates[0] ?? null;
 
   const progression = VOICE_LEADING_PROGRESSIONS[progressionId];
   const progressionVoicings = useMemo(
-    () => progression.chords.map((item) =>
-      generateTriadVoicings(item, tuning, group).slice(0, 40),
-    ),
+    () => progression.chords.map((item) => generateTriadVoicings(item, tuning, group).slice(0, 40)),
     [progression, tuning, group],
   );
   const suggested = useMemo(
     () => suggestConnectedVoicings(progression.chords, tuning, group),
     [progression, tuning, group],
   );
-  const example = progressionId === "c_am_f_g" && group === "1-3" && tuning === "standard"
-    ? progressionVoicings.map((list, index) =>
-        list.find((voicing) => voicing.frets.every((fret, n) => fret === chordExamples[index][n]))
-        ?? suggested[index],
-      )
-    : suggested;
-  const displayedPath = progressionVoicings.map((options, index) =>
-    options.find((option) => option.id === overrides[index]) ??
-    (optimized ? suggested[index] : example[index]) ??
-    options[0],
-  ).filter((value): value is TriadVoicing => Boolean(value));
+  const example =
+    progressionId === "c_am_f_g" && group === "1-3" && tuning === "standard"
+      ? progressionVoicings.map(
+          (list, index) =>
+            list.find((voicing) =>
+              voicing.frets.every((fret, n) => fret === chordExamples[index][n]),
+            ) ?? suggested[index],
+        )
+      : suggested;
+  const displayedPath = progressionVoicings
+    .map(
+      (options, index) =>
+        options.find((option) => option.id === overrides[index]) ??
+        (optimized ? suggested[index] : example[index]) ??
+        options[0],
+    )
+    .filter((value): value is TriadVoicing => Boolean(value));
   const hasCompletePath = displayedPath.length === progression.chords.length;
   const totalMotion = hasCompletePath ? totalVoiceMotion(displayedPath) : null;
   const suggestedMotion = suggested.length ? totalVoiceMotion(suggested) : null;
@@ -280,8 +300,16 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
       const context = audioRef.current ?? new AudioContext();
       audioRef.current = context;
       void context.resume();
-      scheduleNotes(context, voice.midi, context.currentTime + 0.04, asChord ? 0 : 0.26, asChord ? 0.6 : 0.38);
-      setAudioMessage(`Played ${chordLabel(voice.chord)} as ${asChord ? "a chord" : "individual chord tones"}.`);
+      scheduleNotes(
+        context,
+        voice.midi,
+        context.currentTime + 0.04,
+        asChord ? 0 : 0.26,
+        asChord ? 0.6 : 0.38,
+      );
+      setAudioMessage(
+        `Played ${chordLabel(voice.chord)} as ${asChord ? "a chord" : "individual chord tones"}.`,
+      );
     } catch {
       setAudioMessage("Audio is unavailable here; the exact sounding pitches remain visible.");
     }
@@ -305,9 +333,7 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
   return (
     <div className="cv2-interactive cv2-chord-engine">
       <span className="cv2-eyebrow">Interactive guitar reference · draft</span>
-      <h3>
-        {mode === "inversions" ? "Chord inversion explorer" : "Voice-leading explorer"}
-      </h3>
+      <h3>{mode === "inversions" ? "Chord inversion explorer" : "Voice-leading explorer"}</h3>
       <p>
         {mode === "inversions"
           ? "Choose a chord, tuning and three-string group. Compare playable root, first and second inversions by their actual lowest sounding chord tone."
@@ -326,7 +352,11 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
                   resetVoicingChoice();
                 }}
               >
-                {CHROMATIC_ROOTS.map((note) => <option key={note} value={note}>{note}</option>)}
+                {CHROMATIC_ROOTS.map((note) => (
+                  <option key={note} value={note}>
+                    {note}
+                  </option>
+                ))}
               </select>
             </label>
             <label>
@@ -357,7 +387,9 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
               }}
             >
               {(Object.keys(VOICE_LEADING_PROGRESSIONS) as ProgressionId[]).map((id) => (
-                <option key={id} value={id}>{VOICE_LEADING_PROGRESSIONS[id].title}</option>
+                <option key={id} value={id}>
+                  {VOICE_LEADING_PROGRESSIONS[id].title}
+                </option>
               ))}
             </select>
           </label>
@@ -373,7 +405,9 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
             }}
           >
             {(Object.keys(TUNINGS) as FretboardTuning[]).map((id) => (
-              <option key={id} value={id}>{TUNINGS[id].title}</option>
+              <option key={id} value={id}>
+                {TUNINGS[id].title}
+              </option>
             ))}
           </select>
         </label>
@@ -388,7 +422,9 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
             }}
           >
             {groupOrder.map((id) => (
-              <option key={id} value={id}>Strings {TRIAD_STRING_GROUPS[id].join("–")}</option>
+              <option key={id} value={id}>
+                Strings {TRIAD_STRING_GROUPS[id].join("–")}
+              </option>
             ))}
           </select>
         </label>
@@ -422,8 +458,9 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
               >
                 {shownCandidates.map((voicing) => (
                   <option key={voicing.id} value={voicing.id}>
-                    {voicing.frets.map((fret) => fret === 0 ? "open" : fret).join(" / ")}
-                    {" · "}{voicing.notes.join("–")}
+                    {voicing.frets.map((fret) => (fret === 0 ? "open" : fret)).join(" / ")}
+                    {" · "}
+                    {voicing.notes.join("–")}
                   </option>
                 ))}
               </select>
@@ -435,16 +472,20 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
       {mode === "inversions" ? (
         <>
           <p className="cv2-chord-tone-line">
-            Chord tones: {chordToneDefinitions(chord).map((tone) =>
-              `${tone.spelledName} (${tone.tone})`,
-            ).join(" · ")}
+            Chord tones:{" "}
+            {chordToneDefinitions(chord)
+              .map((tone) => `${tone.spelledName} (${tone.tone})`)
+              .join(" · ")}
           </p>
           {selectedVoicing ? (
             <div className="cv2-chord-diagrams">
               <VoicingCard voicing={selectedVoicing} onHear={audition} />
             </div>
           ) : (
-            <p role="status">No playable three-string triad is available under the current fret-span limits. Try another group or tuning.</p>
+            <p role="status">
+              No playable three-string triad is available under the current fret-span limits. Try
+              another group or tuning.
+            </p>
           )}
           <div className="cv2-reference-detail" role="status">
             <strong>
@@ -513,18 +554,24 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
                     <tr>
                       <th scope="col">Chord change</th>
                       {TRIAD_STRING_GROUPS[group].map((number) => (
-                        <th key={number} scope="col">String {number}</th>
+                        <th key={number} scope="col">
+                          String {number}
+                        </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {lines.map((line, index) => (
                       <tr key={index}>
-                        <th scope="row">{line.fromChord} → {line.toChord}</th>
+                        <th scope="row">
+                          {line.fromChord} → {line.toChord}
+                        </th>
                         {line.movement.map((item) => (
                           <td key={item.stringNumber}>
                             <strong>{motionLabel(item.semitones)}</strong>
-                            <span>{item.from} → {item.to}</span>
+                            <span>
+                              {item.from} → {item.to}
+                            </span>
                           </td>
                         ))}
                       </tr>
@@ -534,8 +581,8 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
               </div>
               <p className="cv2-chord-instruction">
                 Compare the exact semitones, not fret-number changes. This searches three-string
-                triad voicings for smaller pitch movement; it does not grade performance,
-                guarantee the easiest fingering, or determine the inversion of an added lower bass.
+                triad voicings for smaller pitch movement; it does not grade performance, guarantee
+                the easiest fingering, or determine the inversion of an added lower bass.
               </p>
             </>
           ) : (
@@ -546,7 +593,9 @@ export function CodexV2ChordVoicings({ mode }: { mode: Mode }) {
           )}
         </>
       )}
-      <p className="cv2-chord-audio-status" role="status">{audioMessage}</p>
+      <p className="cv2-chord-audio-status" role="status">
+        {audioMessage}
+      </p>
     </div>
   );
 }
