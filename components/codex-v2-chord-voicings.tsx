@@ -145,6 +145,15 @@ function VoicingCard({
   onSelect?: (id: string) => void;
   onHear: (voicing: TriadVoicing, asChord: boolean) => void;
 }) {
+  const options = candidates
+    ? [
+        ...(candidates.some((candidate) => candidate.id === voicing.id) ? [] : [voicing]),
+        ...candidates.filter((candidate) => candidate.id !== voicing.id).slice(0, 39),
+      ]
+    : [];
+  if (candidates && !options.some((candidate) => candidate.id === voicing.id)) {
+    options.unshift(voicing);
+  }
   return (
     <article className="cv2-chord-card">
       <div>
@@ -161,7 +170,7 @@ function VoicingCard({
             value={voicing.id}
             onChange={(event) => onSelect(event.target.value)}
           >
-            {candidates.map((candidate) => (
+            {options.map((candidate) => (
               <option key={candidate.id} value={candidate.id}>
                 {candidate.frets.map((fret) => fret === 0 ? "open" : fret).join(" / ")}
                 {" · "}{TRIAD_INVERSION_LABELS[candidate.inversion]}
