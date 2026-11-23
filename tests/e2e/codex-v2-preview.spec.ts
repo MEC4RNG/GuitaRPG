@@ -494,9 +494,7 @@ test("R11 arpeggio source uses real chord-tone pitches and editable quarter/eigh
   await sequencer.getByRole("combobox", { name: "Arpeggio preset" }).selectOption("space");
   await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("rests");
   await sequencer.getByRole("combobox", { name: "Beat 2, part 2" }).selectOption("rest");
-  await expect(sequencer.getByRole("combobox", { name: "Arpeggio preset" })).toHaveValue(
-    "custom",
-  );
+  await expect(sequencer.getByRole("combobox", { name: "Arpeggio preset" })).toHaveValue("custom");
 
   await sequencer.getByRole("combobox", { name: "Arpeggio inversion" }).selectOption("first");
   await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("E4 · G4 · C5");
@@ -519,14 +517,13 @@ test("R11 metrical subdivisions keep a 4/4 quarter-note pulse and a controllable
   await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(12);
   await expect(sequencer.locator(".cv2-arpeggio-beat").first()).toContainText("trip");
   await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("12 sounding attacks");
-  await sequencer.getByRole("combobox", { name: "Arpeggio subdivision" }).selectOption(
-    "sixteenth",
-  );
+  await sequencer.getByRole("combobox", { name: "Arpeggio subdivision" }).selectOption("sixteenth");
   await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(16);
   await expect(sequencer.locator(".cv2-arpeggio-beat").first()).toContainText("&");
   await sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" }).fill("120");
-  await expect(sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" }))
-    .toHaveValue("120");
+  await expect(sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" })).toHaveValue(
+    "120",
+  );
   await expect(sequencer.locator(".cv2-arpeggio-status")).toContainText("2.00 seconds");
   await sequencer.getByRole("checkbox", { name: "Repeat bar until stopped" }).check();
   await sequencer.getByRole("button", { name: "Play bar" }).click();
@@ -554,9 +551,9 @@ test("R11 arpeggio editor stays inside portrait and mobile-landscape Codex width
     await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
     const sequencer = page.locator(".cv2-arpeggio-engine");
     await expect(sequencer).toBeVisible();
-    await sequencer.getByRole("combobox", { name: "Arpeggio subdivision" }).selectOption(
-      "sixteenth",
-    );
+    await sequencer
+      .getByRole("combobox", { name: "Arpeggio subdivision" })
+      .selectOption("sixteenth");
     await expect(sequencer.locator(".cv2-arpeggio-beats select")).toHaveCount(16);
     await sequencer.getByRole("combobox", { name: "Arpeggio tuning" }).selectOption("dadgad");
     await sequencer.getByRole("combobox", { name: "Arpeggio string group" }).selectOption("3-5");
