@@ -30,9 +30,12 @@ const titles: Record<FretboardLearningMode, string> = {
   interval_recognition: "Explore ascending intervals on the fretboard",
 };
 const instructions: Record<FretboardLearningMode, string> = {
-  note_location: "Choose a pitch class or select any fret. All matching notes in the visible 0–12 fret range light up, with their sounding octaves.",
-  scale_mapping: "Choose the tonic and scale. Select a highlighted position to inspect its degree; every note uses the correct pitch spelling in that scale.",
-  interval_recognition: "Choose the reference note and ascending interval, then select a root position. Only exact sounding destinations in the current fret range are highlighted.",
+  note_location:
+    "Choose a pitch class or select any fret. All matching notes in the visible 0–12 fret range light up, with their sounding octaves.",
+  scale_mapping:
+    "Choose the tonic and scale. Select a highlighted position to inspect its degree; every note uses the correct pitch spelling in that scale.",
+  interval_recognition:
+    "Choose the reference note and ascending interval, then select a root position. Only exact sounding destinations in the current fret range are highlighted.",
 };
 
 function playPitch(reference: { current: AudioContext | null }, midi: number) {
@@ -89,7 +92,9 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
   );
   const degreeNotes = notesInScale.map((degree) => degree.name).join(" · ");
   const currentInterval = intervalTarget(root, interval);
-  const rootPositions = positions.filter((position) => position.pitchClass === rootPitchClass(root));
+  const rootPositions = positions.filter(
+    (position) => position.pitchClass === rootPitchClass(root),
+  );
   const suggestedAnchor = preferredIntervalAnchor(positions, root, interval);
   const anchorCandidate = anchorId ? lookup.get(anchorId) : null;
   const anchor =
@@ -104,16 +109,14 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
 
   const selectedNoteName =
     inspected && mode !== "interval_recognition"
-      ? (mode === "scale_mapping"
+      ? ((mode === "scale_mapping"
           ? scaleByPitchClass.get(inspected.pitchClass)?.name
           : rootPitchClass(root) === inspected.pitchClass
             ? root
-            : undefined) ?? rootForPitchClass(inspected.pitchClass)
+            : undefined) ?? rootForPitchClass(inspected.pitchClass))
       : null;
   const inspectedLabel =
-    inspected && selectedNoteName
-      ? formatSoundingPitch(inspected.midi, selectedNoteName)
-      : null;
+    inspected && selectedNoteName ? formatSoundingPitch(inspected.midi, selectedNoteName) : null;
   const chosenDegree =
     selectedDegree === null
       ? null
@@ -234,14 +237,26 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
 
       <div className="cv2-fretboard-controls">
         <label>
-          {mode === "interval_recognition" ? "Reference note" : mode === "scale_mapping" ? "Tonic" : "Find note"}
+          {mode === "interval_recognition"
+            ? "Reference note"
+            : mode === "scale_mapping"
+              ? "Tonic"
+              : "Find note"}
           <select
-            aria-label={mode === "interval_recognition" ? "Reference note" : mode === "scale_mapping" ? "Tonic" : "Find note"}
+            aria-label={
+              mode === "interval_recognition"
+                ? "Reference note"
+                : mode === "scale_mapping"
+                  ? "Tonic"
+                  : "Find note"
+            }
             value={root}
             onChange={(event) => updateRoot(event.target.value as FretboardRoot)}
           >
             {CHROMATIC_ROOTS.map((note) => (
-              <option key={note} value={note}>{note}</option>
+              <option key={note} value={note}>
+                {note}
+              </option>
             ))}
           </select>
         </label>
@@ -257,7 +272,9 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
             }}
           >
             {(Object.keys(TUNINGS) as FretboardTuning[]).map((id) => (
-              <option key={id} value={id}>{TUNINGS[id].title}</option>
+              <option key={id} value={id}>
+                {TUNINGS[id].title}
+              </option>
             ))}
           </select>
         </label>
@@ -274,7 +291,9 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
               }}
             >
               {(Object.keys(SCALE_PATTERNS) as FretboardScale[]).map((id) => (
-                <option key={id} value={id}>{SCALE_PATTERNS[id].name}</option>
+                <option key={id} value={id}>
+                  {SCALE_PATTERNS[id].name}
+                </option>
               ))}
             </select>
           </label>
@@ -291,7 +310,9 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
               }}
             >
               {INTERVALS.map((item) => (
-                <option key={item.id} value={item.id}>{item.label}</option>
+                <option key={item.id} value={item.id}>
+                  {item.label}
+                </option>
               ))}
             </select>
           </label>
@@ -307,13 +328,23 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
         Frets 0–12 · horizontal scrolling on narrow screens · arrow keys move between positions;
         Enter or Space selects a note.
       </p>
-      <div className="cv2-fretboard-scroll" role="region" aria-label="Scrollable guitar fretboard, frets 0 through 12" tabIndex={0}>
-        <table className="cv2-fretboard-table" aria-label={`${TUNINGS[tuning].title} fretboard, strings 1 through 6`}>
+      <div
+        className="cv2-fretboard-scroll"
+        role="region"
+        aria-label="Scrollable guitar fretboard, frets 0 through 12"
+        tabIndex={0}
+      >
+        <table
+          className="cv2-fretboard-table"
+          aria-label={`${TUNINGS[tuning].title} fretboard, strings 1 through 6`}
+        >
           <thead>
             <tr>
               <th scope="col">String</th>
               {frets.map((fret) => (
-                <th key={fret} scope="col">{fret === 0 ? "Open" : fret}</th>
+                <th key={fret} scope="col">
+                  {fret === 0 ? "Open" : fret}
+                </th>
               ))}
             </tr>
           </thead>
@@ -326,7 +357,9 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
               );
               return (
                 <tr key={stringNumber}>
-                  <th scope="row">{stringNumber} · {openPitchName}</th>
+                  <th scope="row">
+                    {stringNumber} · {openPitchName}
+                  </th>
                   {frets.map((fret) => {
                     const position = lookup.get(`s${stringNumber}-f${fret}`)!;
                     const view = cellPresentation(position);
@@ -337,11 +370,13 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
                           data-fret-position={position.id}
                           className={`cv2-fretboard-cell ${view.variant}`}
                           aria-label={view.ariaLabel}
-                          aria-pressed={mode === "interval_recognition"
-                            ? position.id === anchor?.id
-                            : mode === "note_location"
-                              ? view.highlight
-                              : inspected?.id === position.id}
+                          aria-pressed={
+                            mode === "interval_recognition"
+                              ? position.id === anchor?.id
+                              : mode === "note_location"
+                                ? view.highlight
+                                : inspected?.id === position.id
+                          }
                           tabIndex={focusCell === position.id ? 0 : -1}
                           onKeyDown={(event) => handleGridKeyDown(event, position)}
                           onClick={() => choose(position)}
@@ -360,17 +395,29 @@ export function CodexV2Fretboard({ mode }: { mode: FretboardLearningMode }) {
       <div className="cv2-fretboard-legend" aria-label="Fretboard legend">
         {mode === "interval_recognition" ? (
           <>
-            <span><i className="cv2-fretboard-swatch is-anchor" /> Chosen reference</span>
-            <span><i className="cv2-fretboard-swatch is-destination" /> Exact higher note</span>
-            <span><i className="cv2-fretboard-swatch is-alternate-root" /> Other reference positions</span>
+            <span>
+              <i className="cv2-fretboard-swatch is-anchor" /> Chosen reference
+            </span>
+            <span>
+              <i className="cv2-fretboard-swatch is-destination" /> Exact higher note
+            </span>
+            <span>
+              <i className="cv2-fretboard-swatch is-alternate-root" /> Other reference positions
+            </span>
           </>
         ) : mode === "scale_mapping" ? (
           <>
-            <span><i className="cv2-fretboard-swatch is-scale-degree" /> Scale note</span>
-            <span><i className="cv2-fretboard-swatch is-selected-degree" /> Selected degree</span>
+            <span>
+              <i className="cv2-fretboard-swatch is-scale-degree" /> Scale note
+            </span>
+            <span>
+              <i className="cv2-fretboard-swatch is-selected-degree" /> Selected degree
+            </span>
           </>
         ) : (
-          <span><i className="cv2-fretboard-swatch is-highlight" /> Matching sounding note</span>
+          <span>
+            <i className="cv2-fretboard-swatch is-highlight" /> Matching sounding note
+          </span>
         )}
       </div>
       <div className="cv2-reference-detail" role="status" aria-live="polite">
