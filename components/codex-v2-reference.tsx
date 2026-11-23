@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CodexV2ReferenceBlock } from "@/lib/codex/v2/content";
+import { CodexV2Fretboard } from "./codex-v2-fretboard";
 
 type AudioContextRef = { current: AudioContext | null };
 
@@ -466,6 +467,15 @@ export function CodexV2Reference({ blocks }: { blocks: readonly CodexV2Reference
           {block.kind === "SCALE_DEGREES" ? <ScaleDegreesReference /> : null}
           {block.kind === "TRIAD_FRETBOARD" ? <TriadFretboardReference /> : null}
           {block.kind === "RHYTHM_GRID" ? <RhythmGridReference /> : null}
+          {block.kind === "FRETBOARD_NOTE_LOCATION" ? (
+            <CodexV2Fretboard mode="note_location" />
+          ) : null}
+          {block.kind === "FRETBOARD_SCALE_MAP" ? (
+            <CodexV2Fretboard mode="scale_mapping" />
+          ) : null}
+          {block.kind === "FRETBOARD_INTERVALS" ? (
+            <CodexV2Fretboard mode="interval_recognition" />
+          ) : null}
         </div>
       ))}
     </aside>
