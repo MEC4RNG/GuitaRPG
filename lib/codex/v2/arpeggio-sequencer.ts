@@ -14,9 +14,7 @@ export const ARPEGGIO_SUBDIVISIONS = {
 
 export type ArpeggioSubdivision = keyof typeof ARPEGGIO_SUBDIVISIONS;
 export type ArpeggioStepTone = TriadTone | "rest";
-export const ARPEGGIO_STEP_TONES: readonly ArpeggioStepTone[] = [
-  "root", "third", "fifth", "rest",
-];
+export const ARPEGGIO_STEP_TONES: readonly ArpeggioStepTone[] = ["root", "third", "fifth", "rest"];
 
 export const ARPEGGIO_PRESETS = {
   arch: {
