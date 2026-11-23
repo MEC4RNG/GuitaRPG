@@ -1121,7 +1121,13 @@
           ]
         }
       ],
-      "reference_blocks": [],
+      "reference_blocks": [
+        {
+          "id": "reference:chord-inversion-navigation-v1",
+          "kind": "CHORD_INVERSION_EXPLORER",
+          "location": "overview"
+        }
+      ],
       "relationships": [
         {
           "type": "RECOMMENDED_FOUNDATION",

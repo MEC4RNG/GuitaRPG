@@ -21,7 +21,9 @@ export type CodexV2ReferenceBlock = {
     | "RHYTHM_GRID"
     | "FRETBOARD_NOTE_LOCATION"
     | "FRETBOARD_SCALE_MAP"
-    | "FRETBOARD_INTERVALS";
+    | "FRETBOARD_INTERVALS"
+    | "CHORD_INVERSION_EXPLORER"
+    | "VOICE_LEADING_EXPLORER";
   location: "overview";
 };
 export type CodexV2Module = {
@@ -215,6 +217,8 @@ export function parseCodexV2(input: unknown, allowDrafts = false): CodexV2Catalo
         note_location: "FRETBOARD_NOTE_LOCATION",
         scale_mapping: "FRETBOARD_SCALE_MAP",
         interval_recognition: "FRETBOARD_INTERVALS",
+        chord_inversion_navigation: "CHORD_INVERSION_EXPLORER",
+        voice_leading: "VOICE_LEADING_EXPLORER",
       };
       if (mediaKind !== expected[entrySlug] || item.location !== "overview")
         throw new Error(

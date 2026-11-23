@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CodexV2ReferenceBlock } from "@/lib/codex/v2/content";
 import { CodexV2Fretboard } from "./codex-v2-fretboard";
+import { CodexV2ChordVoicings } from "./codex-v2-chord-voicings";
 
 type AudioContextRef = { current: AudioContext | null };
 
@@ -473,6 +474,12 @@ export function CodexV2Reference({ blocks }: { blocks: readonly CodexV2Reference
           {block.kind === "FRETBOARD_SCALE_MAP" ? <CodexV2Fretboard mode="scale_mapping" /> : null}
           {block.kind === "FRETBOARD_INTERVALS" ? (
             <CodexV2Fretboard mode="interval_recognition" />
+          ) : null}
+          {block.kind === "CHORD_INVERSION_EXPLORER" ? (
+            <CodexV2ChordVoicings mode="inversions" />
+          ) : null}
+          {block.kind === "VOICE_LEADING_EXPLORER" ? (
+            <CodexV2ChordVoicings mode="voice_leading" />
           ) : null}
         </div>
       ))}

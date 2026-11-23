@@ -4743,3 +4743,151 @@ a {
     white-space: nowrap;
   }
 }
+
+/* CODEX-V2-A-R10: reusable chord/voice-learning reference within existing Codex panels. */
+.cv2-chord-engine {
+  min-width: 0;
+}
+.cv2-chord-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr));
+  gap: 0.65rem;
+}
+.cv2-chord-controls label,
+.cv2-chord-card label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  font-size: 0.87rem;
+  color: var(--codex-muted);
+}
+.cv2-chord-controls select,
+.cv2-chord-card select {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border-radius: 0.55rem;
+  border: 1px solid var(--codex-border);
+  padding: 0.55rem;
+  color: var(--codex-text);
+  background: var(--codex-raised);
+  font: inherit;
+}
+.cv2-chord-controls select:focus-visible,
+.cv2-chord-card select:focus-visible,
+.cv2-chord-audio button:focus-visible,
+.cv2-chord-route-actions button:focus-visible {
+  outline: 3px solid var(--codex-gold);
+  outline-offset: 2px;
+}
+.cv2-chord-tone-line,
+.cv2-chord-instruction,
+.cv2-chord-audio-status {
+  margin: 0;
+  color: var(--codex-muted);
+  line-height: 1.55;
+  font-size: 0.88rem;
+}
+.cv2-chord-diagrams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  align-items: start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.cv2-chord-card {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.85rem;
+  border: 1px solid var(--codex-border);
+  border-radius: 0.65rem;
+  background: var(--codex-raised);
+}
+.cv2-chord-card h4 {
+  margin: 0.3rem 0 0;
+  color: var(--codex-text);
+  line-height: 1.4;
+  font-size: 1rem;
+}
+.cv2-chord-card p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--codex-text);
+  font-size: 0.88rem;
+}
+.cv2-chord-card .cv2-chord-fret-label {
+  color: var(--codex-muted);
+  font-size: 0.8rem;
+}
+.cv2-chord-diagram {
+  display: block;
+  width: min(100%, 18rem);
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+  color: var(--codex-text);
+}
+.cv2-chord-audio,
+.cv2-chord-route-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.cv2-chord-audio button,
+.cv2-chord-route-actions button {
+  min-height: 44px;
+  border-radius: 0.55rem;
+  border: 1px solid var(--codex-border);
+  background: var(--codex-surface);
+  color: var(--codex-text);
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+}
+.cv2-chord-route-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.cv2-chord-motion-total {
+  margin: 0;
+  color: var(--codex-text);
+}
+.cv2-chord-motion-table-wrap {
+  min-width: 0;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 0.65rem;
+  border: 1px solid var(--codex-border);
+}
+.cv2-chord-motion-table {
+  width: 100%;
+  min-width: 390px;
+  border-collapse: collapse;
+  color: var(--codex-text);
+  font-size: 0.81rem;
+}
+.cv2-chord-motion-table caption {
+  text-align: left;
+  padding: 0.65rem;
+  color: var(--codex-muted);
+}
+.cv2-chord-motion-table th,
+.cv2-chord-motion-table td {
+  text-align: left;
+  border-top: 1px solid var(--codex-border);
+  padding: 0.65rem 0.45rem;
+  vertical-align: top;
+}
+.cv2-chord-motion-table th:first-child {
+  min-width: 5.5rem;
+}
+.cv2-chord-motion-table td span {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--codex-muted);
+}

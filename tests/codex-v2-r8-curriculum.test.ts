@@ -54,7 +54,7 @@ describe("CODEX-V2-A-R8 Scale Mapping and Chord Inversion Navigation", () => {
       expect(entry.kind).toBe("SKILL");
       expect(entry.editorial_status).toBe("DRAFT_REVIEW");
       expect(entry.reference_blocks.map((block) => block.kind)).toEqual(
-        entry.slug === "scale_mapping" ? ["FRETBOARD_SCALE_MAP"] : [],
+        entry.slug === "scale_mapping" ? ["FRETBOARD_SCALE_MAP"] : ["CHORD_INVERSION_EXPLORER"],
       );
       expect(entry.applications).toHaveLength(4);
       expect(entry.modules).toHaveLength(12);

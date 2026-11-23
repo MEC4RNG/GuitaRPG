@@ -1155,7 +1155,13 @@
           "review_status": "PROPOSED"
         }
       ],
-      "reference_blocks": []
+      "reference_blocks": [
+        {
+          "id": "reference:voice-leading-triads-v1",
+          "kind": "VOICE_LEADING_EXPLORER",
+          "location": "overview"
+        }
+      ]
     }
   ],
   "terms": []
