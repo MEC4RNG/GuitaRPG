@@ -24,7 +24,12 @@ describe("CODEX-V2-A-R6 editorial curriculum expansion", () => {
     expect(added.flatMap((entry) => entry.applications)).toHaveLength(8);
     expect(added.flatMap((entry) => entry.relationships)).toHaveLength(8);
     expect(added.every((entry) => entry.editorial_status === "DRAFT_REVIEW")).toBe(true);
-    expect(added.every((entry) => entry.reference_blocks.length === 0)).toBe(true);
+    expect(
+      added.find((entry) => entry.slug === "interval_recognition")?.reference_blocks[0]?.kind,
+    ).toBe("FRETBOARD_INTERVALS");
+    expect(
+      added.find((entry) => entry.slug === "arpeggio_sequencing")?.reference_blocks,
+    ).toHaveLength(0);
   });
 
   it("uses exactly one real module per application and learning level", () => {
