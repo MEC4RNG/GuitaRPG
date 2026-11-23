@@ -63,9 +63,19 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
     expect(catalog.entries.slice(0, 3).every((entry) => entry.reference_blocks.length === 1)).toBe(
       true,
     );
-    expect(catalog.entries.slice(3).every((entry) => entry.reference_blocks.length === 0)).toBe(
-      true,
-    );
+    const expectedReferences: Record<string, string> = {
+      scale_degree_recognition: "SCALE_DEGREES",
+      triad_construction: "TRIAD_FRETBOARD",
+      subdivision_control: "RHYTHM_GRID",
+      interval_recognition: "FRETBOARD_INTERVALS",
+      note_location: "FRETBOARD_NOTE_LOCATION",
+      scale_mapping: "FRETBOARD_SCALE_MAP",
+    };
+    for (const entry of catalog.entries) {
+      expect(entry.reference_blocks.map((block) => block.kind)).toEqual(
+        expectedReferences[entry.slug] ? [expectedReferences[entry.slug]] : [],
+      );
+    }
     expect(catalog.entries.every((entry) => entry.editorial_status === "DRAFT_REVIEW")).toBe(true);
   });
 
