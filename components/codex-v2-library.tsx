@@ -69,9 +69,7 @@ export function CodexV2Library({
         setView("entry");
       } else if (params.get("dictionary") === "1" || termId) {
         setSelectedSlug(null);
-        setSelectedTermId(
-          termId && terms.some((term) => term.id === termId) ? termId : null,
-        );
+        setSelectedTermId(termId && terms.some((term) => term.id === termId) ? termId : null);
         setView("dictionary");
       } else {
         setSelectedSlug(null);
@@ -95,8 +93,7 @@ export function CodexV2Library({
       if (id) url.searchParams.set("term", id);
     }
     const nextUrl = url.pathname + url.search + url.hash;
-    const currentUrl =
-      window.location.pathname + window.location.search + window.location.hash;
+    const currentUrl = window.location.pathname + window.location.search + window.location.hash;
     if (nextUrl !== currentUrl) {
       // Preserve Next's internal history state when changing only this route's
       // query parameters; the browser and Android Back buttons then work.
