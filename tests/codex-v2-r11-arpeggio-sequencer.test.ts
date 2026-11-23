@@ -22,10 +22,7 @@ import {
 import { parseCodexV2 } from "@/lib/codex/v2/content";
 import { readCodexV2DraftPreview } from "@/lib/codex/v2/preview";
 import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
-import {
-  PUBLISHED_CODEX_V2_ENTRIES,
-  PUBLISHED_CODEX_V2_TERMS,
-} from "@/lib/codex/v2/catalog";
+import { PUBLISHED_CODEX_V2_ENTRIES, PUBLISHED_CODEX_V2_TERMS } from "@/lib/codex/v2/catalog";
 
 function find(
   chord: NamedTriad,
@@ -44,12 +41,7 @@ const cMajor = { root: "C", quality: "major" } as const;
 describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
   it("outlines C–E–G–E as four quarter notes in one actual 4/4 bar", () => {
     const voicing = find(cMajor, [5, 5, 3]);
-    const bar = buildArpeggioBar(
-      voicing,
-      "quarter",
-      80,
-      createArpeggioPattern("quarter", "arch"),
-    );
+    const bar = buildArpeggioBar(voicing, "quarter", 80, createArpeggioPattern("quarter", "arch"));
     expect(bar.events).toHaveLength(4);
     expect(bar.events.map((event) => event.note)).toEqual(["C4", "E4", "G4", "E4"]);
     expect(bar.events.map((event) => event.midi)).toEqual([60, 64, 67, 64]);
@@ -86,12 +78,7 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
     ] as const) {
       expect(stepCountForSubdivision(id)).toBe(count);
       expect(ARPEGGIO_SUBDIVISIONS[id].stepsPerBeat).toBe(subdivisions);
-      const bar = buildArpeggioBar(
-        find(cMajor, [5, 5, 3]),
-        id,
-        60,
-        createArpeggioPattern(id),
-      );
+      const bar = buildArpeggioBar(find(cMajor, [5, 5, 3]), id, 60, createArpeggioPattern(id));
       expect(bar.events).toHaveLength(count);
       expect(bar.durationSeconds).toBe(4);
       expect(bar.stepSeconds).toBe(1 / subdivisions);
@@ -100,7 +87,7 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
       );
       for (const event of bar.events) {
         expect(event.beat).toBe(Math.floor(event.index / subdivisions) + 1);
-        expect(event.part).toBe(event.index % subdivisions + 1);
+        expect(event.part).toBe((event.index % subdivisions) + 1);
         expect(event.durationSeconds).toBeLessThan(bar.stepSeconds);
         expect(event.startSeconds + event.durationSeconds).toBeLessThan(4.000001);
       }
@@ -112,7 +99,12 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
       createArpeggioPattern("triplet"),
     );
     expect(triplets.events.slice(0, 6).map((event) => event.count)).toEqual([
-      "1", "trip", "let", "2", "trip", "let",
+      "1",
+      "trip",
+      "let",
+      "2",
+      "trip",
+      "let",
     ]);
     const sixteenths = buildArpeggioBar(
       find(cMajor, [5, 5, 3]),
@@ -120,9 +112,7 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
       60,
       createArpeggioPattern("sixteenth"),
     );
-    expect(sixteenths.events.slice(0, 4).map((event) => event.count)).toEqual([
-      "1", "e", "&", "a",
-    ]);
+    expect(sixteenths.events.slice(0, 4).map((event) => event.count)).toEqual(["1", "e", "&", "a"]);
   });
 
   it("keeps rests silent and distinguishes a preset from edited chord-tone order", () => {
@@ -136,7 +126,11 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
     const bar = buildArpeggioBar(voicing, "eighth", 100, modified);
     expect(bar.events[1]).toMatchObject({ note: "G4", tone: "fifth", midi: 67 });
     expect(bar.events[4]).toMatchObject({
-      tone: "rest", midi: null, note: null, fret: null, stringNumber: null,
+      tone: "rest",
+      midi: null,
+      note: null,
+      fret: null,
+      stringNumber: null,
     });
     expect(bar.events.some((event) => event.note === "Silence")).toBe(false);
     expect(Object.keys(ARPEGGIO_PRESETS)).toHaveLength(5);
@@ -154,7 +148,10 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
             if (!voicing) continue;
             for (const rhythm of rhythmIds) {
               const bar = buildArpeggioBar(
-                voicing, rhythm, 120, createArpeggioPattern(rhythm, "ascending"),
+                voicing,
+                rhythm,
+                120,
+                createArpeggioPattern(rhythm, "ascending"),
               );
               expect(bar.events).toHaveLength(4 * ARPEGGIO_SUBDIVISIONS[rhythm].stepsPerBeat);
               for (const event of bar.events) {
@@ -165,9 +162,7 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
                 const voice = voicing.tones.indexOf(event.tone);
                 expect(event.midi).toBe(voicing.midi[voice]);
                 expect(event.note).toBe(voicing.notes[voice]);
-                expect(event.midi).toBe(
-                  pitchAt(tuning, event.stringNumber!, event.fret!),
-                );
+                expect(event.midi).toBe(pitchAt(tuning, event.stringNumber!, event.fret!));
               }
               tested++;
             }
@@ -176,9 +171,7 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
       }
     }
     expect(tested).toBeGreaterThan(500);
-    const b = generateTriadVoicings(
-      { root: "A♭", quality: "minor" }, "standard", "1-3",
-    )[0];
+    const b = generateTriadVoicings({ root: "A♭", quality: "minor" }, "standard", "1-3")[0];
     const name = b.notes.find((note) => note.startsWith("C♭"));
     expect(name).toBeDefined();
   });
@@ -189,15 +182,17 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
     for (const bad of [-1, 0, 39, 201, 120.5, Number.NaN]) {
       expect(() => buildArpeggioBar(voicing, "quarter", bad, quarter)).toThrow(/BPM/);
     }
-    expect(() => buildArpeggioBar(voicing, "quarter", 80, quarter.slice(0, 3)))
-      .toThrow(/length/);
-    expect(() => buildArpeggioBar(voicing, "quarter", 80, [
-      "root", "seventh", "third", "fifth",
-    ] as ArpeggioStepTone[])).toThrow(/tone/);
-    expect(() => createArpeggioPattern("unknown" as ArpeggioSubdivision))
-      .toThrow(/subdivision/);
-    expect(() => createArpeggioPattern("quarter", "bad" as "arch"))
-      .toThrow(/pattern/);
+    expect(() => buildArpeggioBar(voicing, "quarter", 80, quarter.slice(0, 3))).toThrow(/length/);
+    expect(() =>
+      buildArpeggioBar(voicing, "quarter", 80, [
+        "root",
+        "seventh",
+        "third",
+        "fifth",
+      ] as ArpeggioStepTone[]),
+    ).toThrow(/tone/);
+    expect(() => createArpeggioPattern("unknown" as ArpeggioSubdivision)).toThrow(/subdivision/);
+    expect(() => createArpeggioPattern("quarter", "bad" as "arch")).toThrow(/pattern/);
   });
 
   it("registers interactive media only on the draft Arpeggio Sequencing Skill", () => {
@@ -209,15 +204,15 @@ describe("CODEX-V2-A-R11 deterministic arpeggio sequencer", () => {
     expect(PUBLISHED_CODEX_V2_ENTRIES).toHaveLength(0);
     expect(PUBLISHED_CODEX_V2_TERMS).toHaveLength(0);
     const entry = catalog.entries.find((item) => item.slug === "arpeggio_sequencing");
-    expect(entry?.reference_blocks.map((block) => block.kind)).toEqual([
-      "ARPEGGIO_SEQUENCER",
-    ]);
+    expect(entry?.reference_blocks.map((block) => block.kind)).toEqual(["ARPEGGIO_SEQUENCER"]);
     const forged = structuredClone(catalog);
-    forged.entries.find((item) => item.slug === "note_location")!.reference_blocks.push({
-      id: "forged-sequence",
-      kind: "ARPEGGIO_SEQUENCER",
-      location: "overview",
-    });
+    forged.entries
+      .find((item) => item.slug === "note_location")!
+      .reference_blocks.push({
+        id: "forged-sequence",
+        kind: "ARPEGGIO_SEQUENCER",
+        location: "overview",
+      });
     expect(() => parseCodexV2(forged, true)).toThrow(/unsupported reference block/);
   });
 });
