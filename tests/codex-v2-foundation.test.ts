@@ -70,6 +70,7 @@ describe("CODEX-V2-A editorially gated content foundation", () => {
       interval_recognition: "FRETBOARD_INTERVALS",
       chord_inversion_navigation: "CHORD_INVERSION_EXPLORER",
       voice_leading: "VOICE_LEADING_EXPLORER",
+      arpeggio_sequencing: "ARPEGGIO_SEQUENCER",
       note_location: "FRETBOARD_NOTE_LOCATION",
       scale_mapping: "FRETBOARD_SCALE_MAP",
     };
