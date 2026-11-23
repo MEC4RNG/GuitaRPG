@@ -1121,7 +1121,13 @@
           "editorial_status": "DRAFT_REVIEW"
         }
       ],
-      "reference_blocks": [],
+      "reference_blocks": [
+        {
+          "id": "reference:arpeggio-sequencer-v1",
+          "kind": "ARPEGGIO_SEQUENCER",
+          "location": "overview"
+        }
+      ],
       "relationships": [
         {
           "type": "RECOMMENDED_FOUNDATION",
