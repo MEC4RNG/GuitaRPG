@@ -180,8 +180,7 @@ export function QuestJourneySurface({
   const selectedTopic = topics.find((topic) => topic.key === selectedTopicKey) ?? topics[0];
   const selectedMapCodex =
     selectedTopic?.kind === "SKILL" ? mapCodexLearning[selectedTopic.slug] : undefined;
-  const mapLevelLessons =
-    selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
+  const mapLevelLessons = selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -562,9 +561,9 @@ export function QuestJourneySurface({
                 <section className="map-topic__action">
                   <h3>Optional: Start a Workbook</h3>
                   <p>
-                    Create a private Workbook seeded with this Quest context, or simply open
-                    Explore above and connect an existing Page there. Creating a Workbook is an
-                    explicit separate action.
+                    Create a private Workbook seeded with this Quest context, or simply open Explore
+                    above and connect an existing Page there. Creating a Workbook is an explicit
+                    separate action.
                   </p>
                   <button
                     className="action-button action-button--secondary"
@@ -585,9 +584,15 @@ export function QuestJourneySurface({
               <section className="explore-workspaces" aria-labelledby="explore-workspaces-title">
                 {learningFocus ? (
                   <div className="explore-learning-focus" role="status">
-                    <span className="eyebrow">Selected from Map · {learningLevels.find((item) => item.id === learningFocus.level)?.label}</span>
+                    <span className="eyebrow">
+                      Selected from Map ·{" "}
+                      {learningLevels.find((item) => item.id === learningFocus.level)?.label}
+                    </span>
                     <strong>{learningFocus.title}</strong>
-                    <p>Work with this ingredient here or link an existing Page. Entering Explore does not create a Workbook.</p>
+                    <p>
+                      Work with this ingredient here or link an existing Page. Entering Explore does
+                      not create a Workbook.
+                    </p>
                     {learningFocus.moduleKey && mapCodexLearning[learningFocus.moduleKey] ? (
                       <Link
                         className="text-link"
@@ -633,57 +638,61 @@ export function QuestJourneySurface({
                       aria-labelledby={`module-${module.slug}`}
                     >
                       <div className="explore-module__heading">
-                      <button
-                        id={`module-${module.slug}`}
-                        type="button"
-                        className="explore-module__disclosure"
-                        aria-expanded={expanded}
-                        aria-controls={`module-panel-${module.slug}`}
-                        onClick={() =>
-                          setExpandedModules((current) => {
-                            const next = new Set(current);
-                            if (next.has(module.slug)) next.delete(module.slug);
-                            else next.add(module.slug);
-                            return next;
-                          })
-                        }
-                      >
-                        <span>
-                          <strong>{module.name}</strong>
-                          <small>{module.roles.join(" · ")}</small>
-                        </span>
-                        <span>
-                          {links.length} linked {links.length === 1 ? "page" : "pages"}
-                        </span>
-                      </button>
-                      <div className="explore-module__reorder" role="group" aria-label={`Reorder ${module.name}`}>
                         <button
+                          id={`module-${module.slug}`}
                           type="button"
-                          aria-label={`Move ${module.name} earlier`}
-                          title="Move this ingredient earlier"
-                          disabled={pending || index === 0}
-                          onClick={() => {
-                            const next = [...orderedModuleKeys];
-                            [next[index - 1], next[index]] = [next[index], next[index - 1]];
-                            void persistModuleOrder(next);
-                          }}
+                          className="explore-module__disclosure"
+                          aria-expanded={expanded}
+                          aria-controls={`module-panel-${module.slug}`}
+                          onClick={() =>
+                            setExpandedModules((current) => {
+                              const next = new Set(current);
+                              if (next.has(module.slug)) next.delete(module.slug);
+                              else next.add(module.slug);
+                              return next;
+                            })
+                          }
                         >
-                          ↑ Earlier
+                          <span>
+                            <strong>{module.name}</strong>
+                            <small>{module.roles.join(" · ")}</small>
+                          </span>
+                          <span>
+                            {links.length} linked {links.length === 1 ? "page" : "pages"}
+                          </span>
                         </button>
-                        <button
-                          type="button"
-                          aria-label={`Move ${module.name} later`}
-                          title="Move this ingredient later"
-                          disabled={pending || index === exploreModules.length - 1}
-                          onClick={() => {
-                            const next = [...orderedModuleKeys];
-                            [next[index + 1], next[index]] = [next[index], next[index + 1]];
-                            void persistModuleOrder(next);
-                          }}
+                        <div
+                          className="explore-module__reorder"
+                          role="group"
+                          aria-label={`Reorder ${module.name}`}
                         >
-                          ↓ Later
-                        </button>
-                      </div>
+                          <button
+                            type="button"
+                            aria-label={`Move ${module.name} earlier`}
+                            title="Move this ingredient earlier"
+                            disabled={pending || index === 0}
+                            onClick={() => {
+                              const next = [...orderedModuleKeys];
+                              [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                              void persistModuleOrder(next);
+                            }}
+                          >
+                            ↑ Earlier
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Move ${module.name} later`}
+                            title="Move this ingredient later"
+                            disabled={pending || index === exploreModules.length - 1}
+                            onClick={() => {
+                              const next = [...orderedModuleKeys];
+                              [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                              void persistModuleOrder(next);
+                            }}
+                          >
+                            ↓ Later
+                          </button>
+                        </div>
                       </div>
                       <div
                         id={`module-panel-${module.slug}`}
