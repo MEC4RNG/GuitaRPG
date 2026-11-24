@@ -141,11 +141,13 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   );
   await expect(page.getByRole("heading", { name: "How to explore" })).toBeVisible();
   await expect(page.getByRole("tab", { name: "Beginner" })).toHaveAttribute(
-    "aria-selected", "true",
+    "aria-selected",
+    "true",
   );
   await page.getByRole("tab", { name: "Intermediate" }).click();
   await expect(page.getByRole("tab", { name: "Intermediate" })).toHaveAttribute(
-    "aria-selected", "true",
+    "aria-selected",
+    "true",
   );
   await expect(page.locator(".map-topic__level-actions button")).toBeEnabled();
   await expectAccessible(page, "Quest Journey Map");
@@ -156,13 +158,18 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(page.locator(".journey-tempo")).toHaveCount(0);
   const firstModule = page.locator(".explore-module").first();
   await expect(firstModule.locator(".explore-module__disclosure")).toHaveAttribute(
-    "aria-expanded", "true",
+    "aria-expanded",
+    "true",
   );
-  await expect(firstModule.locator(".explore-module__heading .explore-module__reorder")).toBeVisible();
-  await expect(firstModule.getByRole("combobox", { name: /Choose existing page for/ })).toBeVisible();
-  const pointer = await firstModule.locator(".explore-module__disclosure").evaluate(
-    (node) => getComputedStyle(node).cursor,
-  );
+  await expect(
+    firstModule.locator(".explore-module__heading .explore-module__reorder"),
+  ).toBeVisible();
+  await expect(
+    firstModule.getByRole("combobox", { name: /Choose existing page for/ }),
+  ).toBeVisible();
+  const pointer = await firstModule
+    .locator(".explore-module__disclosure")
+    .evaluate((node) => getComputedStyle(node).cursor);
   expect(pointer).toBe("pointer");
   await expectNoHorizontalOverflow(page);
 
