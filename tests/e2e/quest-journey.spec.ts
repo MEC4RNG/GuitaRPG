@@ -140,6 +140,7 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
     "true",
   );
   await expectAccessible(page, "Quest Journey Map");
+  await primaryTopic.click();
   const mapLevels = page.locator(".map-topic__learning-level");
   await expect(mapLevels).toHaveCount(3);
   await mapLevels.first().locator("summary").click();
