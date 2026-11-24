@@ -617,7 +617,8 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                           <p>No module-assigned pages yet.</p>
                         )}
                         <div className="explore-module__actions">
-                          <button type="button" onClick={() => void newModulePage(module.slug)}>
+                          <div className="explore-module__page-actions" aria-label="Workbook page actions">
+                            <button type="button" onClick={() => void newModulePage(module.slug)}>
                             New Page
                           </button>
                           <label>
@@ -636,8 +637,12 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                               ))}
                             </select>
                           </label>
-                          <button
+                          </div>
+                          <div className="explore-module__order-actions" aria-label={`Reorder ${module.name}`}>
+                            <span>Module order</span>
+                            <button
                             type="button"
+                            aria-label={`Move ${module.name} earlier`}
                             disabled={index === 0}
                             onClick={() => {
                               const next = [...orderedModuleKeys];
@@ -647,8 +652,9 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                           >
                             Move Earlier
                           </button>
-                          <button
+                            <button
                             type="button"
+                            aria-label={`Move ${module.name} later`}
                             disabled={index === exploreModules.length - 1}
                             onClick={() => {
                               const next = [...orderedModuleKeys];
@@ -656,8 +662,9 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                               void persistModuleOrder(next);
                             }}
                           >
-                            Move Later
-                          </button>
+                              Move Later
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </section>
