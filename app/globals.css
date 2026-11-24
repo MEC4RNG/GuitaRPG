@@ -5080,3 +5080,213 @@ a {
   line-height: 1.5;
   font-size: 0.84rem;
 }
+
+
+/* MEC-R12: Map learning progression and visually connected Explore controls.
+   Craft's existing layout and Toolkit selectors remain unchanged. */
+.map-topic__learn {
+  min-width: 0;
+}
+.map-topic__level-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.map-topic__level-tabs button {
+  min-height: 44px;
+  cursor: pointer;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  font: inherit;
+}
+.map-topic__level-tabs button[aria-selected="true"] {
+  border-color: var(--surface-accent);
+  box-shadow: inset 0 -2px 0 var(--surface-accent);
+  font-weight: 700;
+}
+.map-topic__level-content {
+  min-width: 0;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.8rem;
+  background: var(--surface-raised);
+}
+.map-topic__lesson-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+.map-topic__lesson-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 0.65rem;
+}
+.map-topic__lesson-list li > div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.map-topic__lesson-list small {
+  color: var(--surface-muted);
+}
+.map-topic__lesson-list button {
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--surface-accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+.map-topic__level-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.map-topic__interactive {
+  min-width: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.8rem;
+  padding: 0.75rem;
+}
+.map-topic__interactive > summary {
+  min-height: 44px;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--surface-text);
+}
+.map-topic__interactive .cv2-reference-stack {
+  min-width: 0;
+  max-width: 100%;
+}
+.explore-learning-focus {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-left: 3px solid var(--surface-accent);
+  border-radius: 0.55rem;
+  background: var(--surface-raised);
+}
+.explore-learning-focus > p {
+  margin: 0;
+  color: var(--surface-muted);
+}
+.explore-module__heading {
+  display: flex;
+  align-items: stretch;
+  gap: 0.45rem;
+  min-width: 0;
+}
+.explore-module__heading .explore-module__disclosure {
+  flex: 1 1 auto;
+  min-width: 0;
+  cursor: pointer;
+}
+.explore-module__reorder {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.6rem 0.4rem 0;
+}
+.explore-module__reorder button {
+  min-height: 44px;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.55rem;
+  background: var(--surface-raised);
+  color: var(--surface-text);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.explore-module__reorder button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.explore-module__panel {
+  gap: 1rem;
+}
+.explore-module__panel button:not(:disabled),
+.explore-unassigned button:not(:disabled) {
+  cursor: pointer;
+}
+.explore-module__actions {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--surface-border);
+}
+.explore-module__actions > button {
+  min-height: 44px;
+  cursor: pointer;
+}
+.explore-module__existing-page {
+  display: grid;
+  gap: 0.55rem;
+  flex: 1 1 13rem;
+  min-width: 0;
+}
+.explore-module__existing-page select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+}
+.explore-module__disclosure:hover:not(:disabled),
+.explore-module__reorder button:hover:not(:disabled),
+.explore-module__actions button:hover:not(:disabled) {
+  background: var(--surface-raised);
+  border-color: var(--surface-accent);
+}
+.map-topic__level-tabs button:focus-visible,
+.map-topic__lesson-list button:focus-visible,
+.explore-module__heading button:focus-visible,
+.explore-module__actions button:focus-visible,
+.explore-module__actions select:focus-visible {
+  outline: 3px solid var(--surface-accent);
+  outline-offset: 2px;
+}
+.cv2-lesson-workbook-link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  margin-top: 0.7rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  color: var(--codex-gold);
+}
+@media (max-width: 38rem) {
+  .explore-module__heading {
+    flex-wrap: wrap;
+  }
+  .explore-module__heading .explore-module__disclosure {
+    flex-basis: 100%;
+  }
+  .explore-module__reorder {
+    width: 100%;
+    padding: 0 0.7rem 0.7rem;
+    justify-content: flex-start;
+  }
+  .map-topic__level-actions > button,
+  .map-topic__level-actions > a {
+    width: fit-content;
+    max-width: 100%;
+  }
+}
