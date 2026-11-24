@@ -587,7 +587,15 @@ export function QuestJourneySurface({
                   <div className="explore-learning-focus" role="status">
                     <span className="eyebrow">Selected from Map · {learningLevels.find((item) => item.id === learningFocus.level)?.label}</span>
                     <strong>{learningFocus.title}</strong>
-                    <p>Work with this ingredient here, link an existing Page, or open the corresponding Codex lesson. No Workbook was created by entering Explore.</p>
+                    <p>Work with this ingredient here or link an existing Page. Entering Explore does not create a Workbook.</p>
+                    {learningFocus.moduleKey && mapCodexLearning[learningFocus.moduleKey] ? (
+                      <Link
+                        className="text-link"
+                        href={`/prototype/codex-v2?skill=${encodeURIComponent(learningFocus.moduleKey)}`}
+                      >
+                        Open this Skill in the Codex preview ↗
+                      </Link>
+                    ) : null}
                   </div>
                 ) : null}
                 <div className="journey-section-heading">
