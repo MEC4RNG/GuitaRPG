@@ -1,4 +1,5 @@
 name: MEC R12 temporary lesson persistence browser proof
+# Log the editor's initial and reloaded document for source-integrity diagnosis.
 on:
   push:
     branches:
