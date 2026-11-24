@@ -1,4 +1,5 @@
 name: JRN R3 temporary format and compile diagnostic
+# Retest after reinstating Codex lesson browser proof.
 on:
   push:
     branches:
