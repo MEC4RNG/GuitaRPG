@@ -241,6 +241,9 @@ export function QuestJourneySurface({
     try {
       const link = await attachExploreModulePage(client(), pageId, questId, moduleKey);
       setWorkbookLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+      setExpandedModules((current) => new Set(current).add(moduleKey));
+      setOpenExplorePage({ pageId, moduleKey });
+      setModuleMessage("Existing Workbook page linked and opened in Explore.");
     } catch {
       setModuleMessage("That page could not be linked to this Explore module.");
     }
@@ -621,6 +624,7 @@ export function QuestJourneySurface({
                       key={module.slug}
                       aria-labelledby={`module-${module.slug}`}
                     >
+                      <div className="explore-module__heading">
                       <button
                         id={`module-${module.slug}`}
                         type="button"
@@ -644,6 +648,35 @@ export function QuestJourneySurface({
                           {links.length} linked {links.length === 1 ? "page" : "pages"}
                         </span>
                       </button>
+                      <div className="explore-module__reorder" role="group" aria-label={`Reorder ${module.name}`}>
+                        <button
+                          type="button"
+                          aria-label={`Move ${module.name} earlier`}
+                          title="Move this ingredient earlier"
+                          disabled={pending || index === 0}
+                          onClick={() => {
+                            const next = [...orderedModuleKeys];
+                            [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                            void persistModuleOrder(next);
+                          }}
+                        >
+                          ↑ Earlier
+                        </button>
+                        <button
+                          type="button"
+                          aria-label={`Move ${module.name} later`}
+                          title="Move this ingredient later"
+                          disabled={pending || index === exploreModules.length - 1}
+                          onClick={() => {
+                            const next = [...orderedModuleKeys];
+                            [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                            void persistModuleOrder(next);
+                          }}
+                        >
+                          ↓ Later
+                        </button>
+                      </div>
+                      </div>
                       <div
                         id={`module-panel-${module.slug}`}
                         hidden={!expanded}
@@ -688,18 +721,24 @@ export function QuestJourneySurface({
                           <p>No module-assigned pages yet.</p>
                         )}
                         <div className="explore-module__actions">
-                          <button type="button" onClick={() => void newModulePage(module.slug)}>
+                          <button
+                            type="button"
+                            disabled={pending || archived}
+                            onClick={() => void newModulePage(module.slug)}
+                          >
                             New Page
                           </button>
-                          <label>
-                            Existing page
+                          <label className="explore-module__existing-page">
+                            <span>Link an existing Workbook page</span>
                             <select
+                              aria-label={`Choose existing page for ${module.name}`}
                               defaultValue=""
+                              disabled={pending || archived}
                               onChange={(event) =>
                                 void linkModulePage(module.slug, event.target.value)
                               }
                             >
-                              <option value="">Choose a page</option>
+                              <option value="">Choose a page…</option>
                               {workbookPages.map((page) => (
                                 <option key={page.id} value={page.id}>
                                   {page.title}
@@ -707,28 +746,6 @@ export function QuestJourneySurface({
                               ))}
                             </select>
                           </label>
-                          <button
-                            type="button"
-                            disabled={index === 0}
-                            onClick={() => {
-                              const next = [...orderedModuleKeys];
-                              [next[index - 1], next[index]] = [next[index], next[index - 1]];
-                              void persistModuleOrder(next);
-                            }}
-                          >
-                            Move Earlier
-                          </button>
-                          <button
-                            type="button"
-                            disabled={index === exploreModules.length - 1}
-                            onClick={() => {
-                              const next = [...orderedModuleKeys];
-                              [next[index + 1], next[index]] = [next[index], next[index + 1]];
-                              void persistModuleOrder(next);
-                            }}
-                          >
-                            Move Later
-                          </button>
                         </div>
                       </div>
                     </section>
