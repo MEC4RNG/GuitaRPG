@@ -472,13 +472,13 @@ function GuitarTabView({
         </div>
       </div>
       <details className="workbook-tab-tools" contentEditable={false}>
-        <summary>Tab block actions</summary>
+        <summary>Tablature block actions</summary>
         <div className="workbook-block-controls">
           <button type="button" onClick={duplicate}>
             Duplicate tab
           </button>
           <button type="button" className="danger-quiet" onClick={deleteNode}>
-            Delete tab
+            Remove tablature block
           </button>
         </div>
       </details>
@@ -834,7 +834,7 @@ function ChordDiagramView({
           Clear position
         </button>
         <button type="button" className="danger-quiet" onClick={deleteNode}>
-          Delete chord
+          Remove diagram
         </button>
       </div>
       <details className="workbook-chord-barres" contentEditable={false}>
