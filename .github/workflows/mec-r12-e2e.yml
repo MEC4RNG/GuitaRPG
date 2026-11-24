@@ -1,5 +1,5 @@
 name: MEC R12 temporary lesson persistence browser proof
-# Log the editor's initial and reloaded document for source-integrity diagnosis.
+# Prove empty-text-node normalization with a real persisted Codex lesson.
 on:
   push:
     branches:
