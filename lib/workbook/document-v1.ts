@@ -339,11 +339,16 @@ function inlineFromJson(content: JSONContent[] = []): InlineText[] {
 }
 
 function inlineToJson(content: InlineText[]): JSONContent[] {
-  return content.map((segment) => ({
-    type: "text",
-    text: segment.text,
-    marks: segment.marks?.map((type) => ({ type })),
-  }));
+  // ProseMirror rejects zero-length text nodes; an empty paragraph should
+  // contain no text children, not a { type: "text", text: "" } child.
+  // Codex lesson templates deliberately end with a blank observations line.
+  return content
+    .filter((segment) => segment.text.length > 0)
+    .map((segment) => ({
+      type: "text",
+      text: segment.text,
+      marks: segment.marks?.map((type) => ({ type })),
+    }));
 }
 
 export function editorJsonToWorkbook(json: JSONContent): WorkbookDocumentV1 {
