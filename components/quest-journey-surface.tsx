@@ -554,7 +554,7 @@ export function QuestJourneySurface({
                 </section>
                 {selectedMapCodex?.blocks.length ? (
                   <details className="map-topic__interactive">
-                    <summary>Try this Skill's interactive Codex reference</summary>
+                    <summary>Try the interactive Codex reference</summary>
                     <CodexV2Reference blocks={selectedMapCodex.blocks} />
                   </details>
                 ) : null}
