@@ -551,12 +551,12 @@ test("ordinary text entry after musical editing never replaces the musical block
   await expect(chord.getByRole("button", { name: /Select string 6, Fret 3/ })).toBeVisible();
   await expect(document).toContainText("Text after chord");
 
-  await tab.getByText("Tab block actions").click();
-  await tab.getByRole("button", { name: "Delete tab" }).click();
+  await tab.getByText("Tablature block actions").click();
+  await tab.getByRole("button", { name: "Remove tablature block" }).click();
   await expect(page.locator('[data-block-type="guitar-tab"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Undo" }).click();
   await expect(page.locator('[data-block-type="guitar-tab"]')).toHaveCount(1);
-  await chord.getByRole("button", { name: "Delete chord" }).click();
+  await chord.getByRole("button", { name: "Remove diagram" }).click();
   await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Undo" }).click();
   await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(1);
