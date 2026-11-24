@@ -71,9 +71,16 @@ test("MEC-R12 explicitly creates a private Codex lesson page only after confirma
     "Lesson page created in your Workbook.",
   );
   await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  console.log("MEC-R12 before reload editor text:", await page.locator(".workbook-prosemirror").textContent());
+  await page.getByRole("button", { name: "Display document JSON" }).click();
+  console.log("MEC-R12 before reload editor JSON:", (await page.getByLabel("Workbook document JSON").inputValue()).slice(0, 2000));
   await page.reload();
   await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(1);
+  console.log("MEC-R12 after reload before open text:", await page.locator(".workbook-prosemirror").textContent());
   await page.getByRole("button", { name: /^Open existing:/ }).click();
+  console.log("MEC-R12 after reopen editor text:", await page.locator(".workbook-prosemirror").textContent());
+  await page.getByRole("button", { name: "Display document JSON" }).click();
+  console.log("MEC-R12 after reopen editor JSON:", (await page.getByLabel("Workbook document JSON").inputValue()).slice(0, 2000));
   await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
     "Find home",
   );
