@@ -29,8 +29,9 @@ export default async function QuestJourneyPage({
               id: module.id,
               title: module.title,
               level: module.level,
-              application: entry.applications.find((item) => item.id === module.application_id)
-                ?.title ?? module.application_id,
+              application:
+                entry.applications.find((item) => item.id === module.application_id)?.title ??
+                module.application_id,
             })),
           },
         ]),
