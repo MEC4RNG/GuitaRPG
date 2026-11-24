@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { readCodexV2DraftPreview } from "@/lib/codex/v2/preview";
 import { canonicalCodexName } from "@/lib/codex/v2/content";
-import { parseWorkbookDocument } from "@/lib/workbook/document-v1";
+import {
+  editorJsonToWorkbook,
+  parseWorkbookDocument,
+  workbookToEditorJson,
+} from "@/lib/workbook/document-v1";
 import {
   buildLessonWorkbookDocument,
   hasLessonSource,
@@ -51,6 +55,32 @@ describe("on-demand Codex → Player Workbook starter documents", () => {
       expect(hasLessonSource(document, "not-this-module")).toBe(false);
       expect(JSON.stringify(document)).toContain("no progress recorded automatically");
       expect(JSON.stringify(document)).toContain("Preview draft");
+    }
+  });
+
+  it("converts every Codex lesson including a blank observations paragraph to valid editor JSON", () => {
+    for (const source of sources()) {
+      const original = buildLessonWorkbookDocument(source);
+      const json = workbookToEditorJson(original);
+      // ProseMirror's document model forbids empty text nodes. Preserve an
+      // intentionally empty editable paragraph as content: [] instead.
+      const inspect = (value: unknown): void => {
+        if (!value || typeof value !== "object") return;
+        const node = value as { type?: string; text?: string; content?: unknown[] };
+        if (node.type === "text") {
+          expect(node.text?.length).toBeGreaterThan(0);
+        }
+        for (const item of node.content ?? []) inspect(item);
+      };
+      inspect(json);
+      expect(JSON.stringify(json)).toContain(source.exercises[0].title);
+      expect(json.content?.at(-1)).toMatchObject({
+        type: "paragraph",
+        content: [],
+      });
+      const restored = editorJsonToWorkbook(json);
+      expect(hasLessonSource(restored, source.moduleId)).toBe(true);
+      expect(JSON.stringify(restored)).toContain(source.exercises[0].title);
     }
   });
 
