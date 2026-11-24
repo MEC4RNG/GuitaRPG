@@ -17,7 +17,6 @@ import {
   journeyStageContent,
   journeyStatusLabel,
   questConstraintText,
-  questTargetTempo,
 } from "@/lib/quest/journey-presentation";
 import type { QuestJourneyAction, QuestJourneyStage } from "@/lib/quest/journey-runtime";
 import { readQuestJourneyDetail, type QuestLibraryClient } from "@/lib/quest/library-repository";
@@ -152,7 +151,6 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const { quest, journey } = detail;
   const references = questCodexReferences(quest);
   const constraints = questConstraintText(quest);
-  const targetTempo = questTargetTempo(quest);
   const archived = journey.lifecycleStatus === "ARCHIVED";
   const practiceLabel = detail.sessionCount ? "Practice Again" : "Start Practice";
   const topics = questJourneyTopics(quest);
@@ -280,6 +278,14 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
     } finally {
       setPending(false);
     }
+  }
+
+  async function openTopicInExplore() {
+    if (!selectedTopic || pending || archived) return;
+    if (selectedTopic.moduleKey) {
+      setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
+    }
+    await chooseStage("EXPLORE");
   }
 
   async function selectTopicAndMap(topicKey: string) {
@@ -441,18 +447,57 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                     ))}
                   </ul>
                 </section>
-                <section>
+                <section className="map-topic__explore" aria-label="Choose a learning level">
                   <h3>How to explore</h3>
                   <p>
-                    Use a private Workbook to record observations, examples, tablature, or chord
-                    shapes. The Quest does not prescribe a separate lesson for this item.
+                    Choose a starting level, review the related Codex reference, then enter Explore
+                    to work with this Quest ingredient and its linked Workbook pages.
                   </p>
+                  {(["foundational", "intermediate", "advanced"] as const).map((level) => (
+                    <details key={level} className="map-topic__learning-level">
+                      <summary>
+                        {level === "foundational"
+                          ? "Beginner / Foundational"
+                          : level === "intermediate"
+                            ? "Intermediate"
+                            : "Advanced"}
+                        <span aria-hidden="true">▾</span>
+                      </summary>
+                      <p>
+                        {level === "foundational"
+                          ? "Identify the essential notes, relationships, and terminology before expanding the exercise."
+                          : level === "intermediate"
+                            ? "Compare alternative positions, contexts, and applications of the same Skill."
+                            : "Experiment with the musical idea in a new progression, register, or arrangement."}
+                      </p>
+                      {selectedTopic.codex ? (
+                        <CodexReferenceLink
+                          reference={{
+                            kind: selectedTopic.codex.kind,
+                            slug: selectedTopic.codex.slug,
+                            name: selectedTopic.codex.name,
+                            role: "Codex reference",
+                            href: selectedTopic.codex.href,
+                          }}
+                        />
+                      ) : null}
+                      <button
+                        type="button"
+                        className="action-button action-button--secondary"
+                        disabled={pending || archived}
+                        onClick={() => void openTopicInExplore()}
+                      >
+                        Open this ingredient in Explore →
+                      </button>
+                    </details>
+                  ))}
                 </section>
                 <section className="map-topic__action">
                   <h3>Take this into Explore</h3>
                   <p>
-                    Create a new persistent Workbook seeded with this verified context. It will open
-                    in Explore without starting a Session or changing progression.
+                    Optional: create a dedicated Workbook seeded with this Quest context, then
+                    continue working on it in Explore. You can also enter Explore without creating
+                    anything.
                   </p>
                   <button
                     className="action-button action-button--primary"
@@ -470,13 +515,6 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
           ) : null}
           {journey.currentStage === "EXPLORE" ? (
             <>
-              {targetTempo ? (
-                <div className="journey-tempo">
-                  <span>Target tempo</span>
-                  <strong>{targetTempo} BPM</strong>
-                  <small>A target, not an achievement claim.</small>
-                </div>
-              ) : null}
               <section className="explore-workspaces" aria-labelledby="explore-workspaces-title">
                 <div className="journey-section-heading">
                   <div>
