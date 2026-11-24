@@ -32,3 +32,11 @@
 - Workbook: explicit create/new/add existing from a Codex lesson, refresh/open same Page with no automatic XP/session; two-step whole-tab/diagram deletion while preserving other document blocks and autosave.
 - No production V2 publication: `domain/codex/v2/published.json` remains zero entries and zero terms. 197 V1 canonical entries and all 114 draft lessons are unchanged.
 - **Craft changes are held** until a separate user design decision and ticket. Remain draft/open/unmerged pending human desktop/mobile review.
+
+## Late remediation receipt — lesson Workbook document hydration
+
+- The R5-era lesson template deliberately ends with an empty observations paragraph. The original `inlineToJson` emitted a ProseMirror `{type:"text",text:""}` node, which is invalid. Playwright showed the lesson Page persisted and was discoverable after refresh, but the Tiptap editor initialized to a blank document; that could mislead the Player about the content's durability.
+- `lib/workbook/document-v1.ts` now omits zero-length text nodes while preserving an empty editable paragraph as `content:[]`. `WorkbookEditorPrototype` also initializes from the explicitly selected Page instead of unconditionally taking the first Page. No Craft layout or Toolkit changes were made.
+- Added a deterministic round-trip unit assertion over **all 114 draft lesson templates**, requiring that no zero-length ProseMirror text nodes exist and that source markers/exercise titles survive the conversion.
+- Targeted Chromium authenticated create → reload → reopen test **passed** on diagnostic run `45429758055` after this fix; prior runs failed with an empty editor, confirming the meaningful behavioral improvement. The diagnostic workflows and temporary console logging were removed from the final branch.
+- Full final-head GitHub workflows and mobile/desktop review are tracked separately; targeted success alone is not release approval.
