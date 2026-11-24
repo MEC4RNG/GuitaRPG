@@ -16,11 +16,29 @@ describe("JRN-004-R1 modular workspaces", () => {
   it("renders accessible independent Explore modules and explicit ordering controls", () => {
     const surface = read("components/quest-journey-surface.tsx");
     expect(surface).toContain("aria-expanded={expanded}");
-    expect(surface).toContain("Move Earlier");
-    expect(surface).toContain("Move Later");
+    expect(surface).toContain("explore-module__reorder");
+    expect(surface).toContain("Move ${module.name} earlier");
+    expect(surface).toContain("Move ${module.name} later");
     expect(surface).toContain("Reset to Suggested Order");
     expect(surface).toContain("General Explore Pages / Unassigned");
     expect(surface).not.toContain("Other Workbooks for This Skill");
+  });
+
+  it("gates draft Map lessons on preview access while keeping Map-to-Explore navigation non-writing", () => {
+    const page = read("app/quest/[questId]/page.tsx");
+    const journey = read("components/quest-journey-surface.tsx");
+    const accessCheck = page.indexOf("if (canAccessCodexV2DraftPreview())");
+    const draftImport = page.indexOf('await import("@/lib/codex/v2/preview")');
+    expect(accessCheck).toBeGreaterThan(0);
+    expect(draftImport).toBeGreaterThan(accessCheck);
+    expect(page).toContain("mapCodexLearning");
+    expect(journey).toContain("exploreSelectedTopic");
+    expect(journey).toContain('await chooseStage("EXPLORE")');
+    expect(journey).toContain("Create Workbook and open Explore");
+    expect(journey).toContain('role="tablist"');
+    expect(journey).not.toContain("Target tempo");
+    // Hold user's explicit Craft redesign request: existing persistent editor stays.
+    expect(journey).toContain("embeddedCraft");
   });
 
   it("embeds the authoritative persistent editor in Craft without creating progress events", () => {

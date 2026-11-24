@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessibility";
+import { completeGuestOnboarding } from "./helpers/player-flow";
 
 test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
@@ -29,6 +30,62 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
   await expect(page.locator(".cv2-card")).toHaveCount(1);
   await expectAccessible(page, "Codex V2 library preview");
   await expectNoHorizontalOverflow(page);
+});
+
+test("MEC-R12 restores safe Codex Lesson and How to Explore Workbook actions", async ({ page }) => {
+  await page.goto("/prototype/codex-v2?skill=note_location");
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = page.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  await expect(lesson.getByRole("link", { name: "Practice in Workbook" })).toHaveAttribute(
+    "href",
+    /\/workbooks\?codex_module=nl\.[a-z]+\.[fia]1/,
+  );
+
+  await page.getByRole("button", { name: "How to Explore" }).click();
+  const explore = page.locator(".cv2-explore-module").first();
+  await explore.locator("summary").click();
+  await expect(explore.getByRole("link", { name: "Practice in Workbook" })).toHaveAttribute(
+    "href",
+    /\/workbooks\?codex_module=nl\.[a-z]+\.[fia]1/,
+  );
+  await expectNoHorizontalOverflow(page);
+});
+
+test("MEC-R12 explicitly creates a private Codex lesson page only after confirmation", async ({
+  page,
+}) => {
+  await completeGuestOnboarding(page);
+  await page.goto("/prototype/codex-v2?skill=scale_degree_recognition");
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = page.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  await lesson.getByRole("link", { name: "Practice in Workbook" }).click();
+  await expect(page).toHaveURL(/\/workbooks\?codex_module=sdr\.aural\.f1/);
+  await expect(page.getByRole("heading", { name: "Workbooks" })).toBeVisible();
+  await expect(page.locator("#workbook-lesson-title")).toHaveText("Hear the tonal home");
+  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Create new Workbook from lesson" }).click();
+  await expect(page.locator(".workbook-library__message")).toContainText(
+    "Lesson page created in your Workbook.",
+  );
+  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+    "Find home",
+  );
+  await page.reload();
+  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(1);
+  await page.getByRole("button", { name: /^Open existing:/ }).click();
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+    "Find home",
+  );
+  await expectNoHorizontalOverflow(page);
+});
+
+test("MEC-R12 rejects unknown Codex workbook source IDs", async ({ page }) => {
+  const response = await page.request.get("/workbooks?codex_module=not-a-real-module");
+  expect(response.status()).toBe(404);
 });
 
 test("R9-R1 browser Back and Forward restore Library, Skill, and Dictionary views", async ({

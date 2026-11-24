@@ -101,8 +101,10 @@ describe("UX-006 Quest Journey presentation", () => {
     expect(surface).toContain("What it is");
     expect(surface).toContain("Within this Quest");
     expect(surface).toContain("How to explore");
-    expect(surface).toContain("New Workbook");
-    expect(surface).not.toContain('role="tablist"');
+    expect(surface).toContain("Create Workbook and open Explore");
+    expect(surface).toContain('role="tablist"');
+    expect(surface).toContain("Open {selectedTopic.name} in Explore");
+    expect(surface).toContain("exploreSelectedTopic");
     expect(surface).toContain("Quest requirements");
     expect(surface).not.toContain("Map the territory");
     expect(surface).not.toContain("Explore it on the instrument");

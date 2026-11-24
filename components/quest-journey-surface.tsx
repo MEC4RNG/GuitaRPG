@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
+import { CodexV2Reference } from "@/components/codex-v2-reference";
+import type { CodexV2ReferenceBlock, LearningLevel } from "@/lib/codex/v2/content";
 import { WorkbookPersistenceSurface } from "@/components/workbook-persistence-surface";
 import { questCodexReferences } from "@/lib/quest/codex-references";
 import { questJourneyTopics, topicWorkbookDocument } from "@/lib/quest/journey-topics";
@@ -17,7 +19,6 @@ import {
   journeyStageContent,
   journeyStatusLabel,
   questConstraintText,
-  questTargetTempo,
 } from "@/lib/quest/journey-presentation";
 import type { QuestJourneyAction, QuestJourneyStage } from "@/lib/quest/journey-runtime";
 import { readQuestJourneyDetail, type QuestLibraryClient } from "@/lib/quest/library-repository";
@@ -52,17 +53,38 @@ type Detail = SavedQuestSummary & { recentSessions: QuestSessionSummary[] };
 type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient & WorkbookClient;
 const client = () => createBrowserSupabaseClient() as unknown as JourneyClient;
 const stages = ["MAP", "EXPLORE", "CRAFT"] as const;
+const learningLevels: Array<{ id: LearningLevel; label: string }> = [
+  { id: "foundational", label: "Beginner" },
+  { id: "intermediate", label: "Intermediate" },
+  { id: "advanced", label: "Advanced" },
+];
+export type MapCodexLearning = {
+  blocks: CodexV2ReferenceBlock[];
+  modules: Array<{ id: string; title: string; level: LearningLevel; application: string }>;
+};
 const dateTime = (value: string) =>
   new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(
     new Date(value),
   );
 
-export function QuestJourneySurface({ questId }: { questId: string }) {
+export function QuestJourneySurface({
+  questId,
+  mapCodexLearning = {},
+}: {
+  questId: string;
+  mapCodexLearning?: Record<string, MapCodexLearning>;
+}) {
   const router = useRouter();
   const [detail, setDetail] = useState<Detail | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedTopicKey, setSelectedTopicKey] = useState<string | null>(null);
+  const [mapLevel, setMapLevel] = useState<LearningLevel>("foundational");
+  const [learningFocus, setLearningFocus] = useState<{
+    title: string;
+    level: LearningLevel;
+    moduleKey: string | null;
+  } | null>(null);
   const [workbookLinks, setWorkbookLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [workbookPages, setWorkbookPages] = useState<WorkbookPageRow[]>([]);
   const [workbooks, setWorkbooks] = useState<WorkbookRow[]>([]);
@@ -152,11 +174,13 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
   const { quest, journey } = detail;
   const references = questCodexReferences(quest);
   const constraints = questConstraintText(quest);
-  const targetTempo = questTargetTempo(quest);
   const archived = journey.lifecycleStatus === "ARCHIVED";
   const practiceLabel = detail.sessionCount ? "Practice Again" : "Start Practice";
   const topics = questJourneyTopics(quest);
   const selectedTopic = topics.find((topic) => topic.key === selectedTopicKey) ?? topics[0];
+  const selectedMapCodex =
+    selectedTopic?.kind === "SKILL" ? mapCodexLearning[selectedTopic.slug] : undefined;
+  const mapLevelLessons = selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -216,6 +240,9 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
     try {
       const link = await attachExploreModulePage(client(), pageId, questId, moduleKey);
       setWorkbookLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+      setExpandedModules((current) => new Set(current).add(moduleKey));
+      setOpenExplorePage({ pageId, moduleKey });
+      setModuleMessage("Existing Workbook page linked and opened in Explore.");
     } catch {
       setModuleMessage("That page could not be linked to this Explore module.");
     }
@@ -284,7 +311,22 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
 
   async function selectTopicAndMap(topicKey: string) {
     setSelectedTopicKey(topicKey);
+    setMapLevel("foundational");
     if (journey.currentStage !== "MAP") await chooseStage("MAP");
+  }
+
+  async function exploreSelectedTopic(focusTitle?: string) {
+    if (!selectedTopic || archived || pending) return;
+    if (selectedTopic.moduleKey) {
+      setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
+    }
+    setLearningFocus(
+      focusTitle
+        ? { title: focusTitle, level: mapLevel, moduleKey: selectedTopic.moduleKey }
+        : null,
+    );
+    // Opening Explore is navigation only: no Workbook, Page, Session or XP write.
+    await chooseStage("EXPLORE");
   }
 
   return (
@@ -441,26 +483,95 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                     ))}
                   </ul>
                 </section>
-                <section>
-                  <h3>How to explore</h3>
+                <section className="map-topic__learn" aria-labelledby="map-how-to-explore">
+                  <h3 id="map-how-to-explore">How to explore</h3>
                   <p>
-                    Use a private Workbook to record observations, examples, tablature, or chord
-                    shapes. The Quest does not prescribe a separate lesson for this item.
+                    Choose a learning level and open this ingredient in Explore. Opening a lesson
+                    does not automatically create a Workbook or record practice progress.
                   </p>
+                  <div className="map-topic__level-tabs" role="tablist" aria-label="Learning level">
+                    {learningLevels.map((item) => (
+                      <button
+                        key={item.id}
+                        id={`map-level-tab-${item.id}`}
+                        type="button"
+                        role="tab"
+                        aria-selected={mapLevel === item.id}
+                        aria-controls="map-level-content"
+                        onClick={() => setMapLevel(item.id)}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    className="map-topic__level-content"
+                    id="map-level-content"
+                    role="tabpanel"
+                    aria-labelledby={`map-level-tab-${mapLevel}`}
+                  >
+                    {mapLevelLessons.length ? (
+                      <ul className="map-topic__lesson-list">
+                        {mapLevelLessons.map((lesson) => (
+                          <li key={lesson.id}>
+                            <div>
+                              <strong>{lesson.title}</strong>
+                              <small>{lesson.application} · Codex preview lesson</small>
+                            </div>
+                            <button
+                              type="button"
+                              disabled={pending || archived}
+                              onClick={() => void exploreSelectedTopic(lesson.title)}
+                            >
+                              Explore this lesson →
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>
+                        {selectedTopic.codex
+                          ? "No level-specific draft lesson is available here. You can still explore this Quest ingredient or read its canonical Codex reference."
+                          : "This Quest item has no separate Codex lesson. Explore it using the Quest objective as a starting point."}
+                      </p>
+                    )}
+                    <div className="map-topic__level-actions">
+                      <button
+                        className="action-button action-button--primary"
+                        type="button"
+                        disabled={pending || archived}
+                        onClick={() => void exploreSelectedTopic()}
+                      >
+                        Open {selectedTopic.name} in Explore →
+                      </button>
+                      {selectedTopic.codex ? (
+                        <Link href={selectedTopic.codex.href} className="text-link">
+                          Read in Codex ↗
+                        </Link>
+                      ) : null}
+                    </div>
+                  </div>
                 </section>
+                {selectedMapCodex?.blocks.length ? (
+                  <details className="map-topic__interactive">
+                    <summary>Try the interactive Codex reference</summary>
+                    <CodexV2Reference blocks={selectedMapCodex.blocks} />
+                  </details>
+                ) : null}
                 <section className="map-topic__action">
-                  <h3>Take this into Explore</h3>
+                  <h3>Optional: Start a Workbook</h3>
                   <p>
-                    Create a new persistent Workbook seeded with this verified context. It will open
-                    in Explore without starting a Session or changing progression.
+                    Create a private Workbook seeded with this Quest context, or simply open Explore
+                    above and connect an existing Page there. Creating a Workbook is an explicit
+                    separate action.
                   </p>
                   <button
-                    className="action-button action-button--primary"
+                    className="action-button action-button--secondary"
                     type="button"
                     disabled={pending || archived}
                     onClick={() => void createTopicWorkbook()}
                   >
-                    {pending ? "Preparing Workbook…" : "New Workbook"}
+                    {pending ? "Preparing Workbook…" : "Create Workbook and open Explore"}
                   </button>
                 </section>
               </section>
@@ -470,14 +581,28 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
           ) : null}
           {journey.currentStage === "EXPLORE" ? (
             <>
-              {targetTempo ? (
-                <div className="journey-tempo">
-                  <span>Target tempo</span>
-                  <strong>{targetTempo} BPM</strong>
-                  <small>A target, not an achievement claim.</small>
-                </div>
-              ) : null}
               <section className="explore-workspaces" aria-labelledby="explore-workspaces-title">
+                {learningFocus ? (
+                  <div className="explore-learning-focus" role="status">
+                    <span className="eyebrow">
+                      Selected from Map ·{" "}
+                      {learningLevels.find((item) => item.id === learningFocus.level)?.label}
+                    </span>
+                    <strong>{learningFocus.title}</strong>
+                    <p>
+                      Work with this ingredient here or link an existing Page. Entering Explore does
+                      not create a Workbook.
+                    </p>
+                    {learningFocus.moduleKey && mapCodexLearning[learningFocus.moduleKey] ? (
+                      <Link
+                        className="text-link"
+                        href={`/prototype/codex-v2?skill=${encodeURIComponent(learningFocus.moduleKey)}`}
+                      >
+                        Open this Skill in the Codex preview ↗
+                      </Link>
+                    ) : null}
+                  </div>
+                ) : null}
                 <div className="journey-section-heading">
                   <div>
                     <p className="eyebrow">MODULAR PRACTICE WORKSPACES</p>
@@ -512,29 +637,63 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                       key={module.slug}
                       aria-labelledby={`module-${module.slug}`}
                     >
-                      <button
-                        id={`module-${module.slug}`}
-                        type="button"
-                        className="explore-module__disclosure"
-                        aria-expanded={expanded}
-                        aria-controls={`module-panel-${module.slug}`}
-                        onClick={() =>
-                          setExpandedModules((current) => {
-                            const next = new Set(current);
-                            if (next.has(module.slug)) next.delete(module.slug);
-                            else next.add(module.slug);
-                            return next;
-                          })
-                        }
-                      >
-                        <span>
-                          <strong>{module.name}</strong>
-                          <small>{module.roles.join(" · ")}</small>
-                        </span>
-                        <span>
-                          {links.length} linked {links.length === 1 ? "page" : "pages"}
-                        </span>
-                      </button>
+                      <div className="explore-module__heading">
+                        <button
+                          id={`module-${module.slug}`}
+                          type="button"
+                          className="explore-module__disclosure"
+                          aria-expanded={expanded}
+                          aria-controls={`module-panel-${module.slug}`}
+                          onClick={() =>
+                            setExpandedModules((current) => {
+                              const next = new Set(current);
+                              if (next.has(module.slug)) next.delete(module.slug);
+                              else next.add(module.slug);
+                              return next;
+                            })
+                          }
+                        >
+                          <span>
+                            <strong>{module.name}</strong>
+                            <small>{module.roles.join(" · ")}</small>
+                          </span>
+                          <span>
+                            {links.length} linked {links.length === 1 ? "page" : "pages"}
+                          </span>
+                        </button>
+                        <div
+                          className="explore-module__reorder"
+                          role="group"
+                          aria-label={`Reorder ${module.name}`}
+                        >
+                          <button
+                            type="button"
+                            aria-label={`Move ${module.name} earlier`}
+                            title="Move this ingredient earlier"
+                            disabled={pending || index === 0}
+                            onClick={() => {
+                              const next = [...orderedModuleKeys];
+                              [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                              void persistModuleOrder(next);
+                            }}
+                          >
+                            ↑ Earlier
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Move ${module.name} later`}
+                            title="Move this ingredient later"
+                            disabled={pending || index === exploreModules.length - 1}
+                            onClick={() => {
+                              const next = [...orderedModuleKeys];
+                              [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                              void persistModuleOrder(next);
+                            }}
+                          >
+                            ↓ Later
+                          </button>
+                        </div>
+                      </div>
                       <div
                         id={`module-panel-${module.slug}`}
                         hidden={!expanded}
@@ -579,18 +738,24 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                           <p>No module-assigned pages yet.</p>
                         )}
                         <div className="explore-module__actions">
-                          <button type="button" onClick={() => void newModulePage(module.slug)}>
+                          <button
+                            type="button"
+                            disabled={pending || archived}
+                            onClick={() => void newModulePage(module.slug)}
+                          >
                             New Page
                           </button>
-                          <label>
-                            Existing page
+                          <label className="explore-module__existing-page">
+                            <span>Link an existing Workbook page</span>
                             <select
+                              aria-label={`Choose existing page for ${module.name}`}
                               defaultValue=""
+                              disabled={pending || archived}
                               onChange={(event) =>
                                 void linkModulePage(module.slug, event.target.value)
                               }
                             >
-                              <option value="">Choose a page</option>
+                              <option value="">Choose a page…</option>
                               {workbookPages.map((page) => (
                                 <option key={page.id} value={page.id}>
                                   {page.title}
@@ -598,28 +763,6 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                               ))}
                             </select>
                           </label>
-                          <button
-                            type="button"
-                            disabled={index === 0}
-                            onClick={() => {
-                              const next = [...orderedModuleKeys];
-                              [next[index - 1], next[index]] = [next[index], next[index - 1]];
-                              void persistModuleOrder(next);
-                            }}
-                          >
-                            Move Earlier
-                          </button>
-                          <button
-                            type="button"
-                            disabled={index === exploreModules.length - 1}
-                            onClick={() => {
-                              const next = [...orderedModuleKeys];
-                              [next[index + 1], next[index]] = [next[index], next[index + 1]];
-                              void persistModuleOrder(next);
-                            }}
-                          >
-                            Move Later
-                          </button>
                         </div>
                       </div>
                     </section>
