@@ -144,8 +144,9 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(mapLevels).toHaveCount(3);
   await mapLevels.first().locator("summary").click();
   await expect(mapLevels.first()).toHaveAttribute("open");
-  await expect(mapLevels.first().getByRole("button", { name: "Open this ingredient in Explore" }))
-    .toBeEnabled();
+  await expect(
+    mapLevels.first().getByRole("button", { name: "Open this ingredient in Explore" }),
+  ).toBeEnabled();
   await mapLevels.first().getByRole("button", { name: "Open this ingredient in Explore" }).click();
   await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
   await expect(page.locator(".journey-tempo")).toHaveCount(0);
@@ -156,7 +157,9 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   const modulePanel = page.locator(".explore-module__panel").first();
   await expect(modulePanel.locator(".explore-module__page-actions")).toBeVisible();
   await expect(modulePanel.locator(".explore-module__order-actions")).toContainText("Module order");
-  await expect(modulePanel.locator(".explore-module__page-actions label")).toContainText("Existing page");
+  await expect(modulePanel.locator(".explore-module__page-actions label")).toContainText(
+    "Existing page",
+  );
   await expect(modulePanel.locator(".explore-module__page-actions select")).toBeVisible();
   await expect(primaryModule).toHaveCSS("cursor", "pointer");
   await expectAccessible(page, "Quest Journey Explore");
