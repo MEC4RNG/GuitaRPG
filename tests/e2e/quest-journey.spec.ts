@@ -166,9 +166,9 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   expect(pointer).toBe("pointer");
   await expectNoHorizontalOverflow(page);
 
-  await page.getByRole("button", { name: "Explore" }).click();
-  await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
   const primaryModule = page.locator(".explore-module__disclosure").first();
+  await primaryModule.click();
+  await expect(primaryModule).toHaveAttribute("aria-expanded", "false");
   await primaryModule.click();
   await expect(primaryModule).toHaveAttribute("aria-expanded", "true");
   await expect(page.getByText("No module-assigned pages yet.")).toBeVisible();
