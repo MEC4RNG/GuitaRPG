@@ -16,8 +16,9 @@ describe("JRN-004-R1 modular workspaces", () => {
   it("renders accessible independent Explore modules and explicit ordering controls", () => {
     const surface = read("components/quest-journey-surface.tsx");
     expect(surface).toContain("aria-expanded={expanded}");
-    expect(surface).toContain("Move Earlier");
-    expect(surface).toContain("Move Later");
+    expect(surface).toContain("explore-module__reorder");
+    expect(surface).toContain("Move ${module.name} earlier");
+    expect(surface).toContain("Move ${module.name} later");
     expect(surface).toContain("Reset to Suggested Order");
     expect(surface).toContain("General Explore Pages / Unassigned");
     expect(surface).not.toContain("Other Workbooks for This Skill");
