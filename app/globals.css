@@ -5080,3 +5080,92 @@ a {
   line-height: 1.5;
   font-size: 0.84rem;
 }
+
+/* JRN-R3: Map-to-Explore actions and accessible module controls; Craft unchanged. */
+.map-topic__learning-level {
+  border: 1px solid var(--surface-border);
+  border-radius: 0.65rem;
+  padding: 0.25rem 0.8rem;
+  background: var(--surface-raised);
+}
+.map-topic__learning-level summary {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  min-height: 44px;
+  font-weight: 700;
+}
+.map-topic__learning-level[open] summary span {
+  transform: rotate(180deg);
+}
+.map-topic__learning-level > p {
+  margin: 0.5rem 0 0.75rem;
+}
+.map-topic__learning-level > .action-button {
+  margin: 0.75rem 0;
+}
+.map-topic__learning-level a {
+  width: fit-content;
+}
+.explore-module__disclosure,
+.explore-module__panel button,
+.explore-module__panel select,
+.explore-unassigned summary,
+.explore-unassigned button,
+.explore-unassigned select {
+  cursor: pointer;
+}
+.explore-module__panel button:disabled {
+  cursor: not-allowed;
+}
+.explore-module__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: stretch;
+}
+.explore-module__page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: end;
+  min-width: 0;
+}
+.explore-module__page-actions label {
+  display: grid;
+  gap: 0.55rem;
+  min-width: min(100%, 16rem);
+}
+.explore-module__page-actions select {
+  min-width: 0;
+  max-width: 100%;
+}
+.explore-module__order-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--surface-border);
+}
+.explore-module__order-actions > span {
+  margin-right: auto;
+  color: var(--surface-muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+.explore-module__order-actions button {
+  min-height: 44px;
+}
+.cv2-lesson-workbook-link {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 0.65rem;
+  color: var(--codex-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.18rem;
+}
