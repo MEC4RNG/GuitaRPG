@@ -24,6 +24,23 @@ describe("JRN-004-R1 modular workspaces", () => {
     expect(surface).not.toContain("Other Workbooks for This Skill");
   });
 
+  it("gates draft Map lessons on preview access while keeping Map-to-Explore navigation non-writing", () => {
+    const page = read("app/quest/[questId]/page.tsx");
+    const journey = read("components/quest-journey-surface.tsx");
+    const accessCheck = page.indexOf("if (canAccessCodexV2DraftPreview())");
+    const draftImport = page.indexOf('await import("@/lib/codex/v2/preview")');
+    expect(accessCheck).toBeGreaterThan(0);
+    expect(draftImport).toBeGreaterThan(accessCheck);
+    expect(page).toContain("mapCodexLearning");
+    expect(journey).toContain("exploreSelectedTopic");
+    expect(journey).toContain('await chooseStage("EXPLORE")');
+    expect(journey).toContain("Create Workbook and open Explore");
+    expect(journey).toContain('role="tablist"');
+    expect(journey).not.toContain("Target tempo");
+    // Hold user's explicit Craft redesign request: existing persistent editor stays.
+    expect(journey).toContain("embeddedCraft");
+  });
+
   it("embeds the authoritative persistent editor in Craft without creating progress events", () => {
     const journey = read("components/quest-journey-surface.tsx");
     const workbook = read("components/workbook-persistence-surface.tsx");
