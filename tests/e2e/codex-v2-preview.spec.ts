@@ -32,9 +32,7 @@ test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", asy
   await expectNoHorizontalOverflow(page);
 });
 
-test("MEC-R12 restores safe Codex Lesson and How to Explore Workbook actions", async ({
-  page,
-}) => {
+test("MEC-R12 restores safe Codex Lesson and How to Explore Workbook actions", async ({ page }) => {
   await page.goto("/prototype/codex-v2?skill=note_location");
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
   const lesson = page.locator(".cv2-modules .cv2-module").first();
