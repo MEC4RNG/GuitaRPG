@@ -617,51 +617,57 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                           <p>No module-assigned pages yet.</p>
                         )}
                         <div className="explore-module__actions">
-                          <div className="explore-module__page-actions" aria-label="Workbook page actions">
+                          <div
+                            className="explore-module__page-actions"
+                            aria-label="Workbook page actions"
+                          >
                             <button type="button" onClick={() => void newModulePage(module.slug)}>
-                            New Page
-                          </button>
-                          <label>
-                            Existing page
-                            <select
-                              defaultValue=""
-                              onChange={(event) =>
-                                void linkModulePage(module.slug, event.target.value)
-                              }
-                            >
-                              <option value="">Choose a page</option>
-                              {workbookPages.map((page) => (
-                                <option key={page.id} value={page.id}>
-                                  {page.title}
-                                </option>
-                              ))}
-                            </select>
-                          </label>
+                              New Page
+                            </button>
+                            <label>
+                              Existing page
+                              <select
+                                defaultValue=""
+                                onChange={(event) =>
+                                  void linkModulePage(module.slug, event.target.value)
+                                }
+                              >
+                                <option value="">Choose a page</option>
+                                {workbookPages.map((page) => (
+                                  <option key={page.id} value={page.id}>
+                                    {page.title}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
                           </div>
-                          <div className="explore-module__order-actions" aria-label={`Reorder ${module.name}`}>
+                          <div
+                            className="explore-module__order-actions"
+                            aria-label={`Reorder ${module.name}`}
+                          >
                             <span>Module order</span>
                             <button
-                            type="button"
-                            aria-label={`Move ${module.name} earlier`}
-                            disabled={index === 0}
-                            onClick={() => {
-                              const next = [...orderedModuleKeys];
-                              [next[index - 1], next[index]] = [next[index], next[index - 1]];
-                              void persistModuleOrder(next);
-                            }}
-                          >
-                            Move Earlier
-                          </button>
+                              type="button"
+                              aria-label={`Move ${module.name} earlier`}
+                              disabled={index === 0}
+                              onClick={() => {
+                                const next = [...orderedModuleKeys];
+                                [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                                void persistModuleOrder(next);
+                              }}
+                            >
+                              Move Earlier
+                            </button>
                             <button
-                            type="button"
-                            aria-label={`Move ${module.name} later`}
-                            disabled={index === exploreModules.length - 1}
-                            onClick={() => {
-                              const next = [...orderedModuleKeys];
-                              [next[index + 1], next[index]] = [next[index], next[index + 1]];
-                              void persistModuleOrder(next);
-                            }}
-                          >
+                              type="button"
+                              aria-label={`Move ${module.name} later`}
+                              disabled={index === exploreModules.length - 1}
+                              onClick={() => {
+                                const next = [...orderedModuleKeys];
+                                [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                                void persistModuleOrder(next);
+                              }}
+                            >
                               Move Later
                             </button>
                           </div>
