@@ -135,6 +135,7 @@ function GuitarTabView({
   const [fret, setFret] = useState("0");
   const [fretError, setFretError] = useState("");
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
+  const [pendingTabDelete, setPendingTabDelete] = useState(false);
   const edit = (state: TabNote["state"] | "EMPTY", explicitFret?: number, target = selected) => {
     const next = structuredClone(blockRef.current);
     const targetEvent = next.events[target.event];
@@ -477,9 +478,6 @@ function GuitarTabView({
           <button type="button" onClick={duplicate}>
             Duplicate tab
           </button>
-          <button type="button" className="danger-quiet" onClick={deleteNode}>
-            Delete tab
-          </button>
         </div>
       </details>
       <div className="workbook-tab-primary-actions" contentEditable={false}>
@@ -497,6 +495,21 @@ function GuitarTabView({
         {pendingRemoval === selected.event ? (
           <button type="button" onClick={() => setPendingRemoval(null)}>
             Cancel removal
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className={pendingTabDelete ? "danger-quiet" : ""}
+          onClick={() => {
+            if (pendingTabDelete) deleteNode();
+            else setPendingTabDelete(true);
+          }}
+        >
+          {pendingTabDelete ? "Confirm remove tablature" : "Remove tablature"}
+        </button>
+        {pendingTabDelete ? (
+          <button type="button" onClick={() => setPendingTabDelete(false)}>
+            Cancel
           </button>
         ) : null}
       </div>
@@ -557,6 +570,7 @@ function ChordDiagramView({
   const [barreFret, setBarreFret] = useState("1");
   const [barreFinger, setBarreFinger] = useState("");
   const [barreError, setBarreError] = useState("");
+  const [pendingDiagramDelete, setPendingDiagramDelete] = useState(false);
   useEffect(() => {
     blockRef.current = block;
   }, [block]);
@@ -833,9 +847,21 @@ function ChordDiagramView({
         <button type="button" onClick={() => setString("MUTED")}>
           Clear position
         </button>
-        <button type="button" className="danger-quiet" onClick={deleteNode}>
-          Delete chord
+        <button
+          type="button"
+          className={pendingDiagramDelete ? "danger-quiet" : ""}
+          onClick={() => {
+            if (pendingDiagramDelete) deleteNode();
+            else setPendingDiagramDelete(true);
+          }}
+        >
+          {pendingDiagramDelete ? "Confirm remove diagram" : "Remove diagram"}
         </button>
+        {pendingDiagramDelete ? (
+          <button type="button" onClick={() => setPendingDiagramDelete(false)}>
+            Cancel
+          </button>
+        ) : null}
       </div>
       <details className="workbook-chord-barres" contentEditable={false}>
         <summary>Barres ({block.barres.length})</summary>
