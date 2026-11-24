@@ -1,5 +1,5 @@
 name: MEC R12 temporary validation probe
-# Re-run for the selected workbook Page hydration correction.
+# Verify blank-paragraph normalization and all 114 Codex lesson editor documents.
 on:
   push:
     branches:
