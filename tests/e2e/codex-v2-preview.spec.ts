@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessibility";
+import { completeGuestOnboarding } from "./helpers/player-flow";
 
 test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
@@ -560,6 +561,79 @@ test("R11 arpeggio editor stays inside portrait and mobile-landscape Codex width
     await expect(sequencer.locator(".cv2-arpeggio-source")).toBeVisible();
     await expectNoHorizontalOverflow(page);
   }
+});
+
+test("Codex lessons and exploration activities open the same Workbook template route", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = page.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  const lessonLink = lesson.getByRole("link", { name: "Practice in Workbook" });
+  await expect(lessonLink).toHaveAttribute("href", "/workbooks?codex_module=sdr.aural.f1");
+
+  await page.getByRole("button", { name: "How to Explore" }).click();
+  const activity = page.locator(".cv2-explore-module").first();
+  await activity.locator("summary").click();
+  await expect(activity.getByRole("link", { name: "Practice in Workbook" })).toHaveAttribute(
+    "href",
+    "/workbooks?codex_module=sdr.aural.f1",
+  );
+  await expectNoHorizontalOverflow(page);
+});
+
+test("Codex lesson creates one persistent Player-owned Workbook only after explicit action", async ({
+  page,
+}) => {
+  await completeGuestOnboarding(page);
+  await page.goto("/prototype/codex-v2");
+  await page
+    .locator(".cv2-card")
+    .filter({ hasText: "Scale-Degree Recognition" })
+    .getByRole("button", { name: /Explore this Skill/ })
+    .click();
+  await page.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = page.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  await lesson.getByRole("link", { name: "Practice in Workbook" }).click();
+  await expect(page).toHaveURL(/\/workbooks\?codex_module=sdr\.aural\.f1/);
+  await expect(page.getByRole("heading", { name: "Workbooks" })).toBeVisible();
+  await expect(page.locator("#workbook-lesson-title")).toHaveText("Hear the tonal home");
+  await expect(page.getByRole("button", { name: "Open existing:" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Create new Workbook from lesson" }).click();
+  await expect(page.locator(".workbook-library__message")).toContainText(
+    "Lesson page created in your Workbook.",
+  );
+  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+    "Find home",
+  );
+
+  await page.reload();
+  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(1);
+  await page.getByRole("button", { name: /^Open existing:/ }).click();
+  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+    "Find home",
+  );
+  await page.getByRole("button", { name: "Add Page to selected Workbook" }).click();
+  await expect(page.locator(".workbook-library__message")).toContainText(
+    "Lesson page created in your Workbook.",
+  );
+  await page.reload();
+  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(2);
+  await expectNoHorizontalOverflow(page);
+});
+
+test("invalid Codex source IDs cannot create arbitrary Workbook templates", async ({ page }) => {
+  const response = await page.request.get("/workbooks?codex_module=not-a-real-module");
+  expect(response.status()).toBe(404);
 });
 
 test("CODEX-V2-A preserves published V1 Skill routes", async ({ page }) => {
