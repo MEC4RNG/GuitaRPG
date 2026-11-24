@@ -1035,6 +1035,8 @@ export function WorkbookEditorPrototype({
       },
     [initialPages],
   );
+  const initialDocumentPage =
+    initialPages?.find((page) => page.id === initialActivePageId) ?? initialPage;
   const [pages, setPages] = useState<WorkbookEditorPage[]>(initialPages ?? [initialPage]);
   const [activePageId, setActivePageId] = useState(
     initialPages?.some((page) => page.id === initialActivePageId)
@@ -1105,7 +1107,10 @@ export function WorkbookEditorPrototype({
       ChordDiagram,
       UnsupportedBlock,
     ],
-    content: workbookToEditorJson(initialPage.document),
+    // Use the actual initial active Page, not always the first Page in a Workbook.
+    // A directly reopened Codex/Explore Page must hydrate its own complete
+    // document without briefly mounting another Page's content.
+    content: workbookToEditorJson(initialDocumentPage.document),
     editorProps: {
       attributes: { class: "workbook-prosemirror", "aria-label": "Workbook page document" },
       transformPastedHTML: (html) => html.replace(/<script[\s\S]*?<\/script>/gi, ""),
