@@ -487,7 +487,9 @@ export function QuestJourneySurface({ questId }: { questId: string }) {
                         disabled={pending || archived}
                         onClick={() => void openTopicInExplore()}
                       >
-                        Open this ingredient in Explore →
+                        {selectedTopic.moduleKey
+                          ? "Open this ingredient in Explore →"
+                          : "Open Explore workspaces →"}
                       </button>
                     </details>
                   ))}
