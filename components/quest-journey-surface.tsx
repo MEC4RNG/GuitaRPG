@@ -32,7 +32,7 @@ import {
   type JourneyPracticeClient,
 } from "@/lib/quest/start-journey-practice";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
-import { workbookContextHref } from "@/lib/workbook/context";
+import { codexQuestPreviewHref, workbookContextHref } from "@/lib/workbook/context";
 import {
   assignExploreModulePage,
   attachExploreModulePage,
@@ -120,6 +120,41 @@ export function QuestJourneySurface({
       .catch(() => setError("This Quest is unavailable. Return to Saved Quests and try again."));
   }, [questId]);
 
+  // A Workbook may be created in another tab. Re-read only owner-scoped
+  // library metadata and links when the Journey becomes active again.
+  useEffect(() => {
+    let disposed = false;
+    let refreshing = false;
+    async function refreshLinks() {
+      if (disposed || refreshing || document.visibilityState !== "visible") return;
+      refreshing = true;
+      try {
+        const api = client();
+        const [links, snapshot] = await Promise.all([
+          readQuestWorkbookLinks(api, questId),
+          readWorkbookSnapshot(api),
+        ]);
+        if (!disposed && snapshot.authenticated) {
+          setWorkbookLinks(links);
+          setWorkbookPages(snapshot.pages);
+          setWorkbooks(snapshot.workbooks);
+        }
+      } catch {
+        // Preserve the last loaded snapshot if another-tab refresh fails.
+      } finally {
+        refreshing = false;
+      }
+    }
+    const refresh = () => void refreshLinks();
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      disposed = true;
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, [questId]);
+
   async function chooseStage(stage: QuestJourneyStage) {
     if (pending || !detail || detail.journey.lifecycleStatus === "ARCHIVED") return;
     setPending(true);
@@ -181,6 +216,8 @@ export function QuestJourneySurface({
   const selectedMapCodex =
     selectedTopic?.kind === "SKILL" ? mapCodexLearning[selectedTopic.slug] : undefined;
   const mapLevelLessons = selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
+  const fullCodexHref = (slug: string) =>
+    mapCodexLearning[slug] ? codexQuestPreviewHref(questId, slug) : undefined;
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -452,15 +489,10 @@ export function QuestJourneySurface({
           {journey.currentStage === "MAP" ? (
             selectedTopic ? (
               <section className="map-topic" aria-labelledby="map-topic-title">
-                <header>
+                <header className="map-topic__summary">
                   <p className="eyebrow">{selectedTopic.roles.join(" · ")}</p>
-                  <h2 id="map-topic-title">{selectedTopic.name}</h2>
-                </header>
-                <section>
-                  <h3>What it is</h3>
-                  {selectedTopic.codex ? (
-                    <>
-                      <p>{selectedTopic.codex.definition}</p>
+                  <h2 id="map-topic-title">
+                    {selectedTopic.codex ? (
                       <CodexReferenceLink
                         reference={{
                           kind: selectedTopic.codex.kind,
@@ -468,21 +500,32 @@ export function QuestJourneySurface({
                           name: selectedTopic.codex.name,
                           role: selectedTopic.roles[0] ?? "Quest item",
                           href: selectedTopic.codex.href,
+                          fullHref:
+                            selectedTopic.kind === "SKILL"
+                              ? fullCodexHref(selectedTopic.slug)
+                              : undefined,
                         }}
                       />
-                    </>
+                    ) : (
+                      selectedTopic.name
+                    )}
+                  </h2>
+                  {selectedTopic.codex ? (
+                    <p>{selectedTopic.codex.definition}</p>
                   ) : (
                     <p>No verified Codex definition is available for this snapshot item.</p>
                   )}
-                </section>
-                <section>
-                  <h3>Within this Quest</h3>
-                  <ul className="journey-list">
-                    {selectedTopic.questDetails.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
+                  {selectedTopic.kind !== "SKILL" &&
+                  selectedTopic.questDetails.some((item) => item !== quest.objective.summary) ? (
+                    <ul className="journey-list">
+                      {selectedTopic.questDetails
+                        .filter((item) => item !== quest.objective.summary)
+                        .map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                    </ul>
+                  ) : null}
+                </header>
                 <section className="map-topic__learn" aria-labelledby="map-how-to-explore">
                   <h3 id="map-how-to-explore">How to explore</h3>
                   <p>
@@ -545,7 +588,15 @@ export function QuestJourneySurface({
                         Open {selectedTopic.name} in Explore →
                       </button>
                       {selectedTopic.codex ? (
-                        <Link href={selectedTopic.codex.href} className="text-link">
+                        <Link
+                          href={
+                            (selectedTopic.kind === "SKILL" && fullCodexHref(selectedTopic.slug)) ||
+                            selectedTopic.codex.href
+                          }
+                          className="text-link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           Read in Codex ↗
                         </Link>
                       ) : null}
@@ -596,7 +647,9 @@ export function QuestJourneySurface({
                     {learningFocus.moduleKey && mapCodexLearning[learningFocus.moduleKey] ? (
                       <Link
                         className="text-link"
-                        href={`/prototype/codex-v2?skill=${encodeURIComponent(learningFocus.moduleKey)}`}
+                        href={codexQuestPreviewHref(questId, learningFocus.moduleKey)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Open this Skill in the Codex preview ↗
                       </Link>
@@ -709,7 +762,10 @@ export function QuestJourneySurface({
                         )}
                         {reference ? (
                           <p>
-                            Codex: <CodexReferenceLink reference={reference} />
+                            Codex:{" "}
+                            <CodexReferenceLink
+                              reference={{ ...reference, fullHref: fullCodexHref(module.slug) }}
+                            />
                           </p>
                         ) : null}
                         {links.length ? (
