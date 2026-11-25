@@ -421,8 +421,8 @@ export function CodexV2Entry({
                           <Link
                             className="cv2-lesson-workbook-link"
                             href={codexLessonWorkbookHref(module.id, entry.slug, questContext)}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             Practice in Workbook →
                           </Link>
