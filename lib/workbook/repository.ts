@@ -243,6 +243,16 @@ export async function restoreRevision(
   };
 }
 
+export async function readPageWorkbookLinks(client: WorkbookClient, pageId: string) {
+  const result = await client
+    .from<WorkbookContextLinkRow[]>("player_workbook_context_links")
+    .select("*")
+    .eq("page_id", pageId)
+    .order("created_at");
+  fail(result.error, "Workbook page links could not be loaded");
+  return result.data ?? [];
+}
+
 export async function readQuestWorkbookLinks(client: WorkbookClient, questId: string) {
   const result = await client
     .from<WorkbookContextLinkRow[]>("player_workbook_context_links")
