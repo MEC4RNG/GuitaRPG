@@ -39,6 +39,7 @@ export function CodexV2ArpeggioSequencer() {
   const [bpm, setBpm] = useState(80);
   const [bpmDraft, setBpmDraft] = useState("80");
   const tempoHelpId = useId();
+  const stepHelpId = useId();
   const draftBpmNumber = Number(bpmDraft);
   const validBpmDraft =
     bpmDraft.trim() !== "" &&
@@ -291,10 +292,24 @@ export function CodexV2ArpeggioSequencer() {
           {mode==="fretboard"&&<p>{source.length} positions · degree choices use the lowest available pitch; exact positions can span octaves.</p>}
         </div>
         <div className="cv2-arpeggio-controls">
-          <label>Assign fretboard note to step
-            <select aria-label="Arpeggio target step" value={targetStep} onChange={event=>setTargetStep(Number(event.target.value))}>
-              {Array.from({length:stepCountForSubdivision(subdivision)},(_,i)=><option key={i} value={i}>Step {i+1}</option>)}
+          <label>
+            Assign fretboard note to step
+            <select
+              aria-label="Arpeggio target step"
+              aria-describedby={stepHelpId}
+              value={targetStep}
+              onChange={(event) => setTargetStep(Number(event.target.value))}
+            >
+              {Array.from({ length: stepCountForSubdivision(subdivision) }, (_, i) => (
+                <option key={i} value={i}>Step {i + 1}</option>
+              ))}
             </select>
+            <small id={stepHelpId}>
+              Choose a step, then click a highlighted note on the fretboard below to replace that
+              step with its exact string and fret. The selector advances automatically, so you can
+              build a sequence by clicking notes in order. The rhythm grid and tablature update
+              together.
+            </small>
           </label>
         </div>
       </div>
