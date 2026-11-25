@@ -43,7 +43,8 @@ test("creates, autosaves, reloads, archives, restores, and creates a Quick Note"
       .getByRole("gridcell", { name: /String 6, position 1, Fret 7/ }),
   ).toBeVisible();
 
-  await page.getByRole("button", { name: "Archive" }).click();
+  await page.locator(".workbook-library__list article.is-selected summary").click();
+  await page.getByRole("button", { name: "Archive", exact: true }).click();
   await page.getByText(/Archived Workbooks/).click();
   await page.getByRole("button", { name: "Restore" }).click();
   await expect(page.getByRole("button", { name: "Technique notebook", exact: true })).toBeVisible();
@@ -195,7 +196,8 @@ test("identifies archived Quick Notes by their accepted page titles", async ({ p
   await page.getByLabel("Page title").fill("Dominant voicing idea");
   await page.getByLabel("Page title").blur();
   await expect(page.locator(".workbook-status")).toContainText("Saved", { timeout: 10_000 });
-  await page.getByRole("button", { name: "Archive" }).click();
+  await page.locator(".workbook-library__list article.is-selected summary").click();
+  await page.getByRole("button", { name: "Archive", exact: true }).click();
   await page.getByText(/Archived Workbooks/).click();
   await expect(
     page
@@ -234,4 +236,40 @@ test("refuses a stale cross-device save without overwriting accepted content", a
   await page.reload();
   await expect(page.getByLabel("Page title")).toHaveValue("Accepted on device A");
   await secondContext.close();
+});
+
+test("JRN-UX-001 displays an accepted page without edit controls and retains its data", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.once("dialog", (dialog) => dialog.accept("Display study"));
+  await page.getByRole("button", { name: "New Workbook" }).click();
+  await expect(page.getByRole("heading", { name: "Display study" })).toBeVisible();
+  await page.getByLabel("Page title").fill("My musical study");
+  await page.getByLabel("Page title").blur();
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  await page.locator('[data-block-type="guitar-tab"]').last().getByRole("gridcell", { name: /^String 6, position 1,/ }).fill("7");
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  await page.locator('[data-block-type="chord-diagram"]').last().getByLabel("Chord name").fill("Study chord");
+  await page.getByRole("button", { name: "Bold", exact: true }).focus();
+  await expect(page.locator(".workbook-status")).toContainText("Saved", { timeout: 10_000 });
+  await page.getByRole("button", { name: "Display", exact: true }).click();
+  const display = page.getByRole("article", { name: "Workbook page display" });
+  await expect(display).toBeVisible();
+  await expect(display.getByRole("table", { name: /Guitar tablature system/ }).first()).toBeVisible();
+  await expect(display.getByRole("cell", { name: "7", exact: true })).toBeVisible();
+  await expect(display.getByText(/Study chord/)).toBeVisible();
+  await expect(page.getByRole("toolbar", { name: "Workbook editing tools" })).toBeHidden();
+  await expect(display.locator("input, textarea, button, [contenteditable=true]")).toHaveCount(0);
+  await page.getByRole("button", { name: "Focus page" }).click();
+  await expect(page.getByRole("complementary", { name: "Workbook library" })).toBeHidden();
+  await expectNoHorizontalOverflow(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole("button", { name: "Edit", exact: true }).click();
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toBeVisible();
+  await expect(page.getByLabel("Page title")).toHaveValue("My musical study");
+  await expect(page.locator('[data-block-type="guitar-tab"]').last().getByRole("gridcell", { name: /String 6, position 1, Fret 7/ })).toBeVisible();
+  await page.getByRole("button", { name: "Show navigation" }).click();
+  await page.getByRole("searchbox", { name: "Search Workbooks and Pages" }).fill("no matching title");
+  await expect(page.getByText("No matching Workbooks.")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
 });
