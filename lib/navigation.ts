@@ -50,7 +50,7 @@ export const NAVIGATION_GROUPS: NavigationGroup[] = [
   },
   {
     label: "Learn",
-    items: [{ label: "Codex", href: "/codex", icon: "codex", surface: "codex" }],
+    items: [{ label: "Codex", href: "/codex", icon: "codex", surface: "codex", mobile: true }],
   },
   {
     label: "System",
