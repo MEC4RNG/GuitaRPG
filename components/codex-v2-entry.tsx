@@ -272,7 +272,9 @@ export function CodexV2Entry({
 
       <div className="cv2-section-frame">
         {section === "overview" ? (
-          <div className="cv2-overview-grid">
+          <div
+            className={`cv2-overview-grid${entry.slug === "arpeggio_sequencing" ? " cv2-overview-grid--arpeggio" : ""}`}
+          >
             <section className="cv2-reading-panel" aria-label="Skill overview">
               <span className="cv2-eyebrow">The musical idea</span>
               <h2>What it is</h2>
