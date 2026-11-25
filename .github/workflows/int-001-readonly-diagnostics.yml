@@ -1,0 +1,38 @@
+name: INT-001 read-only formatting diagnostic
+
+on:
+  pull_request:
+    branches:
+      - integration-private-beta-baseline
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    if: github.head_ref == 'int-001-readonly-diagnostics'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.23.2
+      - run: npm ci --legacy-peer-deps --no-audit --no-fund
+      - name: Compute formatter patch without pushing
+        run: |
+          npm run format
+          echo 'INT001_PATCH_BEGIN'
+          git diff --no-color --no-ext-diff
+          echo 'INT001_PATCH_END'
+      - name: Inspect lint
+        if: always()
+        run: npm run lint
+      - name: Inspect TypeScript
+        if: always()
+        run: npm run typecheck
+      - name: Inspect unit tests
+        if: always()
+        run: npm run test
