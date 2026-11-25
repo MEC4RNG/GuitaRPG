@@ -180,7 +180,7 @@
       "SYSTEM": ["Profile"]
     },
     "mobile": {
-      "items": ["Home", "Generate", "Skills", "Profile"],
+      "items": ["Home", "Generate", "Skills", "Codex", "Profile"],
       "universal_primary_action": "Generate",
       "maximum_persistent_items_excluding_primary_action": 4
     }

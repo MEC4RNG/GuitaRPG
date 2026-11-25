@@ -38,14 +38,16 @@ describe("UX-002 application navigation", () => {
     expect(ALL_NAVIGATION_ITEMS).not.toContainEqual(expect.objectContaining({ href: "/settings" }));
   });
 
-  it("implements the approved four-item mobile navigation", () => {
+  it("implements the approved five-item mobile navigation with Codex access", () => {
     expect(MOBILE_NAVIGATION_ITEMS.map((item) => item.label)).toEqual([
       "Home",
       "Generate",
       "Skills",
+      "Codex",
       "Profile",
     ]);
-    expect(MOBILE_NAVIGATION_ITEMS).toHaveLength(4);
+    expect(MOBILE_NAVIGATION_ITEMS).toHaveLength(5);
+    expect(MOBILE_NAVIGATION_ITEMS.find((item) => item.label === "Codex")?.href).toBe("/codex");
     expect(MOBILE_NAVIGATION_ITEMS.find((item) => item.label === "Generate")?.primaryAction).toBe(
       true,
     );
