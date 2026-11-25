@@ -871,9 +871,11 @@ test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices
   await expect(sequencer.getByRole("combobox", { name: "Beat 1, part 1" })).toHaveValue("s5-f3");
   await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("s5-f15");
   const tab = sequencer.getByRole("table", { name: "Arpeggio sequence tablature" });
-  await expect(
-    tab.getByRole("row").filter({ has: tab.getByRole("rowheader", { name: "5", exact: true }) }),
-  ).toContainText("15");
+  const stringFive = tab.getByRole("row").filter({
+    has: page.getByRole("rowheader", { name: "5", exact: true }),
+  });
+  await expect(stringFive.getByRole("cell").nth(0)).toHaveText("3");
+  await expect(stringFive.getByRole("cell").nth(1)).toHaveText("15");
   await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeEnabled();
   await sequencer.getByRole("button", { name: "String 5", exact: true }).click();
   await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeDisabled();
