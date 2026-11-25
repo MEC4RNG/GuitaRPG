@@ -12,7 +12,10 @@ export function MobileNav({ pathname }: MobileNavProps) {
   return (
     <nav className="mobile-nav" aria-label="Mobile navigation">
       {MOBILE_NAVIGATION_ITEMS.map((item) => {
-        const active = isRouteActive(pathname, item.href);
+        const active =
+          isRouteActive(pathname, item.href) ||
+          (item.href === "/codex" &&
+            (pathname === "/prototype/codex-v2" || pathname.startsWith("/prototype/codex-v2/")));
 
         return (
           <Link

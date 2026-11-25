@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { CodexSurface } from "@/components/codex-surface";
 import { PageHeader } from "@/components/page-header";
 import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
+import { canAccessCodexV2DraftPreview } from "@/lib/codex/v2/preview-access";
 
 export const metadata: Metadata = { title: "Codex" };
 
@@ -12,8 +14,15 @@ export default function CodexPage() {
       <PageHeader
         eyebrow="LEARN · CODEX"
         title="Musical reference"
-        description="Browse the canonical Skills, Concepts, Contexts, and Constraints used by GuitaRPG."
+        description="Browse the canonical Skills, Concepts, Contexts, and Constraints used by Sound Uncharted."
       />
+      {canAccessCodexV2DraftPreview() ? (
+        <p>
+          <Link className="codex-detail-link" href="/prototype/codex-v2">
+            Preview Codex V2 — draft instructional library ↗
+          </Link>
+        </p>
+      ) : null}
       <CodexSurface entries={CODEX_ENTRIES} />
     </div>
   );

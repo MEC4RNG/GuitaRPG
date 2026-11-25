@@ -7,6 +7,37 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Interactive Workbook Editor" })).toBeVisible();
 });
 
+test("MEC-R12 makes whole musical blocks removable with deliberate confirmation", async ({
+  page,
+}) => {
+  const tabs = page.locator('[data-block-type="guitar-tab"]');
+  const originalTabs = await tabs.count();
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  await expect(tabs).toHaveCount(originalTabs + 1);
+  const tab = tabs.last();
+  await tab.getByRole("button", { name: "Remove tablature", exact: true }).click();
+  await expect(tab.getByRole("button", { name: "Confirm remove tablature" })).toBeVisible();
+  await tab.getByRole("button", { name: "Cancel", exact: true }).click();
+  await expect(tabs).toHaveCount(originalTabs + 1);
+  await tab.getByRole("button", { name: "Remove tablature", exact: true }).click();
+  await tab.getByRole("button", { name: "Confirm remove tablature" }).click();
+  await expect(tabs).toHaveCount(originalTabs);
+
+  const diagrams = page.locator('[data-block-type="chord-diagram"]');
+  const originalDiagrams = await diagrams.count();
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  await expect(diagrams).toHaveCount(originalDiagrams + 1);
+  const diagram = diagrams.last();
+  await diagram.getByRole("button", { name: "Remove diagram", exact: true }).click();
+  await expect(diagram.getByRole("button", { name: "Confirm remove diagram" })).toBeVisible();
+  await diagram.getByRole("button", { name: "Cancel", exact: true }).click();
+  await expect(diagrams).toHaveCount(originalDiagrams + 1);
+  await diagram.getByRole("button", { name: "Remove diagram", exact: true }).click();
+  await diagram.getByRole("button", { name: "Confirm remove diagram" }).click();
+  await expect(diagrams).toHaveCount(originalDiagrams);
+  await expectNoHorizontalOverflow(page);
+});
+
 test("edits one mixed document and round trips the owned JSON format", async ({
   browserName,
   page,
@@ -476,7 +507,7 @@ test("imports a validated local JSON file without uploading or losing failed-imp
 
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Download JSON file" }).click();
-  expect((await download).suggestedFilename()).toBe("guitarpg-workbook.json");
+  expect((await download).suggestedFilename()).toBe("sound-uncharted-workbook.json");
 
   await page.getByRole("button", { name: "Reset prototype" }).click();
   page.once("dialog", (dialog) => dialog.accept());
@@ -551,12 +582,13 @@ test("ordinary text entry after musical editing never replaces the musical block
   await expect(chord.getByRole("button", { name: /Select string 6, Fret 3/ })).toBeVisible();
   await expect(document).toContainText("Text after chord");
 
-  await tab.getByText("Tab block actions").click();
-  await tab.getByRole("button", { name: "Delete tab" }).click();
+  await tab.getByRole("button", { name: "Remove tablature", exact: true }).click();
+  await tab.getByRole("button", { name: "Confirm remove tablature" }).click();
   await expect(page.locator('[data-block-type="guitar-tab"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Undo" }).click();
   await expect(page.locator('[data-block-type="guitar-tab"]')).toHaveCount(1);
-  await chord.getByRole("button", { name: "Delete chord" }).click();
+  await chord.getByRole("button", { name: "Remove diagram", exact: true }).click();
+  await chord.getByRole("button", { name: "Confirm remove diagram" }).click();
   await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Undo" }).click();
   await expect(page.locator('[data-block-type="chord-diagram"]')).toHaveCount(1);
