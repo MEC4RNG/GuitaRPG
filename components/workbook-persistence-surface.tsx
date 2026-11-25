@@ -9,6 +9,8 @@ import {
   type WorkbookEditorPage,
 } from "@/components/workbook-editor-prototype";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { WorkbookDisplay } from "./workbook-display";
+import { WorkbookAssociations } from "./workbook-associations";
 import { starterWorkbookDocument } from "@/lib/workbook/document-v1";
 import {
   buildLessonWorkbookDocument,
@@ -70,6 +72,14 @@ export function WorkbookPersistenceSurface({
   const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
   const [creatingLesson, setCreatingLesson] = useState(false);
+  const [librarySearch, setLibrarySearch] = useState("");
+  const [libraryOpen, setLibraryOpen] = useState(true);
+  const [pageNavigationOpen, setPageNavigationOpen] = useState(true);
+  const [focusMode, setFocusMode] = useState(false);
+  const [displayMode, setDisplayMode] = useState(false);
+  const [documentToolsOpen, setDocumentToolsOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyPageId, setHistoryPageId] = useState<string | null>(null);
   const lessonCreatePendingRef = useRef(false);
 
   const load = useCallback(async () => {
@@ -156,6 +166,15 @@ export function WorkbookPersistenceSurface({
   const selectedPages = pages
     .filter((page) => page.workbook_id === selectedId)
     .sort((a, b) => a.position - b.position);
+  const acceptedPage = selectedPages.find((page) => page.id === activePage?.id) ??
+    selectedPages.find((page) => page.id === initialPageId) ?? selectedPages[0];
+  const showingDisplay = displayMode && !pendingEdits;
+  const filteredWorkbooks = workbooks.filter((workbook) => {
+    const query = librarySearch.trim().toLocaleLowerCase();
+    return !query || workbook.title.toLocaleLowerCase().includes(query) ||
+      (workbook.description ?? "").toLocaleLowerCase().includes(query) ||
+      pages.some((page) => page.workbook_id === workbook.id && page.title.toLocaleLowerCase().includes(query));
+  });
   const recentPages = [...pages]
     .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     .slice(0, 5);
@@ -171,13 +190,14 @@ export function WorkbookPersistenceSurface({
   }, []);
 
   const selectWorkbook = (workbookId: string, pageId: string | null = null) => {
-    if (pendingEdits && workbookId !== selectedId) {
+    if (pendingEdits && (workbookId !== selectedId || pageId !== null)) {
       setMessage("Wait for the current page to show Saved before opening another Workbook.");
       return;
     }
     setMessage("");
     setSelectedId(workbookId);
     setInitialPageId(pageId);
+    setHistoryOpen(false);
   };
 
   const create = async () => {
@@ -398,7 +418,10 @@ export function WorkbookPersistenceSurface({
   const showHistory = async () => {
     if (!activePage) return;
     try {
-      setRevisions(await readRevisions(getClient(), activePage.id));
+      const pageId = activePage.id;
+      const history = await readRevisions(getClient(), pageId);
+      setRevisions(history);
+      setHistoryPageId(pageId);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Revision history is unavailable.");
     }
@@ -680,14 +703,16 @@ export function WorkbookPersistenceSurface({
   }
 
   return (
-    <section className="workbook-library" aria-labelledby="workbook-library-title">
+    <section className="workbook-library workbook-library--redesign" aria-labelledby="workbook-library-title">
       <header className="workbook-library__header">
         <div>
           <span className="eyebrow">Private Player workspace · preview</span>
           <h1 id="workbook-library-title">Workbooks</h1>
-          <p>Structured guitar notes that belong to your Player, independently of Quests.</p>
         </div>
         <div className="workbook-library__actions">
+          <button type="button" aria-pressed={focusMode} onClick={() => setFocusMode((value) => !value)}>
+            {focusMode ? "Show navigation" : "Focus page"}
+          </button>
           <button type="button" onClick={() => void create()}>
             New Workbook
           </button>
@@ -790,9 +815,14 @@ export function WorkbookPersistenceSurface({
       <p role="status" className="workbook-library__message">
         {message}
       </p>
-      <div className="workbook-library__grid">
-        <aside className="workbook-library__list" aria-label="Workbook library">
-          <h2>Recent pages</h2>
+      <div className={`workbook-library__grid${focusMode || !libraryOpen ? " workbook-library__grid--collapsed" : ""}`}>
+        <aside className="workbook-library__list" aria-label="Workbook library" hidden={focusMode || !libraryOpen}>
+          <label className="workbook-library__search">
+            Search Workbooks and Pages
+            <input type="search" value={librarySearch} onChange={(event) => setLibrarySearch(event.target.value)} placeholder="Search your library" />
+          </label>
+          <details className="workbook-library__recent">
+          <summary>Recent pages</summary>
           {recentPages.map((page) => (
             <button
               type="button"
@@ -804,9 +834,10 @@ export function WorkbookPersistenceSurface({
               {page.title}
             </button>
           ))}
+          </details>
           <h2>Active</h2>
-          {workbooks.filter((item) => !item.archived_at).length ? null : <p>No Workbooks yet.</p>}
-          {workbooks
+          {filteredWorkbooks.filter((item) => !item.archived_at).length ? null : <p>No matching Workbooks.</p>}
+          {filteredWorkbooks
             .filter((item) => !item.archived_at)
             .map((workbook) => (
               <article
@@ -826,7 +857,9 @@ export function WorkbookPersistenceSurface({
                     ? "Quick Notes"
                     : `Updated ${new Date(workbook.updated_at).toLocaleDateString()}`}
                 </small>
-                <div>
+                <details className="workbook-library__manage">
+                  <summary>Workbook actions</summary>
+                  <div>
                   <button type="button" onClick={() => void rename(workbook)}>
                     Rename
                   </button>
@@ -836,7 +869,8 @@ export function WorkbookPersistenceSurface({
                   <button type="button" onClick={() => void archive(workbook, true)}>
                     Archive
                   </button>
-                </div>
+                  </div>
+                </details>
               </article>
             ))}
           <details>
@@ -873,8 +907,48 @@ export function WorkbookPersistenceSurface({
           </p>
         </aside>
         <div className="workbook-library__workspace">
+          <div className="workbook-workspace-controls">
+            {!focusMode ? (
+              <button type="button" aria-expanded={libraryOpen} onClick={() => setLibraryOpen((value) => !value)}>
+                {libraryOpen ? "Hide library" : "Show library"}
+              </button>
+            ) : null}
+            {selected ? (
+              <>
+                {!focusMode ? (
+                  <button type="button" aria-expanded={pageNavigationOpen} onClick={() => setPageNavigationOpen((value) => !value)}>
+                    {pageNavigationOpen ? "Hide pages" : "Show pages"}
+                  </button>
+                ) : null}
+                <div role="group" aria-label="Workbook mode" className="workbook-mode-switch">
+                  <button type="button" aria-pressed={!showingDisplay} onClick={() => setDisplayMode(false)}>Edit</button>
+                  <button type="button" aria-pressed={showingDisplay} disabled={pendingEdits} onClick={() => setDisplayMode(true)}>Display</button>
+                </div>
+              </>
+            ) : null}
+          </div>
           {selected && selectedPages.length ? (
             <>
+              {acceptedPage ? (
+                <WorkbookAssociations pageId={acceptedPage.id} getClient={getClient} refreshKey={contextLinks.map((link) => link.id).sort().join(",")} />
+              ) : null}
+              {showingDisplay && acceptedPage ? (
+                <section className="workbook-reading-workspace" aria-label="Display mode">
+                  <header>
+                    <span className="eyebrow">{selected.title} · Saved page</span>
+                    <h2>{acceptedPage.title}</h2>
+                  </header>
+                  {!focusMode && pageNavigationOpen ? (
+                    <nav aria-label="Display pages" className="workbook-reading-pages">
+                      {selectedPages.map((page) => (
+                        <button type="button" key={page.id} aria-current={page.id === acceptedPage.id ? "page" : undefined} onClick={() => selectWorkbook(selected.id, page.id)}>{page.title}</button>
+                      ))}
+                    </nav>
+                  ) : null}
+                  <WorkbookDisplay document={acceptedPage.document} />
+                </section>
+              ) : null}
+              <div hidden={showingDisplay} className={`workbook-editor-shell${focusMode || !pageNavigationOpen ? " workbook-editor-shell--page-only" : ""}${documentToolsOpen ? " workbook-editor-shell--tools" : ""}`}>
               <WorkbookEditorPrototype
                 key={`${selected.id}-${initialPageId ?? "first"}`}
                 persistent
@@ -920,7 +994,13 @@ export function WorkbookPersistenceSurface({
                   return { status: "accepted", revision: result.revision };
                 }}
               />
-              <section className="workbook-revisions" aria-labelledby="workbook-revisions-title">
+              <button type="button" className="workbook-tools-toggle" aria-expanded={documentToolsOpen} onClick={() => setDocumentToolsOpen((open) => !open)}>
+                {documentToolsOpen ? "Hide document tools" : "Document import / export"}
+              </button>
+              <button type="button" className="workbook-tools-toggle" aria-expanded={historyOpen} onClick={() => setHistoryOpen((open) => !open)}>
+                {historyOpen ? "Hide recovery revisions" : "Recovery revisions"}
+              </button>
+              <section className="workbook-revisions" aria-labelledby="workbook-revisions-title" hidden={!historyOpen}>
                 <h2 id="workbook-revisions-title">Recovery revisions</h2>
                 <p>
                   The latest 50 accepted snapshots are retained. Restoring creates a new revision.
@@ -929,7 +1009,7 @@ export function WorkbookPersistenceSurface({
                   Load revision history
                 </button>
                 <ol>
-                  {revisions.map((revision) => (
+                  {(historyPageId === activePage?.id ? revisions : []).map((revision) => (
                     <li key={revision.id}>
                       Revision {revision.revision} ·{" "}
                       {new Date(revision.created_at).toLocaleString()}{" "}
@@ -937,7 +1017,7 @@ export function WorkbookPersistenceSurface({
                         type="button"
                         onClick={async () => {
                           if (
-                            !activePage ||
+                            !activePage || historyPageId !== activePage.id || pendingEdits ||
                             !window.confirm(
                               `Restore revision ${revision.revision} as a new revision?`,
                             )
@@ -960,6 +1040,7 @@ export function WorkbookPersistenceSurface({
                   ))}
                 </ol>
               </section>
+              </div>
             </>
           ) : (
             <div className="workbook-library__empty">
