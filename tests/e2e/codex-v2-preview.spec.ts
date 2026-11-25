@@ -872,3 +872,37 @@ test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices
   await page.setViewportSize({ width: 320, height: 720 });
   await expectNoHorizontalOverflow(page);
 });
+
+test("R14 tempo accepts sequential digits without clamping unfinished input", async ({ page }) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  const tempo = sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" });
+  const status = sequencer.locator(".cv2-arpeggio-status");
+  await tempo.fill("");
+  await expect(tempo).toHaveValue("");
+  await tempo.pressSequentially("1");
+  await expect(tempo).toHaveValue("1");
+  await tempo.pressSequentially("2");
+  await expect(tempo).toHaveValue("12");
+  await tempo.pressSequentially("0");
+  await expect(tempo).toHaveValue("120");
+  await expect(status).toContainText("2.00 seconds");
+  await tempo.press("Enter");
+  await expect(tempo).toHaveValue("120");
+  await tempo.fill("");
+  await tempo.pressSequentially("75");
+  await expect(tempo).toHaveValue("75");
+  await expect(status).toContainText("3.20 seconds");
+  await tempo.fill("201");
+  await expect(tempo).toHaveValue("201");
+  await expect(tempo).toHaveAttribute("aria-invalid", "true");
+  await tempo.press("Tab");
+  await expect(tempo).toHaveValue("75");
+  await expect(tempo).toHaveAttribute("aria-invalid", "false");
+  await tempo.fill("40");
+  await expect(status).toContainText("6.00 seconds");
+  await tempo.fill("200");
+  await expect(status).toContainText("1.20 seconds");
+  await tempo.press("Enter");
+  await expect(tempo).toHaveValue("200");
+});
