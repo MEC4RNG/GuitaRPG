@@ -290,7 +290,7 @@ export function CodexV2ArpeggioSequencer() {
           </label>
         </div>
       </div>
-      <div className="cv2-fretboard-scroll" tabIndex={0} aria-label="Arpeggio fretboard, horizontally scrollable">
+      <div className="cv2-fretboard-scroll" role="region" tabIndex={0} aria-label="Arpeggio fretboard, horizontally scrollable">
         <table className="cv2-fretboard-table cv2-arpeggio-fretboard" style={{minWidth:Math.max(280,frets.length*48+80)}}>
           <thead><tr><th scope="col">String</th>{frets.map(f=><th key={f} scope="col">{f===0?"Open":f}</th>)}</tr></thead>
           <tbody>{[1,2,3,4,5,6].map(s=><tr key={s}><th scope="row">{s}</th>{frets.map(f=>{
@@ -390,6 +390,13 @@ export function CodexV2ArpeggioSequencer() {
         ))}
       </div>
 
+      <div className="cv2-arpeggio-heading"><strong>Sequence tablature</strong><span>String 1 at top · sounding fret numbers</span></div>
+      <div className="cv2-fretboard-scroll" role="region" tabIndex={0} aria-label="Sequence tablature, horizontally scrollable">
+        <table className="cv2-arpeggio-tab" style={{minWidth:Math.max(300,bar.events.length*38+52)}} aria-label="Arpeggio sequence tablature">
+          <thead><tr><th scope="col">String</th>{bar.events.map(e=><th key={e.index} scope="col" className={activeStep===e.index?"is-active":undefined}>{e.count}</th>)}</tr></thead>
+          <tbody>{[1,2,3,4,5,6].map(s=><tr key={s}><th scope="row">{s}</th>{bar.events.map(e=><td key={e.index} className={activeStep===e.index?"is-active":undefined}>{e.stringNumber===s?e.fret:"–"}</td>)}</tr>)}</tbody>
+        </table>
+      </div>
       <div className="cv2-arpeggio-playback">
         <button
           type="button"
