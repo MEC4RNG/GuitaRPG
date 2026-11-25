@@ -149,7 +149,13 @@ describe("UX-001 hybrid design-system contract", () => {
     expect(contract.navigation.desktop.SYSTEM).toEqual(["Profile"]);
     expect(Object.values(contract.navigation.desktop).flat()).not.toContain("Settings");
 
-    expect(contract.navigation.mobile.items).toEqual(["Home", "Generate", "Skills", "Codex", "Profile"]);
+    expect(contract.navigation.mobile.items).toEqual([
+      "Home",
+      "Generate",
+      "Skills",
+      "Codex",
+      "Profile",
+    ]);
     expect(contract.navigation.mobile.universal_primary_action).toBe("Generate");
     expect(
       contract.navigation.mobile.items.filter(
