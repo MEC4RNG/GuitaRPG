@@ -197,6 +197,25 @@ export function WorkbookPersistenceSurface({
     }
   };
 
+  const lessonModuleKey =
+    context?.stage === "EXPLORE" && context.relationship === "APPLIES_TO"
+      ? (lessonSource?.skillSlug ?? null)
+      : null;
+
+  const attachContextPage = async (pageId: string) => {
+    if (!context || !questContextTitle) throw new Error("Quest context is unavailable.");
+    if (lessonModuleKey) {
+      return attachExploreModulePage(getClient(), pageId, context.questId, lessonModuleKey);
+    }
+    return attachWorkbookContext(getClient(), {
+      pageId,
+      questId: context.questId,
+      stage: context.stage,
+      relationship: context.relationship,
+      sessionId: context.sessionId,
+    });
+  };
+
   const createFromLesson = async (newWorkbook: boolean) => {
     if (!lessonSource || lessonCreatePendingRef.current) return;
     if (pendingEdits) {
@@ -247,15 +266,13 @@ export function WorkbookPersistenceSurface({
       setInitialPageId(page.id);
       if (context && questContextTitle) {
         try {
-          const link = await attachWorkbookContext(getClient(), {
-            pageId: page.id,
-            questId: context.questId,
-            stage: context.stage,
-            relationship: context.relationship,
-            sessionId: context.sessionId,
-          });
+          const link = await attachContextPage(page.id);
           setContextLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
-          setMessage(`Lesson page created and linked to this Quest.${titleWarning}`);
+          setMessage(
+            lessonModuleKey
+              ? `Lesson page created and linked to this Explore ingredient.${titleWarning}`
+              : `Lesson page created and linked to this Quest.${titleWarning}`,
+          );
         } catch {
           setMessage(
             `Lesson page created but not linked to this Quest. Attach it later.${titleWarning}`,
@@ -333,7 +350,8 @@ export function WorkbookPersistenceSurface({
             link.page_id === activePage.id &&
             link.stage === context.stage &&
             link.relationship === context.relationship &&
-            link.session_id === (context.sessionId ?? null),
+            link.session_id === (context.sessionId ?? null) &&
+            (!lessonModuleKey || link.module_key === lessonModuleKey),
         )
       : null;
 
@@ -343,13 +361,7 @@ export function WorkbookPersistenceSurface({
       return;
     }
     try {
-      const accepted = await attachWorkbookContext(getClient(), {
-        pageId: activePage.id,
-        questId: context.questId,
-        stage: context.stage,
-        relationship: context.relationship,
-        sessionId: context.sessionId,
-      });
+      const accepted = await attachContextPage(activePage.id);
       setContextLinks((current) => [
         ...current.filter((item) => item.id !== accepted.id),
         accepted,
@@ -736,8 +748,9 @@ export function WorkbookPersistenceSurface({
             <span className="eyebrow">WORKBOOK CONTEXT · {context.stage}</span>
             <h2 id="workbook-context-title">{questContextTitle ?? "Unavailable Quest"}</h2>
             <p>
-              Choose any existing page, Quick Note, or new Workbook. Linking adds context only; it
-              does not change the Quest, Session, Result, or progression.
+              {lessonModuleKey
+                ? "Creating a lesson page here links it to this Quest's matching Explore ingredient. To link an existing page, open it and choose Link current page."
+                : "Choose any existing page, Quick Note, or new Workbook. Linking adds context only; it does not change the Quest, Session, Result, or progression."}
             </p>
           </div>
           <div className="workbook-context__actions">
