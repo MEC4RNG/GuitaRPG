@@ -644,12 +644,12 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the musical library." })).toHaveCount(0);
   await expect(page.locator(".cv2-fret-svg")).toBeVisible();
-  await expect(page.locator(".cv2-reference-detail")).toContainText("C4 · E4 · G4");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("C4 · E4 · G4");
   await page.getByRole("button", { name: "C minor" }).click();
-  await expect(page.locator(".cv2-reference-detail")).toContainText("C4 · E♭4 · G4");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("C4 · E♭4 · G4");
   await page.getByRole("button", { name: /F major.*inversion/ }).click();
-  await expect(page.locator(".cv2-reference-detail")).toContainText("A3 · C4 · F4");
-  await expect(page.locator(".cv2-reference-detail")).toContainText("First inversion");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("A3 · C4 · F4");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("First inversion");
 
   await page.getByRole("button", { name: "Applications" }).click();
   await expect(page.locator(".cv2-application-grid button")).toHaveCount(4);
