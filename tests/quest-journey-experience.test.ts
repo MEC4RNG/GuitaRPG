@@ -98,8 +98,10 @@ describe("UX-006 Quest Journey presentation", () => {
   it("uses selectable snapshot topics and consolidated Map detail", () => {
     expect(surface).toContain('aria-label="Quest challenge items"');
     expect(surface).toContain("aria-pressed={selectedTopic?.key === topic.key}");
-    expect(surface).toContain("What it is");
-    expect(surface).toContain("Within this Quest");
+    expect(surface).toContain('className="map-topic__summary"');
+    expect(surface).toContain("selectedTopic.codex.definition");
+    expect(surface).not.toContain("<h3>What it is</h3>");
+    expect(surface).not.toContain("<h3>Within this Quest</h3>");
     expect(surface).toContain("How to explore");
     expect(surface).toContain("Create Workbook and open Explore");
     expect(surface).toContain('role="tablist"');
