@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { ARPEGGIO_PRESETS, ARPEGGIO_SUBDIVISIONS, stepCountForSubdivision, type ArpeggioPreset, type ArpeggioSubdivision } from "@/lib/codex/v2/arpeggio-sequencer";
 import { ARPEGGIO_CHORDS, arpeggioTones, arpeggioPositions, arpeggioVoicings, buildExpandedBar, expandedPattern, type ArpeggioQuality, type ExpandedBar } from "@/lib/codex/v2/expanded-arpeggios";
 import { CHROMATIC_ROOTS, TUNINGS, type FretboardRoot, type FretboardTuning } from "@/lib/codex/v2/fretboard-engine";
@@ -37,6 +37,14 @@ export function CodexV2ArpeggioSequencer() {
   const [custom, setCustom] = useState<string[]>([]);
   const [targetStep, setTargetStep] = useState(0);
   const [bpm, setBpm] = useState(80);
+  const [bpmDraft, setBpmDraft] = useState("80");
+  const tempoHelpId = useId();
+  const draftBpmNumber = Number(bpmDraft);
+  const validBpmDraft =
+    bpmDraft.trim() !== "" &&
+    Number.isInteger(draftBpmNumber) &&
+    draftBpmNumber >= 40 &&
+    draftBpmNumber <= 200;
   const [loop, setLoop] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -338,15 +346,34 @@ export function CodexV2ArpeggioSequencer() {
             max={200}
             step={1}
             aria-label="Arpeggio tempo BPM"
-            value={bpm}
+            inputMode="numeric"
+            value={bpmDraft}
+            aria-invalid={!validBpmDraft}
+            aria-describedby={tempoHelpId}
             onChange={(event) => {
-              stopPlayback("Stopped. Tempo changed.");
-              const value = Number(event.target.value);
-              if (Number.isFinite(value)) {
-                setBpm(Math.max(40, Math.min(200, Math.round(value))));
+              const draft = event.target.value;
+              setBpmDraft(draft);
+              stopPlayback("Stopped. Tempo editing.");
+              const value = Number(draft);
+              if (draft.trim() !== "" && Number.isInteger(value) && value >= 40 && value <= 200) {
+                setBpm(value);
+              }
+            }}
+            onBlur={() => {
+              setBpmDraft(String(bpm));
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                event.currentTarget.blur();
               }
             }}
           />
+          <small id={tempoHelpId}>
+            {validBpmDraft
+              ? "40–200 BPM"
+              : "Enter a whole number from 40–200. Leaving the field restores the last valid tempo."}
+          </small>
         </label>
       </div>
 
