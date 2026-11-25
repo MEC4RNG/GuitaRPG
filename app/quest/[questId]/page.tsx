@@ -17,6 +17,7 @@ export default async function QuestJourneyPage({
   // used by the isolated Codex V2 prototype.
   if (canAccessCodexV2DraftPreview()) {
     const { readCodexV2DraftPreview } = await import("@/lib/codex/v2/preview");
+    const { canonicalCodexName } = await import("@/lib/codex/v2/content");
     const preview = readCodexV2DraftPreview();
     mapCodexLearning = Object.fromEntries(
       preview.entries
@@ -25,6 +26,28 @@ export default async function QuestJourneyPage({
           entry.slug,
           {
             blocks: entry.reference_blocks,
+            sources: entry.modules.map((module) => ({
+              moduleId: module.id,
+              skillName: canonicalCodexName(entry.kind, entry.slug),
+              skillKind: "SKILL" as const,
+              skillSlug: entry.slug,
+              revision: entry.revision,
+              status: entry.editorial_status,
+              title: module.title,
+              applicationTitle:
+                entry.applications.find((item) => item.id === module.application_id)?.title ??
+                module.application_id,
+              level: module.level,
+              explanation: module.explanation,
+              outcomes: module.outcomes,
+              exercises: module.exercises.map((exercise) => ({
+                title: exercise.title,
+                setup: exercise.setup,
+                steps: exercise.steps,
+                selfCheck: exercise.self_check,
+                suggestedMinutes: exercise.suggested_minutes,
+              })),
+            })),
             modules: entry.modules.map((module) => ({
               id: module.id,
               title: module.title,
