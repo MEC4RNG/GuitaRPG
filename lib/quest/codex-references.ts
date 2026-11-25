@@ -1,5 +1,7 @@
 import { CODEX_ENTRIES, type CodexKind } from "@/lib/codex/catalog-v1";
 import type { Quest, TaxonomyReference } from "@/lib/quest/runtime";
+import type { CodexLessonWorkbookSource } from "@/lib/workbook/lesson-template";
+import type { WorkbookContextLinkRow, WorkbookPageRow, WorkbookRow } from "@/lib/workbook/repository";
 
 export type QuestCodexReference = {
   kind: CodexKind;
@@ -8,6 +10,17 @@ export type QuestCodexReference = {
   role: string;
   href: string | null;
   fullHref?: string;
+  exploration?: {
+    questId: string;
+    questTitle: string;
+    lessons: CodexLessonWorkbookSource[];
+    readOnly: boolean;
+    onLinked: (result: {
+      page: WorkbookPageRow;
+      workbook: WorkbookRow;
+      link: WorkbookContextLinkRow;
+    }) => void;
+  };
   parameter?: string;
 };
 
