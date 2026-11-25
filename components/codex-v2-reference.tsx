@@ -140,7 +140,6 @@ const voicings: readonly Voicing[] = [
 ];
 
 function TriadFretboardReference() {
-  const [expanded, setExpanded] = useState(false);
   const [selection, setSelection] = useState(voicings[0].id);
   const voicing = voicings.find((candidate) => candidate.id === selection) ?? voicings[0];
   const strings = [
@@ -259,13 +258,6 @@ function TriadFretboardReference() {
         </Link>
         .
       </p>
-      <details
-        className="cv2-triad-expanded"
-        onToggle={(event) => setExpanded(event.currentTarget.open)}
-      >
-        <summary>Explore more triad voicings</summary>
-        {expanded ? <CodexV2ChordVoicings mode="inversions" /> : null}
-      </details>
     </div>
   );
 }
@@ -468,14 +460,30 @@ function RhythmGridReference() {
   );
 }
 
-export function CodexV2Reference({ blocks }: { blocks: readonly CodexV2ReferenceBlock[] }) {
+export function CodexV2Reference({
+  blocks,
+  includeFullTriad = true,
+}: {
+  blocks: readonly CodexV2ReferenceBlock[];
+  includeFullTriad?: boolean;
+}) {
   if (!blocks.length) return null;
   return (
     <aside className="cv2-reference-stack" aria-label="Interactive musical examples">
       {blocks.map((block) => (
         <div key={block.id}>
           {block.kind === "SCALE_DEGREES" ? <ScaleDegreesReference /> : null}
-          {block.kind === "TRIAD_FRETBOARD" ? <TriadFretboardReference /> : null}
+          {block.kind === "TRIAD_FRETBOARD" ? (
+            <>
+              <TriadFretboardReference />
+              {includeFullTriad ? (
+                <details className="cv2-triad-expanded">
+                  <summary>Explore more triad voicings</summary>
+                  <CodexV2ChordVoicings mode="inversions" />
+                </details>
+              ) : null}
+            </>
+          ) : null}
           {block.kind === "RHYTHM_GRID" ? <RhythmGridReference /> : null}
           {block.kind === "FRETBOARD_NOTE_LOCATION" ? (
             <CodexV2Fretboard mode="note_location" />
