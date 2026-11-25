@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { AppShell } from "@/components/app-shell";
 
 import "./globals.css";
+import "./workbook-workspace.css";
 
 export const metadata: Metadata = {
   title: {
