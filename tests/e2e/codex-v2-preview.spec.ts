@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessibility";
 import { completeGuestOnboarding } from "./helpers/player-flow";
+import { generateQuickQuest } from "../../lib/quest/generator";
 
 test("CODEX-V2-A isolated preview keeps navigation and dictionary in place", async ({ page }) => {
   await page.goto("/prototype/codex-v2");
@@ -60,27 +61,32 @@ test("MEC-R12 explicitly creates a private Codex lesson page only after confirma
   await page.getByRole("button", { name: "Lessons", exact: true }).click();
   const lesson = page.locator(".cv2-modules .cv2-module").first();
   await lesson.locator("summary").click();
-  await lesson.getByRole("link", { name: "Practice in Workbook" }).click();
-  await expect(page).toHaveURL(/\/workbooks\?codex_module=sdr\.aural\.f1/);
-  await expect(page.getByRole("heading", { name: "Workbooks" })).toBeVisible();
-  await expect(page.locator("#workbook-lesson-title")).toHaveText("Hear the tonal home");
-  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(0);
+  const [workbook] = await Promise.all([
+    page.context().waitForEvent("page"),
+    lesson.getByRole("link", { name: "Practice in Workbook" }).click(),
+  ]);
+  await expect(workbook).toHaveURL(/\/workbooks\?codex_module=sdr\.aural\.f1/);
+  await expect(page.getByRole("heading", { name: "Scale-Degree Recognition" })).toBeVisible();
+  await expect(workbook.getByRole("heading", { name: "Workbooks" })).toBeVisible();
+  await expect(workbook.locator("#workbook-lesson-title")).toHaveText("Hear the tonal home");
+  await expect(workbook.getByRole("button", { name: /^Open existing:/ })).toHaveCount(0);
 
-  await page.getByRole("button", { name: "Create new Workbook from lesson" }).click();
-  await expect(page.locator(".workbook-library__message")).toContainText(
+  await workbook.getByRole("button", { name: "Create new Workbook from lesson" }).click();
+  await expect(workbook.locator(".workbook-library__message")).toContainText(
     "Lesson page created in your Workbook.",
   );
-  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
-  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+  await expect(workbook.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(workbook.getByRole("textbox", { name: "Workbook page document" })).toContainText(
     "Find home",
   );
-  await page.reload();
-  await expect(page.getByRole("button", { name: /^Open existing:/ })).toHaveCount(1);
-  await page.getByRole("button", { name: /^Open existing:/ }).click();
-  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText(
+  await workbook.reload();
+  await expect(workbook.getByRole("button", { name: /^Open existing:/ })).toHaveCount(1);
+  await workbook.getByRole("button", { name: /^Open existing:/ }).click();
+  await expect(workbook.getByRole("textbox", { name: "Workbook page document" })).toContainText(
     "Find home",
   );
-  await expectNoHorizontalOverflow(page);
+  await expectNoHorizontalOverflow(workbook);
+  await workbook.close();
 });
 
 test("MEC-R12 rejects unknown Codex workbook source IDs", async ({ page }) => {
@@ -979,21 +985,98 @@ test("R14 fretboard assignment explains replacement and advances to the next ste
   ).toHaveText("5");
 });
 
-test("integrated Triad Construction retains quick examples and exposes the shared explorer", async ({
+test("Triad Construction keeps split desktop references and a separate full-width explorer", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/prototype/codex-v2?skill=triad_construction");
-  await expect(page.getByRole("button", { name: "C minor" })).toBeVisible();
-  const advanced = page.locator(".cv2-triad-expanded");
-  await expect(advanced).not.toHaveAttribute("open");
-  await advanced.locator("summary").click();
-  const explorer = advanced.locator(".cv2-chord-engine");
+  const grid = page.locator(".cv2-overview-grid");
+  const reference = grid.locator(".cv2-reference-stack");
+  const reading = grid.getByRole("region", { name: "Skill overview" });
+  await expect(reference.getByRole("button", { name: "C minor" })).toBeVisible();
+  const explorer = grid.locator(".cv2-full-triad-explorer .cv2-chord-engine");
   await expect(explorer).toBeVisible();
+  const layout = await grid.boundingBox();
+  const intro = await reading.boundingBox();
+  const quick = await reference.boundingBox();
+  const full = await explorer.boundingBox();
+  expect(layout).not.toBeNull();
+  expect(intro).not.toBeNull();
+  expect(quick).not.toBeNull();
+  expect(full).not.toBeNull();
+  expect(Math.abs(intro!.y - quick!.y)).toBeLessThan(2);
+  expect(quick!.x).toBeGreaterThan(intro!.x);
+  expect(Math.abs(full!.width - layout!.width)).toBeLessThan(2);
+  expect(full!.y).toBeGreaterThanOrEqual(Math.max(intro!.y + intro!.height, quick!.y + quick!.height));
   await explorer.getByRole("combobox", { name: "Chord root" }).selectOption("C♯");
   await expect(explorer).toContainText("E♯");
   await explorer.getByRole("combobox", { name: "Chord guitar tuning" }).selectOption("dadgad");
   await expect(explorer.locator(".cv2-chord-card")).toBeVisible();
   await expectNoHorizontalOverflow(page);
-  await advanced.locator("summary").click();
-  await expect(explorer).toHaveCount(0);
+  await page.setViewportSize({ width: 320, height: 720 });
+  await expect(explorer).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("Quest Codex lesson opens in new tabs and links the exact Explore ingredient", async ({
+  page,
+}) => {
+  await completeGuestOnboarding(page);
+  await page.goto("/generate");
+  await page.getByRole("button", { name: "Generate Quest" }).click();
+  await expect(page.locator("#generated-quest-title")).toBeVisible();
+
+  // Keep the real authenticated draft envelope and use a reproducible Quick Quest
+  // for this specific Skill, rather than depending on random generation.
+  const fixture = Array.from({ length: 128 }, (_, seed) => generateQuickQuest({ seed }))
+    .find((candidate) => candidate.quest.execution.primary_skill.slug === "scale_degree_recognition");
+  expect(fixture).toBeDefined();
+  await page.evaluate((quest) => {
+    const key = "guitarpg.quest-draft.v1";
+    const draft = JSON.parse(sessionStorage.getItem(key)!);
+    sessionStorage.setItem(key, JSON.stringify({ ...draft, quest }));
+  }, fixture!.quest);
+  await page.reload();
+  await expect(page.locator("#generated-quest-title")).toHaveText(fixture!.quest.identity.title);
+  await page.getByRole("button", { name: "Start Quest" }).click();
+  await expect(page).toHaveURL(/\/quest\/[0-9a-f-]+$/);
+  const questId = new URL(page.url()).pathname.split("/").at(-1)!;
+
+  const mapLink = page.locator("#map-topic-title").getByRole("button");
+  await expect(mapLink).toHaveCSS("cursor", "pointer");
+  await mapLink.click();
+  const peek = page.getByRole("dialog");
+  const fullLink = peek.getByRole("link", { name: "Open Full Codex Entry" });
+  await expect(fullLink).toHaveAttribute(
+    "href",
+    `/prototype/codex-v2?skill=scale_degree_recognition&quest=${questId}&module=scale_degree_recognition`,
+  );
+  const [codex] = await Promise.all([page.context().waitForEvent("page"), fullLink.click()]);
+  await expect(codex.getByRole("heading", { name: "Scale-Degree Recognition" })).toBeVisible();
+  await codex.getByRole("button", { name: "Lessons", exact: true }).click();
+  const lesson = codex.locator(".cv2-modules .cv2-module").first();
+  await lesson.locator("summary").click();
+  const action = lesson.getByRole("link", { name: "Practice in Workbook" });
+  await expect(action).toHaveAttribute(
+    "href",
+    `/workbooks?quest=${questId}&stage=EXPLORE&relationship=APPLIES_TO&codex_module=sdr.aural.f1`,
+  );
+  const [workbook] = await Promise.all([page.context().waitForEvent("page"), action.click()]);
+  await expect(workbook.getByRole("button", { name: /^Open existing:/ })).toHaveCount(0);
+  await workbook.getByRole("button", { name: "Create new Workbook from lesson" }).click();
+  await expect(workbook.locator(".workbook-library__message")).toContainText(
+    "Lesson page created and linked to this Explore ingredient.",
+  );
+  await workbook.close();
+  await codex.close();
+  await page.bringToFront();
+  await page.getByRole("button", { name: "Close Codex Peek" }).last().click();
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+  await page.getByRole("button", { name: /Open Scale.Degree Recognition in Explore/ }).click();
+  const module = page.locator(".explore-module").first();
+  await expect(module.locator(".explore-module__disclosure")).toContainText("1 linked page");
+  await expect(module.getByRole("button", { name: "Hear the tonal home", exact: true })).toBeVisible();
+  await expect(module.getByRole("combobox", { name: /Choose existing page/ })).toHaveCSS("cursor", "pointer");
+  await page.reload();
+  await expect(page.locator(".explore-module__disclosure").first()).toContainText("1 linked page");
 });
