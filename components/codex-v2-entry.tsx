@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CodexV2Reference } from "./codex-v2-reference";
+import { codexLessonWorkbookHref, type CodexQuestContext } from "@/lib/workbook/context";
 import { CodexV2ChordVoicings } from "./codex-v2-chord-voicings";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
@@ -119,12 +120,14 @@ export function CodexV2Entry({
   onBack,
   onReadDictionary,
   preview = false,
+  questContext = null,
 }: {
   entry: Entry;
   terms: readonly CodexV2Term[];
   onBack?: () => void;
   onReadDictionary?: (term: CodexV2Term) => void;
   preview?: boolean;
+  questContext?: CodexQuestContext | null;
 }) {
   const router = useRouter();
   const [section, setSection] = useState<Section>("overview");
@@ -354,7 +357,9 @@ export function CodexV2Entry({
                     {preview ? (
                       <Link
                         className="cv2-lesson-workbook-link"
-                        href={`/workbooks?codex_module=${encodeURIComponent(module.id)}`}
+                        href={codexLessonWorkbookHref(module.id, entry.slug, questContext)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Practice in Workbook →
                       </Link>
@@ -415,7 +420,9 @@ export function CodexV2Entry({
                         {preview ? (
                           <Link
                             className="cv2-lesson-workbook-link"
-                            href={`/workbooks?codex_module=${encodeURIComponent(module.id)}`}
+                            href={codexLessonWorkbookHref(module.id, entry.slug, questContext)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                           >
                             Practice in Workbook →
                           </Link>
