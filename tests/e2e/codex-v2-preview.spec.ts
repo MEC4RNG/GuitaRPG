@@ -848,3 +848,27 @@ test("CODEX-V2-A-R1 maintains the overview's combined width across desktop secti
   }
   await expectNoHorizontalOverflow(page);
 });
+
+test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices", async ({ page }) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  await sequencer.getByRole("combobox", { name: "Arpeggio quality" }).selectOption("major7");
+  await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("7 B");
+  await expect(sequencer.getByRole("combobox", { name: "Beat 4, part 1" })).toHaveValue("seventh");
+  await sequencer.getByRole("combobox", { name: "Arpeggio source mode" }).selectOption("fretboard");
+  for (const string of [6, 4, 3, 2, 1]) {
+    await sequencer.getByRole("button", { name: `String ${string}`, exact: true }).click();
+  }
+  await sequencer.getByRole("combobox", { name: "Arpeggio fret range" }).selectOption("0-24");
+  await sequencer.getByRole("button", { name: "Assign C3, degree 1, string 5, fret 3", exact: true }).click();
+  await sequencer.getByRole("button", { name: "Assign C4, degree 1, string 5, fret 15", exact: true }).click();
+  await expect(sequencer.getByRole("combobox", { name: "Beat 1, part 1" })).toHaveValue("s5-f3");
+  await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("s5-f15");
+  const tab = sequencer.getByRole("table", { name: "Arpeggio sequence tablature" });
+  await expect(tab.getByRole("row").filter({ has: tab.getByRole("rowheader", { name: "5", exact: true }) })).toContainText("15");
+  await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeEnabled();
+  await sequencer.getByRole("button", { name: "String 5", exact: true }).click();
+  await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeDisabled();
+  await page.setViewportSize({ width: 320, height: 720 });
+  await expectNoHorizontalOverflow(page);
+});
