@@ -190,7 +190,9 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
     await expect(page).toHaveURL(/\/codex$/);
     await page.goBack();
     await expect(page).toHaveURL(`/quest/${questId}`);
-    await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Explore the Quest ingredients" }),
+    ).toBeVisible();
     await expect(page.locator(".journey-header__stat--status")).toHaveAttribute(
       "data-lifecycle",
       "ACTIVE",
