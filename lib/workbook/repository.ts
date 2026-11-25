@@ -159,12 +159,13 @@ export async function createPage(
   workbookId: string,
   title: string,
   document: WorkbookDocumentV1,
+  requestId = crypto.randomUUID(),
 ) {
   const result = await client.rpc("create_player_workbook_page_v1", {
     p_workbook_id: workbookId,
     p_title: title,
     p_document: parseWorkbookDocument(document),
-    p_request_id: crypto.randomUUID(),
+    p_request_id: requestId,
   });
   fail(result.error, "Page could not be created");
   return result.data as WorkbookPageRow;
