@@ -182,6 +182,20 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expectAccessible(page, "Quest Journey Explore");
   await page.reload();
   await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
+  const mobileCodex = page
+    .getByRole("navigation", { name: "Mobile navigation" })
+    .getByRole("link", { name: "Codex", exact: true });
+  if (await mobileCodex.isVisible()) {
+    await mobileCodex.click();
+    await expect(page).toHaveURL(/\/codex$/);
+    await page.goBack();
+    await expect(page).toHaveURL(`/quest/${questId}`);
+    await expect(page.getByRole("heading", { name: "Explore the Quest ingredients" })).toBeVisible();
+    await expect(page.locator(".journey-header__stat--status")).toHaveAttribute(
+      "data-lifecycle",
+      "ACTIVE",
+    );
+  }
   await page.getByRole("button", { name: "Craft" }).click();
   await expect(
     page.getByRole("heading", { name: "Create something using what you discovered" }),
