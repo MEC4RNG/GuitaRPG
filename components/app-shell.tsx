@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { getNavigationItem, getSurfaceForPath } from "@/lib/navigation";
 
 import { MobileNav } from "./mobile-nav";
+import { MobileNavigationMenu } from "./mobile-navigation-menu";
 import { Sidebar } from "./sidebar";
 import { CodexPeekProvider } from "./codex-peek";
 
@@ -44,6 +45,7 @@ export function AppShell({ children }: AppShellProps) {
                 </span>
                 <strong>{current.label}</strong>
               </div>
+              <MobileNavigationMenu key={pathname} pathname={pathname} />
             </header>
 
             <main className="app-content" id="main-content" tabIndex={-1}>
