@@ -1,44 +1,21 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ARPEGGIO_PRESETS,
-  ARPEGGIO_STEP_TONES,
-  ARPEGGIO_SUBDIVISIONS,
-  buildArpeggioBar,
-  createArpeggioPattern,
-  type ArpeggioBar,
-  type ArpeggioPreset,
-  type ArpeggioStepTone,
-  type ArpeggioSubdivision,
-} from "@/lib/codex/v2/arpeggio-sequencer";
-import {
-  chordLabel,
-  generateTriadVoicings,
-  TRIAD_INVERSION_LABELS,
-  TRIAD_STRING_GROUPS,
-  type NamedTriad,
-  type TriadInversion,
-  type TriadQuality,
-  type TriadStringGroup,
-} from "@/lib/codex/v2/chord-voicings";
-import {
-  CHROMATIC_ROOTS,
-  TUNINGS,
-  type FretboardRoot,
-  type FretboardTuning,
-} from "@/lib/codex/v2/fretboard-engine";
-import { ChordDiagram } from "./codex-v2-chord-voicings";
+import { ARPEGGIO_PRESETS, ARPEGGIO_SUBDIVISIONS, stepCountForSubdivision, type ArpeggioPreset, type ArpeggioSubdivision } from "@/lib/codex/v2/arpeggio-sequencer";
+import { ARPEGGIO_CHORDS, arpeggioTones, arpeggioPositions, arpeggioVoicings, buildExpandedBar, expandedPattern, type ArpeggioQuality, type ExpandedBar } from "@/lib/codex/v2/expanded-arpeggios";
+import { CHROMATIC_ROOTS, TUNINGS, type FretboardRoot, type FretboardTuning } from "@/lib/codex/v2/fretboard-engine";
 
-const groupOptions: readonly TriadStringGroup[] = ["1-3", "2-4", "3-5", "4-6"];
-const inversionOptions: readonly TriadInversion[] = ["root", "first", "second"];
+const groups: Record<string, number[]> = {"1-3":[3,2,1],"2-4":[4,3,2],"3-5":[5,4,3],"4-6":[6,5,4],"1-4":[4,3,2,1],"2-5":[5,4,3,2],"3-6":[6,5,4,3],all:[6,5,4,3,2,1]};
+const inversions = ["root","first","second","third"];
+const inversionLabels = ["Root position","First inversion","Second inversion","Third inversion"];
 const subdivisionOptions = Object.keys(ARPEGGIO_SUBDIVISIONS) as ArpeggioSubdivision[];
 const presetOptions = Object.keys(ARPEGGIO_PRESETS) as ArpeggioPreset[];
+const ranges = ["0-12","0-5","5-9","9-15","12-17","12-24","0-24"];
 
 type AudioRun = {
   context: AudioContext;
   output: GainNode;
-  bar: ArpeggioBar;
+  bar: ExpandedBar;
   start: number;
   nextIndex: number;
   repeat: boolean;
@@ -48,16 +25,17 @@ type AudioRun = {
 /** One-bar chord-tone sequence editor, independent of Quest and Player persistence. */
 export function CodexV2ArpeggioSequencer() {
   const [root, setRoot] = useState<FretboardRoot>("C");
-  const [quality, setQuality] = useState<TriadQuality>("major");
+  const [quality, setQuality] = useState<ArpeggioQuality>("major");
   const [tuning, setTuning] = useState<FretboardTuning>("standard");
-  const [group, setGroup] = useState<TriadStringGroup>("1-3");
-  const [inversion, setInversion] = useState<TriadInversion>("root");
+  const [mode, setMode] = useState<"voicing" | "fretboard">("voicing");
+  const [strings, setStrings] = useState<number[]>(groups["1-3"]);
+  const [range, setRange] = useState("0-12");
+  const [inversion, setInversion] = useState(0);
   const [voicingId, setVoicingId] = useState<string | null>(null);
   const [subdivision, setSubdivision] = useState<ArpeggioSubdivision>("quarter");
   const [preset, setPreset] = useState<ArpeggioPreset | "custom">("arch");
-  const [pattern, setPattern] = useState<ArpeggioStepTone[]>(() =>
-    createArpeggioPattern("quarter", "arch"),
-  );
+  const [custom, setCustom] = useState<string[]>([]);
+  const [targetStep, setTargetStep] = useState(0);
   const [bpm, setBpm] = useState(80);
   const [loop, setLoop] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -84,23 +62,21 @@ export function CodexV2ArpeggioSequencer() {
     [],
   );
 
-  const chord: NamedTriad = useMemo(() => ({ root, quality }), [root, quality]);
-  const choices = useMemo(
-    () => generateTriadVoicings(chord, tuning, group),
-    [chord, tuning, group],
-  );
-  const availableInversions = inversionOptions.filter((item) =>
-    choices.some((candidate) => candidate.inversion === item),
-  );
-  const activeInversion = availableInversions.includes(inversion)
-    ? inversion
-    : availableInversions[0];
-  const availableVoicings = choices.filter((candidate) => candidate.inversion === activeInversion);
-  const visibleVoicings = availableVoicings.slice(0, 30);
-  const selectedVoicing =
-    visibleVoicings.find((candidate) => candidate.id === voicingId) ?? visibleVoicings[0] ?? null;
-  const bar = selectedVoicing ? buildArpeggioBar(selectedVoicing, subdivision, bpm, pattern) : null;
-  const soundingEvents = bar?.events.filter((event) => event.midi !== null).length ?? 0;
+  const [minFret,maxFret] = range.split("-").map(Number);
+  const group = Object.keys(groups).find(key => groups[key].length === strings.length && groups[key].every(s=>strings.includes(s))) ?? "custom";
+  const tones = useMemo(()=>arpeggioTones(root,quality),[root,quality]);
+  const positions = useMemo(()=>arpeggioPositions(root,quality,tuning,strings,minFret,maxFret),[root,quality,tuning,strings,minFret,maxFret]);
+  const choices = useMemo(()=>mode==="voicing"?arpeggioVoicings(positions,quality):[],[mode,positions,quality]);
+  const availableInversions = inversions.map((_,i)=>i).filter(i=>choices.some(c=>c.inversion===i));
+  const activeInversion = availableInversions.includes(inversion)?inversion:availableInversions[0];
+  const availableVoicings = choices.filter(c=>c.inversion===activeInversion);
+  const selectedVoicing = availableVoicings.find(c=>c.id===voicingId)??availableVoicings[0]??null;
+  const source = mode==="voicing"?(selectedVoicing?.positions??[]):positions;
+  const stepOptions = tones.filter(t=>source.some(p=>p.role===t.role));
+  const pattern = preset==="custom"?custom:expandedPattern(subdivision,preset,quality,source);
+  const bar = buildExpandedBar(source,subdivision,bpm,pattern);
+  const soundingEvents = bar.events.filter(event=>event.midi!==null).length;
+  const frets = Array.from({length:maxFret-minFret+1},(_,i)=>minFret+i);
 
   function stopPlayback(message?: string) {
     generationRef.current++;
@@ -117,35 +93,32 @@ export function CodexV2ArpeggioSequencer() {
     if (message) setAudioStatus(message);
   }
 
+  function resetPattern() {
+    setPreset(previous=>previous==="custom"?"arch":previous);
+    setCustom([]);
+  }
   function resetChord(next: () => void) {
-    stopPlayback("Stopped. Select Play bar to hear the updated notes.");
-    setInversion("root");
+    stopPlayback("Stopped. Source changed; custom note edits reset to a preset.");
+    setInversion(0);
     setVoicingId(null);
+    resetPattern();
     next();
   }
-
   function resetRhythm(next: ArpeggioSubdivision) {
     stopPlayback("Stopped. The rhythmic grid has changed.");
-    const nextPreset = preset === "custom" ? "arch" : preset;
+    resetPattern();
     setSubdivision(next);
-    setPreset(nextPreset);
-    setPattern(createArpeggioPattern(next, nextPreset));
+    setTargetStep(0);
   }
-
   function selectPreset(value: ArpeggioPreset | "custom") {
     stopPlayback("Stopped. Choose Play bar to hear the updated pattern.");
-    if (value === "custom") {
-      setPreset("custom");
-      return;
-    }
+    if(value==="custom") setCustom([...pattern]);
     setPreset(value);
-    setPattern(createArpeggioPattern(subdivision, value));
   }
-
-  function editStep(index: number, tone: ArpeggioStepTone) {
+  function editStep(index: number, tone: string) {
     stopPlayback("Stopped. Your note-order edit is ready to play.");
+    setCustom(pattern.map((item,position)=>position===index?tone:item));
     setPreset("custom");
-    setPattern((previous) => previous.map((item, position) => (position === index ? tone : item)));
   }
 
   function playTone(run: AudioRun, midi: number, when: number, duration: number) {
@@ -237,131 +210,96 @@ export function CodexV2ArpeggioSequencer() {
     <div className="cv2-interactive cv2-arpeggio-engine">
       <span className="cv2-eyebrow">Interactive musical reference · draft</span>
       <h3>Arpeggio sequencer · one bar in 4/4</h3>
-      <p>
-        Turn the notes of a chord into a melody. Choose a real guitar voicing, set the rhythmic
-        subdivision, and decide which chord tone sounds on each step. A rest makes that step silent.
-      </p>
+      <p>Choose a compact chord shape or explore chord tones across the fretboard. Every sounding step resolves to a real string, fret and octave.</p>
       <div className="cv2-arpeggio-controls">
-        <label>
-          Chord root
-          <select
-            aria-label="Arpeggio root"
-            value={root}
-            onChange={(event) => resetChord(() => setRoot(event.target.value as FretboardRoot))}
-          >
-            {CHROMATIC_ROOTS.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
+        <label>Source mode
+          <select aria-label="Arpeggio source mode" value={mode} onChange={event=>resetChord(()=>{
+            const next=event.target.value as typeof mode;
+            setMode(next);
+            if(next==="fretboard")setStrings(groups.all);
+          })}>
+            <option value="voicing">Voicing · compact shape</option>
+            <option value="fretboard">Fretboard · free movement</option>
           </select>
         </label>
-        <label>
-          Quality
-          <select
-            aria-label="Arpeggio quality"
-            value={quality}
-            onChange={(event) => resetChord(() => setQuality(event.target.value as TriadQuality))}
-          >
-            <option value="major">Major</option>
-            <option value="minor">Minor</option>
+        <label>Chord root
+          <select aria-label="Arpeggio root" value={root} onChange={event=>resetChord(()=>setRoot(event.target.value as FretboardRoot))}>
+            {CHROMATIC_ROOTS.map(item=><option key={item} value={item}>{item}</option>)}
           </select>
         </label>
-        <label>
-          Tuning
-          <select
-            aria-label="Arpeggio tuning"
-            value={tuning}
-            onChange={(event) => resetChord(() => setTuning(event.target.value as FretboardTuning))}
-          >
-            {(Object.keys(TUNINGS) as FretboardTuning[]).map((item) => (
-              <option key={item} value={item}>
-                {TUNINGS[item].title}
-              </option>
-            ))}
+        <label>Quality
+          <select aria-label="Arpeggio quality" value={quality} onChange={event=>resetChord(()=>{
+            const next=event.target.value as ArpeggioQuality;
+            setQuality(next);
+            if(mode==="voicing"&&strings.length<ARPEGGIO_CHORDS[next].tones.length)setStrings(groups.all);
+          })}>
+            {(Object.keys(ARPEGGIO_CHORDS) as ArpeggioQuality[]).map(item=><option key={item} value={item}>{ARPEGGIO_CHORDS[item].label}</option>)}
           </select>
         </label>
-        <label>
-          Three-string group
-          <select
-            aria-label="Arpeggio string group"
-            value={group}
-            onChange={(event) => resetChord(() => setGroup(event.target.value as TriadStringGroup))}
-          >
-            {groupOptions.map((item) => (
-              <option key={item} value={item}>
-                Strings {TRIAD_STRING_GROUPS[item].join("–")}
-              </option>
-            ))}
+        <label>Tuning
+          <select aria-label="Arpeggio tuning" value={tuning} onChange={event=>resetChord(()=>setTuning(event.target.value as FretboardTuning))}>
+            {(Object.keys(TUNINGS) as FretboardTuning[]).map(item=><option key={item} value={item}>{TUNINGS[item].title}</option>)}
           </select>
         </label>
-        <label>
-          Inversion
-          <select
-            aria-label="Arpeggio inversion"
-            value={activeInversion ?? ""}
-            disabled={!availableInversions.length}
-            onChange={(event) => {
-              stopPlayback("Stopped. Inversion selection updated.");
-              setInversion(event.target.value as TriadInversion);
-              setVoicingId(null);
-            }}
-          >
-            {inversionOptions.map((item) => (
-              <option key={item} value={item} disabled={!availableInversions.includes(item)}>
-                {TRIAD_INVERSION_LABELS[item]}
-              </option>
-            ))}
+        <label>String set
+          <select aria-label="Arpeggio string group" value={group} onChange={event=>resetChord(()=>setStrings(groups[event.target.value]??strings))}>
+            {Object.keys(groups).map(item=><option key={item} value={item}>{item==="all"?"All six strings":"Strings "+item}</option>)}
+            <option value="custom" disabled>Custom strings</option>
           </select>
         </label>
-        <label>
-          Voicing
-          <select
-            aria-label="Arpeggio voicing"
-            value={selectedVoicing?.id ?? ""}
-            disabled={!selectedVoicing}
-            onChange={(event) => {
-              stopPlayback("Stopped. The voicing has changed.");
-              setVoicingId(event.target.value);
-            }}
-          >
-            {visibleVoicings.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.frets.map((fret) => (fret === 0 ? "open" : fret)).join(" / ")}
-                {" · "}
-                {item.notes.join("–")}
-              </option>
-            ))}
+        <label>Fret range
+          <select aria-label="Arpeggio fret range" value={range} onChange={event=>resetChord(()=>setRange(event.target.value))}>
+            {ranges.map(item=><option key={item} value={item}>Frets {item}</option>)}
           </select>
         </label>
+        {mode==="voicing"&&<>
+          <label>Inversion (bass tone)
+            <select aria-label="Arpeggio inversion" value={activeInversion===undefined?"":inversions[activeInversion]} disabled={!availableInversions.length} onChange={event=>{stopPlayback("Stopped. Inversion changed.");resetPattern();setInversion(inversions.indexOf(event.target.value));setVoicingId(null);}}>
+              {!availableInversions.length&&<option value="">Unavailable</option>}
+              {inversions.slice(0,tones.length).map((item,i)=><option key={item} value={item} disabled={!availableInversions.includes(i)}>{inversionLabels[i]} · {tones[i].degree}</option>)}
+            </select>
+          </label>
+          <label>Voicing
+            <select aria-label="Arpeggio voicing" value={selectedVoicing?.id??""} disabled={!selectedVoicing} onChange={event=>{stopPlayback("Stopped. Voicing changed.");resetPattern();setVoicingId(event.target.value);}}>
+              {!selectedVoicing&&<option value="">Unavailable</option>}
+              {availableVoicings.map(item=><option key={item.id} value={item.id}>{item.positions.map(p=>p.stringNumber+":"+p.fret).join(" / ")} · {item.positions.map(p=>p.note).join("–")}</option>)}
+            </select>
+          </label>
+        </>}
       </div>
-
-      {selectedVoicing ? (
-        <div className="cv2-arpeggio-source">
-          <div>
-            <h4>
-              {chordLabel(chord)} · {TRIAD_INVERSION_LABELS[selectedVoicing.inversion]}
-            </h4>
-            <p>
-              {selectedVoicing.notes.join(" · ")} · strings {selectedVoicing.strings.join("–")},
-              frets {selectedVoicing.frets.map((fret) => fret || "open").join("–")}
-            </p>
-            <p>
-              The chord tone, not the position of the note on the strings, determines the selected
-              root/third/fifth pattern.
-            </p>
-          </div>
-          <div className="cv2-arpeggio-diagram">
-            <ChordDiagram voicing={selectedVoicing} />
-          </div>
+      <fieldset className="cv2-arpeggio-strings">
+        <legend>Active strings · low to high</legend>
+        <div className="cv2-arpeggio-playback">
+          {[6,5,4,3,2,1].map(s=><button type="button" key={s} aria-label={"String "+s} aria-pressed={strings.includes(s)} onClick={()=>resetChord(()=>setStrings(old=>old.includes(s)?old.filter(x=>x!==s):[...old,s]))}>{s}</button>)}
         </div>
-      ) : (
-        <p role="status">
-          No verified three-string triad is available in this position range. Try another string
-          group or tuning.
-        </p>
-      )}
-
+        <small>{mode==="voicing"?"Allowed strings; the shape uses one string per chord tone. Choosing a four-tone chord with too few strings enables all six.":"Select any combination, even one string. Multiple frets on a string are allowed."}</small>
+      </fieldset>
+      <div className="cv2-arpeggio-source">
+        <div>
+          <h4>{root}{ARPEGGIO_CHORDS[quality].suffix} · {ARPEGGIO_CHORDS[quality].label}</h4>
+          <p>{tones.map(t=>t.degree+" "+t.name).join(" · ")}</p>
+          {selectedVoicing&&mode==="voicing"&&<p>{inversionLabels[selectedVoicing.inversion]} · {selectedVoicing.positions.map(p=>p.note).join(" · ")} · strings {selectedVoicing.positions.map(p=>p.stringNumber).join("–")}, frets {selectedVoicing.positions.map(p=>p.fret||"open").join("–")}</p>}
+          {!source.length&&<p role="status">No available {mode==="voicing"?"complete compact voicing":"chord tones"} in this selection. Broaden the strings or fret range, or use Fretboard mode.</p>}
+          {mode==="fretboard"&&<p>{source.length} positions · degree choices use the lowest available pitch; exact positions can span octaves.</p>}
+        </div>
+        <div className="cv2-arpeggio-controls">
+          <label>Assign fretboard note to step
+            <select aria-label="Arpeggio target step" value={targetStep} onChange={event=>setTargetStep(Number(event.target.value))}>
+              {Array.from({length:stepCountForSubdivision(subdivision)},(_,i)=><option key={i} value={i}>Step {i+1}</option>)}
+            </select>
+          </label>
+        </div>
+      </div>
+      <div className="cv2-fretboard-scroll" tabIndex={0} aria-label="Arpeggio fretboard, horizontally scrollable">
+        <table className="cv2-fretboard-table cv2-arpeggio-fretboard" style={{minWidth:Math.max(280,frets.length*48+80)}}>
+          <thead><tr><th scope="col">String</th>{frets.map(f=><th key={f} scope="col">{f===0?"Open":f}</th>)}</tr></thead>
+          <tbody>{[1,2,3,4,5,6].map(s=><tr key={s}><th scope="row">{s}</th>{frets.map(f=>{
+            const p=source.find(p=>p.stringNumber===s&&p.fret===f);
+            const sounding=activeStep!==null&&bar.events[activeStep]?.stringNumber===s&&bar.events[activeStep]?.fret===f;
+            return <td key={f}>{p?<button type="button" className={"cv2-fretboard-cell "+(sounding?"is-highlight":p.role==="root"?"is-alternate-root":"is-scale-degree")} aria-label={"Assign "+p.note+", degree "+p.degree+", string "+s+", fret "+f} onClick={()=>{editStep(targetStep,p.id);setTargetStep((targetStep+1)%pattern.length);}}>{p.degree}<small>{p.note}</small></button>:<span className="cv2-arpeggio-empty-cell" aria-hidden="true">·</span>}</td>;
+          })}</tr>)}</tbody>
+        </table>
+      </div>
       <div className="cv2-arpeggio-controls cv2-arpeggio-rhythm-controls">
         <label>
           Subdivision
@@ -386,7 +324,7 @@ export function CodexV2ArpeggioSequencer() {
           >
             {presetOptions.map((item) => (
               <option key={item} value={item}>
-                {ARPEGGIO_PRESETS[item].title}
+                {item==="ascending"?"Chord degrees ascending":item==="descending"?"Chord degrees descending":item==="arch"?(tones.length>3?"All four chord tones":"Root → middle → fifth → middle"):ARPEGGIO_PRESETS[item].title}
               </option>
             ))}
             <option value="custom">Custom edited notes</option>
@@ -414,7 +352,7 @@ export function CodexV2ArpeggioSequencer() {
 
       <div className="cv2-arpeggio-heading">
         <strong>Four beats · {bar?.events.length ?? 0} subdivisions</strong>
-        <span>Each select edits one attack. R = root, 3 = third, 5 = fifth.</span>
+        <span>Each attack can use a chord degree, exact string/fret position, or rest.</span>
       </div>
       <div className="cv2-arpeggio-beats" aria-label="Editable arpeggio rhythm grid">
         {Array.from({ length: 4 }, (_, beatIndex) => (
@@ -433,22 +371,18 @@ export function CodexV2ArpeggioSequencer() {
                       aria-label={`Beat ${event.beat}, part ${event.part}`}
                       value={event.tone}
                       onChange={(change) =>
-                        editStep(event.index, change.target.value as ArpeggioStepTone)
+                        editStep(event.index, change.target.value)
                       }
                     >
-                      {ARPEGGIO_STEP_TONES.map((tone) => (
-                        <option key={tone} value={tone}>
-                          {tone === "rest"
-                            ? "Rest"
-                            : tone === "root"
-                              ? "Root"
-                              : tone === "third"
-                                ? "Third"
-                                : "Fifth"}
-                        </option>
-                      ))}
+                      <option value="rest">Rest</option>
+                      <optgroup label="Chord degrees">
+                        {stepOptions.map(t=><option key={t.role} value={t.role}>{t.degree} · {t.name}</option>)}
+                      </optgroup>
+                      <optgroup label="Exact pitch and fret">
+                        {source.map(p=><option key={p.id} value={p.id}>{p.note} · {p.stringNumber}:{p.fret}</option>)}
+                      </optgroup>
                     </select>
-                    <span className="cv2-arpeggio-note">{event.note ?? "Silence"}</span>
+                    <span className="cv2-arpeggio-note">{event.note ?? "Silence"}{event.stringNumber!==null&&<> · {event.stringNumber}:{event.fret}</>}</span>
                   </label>
                 ))}
             </div>
@@ -459,7 +393,7 @@ export function CodexV2ArpeggioSequencer() {
       <div className="cv2-arpeggio-playback">
         <button
           type="button"
-          disabled={!selectedVoicing || !soundingEvents || playing}
+          disabled={!soundingEvents || playing}
           onClick={() => void startPlayback()}
         >
           ▶ Play bar
@@ -489,7 +423,7 @@ export function CodexV2ArpeggioSequencer() {
         <p>
           {bar
             ? `One bar lasts ${bar.durationSeconds.toFixed(2)} seconds at ${bpm} quarter-note BPM. The quarter-note pulse stays constant while attack density changes.`
-            : "Choose a supported voicing to generate a sequence."}
+            : "Choose a supported source to generate a sequence."}
         </p>
       </div>
       <p className="cv2-arpeggio-footnote">
