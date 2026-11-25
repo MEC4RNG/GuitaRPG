@@ -4,14 +4,17 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { CodexV2Entry as Entry, CodexV2Term, LearningLevel } from "@/lib/codex/v2/content";
 import { canonicalCodexHref, canonicalCodexName } from "@/lib/codex/v2/content";
+import type { CodexQuestContext } from "@/lib/workbook/context";
 import { CodexV2Entry } from "./codex-v2-entry";
 
 export function CodexV2Library({
   entries,
   terms,
+  questContext = null,
 }: {
   entries: readonly Entry[];
   terms: readonly CodexV2Term[];
+  questContext?: CodexQuestContext | null;
 }) {
   const [view, setView] = useState<"library" | "entry" | "dictionary">("library");
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
@@ -162,6 +165,7 @@ export function CodexV2Library({
           entry={selected}
           terms={terms}
           preview
+          questContext={questContext}
           onBack={() => navigate("library")}
           onReadDictionary={openTerm}
         />
