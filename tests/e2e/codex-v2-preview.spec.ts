@@ -848,3 +848,114 @@ test("CODEX-V2-A-R1 maintains the overview's combined width across desktop secti
   }
   await expectNoHorizontalOverflow(page);
 });
+
+test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices", async ({ page }) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  await sequencer.getByRole("combobox", { name: "Arpeggio quality" }).selectOption("major7");
+  await expect(sequencer.locator(".cv2-arpeggio-source")).toContainText("7 B");
+  await expect(sequencer.getByRole("combobox", { name: "Beat 4, part 1" })).toHaveValue("seventh");
+  await sequencer.getByRole("combobox", { name: "Arpeggio source mode" }).selectOption("fretboard");
+  for (const string of [6, 4, 3, 2, 1]) {
+    await sequencer.getByRole("button", { name: `String ${string}`, exact: true }).click();
+  }
+  await sequencer.getByRole("combobox", { name: "Arpeggio fret range" }).selectOption("0-24");
+  await sequencer.getByRole("button", { name: "Assign C3, degree 1, string 5, fret 3", exact: true }).click();
+  await sequencer.getByRole("button", { name: "Assign C4, degree 1, string 5, fret 15", exact: true }).click();
+  await expect(sequencer.getByRole("combobox", { name: "Beat 1, part 1" })).toHaveValue("s5-f3");
+  await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("s5-f15");
+  const tab = sequencer.getByRole("table", { name: "Arpeggio sequence tablature" });
+  await expect(tab.getByRole("row").filter({ has: tab.getByRole("rowheader", { name: "5", exact: true }) })).toContainText("15");
+  await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeEnabled();
+  await sequencer.getByRole("button", { name: "String 5", exact: true }).click();
+  await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeDisabled();
+  await page.setViewportSize({ width: 320, height: 720 });
+  await expectNoHorizontalOverflow(page);
+});
+
+test("R14 tempo accepts sequential digits without clamping unfinished input", async ({ page }) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  const tempo = sequencer.getByRole("spinbutton", { name: "Arpeggio tempo BPM" });
+  const status = sequencer.locator(".cv2-arpeggio-status");
+  await tempo.fill("");
+  await expect(tempo).toHaveValue("");
+  await tempo.pressSequentially("1");
+  await expect(tempo).toHaveValue("1");
+  await tempo.pressSequentially("2");
+  await expect(tempo).toHaveValue("12");
+  await tempo.pressSequentially("0");
+  await expect(tempo).toHaveValue("120");
+  await expect(status).toContainText("2.00 seconds");
+  await tempo.press("Enter");
+  await expect(tempo).toHaveValue("120");
+  await tempo.fill("");
+  await tempo.pressSequentially("75");
+  await expect(tempo).toHaveValue("75");
+  await expect(status).toContainText("3.20 seconds");
+  await tempo.fill("201");
+  await expect(tempo).toHaveValue("201");
+  await expect(tempo).toHaveAttribute("aria-invalid", "true");
+  await tempo.press("Tab");
+  await expect(tempo).toHaveValue("75");
+  await expect(tempo).toHaveAttribute("aria-invalid", "false");
+  await tempo.fill("40");
+  await expect(status).toContainText("6.00 seconds");
+  await tempo.fill("200");
+  await expect(status).toContainText("1.20 seconds");
+  await tempo.press("Enter");
+  await expect(tempo).toHaveValue("200");
+});
+
+test("R14 desktop arpeggio overview spans the existing content width without changing other skills", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const grid = page.locator(".cv2-overview-grid");
+  const reading = grid.getByRole("region", { name: "Skill overview" });
+  const sequencer = grid.locator(".cv2-arpeggio-engine");
+  await expect(sequencer).toBeVisible();
+  const assertStack = async () => {
+    const layout = await grid.boundingBox();
+    const textPanel = await reading.boundingBox();
+    const tool = await sequencer.boundingBox();
+    expect(layout).not.toBeNull();
+    expect(textPanel).not.toBeNull();
+    expect(tool).not.toBeNull();
+    expect(Math.abs(textPanel!.width - layout!.width)).toBeLessThan(2);
+    expect(Math.abs(tool!.width - layout!.width)).toBeLessThan(2);
+    expect(Math.abs(tool!.x - textPanel!.x)).toBeLessThan(2);
+    expect(tool!.y).toBeGreaterThanOrEqual(textPanel!.y + textPanel!.height);
+    await expectNoHorizontalOverflow(page);
+  };
+  await assertStack();
+  for (const viewport of [
+    { width: 320, height: 720 },
+    { width: 740, height: 390 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await assertStack();
+  }
+
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/prototype/codex-v2?skill=triad_construction");
+  const other = page.locator(".cv2-overview-grid");
+  await expect(other).not.toHaveClass(/cv2-overview-grid--arpeggio/);
+  const columns = await other.evaluate((element) => getComputedStyle(element).gridTemplateColumns);
+  expect(columns.split(" ")).toHaveLength(2);
+});
+
+test("R14 fretboard assignment explains replacement and advances to the next step", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
+  const sequencer = page.locator(".cv2-arpeggio-engine");
+  const target = sequencer.getByRole("combobox", { name: "Arpeggio target step" });
+  await expect(target).toHaveAccessibleDescription(/selector advances automatically/);
+  await target.selectOption("1");
+  await sequencer.getByRole("button", { name: "Assign C4, degree 1, string 3, fret 5", exact: true }).click();
+  await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("s3-f5");
+  await expect(target).toHaveValue("2");
+  await expect(sequencer.getByRole("table", { name: "Arpeggio sequence tablature" }).getByRole("row").nth(3).getByRole("cell").nth(1)).toHaveText("5");
+});

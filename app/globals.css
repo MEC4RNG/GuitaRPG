@@ -5289,3 +5289,34 @@ a {
     max-width: 100%;
   }
 }
+
+/* CODEX-V2-A-R14: flexible arpeggio source, within the existing Codex surfaces. */
+.cv2-arpeggio-strings { min-width: 0; margin: 0; padding: 0.6rem; border: 1px solid var(--codex-border); border-radius: 0.65rem; color: var(--codex-text); }
+.cv2-arpeggio-strings legend { padding: 0 0.35rem; font-size: 0.85rem; font-weight: 650; }
+.cv2-arpeggio-strings .cv2-arpeggio-playback { gap: 0.35rem; }
+.cv2-arpeggio-strings button { min-width: 44px; }
+.cv2-arpeggio-strings button[aria-pressed="true"] { background: var(--codex-gold); border-color: var(--codex-gold); color: #211d14; font-weight: 700; }
+.cv2-arpeggio-strings small { display: block; margin-top: 0.45rem; color: var(--codex-muted); }
+.cv2-arpeggio-engine .cv2-fretboard-scroll { min-width: 0; max-width: 100%; }
+.cv2-arpeggio-fretboard th:first-child { width: 3.6rem; }
+.cv2-arpeggio-fretboard .cv2-fretboard-cell { gap: 0; line-height: 1; min-height: 46px; }
+.cv2-arpeggio-fretboard .cv2-fretboard-cell small { font-size: 0.65rem; font-weight: 500; }
+.cv2-arpeggio-empty-cell { display: grid; place-items: center; min-height: 46px; color: var(--codex-muted); }
+.cv2-arpeggio-tab { border-collapse: collapse; min-width: 300px; width: 100%; table-layout: fixed; font-size: 0.8rem; color: var(--codex-text); }
+.cv2-arpeggio-tab th, .cv2-arpeggio-tab td { text-align: center; padding: 0.4rem 0.15rem; border-bottom: 1px solid var(--codex-border); }
+.cv2-arpeggio-tab th:first-child { width: 3.25rem; }
+.cv2-arpeggio-tab .is-active { background: var(--codex-gold); color: #211d14; }
+
+/* R14 visual review: the arpeggio Overview needs the full existing desktop content width.
+   Keep the established mobile/tablet layout and all other Codex Skill layouts. */
+@media (width > 60rem) {
+  .cv2-overview-grid--arpeggio {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cv2-overview-grid--arpeggio > .cv2-reading-panel {
+    min-height: 0;
+  }
+  .cv2-overview-grid--arpeggio > .cv2-reference-stack > div {
+    min-width: 0;
+  }
+}
