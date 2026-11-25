@@ -5306,3 +5306,17 @@ a {
 .cv2-arpeggio-tab th, .cv2-arpeggio-tab td { text-align: center; padding: 0.4rem 0.15rem; border-bottom: 1px solid var(--codex-border); }
 .cv2-arpeggio-tab th:first-child { width: 3.25rem; }
 .cv2-arpeggio-tab .is-active { background: var(--codex-gold); color: #211d14; }
+
+/* R14 visual review: the arpeggio Overview needs the full existing desktop content width.
+   Keep the established mobile/tablet layout and all other Codex Skill layouts. */
+@media (width > 60rem) {
+  .cv2-overview-grid--arpeggio {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cv2-overview-grid--arpeggio > .cv2-reading-panel {
+    min-height: 0;
+  }
+  .cv2-overview-grid--arpeggio > .cv2-reference-stack > div {
+    min-width: 0;
+  }
+}
