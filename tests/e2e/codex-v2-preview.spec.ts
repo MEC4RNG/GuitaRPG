@@ -849,7 +849,9 @@ test("CODEX-V2-A-R1 maintains the overview's combined width across desktop secti
   await expectNoHorizontalOverflow(page);
 });
 
-test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices", async ({ page }) => {
+test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices", async ({
+  page,
+}) => {
   await page.goto("/prototype/codex-v2?skill=arpeggio_sequencing");
   const sequencer = page.locator(".cv2-arpeggio-engine");
   await sequencer.getByRole("combobox", { name: "Arpeggio quality" }).selectOption("major7");
@@ -860,12 +862,18 @@ test("R14 arpeggios support sevenths, arbitrary strings and exact octave choices
     await sequencer.getByRole("button", { name: `String ${string}`, exact: true }).click();
   }
   await sequencer.getByRole("combobox", { name: "Arpeggio fret range" }).selectOption("0-24");
-  await sequencer.getByRole("button", { name: "Assign C3, degree 1, string 5, fret 3", exact: true }).click();
-  await sequencer.getByRole("button", { name: "Assign C4, degree 1, string 5, fret 15", exact: true }).click();
+  await sequencer
+    .getByRole("button", { name: "Assign C3, degree 1, string 5, fret 3", exact: true })
+    .click();
+  await sequencer
+    .getByRole("button", { name: "Assign C4, degree 1, string 5, fret 15", exact: true })
+    .click();
   await expect(sequencer.getByRole("combobox", { name: "Beat 1, part 1" })).toHaveValue("s5-f3");
   await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("s5-f15");
   const tab = sequencer.getByRole("table", { name: "Arpeggio sequence tablature" });
-  await expect(tab.getByRole("row").filter({ has: tab.getByRole("rowheader", { name: "5", exact: true }) })).toContainText("15");
+  await expect(
+    tab.getByRole("row").filter({ has: tab.getByRole("rowheader", { name: "5", exact: true }) }),
+  ).toContainText("15");
   await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeEnabled();
   await sequencer.getByRole("button", { name: "String 5", exact: true }).click();
   await expect(sequencer.getByRole("button", { name: "Play bar" })).toBeDisabled();
@@ -954,10 +962,19 @@ test("R14 fretboard assignment explains replacement and advances to the next ste
   const target = sequencer.getByRole("combobox", { name: "Arpeggio target step" });
   await expect(target).toHaveAccessibleDescription(/selector advances automatically/);
   await target.selectOption("1");
-  await sequencer.getByRole("button", { name: "Assign C4, degree 1, string 3, fret 5", exact: true }).click();
+  await sequencer
+    .getByRole("button", { name: "Assign C4, degree 1, string 3, fret 5", exact: true })
+    .click();
   await expect(sequencer.getByRole("combobox", { name: "Beat 2, part 1" })).toHaveValue("s3-f5");
   await expect(target).toHaveValue("2");
-  await expect(sequencer.getByRole("table", { name: "Arpeggio sequence tablature" }).getByRole("row").nth(3).getByRole("cell").nth(1)).toHaveText("5");
+  await expect(
+    sequencer
+      .getByRole("table", { name: "Arpeggio sequence tablature" })
+      .getByRole("row")
+      .nth(3)
+      .getByRole("cell")
+      .nth(1),
+  ).toHaveText("5");
 });
 
 test("integrated Triad Construction retains quick examples and exposes the shared explorer", async ({
