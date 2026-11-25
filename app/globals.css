@@ -325,7 +325,7 @@ a {
   z-index: 40;
   display: grid;
   min-height: var(--mobile-nav-height);
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   border-top: 1px solid var(--hud-border);
   background: rgb(9 12 16 / 96%);
   padding: 0.35rem max(0.5rem, env(safe-area-inset-right)) max(0.35rem, env(safe-area-inset-bottom))
