@@ -1073,10 +1073,10 @@ test("Quest Codex lesson opens in new tabs and links the exact Explore ingredien
   await page.getByRole("button", { name: "Close Codex Peek" }).last().click();
   await page.evaluate(() => window.dispatchEvent(new Event("focus")));
   await page.getByRole("button", { name: /Open Scale.Degree Recognition in Explore/ }).click();
-  const module = page.locator(".explore-module").first();
-  await expect(module.locator(".explore-module__disclosure")).toContainText("1 linked page");
-  await expect(module.getByRole("button", { name: "Hear the tonal home", exact: true })).toBeVisible();
-  await expect(module.getByRole("combobox", { name: /Choose existing page/ })).toHaveCSS("cursor", "pointer");
+  const ingredient = page.locator(".explore-module").first();
+  await expect(ingredient.locator(".explore-module__disclosure")).toContainText("1 linked page");
+  await expect(ingredient.getByRole("button", { name: "Hear the tonal home", exact: true })).toBeVisible();
+  await expect(ingredient.getByRole("combobox", { name: /Choose existing page/ })).toHaveCSS("cursor", "pointer");
   await page.reload();
   await expect(page.locator(".explore-module__disclosure").first()).toContainText("1 linked page");
 });
