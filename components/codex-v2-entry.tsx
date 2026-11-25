@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CodexV2Reference } from "./codex-v2-reference";
+import { CodexV2ChordVoicings } from "./codex-v2-chord-voicings";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   canonicalCodexHref,
@@ -288,7 +289,12 @@ export function CodexV2Entry({
                 Explore lessons →
               </button>
             </section>
-            <CodexV2Reference blocks={entry.reference_blocks} />
+            <CodexV2Reference blocks={entry.reference_blocks} includeFullTriad={false} />
+            {entry.reference_blocks.some((block) => block.kind === "TRIAD_FRETBOARD") ? (
+              <div className="cv2-full-triad-explorer">
+                <CodexV2ChordVoicings mode="inversions" />
+              </div>
+            ) : null}
           </div>
         ) : null}
 
