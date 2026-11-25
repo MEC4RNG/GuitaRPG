@@ -7,7 +7,8 @@ import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex
 import { CodexV2Reference } from "@/components/codex-v2-reference";
 import type { CodexV2ReferenceBlock, LearningLevel } from "@/lib/codex/v2/content";
 import { WorkbookPersistenceSurface } from "@/components/workbook-persistence-surface";
-import { questCodexReferences } from "@/lib/quest/codex-references";
+import { questCodexReferences, type QuestCodexReference } from "@/lib/quest/codex-references";
+import type { CodexLessonWorkbookSource } from "@/lib/workbook/lesson-template";
 import { questJourneyTopics, topicWorkbookDocument } from "@/lib/quest/journey-topics";
 import {
   ensureQuestJourney,
@@ -60,6 +61,7 @@ const learningLevels: Array<{ id: LearningLevel; label: string }> = [
 ];
 export type MapCodexLearning = {
   blocks: CodexV2ReferenceBlock[];
+  sources: CodexLessonWorkbookSource[];
   modules: Array<{ id: string; title: string; level: LearningLevel; application: string }>;
 };
 const dateTime = (value: string) =>
@@ -218,6 +220,27 @@ export function QuestJourneySurface({
   const mapLevelLessons = selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
   const fullCodexHref = (slug: string) =>
     mapCodexLearning[slug] ? codexQuestPreviewHref(questId, slug) : undefined;
+  const peekExploration = (slug: string): QuestCodexReference["exploration"] => {
+    const lessons = mapCodexLearning[slug]?.sources;
+    if (!lessons?.length) return undefined;
+    return {
+      questId,
+      questTitle: quest.identity.title,
+      lessons,
+      readOnly: archived,
+      onLinked: ({ page, workbook, link }) => {
+        setWorkbookPages((current) => [...current.filter((item) => item.id !== page.id), page]);
+        setWorkbooks((current) => [
+          workbook,
+          ...current.filter((item) => item.id !== workbook.id),
+        ]);
+        setWorkbookLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+        setExpandedModules((current) => new Set(current).add(slug));
+        setOpenExplorePage({ pageId: page.id, moduleKey: slug });
+        setModuleMessage("Codex lesson linked and ready in Explore.");
+      },
+    };
+  };
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -504,6 +527,9 @@ export function QuestJourneySurface({
                             selectedTopic.kind === "SKILL"
                               ? fullCodexHref(selectedTopic.slug)
                               : undefined,
+                          exploration: selectedTopic.moduleKey
+                            ? peekExploration(selectedTopic.moduleKey)
+                            : undefined,
                         }}
                       />
                     ) : (
@@ -764,7 +790,11 @@ export function QuestJourneySurface({
                           <p>
                             Codex:{" "}
                             <CodexReferenceLink
-                              reference={{ ...reference, fullHref: fullCodexHref(module.slug) }}
+                              reference={{
+                                ...reference,
+                                fullHref: fullCodexHref(module.slug),
+                                exploration: peekExploration(module.slug),
+                              }}
                             />
                           </p>
                         ) : null}
