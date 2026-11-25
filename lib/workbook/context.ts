@@ -44,3 +44,30 @@ export function workbookContextHref(
   if (extras.sessionId) params.set("session", extras.sessionId);
   return `/workbooks?${params.toString()}`;
 }
+
+/** A navigation hint only; the existing owner-scoped RPC validates every actual attachment. */
+export type CodexQuestContext = { questId: string; skillSlug: string };
+
+export function parseCodexQuestContext(
+  params: Record<string, string | string[] | undefined>,
+): CodexQuestContext | null {
+  if (typeof params.quest !== "string" || !uuid.test(params.quest)) return null;
+  if (typeof params.module !== "string" || !/^[a-z0-9_]{1,120}$/.test(params.module)) return null;
+  return { questId: params.quest, skillSlug: params.module };
+}
+
+export function codexQuestPreviewHref(questId: string, skillSlug: string) {
+  return `/prototype/codex-v2?${new URLSearchParams({ skill: skillSlug, quest: questId, module: skillSlug })}`;
+}
+
+export function codexLessonWorkbookHref(
+  moduleId: string,
+  skillSlug: string,
+  context?: CodexQuestContext | null,
+) {
+  const base =
+    context?.skillSlug === skillSlug
+      ? workbookContextHref(context.questId, "EXPLORE", "APPLIES_TO")
+      : "/workbooks";
+  return `${base}${base.includes("?") ? "&" : "?"}codex_module=${encodeURIComponent(moduleId)}`;
+}
