@@ -110,8 +110,12 @@ test("draft, Save Quest, Start Quest, stages, and Practice share one durable Que
   await expect(page.getByText("In progress", { exact: true })).toBeVisible();
   const primaryTopic = page.locator(".journey-header__topics button").first();
   await expect(primaryTopic).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByRole("heading", { name: "What it is" })).toBeVisible();
-  const mapReference = page.getByRole("button", { name: /^Open Codex Peek for / }).first();
+  await expect(page.locator(".map-topic__summary")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What it is" })).toHaveCount(0);
+  const mapReference = page
+    .locator("#map-topic-title")
+    .getByRole("button", { name: /^Open Codex Peek for / });
+  await expect(mapReference).toHaveCSS("cursor", "pointer");
   await mapReference.click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.keyboard.press("Escape");
