@@ -95,3 +95,25 @@ describe("on-demand Codex → Player Workbook starter documents", () => {
     expect(new Set(second.blocks.map((block) => block.id)).size).toBe(second.blocks.length);
   });
 });
+
+describe("Quest-origin Codex navigation", () => {
+  it("carries only a valid matching Quest skill hint into the Workbook route", async () => {
+    const { codexQuestPreviewHref, parseCodexQuestContext, codexLessonWorkbookHref } =
+      await import("@/lib/workbook/context");
+    const questId = "11111111-1111-4111-8111-111111111111";
+    const skillSlug = "scale_degree_recognition";
+    const context = parseCodexQuestContext({ quest: questId, module: skillSlug });
+    expect(context).toEqual({ questId, skillSlug });
+    expect(codexQuestPreviewHref(questId, skillSlug)).toBe(
+      `/prototype/codex-v2?skill=${skillSlug}&quest=${questId}&module=${skillSlug}`,
+    );
+    expect(codexLessonWorkbookHref("sdr.aural.f1", skillSlug, context)).toBe(
+      `/workbooks?quest=${questId}&stage=EXPLORE&relationship=APPLIES_TO&codex_module=sdr.aural.f1`,
+    );
+    expect(codexLessonWorkbookHref("nl.aural.f1", "note_location", context)).toBe(
+      "/workbooks?codex_module=nl.aural.f1",
+    );
+    expect(parseCodexQuestContext({ quest: "invalid", module: skillSlug })).toBeNull();
+    expect(parseCodexQuestContext({ quest: questId, module: ["a", "b"] })).toBeNull();
+  });
+});
