@@ -87,6 +87,8 @@ test("MEC-R13 mobile Codex is a persistent one-tap library destination", async (
   await page.goto("/");
   await expect(page.locator(".mobile-nav")).toBeHidden();
   await expect(
-    page.getByRole("complementary", { name: "Primary navigation" }).getByRole("link", { name: "Codex", exact: true }),
+    page
+      .getByRole("complementary", { name: "Primary navigation" })
+      .getByRole("link", { name: "Codex", exact: true }),
   ).toBeVisible();
 });
