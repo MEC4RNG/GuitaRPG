@@ -959,3 +959,22 @@ test("R14 fretboard assignment explains replacement and advances to the next ste
   await expect(target).toHaveValue("2");
   await expect(sequencer.getByRole("table", { name: "Arpeggio sequence tablature" }).getByRole("row").nth(3).getByRole("cell").nth(1)).toHaveText("5");
 });
+
+test("integrated Triad Construction retains quick examples and exposes the shared explorer", async ({
+  page,
+}) => {
+  await page.goto("/prototype/codex-v2?skill=triad_construction");
+  await expect(page.getByRole("button", { name: "C minor" })).toBeVisible();
+  const advanced = page.locator(".cv2-triad-expanded");
+  await expect(advanced).not.toHaveAttribute("open");
+  await advanced.locator("summary").click();
+  const explorer = advanced.locator(".cv2-chord-engine");
+  await expect(explorer).toBeVisible();
+  await explorer.getByRole("combobox", { name: "Chord root" }).selectOption("C♯");
+  await expect(explorer).toContainText("E♯");
+  await explorer.getByRole("combobox", { name: "Chord guitar tuning" }).selectOption("dadgad");
+  await expect(explorer.locator(".cv2-chord-card")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await advanced.locator("summary").click();
+  await expect(explorer).toHaveCount(0);
+});
