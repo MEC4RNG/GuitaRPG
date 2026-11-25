@@ -140,6 +140,7 @@ const voicings: readonly Voicing[] = [
 ];
 
 function TriadFretboardReference() {
+  const [expanded, setExpanded] = useState(false);
   const [selection, setSelection] = useState(voicings[0].id);
   const voicing = voicings.find((candidate) => candidate.id === selection) ?? voicings[0];
   const strings = [
@@ -258,6 +259,13 @@ function TriadFretboardReference() {
         </Link>
         .
       </p>
+      <details
+        className="cv2-triad-expanded"
+        onToggle={(event) => setExpanded(event.currentTarget.open)}
+      >
+        <summary>Explore more triad voicings</summary>
+        {expanded ? <CodexV2ChordVoicings mode="inversions" /> : null}
+      </details>
     </div>
   );
 }
