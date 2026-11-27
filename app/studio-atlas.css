@@ -149,7 +149,9 @@
   text-align: center;
   font: 650 0.95rem/1.35 var(--sa-font-ui);
   cursor: pointer;
-  transition: background var(--sa-motion), border-color var(--sa-motion);
+  transition:
+    background var(--sa-motion),
+    border-color var(--sa-motion);
 }
 .sa-button--primary {
   background: var(--sa-brand);
@@ -419,7 +421,8 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .sa-hero-art {
-    min-height: 10rem; background-position: right center;
+    min-height: 10rem;
+    background-position: right center;
   }
   .sa-component-grid {
     grid-template-columns: minmax(0, 1fr);
