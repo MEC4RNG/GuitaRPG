@@ -32,9 +32,12 @@ function rows<T>(response: Response, label: string): T[] {
 export async function readRecommendationCandidatesV1(
   client: TrainingCandidateReadClient,
   evaluatedAt = new Date().toISOString(),
+  options: { refreshReadiness?: boolean } = {},
 ): Promise<RecommendationCandidateSetV1> {
-  const refresh = await client.rpc("refresh_player_readiness");
-  if (refresh.error) throw new Error("Current readiness is unavailable");
+  if (options.refreshReadiness !== false) {
+    const refresh = await client.rpc("refresh_player_readiness");
+    if (refresh.error) throw new Error("Current readiness is unavailable");
+  }
 
   const [profileResponse, goalsResponse, tuningResponse, statesResponse, entitiesResponse] =
     await Promise.all([
@@ -89,6 +92,9 @@ export async function readRecommendationCandidatesV1(
 export async function readRankedRecommendationsV1(
   client: TrainingCandidateReadClient,
   evaluatedAt = new Date().toISOString(),
+  options: { refreshReadiness?: boolean } = {},
 ): Promise<RankedRecommendationSetV1> {
-  return rankRecommendationCandidatesV1(await readRecommendationCandidatesV1(client, evaluatedAt));
+  return rankRecommendationCandidatesV1(
+    await readRecommendationCandidatesV1(client, evaluatedAt, options),
+  );
 }
