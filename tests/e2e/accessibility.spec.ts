@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { expectAccessible } from "./helpers/accessibility";
+import { expectAccessible, expectNoHorizontalOverflow } from "./helpers/accessibility";
 import { completeGuestOnboarding, generateAndStartPractice } from "./helpers/player-flow";
 
 test("public and guest entry states meet the automated WCAG 2.2 AA gate", async ({ page }) => {
@@ -85,4 +85,41 @@ test("authenticated practice surfaces meet the automated WCAG gate", async ({ pa
   await expectAccessible(page, "Result complete");
   await page.goto(`/history/${sessionId}`);
   await expectAccessible(page, "History detail");
+});
+
+test("Studio Atlas preview has readable responsive components and keyboard dialog recovery", async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 820, height: 1180 },
+    { width: 390, height: 844 },
+    { width: 320, height: 700 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/prototype/studio-atlas");
+    await expect(page.getByRole("heading", { name: "A world of musical discovery." })).toBeVisible();
+    await expect(page.locator(".sa-domain")).toHaveCount(6);
+    await expect(page.locator(".sa-cover-item")).toHaveCount(3);
+    await expect(page.getByRole("button", { name: "Unavailable", exact: true })).toBeDisabled();
+    const trigger = page.getByRole("button", { name: "Preview contextual panel" });
+    expect((await trigger.boundingBox())?.height).toBeGreaterThanOrEqual(44);
+    await expectAccessible(page, `Studio Atlas ${viewport.width}`);
+    await expectNoHorizontalOverflow(page);
+    await trigger.focus();
+    await page.keyboard.press("Enter");
+    const dialog = page.getByRole("dialog", { name: "Scale-Degree Recognition" });
+    await expect(dialog).toBeVisible();
+    await expectAccessible(page, "Studio Atlas contextual panel");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
+    const toggle = page.getByRole("button", { name: "Dark reading surface" });
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(".sa-reading")).not.toHaveClass(/sa-reading--paper/);
+    await expectAccessible(page, "Studio Atlas dark reading surface");
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".studio-atlas")).toHaveCSS("--sa-motion", "0ms");
 });
