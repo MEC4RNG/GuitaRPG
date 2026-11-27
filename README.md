@@ -1,6 +1,8 @@
-# GuitaRPG
+# Sound Uncharted
 
-GuitaRPG is evolving from the original random guitar challenge prototype into a production guitar-practice RPG.
+Sound Uncharted is evolving from the original random guitar challenge prototype into a production guitar-practice RPG.
+
+> The product is branded **Sound Uncharted**. Historical repository names, database schema identifiers, and deployment IDs remain unchanged to preserve compatibility.
 
 ## Branches
 

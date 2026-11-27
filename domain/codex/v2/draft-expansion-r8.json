@@ -1,0 +1,1168 @@
+{
+  "schema": "SOUND_UNCHARTED_CODEX_V2",
+  "content_version": "CODEX_CONTENT_V2",
+  "editorial_source": "CODEX-V2-A-R8 Scale Mapping + Chord Inversion Navigation; 24 draft original lessons only, not published.",
+  "entries": [
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000057",
+      "kind": "SKILL",
+      "slug": "scale_mapping",
+      "revision": "draft-r8-scale-mapping-v1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Understand and locate scale pitch collections across the guitar without mistaking shapes for musical relationships.",
+      "intro": [
+        {
+          "text": "A "
+        },
+        {
+          "text": "scale",
+          "term_id": "vocab:scale"
+        },
+        {
+          "text": " is a patterned pitch collection. Scale Mapping connects its notes, degrees and intervals to actual sounding guitar locations instead of relying on a single memorized box."
+        }
+      ],
+      "overview": "Scale Mapping means understanding the notes of a scale and finding them in multiple playable guitar locations. The tonic supplies a tonal reference, while the interval formula supplies the pitch collection. Guitar position and tuning determine frets, not the scale's theory. A portable mapping system can follow chord-tone targets, modulation or modal contexts only when the Player keeps pitch, fret, key and chord relationships distinct.",
+      "key_distinction": "A scale is a structured pitch collection related to a tonic; a fingerboard diagram is one possible physical realization. Fret numbers are not scale degrees, and a chord tone is relative to the current harmony rather than automatically the tonic.",
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Spell a basic major scale, locate one octave, and make a simple tonic-referenced melody."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Transfer notes and degrees to a new key, string set, harmonic progression and melodic register."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Re-map related minor collections, chromatic targets and multi-key melodic ideas with proper spelling."
+        }
+      ],
+      "applications": [
+        {
+          "id": "theory",
+          "title": "Scale formula & pitch spelling",
+          "summary": "Build accurate interval patterns and distinguish roots, degrees, related collections and altered notes.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "fretboard",
+          "title": "Guitar scale locations",
+          "summary": "Find correctly pitched scale notes across strings, registers and tunings.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "improvisation",
+          "title": "Improvisation & targeting",
+          "summary": "Use scale maps to choose controlled melodic targets over changing harmony.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "composition",
+          "title": "Melody & transposition",
+          "summary": "Compose and transpose phrases from scale-degree maps without depending on a fixed fretboard shape.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "id": "sm.theory.f1",
+          "application_id": "theory",
+          "level": "foundational",
+          "title": "Build the major-scale step pattern",
+          "explanation": "A major scale follows whole, whole, half, whole, whole, whole, half steps in ascending order. Starting on C gives C–D–E–F–G–A–B–C. A whole step is two semitones; a half step is one. Each diatonic letter name is used once within the seven-note spelling.",
+          "outcomes": [
+            "Distinguish whole steps from half steps",
+            "Construct an accurately spelled C major scale",
+            "Explain why scale patterns can move to a new tonic"
+          ],
+          "steps": [
+            "Write C4 as scale degree 1 and move two semitones to D4.",
+            "Move two more to E4, then one to F4.",
+            "Complete G4, A4, B4 and C5 using the remaining 2–2–2–1 steps.",
+            "Label every note with degrees 1–7 and verify no letter was skipped.",
+            "Check the semitone gaps E–F and B–C, which are each one."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.theory.f1.ex",
+              "title": "Explore: Build the major-scale step pattern",
+              "setup": "Use note paper or a guitar string with standard tuning; start on concert-pitch C4.",
+              "steps": [
+                "Write C4 as scale degree 1 and move two semitones to D4.",
+                "Move two more to E4, then one to F4.",
+                "Complete G4, A4, B4 and C5 using the remaining 2–2–2–1 steps.",
+                "Label every note with degrees 1–7 and verify no letter was skipped.",
+                "Check the semitone gaps E–F and B–C, which are each one."
+              ],
+              "self_check": "Can you rebuild the seven unique major-scale notes from the interval pattern without copying a preprinted scale diagram?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.fretboard.f1",
+          "application_id": "fretboard",
+          "level": "foundational",
+          "title": "Map one C-major octave on the B string",
+          "explanation": "The second guitar string sounds B3 when open in standard tuning. On that single string, the C-major octave C4–D4–E4–F4–G4–A4–B4–C5 occurs at frets 1–3–5–6–8–10–12–13. This is an intentionally mobile one-string exercise, not a fingering that one hand must span simultaneously.",
+          "outcomes": [
+            "Find an entire accurately pitched octave",
+            "Name scale degrees separately from fret numbers",
+            "Move positions rather than forcing an excessive hand stretch"
+          ],
+          "steps": [
+            "Play fret 1 C4 and fret 3 D4, speaking degrees 1 and 2.",
+            "Continue fret 5 E4, fret 6 F4, and fret 8 G4.",
+            "Change hand position freely for fret 10 A4, fret 12 B4 and fret 13 C5.",
+            "Descend slowly, checking each pitch and chromatic fret distance.",
+            "Write the fret sequence and note names on two distinct lines."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.fretboard.f1.ex",
+              "title": "Explore: Map one C-major octave on the B string",
+              "setup": "Tune the second string to B3 and move along it freely; use a tuner or accurate reference.",
+              "steps": [
+                "Play fret 1 C4 and fret 3 D4, speaking degrees 1 and 2.",
+                "Continue fret 5 E4, fret 6 F4, and fret 8 G4.",
+                "Change hand position freely for fret 10 A4, fret 12 B4 and fret 13 C5.",
+                "Descend slowly, checking each pitch and chromatic fret distance.",
+                "Write the fret sequence and note names on two distinct lines."
+              ],
+              "self_check": "Can you identify every note in the octave without treating the printed fret numbers as musical scale degrees?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.improvisation.f1",
+          "application_id": "improvisation",
+          "level": "foundational",
+          "title": "Make a three-degree call and response",
+          "explanation": "Mapping is useful when it supports deliberate note choices. Over an unambiguous C tonic, choose C4, D4 and E4 as scale degrees 1, 2 and 3. The pitch sequence C4–D4–E4 followed by E4–D4–C4 forms a basic question and response, with no fixed emotional rule attached to the ending.",
+          "outcomes": [
+            "Find the same three degrees as written notes",
+            "Improvise a short answer with a chosen destination",
+            "Keep tonic-relative function distinct from finger position"
+          ],
+          "steps": [
+            "Locate C4, D4 and E4 using any correct fretboard positions.",
+            "Play C4–D4–E4 as one three-note phrase, then leave a small rest.",
+            "Answer E4–D4–C4 and listen to its arrival on the tonic.",
+            "Create three different answers ending on degree 1 or 3 as planned.",
+            "Name both the absolute note and the tonic-relative degree of each final pitch."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.improvisation.f1.ex",
+              "title": "Explore: Make a three-degree call and response",
+              "setup": "Use a gentle C tonic drone or a repeating C-major harmony at a comfortable steady quarter-note tempo.",
+              "steps": [
+                "Locate C4, D4 and E4 using any correct fretboard positions.",
+                "Play C4–D4–E4 as one three-note phrase, then leave a small rest.",
+                "Answer E4–D4–C4 and listen to its arrival on the tonic.",
+                "Create three different answers ending on degree 1 or 3 as planned.",
+                "Name both the absolute note and the tonic-relative degree of each final pitch."
+              ],
+              "self_check": "Can you choose the arrival degree before playing and explain why its number follows the current tonic?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.composition.f1",
+          "application_id": "composition",
+          "level": "foundational",
+          "title": "Write a four-bar mapped melody",
+          "explanation": "An octave map allows melody writing without relying on visual scale boxes. In C major, a two-bar idea C4–D4–E4–G4 / A4–G4–E4–C4 can use one quarter note per pitch. The rhythmic pattern stays constant while the sequence of scale degrees changes across the bar line.",
+          "outcomes": [
+            "Write a melody using verified C-major notes",
+            "Connect its pitches to scale-degree numbers",
+            "Alter a melodic shape without leaving the key"
+          ],
+          "steps": [
+            "Write C4–D4–E4–G4 as four quarter notes in bar 1.",
+            "Write A4–G4–E4–C4 as four quarter notes in bar 2.",
+            "Label the scale-degree sequences 1–2–3–5 and 6–5–3–1.",
+            "Play both measures, changing positions as required rather than stretching.",
+            "Replace the first G4 with F4 and describe the melodic difference while keeping 4/4."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.composition.f1.ex",
+              "title": "Explore: Write a four-bar mapped melody",
+              "setup": "Use two 4/4 measures at a slow tempo; write the pitch names first and then choose guitar locations.",
+              "steps": [
+                "Write C4–D4–E4–G4 as four quarter notes in bar 1.",
+                "Write A4–G4–E4–C4 as four quarter notes in bar 2.",
+                "Label the scale-degree sequences 1–2–3–5 and 6–5–3–1.",
+                "Play both measures, changing positions as required rather than stretching.",
+                "Replace the first G4 with F4 and describe the melodic difference while keeping 4/4."
+              ],
+              "self_check": "Can you name every note and degree accurately and distinguish your rhythm from your chosen melodic contour?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.theory.i1",
+          "application_id": "theory",
+          "level": "intermediate",
+          "title": "Transpose the major-scale formula to G",
+          "explanation": "Moving the tonic from C to G changes the notes, not the interval formula. G major spells G–A–B–C–D–E–F♯–G. F♯ is the leading tone, one semitone below the tonic G; writing G♭ instead would incorrectly reuse G and omit the letter F in this major-scale spelling.",
+          "outcomes": [
+            "Use whole/half-step structure in a new key",
+            "Spell G major without enharmonic shortcuts",
+            "Name the seventh degree as F♯ rather than G♭"
+          ],
+          "steps": [
+            "Start on G and move two semitones to A then two to B.",
+            "Move one semitone B→C, then whole steps C→D and D→E.",
+            "Move E→F♯ by a whole step, then F♯→G by a half step.",
+            "Write all eight notes and verify each letter name occurs exactly once before the return.",
+            "Compare degree 7 in C major (B) with degree 7 in G major (F♯)."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.theory.i1.ex",
+              "title": "Explore: Transpose the major-scale formula to G",
+              "setup": "Keep the C-major formula visible for reference but calculate G-major notes independently.",
+              "steps": [
+                "Start on G and move two semitones to A then two to B.",
+                "Move one semitone B→C, then whole steps C→D and D→E.",
+                "Move E→F♯ by a whole step, then F♯→G by a half step.",
+                "Write all eight notes and verify each letter name occurs exactly once before the return.",
+                "Compare degree 7 in C major (B) with degree 7 in G major (F♯)."
+              ],
+              "self_check": "Can you explain why F♯, not G♭, is the spelled seventh degree of G major even on an equal-tempered guitar?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.fretboard.i1",
+          "application_id": "fretboard",
+          "level": "intermediate",
+          "title": "Connect the same C-major notes across two strings",
+          "explanation": "On standard guitar, C4 on string 2 fret 1 and on string 3 fret 5 is the identical sounding pitch. E4 is string 1 open and string 2 fret 5. G4 is string 1 fret 3 and string 2 fret 8. A transferable map depends on the actual open pitch of each string, especially across G3–B3.",
+          "outcomes": [
+            "Locate C4 E4 and G4 in two sets of positions",
+            "Identify unisons rather than guessing octave differences",
+            "Rebuild a small map from open-string tuning"
+          ],
+          "steps": [
+            "Play C4 on string 2 fret 1, then on string 3 fret 5.",
+            "Play E4 on string 1 open, then on string 2 fret 5.",
+            "Play G4 on string 1 fret 3, then on string 2 fret 8.",
+            "Verify all three pairs sound identical pitches despite different positions.",
+            "Choose one alternate location for each note and play C4–E4–G4–E4."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.fretboard.i1.ex",
+              "title": "Explore: Connect the same C-major notes across two strings",
+              "setup": "Use standard tuning and a reliable pitch reference; limit the first pass to actual C4 E4 G4.",
+              "steps": [
+                "Play C4 on string 2 fret 1, then on string 3 fret 5.",
+                "Play E4 on string 1 open, then on string 2 fret 5.",
+                "Play G4 on string 1 fret 3, then on string 2 fret 8.",
+                "Verify all three pairs sound identical pitches despite different positions.",
+                "Choose one alternate location for each note and play C4–E4–G4–E4."
+              ],
+              "self_check": "Can you demonstrate that each pair is a unison of the same register, not just two notes with the same letter?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.improvisation.i1",
+          "application_id": "improvisation",
+          "level": "intermediate",
+          "title": "Find targets over a C–Am–F–G progression",
+          "explanation": "The C-major collection contains C–D–E–F–G–A–B, but each chord has its own local tones: C (C–E–G), Am (A–C–E), F (F–A–C), G (G–B–D). The map provides possible notes; chord-tone targeting provides a deliberate reason to emphasize some of them as the harmony moves.",
+          "outcomes": [
+            "Identify actual chord tones in four diatonic triads",
+            "Choose one target per changing chord",
+            "Use scale knowledge without claiming all notes have identical harmonic roles"
+          ],
+          "steps": [
+            "Write the three notes of each chord before improvising.",
+            "For C choose E, for Am choose C, for F choose A, and for G choose B as target tones.",
+            "Find each target on the guitar and sustain it over its matching chord.",
+            "Connect the targets with C-major passing notes at a slow tempo.",
+            "Repeat while keeping the same harmony and moving one passing note."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.improvisation.i1.ex",
+              "title": "Explore: Find targets over a C–Am–F–G progression",
+              "setup": "Loop C–Am–F–G, one bar per chord; use only the notes of C major.",
+              "steps": [
+                "Write the three notes of each chord before improvising.",
+                "For C choose E, for Am choose C, for F choose A, and for G choose B as target tones.",
+                "Find each target on the guitar and sustain it over its matching chord.",
+                "Connect the targets with C-major passing notes at a slow tempo.",
+                "Repeat while keeping the same harmony and moving one passing note."
+              ],
+              "self_check": "Can you identify why the emphasized note belongs to the current chord and still name its degree relative to C?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.composition.i1",
+          "application_id": "composition",
+          "level": "intermediate",
+          "title": "Keep one contour while changing the key",
+          "explanation": "The melody C4–D4–E4–G4 in C major has scale degrees 1–2–3–5. Transposed to G major with the same octave region, the sequence becomes G4–A4–B4–D5, again degrees 1–2–3–5. The register has moved, but the pattern of degrees and intervals is preserved.",
+          "outcomes": [
+            "Transpose a melodic idea by its relative degrees",
+            "Spell destination pitches in the new key",
+            "Check that melodic intervals remain unchanged"
+          ],
+          "steps": [
+            "Write C4–D4–E4–G4 and label degrees 1–2–3–5.",
+            "Replace each note with degree 1, 2, 3 or 5 of G major.",
+            "Write G4–A4–B4–D5 with explicit octaves.",
+            "Check the interval steps +2, +2 and +3 semitones in each melody.",
+            "Play both examples and explain that the same contour has moved to another tonic."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.composition.i1.ex",
+              "title": "Explore: Keep one contour while changing the key",
+              "setup": "Use C major and G major and a written four-quarter-note motive.",
+              "steps": [
+                "Write C4–D4–E4–G4 and label degrees 1–2–3–5.",
+                "Replace each note with degree 1, 2, 3 or 5 of G major.",
+                "Write G4–A4–B4–D5 with explicit octaves.",
+                "Check the interval steps +2, +2 and +3 semitones in each melody.",
+                "Play both examples and explain that the same contour has moved to another tonic."
+              ],
+              "self_check": "Can you reconstruct the G-major melody without mechanically sliding an entire handshape to an awkward register?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.theory.a1",
+          "application_id": "theory",
+          "level": "advanced",
+          "title": "Distinguish relative major from natural minor",
+          "explanation": "C major and A natural minor share the same seven pitch classes: C–D–E–F–G–A–B and A–B–C–D–E–F–G. They do not share a tonic. In A minor, C is degree ♭3 relative to A, not degree 1; the interval relationships and sense of home change when A becomes the tonal center.",
+          "outcomes": [
+            "Recognize two tonal centers sharing a diatonic collection",
+            "Number the same notes relative to different tonics",
+            "Explain why identical pitch classes need not imply identical tonal function"
+          ],
+          "steps": [
+            "Write all notes of C major and number C=1 through B=7.",
+            "Reorder the same notes as A–B–C–D–E–F–G–A.",
+            "Mark A=1, C=♭3, E=5 and G=♭7 in A natural minor.",
+            "Play C and A tonal anchors separately while listening to the same E note.",
+            "Explain how changing tonal center affects degree meaning without changing absolute pitches."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.theory.a1.ex",
+              "title": "Explore: Distinguish relative major from natural minor",
+              "setup": "Use a C-major drone for one pass and an A-minor drone for the next; retain the same seven note names.",
+              "steps": [
+                "Write all notes of C major and number C=1 through B=7.",
+                "Reorder the same notes as A–B–C–D–E–F–G–A.",
+                "Mark A=1, C=♭3, E=5 and G=♭7 in A natural minor.",
+                "Play C and A tonal anchors separately while listening to the same E note.",
+                "Explain how changing tonal center affects degree meaning without changing absolute pitches."
+              ],
+              "self_check": "Can you correctly describe C as ♭3 in A natural minor, and as tonic in C major, without confusing either with a chord-tone label?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.fretboard.a1",
+          "application_id": "fretboard",
+          "level": "advanced",
+          "title": "Re-map A natural and harmonic minor",
+          "explanation": "A natural minor uses A–B–C–D–E–F–G; A harmonic minor raises its seventh degree to G♯. On standard-tuned string 5 (open A2), the ascending harmonic-minor octave A2–B2–C3–D3–E3–F3–G♯3–A3 appears at frets 0–2–3–5–7–8–11–12. This is an interval and position map, not a claim that one hand spans twelve frets.",
+          "outcomes": [
+            "Distinguish natural versus harmonic minor seventh degrees",
+            "Verify a correct one-string harmonic-minor note map",
+            "Describe the enlarged step between ♭6 and raised 7"
+          ],
+          "steps": [
+            "Write A natural minor notes A–B–C–D–E–F–G–A.",
+            "Raise G to G♯ and identify the harmonic-minor leading tone.",
+            "Play string 5 frets 0–2–3–5–7–8–11–12, naming each sounding note.",
+            "Confirm F3 to G♯3 spans three semitones, an augmented second in spelled context.",
+            "Descend through the same harmonic-minor pitch collection and compare it with natural minor."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.fretboard.a1.ex",
+              "title": "Explore: Re-map A natural and harmonic minor",
+              "setup": "Use standard-tuned fifth string A2 and note paper; move hand position freely.",
+              "steps": [
+                "Write A natural minor notes A–B–C–D–E–F–G–A.",
+                "Raise G to G♯ and identify the harmonic-minor leading tone.",
+                "Play string 5 frets 0–2–3–5–7–8–11–12, naming each sounding note.",
+                "Confirm F3 to G♯3 spans three semitones, an augmented second in spelled context.",
+                "Descend through the same harmonic-minor pitch collection and compare it with natural minor."
+              ],
+              "self_check": "Can you name the A-harmonic-minor fret sequence and distinguish the F→G♯ augmented-second spelling from a generic three-semitone interval?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.improvisation.a1",
+          "application_id": "improvisation",
+          "level": "advanced",
+          "title": "Map a temporary leading tone without declaring a new key",
+          "explanation": "In C major, the G-major triad contains G–B–D. A D7 chord introduces F♯ (D–F♯–A–C), a secondary-dominant color pointing toward G. F♯ approaches G by semitone; its local function does not by itself establish lasting modulation from C major to G major.",
+          "outcomes": [
+            "Locate F♯ as a chromatic pitch outside C major",
+            "Target G deliberately after a D7 harmony",
+            "Distinguish temporary tonicization from global key change"
+          ],
+          "steps": [
+            "Write C-major notes and circle F♯ as not belonging to that diatonic collection.",
+            "During D7, play F♯ and label it the chord's major third.",
+            "Resolve F♯ upward by semitone to G over the following G chord.",
+            "Improvise a second approach using A–F♯–G, keeping harmony unchanged.",
+            "Explain why one D7–G event suggests a temporary G focus rather than proving a new key."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.improvisation.a1.ex",
+              "title": "Explore: Map a temporary leading tone without declaring a new key",
+              "setup": "Use a slow C–D7–G–C harmonic backing with clear chord changes and verified note pitches.",
+              "steps": [
+                "Write C-major notes and circle F♯ as not belonging to that diatonic collection.",
+                "During D7, play F♯ and label it the chord's major third.",
+                "Resolve F♯ upward by semitone to G over the following G chord.",
+                "Improvise a second approach using A–F♯–G, keeping harmony unchanged.",
+                "Explain why one D7–G event suggests a temporary G focus rather than proving a new key."
+              ],
+              "self_check": "Can you describe F♯ both as the third of D7 and as a chromatic leading tone to G, without claiming an automatic key modulation?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "sm.composition.a1",
+          "application_id": "composition",
+          "level": "advanced",
+          "title": "Write a motif across C major and A minor contexts",
+          "explanation": "The same collection may support contrasting phrases when the tonal center changes. Write C4–E4–G4–E4 over C and A3–C4–E4–C4 over Am, then reuse a shared E4 as a connecting note. Each phrase uses verified chord tones, but the destination and chord-root relationship change between the measures.",
+          "outcomes": [
+            "Compose a two-harmony motive with accurate chord tones",
+            "Use a shared pitch between related harmonies",
+            "Identify the chord-tone role of a repeated note"
+          ],
+          "steps": [
+            "Write C4–E4–G4–E4 as four quarter notes over C major.",
+            "Write A3–C4–E4–C4 over A minor.",
+            "Circle the E4 shared by both chords and mark its role as third in C, fifth in Am.",
+            "Try connecting bars by repeating E4 at the transition before returning to A3.",
+            "Play the two-bar idea and annotate where the chord root changes."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "sm.composition.a1.ex",
+              "title": "Explore: Write a motif across C major and A minor contexts",
+              "setup": "Use C major and A minor over two bars of 4/4; verify the pitched registers before writing tablature.",
+              "steps": [
+                "Write C4–E4–G4–E4 as four quarter notes over C major.",
+                "Write A3–C4–E4–C4 over A minor.",
+                "Circle the E4 shared by both chords and mark its role as third in C, fifth in Am.",
+                "Try connecting bars by repeating E4 at the transition before returning to A3.",
+                "Play the two-bar idea and annotate where the chord root changes."
+              ],
+              "self_check": "Can you explain the common E4's differing chord-tone roles while distinguishing the keys' possible tonal centers?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        }
+      ],
+      "reference_blocks": [
+        {
+          "id": "reference:scale-mapping-fretboard-v1",
+          "kind": "FRETBOARD_SCALE_MAP",
+          "location": "overview"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "note_location",
+          "scope": "fretboard/foundational",
+          "why": "Knowing actual sounded pitches lets a Player verify a scale map rather than trusting a single movable diagram.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "scale_degree_recognition",
+          "scope": "theory/foundational",
+          "why": "Tonic-relative degree identities help the same scale formula remain meaningful when the tonic changes.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "interval_recognition",
+          "scope": "theory/ear",
+          "why": "Whole and half steps are consecutive interval sizes and provide an audible and theoretical scale-pattern foundation.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "scale_application",
+          "scope": "improvisation/composition",
+          "why": "Reliable scale maps can support intentional melodic use over chord changes once local chord tones are also understood.",
+          "review_status": "PROPOSED"
+        }
+      ]
+    },
+    {
+      "entity_id": "20000000-0000-4000-8000-000000000010",
+      "kind": "SKILL",
+      "slug": "chord_inversion_navigation",
+      "revision": "draft-r8-chord-inversions-v1",
+      "editorial_status": "DRAFT_REVIEW",
+      "one_line": "Find a chord's root, bass and inversion across guitar string groups while preserving accurate pitches and melody.",
+      "intro": [
+        {
+          "text": "A chord "
+        },
+        {
+          "text": "inversion",
+          "term_id": "vocab:inversion"
+        },
+        {
+          "text": " changes which chord tone sounds lowest, not which notes define the harmony. Navigate inversions by naming the bass and verifying real guitar frets."
+        }
+      ],
+      "overview": "Chord Inversion Navigation links abstract harmonic chord spelling to guitar voicings and bass notes. A C-major triad remains C–E–G in root position or either inversion, although the lowest sounding chord member changes. On guitar, an upper-string triad can be arpeggiated separately, and an independent lower bass may define the inversion of the overall texture. This distinction becomes essential in chord-melody arrangement, slash-chord reading and voice-leading.",
+      "key_distinction": "Root names the chord's harmonic identity, bass names the lowest actual sounding note, and inversion is determined by that bass when it belongs to the underlying chord. A reordering of upper voices alone does not necessarily change the inversion of a full texture with another lower bass.",
+      "learning_levels": [
+        {
+          "id": "foundational",
+          "title": "Foundational",
+          "goal": "Identify C-major root/first/second inversions by the bass, then verify exact neighboring-string guitar pitches."
+        },
+        {
+          "id": "intermediate",
+          "title": "Intermediate",
+          "goal": "Read slash-chord labels, recognize nonchord basses and connect verified inversions into smooth harmonic lines."
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced",
+          "goal": "Handle seventh-chord inversions, independent bass/upper parts and intentional chord-melody arrangements."
+        }
+      ],
+      "applications": [
+        {
+          "id": "theory",
+          "title": "Harmony & slash chords",
+          "summary": "Spell inversion names from chord membership, lowest pitch and bass symbols.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "fretboard",
+          "title": "Inversion fretboard routes",
+          "summary": "Find and verify chord-tone voicings across guitar strings and positions.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "aural",
+          "title": "Bass & harmonic listening",
+          "summary": "Hear which chord tone is lowest across changing accompaniment and registers.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        },
+        {
+          "id": "arrangement",
+          "title": "Composition & chord melody",
+          "summary": "Apply inversion-aware harmony to connected melodies, independent bass and guitar textures.",
+          "level_ids": [
+            "foundational",
+            "intermediate",
+            "advanced"
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "id": "cin.theory.f1",
+          "application_id": "theory",
+          "level": "foundational",
+          "title": "Name inversions by the lowest chord tone",
+          "explanation": "A C-major triad contains C, E and G. With C as the lowest sounding note it is root position; E below the other tones gives first inversion; G below them gives second inversion. The chord remains C major in each case—an inversion does not create a new chord quality or change the root.",
+          "outcomes": [
+            "Identify root, first and second inversion of a triad",
+            "Name an inversion from the actual bass note",
+            "Keep chord root separate from sounding bass"
+          ],
+          "steps": [
+            "Label C3–E3–G3 as C major root position.",
+            "Label E3–G3–C4 as C major first inversion.",
+            "Label G2–C3–E3 as C major second inversion.",
+            "Circle the lowest sounding note in each set and name its chord-tone role.",
+            "Reorder the written notes once more without changing C/E/G membership."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.theory.f1.ex",
+              "title": "Explore: Name inversions by the lowest chord tone",
+              "setup": "Write three ascending sets of note names in a single sounding register: C3–E3–G3, E3–G3–C4, and G2–C3–E3.",
+              "steps": [
+                "Label C3–E3–G3 as C major root position.",
+                "Label E3–G3–C4 as C major first inversion.",
+                "Label G2–C3–E3 as C major second inversion.",
+                "Circle the lowest sounding note in each set and name its chord-tone role.",
+                "Reorder the written notes once more without changing C/E/G membership."
+              ],
+              "self_check": "Can you name the inversion from the sounding bass while continuing to call the chord C major in every example?",
+              "suggested_minutes": 6,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.fretboard.f1",
+          "application_id": "fretboard",
+          "level": "foundational",
+          "title": "Play C-major inversions on neighboring strings",
+          "explanation": "In standard tuning, C major appears on strings 5–4–3 as frets 3–2–0: C3–E3–G3 (root). The same chord appears on strings 4–3–2 as frets 2–0–1: E3–G3–C4 (first inversion), and on strings 6–5–4 as frets 3–3–2: G2–C3–E3 (second inversion). String lists here are low to high.",
+          "outcomes": [
+            "Verify exact string/fret pairs and pitched registers",
+            "Identify each C-major bass note",
+            "Connect positions to harmonic inversion labels"
+          ],
+          "steps": [
+            "Play strings 5/4/3 at 3/2/0, verifying C3/E3/G3.",
+            "Play strings 4/3/2 at 2/0/1, verifying E3/G3/C4.",
+            "Play strings 6/5/4 at 3/3/2, verifying G2/C3/E3.",
+            "Speak root, first or second inversion while naming each bass pitch.",
+            "Write the three string/fret sets, muting strings not being used."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.fretboard.f1.ex",
+              "title": "Explore: Play C-major inversions on neighboring strings",
+              "setup": "Use a guitar tuned E2 A2 D3 G3 B3 E4 and sound each string separately before combining notes.",
+              "steps": [
+                "Play strings 5/4/3 at 3/2/0, verifying C3/E3/G3.",
+                "Play strings 4/3/2 at 2/0/1, verifying E3/G3/C4.",
+                "Play strings 6/5/4 at 3/3/2, verifying G2/C3/E3.",
+                "Speak root, first or second inversion while naming each bass pitch.",
+                "Write the three string/fret sets, muting strings not being used."
+              ],
+              "self_check": "Can you independently confirm the bass note and other two chord tones for all three C-major inversions?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.aural.f1",
+          "application_id": "aural",
+          "level": "foundational",
+          "title": "Hear the bass change while the chord stays C",
+          "explanation": "The three notes C–E–G can be spread into different registers. Listen for the lowest sounding member when C major moves from a root-position voicing to an E-bass first inversion or G-bass second inversion. The overall chord quality can remain major even when its bass changes.",
+          "outcomes": [
+            "Hear the lowest tone in a triad",
+            "Distinguish bass movement from a root change",
+            "Name the selected inversion after listening"
+          ],
+          "steps": [
+            "Sound C3–E3–G3 and sing the lowest C3.",
+            "Sound E3–G3–C4 and isolate E3.",
+            "Sound G2–C3–E3 and isolate G2.",
+            "Randomize the three voicings and identify the bass pitch before naming inversion.",
+            "Compare them at similar volume so bass loudness does not become an accidental hint."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.aural.f1.ex",
+              "title": "Explore: Hear the bass change while the chord stays C",
+              "setup": "Use a keyboard or clearly recorded three-tone voicings with C3–E3–G3, E3–G3–C4, and G2–C3–E3.",
+              "steps": [
+                "Sound C3–E3–G3 and sing the lowest C3.",
+                "Sound E3–G3–C4 and isolate E3.",
+                "Sound G2–C3–E3 and isolate G2.",
+                "Randomize the three voicings and identify the bass pitch before naming inversion.",
+                "Compare them at similar volume so bass loudness does not become an accidental hint."
+              ],
+              "self_check": "Can you identify root, first and second inversion from the bass rather than the top melody note?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.arrangement.f1",
+          "application_id": "arrangement",
+          "level": "foundational",
+          "title": "Use inversions to connect C and F",
+          "explanation": "C major C4–E4–G4 can move to F major C4–F4–A4 while retaining the low C4. The second voicing contains F–A–C but has C as the lowest note, making it F major second inversion. Both chords can be arpeggiated as three separate pitches on one guitar.",
+          "outcomes": [
+            "Recognize F-major chord membership in an inverted voicing",
+            "Hold one common tone across two chords",
+            "Arrange two related sounding note sets"
+          ],
+          "steps": [
+            "Write C major as C4–E4–G4 and label root position.",
+            "Write F major as C4–F4–A4, naming F as chord root and C as bass.",
+            "Mark C4 as a common held pitch between the two.",
+            "Play both groups slowly, separately sounding the three notes.",
+            "Make the highest G4→A4 a deliberate melodic change and label F second inversion."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.arrangement.f1.ex",
+              "title": "Explore: Use inversions to connect C and F",
+              "setup": "Use the verified pitches C4/E4/G4 and C4/F4/A4 with a slow 4/4 pulse.",
+              "steps": [
+                "Write C major as C4–E4–G4 and label root position.",
+                "Write F major as C4–F4–A4, naming F as chord root and C as bass.",
+                "Mark C4 as a common held pitch between the two.",
+                "Play both groups slowly, separately sounding the three notes.",
+                "Make the highest G4→A4 a deliberate melodic change and label F second inversion."
+              ],
+              "self_check": "Can you correctly identify F as the second chord's root even though C4 remains its lowest sounding note?",
+              "suggested_minutes": 8,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.theory.i1",
+          "application_id": "theory",
+          "level": "intermediate",
+          "title": "Separate inversion from a new bass chord",
+          "explanation": "A slash symbol names harmony over a bass. C/E contains C-major chord tones C–E–G with E in the bass, so it is first inversion. C/G is second inversion. By contrast, C/D places a nontriad D in the bass; it is a slash chord or added-bass sonority, not an inversion of the C-major triad.",
+          "outcomes": [
+            "Translate common slash chords into inversion labels",
+            "Recognize bass notes outside the named triad",
+            "Explain why C/D is not a C-major inversion"
+          ],
+          "steps": [
+            "Spell the C-major triad C–E–G.",
+            "Place E in the bass and label C/E first inversion.",
+            "Place G in the bass and label C/G second inversion.",
+            "Write D below C/E/G and explain that D is not a member of C major.",
+            "Compare slash notation against bass-note-led inversion terminology."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.theory.i1.ex",
+              "title": "Explore: Separate inversion from a new bass chord",
+              "setup": "Write C/E, C/G and C/D as named chords with their respective bass notes.",
+              "steps": [
+                "Spell the C-major triad C–E–G.",
+                "Place E in the bass and label C/E first inversion.",
+                "Place G in the bass and label C/G second inversion.",
+                "Write D below C/E/G and explain that D is not a member of C major.",
+                "Compare slash notation against bass-note-led inversion terminology."
+              ],
+              "self_check": "Can you explain precisely why C/E and C/G are inversions, but C/D is not a triad inversion?",
+              "suggested_minutes": 7,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.fretboard.i1",
+          "application_id": "fretboard",
+          "level": "intermediate",
+          "title": "Compare C major across a single upper-string group",
+          "explanation": "On strings 3–2–1 in standard tuning (G3–B3–E4), C-major root position C4–E4–G4 is frets 5–5–3. First inversion E4–G4–C5 is frets 9–8–8. Second inversion G3–C4–E4 is frets 0–1–0. These are examples across octaves, not one mandatory rigid handshape.",
+          "outcomes": [
+            "Locate all three inversions on one adjacent string set",
+            "Verify each note against actual standard tuning",
+            "Name inversions from the lowest sounding tone"
+          ],
+          "steps": [
+            "Play frets 5–5–3 and name C4–E4–G4 as root position.",
+            "Play frets 9–8–8 and verify E4–G4–C5 as first inversion.",
+            "Play frets 0–1–0 and verify G3–C4–E4 as second inversion.",
+            "Compare the bass role of C4, E4 and G3 in those forms.",
+            "Write the forms as separate arpeggiated string/fret rows with open strings labeled clearly."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.fretboard.i1.ex",
+              "title": "Explore: Compare C major across a single upper-string group",
+              "setup": "Use only strings 3, 2 and 1 in standard tuning; move hand position freely.",
+              "steps": [
+                "Play frets 5–5–3 and name C4–E4–G4 as root position.",
+                "Play frets 9–8–8 and verify E4–G4–C5 as first inversion.",
+                "Play frets 0–1–0 and verify G3–C4–E4 as second inversion.",
+                "Compare the bass role of C4, E4 and G3 in those forms.",
+                "Write the forms as separate arpeggiated string/fret rows with open strings labeled clearly."
+              ],
+              "self_check": "Can you prove each inversion from its actual lowest sounding note without confusing the letter C in another octave?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.aural.i1",
+          "application_id": "aural",
+          "level": "intermediate",
+          "title": "Hear an inversion against a pedal bass",
+          "explanation": "An upper triad's inversion is determined by its own lowest sounding tone, but the inversion of the total harmony changes when an additional lower bass is sounded. C4–E4–G4 alone is root position. If E2 sounds underneath that same upper set, the entire C harmony has E as its bass and is first inversion.",
+          "outcomes": [
+            "Listen to a triad versus a triad with a lower pedal note",
+            "Re-evaluate the bass of the total sonority",
+            "Explain why inversion is a whole-texture description"
+          ],
+          "steps": [
+            "Sound only C4–E4–G4 and identify C4 as the lowest present tone.",
+            "Add a lower E2 while keeping those three upper pitches unchanged.",
+            "Identify E2 as the total sonority's lowest note and call the combined C harmony first inversion.",
+            "Replace the bass E2 with G2 and identify second inversion.",
+            "Mute the added bass and explain why the original upper-note inversion returns."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.aural.i1.ex",
+              "title": "Explore: Hear an inversion against a pedal bass",
+              "setup": "Use a keyboard, recorded tones, or a safely played guitar/drone; maintain clear E2 when added.",
+              "steps": [
+                "Sound only C4–E4–G4 and identify C4 as the lowest present tone.",
+                "Add a lower E2 while keeping those three upper pitches unchanged.",
+                "Identify E2 as the total sonority's lowest note and call the combined C harmony first inversion.",
+                "Replace the bass E2 with G2 and identify second inversion.",
+                "Mute the added bass and explain why the original upper-note inversion returns."
+              ],
+              "self_check": "Can you name the bass of the actual sounding texture, rather than of only the visible upper guitar shape?",
+              "suggested_minutes": 9,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.arrangement.i1",
+          "application_id": "arrangement",
+          "level": "intermediate",
+          "title": "Use inversions to keep a connected melody",
+          "explanation": "Four upper-string voicings over C–Am–F–G can support the top line G4–A4–A4–G4: C major [5,5,3] C4–E4–G4; Am [5,5,5] C4–E4–A4 (first inversion); F [5,6,5] C4–F4–A4 (second inversion); G [4,3,3] B3–D4–G4 (first inversion). The chord root and top note need not coincide.",
+          "outcomes": [
+            "Keep four actual triad identities accurate",
+            "Identify the inversion of every voicing",
+            "Treat top-voice movement as a separate arrangement decision"
+          ],
+          "steps": [
+            "Write C at frets 5–5–3, Am at 5–5–5, F at 5–6–5 and G at 4–3–3.",
+            "Name each group's actual notes and lowest sounding pitch.",
+            "Label C root, Am first, F second and G first inversion.",
+            "Play the four groups while emphasizing the upper note G4–A4–A4–G4.",
+            "Change one chord's octave/register without altering its triad membership, and recheck inversion."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.arrangement.i1.ex",
+              "title": "Explore: Use inversions to keep a connected melody",
+              "setup": "Use standard tuning strings 3/2/1 with note-by-note verification before sounding voicings together.",
+              "steps": [
+                "Write C at frets 5–5–3, Am at 5–5–5, F at 5–6–5 and G at 4–3–3.",
+                "Name each group's actual notes and lowest sounding pitch.",
+                "Label C root, Am first, F second and G first inversion.",
+                "Play the four groups while emphasizing the upper note G4–A4–A4–G4.",
+                "Change one chord's octave/register without altering its triad membership, and recheck inversion."
+              ],
+              "self_check": "Can you independently name the chord roots, bass notes, inversion labels and four highest pitches?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.theory.a1",
+          "application_id": "theory",
+          "level": "advanced",
+          "title": "Extend inversion counting to seventh chords",
+          "explanation": "A seventh chord contains root, third, fifth and seventh, yielding four basic bass positions. Cmaj7 spells C–E–G–B. Bass C is root position, E first inversion, G second inversion and B third inversion. B–C–E–G is therefore a Cmaj7 third-inversion ordering, even if a guitarist chooses to distribute those tones across several octaves.",
+          "outcomes": [
+            "Distinguish triad from seventh-chord inversion counts",
+            "Spell all four Cmaj7 chord tones",
+            "Name a seventh-chord third inversion by its seventh in the bass"
+          ],
+          "steps": [
+            "Spell Cmaj7 as C–E–G–B and label each chord tone.",
+            "Write a root-position C-bass example in ascending voices.",
+            "Write an E-bass and G-bass variant and label first and second inversion.",
+            "Place B3 below C4 E4 G4 and label the resulting third inversion.",
+            "Explain why a third-inversion *seventh chord* is different from a second-inversion *triad*."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.theory.a1.ex",
+              "title": "Explore: Extend inversion counting to seventh chords",
+              "setup": "Write Cmaj7 as C4 E4 G4 B4; treat any rearranged pitches as sounding notes with explicitly written octave numbers.",
+              "steps": [
+                "Spell Cmaj7 as C–E–G–B and label each chord tone.",
+                "Write a root-position C-bass example in ascending voices.",
+                "Write an E-bass and G-bass variant and label first and second inversion.",
+                "Place B3 below C4 E4 G4 and label the resulting third inversion.",
+                "Explain why a third-inversion *seventh chord* is different from a second-inversion *triad*."
+              ],
+              "self_check": "Can you identify third inversion specifically from the seventh chord tone in the bass, without assuming a sixth or other nonchord tone?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.fretboard.a1",
+          "application_id": "fretboard",
+          "level": "advanced",
+          "title": "Choose inversion from an independent bass line",
+          "explanation": "In one-guitar arrangements, a lower note can determine the inversion while upper chord tones remain fixed. Sound C4–E4–G4 on strings 3/2/1 at frets 5–5–3, then alternate a bass C3 (string 5 fret 3), E3 (string 4 fret 2), or G2 (string 6 fret 3). As long as the bass remains part of C–E–G, the complete texture is respectively root, first or second inversion.",
+          "outcomes": [
+            "Locate three verified low-register C-major chord tones",
+            "Identify the bass that controls total inversion",
+            "Arrange alternating bass and upper notes without an unverified stretch"
+          ],
+          "steps": [
+            "Play upper C4–E4–G4 in sequence and then bass C3 on string 5 fret 3.",
+            "Alternate E3 string 4 fret 2 beneath the same upper pitches, labeling first inversion.",
+            "Alternate G2 string 6 fret 3 beneath the same upper pitches, labeling second inversion.",
+            "Verify each bass pitch and match it to root, third or fifth of C major.",
+            "Use one bass event followed by the upper arpeggio in each bar while maintaining the same pulse."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.fretboard.a1.ex",
+              "title": "Explore: Choose inversion from an independent bass line",
+              "setup": "Use standard guitar tuning and arpeggiate upper tones plus separate bass notes; do not attempt to fret all specified pitches simultaneously.",
+              "steps": [
+                "Play upper C4–E4–G4 in sequence and then bass C3 on string 5 fret 3.",
+                "Alternate E3 string 4 fret 2 beneath the same upper pitches, labeling first inversion.",
+                "Alternate G2 string 6 fret 3 beneath the same upper pitches, labeling second inversion.",
+                "Verify each bass pitch and match it to root, third or fifth of C major.",
+                "Use one bass event followed by the upper arpeggio in each bar while maintaining the same pulse."
+              ],
+              "self_check": "Can you distinguish the upper shape's local C4 bottom from the complete texture's independently supplied bass note?",
+              "suggested_minutes": 11,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.aural.a1",
+          "application_id": "aural",
+          "level": "advanced",
+          "title": "Distinguish inversion changes from harmonic changes",
+          "explanation": "The progression C/E→F/A→G/B moves through three different chords, each with its third as bass: C major over E, F major over A and G major over B. Hearing only the bass line E3–A3–B3 does not reveal every chord's quality unless the upper chord tones are also present and recognizable.",
+          "outcomes": [
+            "Recognize bass notes as thirds of successive chords",
+            "Avoid confusing inversion change with root change",
+            "Separate bass-line contour from chord identity"
+          ],
+          "steps": [
+            "Spell C/E as E–G–C and name E as C's third.",
+            "Spell F/A as A–C–F and name A as F's third.",
+            "Spell G/B as B–D–G and name B as G's third.",
+            "Listen to E3–A3–B3 bass alone, then add the upper voices.",
+            "Identify each chord root with the accompaniment present rather than guessing from bass alone."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.aural.a1.ex",
+              "title": "Explore: Distinguish inversion changes from harmonic changes",
+              "setup": "Use recorded or carefully programmed voicings C/E, F/A and G/B with clearly separated chord tones.",
+              "steps": [
+                "Spell C/E as E–G–C and name E as C's third.",
+                "Spell F/A as A–C–F and name A as F's third.",
+                "Spell G/B as B–D–G and name B as G's third.",
+                "Listen to E3–A3–B3 bass alone, then add the upper voices.",
+                "Identify each chord root with the accompaniment present rather than guessing from bass alone."
+              ],
+              "self_check": "Can you name the three harmonic roots and their inversions without treating the bass pitches as chord roots?",
+              "suggested_minutes": 10,
+              "records_progress": false
+            }
+          ]
+        },
+        {
+          "id": "cin.arrangement.a1",
+          "application_id": "arrangement",
+          "level": "advanced",
+          "title": "Balance melody, bass and inversion choices",
+          "explanation": "A chord-melody arrangement must account for the total sounding bass and independent top notes. Over C–Am–F–G, use bass C3–A2–F2–G2 with top pitches G4–A4–A4–G4 and fill middle chord tones where reachable. These bass notes are chord roots, so the resulting complete harmonies are root position unless a different bass is actually sounded; intermediate upper shapes may themselves be inverted.",
+          "outcomes": [
+            "Track bass and highest pitch as separate voices",
+            "Avoid equating inverted upper voicings with overall inversion",
+            "Make an ergonomically plausible one-guitar arrangement"
+          ],
+          "steps": [
+            "Verify bass C3 string 5 fret 3, A2 string 5 open, F2 string 6 fret 1, and G2 string 6 fret 3.",
+            "Play highest notes G4–A4–A4–G4 using string 1 frets 3–5–5–3.",
+            "Write chord-tone middle notes for C, Am, F and G without inventing unsupported notes.",
+            "Perform bass then upper melody in each bar before attempting simultaneous grips.",
+            "For each bar, identify the actual lowest sounding note and decide whether the *total* chord is inverted."
+          ],
+          "visual_components": [],
+          "editorial_status": "DRAFT_REVIEW",
+          "exercises": [
+            {
+              "id": "cin.arrangement.a1.ex",
+              "title": "Explore: Balance melody, bass and inversion choices",
+              "setup": "Use standard tuning, and alternate bass and melodic notes on one guitar before adding inner voices.",
+              "steps": [
+                "Verify bass C3 string 5 fret 3, A2 string 5 open, F2 string 6 fret 1, and G2 string 6 fret 3.",
+                "Play highest notes G4–A4–A4–G4 using string 1 frets 3–5–5–3.",
+                "Write chord-tone middle notes for C, Am, F and G without inventing unsupported notes.",
+                "Perform bass then upper melody in each bar before attempting simultaneous grips.",
+                "For each bar, identify the actual lowest sounding note and decide whether the *total* chord is inverted."
+              ],
+              "self_check": "Can you preserve a clear melody while accurately identifying the overall inversion from the complete guitar sound, not just an upper voicing?",
+              "suggested_minutes": 12,
+              "records_progress": false
+            }
+          ]
+        }
+      ],
+      "reference_blocks": [
+        {
+          "id": "reference:chord-inversion-navigation-v1",
+          "kind": "CHORD_INVERSION_EXPLORER",
+          "location": "overview"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "triad_construction",
+          "scope": "harmony/foundational",
+          "why": "The chord must be correctly spelled before root, third or fifth can identify a triad inversion.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RECOMMENDED_FOUNDATION",
+          "kind": "SKILL",
+          "slug": "note_location",
+          "scope": "fretboard",
+          "why": "Actual string and fret pitch registers determine the lowest sounding chord tone on a guitar.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "RELATED",
+          "kind": "SKILL",
+          "slug": "voice_leading",
+          "scope": "harmony/arrangement",
+          "why": "Moving between inversions lets common tones and individual voice trajectories be followed between successive harmonies.",
+          "review_status": "PROPOSED"
+        },
+        {
+          "type": "DEVELOPS_TOWARD",
+          "kind": "SKILL",
+          "slug": "chord_melody_playing",
+          "scope": "arrangement",
+          "why": "Bass-aware chord voicings underpin one-guitar arrangement when a top voice carries an independent melody.",
+          "review_status": "PROPOSED"
+        }
+      ]
+    }
+  ],
+  "terms": []
+}

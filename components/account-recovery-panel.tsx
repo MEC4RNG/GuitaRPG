@@ -86,9 +86,9 @@ export function AccountRecoveryPanel({
     setError("");
     try {
       await sendReturningSignInLink(identityClient(), email, confirmationRedirect());
-      setMessage("If a linked GuitaRPG account exists for that email, check your inbox.");
+      setMessage("If a linked Sound Uncharted account exists for that email, check your inbox.");
     } catch {
-      setMessage("If a linked GuitaRPG account exists for that email, check your inbox.");
+      setMessage("If a linked Sound Uncharted account exists for that email, check your inbox.");
     } finally {
       setPending(false);
     }
@@ -128,7 +128,7 @@ export function AccountRecoveryPanel({
         <div>
           <p className="eyebrow">ACCOUNT ACCESS</p>
           <h2 id="account-access-title">Return to a protected Player</h2>
-          <p>Request a passwordless email link for an existing linked GuitaRPG account.</p>
+          <p>Request a passwordless email link for an existing linked Sound Uncharted account.</p>
         </div>
         <label className="account-recovery__field">
           <span>Linked email</span>
