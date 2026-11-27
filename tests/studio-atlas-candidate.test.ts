@@ -23,19 +23,34 @@ describe("Studio Atlas F1 design-system candidate", () => {
   it("keeps the accepted contract and preview gate distinct", () => {
     expect(current.design_system_version).toBe("UX_V1_1");
     expect(candidate.status).toBe("PREVIEW_ONLY");
-    expect(canAccessStudioAtlasPreview({ VERCEL_ENV: "production", STUDIO_ATLAS_PREVIEW_ENABLED: "true" })).toBe(false);
+    expect(
+      canAccessStudioAtlasPreview({
+        VERCEL_ENV: "production",
+        STUDIO_ATLAS_PREVIEW_ENABLED: "true",
+      }),
+    ).toBe(false);
     expect(canAccessStudioAtlasPreview({ NODE_ENV: "production" })).toBe(false);
     expect(canAccessStudioAtlasPreview({ VERCEL_ENV: "preview" })).toBe(true);
     expect(canAccessStudioAtlasPreview({ NODE_ENV: "development" })).toBe(true);
-    expect(canAccessStudioAtlasPreview({ NODE_ENV: "production", STUDIO_ATLAS_PREVIEW_ENABLED: "true" })).toBe(true);
+    expect(
+      canAccessStudioAtlasPreview({ NODE_ENV: "production", STUDIO_ATLAS_PREVIEW_ENABLED: "true" }),
+    ).toBe(true);
   });
 
   it("keeps all text, semantic and functional control contrast pairs readable", () => {
     const c = candidate.colors;
     for (const surface of [c.canvas, c.panel, c.raised]) {
       for (const text of [
-        c.text, c.muted, c.brand, c.discovery, c.information, c.success,
-        c.warning, c.danger, c.estimated, c.unknown,
+        c.text,
+        c.muted,
+        c.brand,
+        c.discovery,
+        c.information,
+        c.success,
+        c.warning,
+        c.danger,
+        c.estimated,
+        c.unknown,
       ]) {
         expect(contrast(text, surface)).toBeGreaterThanOrEqual(4.5);
       }
