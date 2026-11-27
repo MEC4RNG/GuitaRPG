@@ -96,3 +96,58 @@
   min-height: 44px;
   font-weight: 700;
 }
+
+/* Nested editors use the canvas width, not the standalone viewport width.
+   Allow grid tracks and flex children to shrink without clipping notation. */
+.journey-shell--atlas,
+.journey-shell--atlas .journey-canvas,
+.journey-shell--atlas .craft-workspace,
+.journey-shell--atlas .explore-editor,
+.journey-shell--atlas .workbook-prototype {
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
+}
+.journey-shell--atlas .craft-workspace .workbook-prototype,
+.journey-shell--atlas .explore-editor .workbook-prototype {
+  width: 100%;
+  max-width: 100%;
+}
+.journey-shell--atlas .craft-workspace__header > *,
+.journey-shell--atlas .craft-workspace__actions,
+.journey-shell--atlas .workbook-header > *,
+.journey-shell--atlas .workbook-pages__heading {
+  min-width: 0;
+  max-width: 100%;
+}
+.journey-shell--atlas .craft-workspace__header {
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+}
+.journey-shell--atlas .workbook-prosemirror {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 57.99rem) {
+  .journey-shell--atlas .journey-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 30rem) {
+  .journey-shell--atlas .workbook-pages {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .journey-shell--atlas .workbook-page-strip {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .journey-shell--atlas .workbook-page-actions {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .journey-shell--atlas .craft-workspace__actions > *,
+  .journey-shell--atlas .workbook-toolbar button {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
