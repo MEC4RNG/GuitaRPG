@@ -29,18 +29,14 @@ const domainPaths: Record<AtlasDomain, ReactNode> = {
   ear_musicianship: (
     <path d="M7 10a5 5 0 0 1 10 0c0 4-4 5-4 8a2 2 0 0 1-4 0v-2M9 10a3 3 0 0 1 6 0c0 2-2 2-3 4" />
   ),
-  creativity_expression: <path d="M4 17c5-1 6-10 10-10 3 0 3 5 6 5M4 20c5 0 8-3 10-6M16 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" />,
+  creativity_expression: (
+    <path d="M4 17c5-1 6-10 10-10 3 0 3 5 6 5M4 20c5 0 8-3 10-6M16 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" />
+  ),
 };
 
 export function AtlasCompass({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={className}
-    >
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false" className={className}>
       <circle cx="24" cy="24" r="19" stroke="currentColor" strokeWidth="1.2" />
       <circle cx="24" cy="24" r="14" stroke="currentColor" strokeOpacity=".45" />
       <path d="M24 2v8M24 38v8M2 24h8M38 24h8" stroke="currentColor" strokeWidth="1.5" />
@@ -88,7 +84,9 @@ export function AtlasButton({
 }: ComponentPropsWithRef<"button"> & {
   variant?: "primary" | "secondary" | "quiet";
 }) {
-  return <button {...props} type={type} className={`sa-button sa-button--${variant} ${className}`} />;
+  return (
+    <button {...props} type={type} className={`sa-button sa-button--${variant} ${className}`} />
+  );
 }
 
 export function AtlasPanel({
@@ -111,7 +109,8 @@ export function AtlasPanel({
   );
 }
 
-export type AtlasStatusKind = "success" | "warning" | "danger" | "information" | "estimated" | "unknown";
+export type AtlasStatusKind =
+  "success" | "warning" | "danger" | "information" | "estimated" | "unknown";
 
 const cues: Record<AtlasStatusKind, string> = {
   success: "✓",
