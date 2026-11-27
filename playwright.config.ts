@@ -96,7 +96,7 @@ export default defineConfig({
         command: `npm run start -- -p ${port}`,
         // The built Next.js app runs in production mode during E2E. Only this
         // isolated local server gets the draft-preview opt-in.
-        env: { CODEX_V2_PREVIEW_ENABLED: "true" },
+        env: { CODEX_V2_PREVIEW_ENABLED: "true", STUDIO_ATLAS_PREVIEW_ENABLED: "true" },
         url: baseURL,
         reuseExistingServer: !process.env.CI,
       },
