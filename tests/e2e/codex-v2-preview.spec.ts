@@ -1284,7 +1284,10 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   await expect(intermediate).toBeFocused();
   await expect(intermediate).toHaveAttribute("aria-selected", "true");
   await intermediate.press("End");
-  await expect(page.getByRole("tab", { name: "Advanced", exact: true })).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tab", { name: "Advanced", exact: true })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
   await page.getByRole("tab", { name: "Advanced", exact: true }).press("Home");
   await expect(beginner).toBeFocused();
   await expect(beginner).toHaveAttribute("aria-selected", "true");
@@ -1313,5 +1316,7 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
     await expectNoHorizontalOverflow(page);
   }
   await expectAccessible(page, "F3E narrow Craft editor");
-  await expect(page.getByText("No Sessions yet. This is activity history, not a measure of ability.")).toBeVisible();
+  await expect(
+    page.getByText("No Sessions yet. This is activity history, not a measure of ability."),
+  ).toBeVisible();
 });

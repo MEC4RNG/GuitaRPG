@@ -761,12 +761,21 @@ export function QuestJourneySurface({
 
       {atlas ? (
         <div className="atlas-workspace-jumps" aria-label="Quest workspace shortcuts">
-          <a href="#atlas-quest-canvas" className="text-link">Go to current workspace</a>
-          <a href="#atlas-quest-inspector" className="text-link">Go to Quest toolkit</a>
+          <a href="#atlas-quest-canvas" className="text-link">
+            Go to current workspace
+          </a>
+          <a href="#atlas-quest-inspector" className="text-link">
+            Go to Quest toolkit
+          </a>
         </div>
       ) : null}
       <div className="journey-layout">
-        <section id={atlas ? "atlas-quest-canvas" : undefined} tabIndex={atlas ? -1 : undefined} className="panel journey-canvas" aria-label="Quest workspace">
+        <section
+          id={atlas ? "atlas-quest-canvas" : undefined}
+          tabIndex={atlas ? -1 : undefined}
+          className="panel journey-canvas"
+          aria-label="Quest workspace"
+        >
           {journey.currentStage === "MAP" ? (
             selectedTopic ? (
               <section className="map-topic" aria-labelledby="map-topic-title">
@@ -845,7 +854,16 @@ export function QuestJourneySurface({
                         onKeyDown={(event) => {
                           if (!atlas || pending || editorPending || archived) return;
                           const index = learningLevels.findIndex((level) => level.id === item.id);
-                          const next = event.key === "ArrowRight" ? (index + 1) % learningLevels.length : event.key === "ArrowLeft" ? (index + learningLevels.length - 1) % learningLevels.length : event.key === "Home" ? 0 : event.key === "End" ? learningLevels.length - 1 : -1;
+                          const next =
+                            event.key === "ArrowRight"
+                              ? (index + 1) % learningLevels.length
+                              : event.key === "ArrowLeft"
+                                ? (index + learningLevels.length - 1) % learningLevels.length
+                                : event.key === "Home"
+                                  ? 0
+                                  : event.key === "End"
+                                    ? learningLevels.length - 1
+                                    : -1;
                           if (next < 0) return;
                           event.preventDefault();
                           const level = learningLevels[next]!;
@@ -1383,7 +1401,12 @@ export function QuestJourneySurface({
           ) : null}
         </section>
 
-        <aside id={atlas ? "atlas-quest-inspector" : undefined} tabIndex={atlas ? -1 : undefined} className="panel journey-practice" aria-labelledby="journey-practice-title">
+        <aside
+          id={atlas ? "atlas-quest-inspector" : undefined}
+          tabIndex={atlas ? -1 : undefined}
+          className="panel journey-practice"
+          aria-labelledby="journey-practice-title"
+        >
           <p className="eyebrow">
             {journey.currentStage === "CRAFT"
               ? "QUEST TOOLKIT"
@@ -1529,7 +1552,11 @@ export function QuestJourneySurface({
               <p>Start Practice from the shared Quest header.</p>
             </div>
           ) : null}
-          {atlas ? <a className="text-link atlas-inspector-return" href="#atlas-quest-canvas">Return to workspace ↑</a> : null}
+          {atlas ? (
+            <a className="text-link atlas-inspector-return" href="#atlas-quest-canvas">
+              Return to workspace ↑
+            </a>
+          ) : null}
         </aside>
       </div>
 
