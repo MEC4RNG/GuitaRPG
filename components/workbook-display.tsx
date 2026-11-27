@@ -78,13 +78,15 @@ function DisplayChord({ block }: { block: Extract<WorkbookBlockV1, { type: "chor
       ),
     )
     .join("; ");
-  const outside = block.strings.some(
-    (string) =>
-      string.state === "FRETTED" &&
-      (string.fret! < block.fret_window_start || string.fret! > block.fret_window_start + 4),
-  ) || block.barres.some(
-    (barre) => barre.fret < block.fret_window_start || barre.fret > block.fret_window_start + 4,
-  );
+  const outside =
+    block.strings.some(
+      (string) =>
+        string.state === "FRETTED" &&
+        (string.fret! < block.fret_window_start || string.fret! > block.fret_window_start + 4),
+    ) ||
+    block.barres.some(
+      (barre) => barre.fret < block.fret_window_start || barre.fret > block.fret_window_start + 4,
+    );
   return (
     <figure className="workbook-display-chord">
       <figcaption>
@@ -106,7 +108,9 @@ function DisplayChord({ block }: { block: Extract<WorkbookBlockV1, { type: "chor
             <span key={string.string_number}>{string.open_pitch}</span>
           ))}
         </div>
-        <small>Frets {block.fret_window_start}–{block.fret_window_start + 4}</small>
+        <small>
+          Frets {block.fret_window_start}–{block.fret_window_start + 4}
+        </small>
       </div>
       {outside ? <p>Some notes lie outside the diagram: {description}.</p> : null}
     </figure>
@@ -120,22 +124,42 @@ export function WorkbookDisplay({ document }: { document: WorkbookDocumentV1 }) 
       {document.blocks.map((block) => {
         switch (block.type) {
           case "paragraph":
-            return <p key={block.id}><InlineRuns runs={block.content} /></p>;
+            return (
+              <p key={block.id}>
+                <InlineRuns runs={block.content} />
+              </p>
+            );
           case "heading": {
             const Heading = block.level === 1 ? "h2" : block.level === 3 ? "h4" : "h3";
-            return <Heading key={block.id}><InlineRuns runs={block.content} /></Heading>;
+            return (
+              <Heading key={block.id}>
+                <InlineRuns runs={block.content} />
+              </Heading>
+            );
           }
           case "bullet_list":
           case "ordered_list": {
             const List = block.type === "bullet_list" ? "ul" : "ol";
-            return <List key={block.id}>{block.items.map((runs, index) => <li key={index}><InlineRuns runs={runs} /></li>)}</List>;
+            return (
+              <List key={block.id}>
+                {block.items.map((runs, index) => (
+                  <li key={index}>
+                    <InlineRuns runs={runs} />
+                  </li>
+                ))}
+              </List>
+            );
           }
           case "guitar_tab":
             return <DisplayTab key={block.id} block={block} />;
           case "chord_diagram":
             return <DisplayChord key={block.id} block={block} />;
           case "unsupported":
-            return <p key={block.id} role="note">This block requires a newer editor. Its original data is preserved.</p>;
+            return (
+              <p key={block.id} role="note">
+                This block requires a newer editor. Its original data is preserved.
+              </p>
+            );
         }
       })}
     </article>
