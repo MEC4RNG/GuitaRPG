@@ -359,7 +359,9 @@ function GuitarTabView({
                               setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
                               setPendingRemoval(null);
                               setFretError("");
-                              if (focusEvent.currentTarget.value) focusEvent.currentTarget.select();
+                              if (focusEvent.currentTarget.value) {
+                                focusEvent.currentTarget.select();
+                              }
                             }}
                             onChange={(changeEvent) => {
                               const value = changeEvent.target.value.trim().toLowerCase();
