@@ -1,4 +1,4 @@
-/* Studio Atlas candidate tokens. Scoped to F1 preview until approved. */
+/* Studio Atlas candidate tokens. Scoped to Studio Atlas previews until approved. */
 .studio-atlas,
 .app-shell--atlas {
   --sa-canvas: #101518;
@@ -36,7 +36,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .studio-atlas {
+  .studio-atlas,
+  .app-shell--atlas {
     --sa-motion: 0ms;
   }
 }
