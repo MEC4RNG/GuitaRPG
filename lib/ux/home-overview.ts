@@ -9,7 +9,11 @@ import {
   type TrainingCandidateReadClient,
 } from "@/lib/training/repository";
 import { trainingPresentationV1 } from "@/lib/training/presentation-v1";
-import { readProfileSnapshot, type ProfileClient, type ProfileSnapshot } from "@/lib/profile/repository";
+import {
+  readProfileSnapshot,
+  type ProfileClient,
+  type ProfileSnapshot,
+} from "@/lib/profile/repository";
 import { CODEX_ENTRIES, type CodexEntry } from "@/lib/codex/catalog-v1";
 
 type Client = ReturnType<typeof createBrowserSupabaseClient>;
@@ -27,8 +31,11 @@ type RecentQuest = { id: string; title: string; skill: string; stage: string; st
 type HomeCodexEntry = Pick<CodexEntry, "name" | "definition" | "href" | "kind">;
 
 export function pickHomeCodexEntry(random = Math.random()): HomeCodexEntry {
-  const entries = CODEX_ENTRIES.filter((entry) => entry.kind === "SKILL" || entry.kind === "CONCEPT");
-  const entry = entries[Math.min(entries.length - 1, Math.max(0, Math.floor(random * entries.length)))]!;
+  const entries = CODEX_ENTRIES.filter(
+    (entry) => entry.kind === "SKILL" || entry.kind === "CONCEPT",
+  );
+  const entry =
+    entries[Math.min(entries.length - 1, Math.max(0, Math.floor(random * entries.length)))]!;
   return { name: entry.name, definition: entry.definition, href: entry.href, kind: entry.kind };
 }
 
@@ -168,9 +175,17 @@ async function readRecentHomeQuests(client: Client, owner: string): Promise<Rece
   if (result.error) throw new Error("Recent Quests unavailable");
   const rows = result.data ?? [];
   if (!rows.length) return [];
-  const snapshots = await client.from("quests").select("id,resolved_snapshot").in("id", rows.map((row) => row.quest_id));
+  const snapshots = await client
+    .from("quests")
+    .select("id,resolved_snapshot")
+    .in(
+      "id",
+      rows.map((row) => row.quest_id),
+    );
   if (snapshots.error) throw new Error("Quest snapshots unavailable");
-  const byId = new Map((snapshots.data ?? []).map((row) => [row.id, parseQuest(row.resolved_snapshot)]));
+  const byId = new Map(
+    (snapshots.data ?? []).map((row) => [row.id, parseQuest(row.resolved_snapshot)]),
+  );
   return rows.map((row) => {
     const quest = byId.get(row.quest_id);
     if (!quest || !(row.current_stage in journeyStageContent)) throw new Error("Quest unavailable");
@@ -179,7 +194,12 @@ async function readRecentHomeQuests(client: Client, owner: string): Promise<Rece
       title: quest.identity.title,
       skill: quest.execution.primary_skill.name,
       stage: journeyStageContent[row.current_stage as QuestJourneyStage].label,
-      status: row.lifecycle_status === "ACTIVE" ? "In progress" : row.lifecycle_status === "SAVED" ? "Saved" : "Concluded",
+      status:
+        row.lifecycle_status === "ACTIVE"
+          ? "In progress"
+          : row.lifecycle_status === "SAVED"
+            ? "Saved"
+            : "Concluded",
     };
   });
 }

@@ -107,7 +107,11 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
         <div>
           <p className="eyebrow">PLAY · GENERATE</p>
           <h1 id="generate-title">{daily ? "Boredom Buster" : "Build the next quest."}</h1>
-          <p>{daily ? "A daily seeded one-Skill Quick Quest. Generate the daily challenge when ready. An existing draft stays available unless you confirm replacement." : "One useful practice plan, generated from the canonical Quest system."}</p>
+          <p>
+            {daily
+              ? "A daily seeded one-Skill Quick Quest. Generate the daily challenge when ready. An existing draft stays available unless you confirm replacement."
+              : "One useful practice plan, generated from the canonical Quest system."}
+          </p>
         </div>
         <button
           className="action-button"

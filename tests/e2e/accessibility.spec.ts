@@ -189,8 +189,14 @@ test("F2 dashboard uses real guest data and prioritizes an open Session", async 
   await expect(home.getByRole("heading", { name: "Recent Workbooks" })).toBeVisible();
   await expect(home.getByRole("heading", { name: "Recent Quests" })).toBeVisible();
   await expect(home.getByRole("heading", { name: "Boredom Buster" })).toBeVisible();
-  await expect(home.getByRole("link", { name: "Explore today\'s challenge" })).toHaveAttribute("href", "/generate?daily=1");
-  await expect(home.getByRole("link", { name: "Read Codex entry" })).toHaveAttribute("href", /^\/codex\/(skills|concepts)\//);
+  await expect(home.getByRole("link", { name: "Explore today\'s challenge" })).toHaveAttribute(
+    "href",
+    "/generate?daily=1",
+  );
+  await expect(home.getByRole("link", { name: "Read Codex entry" })).toHaveAttribute(
+    "href",
+    /^\/codex\/(skills|concepts)\//,
+  );
   await expect(home.getByRole("heading", { name: "Practice setup" })).toBeVisible();
   await expect(home.getByRole("heading", { name: "Learning path" })).toBeVisible();
   await expect(home.locator(".sa-visitor-feature")).toHaveCount(0);
@@ -213,7 +219,9 @@ test("F2 dashboard uses real guest data and prioritizes an open Session", async 
   await expect(page).toHaveURL(new RegExp(`/session/${sessionId}$`));
 });
 
-test("F2-R1 daily challenge uses explicit generation and preserves an existing draft", async ({ page }) => {
+test("F2-R1 daily challenge uses explicit generation and preserves an existing draft", async ({
+  page,
+}) => {
   test.setTimeout(60_000);
   await completeGuestOnboarding(page);
   await page.goto("/generate?daily=1");
