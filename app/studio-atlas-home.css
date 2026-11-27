@@ -52,12 +52,63 @@
 .sa-home-notebook-art svg {
   width: 3rem;
 }
-.sa-home-links {
+.sa-home-module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.sa-visitor-feature .sa-domain-icon {
+  width: 3rem;
+}
+.sa-visitor-cta {
+  margin-top: 1.25rem;
+}
+.sa-home-quest-card {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  min-height: 44px;
+}
+.sa-home-quest-card span:not(.sa-home-notebook-art),
+.sa-home-quest-card small {
+  color: var(--sa-muted);
+}
+.sa-home-quest-card:hover strong {
+  text-decoration: underline;
+}
+.sa-boredom-buster {
+  border-color: var(--sa-brand);
+  background: linear-gradient(90deg, var(--sa-panel), var(--sa-raised));
+}
+.sa-home-details {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+}
+.sa-home-details div {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   gap: 0.5rem;
 }
+.sa-home-details dt {
+  color: var(--sa-muted);
+}
+.sa-home-details dd {
+  margin: 0;
+  text-transform: capitalize;
+}
+.sa-home-goals {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+  overflow-wrap: anywhere;
+}
 @media (max-width: 48rem) {
+  .sa-home-module-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .sa-home-guest {
     grid-template-columns: minmax(0, 1fr);
   }

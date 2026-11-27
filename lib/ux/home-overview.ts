@@ -9,6 +9,8 @@ import {
   type TrainingCandidateReadClient,
 } from "@/lib/training/repository";
 import { trainingPresentationV1 } from "@/lib/training/presentation-v1";
+import { readProfileSnapshot, type ProfileClient, type ProfileSnapshot } from "@/lib/profile/repository";
+import { CODEX_ENTRIES, type CodexEntry } from "@/lib/codex/catalog-v1";
 
 type Client = ReturnType<typeof createBrowserSupabaseClient>;
 type Identity = { id: string; is_anonymous?: boolean };
@@ -21,6 +23,14 @@ type NextAction = {
 };
 type WorkbookSummary = { id: string; title: string; kind: string };
 type TrainingSummary = ReturnType<typeof trainingPresentationV1>;
+type RecentQuest = { id: string; title: string; skill: string; stage: string; status: string };
+type HomeCodexEntry = Pick<CodexEntry, "name" | "definition" | "href" | "kind">;
+
+export function pickHomeCodexEntry(random = Math.random()): HomeCodexEntry {
+  const entries = CODEX_ENTRIES.filter((entry) => entry.kind === "SKILL" || entry.kind === "CONCEPT");
+  const entry = entries[Math.min(entries.length - 1, Math.max(0, Math.floor(random * entries.length)))]!;
+  return { name: entry.name, definition: entry.definition, href: entry.href, kind: entry.kind };
+}
 
 export type HomeOverview =
   | { kind: "visitor" }
@@ -33,6 +43,9 @@ export type HomeOverview =
       training: TrainingSummary | null;
       progress: CharacterProgressionView | null;
       workbooks: WorkbookSummary[] | null;
+      recentQuests: RecentQuest[] | null;
+      preferences: ProfileSnapshot | null;
+      codex: HomeCodexEntry;
     };
 
 export function chooseHomeAction(
@@ -143,6 +156,34 @@ async function readWorkbookMetadata(client: Client, owner: string): Promise<Work
   return response.data ?? [];
 }
 
+async function readRecentHomeQuests(client: Client, owner: string): Promise<RecentQuest[]> {
+  const result = await client
+    .from("player_quest_journeys")
+    .select("quest_id,current_stage,lifecycle_status")
+    .eq("player_id", owner)
+    .in("lifecycle_status", ["ACTIVE", "SAVED", "CONCLUDED"])
+    .order("last_worked_at", { ascending: false })
+    .order("quest_id", { ascending: false })
+    .limit(3);
+  if (result.error) throw new Error("Recent Quests unavailable");
+  const rows = result.data ?? [];
+  if (!rows.length) return [];
+  const snapshots = await client.from("quests").select("id,resolved_snapshot").in("id", rows.map((row) => row.quest_id));
+  if (snapshots.error) throw new Error("Quest snapshots unavailable");
+  const byId = new Map((snapshots.data ?? []).map((row) => [row.id, parseQuest(row.resolved_snapshot)]));
+  return rows.map((row) => {
+    const quest = byId.get(row.quest_id);
+    if (!quest || !(row.current_stage in journeyStageContent)) throw new Error("Quest unavailable");
+    return {
+      id: row.quest_id,
+      title: quest.identity.title,
+      skill: quest.execution.primary_skill.name,
+      stage: journeyStageContent[row.current_stage as QuestJourneyStage].label,
+      status: row.lifecycle_status === "ACTIVE" ? "In progress" : row.lifecycle_status === "SAVED" ? "Saved" : "Concluded",
+    };
+  });
+}
+
 function valueOrNull<T>(result: PromiseSettledResult<T>): T | null {
   return result.status === "fulfilled" ? result.value : null;
 }
@@ -159,7 +200,7 @@ export async function readHomeOverview(client: Client): Promise<HomeOverview> {
   if (profile.error) throw new Error("Player profile unavailable");
   if (!profile.data || profile.data.onboarding_status !== "COMPLETE") return { kind: "setup" };
   const action = await readAction(client, identity.id);
-  const [training, progress, workbooks] = await Promise.allSettled([
+  const [training, progress, workbooks, recentQuests, preferences] = await Promise.allSettled([
     readRankedRecommendationsV1(
       client as unknown as TrainingCandidateReadClient,
       new Date().toISOString(),
@@ -167,6 +208,8 @@ export async function readHomeOverview(client: Client): Promise<HomeOverview> {
     ).then(trainingPresentationV1),
     readCharacterProgression(client as unknown as ProgressionReadClient),
     readWorkbookMetadata(client, identity.id),
+    readRecentHomeQuests(client, identity.id),
+    readProfileSnapshot(client as unknown as ProfileClient),
   ]);
   if ((await verifiedIdentity(client))?.id !== identity.id) throw new Error("Player changed");
   return {
@@ -177,5 +220,8 @@ export async function readHomeOverview(client: Client): Promise<HomeOverview> {
     training: valueOrNull(training),
     progress: valueOrNull(progress),
     workbooks: valueOrNull(workbooks),
+    recentQuests: valueOrNull(recentQuests),
+    preferences: valueOrNull(preferences),
+    codex: pickHomeCodexEntry(),
   };
 }

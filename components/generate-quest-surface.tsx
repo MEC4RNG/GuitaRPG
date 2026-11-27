@@ -14,7 +14,7 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type GenerateClient = JourneyRpcClient;
 
-export function GenerateQuestSurface() {
+export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
   const router = useRouter();
   const [identityReady, setIdentityReady] = useState(false);
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
@@ -62,7 +62,7 @@ export function GenerateQuestSurface() {
         return;
       }
       setOwnerId(resolvedOwnerId);
-      const next = generateQuickQuest();
+      const next = generateQuickQuest(daily ? { seed: `boredom-buster-v1:${new Date().toISOString().slice(0, 10)}` } : {});
       setGenerated(next);
       setDurableQuestId(null);
       saveQuestDraft(window.sessionStorage, resolvedOwnerId, next.quest);
@@ -105,8 +105,8 @@ export function GenerateQuestSurface() {
       <header className="page-header">
         <div>
           <p className="eyebrow">PLAY · GENERATE</p>
-          <h1 id="generate-title">Build the next quest.</h1>
-          <p>One useful practice plan, generated from the canonical Quest system.</p>
+          <h1 id="generate-title">{daily ? "Boredom Buster" : "Build the next quest."}</h1>
+          <p>{daily ? "A daily seeded one-Skill Quick Quest. Select Generate Quest to reveal it; your existing draft is preserved unless you confirm replacement." : "One useful practice plan, generated from the canonical Quest system."}</p>
         </div>
         <button
           className="action-button"
