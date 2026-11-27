@@ -124,5 +124,9 @@ test("Studio Atlas preview has readable responsive components and keyboard dialo
     await expectAccessible(page, "Studio Atlas dark reading surface");
   }
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".studio-atlas")).toHaveCSS("--sa-motion", "0ms");
+  await expect(page.locator(".studio-atlas")).toHaveCSS("--sa-motion", /^0(?:ms|s)$/);
+  await expect(page.getByRole("button", { name: "Preview contextual panel" })).toHaveCSS(
+    "transition-duration",
+    /^0s(?:, 0s)*$/,
+  );
 });
