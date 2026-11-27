@@ -1,0 +1,17 @@
+# DESIGN-001-E — Interactive Studio Atlas prototype
+
+Revision 0.1 — first navigable concept, awaiting user review. Not a production build or accepted implementation contract.
+
+## Visual baseline
+User-selected Sound Uncharted dashboard reference (D1-R1), D2–D8 design studies and C-R1/B experience and learning constraints. The mockups establish a broad direction, not final approval of individual screens. Some generated images repeated onboarding or showed merchandise rather than useful recovery screens; those are excluded as UX requirements. Sound Uncharted is the product name; Studio Atlas is the design language. Preserve distinct proficiency, uncertainty, practice XP and readiness, with no assumed mastery percentages or hard learning locks. Future cosmetics do not confer progression advantages.
+
+## Prototype artifact
+Self-contained downloadable HTML `sound-uncharted-design-001-e.html` provided in the conversation (not hosted or stored in GitHub). Extends the C wireframe with actual HTML/CSS controls and artwork-only crops of the selected visual reference. Uses no external dependencies or account/database connection. Sample state lives in memory and resets on reload. One sample page only; saving another replaces that sample, with disclosure. Reference crops are temporary design material, not final licensed or production assets.
+
+Navigable: returning, visitor, new, guest, composition-focused and active-session Home states; global navigation and collapse; Quest library, representative quick reveal and builder; Map / Explore / Craft with explicit mock save and one shared page, reference inspector and edit/display; six-domain atlas and representative local Skill detail; Training configuration and example analytics; Codex and tool index; Workbook cover library; independent Composer Studio and future Creator Export dialog; quick capture, search, mock recovery, practice timer and reflection/history. Some screen details, state handling, keyboard navigation, empty and recovery flows still need refinement. Other domains, full notation editing, tool playback, audio analysis, retention schedules, actual export, avatar customization/marketplace and persistent multi-document behavior are not implemented. No promise of production fidelity or comprehensive accessibility testing.
+
+## Verification
+Local Chromium tests via injected standalone HTML (file:// navigation blocked by runtime policy): core flow desktop 1440x900 and mobile 390x844 passed; selected alternate flows at 1440x900, 820x1180 and 390x844 passed. Tested sample Quest -> Explore -> save -> open/edit/display -> Craft -> practice preparation/timer/pause/finish -> mock reflection -> Skill Map/Codex -> Studio/export preview; guest/composer state, project rename, quick capture, local draft preservation on mock conflict, search, active-session resume. No page errors or whole-page horizontal overflow at tested checkpoints. No claim of complete coverage or real persistence; no real user/device evaluation yet.
+
+## Next
+Review the navigable experience before closing E. Improve hierarchy and navigation using user feedback; decide final shared component/token/asset requirements and future-feature labels. Then F maps approved design into existing application with separately authorized slices and regression gates. Existing production, PR #27/#29 and experimental contextual Peek branches untouched. Previous CI issues remain outside this prototype.
