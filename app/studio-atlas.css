@@ -368,6 +368,10 @@
 .sa-reading--paper .sa-eyebrow {
   color: var(--sa-paper-accent);
 }
+/* Switch foreground and background atomically across reading themes. */
+.sa-reading-toggle {
+  transition: none;
+}
 .sa-reading--paper .sa-reading-toggle {
   background: var(--sa-paper);
   color: var(--sa-paper-text);
