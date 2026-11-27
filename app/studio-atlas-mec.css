@@ -333,3 +333,131 @@
   border-left: 2px solid var(--surface-accent);
   padding-left: 0.75rem;
 }
+
+/* F3E: respond to the available workspace, not just the device viewport.
+   An expanded desktop rail can leave a tablet-sized canvas. */
+.journey-shell--atlas {
+  container: atlas-journey / inline-size;
+  overflow-wrap: anywhere;
+}
+.journey-shell--atlas .journey-layout {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+.journey-shell--atlas .journey-practice {
+  position: static;
+  min-width: 0;
+}
+.journey-shell--atlas .journey-section-heading,
+.journey-shell--atlas .journey-header__actions {
+  flex-wrap: wrap;
+}
+.journey-shell--atlas .journey-section-heading > *,
+.journey-shell--atlas .journey-header__topics button,
+.journey-shell--atlas .journey-header__actions > *,
+.journey-shell--atlas .map-topic__level-actions > *,
+.journey-shell--atlas .craft-workspace__actions > *,
+.journey-shell--atlas .atlas-lesson-save > *,
+.journey-shell--atlas .explore-module__reorder {
+  min-width: 0;
+  max-width: 100%;
+}
+.journey-shell--atlas .action-button {
+  white-space: normal;
+  height: auto;
+  min-height: 44px;
+  padding-block: 0.5rem;
+  text-align: center;
+}
+.journey-shell--atlas .atlas-craft-editor {
+  min-width: 0;
+  max-width: 100%;
+}
+.journey-shell--atlas .journey-detail-list {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+}
+.atlas-workspace-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+.atlas-workspace-jumps a,
+.atlas-inspector-return {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--surface-accent);
+}
+#atlas-quest-canvas,
+#atlas-quest-inspector {
+  scroll-margin-block-start: calc(var(--topbar-height) + 1rem);
+  scroll-margin-block-end: 6rem;
+}
+#atlas-quest-canvas:focus-visible,
+#atlas-quest-inspector:focus-visible {
+  outline: 2px solid #8fb6e4;
+  outline-offset: 3px;
+}
+@container atlas-journey (min-width: 56rem) {
+  .journey-shell--atlas .journey-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.32fr);
+  }
+  .journey-shell--atlas .journey-practice {
+    position: sticky;
+    top: calc(var(--topbar-height) + var(--space-4));
+    max-height: calc(100dvh - var(--topbar-height) - 2rem);
+    overflow-y: auto;
+    overscroll-behavior-block: contain;
+  }
+}
+@container atlas-journey (max-width: 42rem) {
+  .journey-shell--atlas .explore-module__heading {
+    flex-wrap: wrap;
+  }
+  .journey-shell--atlas .explore-module__disclosure {
+    flex-basis: 100%;
+  }
+  .journey-shell--atlas .explore-module__reorder {
+    width: 100%;
+    padding: 0 0.7rem 0.7rem;
+  }
+  .journey-shell--atlas .workbook-pages {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .journey-shell--atlas .workbook-pages__heading {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .journey-shell--atlas .workbook-new-page {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .journey-shell--atlas .workbook-page-strip {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .journey-shell--atlas .workbook-page-actions {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .journey-shell--atlas .craft-workspace__header {
+    flex-direction: column;
+  }
+  .journey-shell--atlas .atlas-activity-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container atlas-journey (max-width: 24rem) {
+  .journey-shell--atlas .journey-canvas,
+  .journey-shell--atlas .journey-practice {
+    padding: 0.75rem;
+  }
+  .journey-shell--atlas .map-topic__level-content,
+  .journey-shell--atlas .atlas-activity-picker,
+  .journey-shell--atlas .atlas-free-activity,
+  .journey-shell--atlas .atlas-composition-form,
+  .journey-shell--atlas .atlas-craft-context,
+  .journey-shell--atlas .atlas-craft-reading {
+    padding: 0.75rem;
+  }
+}

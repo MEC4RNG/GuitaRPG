@@ -1100,7 +1100,7 @@ test("Quest Codex lesson opens in new tabs and links the exact Explore ingredien
 test("F3 Map lesson opens exact activity, saves explicitly and continues the same page in Craft", async ({
   page,
 }) => {
-  test.setTimeout(90_000);
+  test.setTimeout(150_000);
   await completeGuestOnboarding(page);
   await page.goto("/generate");
   await page.getByRole("button", { name: "Generate Quest" }).click();
@@ -1259,4 +1259,59 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   await craft.getByRole("button", { name: "Back to Explore" }).click();
   await expect(picker.getByLabel("Learning activity")).toHaveValue("sdr.aural.i1");
   await expect(page.locator(".explore-module__disclosure").first()).toContainText("2 linked pages");
+
+  // F3E: the accepted Journey must reflow as a whole, including the desktop
+  // rail's intermediate widths and phone landscape. No implicit Session.
+  const matrix = [
+    { width: 1440, height: 900 },
+    { width: 1024, height: 768 },
+    { width: 820, height: 1180 },
+    { width: 740, height: 390 },
+    { width: 390, height: 844 },
+    { width: 320, height: 700 },
+  ];
+  for (const viewport of matrix) {
+    await page.setViewportSize(viewport);
+    await expectNoHorizontalOverflow(page);
+    await expect(picker.getByLabel("Learning activity")).toHaveValue("sdr.aural.i1");
+  }
+  await page.locator(".mec-stage", { hasText: "Map" }).click();
+  const beginner = page.getByRole("tab", { name: "Beginner", exact: true });
+  await expect(beginner).toBeVisible();
+  await beginner.focus();
+  await beginner.press("ArrowRight");
+  const intermediate = page.getByRole("tab", { name: "Intermediate", exact: true });
+  await expect(intermediate).toBeFocused();
+  await expect(intermediate).toHaveAttribute("aria-selected", "true");
+  await intermediate.press("End");
+  await expect(page.getByRole("tab", { name: "Advanced", exact: true })).toHaveAttribute("aria-selected", "true");
+  await page.getByRole("tab", { name: "Advanced", exact: true }).press("Home");
+  await expect(beginner).toBeFocused();
+  await expect(beginner).toHaveAttribute("aria-selected", "true");
+  await page.getByRole("link", { name: "Go to Quest toolkit" }).click();
+  await expect(page.locator("#atlas-quest-inspector")).toBeVisible();
+  await page.getByRole("link", { name: "Return to workspace" }).click();
+  await expect(page.locator("#atlas-quest-canvas")).toBeVisible();
+  for (const viewport of matrix) {
+    await page.setViewportSize(viewport);
+    await expectNoHorizontalOverflow(page);
+  }
+  await expectAccessible(page, "F3E narrow Map");
+  await page.locator(".mec-stage", { hasText: "Craft" }).click();
+  await expect(craft.getByRole("group", { name: "Craft mode" })).toBeVisible();
+  await modes.getByRole("button", { name: "Display" }).click();
+  await expect(craft.getByRole("article", { name: "Workbook page display" })).toBeVisible();
+  for (const viewport of matrix) {
+    await page.setViewportSize(viewport);
+    await expectNoHorizontalOverflow(page);
+  }
+  await expectAccessible(page, "F3E narrow Craft display");
+  await modes.getByRole("button", { name: "Edit", exact: true }).click();
+  await expect(craft.getByLabel("Page title")).toBeVisible();
+  for (const viewport of matrix) {
+    await page.setViewportSize(viewport);
+    await expectNoHorizontalOverflow(page);
+  }
+  await expectAccessible(page, "F3E narrow Craft editor");
+  await expect(page.getByText("No Sessions yet. This is activity history, not a measure of ability.")).toBeVisible();
 });
