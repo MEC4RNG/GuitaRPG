@@ -115,15 +115,23 @@ export function StudioAtlasGallery() {
         <div className="sa-journal-grid">
           <div className="sa-covers">
             <AtlasCover domain="fretboard" title="Melodic Study" detail="Study · sample cover" />
-            <AtlasCover domain="harmony_theory" title="Harmony Notes" detail="Reference · sample cover" />
-            <AtlasCover domain="creativity_expression" title="Original Ideas" detail="Composition · sample cover" />
+            <AtlasCover
+              domain="harmony_theory"
+              title="Harmony Notes"
+              detail="Reference · sample cover"
+            />
+            <AtlasCover
+              domain="creativity_expression"
+              title="Original Ideas"
+              detail="Composition · sample cover"
+            />
           </div>
           <div className={`sa-reading${paper ? " sa-reading--paper" : ""}`}>
             <p className="sa-eyebrow">Workbook / Melodic Study</p>
             <h3>Hear the tonal home</h3>
             <p>
-              Listen to a tonic reference. Try to anticipate the destination of a short phrase before
-              playing it.
+              Listen to a tonic reference. Try to anticipate the destination of a short phrase
+              before playing it.
             </p>
             <p className="sa-music-example">C · E · G · C</p>
             <p>Example note names, not a score or assessment.</p>
