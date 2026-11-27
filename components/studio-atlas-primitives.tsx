@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 
 export type AtlasDomain =
   | "technique"
@@ -85,7 +85,7 @@ export function AtlasButton({
   className = "",
   type = "button",
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & {
+}: ComponentPropsWithRef<"button"> & {
   variant?: "primary" | "secondary" | "quiet";
 }) {
   return <button {...props} type={type} className={`sa-button sa-button--${variant} ${className}`} />;
@@ -147,7 +147,7 @@ export function AtlasCover({
           <AtlasDomainIcon domain={domain} />
         </div>
       </div>
-      <h4>{title}</h4>
+      <h3>{title}</h3>
       <p>{detail}</p>
     </article>
   );
