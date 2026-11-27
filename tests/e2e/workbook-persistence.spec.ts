@@ -238,7 +238,9 @@ test("refuses a stale cross-device save without overwriting accepted content", a
   await secondContext.close();
 });
 
-test("JRN-UX-001 displays an accepted page without edit controls and retains its data", async ({ page }) => {
+test("JRN-UX-001 displays an accepted page without edit controls and retains its data", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.once("dialog", (dialog) => dialog.accept("Display study"));
   await page.getByRole("button", { name: "New Workbook" }).click();
@@ -246,15 +248,25 @@ test("JRN-UX-001 displays an accepted page without edit controls and retains its
   await page.getByLabel("Page title").fill("My musical study");
   await page.getByLabel("Page title").blur();
   await page.getByRole("button", { name: "Insert tablature" }).click();
-  await page.locator('[data-block-type="guitar-tab"]').last().getByRole("gridcell", { name: /^String 6, position 1,/ }).fill("7");
+  await page
+    .locator('[data-block-type="guitar-tab"]')
+    .last()
+    .getByRole("gridcell", { name: /^String 6, position 1,/ })
+    .fill("7");
   await page.getByRole("button", { name: "Insert chord diagram" }).click();
-  await page.locator('[data-block-type="chord-diagram"]').last().getByLabel("Chord name").fill("Study chord");
+  await page
+    .locator('[data-block-type="chord-diagram"]')
+    .last()
+    .getByLabel("Chord name")
+    .fill("Study chord");
   await page.getByRole("button", { name: "Bold", exact: true }).focus();
   await expect(page.locator(".workbook-status")).toContainText("Saved", { timeout: 10_000 });
   await page.getByRole("button", { name: "Display", exact: true }).click();
   const display = page.getByRole("article", { name: "Workbook page display" });
   await expect(display).toBeVisible();
-  await expect(display.getByRole("table", { name: /Guitar tablature system/ }).first()).toBeVisible();
+  await expect(
+    display.getByRole("table", { name: /Guitar tablature system/ }).first(),
+  ).toBeVisible();
   await expect(display.getByRole("cell", { name: "7", exact: true })).toBeVisible();
   await expect(display.getByText(/Study chord/)).toBeVisible();
   await expect(page.getByRole("toolbar", { name: "Workbook editing tools" })).toBeHidden();
@@ -267,9 +279,16 @@ test("JRN-UX-001 displays an accepted page without edit controls and retains its
   await page.getByRole("button", { name: "Edit", exact: true }).click();
   await expect(page.getByRole("textbox", { name: "Workbook page document" })).toBeVisible();
   await expect(page.getByLabel("Page title")).toHaveValue("My musical study");
-  await expect(page.locator('[data-block-type="guitar-tab"]').last().getByRole("gridcell", { name: /String 6, position 1, Fret 7/ })).toBeVisible();
+  await expect(
+    page
+      .locator('[data-block-type="guitar-tab"]')
+      .last()
+      .getByRole("gridcell", { name: /String 6, position 1, Fret 7/ }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "Show navigation" }).click();
-  await page.getByRole("searchbox", { name: "Search Workbooks and Pages" }).fill("no matching title");
+  await page
+    .getByRole("searchbox", { name: "Search Workbooks and Pages" })
+    .fill("no matching title");
   await expect(page.getByText("No matching Workbooks.")).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
