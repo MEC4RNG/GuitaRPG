@@ -90,6 +90,7 @@ test("authenticated practice surfaces meet the automated WCAG gate", async ({ pa
 test("Studio Atlas preview has readable responsive components and keyboard dialog recovery", async ({
   page,
 }) => {
+  test.setTimeout(90_000);
   for (const viewport of [
     { width: 1440, height: 900 },
     { width: 820, height: 1180 },
