@@ -30,3 +30,30 @@ test("offline navigation retains a truthful browser failure state", async ({ pag
   await page.goto("/codex");
   await expect(page.getByRole("heading", { name: "Musical reference" })).toBeVisible();
 });
+
+test("onboarding recovers from unavailable tuning options without showing an empty form", async ({
+  page,
+}) => {
+  let rejected = false;
+  await page.route(/\/rest\/v1\/taxonomy_entities(?:\?|$)/, async (route) => {
+    if (rejected) return route.continue();
+    rejected = true;
+    await route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: '{"message":"provider diagnostic detail"}',
+    });
+  });
+  await page.goto("/onboarding");
+  const retry = page.getByRole("button", { name: "Retry Player setup" });
+  await expect(retry).toBeVisible();
+  expect(rejected).toBe(true);
+  await expect(page.getByLabel("Preferred tuning")).toHaveCount(0);
+  await expect(page.getByText("provider diagnostic detail")).toHaveCount(0);
+  await retry.click();
+  const tuning = page.getByLabel("Preferred tuning");
+  await expect(tuning).toBeVisible();
+  await tuning.selectOption({ label: "Standard Tuning" });
+  await page.getByRole("button", { name: "Save and continue" }).click();
+  await expect(page.getByText("PLAYER READY")).toBeVisible();
+});
