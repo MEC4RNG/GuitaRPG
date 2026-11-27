@@ -151,3 +151,92 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* F3C: focused activity navigation and readable lesson/capture choices. */
+.journey-shell--atlas .map-topic,
+.journey-shell--atlas .explore-workspaces,
+.journey-shell--atlas .atlas-activity-picker,
+.journey-shell--atlas .atlas-free-activity {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+.journey-shell--atlas .map-topic__level-tabs button {
+  display: grid;
+  gap: 0.2rem;
+  text-align: left;
+}
+.atlas-level-count {
+  color: var(--surface-muted);
+  font-size: 0.75rem;
+}
+.journey-shell--atlas .map-topic__lesson-list li > div {
+  flex: 1 1 14rem;
+}
+.atlas-lesson-purpose {
+  color: var(--surface-muted);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.atlas-activity-picker,
+.atlas-free-activity {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  background: var(--surface-panel);
+}
+.atlas-activity-picker .journey-section-heading {
+  flex-wrap: wrap;
+}
+.atlas-activity-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.atlas-activity-fields > label:last-child {
+  grid-column: 1 / -1;
+}
+.atlas-activity-fields label,
+.atlas-save-target {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+}
+.atlas-activity-fields select,
+.atlas-save-target select {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.5rem;
+  color: var(--surface-text);
+  background: var(--surface-raised);
+  font: inherit;
+}
+.atlas-activity-fields select:not(:disabled),
+.atlas-save-target select:not(:disabled),
+.atlas-free-activity summary {
+  cursor: pointer;
+}
+.atlas-free-activity summary {
+  min-height: 44px;
+}
+.journey-shell--atlas .explore-module__panel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.journey-shell--atlas .explore-module__actions {
+  align-items: end;
+}
+.journey-shell--atlas .atlas-lesson h2,
+.journey-shell--atlas .atlas-free-activity h2 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 48rem) {
+  .atlas-activity-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

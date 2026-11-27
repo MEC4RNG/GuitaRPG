@@ -9,19 +9,27 @@ export function AtlasLessonActivity({
   blocks,
   disabled,
   saved,
+  workbooks,
+  target,
+  targetLocked,
+  onTargetChange,
   onSave,
 }: {
   lesson: CodexLessonWorkbookSource;
   blocks: CodexV2ReferenceBlock[];
   disabled: boolean;
   saved: boolean;
+  workbooks: { id: string; title: string }[];
+  target: string;
+  targetLocked: boolean;
+  onTargetChange: (target: string) => void;
   onSave: () => void;
 }) {
   return (
     <section className="atlas-lesson" aria-labelledby="atlas-lesson-title">
       <header>
         <p className="eyebrow">
-          Selected from Map · {lesson.applicationTitle} · {lesson.level}
+          Learning activity · {lesson.applicationTitle} · {lesson.level}
         </p>
         <h2 id="atlas-lesson-title">{lesson.title}</h2>
         <p>{lesson.explanation}</p>
@@ -68,6 +76,7 @@ export function AtlasLessonActivity({
           Keep the lesson and your discoveries in a private, editable Workbook. Nothing is created
           until you choose Save.
         </p>
+        {!saved ? <label className="atlas-save-target">Save to Workbook<select value={target} disabled={disabled || targetLocked} onChange={(event) => onTargetChange(event.target.value)}><option value="">Create a new Workbook</option>{workbooks.map((book) => <option key={book.id} value={book.id}>{book.title}</option>)}</select>{targetLocked ? <small>Retry uses the same destination to protect against duplicate pages.</small> : null}</label> : <p className="atlas-lesson-note">A matching lesson page is already linked to this ingredient. Open it to continue; the lesson marker is a convenience reference.</p>}
         <button
           type="button"
           className="action-button action-button--primary"

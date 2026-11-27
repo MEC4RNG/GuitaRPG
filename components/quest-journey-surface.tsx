@@ -8,6 +8,7 @@ import { CodexV2Reference } from "@/components/codex-v2-reference";
 import type { CodexV2ReferenceBlock, LearningLevel } from "@/lib/codex/v2/content";
 import { WorkbookPersistenceSurface } from "@/components/workbook-persistence-surface";
 import { AtlasLessonActivity } from "@/components/studio-atlas-lesson-activity";
+import { activityLevels, linkedLessonPage, readActivitySelection, rememberActivitySelection } from "@/lib/ux/mec-activity";
 import {
   buildLessonWorkbookDocument,
   type CodexLessonWorkbookSource,
@@ -46,6 +47,7 @@ import {
   attachWorkbookContext,
   createWorkbook,
   createQuickNote,
+  createPage,
   readExploreModuleOrder,
   readQuestWorkbookLinks,
   readWorkbookSnapshot,
@@ -61,11 +63,7 @@ type Detail = SavedQuestSummary & { recentSessions: QuestSessionSummary[] };
 type JourneyClient = QuestLibraryClient & JourneyRpcClient & JourneyPracticeClient & WorkbookClient;
 const client = () => createBrowserSupabaseClient() as unknown as JourneyClient;
 const stages = ["MAP", "EXPLORE", "CRAFT"] as const;
-const learningLevels: Array<{ id: LearningLevel; label: string }> = [
-  { id: "foundational", label: "Beginner" },
-  { id: "intermediate", label: "Intermediate" },
-  { id: "advanced", label: "Advanced" },
-];
+const learningLevels = activityLevels;
 export type MapCodexLearning = {
   blocks: CodexV2ReferenceBlock[];
   modules: Array<{
@@ -76,6 +74,7 @@ export type MapCodexLearning = {
     source?: CodexLessonWorkbookSource;
   }>;
 };
+const emptyMapCodexLearning: Record<string, MapCodexLearning> = {};
 const dateTime = (value: string) =>
   new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(
     new Date(value),
@@ -83,7 +82,7 @@ const dateTime = (value: string) =>
 
 export function QuestJourneySurface({
   questId,
-  mapCodexLearning = {},
+  mapCodexLearning = emptyMapCodexLearning,
   atlas = false,
 }: {
   questId: string;
@@ -115,9 +114,11 @@ export function QuestJourneySurface({
   const [editorPending, setEditorPending] = useState(false);
   const [craftPageId, setCraftPageId] = useState<string | undefined>();
   const lessonReceipts = useRef(
-    new Map<string, { requestId: string; document: WorkbookDocumentV1; page?: WorkbookPageRow }>(),
+    new Map<string, { requestId: string; document: WorkbookDocumentV1; workbookId: string; page?: WorkbookPageRow }>(),
   );
   const [savedLessonPages, setSavedLessonPages] = useState<Record<string, string>>({});
+  const [lessonTargets, setLessonTargets] = useState<Record<string, string>>({});
+  const [lessonTargetLocks, setLessonTargetLocks] = useState<Record<string, boolean>>({});
   const exploreContext = useMemo<WorkbookRouteContext>(
     () => ({
       questId,
@@ -156,10 +157,22 @@ export function QuestJourneySurface({
       })
       .then((next) => {
         if (!next) throw new Error("Quest unavailable");
+        if (atlas) {
+          const restored = readActivitySelection(window.sessionStorage, next.journey.playerId, questId, questJourneyTopics(next.quest), mapCodexLearning);
+          if (restored) {
+            setSelectedTopicKey(restored.topicKey);
+            setMapLevel(restored.level);
+            const topic = questJourneyTopics(next.quest).find((item) => item.key === restored.topicKey);
+            const moduleKey = topic?.moduleKey;
+            const lesson = moduleKey ? mapCodexLearning[moduleKey]?.modules.find((item) => item.id === restored.lessonId) : undefined;
+            if (lesson && moduleKey) setLearningFocus({ title: lesson.title, lessonId: lesson.id, level: lesson.level, moduleKey });
+            if (moduleKey && next.journey.currentStage === "EXPLORE") setExpandedModules((current) => new Set(current).add(moduleKey));
+          }
+        }
         setDetail(next);
       })
       .catch(() => setError("This Quest is unavailable. Return to Saved Quests and try again."));
-  }, [questId]);
+  }, [questId, atlas, mapCodexLearning]);
 
   // A Workbook may be created in another tab. Re-read only owner-scoped
   // library metadata and links when the Journey becomes active again.
@@ -268,6 +281,8 @@ export function QuestJourneySurface({
         (item) => item.id === learningFocus.lessonId,
       )?.source
     : undefined;
+  const matchingLessonPage = focusedLesson ? linkedLessonPage({ questId, playerId: journey.playerId, skillSlug: focusedLesson.skillSlug, moduleId: focusedLesson.moduleId, preferredPageId: savedLessonPages[focusedLesson.moduleId], links: workbookLinks, pages: workbookPages, workbooks }) : null;
+  const activeLessonWorkbooks = workbooks.filter((book) => !book.archived_at && book.kind === "WORKBOOK" && book.player_id === journey.playerId);
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -399,38 +414,59 @@ export function QuestJourneySurface({
     }
   }
 
+  function selectActivity(topicKey: string, level: LearningLevel, lesson?: MapCodexLearning["modules"][number]) {
+    if (pending || editorPending || archived) return;
+    const topic = topics.find((item) => item.key === topicKey);
+    if (!topic) return;
+    setSelectedTopicKey(topic.key);
+    setMapLevel(level);
+    setLearningFocus(lesson ? { title: lesson.title, lessonId: lesson.id, level, moduleKey: topic.moduleKey } : null);
+    if (atlas) {
+      setOpenExplorePage(null);
+      rememberActivitySelection(window.sessionStorage, journey.playerId, questId, { topicKey: topic.key, level, lessonId: lesson?.id ?? null });
+    }
+    if (topic.moduleKey) setExpandedModules((current) => new Set(current).add(topic.moduleKey!));
+  }
+
   async function selectTopicAndMap(topicKey: string) {
     if (editorPending || pending) return;
-    setSelectedTopicKey(topicKey);
-    setMapLevel("foundational");
-    if (journey.currentStage !== "MAP") await chooseStage("MAP");
+    if (journey.currentStage !== "MAP" && !(await chooseStage("MAP"))) return;
+    selectActivity(topicKey, "foundational");
   }
 
   async function exploreSelectedTopic(lesson?: MapCodexLearning["modules"][number]) {
     if (!selectedTopic || archived || pending || editorPending) return;
     // Navigation only: the existing stage RPC remains the sole authority.
     if (!(await chooseStage("EXPLORE"))) return;
-    if (selectedTopic.moduleKey)
-      setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
-    if (lesson) setOpenExplorePage(null);
-    setLearningFocus(
-      lesson
-        ? {
-            title: lesson.title,
-            lessonId: lesson.id,
-            level: lesson.level,
-            moduleKey: selectedTopic.moduleKey,
-          }
-        : null,
-    );
+    selectActivity(selectedTopic.key, mapLevel, lesson);
+  }
+
+  async function returnToActivity() {
+    if (pending || editorPending) return;
+    setOpenExplorePage(null);
+    try {
+      const api = client();
+      const [links, snapshot] = await Promise.all([readQuestWorkbookLinks(api, questId), readWorkbookSnapshot(api)]);
+      if (snapshot.authenticated) {
+        setWorkbookLinks(links);
+        setWorkbookPages(snapshot.pages);
+        setWorkbooks(snapshot.workbooks);
+      }
+    } catch {
+      setModuleMessage("Your saved page is unchanged. Linked material could not be refreshed.");
+    }
   }
 
   async function saveFocusedLesson() {
     if (!focusedLesson || pending || editorPending || archived) return;
     const lesson = focusedLesson;
-    const savedPageId = savedLessonPages[lesson.moduleId];
-    if (savedPageId && workbookPages.some((page) => page.id === savedPageId)) {
-      setOpenExplorePage({ pageId: savedPageId, moduleKey: lesson.skillSlug });
+    if (matchingLessonPage) {
+      setOpenExplorePage({ pageId: matchingLessonPage.id, moduleKey: lesson.skillSlug });
+      return;
+    }
+    const target = lessonTargets[lesson.moduleId] ?? "";
+    if (target && !activeLessonWorkbooks.some((book) => book.id === target) && !lessonReceipts.current.has(lesson.moduleId)) {
+      setError("Choose an active Workbook before saving the lesson.");
       return;
     }
     setPending(true);
@@ -438,10 +474,15 @@ export function QuestJourneySurface({
     const receipt = lessonReceipts.current.get(lesson.moduleId) ?? {
       requestId: crypto.randomUUID(),
       document: buildLessonWorkbookDocument(lesson),
+      workbookId: target,
     };
     lessonReceipts.current.set(lesson.moduleId, receipt);
+    setLessonTargetLocks((current) => ({ ...current, [lesson.moduleId]: true }));
     try {
       const api = client();
+      if (!receipt.page && receipt.workbookId) {
+        receipt.page = await createPage(api, receipt.workbookId, lesson.title.slice(0, 120), receipt.document, receipt.requestId);
+      }
       if (!receipt.page) {
         const created = await createWorkbook(api, `${lesson.skillName} Practice`, {
           document: receipt.document,
@@ -470,6 +511,7 @@ export function QuestJourneySurface({
       setOpenExplorePage({ pageId: page.id, moduleKey: lesson.skillSlug });
       setSavedLessonPages((current) => ({ ...current, [lesson.moduleId]: page.id }));
       lessonReceipts.current.delete(lesson.moduleId);
+      setLessonTargetLocks((current) => ({ ...current, [lesson.moduleId]: false }));
       setModuleMessage("Lesson page saved and opened in Explore.");
     } catch {
       setError(
@@ -716,9 +758,9 @@ export function QuestJourneySurface({
                         role="tab"
                         aria-selected={mapLevel === item.id}
                         aria-controls="map-level-content"
-                        onClick={() => setMapLevel(item.id)}
+                        onClick={() => atlas ? selectActivity(selectedTopic.key, item.id) : setMapLevel(item.id)}
                       >
-                        {item.label}
+                        {item.label}{atlas && selectedMapCodex ? <small className="atlas-level-count">{selectedMapCodex.modules.filter((lesson) => lesson.level === item.id).length} lessons</small> : null}
                       </button>
                     ))}
                   </div>
@@ -735,6 +777,7 @@ export function QuestJourneySurface({
                             <div>
                               <strong>{lesson.title}</strong>
                               <small>{lesson.application} · Codex preview lesson</small>
+                              {atlas && lesson.source?.outcomes[0] ? <p className="atlas-lesson-purpose">{lesson.source.outcomes[0]}</p> : null}
                             </div>
                             <button
                               type="button"
@@ -808,14 +851,41 @@ export function QuestJourneySurface({
           {journey.currentStage === "EXPLORE" ? (
             <>
               <section className="explore-workspaces" aria-labelledby="explore-workspaces-title">
+                {atlas && selectedTopic ? (
+                  <section className="atlas-activity-picker" aria-labelledby="atlas-activity-picker-title">
+                    <div className="journey-section-heading">
+                      <div><p className="eyebrow">EXPLORE · YOUR ACTIVITY</p><h2 id="atlas-activity-picker-title">Choose what to explore</h2></div>
+                      <button type="button" className="action-button action-button--secondary" disabled={pending || archived || editorPending} onClick={() => void chooseStage("MAP")}>Back to Map activity</button>
+                    </div>
+                    <div className="atlas-activity-fields">
+                      <label>Quest ingredient<select value={selectedTopic.key} disabled={pending || archived || editorPending} onChange={(event) => selectActivity(event.target.value, "foundational")}>{topics.map((topic) => <option key={topic.key} value={topic.key}>{topic.name} · {topic.roles.join(" / ")}</option>)}</select></label>
+                      <label>Activity level<select value={mapLevel} disabled={pending || archived || editorPending} onChange={(event) => selectActivity(selectedTopic.key, event.target.value as LearningLevel)}>{learningLevels.map((level) => <option key={level.id} value={level.id}>{level.label}</option>)}</select></label>
+                      <label>Learning activity<select value={focusedLesson?.moduleId ?? ""} disabled={pending || archived || editorPending} onChange={(event) => selectActivity(selectedTopic.key, mapLevel, mapLevelLessons.find((lesson) => lesson.id === event.target.value))}><option value="">Explore ingredient freely</option>{mapLevelLessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.title}</option>)}</select></label>
+                    </div>
+                    {!mapLevelLessons.length ? <p className="atlas-lesson-note">No draft lesson is available at this level. You can still explore the ingredient freely.</p> : null}
+                  </section>
+                ) : null}
                 {atlas && focusedLesson ? (
                   <AtlasLessonActivity
                     lesson={focusedLesson}
                     blocks={mapCodexLearning[focusedLesson.skillSlug]?.blocks ?? []}
                     disabled={pending || editorPending || archived}
-                    saved={Boolean(savedLessonPages[focusedLesson.moduleId])}
+                    saved={Boolean(matchingLessonPage)}
+                    workbooks={activeLessonWorkbooks}
+                    target={lessonTargets[focusedLesson.moduleId] ?? ""}
+                    targetLocked={Boolean(lessonTargetLocks[focusedLesson.moduleId])}
+                    onTargetChange={(target) => setLessonTargets((current) => ({ ...current, [focusedLesson.moduleId]: target }))}
                     onSave={() => void saveFocusedLesson()}
                   />
+                ) : atlas && selectedTopic ? (
+                  <section className="atlas-free-activity" aria-labelledby="atlas-free-activity-title">
+                    <p className="eyebrow">{selectedTopic.roles.join(" · ")}</p>
+                    <h2 id="atlas-free-activity-title">{selectedTopic.name}</h2>
+                    {selectedTopic.codex ? <p>{selectedTopic.codex.definition}</p> : null}
+                    {selectedTopic.questDetails.map((text) => <p key={text}>{text}</p>)}
+                    {selectedMapCodex?.blocks.length ? <details><summary>Open interactive Skill reference</summary><CodexV2Reference blocks={selectedMapCodex.blocks} /></details> : null}
+                    <p className="atlas-lesson-note">Explore freely or connect a Workbook page below. No progress is recorded automatically.</p>
+                  </section>
                 ) : learningFocus ? (
                   <div className="explore-learning-focus" role="status">
                     <span className="eyebrow">
@@ -838,6 +908,15 @@ export function QuestJourneySurface({
                       </Link>
                     ) : null}
                   </div>
+                ) : null}
+                {openExplorePage ? (
+                  <WorkbookPersistenceSurface
+                    context={exploreContext}
+                    embeddedExplore={openExplorePage}
+                    onEmbeddedPendingChange={setEditorPending}
+                    onContinueInCraft={atlas && !archived ? continuePageInCraft : undefined}
+                    onReturnToActivity={atlas ? returnToActivity : undefined}
+                  />
                 ) : null}
                 <div className="journey-section-heading">
                   <div>
@@ -1004,9 +1083,9 @@ export function QuestJourneySurface({
                               }
                             >
                               <option value="">Choose a page…</option>
-                              {workbookPages.map((page) => (
+                              {workbookPages.filter((page) => !atlas || workbooks.some((book) => book.id === page.workbook_id && !book.archived_at)).map((page) => (
                                 <option key={page.id} value={page.id}>
-                                  {page.title}
+                                  {atlas ? `${workbooks.find((book) => book.id === page.workbook_id)?.title ?? "Workbook"} · ${page.title}` : page.title}
                                 </option>
                               ))}
                             </select>
@@ -1074,14 +1153,7 @@ export function QuestJourneySurface({
                   </details>
                 ) : null}
               </section>
-              {openExplorePage ? (
-                <WorkbookPersistenceSurface
-                  context={exploreContext}
-                  embeddedExplore={openExplorePage}
-                  onEmbeddedPendingChange={setEditorPending}
-                  onContinueInCraft={atlas && !archived ? continuePageInCraft : undefined}
-                />
-              ) : null}
+
             </>
           ) : null}
           {journey.currentStage === "CRAFT" ? (

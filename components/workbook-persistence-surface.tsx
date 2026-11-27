@@ -49,6 +49,7 @@ export function WorkbookPersistenceSurface({
   lessonSource = null,
   onEmbeddedPendingChange,
   onContinueInCraft,
+  onReturnToActivity,
 }: {
   context: WorkbookRouteContext | null;
   embeddedCraft?: boolean;
@@ -56,6 +57,7 @@ export function WorkbookPersistenceSurface({
   lessonSource?: CodexLessonWorkbookSource | null;
   onEmbeddedPendingChange?: (pending: boolean) => void;
   onContinueInCraft?: (pageId: string) => Promise<void>;
+  onReturnToActivity?: () => Promise<void>;
 }) {
   const router = useRouter();
   const clientRef = useRef<WorkbookClient | null>(null);
@@ -525,6 +527,7 @@ export function WorkbookPersistenceSurface({
             </h2>
           </div>
           <div className="craft-workspace__actions">
+            {onReturnToActivity ? <button type="button" className="action-button action-button--secondary" disabled={pendingEdits || transferring} onClick={() => void onReturnToActivity()}>Return to activity</button> : null}
             {onContinueInCraft ? (
               <button
                 type="button"
