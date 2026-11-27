@@ -1,0 +1,242 @@
+/* Studio Atlas MEC preview. Preserve canonical controls and editor geometry. */
+.journey-shell--atlas {
+  --surface-bg: #101518;
+  --surface-panel: #171e23;
+  --surface-raised: #202a30;
+  --surface-border: #6d818b;
+  --surface-text: #f2eee6;
+  --surface-muted: #a8b4ba;
+  --surface-accent: #d6af70;
+  color: var(--surface-text);
+}
+.journey-shell--atlas .journey-header {
+  background:
+    linear-gradient(90deg, #171e23 25%, rgb(23 30 35 / 96%)),
+    url("/studio-atlas/atlas-contours.svg") right center / 18rem;
+}
+.journey-shell--atlas .journey-header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.journey-shell--atlas .action-button--primary {
+  background: #d6af70;
+  color: #101518;
+  border-color: #d6af70;
+}
+.journey-shell--atlas .mec-stage.is-current {
+  background: #202a30;
+  box-shadow: inset 0 -3px #d6af70;
+}
+.journey-shell--atlas .mec-stage:focus-visible,
+.journey-shell--atlas button:focus-visible {
+  outline: 2px solid #8fb6e4;
+  outline-offset: 3px;
+}
+.atlas-lesson {
+  display: grid;
+  min-width: 0;
+  gap: 1rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  background: var(--surface-raised);
+}
+.atlas-lesson header,
+.atlas-lesson-exercise,
+.atlas-lesson-save {
+  display: grid;
+  min-width: 0;
+  gap: 0.65rem;
+}
+.atlas-lesson h2 {
+  font:
+    400 clamp(1.4rem, 3vw, 2rem)/1.2 Georgia,
+    "Times New Roman",
+    serif;
+}
+.atlas-lesson ul,
+.atlas-lesson ol {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+.atlas-lesson ul {
+  list-style: disc;
+}
+.atlas-lesson ol {
+  list-style: decimal;
+}
+.atlas-lesson li + li {
+  margin-top: 0.35rem;
+}
+.atlas-lesson-exercise,
+.atlas-lesson-save {
+  border-top: 1px solid var(--surface-border);
+  padding-top: 1rem;
+}
+.atlas-lesson summary {
+  min-height: 44px;
+  cursor: pointer;
+}
+.atlas-lesson-note {
+  font-size: 0.85rem;
+  color: var(--surface-muted);
+}
+.atlas-lesson-save .action-button {
+  justify-self: start;
+}
+
+.atlas-quest-criteria {
+  border: 1px solid var(--surface-border);
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+}
+.atlas-quest-criteria summary {
+  cursor: pointer;
+  min-height: 44px;
+  font-weight: 700;
+}
+
+/* Nested editors use the canvas width, not the standalone viewport width.
+   Allow grid tracks and flex children to shrink without clipping notation. */
+.journey-shell--atlas,
+.journey-shell--atlas .journey-canvas,
+.journey-shell--atlas .craft-workspace,
+.journey-shell--atlas .explore-editor,
+.journey-shell--atlas .workbook-prototype {
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
+}
+.journey-shell--atlas .craft-workspace .workbook-prototype,
+.journey-shell--atlas .explore-editor .workbook-prototype {
+  width: 100%;
+  max-width: 100%;
+}
+.journey-shell--atlas .craft-workspace__header > *,
+.journey-shell--atlas .craft-workspace__actions,
+.journey-shell--atlas .workbook-header > *,
+.journey-shell--atlas .workbook-pages__heading {
+  min-width: 0;
+  max-width: 100%;
+}
+.journey-shell--atlas .craft-workspace__header {
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+}
+.journey-shell--atlas .workbook-prosemirror {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 57.99rem) {
+  .journey-shell--atlas .journey-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 30rem) {
+  .journey-shell--atlas .workbook-pages {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .journey-shell--atlas .workbook-page-strip {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .journey-shell--atlas .workbook-page-actions {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .journey-shell--atlas .craft-workspace__actions > *,
+  .journey-shell--atlas .workbook-toolbar button {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* F3C: focused activity navigation and readable lesson/capture choices. */
+.journey-shell--atlas .map-topic,
+.journey-shell--atlas .explore-workspaces,
+.journey-shell--atlas .atlas-activity-picker,
+.journey-shell--atlas .atlas-free-activity {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+.journey-shell--atlas .map-topic__level-tabs button {
+  display: grid;
+  gap: 0.2rem;
+  text-align: left;
+}
+.atlas-level-count {
+  color: var(--surface-muted);
+  font-size: 0.75rem;
+}
+.journey-shell--atlas .map-topic__lesson-list li > div {
+  flex: 1 1 14rem;
+}
+.atlas-lesson-purpose {
+  color: var(--surface-muted);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.atlas-activity-picker,
+.atlas-free-activity {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  background: var(--surface-panel);
+}
+.atlas-activity-picker .journey-section-heading {
+  flex-wrap: wrap;
+}
+.atlas-activity-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.atlas-activity-fields > label:last-child {
+  grid-column: 1 / -1;
+}
+.atlas-activity-fields label,
+.atlas-save-target {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+}
+.atlas-activity-fields select,
+.atlas-save-target select {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.5rem;
+  color: var(--surface-text);
+  background: var(--surface-raised);
+  font: inherit;
+}
+.atlas-activity-fields select:not(:disabled),
+.atlas-save-target select:not(:disabled),
+.atlas-free-activity summary {
+  cursor: pointer;
+}
+.atlas-free-activity summary {
+  min-height: 44px;
+}
+.journey-shell--atlas .explore-module__panel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.journey-shell--atlas .explore-module__actions {
+  align-items: end;
+}
+.journey-shell--atlas .atlas-lesson h2,
+.journey-shell--atlas .atlas-free-activity h2 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 48rem) {
+  .atlas-activity-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

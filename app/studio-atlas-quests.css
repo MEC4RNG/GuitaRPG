@@ -1,0 +1,244 @@
+/* Preview-only discovery and library. Canonical actions and Codex Peek remain intact. */
+.atlas-quest-discovery,
+.atlas-quest-library {
+  grid-template-columns: minmax(0, 1fr);
+  overflow-wrap: anywhere;
+}
+.atlas-quest-discovery .page-header,
+.atlas-quest-library .page-header {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--sa-border-control);
+  border-radius: var(--sa-radius);
+  background:
+    linear-gradient(90deg, var(--sa-panel) 30%, rgb(23 30 35 / 95%)),
+    url("/studio-atlas/atlas-contours.svg") right center / 18rem;
+}
+.atlas-quest-discovery .page-header > *,
+.atlas-quest-library .page-header > * {
+  min-width: 0;
+}
+.atlas-quest-discovery .page-header h1,
+.atlas-quest-library .page-header h1 {
+  margin: 0.5rem 0;
+  font: 400 clamp(1.9rem, 4vw, 3rem)/1.12 var(--sa-font-display);
+}
+.atlas-quest-discovery .page-header p,
+.atlas-quest-library .page-header p {
+  color: var(--sa-muted);
+}
+.atlas-discovery {
+  display: grid;
+  min-width: 0;
+  gap: 0.75rem;
+}
+.atlas-discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.atlas-discovery-option {
+  grid-template-rows: auto auto 1fr auto;
+  align-items: start;
+}
+.atlas-discovery-option[data-current="true"] {
+  border-color: var(--sa-brand);
+}
+.atlas-mode-label {
+  color: var(--sa-discovery);
+  font-size: 0.9rem;
+}
+.atlas-quest-discovery .generate-preview,
+.atlas-quest-discovery .generate-empty,
+.atlas-quest-library .panel,
+.atlas-quest-library .quest-library-card {
+  min-width: 0;
+  border: 1px solid var(--sa-border-control);
+  background: var(--sa-panel);
+  color: var(--sa-text);
+}
+.atlas-quest-discovery .generate-preview__heading {
+  flex-wrap: wrap;
+}
+.atlas-quest-discovery .generate-preview__heading > div,
+.atlas-quest-library .quest-library-card__heading > div {
+  min-width: 0;
+}
+.atlas-quest-identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--sa-border-subtle);
+  border-radius: var(--sa-radius);
+  background:
+    url("/studio-atlas/atlas-contours.svg") right center / 14rem no-repeat,
+    var(--sa-raised);
+}
+.atlas-quest-identity > div {
+  display: grid;
+  min-width: 0;
+}
+.atlas-quest-identity .sa-domain-icon {
+  color: var(--sa-domain-color, var(--sa-brand));
+  border-color: currentColor;
+}
+.atlas-quest-discovery .atlas-quest-note,
+.atlas-quest-discovery .generate-session-note,
+.atlas-quest-discovery .generate-details dt,
+.atlas-quest-library .quest-library-meta dt,
+.atlas-quest-library .quest-library-card > p,
+.atlas-quest-library .panel p {
+  color: var(--sa-muted);
+}
+.atlas-quest-discovery .atlas-quest-objective {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-left: 3px solid var(--sa-brand);
+  border-radius: 0.5rem;
+  background: var(--sa-raised);
+}
+.atlas-quest-discovery .atlas-quest-objective p:not(.sa-eyebrow) {
+  color: var(--sa-text);
+}
+.atlas-quest-discovery .generate-details > div {
+  border-color: var(--sa-border-subtle);
+}
+.atlas-quest-discovery .atlas-quest-criteria {
+  border-color: var(--sa-border-control);
+}
+.atlas-quest-discovery .atlas-quest-criteria ul {
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.atlas-quest-discovery .action-button,
+.atlas-quest-library .action-button {
+  max-width: 100%;
+  height: auto;
+  padding-block: 0.5rem;
+  white-space: normal;
+  text-align: center;
+  background: var(--sa-raised);
+  border-color: var(--sa-border-control);
+  color: var(--sa-text);
+}
+.atlas-quest-discovery .action-button--primary,
+.atlas-quest-discovery .page-header > .action-button,
+.atlas-quest-library .page-header > .action-button {
+  background: var(--sa-brand);
+  border-color: var(--sa-brand);
+  color: var(--sa-canvas);
+}
+.atlas-quest-discovery .action-button:not(:disabled):hover,
+.atlas-quest-library .action-button:not(:disabled):hover {
+  border-color: var(--sa-brand);
+}
+.atlas-quest-discovery .action-button--primary:not(:disabled):hover,
+.atlas-quest-discovery .page-header > .action-button:not(:disabled):hover,
+.atlas-quest-library .page-header > .action-button:hover {
+  background: var(--sa-text);
+  color: var(--sa-canvas);
+}
+.atlas-quest-discovery .action-button:disabled,
+.atlas-quest-library .action-button:disabled {
+  background: var(--sa-panel);
+  color: var(--sa-muted);
+  border-style: dashed;
+}
+.atlas-quest-discovery .status-chip {
+  color: var(--sa-information);
+  border-color: currentColor;
+  margin: 0;
+}
+.atlas-quest-discovery .quest-codex-link,
+.atlas-quest-discovery .text-link,
+.atlas-quest-library .text-link,
+.atlas-quest-library .text-button {
+  color: var(--sa-brand);
+}
+.atlas-quest-library .text-button {
+  min-height: var(--sa-touch);
+}
+.atlas-quest-library .quest-library-section {
+  min-width: 0;
+  gap: 1rem;
+}
+.atlas-quest-library .quest-library-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+}
+.atlas-quest-library .quest-library-card {
+  align-content: start;
+  padding: 1rem;
+}
+.atlas-quest-library .quest-library-meta {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+.atlas-quest-library .quest-library-meta dd {
+  margin: 0;
+}
+.atlas-library-filters {
+  justify-items: stretch;
+}
+.atlas-library-filter-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.atlas-library-filter-grid label {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+}
+.atlas-library-filter-grid input,
+.atlas-library-filter-grid select {
+  min-width: 0;
+  width: 100%;
+  min-height: var(--sa-touch);
+  padding: 0.5rem;
+  border: 1px solid var(--sa-border-control);
+  border-radius: 0.5rem;
+  color: var(--sa-text);
+  background: var(--sa-raised);
+  font: inherit;
+}
+.atlas-library-filter-grid input::placeholder {
+  color: var(--sa-muted);
+}
+@media (max-width: 64rem) {
+  .atlas-discovery-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 48rem) {
+  .atlas-library-filter-grid,
+  .atlas-quest-discovery .generate-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .atlas-quest-library .quest-library-meta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .atlas-quest-discovery .page-header,
+  .atlas-quest-library .page-header {
+    padding: 1rem;
+  }
+}
+
+.atlas-quest-discovery .page-header .eyebrow,
+.atlas-quest-library .page-header__eyebrow {
+  color: var(--sa-brand);
+}
+.atlas-quest-discovery .generate-preview__heading .eyebrow,
+.atlas-quest-library .quest-library-card__heading .eyebrow {
+  color: var(--sa-brand);
+}
+.atlas-quest-discovery .atlas-quest-criteria p {
+  color: var(--sa-muted);
+}
+.atlas-quest-library .session-notice,
+.atlas-quest-discovery .session-notice {
+  color: var(--sa-text);
+  background: var(--sa-panel);
+}

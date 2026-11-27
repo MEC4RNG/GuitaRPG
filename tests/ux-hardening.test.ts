@@ -57,7 +57,7 @@ describe("UX-005 hardening contracts", () => {
     expect(navigation).toContain('label: "System"');
     expect(navigation).not.toMatch(/label: "(PLAY|DEVELOPMENT|LEARN|SYSTEM)"/);
     expect(styles).toMatch(/\.nav-group h2[\s\S]*text-transform: uppercase/);
-    expect(sidebar).toContain('aria-label="GuitaRPG home, Practice operating system"');
+    expect(sidebar).toContain('aria-label="Sound Uncharted home, Practice operating system"');
     expect(sidebar).toContain('<small aria-hidden="true">Practice OS</small>');
   });
 
