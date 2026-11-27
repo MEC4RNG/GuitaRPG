@@ -223,3 +223,20 @@
     padding: 1rem;
   }
 }
+
+.atlas-quest-discovery .page-header .eyebrow,
+.atlas-quest-library .page-header__eyebrow {
+  color: var(--sa-brand);
+}
+.atlas-quest-discovery .generate-preview__heading .eyebrow,
+.atlas-quest-library .quest-library-card__heading .eyebrow {
+  color: var(--sa-brand);
+}
+.atlas-quest-discovery .atlas-quest-criteria p {
+  color: var(--sa-muted);
+}
+.atlas-quest-library .session-notice,
+.atlas-quest-discovery .session-notice {
+  color: var(--sa-text);
+  background: var(--sa-panel);
+}

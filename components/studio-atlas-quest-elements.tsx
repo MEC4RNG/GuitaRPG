@@ -40,7 +40,7 @@ export function AtlasQuestDiscovery({ daily }: { daily: boolean }) {
         </article>
         <article className="sa-panel atlas-discovery-option" data-current={daily || undefined}>
           <span className="sa-eyebrow">{daily ? "Selected mode" : "Daily discovery"}</span>
-          <h3>Boredom Buster</h3>
+          <h3>{daily ? "Daily challenge" : "Boredom Buster"}</h3>
           <p>Try a short one-Skill challenge with a daily seed. No streaks or special rewards required.</p>
           {daily ? <span className="atlas-mode-label">Generate using the action above</span> : <Link className="sa-button sa-button--secondary" href="/generate?daily=1">Open daily challenge</Link>}
         </article>

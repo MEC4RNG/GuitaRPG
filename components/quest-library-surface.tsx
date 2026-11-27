@@ -254,7 +254,7 @@ export function QuestLibrarySurface({ atlas = false }: { atlas?: boolean }) {
               {section.items.map((item) => (
                 <QuestCard
                   atlas={atlas}
-                  busy={atlas ? busyQuest !== null : busyQuest === item.questId}
+                  busy={atlas ? busyQuest !== null || loading : busyQuest === item.questId}
                   item={item}
                   key={item.questId}
                   onArchive={() => void transition(item, "ARCHIVE")}
@@ -269,7 +269,7 @@ export function QuestLibrarySurface({ atlas = false }: { atlas?: boolean }) {
       {hasMore ? (
         <button
           className="action-button action-button--secondary"
-          disabled={loading}
+          disabled={loading || (atlas && busyQuest !== null)}
           onClick={() => void load(items.length, true)}
           type="button"
         >
