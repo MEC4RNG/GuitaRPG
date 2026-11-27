@@ -1,0 +1,43 @@
+/* Studio Atlas candidate tokens. Scoped to Studio Atlas previews until approved. */
+.studio-atlas,
+.app-shell--atlas {
+  --sa-canvas: #101518;
+  --sa-panel: #171e23;
+  --sa-raised: #202a30;
+  --sa-border-subtle: #3b4b54;
+  --sa-border-control: #6d818b;
+  --sa-text: #f2eee6;
+  --sa-muted: #a8b4ba;
+  --sa-brand: #d6af70;
+  --sa-discovery: #78bfb0;
+  --sa-paper: #f6f2e9;
+  --sa-paper-text: #1b2729;
+  --sa-paper-muted: #53615e;
+  --sa-paper-accent: #785725;
+  --sa-paper-rule: #cec8bd;
+  --sa-information: #8fb6e4;
+  --sa-success: #78bfb0;
+  --sa-warning: #d6af70;
+  --sa-danger: #e59a8f;
+  --sa-estimated: #b7a5e0;
+  --sa-unknown: #a8b4ba;
+  --sa-domain-technique: #d6af70;
+  --sa-domain-fretboard: #78bfb0;
+  --sa-domain-harmony-theory: #9cafe1;
+  --sa-domain-rhythm: #e59a8f;
+  --sa-domain-ear-musicianship: #b7a5e0;
+  --sa-domain-creativity-expression: #c9cf88;
+  --sa-font-ui: system-ui, Arial, sans-serif;
+  --sa-font-display: Georgia, "Times New Roman", serif;
+  --sa-font-data: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sa-touch: 2.75rem;
+  --sa-radius: 0.75rem;
+  --sa-motion: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-atlas,
+  .app-shell--atlas {
+    --sa-motion: 0ms;
+  }
+}

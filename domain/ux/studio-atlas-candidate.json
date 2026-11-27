@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "design_system_version": "UX_V1_2_CANDIDATE",
+  "status": "PREVIEW_ONLY",
+  "inherits": "UX_V1_1",
+  "product": "Sound Uncharted",
+  "visual_language": "Studio Atlas",
+  "colors": {
+    "canvas": "#101518",
+    "panel": "#171E23",
+    "raised": "#202A30",
+    "border-subtle": "#3B4B54",
+    "border-control": "#6D818B",
+    "text": "#F2EEE6",
+    "muted": "#A8B4BA",
+    "brand": "#D6AF70",
+    "discovery": "#78BFB0",
+    "paper": "#F6F2E9",
+    "paper-text": "#1B2729",
+    "paper-muted": "#53615E",
+    "paper-accent": "#785725",
+    "paper-rule": "#CEC8BD",
+    "information": "#8FB6E4",
+    "success": "#78BFB0",
+    "warning": "#D6AF70",
+    "danger": "#E59A8F",
+    "estimated": "#B7A5E0",
+    "unknown": "#A8B4BA"
+  },
+  "domains": [
+    {
+      "slug": "technique",
+      "name": "Technique",
+      "color": "#D6AF70",
+      "icon": "pick"
+    },
+    {
+      "slug": "fretboard",
+      "name": "Fretboard",
+      "color": "#78BFB0",
+      "icon": "fretboard"
+    },
+    {
+      "slug": "harmony_theory",
+      "name": "Harmony & Theory",
+      "color": "#9CAFE1",
+      "icon": "harmony"
+    },
+    {
+      "slug": "rhythm",
+      "name": "Rhythm",
+      "color": "#E59A8F",
+      "icon": "rhythm"
+    },
+    {
+      "slug": "ear_musicianship",
+      "name": "Ear & Musicianship",
+      "color": "#B7A5E0",
+      "icon": "ear"
+    },
+    {
+      "slug": "creativity_expression",
+      "name": "Creativity & Expression",
+      "color": "#C9CF88",
+      "icon": "phrase"
+    }
+  ],
+  "typography": {
+    "ui": "system-ui, Arial, sans-serif",
+    "display": "Georgia, Times New Roman, serif",
+    "data": "ui-monospace, SFMono-Regular, Consolas, monospace",
+    "body_px": 16
+  },
+  "layout": {
+    "touch_target_px": 44,
+    "spacing_unit_px": 4,
+    "rail_expanded_px": 232,
+    "rail_compact_px": 64
+  },
+  "accessibility": {
+    "normal_text_contrast": 4.5,
+    "large_text_contrast": 3,
+    "control_contrast": 3,
+    "non_color_state": true,
+    "reduced_motion": true
+  },
+  "asset_policy": "Original vector assets; decorative art separate from musical truth; no external font or media requests.",
+  "approval": "Candidate for visual review; existing UX_V1_1 contract remains authoritative until approved integration."
+}

@@ -170,7 +170,7 @@ export function CodexPeekProvider({ children }: { children: ReactNode }) {
             </div>
             <footer className="codex-peek__footer">
               <Link
-                href={entry.href}
+                href={reference.fullHref ?? entry.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="action-button action-button--primary"
