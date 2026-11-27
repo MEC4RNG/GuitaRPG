@@ -509,7 +509,7 @@ export function WorkbookPersistenceSurface({
     const explorePages = exploreLinks
       .map((link) => pages.find((page) => page.id === link.page_id))
       .filter((page): page is WorkbookPageRow => Boolean(page));
-    const page = explorePages.find((item) => item.id === embeddedExplore.pageId) ?? explorePages[0];
+    const page = explorePages.find((item) => item.id === embeddedExplore.pageId);
     const owner = page ? workbooks.find((item) => item.id === page.workbook_id) : null;
     if (!page || !owner) return <p role="status">This Explore page is unavailable.</p>;
     return (
@@ -624,7 +624,7 @@ export function WorkbookPersistenceSurface({
                 href={
                   pendingEdits
                     ? "#craft-workspace-title"
-                    : `/workbooks?quest=${context.questId}&stage=CRAFT&relationship=CREATED_DURING&page=${activePage.id}`
+                    : workbookContextHref(context.questId, "CRAFT", craftLinks.find((link) => link.page_id === activePage.id)?.relationship ?? "APPLIES_TO", { pageId: activePage.id })
                 }
                 onClick={(event) => {
                   if (pendingEdits) event.preventDefault();

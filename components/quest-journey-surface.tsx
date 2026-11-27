@@ -108,7 +108,7 @@ export function QuestJourneySurface({
   const lessonReceipts = useRef(new Map<string, { requestId: string; document: WorkbookDocumentV1; page?: WorkbookPageRow }>());
   const [savedLessonPages, setSavedLessonPages] = useState<Record<string, string>>({});
   const exploreContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "EXPLORE", relationship: "APPLIES_TO", pageId: openExplorePage?.pageId }), [questId, openExplorePage?.pageId]);
-  const craftContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "CRAFT", relationship: "CREATED_DURING", pageId: craftPageId }), [questId, craftPageId]);
+  const craftContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "CRAFT", relationship: craftPageId ? "APPLIES_TO" : "CREATED_DURING", pageId: craftPageId }), [questId, craftPageId]);
   const mapCreateRequest = useRef<{ topicKey: string; requestId: string } | null>(null);
 
   useEffect(() => {
@@ -617,6 +617,18 @@ export function QuestJourneySurface({
                   ) : null}
                 </header>
                 <section className="map-topic__learn" aria-labelledby="map-how-to-explore">
+                  {atlas && quest.objective.criteria.length ? (
+                    <details className="atlas-quest-criteria">
+                      <summary>Quest success criteria</summary>
+                      <ul className="journey-list">
+                        {quest.objective.criteria.map((criterion, index) => (
+                          <li key={index}>
+                            {criterion.metric.replaceAll("_", " ")} · {criterion.operator === "GTE" ? "at least" : criterion.operator === "LTE" ? "at most" : "equals"} {String(criterion.value)} {criterion.unit}
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  ) : null}
                   <h3 id="map-how-to-explore">How to explore</h3>
                   <p>
                     Choose a learning level and open this ingredient in Explore. Opening a lesson

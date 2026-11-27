@@ -80,3 +80,14 @@
 .atlas-lesson-save .action-button {
   justify-self: start;
 }
+
+.atlas-quest-criteria {
+  border: 1px solid var(--surface-border);
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+}
+.atlas-quest-criteria summary {
+  cursor: pointer;
+  min-height: 44px;
+  font-weight: 700;
+}
