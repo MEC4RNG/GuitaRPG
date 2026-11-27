@@ -130,3 +130,59 @@ test("Studio Atlas preview has readable responsive components and keyboard dialo
     /^0s(?:, 0s)*$/,
   );
 });
+
+test("F2 guest-free dashboard and compact navigation are accessible", async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  let signups = 0;
+  page.on("request", (request) => {
+    if (request.method() === "POST" && request.url().includes("/auth/v1/signup")) signups += 1;
+  });
+  await page.goto("/prototype/studio-atlas/home");
+  await expect(page.getByRole("link", { name: "Start playing" })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole("heading", { name: "Your progress" })).toHaveCount(0);
+  expect(signups).toBe(0);
+  const sidebar = page.getByRole("complementary", { name: "Primary navigation" });
+  await expect(sidebar.getByRole("link", { name: "Workbooks" })).toBeVisible();
+  await expect(sidebar.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("aria-current", "page");
+  const collapse = sidebar.getByRole("button", { name: "Collapse sidebar" });
+  await collapse.click();
+  await expect(sidebar.getByRole("button", { name: "Expand sidebar" })).toHaveAttribute("aria-expanded", "false");
+  await expect(sidebar.getByRole("link", { name: "Workbooks" })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await expectAccessible(page, "F2 compact desktop shell");
+  await sidebar.getByRole("button", { name: "Expand sidebar" }).click();
+  await expectAccessible(page, "F2 expanded desktop shell");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(sidebar).toBeHidden();
+  await expectNoHorizontalOverflow(page);
+  await expectAccessible(page, "F2 mobile landing");
+  await page.getByRole("button", { name: "Open navigation menu" }).click();
+  const menu = page.getByRole("dialog", { name: "Navigation menu" });
+  await expect(menu.getByRole("link", { name: "Workbooks" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeHidden();
+});
+
+test("F2 dashboard uses real guest data and prioritizes an open Session", async ({ page }) => {
+  test.setTimeout(90_000);
+  await completeGuestOnboarding(page);
+  await page.goto("/prototype/studio-atlas/home");
+  const home = page.locator(".sa-home");
+  await expect(home.getByRole("heading", { name: "Your progress" })).toBeVisible({ timeout: 20_000 });
+  await expect(home.getByRole("link", { name: "Protect your progress" })).toBeVisible();
+  await expect(home.getByRole("heading", { name: "Character Level 1" })).toBeVisible();
+  await expect(home.getByText("0 practice XP", { exact: true })).toBeVisible();
+  await expect(home.getByRole("heading", { name: "Recent Workbooks" })).toBeVisible();
+  await expect(home.getByRole("link", { name: "Quick Quest", exact: true })).toBeVisible();
+  await expectAccessible(page, "F2 new Player");
+  const sessionId = await generateAndStartPractice(page);
+  await page.goto("/prototype/studio-atlas/home");
+  await expect(home.getByRole("link", { name: "Resume Session" })).toHaveAttribute("href", `/session/${sessionId}`, { timeout: 20_000 });
+  await expect(home.getByRole("link", { name: "Quick Quest", exact: true })).toHaveCount(0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectNoHorizontalOverflow(page);
+  await expectAccessible(page, "F2 active Session dashboard");
+  await home.getByRole("link", { name: "Resume Session" }).click();
+  await expect(page).toHaveURL(new RegExp(`/session/${sessionId}$`));
+});

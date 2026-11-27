@@ -1,5 +1,6 @@
 /* Studio Atlas candidate tokens. Scoped to F1 preview until approved. */
-.studio-atlas {
+.studio-atlas,
+.app-shell--atlas {
   --sa-canvas: #101518;
   --sa-panel: #171e23;
   --sa-raised: #202a30;

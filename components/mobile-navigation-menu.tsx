@@ -72,6 +72,8 @@ export function MobileNavigationMenu({ pathname, atlas = false, atlasHome = "/" 
                     const href = atlas && item.href === "/" ? atlasHome : item.href;
                     const active =
                       isRouteActive(pathname, href) ||
+                      (atlas && item.href === "/" && pathname === "/prototype/studio-atlas/home") ||
+                      (atlas && item.href === "/quests" && pathname.startsWith("/quest/")) ||
                       (item.href === "/codex" &&
                         (pathname === "/prototype/codex-v2" ||
                           pathname.startsWith("/prototype/codex-v2/")));

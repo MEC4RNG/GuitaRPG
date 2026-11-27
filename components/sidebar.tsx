@@ -49,7 +49,7 @@ export function Sidebar({ pathname, atlas = false, atlasHome = "/", collapsed = 
             <div className="nav-group__items">
               {group.items.map((item) => {
                 const href = atlas && item.href === "/" ? atlasHome : item.href;
-                const active = isRouteActive(pathname, href) || (atlas && item.href === "/quests" && pathname.startsWith("/quest/"));
+                const active = isRouteActive(pathname, href) || (atlas && ((item.href === "/quests" && pathname.startsWith("/quest/")) || (item.href === "/" && pathname === "/prototype/studio-atlas/home") || (item.href === "/codex" && pathname.startsWith("/prototype/codex-v2"))));
 
                 return (
                   <Link

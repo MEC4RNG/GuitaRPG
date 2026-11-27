@@ -14,6 +14,7 @@ export function StudioAtlasHome() {
 
   useEffect(() => {
     const client = createBrowserSupabaseClient();
+    let observedOwner: string | null | undefined;
     let active = true;
     let generation = 0;
     const load = async () => {
@@ -28,8 +29,15 @@ export function StudioAtlasHome() {
       }
     };
     let timer = window.setTimeout(() => void load(), 0);
-    const { data } = client.auth.onAuthStateChange((event) => {
+    const { data } = client.auth.onAuthStateChange((event, session) => {
+      if (event === "INITIAL_SESSION") {
+        observedOwner = session?.user.id ?? null;
+        return;
+      }
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      const owner = session?.user.id ?? null;
+      if (event !== "USER_UPDATED" && observedOwner === owner) return;
+      observedOwner = owner;
       generation += 1;
       setOverview(null);
       setFailed(false);
@@ -134,7 +142,7 @@ export function StudioAtlasHome() {
           <div className="sa-component-grid">
             <section className="sa-panel" aria-labelledby="sa-home-training">
               <p className="sa-eyebrow">Next practice</p>
-              <h2 id="sa-home-training">Today's training</h2>
+              <h2 id="sa-home-training">Today&apos;s training</h2>
               {overview.training?.uniqueTop ? (
                 <>
                   <h3>{overview.training.uniqueTop.skill}</h3>
@@ -177,7 +185,7 @@ export function StudioAtlasHome() {
               {overview.training?.uniqueTop ? (
                 <>
                   <p>Training focus: {overview.training.uniqueTop.skill}</p>
-                  <AtlasStatus kind={overview.training.uniqueTop.source.candidate.skill.assessment_status === "ESTIMATED" ? "estimated" : "unknown"}>
+                  <AtlasStatus kind={overview.training.uniqueTop.source.candidate.skill.assessment_status === "ESTIMATED" ? "estimated" : overview.training.uniqueTop.source.candidate.skill.assessment_status === "ESTABLISHED" ? "information" : "unknown"}>
                     {overview.training.uniqueTop.source.candidate.skill.assessment_status}
                     {overview.training.uniqueTop.source.candidate.skill.visible_level
                       ? ` · Level ${overview.training.uniqueTop.source.candidate.skill.visible_level}`
@@ -230,7 +238,7 @@ export function StudioAtlasHome() {
           </Link>
         ))}
       </nav>
-      <p className="sa-preview-note">F2 dashboard preview · actual Player records when available. Existing navigation and production routes remain unchanged.</p>
+      <p className="sa-preview-note">F2 dashboard preview · actual Player records when available. Existing production routes remain unchanged.</p>
     </section>
   );
 }
