@@ -78,7 +78,7 @@ describe("DATA-004 account routes", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("cache-control")).toContain("no-store");
     expect(response.headers.get("content-disposition")).toMatch(
-      /guitarrpg-player-data-\d{4}-\d{2}-\d{2}\.json/,
+      /sound-uncharted-player-data-\d{4}-\d{2}-\d{2}\.json/,
     );
     expect(response.headers.get("content-disposition")).not.toContain(recentUser.email);
     await expect(response.json()).resolves.toMatchObject({

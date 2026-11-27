@@ -18,7 +18,7 @@
     "test:e2e": "playwright test",
     "test:accessibility": "playwright test tests/e2e/accessibility.spec.ts --project=chromium",
     "test:browser-compat": "playwright test tests/e2e/browser-compatibility.spec.ts --project=firefox --project=webkit --workers=1",
-    "test:responsive": "playwright test tests/e2e/responsive.spec.ts --project=small-phone --project=tablet --project=mobile-webkit --workers=1",
+    "test:responsive": "playwright test tests/e2e/responsive.spec.ts tests/e2e/mobile-navigation.spec.ts --project=small-phone --project=tablet --project=mobile-webkit --workers=1",
     "test:failure-states": "playwright test tests/e2e/failure-states.spec.ts --project=chromium",
     "test:generate-bootstrap": "playwright test tests/e2e/generate-player-bootstrap.spec.ts --project=chromium --project=mobile-chromium --project=mobile-webkit --workers=1",
     "test:codex-peek-e2e": "playwright test tests/e2e/quest-journey.spec.ts --workers=1 && playwright test tests/e2e/phase5-launch-package.spec.ts --grep \"fresh Player Profile\" --workers=1",

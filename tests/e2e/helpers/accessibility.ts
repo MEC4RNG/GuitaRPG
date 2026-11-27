@@ -17,7 +17,34 @@ export async function expectAccessible(page: Page, label: string) {
 }
 
 export async function expectNoHorizontalOverflow(page: Page) {
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
-    true,
-  );
+  const geometry = await page.evaluate(() => {
+    const viewport = window.innerWidth;
+    const width = document.documentElement.scrollWidth;
+    return {
+      viewport,
+      width,
+      offenders:
+        width > viewport
+          ? Array.from(document.querySelectorAll("main *"))
+              .filter((element) => {
+                const bounds = element.getBoundingClientRect();
+                return (
+                  bounds.width > 0 &&
+                  bounds.right > viewport + 1 &&
+                  getComputedStyle(element).position !== "fixed"
+                );
+              })
+              .slice(0, 12)
+              .map((element) => ({
+                tag: element.tagName,
+                className: element.getAttribute("class"),
+                right: Math.round(element.getBoundingClientRect().right),
+              }))
+          : [],
+    };
+  });
+  expect(
+    geometry.width <= geometry.viewport,
+    `Horizontal overflow at ${page.url()}: ${JSON.stringify(geometry)}`,
+  ).toBe(true);
 }
