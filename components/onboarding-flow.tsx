@@ -65,18 +65,21 @@ export function OnboardingFlow({ next }: { next?: string }) {
         ]);
         const profile = profileResult.data as
           (Profile & Record<string, string | number | null>) | null;
-        if (profile?.onboarding_status === "COMPLETE") {
+        if (profileResult.error || !profile) throw new Error("Player profile unavailable");
+        const rows = (tuningResult.data ?? []) as Tuning[];
+        if (profile.onboarding_status === "COMPLETE") {
           setComplete(true);
         } else {
-          await supabase
+          if (tuningResult.error || !rows.length) throw new Error("Tuning options unavailable");
+          const update = await supabase
             .from("player_profiles")
             .update({ onboarding_status: "IN_PROGRESS" })
             .eq("player_id", data.user.id);
+          if (update.error) throw new Error("Player setup unavailable");
           setExperience(String(profile?.experience_background ?? "UNSPECIFIED"));
           setMinutes(String(profile?.typical_session_minutes ?? 20));
           setChallenge(String(profile?.challenge_preference ?? "BALANCED"));
         }
-        const rows = (tuningResult.data ?? []) as Tuning[];
         setTunings(rows);
         setTuningId(rows.find((row) => row.slug === "standard_tuning")?.id ?? rows[0]?.id ?? "");
         setReady(true);
