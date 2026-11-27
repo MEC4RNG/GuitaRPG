@@ -63,7 +63,9 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
         return;
       }
       setOwnerId(resolvedOwnerId);
-      const next = daily ? generateQuickQuest({ seed: dailyChallengeSeed() }) : generateQuickQuest();
+      const next = daily
+        ? generateQuickQuest({ seed: dailyChallengeSeed() })
+        : generateQuickQuest();
       setGenerated(next);
       setDurableQuestId(null);
       saveQuestDraft(window.sessionStorage, resolvedOwnerId, next.quest);
