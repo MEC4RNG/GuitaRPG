@@ -41,10 +41,15 @@ import {
   type WorkbookRow,
 } from "@/lib/workbook/repository";
 import { workbookContextHref, type WorkbookRouteContext } from "@/lib/workbook/context";
+import { craftMaterial, mergeCraftPageOrder } from "@/lib/ux/craft-material";
+import type { WorkbookDocumentV1 } from "@/lib/workbook/document-v1";
 
 export function WorkbookPersistenceSurface({
   context,
   embeddedCraft = false,
+  atlasCraft = false,
+  craftReadOnly = false,
+  onReturnToExplore,
   embeddedExplore,
   lessonSource = null,
   onEmbeddedPendingChange,
@@ -53,6 +58,9 @@ export function WorkbookPersistenceSurface({
 }: {
   context: WorkbookRouteContext | null;
   embeddedCraft?: boolean;
+  atlasCraft?: boolean;
+  craftReadOnly?: boolean;
+  onReturnToExplore?: () => Promise<void>;
   embeddedExplore?: { pageId: string; moduleKey: string | null };
   lessonSource?: CodexLessonWorkbookSource | null;
   onEmbeddedPendingChange?: (pending: boolean) => void;
@@ -83,6 +91,12 @@ export function WorkbookPersistenceSurface({
     [onEmbeddedPendingChange],
   );
   const [transferring, setTransferring] = useState(false);
+  const [craftCreating, setCraftCreating] = useState(false);
+  const [craftTitle, setCraftTitle] = useState("New composition");
+  const [craftTarget, setCraftTarget] = useState("");
+  const [craftBusy, setCraftBusy] = useState(false);
+  const [craftRetry, setCraftRetry] = useState(false);
+  const compositionReceipt = useRef<{ requestId: string; title: string; target: string; document: WorkbookDocumentV1; page?: WorkbookPageRow; workbookId?: string } | null>(null);
   const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
   const [creatingLesson, setCreatingLesson] = useState(false);
@@ -150,13 +164,13 @@ export function WorkbookPersistenceSurface({
             .map((link) => snapshot.pages.find((page) => page.id === link.page_id))
             .filter((page): page is WorkbookPageRow => Boolean(page))
         : [];
-      const requestedPage = snapshot.pages.find((item) => item.id === context?.pageId);
+      const requestedPage = (embeddedCraft ? eligibleCraftPages : snapshot.pages).find((item) => item.id === context?.pageId);
       const defaultPage =
         requestedPage ??
         eligibleExplorePages.find((item) => item.id === embeddedExplore?.pageId) ??
         eligibleCraftPages[0];
       setSelectedId((current) =>
-        current && snapshot.workbooks.some((item) => item.id === current)
+        !atlasCraft && current && snapshot.workbooks.some((item) => item.id === current)
           ? current
           : (defaultPage?.workbook_id ??
             snapshot.workbooks.find((item) => !item.archived_at)?.id ??
@@ -168,7 +182,7 @@ export function WorkbookPersistenceSurface({
     } finally {
       setLoading(false);
     }
-  }, [context, embeddedCraft, embeddedExplore, getClient, lessonSource, router]);
+  }, [context, embeddedCraft, embeddedExplore, getClient, lessonSource, router, atlasCraft]);
 
   useEffect(() => {
     // Initial owner-scoped hydration is intentionally driven by the browser Auth client.
@@ -219,6 +233,7 @@ export function WorkbookPersistenceSurface({
     setMessage("");
     setSelectedId(workbookId);
     setInitialPageId(pageId);
+    if (atlasCraft) setActivePage(null);
     setHistoryOpen(false);
   };
 
@@ -498,6 +513,72 @@ export function WorkbookPersistenceSurface({
     }
   };
 
+  async function linkCraftMaterial(page: WorkbookPageRow) {
+    if (!context || !questContextTitle || pendingEdits || craftBusy || craftReadOnly) return;
+    setCraftBusy(true);
+    onEmbeddedPendingChange?.(true);
+    try {
+      const link = await attachWorkbookContext(getClient(), { pageId: page.id, questId: context.questId, stage: "CRAFT", relationship: "APPLIES_TO" });
+      setContextLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+      selectWorkbook(page.workbook_id, page.id);
+      setDisplayMode(false);
+      setMessage("Existing page linked to Craft. Your Explore material is unchanged.");
+    } catch {
+      setMessage("The page could not be linked to Craft. Your saved material is unchanged.");
+    } finally {
+      setCraftBusy(false);
+      onEmbeddedPendingChange?.(false);
+    }
+  }
+
+  async function createAtlasComposition() {
+    if (!context || !questContextTitle || pendingEdits || craftBusy || craftReadOnly) return;
+    const title = craftTitle.trim().slice(0, 120);
+    if (!title) return;
+    const receipt: NonNullable<typeof compositionReceipt.current> = compositionReceipt.current ?? { requestId: crypto.randomUUID(), title, target: craftTarget, document: starterWorkbookDocument() };
+    if (!compositionReceipt.current && receipt.target && !workbooks.some((book) => book.id === receipt.target && !book.archived_at && book.kind === "WORKBOOK")) {
+      setMessage("Choose an active Workbook.");
+      return;
+    }
+    compositionReceipt.current = receipt;
+    setCraftRetry(true);
+    setCraftBusy(true);
+    onEmbeddedPendingChange?.(true);
+    try {
+      const api = getClient();
+      if (!receipt.page && receipt.target) {
+        receipt.page = await createPage(api, receipt.target, receipt.title, receipt.document, receipt.requestId);
+        receipt.workbookId = receipt.target;
+      }
+      if (!receipt.page) {
+        const created = await createWorkbook(api, "Compositions", { document: receipt.document, requestId: receipt.requestId });
+        receipt.page = created.page;
+        receipt.workbookId = created.workbook.id;
+        setWorkbooks((current) => [created.workbook, ...current.filter((book) => book.id !== created.workbook.id)]);
+      }
+      let page = receipt.page;
+      if (page.title !== receipt.title) {
+        const saved = await savePage(api, { ...page, title: receipt.title }, crypto.randomUUID());
+        page = saved.page;
+        receipt.page = page;
+      }
+      upsertPage(page);
+      const link = await attachWorkbookContext(api, { pageId: page.id, questId: context.questId, stage: "CRAFT", relationship: "CREATED_DURING" });
+      setContextLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
+      selectWorkbook(page.workbook_id, page.id);
+      setDisplayMode(false);
+      setCraftCreating(false);
+      setCraftRetry(false);
+      compositionReceipt.current = null;
+      setMessage("Composition created and linked to this Quest.");
+    } catch {
+      setMessage("Your composition may already be saved. Retry with the same destination to finish linking it.");
+    } finally {
+      setCraftBusy(false);
+      onEmbeddedPendingChange?.(false);
+    }
+  }
+
   if (loading) return <p role="status">Loading your Workbooks…</p>;
 
   const craftLinks = contextLinks.filter((link) => link.stage === "CRAFT");
@@ -642,8 +723,13 @@ export function WorkbookPersistenceSurface({
   }
 
   if (embeddedCraft && context) {
+    const material = craftMaterial({ questId: context.questId, links: contextLinks, pages, workbooks });
+    const reusable = material.filter((item) => item.explore && !item.craft);
+    const selectedCraftPages = selectedPages.filter((page) => craftPages.some((craftPage) => craftPage.id === page.id));
+    const currentCraftPage = selectedCraftPages.find((page) => page.id === activePage?.id) ?? selectedCraftPages.find((page) => page.id === initialPageId) ?? selectedCraftPages[0];
+    const craftDisabled = pendingEdits || craftBusy || craftReadOnly;
     return (
-      <section className="craft-workspace" aria-labelledby="craft-workspace-title">
+      <section className={`craft-workspace${atlasCraft ? " craft-workspace--atlas" : ""}`} aria-labelledby="craft-workspace-title">
         <header className="craft-workspace__header">
           <div>
             <p className="eyebrow">COMPOSITION WORKBOOK</p>
@@ -651,26 +737,25 @@ export function WorkbookPersistenceSurface({
             <p>Private, persistent work. Editing never starts a Session or claims progress.</p>
           </div>
           <div className="craft-workspace__actions">
-            <button type="button" disabled={pendingEdits} onClick={() => void createComposition()}>
-              New Composition
-            </button>
-            {activePage ? (
+            {atlasCraft && onReturnToExplore ? <button type="button" className="action-button action-button--secondary" disabled={pendingEdits || craftBusy} onClick={() => void onReturnToExplore()}>Back to Explore</button> : null}
+            {(!atlasCraft || craftPages.length > 0) ? <button type="button" disabled={atlasCraft ? craftDisabled : pendingEdits} onClick={() => atlasCraft ? setCraftCreating(true) : void createComposition()}>New Composition</button> : null}
+            {(atlasCraft ? currentCraftPage : activePage) ? (
               <Link
                 className="action-button action-button--secondary"
-                aria-disabled={pendingEdits}
+                aria-disabled={pendingEdits || craftBusy}
                 href={
-                  pendingEdits
+                  pendingEdits || craftBusy
                     ? "#craft-workspace-title"
                     : workbookContextHref(
                         context.questId,
                         "CRAFT",
-                        craftLinks.find((link) => link.page_id === activePage.id)?.relationship ??
+                        craftLinks.find((link) => link.page_id === (atlasCraft ? currentCraftPage?.id : activePage?.id))?.relationship ??
                           "APPLIES_TO",
-                        { pageId: activePage.id },
+                        { pageId: (atlasCraft ? currentCraftPage?.id : activePage?.id) },
                       )
                 }
                 onClick={(event) => {
-                  if (pendingEdits) event.preventDefault();
+                  if (pendingEdits || craftBusy) event.preventDefault();
                 }}
               >
                 Open in Full Workbook Editor
@@ -681,12 +766,39 @@ export function WorkbookPersistenceSurface({
         <p role="status" className="workbook-library__message">
           {message}
         </p>
+        {atlasCraft && craftReadOnly ? <p className="atlas-lesson-note">This Quest is archived. Restore it before creating or editing linked material.</p> : null}
+        {atlasCraft && craftCreating ? (
+          <section className="atlas-composition-form" aria-labelledby="atlas-composition-title">
+            <h3 id="atlas-composition-title">Create a composition page</h3>
+            <label>Composition title<input value={craftTitle} maxLength={120} disabled={craftDisabled || craftRetry} onChange={(event) => setCraftTitle(event.target.value)} /></label>
+            <label>Composition destination<select value={craftTarget} disabled={craftDisabled || craftRetry} onChange={(event) => setCraftTarget(event.target.value)}><option value="">Create a new Workbook</option>{workbooks.filter((book) => !book.archived_at && book.kind === "WORKBOOK").map((book) => <option key={book.id} value={book.id}>{book.title}</option>)}</select></label>
+            <div className="craft-workspace__actions"><button type="button" className="action-button action-button--primary" disabled={craftDisabled || !craftTitle.trim()} onClick={() => void createAtlasComposition()}>{craftRetry ? "Retry composition save" : "Create composition"}</button><button type="button" disabled={craftBusy || craftRetry} onClick={() => setCraftCreating(false)}>Cancel</button></div>
+          </section>
+        ) : null}
+        {atlasCraft && reusable.length ? (
+          <details className="atlas-craft-material" open={!craftPages.length || undefined}>
+            <summary>Develop material from Explore · {reusable.length}</summary>
+            <p>Use the original page, not a copy. Linking does not change its content.</p>
+            <ul>{reusable.map(({ page, workbook }) => <li key={page.id}><span><strong>{page.title}</strong><small>{workbook.title}</small></span><button type="button" disabled={craftDisabled} onClick={() => void linkCraftMaterial(page)}>Develop this page</button></li>)}</ul>
+          </details>
+        ) : null}
+        {atlasCraft && currentCraftPage ? (
+          <section className="atlas-craft-context" aria-label="Current Craft page">
+            <p className="eyebrow">QUEST / CRAFT / WORKBOOK</p>
+            <h3>{selected?.title} · {currentCraftPage.title}</h3>
+            <p>{material.find((item) => item.page.id === currentCraftPage.id)?.explore ? "Linked to Explore and Craft · same saved page" : "Linked to this Quest’s Craft stage"}</p>
+            <div className="workbook-mode-switch" role="group" aria-label="Craft mode">
+              <button type="button" aria-pressed={!showingDisplay && !craftReadOnly} disabled={craftReadOnly || craftBusy} onClick={() => setDisplayMode(false)}>Edit</button>
+              <button type="button" aria-pressed={showingDisplay || craftReadOnly} disabled={pendingEdits || craftBusy} onClick={() => setDisplayMode(true)}>Display</button>
+            </div>
+          </section>
+        ) : null}
         {[...new Set(craftPages.map((page) => page.workbook_id))].length > 1 ? (
           <label className="craft-workspace__selector">
             Composition Workbook
             <select
               value={selectedId ?? ""}
-              disabled={pendingEdits}
+              disabled={pendingEdits || craftBusy}
               onChange={(event) => {
                 const next = craftPages.find((page) => page.workbook_id === event.target.value);
                 if (next) selectWorkbook(next.workbook_id, next.id);
@@ -704,17 +816,21 @@ export function WorkbookPersistenceSurface({
           <div className="craft-workspace__empty">
             <h3>No Quest composition yet</h3>
             <p>Create one explicitly when you are ready. Nothing has been created automatically.</p>
-            <button type="button" onClick={() => void createComposition()}>
-              New Composition
-            </button>
+            <button type="button" disabled={atlasCraft ? craftDisabled : pendingEdits} onClick={() => atlasCraft ? setCraftCreating(true) : void createComposition()}>New Composition</button>
           </div>
         ) : null}
-        {selected && selectedPages.length && craftPages.length ? (
+        {atlasCraft && (showingDisplay || craftReadOnly) && currentCraftPage ? (
+          <section className="atlas-craft-reading" aria-label="Craft display mode">
+            {selectedCraftPages.length > 1 ? <label className="craft-workspace__selector">Display page<select value={currentCraftPage.id} disabled={craftBusy} onChange={(event) => selected && selectWorkbook(selected.id, event.target.value)}>{selectedCraftPages.map((page) => <option key={page.id} value={page.id}>{page.title}</option>)}</select></label> : null}
+            <WorkbookDisplay document={currentCraftPage.document} />
+          </section>
+        ) : null}
+        {selected && (atlasCraft ? selectedCraftPages.length > 0 && !showingDisplay && !craftReadOnly : selectedPages.length && craftPages.length) ? (
           <WorkbookEditorPrototype
             key={`${selected.id}-${initialPageId ?? "first"}`}
             persistent
             workbookTitle={selected.title}
-            initialActivePageId={initialPageId ?? undefined}
+            initialActivePageId={atlasCraft ? currentCraftPage?.id : initialPageId ?? undefined}
             initialPages={selectedPages.filter((page) =>
               craftPages.some((craftPage) => craftPage.id === page.id),
             )}
@@ -749,7 +865,10 @@ export function WorkbookPersistenceSurface({
               setPages((current) => current.filter((page) => page.id !== pageId));
             }}
             onReorderPages={async (ids) => {
-              await reorderPages(getClient(), selected.id, ids);
+              const order = atlasCraft ? mergeCraftPageOrder(selectedPages.map((page) => page.id), selectedCraftPages.map((page) => page.id), ids) : ids;
+              await reorderPages(getClient(), selected.id, order);
+              const positions = new Map(order.map((id, position) => [id, position]));
+              setPages((current) => current.map((page) => positions.has(page.id) ? { ...page, position: positions.get(page.id)! } : page));
             }}
             onSavePage={async (page, requestId) => {
               const result = await savePage(

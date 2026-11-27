@@ -240,3 +240,96 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* F3D: composition canvas, optional capture and contextual reference toolkit. */
+.craft-workspace--atlas .craft-workspace__header h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+}
+.atlas-composition-form,
+.atlas-craft-context,
+.atlas-craft-material,
+.atlas-craft-reading,
+.atlas-toolkit-reference {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  background: var(--surface-raised);
+  overflow-wrap: anywhere;
+}
+.atlas-craft-material:not([open]),
+.atlas-toolkit-reference:not([open]) {
+  display: block;
+}
+.atlas-craft-material summary,
+.atlas-toolkit-reference summary {
+  min-height: 44px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.atlas-craft-material ul {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.atlas-craft-material li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-top: 1px solid var(--surface-border);
+  padding-top: 0.75rem;
+}
+.atlas-craft-material li span {
+  display: grid;
+  min-width: 0;
+  gap: 0.2rem;
+}
+.atlas-craft-material small {
+  color: var(--surface-muted);
+}
+.atlas-composition-form label,
+.atlas-toolkit-reference label {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+}
+.atlas-composition-form input,
+.atlas-composition-form select,
+.atlas-toolkit-reference select,
+.atlas-craft-reading select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.5rem;
+  background: var(--surface-panel);
+  color: var(--surface-text);
+  font: inherit;
+}
+.atlas-craft-context .workbook-mode-switch {
+  justify-self: start;
+  max-width: 100%;
+}
+.atlas-craft-context .workbook-mode-switch button {
+  min-height: 44px;
+}
+.atlas-craft-reading .workbook-display {
+  min-width: 0;
+  max-width: 100%;
+}
+.atlas-toolkit-objective {
+  margin-block: 0.75rem;
+  border-left: 2px solid var(--surface-accent);
+  padding-left: 0.75rem;
+}

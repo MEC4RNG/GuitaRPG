@@ -1346,6 +1346,9 @@ export function QuestJourneySurface({
             <WorkbookPersistenceSurface
               context={craftContext}
               embeddedCraft
+              atlasCraft={atlas}
+              craftReadOnly={atlas && archived}
+              onReturnToExplore={atlas ? async () => { await chooseStage("EXPLORE"); } : undefined}
               onEmbeddedPendingChange={setEditorPending}
             />
           ) : null}
@@ -1408,6 +1411,7 @@ export function QuestJourneySurface({
           {journey.currentStage === "CRAFT" ? (
             <details className="quest-toolkit" open>
               <summary>Creative guidance</summary>
+              {atlas ? <p className="atlas-toolkit-objective">{quest.objective.summary}</p> : null}
               <dl className="journey-detail-list">
                 <div>
                   <dt>Primary</dt>
@@ -1439,6 +1443,7 @@ export function QuestJourneySurface({
                   ))}
                 </ul>
               ) : null}
+              {atlas ? <p className="atlas-lesson-note">Choose a creative direction that fits your objective. These are optional ideas, not required milestones.</p> : null}
               <div className="craft-prompts" aria-label="Creative prompt ideas">
                 {["Riff", "Progression", "Melody", "Groove", "Étude", "Freeform idea"].map(
                   (label) => (
@@ -1447,6 +1452,9 @@ export function QuestJourneySurface({
                 )}
               </div>
             </details>
+          ) : null}
+          {atlas && journey.currentStage === "CRAFT" ? (
+            <details className="atlas-toolkit-reference"><summary>Musical reference tools</summary><p className="atlas-lesson-note">Select a Quest ingredient to view its available interactive reference.</p><label>Toolkit ingredient<select value={selectedTopic?.key ?? ""} disabled={editorPending || pending} onChange={(event) => setSelectedTopicKey(event.target.value)}>{topics.map((topic) => <option key={topic.key} value={topic.key}>{topic.name}</option>)}</select></label>{selectedMapCodex?.blocks.length ? <Link className="text-link" href={codexQuestPreviewHref(questId, selectedTopic.slug)} target="_blank" rel="noopener noreferrer">Open interactive reference in Codex ↗</Link> : <p>No separate interactive reference is available for this ingredient.</p>}</details>
           ) : null}
           {journey.currentStage === "CRAFT" ? (
             <div className="quest-toolkit__practice">
