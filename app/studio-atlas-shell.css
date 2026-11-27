@@ -1,0 +1,124 @@
+/* F2 chrome is scoped to explicitly enabled nonproduction previews. */
+.app-shell--atlas {
+  --sidebar-width: 15rem;
+  --sa-rail: #101b1d;
+}
+.app-shell--atlas .sidebar {
+  background: var(--sa-rail);
+  border-color: var(--sa-border-subtle);
+  padding: 1rem 0.75rem;
+  overflow-y: auto;
+}
+.app-shell--atlas .sidebar__brand {
+  padding: 0 0 1rem;
+}
+.app-shell--atlas .brand-mark__glyph {
+  border: 0;
+  color: var(--sa-brand);
+  box-shadow: none;
+  flex: 0 0 2.5rem;
+}
+.app-shell--atlas .brand-mark__glyph svg {
+  width: 2.5rem;
+}
+.app-shell--atlas .brand-mark strong {
+  color: var(--sa-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+.app-shell--atlas .brand-mark small,
+.app-shell--atlas .nav-group h2,
+.app-shell--atlas .nav-link,
+.app-shell--atlas .sidebar__footer small {
+  color: var(--sa-muted);
+}
+.app-shell--atlas .sidebar__nav {
+  gap: 0.85rem;
+}
+.app-shell--atlas .nav-link--active,
+.app-shell--atlas .nav-link:hover {
+  background: var(--sa-raised);
+  color: var(--sa-text);
+  border-color: var(--sa-border-control);
+}
+.app-shell--atlas .nav-link--active {
+  box-shadow: inset 3px 0 0 var(--sa-brand);
+}
+.app-shell--atlas .nav-link__signal {
+  color: var(--sa-brand);
+}
+.app-shell--atlas .sidebar__footer {
+  position: static;
+  margin-top: 1.5rem;
+  border-color: var(--sa-border-subtle);
+}
+.app-shell--atlas .sidebar__footer strong {
+  color: var(--sa-text);
+}
+.atlas-rail-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  width: 100%;
+  padding: 0.35rem 0.65rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--sa-border-control);
+  border-radius: 0.5rem;
+  color: var(--sa-text);
+  background: var(--sa-raised);
+  cursor: pointer;
+}
+.app-shell--atlas .topbar,
+.app-shell--atlas .mobile-nav {
+  background: var(--sa-rail);
+  border-color: var(--sa-border-subtle);
+  color: var(--sa-text);
+}
+.app-shell--atlas .topbar__eyebrow {
+  color: var(--sa-brand);
+}
+.app-shell--atlas .mobile-nav__item {
+  color: var(--sa-muted);
+}
+.app-shell--atlas .mobile-nav__item--active {
+  color: var(--sa-text);
+}
+.app-shell--atlas .mobile-nav__item--primary .mobile-nav__icon {
+  color: var(--sa-brand);
+  border-color: var(--sa-brand);
+  background: var(--sa-raised);
+}
+@media (min-width: 64rem) {
+  .app-shell--atlas-compact {
+    --sidebar-width: 4.5rem;
+  }
+  .app-shell--atlas-compact .sidebar {
+    padding-inline: 0.4rem;
+  }
+  .app-shell--atlas-compact .sidebar__brand {
+    justify-content: center;
+  }
+  .app-shell--atlas-compact .brand-mark {
+    justify-content: center;
+  }
+  .app-shell--atlas-compact .sidebar__brand-copy,
+  .app-shell--atlas-compact .atlas-rail-label,
+  .app-shell--atlas-compact .nav-group h2,
+  .app-shell--atlas-compact .nav-link__signal,
+  .app-shell--atlas-compact .sidebar__footer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .app-shell--atlas-compact .nav-link,
+  .app-shell--atlas-compact .atlas-rail-toggle {
+    justify-content: center;
+    padding: 0;
+  }
+}

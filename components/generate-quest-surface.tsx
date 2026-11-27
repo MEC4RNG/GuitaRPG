@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
 import { generateQuickQuest, type GeneratedQuest } from "@/lib/quest/generator";
+import { dailyChallengeSeed } from "@/lib/quest/generator/daily-preview";
 import { toQuestPersistenceInput } from "@/lib/quest/runtime";
 import { questCodexReferences } from "@/lib/quest/codex-references";
 import { saveGeneratedQuestJourney, type JourneyRpcClient } from "@/lib/quest/journey-repository";
@@ -14,7 +15,7 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type GenerateClient = JourneyRpcClient;
 
-export function GenerateQuestSurface() {
+export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
   const router = useRouter();
   const [identityReady, setIdentityReady] = useState(false);
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
@@ -62,7 +63,9 @@ export function GenerateQuestSurface() {
         return;
       }
       setOwnerId(resolvedOwnerId);
-      const next = generateQuickQuest();
+      const next = daily
+        ? generateQuickQuest({ seed: dailyChallengeSeed() })
+        : generateQuickQuest();
       setGenerated(next);
       setDurableQuestId(null);
       saveQuestDraft(window.sessionStorage, resolvedOwnerId, next.quest);
@@ -105,8 +108,12 @@ export function GenerateQuestSurface() {
       <header className="page-header">
         <div>
           <p className="eyebrow">PLAY · GENERATE</p>
-          <h1 id="generate-title">Build the next quest.</h1>
-          <p>One useful practice plan, generated from the canonical Quest system.</p>
+          <h1 id="generate-title">{daily ? "Boredom Buster" : "Build the next quest."}</h1>
+          <p>
+            {daily
+              ? "A daily seeded one-Skill Quick Quest. Generate the daily challenge when ready. An existing draft stays available unless you confirm replacement."
+              : "One useful practice plan, generated from the canonical Quest system."}
+          </p>
         </div>
         <button
           className="action-button"

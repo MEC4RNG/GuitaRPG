@@ -7,6 +7,7 @@ export type QuestCodexReference = {
   name: string;
   role: string;
   href: string | null;
+  fullHref?: string;
   parameter?: string;
 };
 

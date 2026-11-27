@@ -1,0 +1,9 @@
+# DESIGN-001-F2-R1 — Visitor features and Player dashboard modules
+
+Base: validated F2 `21102d4e7bc166a91306e573a2add6ca5a11e5d2`, PR #35, all six workflows successful. F1 all six successful at 8f9442f.
+
+User requested removing the redundant bottom destination links and replacing them with visitor benefit boxes and useful Player modules before F3. Keep shared navigation, hero, Today's training, development/XP summary and recent Workbooks. Visitor and incomplete setup show six feature boxes and entry actions; no personal records or automatic signup on Home. Recognized guests count as Players when setup is complete.
+
+Player modules: recent three owner-scoped nonarchived/nonstopped Journeys with resolved title, primary Skill and saved stage, links to actual Quest. Boredom Buster opens an explicitly generated one-Skill existing Quick Quest with a UTC-date seed and roughly ten-minute target; no new DAILY schema, unique completion record, streak, reward multiplier, or auto-generation. Existing draft confirmation applies; omit daily launch when Home finds open Session. Same-day theme can be repeated; no guarantee that consecutive days produce distinct combinations. Existing session guard remains authority. Codex discovery samples a published Skill or Concept once per Home load. Practice setup uses actual preferences with links to existing Profile; warm-up customization is labeled planned. Learning path displays actual saved goals and current training focus with Skills and Profile links; graph, goal-specific progress and editable modular layout deferred. No invented skill metrics.
+
+Scope: F2 preview only. No new dependencies, schema changes, or production deployment. Read-only owner-scoped projection; no ensure-journey or readiness mutation on Home. Review the modules' placement and content with user before F3; final-head CI and browser tests required.

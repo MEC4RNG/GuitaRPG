@@ -2,22 +2,36 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { AppShell } from "@/components/app-shell";
+import {
+  canAccessStudioAtlasPreview,
+  useStudioAtlasShellPreview,
+} from "@/lib/ux/studio-atlas-preview";
 
 import "./globals.css";
+import "./workbook-workspace.css";
+import "./studio-atlas.css";
+import "./studio-atlas-home.css";
+import "./studio-atlas-shell.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "GuitaRPG",
-    template: "%s · GuitaRPG",
+    default: "Sound Uncharted",
+    template: "%s · Sound Uncharted",
   },
-  description: "A guitar practice RPG that turns musical development into generated quests.",
+  description:
+    "Sound Uncharted turns guitar practice into musical quests, learning, and exploration.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
       <body>
-        <AppShell>{children}</AppShell>
+        <AppShell
+          atlasAvailable={canAccessStudioAtlasPreview()}
+          atlasDefault={useStudioAtlasShellPreview()}
+        >
+          {children}
+        </AppShell>
       </body>
     </html>
   );
