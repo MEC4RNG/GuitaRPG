@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "status": "DESIGN_CANDIDATES",
+  "assets": [
+    {
+      "id": "atlas-horizon",
+      "path": "/studio-atlas/atlas-horizon.svg",
+      "view_box": [
+        1200,
+        540
+      ],
+      "usage": "Discovery hero and wide landscape headers",
+      "crop": "Right-biased sun and terrain; overlay with opaque text-safe area",
+      "decorative": true
+    },
+    {
+      "id": "atlas-contours",
+      "path": "/studio-atlas/atlas-contours.svg",
+      "view_box": [
+        400,
+        400
+      ],
+      "usage": "Subtle panel textures and notebook cover patterns",
+      "crop": "Tile or clip; never use behind notation",
+      "decorative": true
+    },
+    {
+      "id": "guitar-study",
+      "path": "/studio-atlas/guitar-study.svg",
+      "view_box": [
+        560,
+        440
+      ],
+      "usage": "Decorative guitar artwork in hero",
+      "crop": "Contain; use full illustration or intentionally cropped artwork",
+      "decorative": true
+    }
+  ],
+  "component_art": [
+    {
+      "id": "atlas-compass",
+      "source": "components/studio-atlas-primitives.tsx",
+      "usage": "Brand identity candidate; accompanies visible wordmark",
+      "decorative": true
+    },
+    {
+      "id": "domain-emblems",
+      "source": "components/studio-atlas-primitives.tsx",
+      "usage": "Six canonical domains; always pair with label",
+      "decorative": true
+    },
+    {
+      "id": "workbook-cover-compositions",
+      "source": "components/studio-atlas-primitives.tsx + app/studio-atlas.css",
+      "usage": "Three visual cover samples; user-facing title separate",
+      "decorative": true
+    }
+  ],
+  "provenance": "Original vector/CSS artwork authored for Sound Uncharted during F1. No third-party image/font/source asset or external request.",
+  "rights_status": "Project-specific candidate, final brand and production rights review pending.",
+  "revision": "F1.0.1",
+  "asset_budget": {
+    "maximum_svg_bytes": 12000,
+    "maximum_total_svg_bytes": 36000
+  },
+  "limitations": "Illustration rather than cinematic photography; not instructional notation or a final brand approval."
+}

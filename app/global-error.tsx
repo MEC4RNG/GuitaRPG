@@ -12,7 +12,7 @@ export default function GlobalError({
     <html lang="en">
       <body>
         <main className="error-fallback" aria-labelledby="global-error-title">
-          <h1 id="global-error-title">GuitaRPG needs another try.</h1>
+          <h1 id="global-error-title">Sound Uncharted needs another try.</h1>
           <p>No technical details or private Player data are shown here.</p>
           <div className="error-fallback__actions">
             <button type="button" onClick={reset}>

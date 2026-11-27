@@ -287,7 +287,7 @@ export function parseWorkbookDocument(input: unknown): WorkbookDocumentV1 {
     new TextEncoder().encode(JSON.stringify(input)).byteLength >
       WORKBOOK_DOCUMENT_LIMITS.serializedBytes
   )
-    throw new Error("This is not a valid GUITARPG_WORKBOOK_DOCUMENT_V1 document.");
+    throw new Error("This is not a valid Sound Uncharted workbook document.");
   const blocks = input.blocks.map((block) => {
     if (validateBlock(block)) return structuredClone(block);
     // A malformed V1 musical block must not masquerade as a valid editable block
@@ -339,11 +339,16 @@ function inlineFromJson(content: JSONContent[] = []): InlineText[] {
 }
 
 function inlineToJson(content: InlineText[]): JSONContent[] {
-  return content.map((segment) => ({
-    type: "text",
-    text: segment.text,
-    marks: segment.marks?.map((type) => ({ type })),
-  }));
+  // ProseMirror rejects zero-length text nodes; an empty paragraph should
+  // contain no text children, not a { type: "text", text: "" } child.
+  // Codex lesson templates deliberately end with a blank observations line.
+  return content
+    .filter((segment) => segment.text.length > 0)
+    .map((segment) => ({
+      type: "text",
+      text: segment.text,
+      marks: segment.marks?.map((type) => ({ type })),
+    }));
 }
 
 export function editorJsonToWorkbook(json: JSONContent): WorkbookDocumentV1 {
