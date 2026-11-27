@@ -13,6 +13,7 @@ import "./studio-atlas.css";
 import "./studio-atlas-home.css";
 import "./studio-atlas-shell.css";
 import "./studio-atlas-mec.css";
+import "./studio-atlas-quests.css";
 
 export const metadata: Metadata = {
   title: {

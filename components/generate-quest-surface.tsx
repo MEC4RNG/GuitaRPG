@@ -12,10 +12,12 @@ import { questCodexReferences } from "@/lib/quest/codex-references";
 import { saveGeneratedQuestJourney, type JourneyRpcClient } from "@/lib/quest/journey-repository";
 import { clearQuestDraft, readQuestDraft, saveQuestDraft } from "@/lib/quest/draft-v1";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { AtlasQuestDiscovery, AtlasQuestIdentity } from "./studio-atlas-quest-elements";
+import { questCriterionLabel, questDomainIdentity } from "@/lib/ux/quest-discovery";
 
 type GenerateClient = JourneyRpcClient;
 
-export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
+export function GenerateQuestSurface({ daily = false, atlas = false }: { daily?: boolean; atlas?: boolean }) {
   const router = useRouter();
   const [identityReady, setIdentityReady] = useState(false);
   const [generated, setGenerated] = useState<GeneratedQuest | null>(null);
@@ -104,15 +106,15 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
     ?.tuning;
 
   return (
-    <section className="generate-stack" aria-labelledby="generate-title">
+    <section className={`generate-stack${atlas ? " studio-atlas atlas-quest-discovery" : ""}`} aria-labelledby="generate-title">
       <header className="page-header">
         <div>
-          <p className="eyebrow">PLAY · GENERATE</p>
+          <p className="eyebrow">{atlas ? "DISCOVER · QUESTS" : "PLAY · GENERATE"}</p>
           <h1 id="generate-title">{daily ? "Boredom Buster" : "Build the next quest."}</h1>
           <p>
             {daily
               ? "A daily seeded one-Skill Quick Quest. Generate the daily challenge when ready. An existing draft stays available unless you confirm replacement."
-              : "One useful practice plan, generated from the canonical Quest system."}
+              : atlas ? "Find a musical challenge, explore its ingredients and decide where to take your practice." : "One useful practice plan, generated from the canonical Quest system."}
           </p>
         </div>
         <button
@@ -137,6 +139,7 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
         </p>
       ) : null}
 
+      {atlas && !quest ? <AtlasQuestDiscovery daily={daily} /> : null}
       {!quest ? (
         <article className="panel generate-empty">
           <p className="eyebrow">QUICK QUEST</p>
@@ -144,7 +147,7 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
           <p>No setup is required. Generate a coherent challenge and inspect it before practice.</p>
         </article>
       ) : (
-        <article className="panel generate-preview" aria-labelledby="generated-quest-title">
+        <article className="panel generate-preview" aria-labelledby="generated-quest-title" data-domain={atlas ? questDomainIdentity(quest)?.slug : undefined}>
           <div className="generate-preview__heading">
             <div>
               <p className="eyebrow">{quest.identity.type} QUEST</p>
@@ -155,6 +158,19 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
             </span>
           </div>
 
+          {atlas ? (
+            <>
+              <AtlasQuestIdentity quest={quest} />
+              <p className="atlas-quest-note">{durableQuestId ? "Saved in your Quest library" : "Quest preview · not saved"}{daily && quest.metadata.seed !== dailyChallengeSeed() ? " · Existing draft; generate again for today’s challenge." : ""}</p>
+              <section className="atlas-quest-objective" aria-labelledby="atlas-objective-title">
+                <p className="sa-eyebrow">Your challenge</p>
+                <h3 id="atlas-objective-title">Objective</h3>
+                <p>{quest.objective.summary}</p>
+              </section>
+              <p className="atlas-quest-note">Demand is the absolute challenge level, not a rating of your ability. Suggested Session time is a guide, not a deadline.</p>
+              <h3 className="atlas-ingredients-title">Quest ingredients</h3>
+            </>
+          ) : null}
           <dl className="generate-details">
             <div>
               <dt>Primary Skill</dt>
@@ -203,16 +219,27 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
               <dt>Target Tempo</dt>
               <dd>{typeof targetTempo === "number" ? `${targetTempo} BPM` : "Not required"}</dd>
             </div>
-            <div className="generate-details__wide">
-              <dt>Objective</dt>
-              <dd>{quest.objective.summary}</dd>
-            </div>
+            {!atlas ? (
+              <div className="generate-details__wide">
+                <dt>Objective</dt>
+                <dd>{quest.objective.summary}</dd>
+              </div>
+            ) : null}
             <div className="generate-details__wide">
               <dt>Verification</dt>
               <dd>{quest.verification_profile.recommended_mode.replaceAll("_", " ")}</dd>
             </div>
           </dl>
 
+          {atlas ? (
+            <details className="atlas-quest-criteria">
+              <summary>Success criteria · {quest.objective.criteria.length}</summary>
+              <ul>
+                {quest.objective.criteria.map((criterion, index) => <li key={index}>{questCriterionLabel(criterion)}</li>)}
+              </ul>
+              <p>All criteria apply to this Quest. Review them before recording a Session result.</p>
+            </details>
+          ) : null}
           <p className="generate-session-note">This Quest can span multiple practice Sessions.</p>
           <div className="generate-actions generate-actions--quest">
             <button
@@ -239,6 +266,7 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
           </div>
         </article>
       )}
+      {atlas && quest ? <AtlasQuestDiscovery daily={daily} /> : null}
     </section>
   );
 }

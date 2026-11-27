@@ -14,6 +14,7 @@ export default async function GeneratePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const daily = canAccessStudioAtlasPreview() && params.daily === "1";
-  return <GenerateQuestSurface daily={daily} />;
+  const atlas = canAccessStudioAtlasPreview();
+  const daily = atlas && params.daily === "1";
+  return <GenerateQuestSurface daily={daily} atlas={atlas} />;
 }
