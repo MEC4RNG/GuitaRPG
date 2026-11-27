@@ -5726,6 +5726,7 @@ a {
   margin-top: 0;
 }
 .workbook-display p {
+  color: inherit;
   white-space: pre-wrap;
 }
 .workbook-display h2,
