@@ -159,7 +159,7 @@ export async function createPage(
   workbookId: string,
   title: string,
   document: WorkbookDocumentV1,
-  requestId = crypto.randomUUID(),
+  requestId: string = crypto.randomUUID(),
 ) {
   const result = await client.rpc("create_player_workbook_page_v1", {
     p_workbook_id: workbookId,

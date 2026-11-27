@@ -443,6 +443,7 @@ export function QuestJourneySurface({
 
   async function returnToActivity() {
     if (pending || editorPending) return;
+    setPending(true);
     setOpenExplorePage(null);
     try {
       const api = client();
@@ -454,6 +455,8 @@ export function QuestJourneySurface({
       }
     } catch {
       setModuleMessage("Your saved page is unchanged. Linked material could not be refreshed.");
+    } finally {
+      setPending(false);
     }
   }
 
@@ -760,7 +763,7 @@ export function QuestJourneySurface({
                         aria-controls="map-level-content"
                         onClick={() => atlas ? selectActivity(selectedTopic.key, item.id) : setMapLevel(item.id)}
                       >
-                        {item.label}{atlas && selectedMapCodex ? <small className="atlas-level-count">{selectedMapCodex.modules.filter((lesson) => lesson.level === item.id).length} lessons</small> : null}
+                        {item.label}{atlas && selectedMapCodex ? <small aria-hidden="true" className="atlas-level-count">{selectedMapCodex.modules.filter((lesson) => lesson.level === item.id).length} lessons</small> : null}
                       </button>
                     ))}
                   </div>
@@ -909,7 +912,7 @@ export function QuestJourneySurface({
                     ) : null}
                   </div>
                 ) : null}
-                {openExplorePage ? (
+                {atlas && openExplorePage ? (
                   <WorkbookPersistenceSurface
                     context={exploreContext}
                     embeddedExplore={openExplorePage}
@@ -1153,7 +1156,15 @@ export function QuestJourneySurface({
                   </details>
                 ) : null}
               </section>
-
+              {!atlas && openExplorePage ? (
+                <WorkbookPersistenceSurface
+                  context={exploreContext}
+                  embeddedExplore={openExplorePage}
+                  onEmbeddedPendingChange={setEditorPending}
+                  onContinueInCraft={atlas && !archived ? continuePageInCraft : undefined}
+                  onReturnToActivity={atlas ? returnToActivity : undefined}
+                />
+              ) : null}
             </>
           ) : null}
           {journey.currentStage === "CRAFT" ? (
