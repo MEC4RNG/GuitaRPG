@@ -359,7 +359,7 @@ function GuitarTabView({
                               setFret(note?.state === "FRETTED" ? String(note.fret) : "0");
                               setPendingRemoval(null);
                               setFretError("");
-                              focusEvent.currentTarget.select();
+                              if (focusEvent.currentTarget.value) focusEvent.currentTarget.select();
                             }}
                             onChange={(changeEvent) => {
                               const value = changeEvent.target.value.trim().toLowerCase();
@@ -1315,17 +1315,17 @@ export function WorkbookEditorPrototype({
   };
   const insertMusical = (type: "tab" | "chord") => {
     const block = type === "tab" ? emptyTabBlock() : emptyChordBlock();
-    editor
-      .chain()
-      .focus()
-      .insertContent([
-        {
-          type: type === "tab" ? "guitarTab" : "chordDiagram",
-          attrs: { blockId: block.id, block },
-        },
-        { type: "paragraph", attrs: { blockId: createId() } },
-      ])
-      .run();
+    // Tiptap's focus command schedules a later focus on mobile WebKit. That
+    // can steal focus from a tab cell selected immediately after insertion.
+    // Insert at the existing editor selection and restore focus synchronously.
+    const inserted = editor.commands.insertContent([
+      {
+        type: type === "tab" ? "guitarTab" : "chordDiagram",
+        attrs: { blockId: block.id, block },
+      },
+      { type: "paragraph", attrs: { blockId: createId() } },
+    ]);
+    if (inserted) editor.view.focus();
   };
   const exportJson = () => {
     const document = editorJsonToWorkbook(editor.getJSON());
