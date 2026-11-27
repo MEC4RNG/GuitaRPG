@@ -1096,3 +1096,52 @@ test("Quest Codex lesson opens in new tabs and links the exact Explore ingredien
   await page.reload();
   await expect(page.locator(".explore-module__disclosure").first()).toContainText("1 linked page");
 });
+
+test("F3 Map lesson opens exact activity, saves explicitly and continues the same page in Craft", async ({ page }) => {
+  test.setTimeout(90_000);
+  await completeGuestOnboarding(page);
+  await page.goto("/generate");
+  await page.getByRole("button", { name: "Generate Quest" }).click();
+  await expect(page.locator("#generated-quest-title")).toBeVisible();
+  const fixture = Array.from({ length: 128 }, (_, seed) => generateQuickQuest({ seed })).find(
+    (candidate) => candidate.quest.execution.primary_skill.slug === "scale_degree_recognition",
+  );
+  expect(fixture).toBeDefined();
+  await page.evaluate((quest) => {
+    const key = "guitarpg.quest-draft.v1";
+    const draft = JSON.parse(sessionStorage.getItem(key)!);
+    sessionStorage.setItem(key, JSON.stringify({ ...draft, quest }));
+  }, fixture!.quest);
+  await page.reload();
+  await expect(page.locator("#generated-quest-title")).toHaveText(fixture!.quest.identity.title);
+  await page.getByRole("button", { name: "Start Quest" }).click();
+  await expect(page).toHaveURL(/\/quest\/[0-9a-f-]+$/);
+  const lesson = page.locator(".map-topic__lesson-list li").filter({ hasText: "Hear the tonal home" });
+  await lesson.getByRole("button", { name: "Explore this lesson" }).click();
+  const activity = page.locator(".atlas-lesson");
+  await expect(activity.getByRole("heading", { name: "Hear the tonal home", exact: true })).toBeVisible();
+  await expect(activity).toContainText("Self-check:");
+  await expect(page.locator(".explore-module__disclosure").first()).toContainText("0 linked pages");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toHaveCount(0);
+  await activity.getByRole("button", { name: "Save lesson to Workbook" }).click();
+  await expect(page.locator(".explore-editor")).toBeVisible();
+  await expect(page.getByLabel("Page title")).toHaveValue("Hear the tonal home");
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText("Find home");
+  const fullEditor = page.locator(".explore-editor").getByRole("link", { name: "Open Full Editor" });
+  const pageId = new URL((await fullEditor.getAttribute("href"))!, page.url()).searchParams.get("page");
+  expect(pageId).toBeTruthy();
+  await page.getByLabel("Page title").fill("My tonal home study");
+  await expect(page.locator(".explore-editor").getByText("Saved", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Continue in Craft" }).click();
+  await expect(page.locator(".craft-workspace")).toBeVisible();
+  await expect(page.getByLabel("Page title")).toHaveValue("My tonal home study");
+  const craftLink = page.getByRole("link", { name: "Open in Full Workbook Editor" });
+  await expect(craftLink).toHaveAttribute("href", new RegExp(`page=${pageId}$`));
+  await expect(page.getByRole("textbox", { name: "Workbook page document" })).toContainText("Find home");
+  await expect(page.getByText("No Sessions yet. This is activity history, not a measure of ability.")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectNoHorizontalOverflow(page);
+  await page.reload();
+  await expect(page.getByLabel("Page title")).toHaveValue("My tonal home study");
+});

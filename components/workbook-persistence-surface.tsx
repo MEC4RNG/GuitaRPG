@@ -676,7 +676,7 @@ export function WorkbookPersistenceSurface({
               craftPages.some((craftPage) => craftPage.id === page.id),
             )}
             onActivePageChange={setActivePage}
-            onPendingChange={setPendingEdits}
+            onPendingChange={reportEmbeddedPending}
             onCreatePage={async (title, document) => {
               const page = await createPage(getClient(), selected.id, title, document);
               upsertPage(page);

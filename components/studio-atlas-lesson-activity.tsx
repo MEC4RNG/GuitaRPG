@@ -4,10 +4,11 @@ import { CodexV2Reference } from "./codex-v2-reference";
 import type { CodexV2ReferenceBlock } from "@/lib/codex/v2/content";
 import type { CodexLessonWorkbookSource } from "@/lib/workbook/lesson-template";
 
-export function AtlasLessonActivity({ lesson, blocks, disabled, onSave }: {
+export function AtlasLessonActivity({ lesson, blocks, disabled, saved, onSave }: {
   lesson: CodexLessonWorkbookSource;
   blocks: CodexV2ReferenceBlock[];
   disabled: boolean;
+  saved: boolean;
   onSave: () => void;
 }) {
   return (
@@ -34,7 +35,7 @@ export function AtlasLessonActivity({ lesson, blocks, disabled, onSave }: {
       {blocks.length ? <details><summary>Open interactive Skill reference</summary><CodexV2Reference blocks={blocks} /></details> : null}
       <div className="atlas-lesson-save">
         <p>Keep the lesson and your discoveries in a private, editable Workbook. Nothing is created until you choose Save.</p>
-        <button type="button" className="action-button action-button--primary" disabled={disabled} onClick={onSave}>Save lesson to Workbook</button>
+        <button type="button" className="action-button action-button--primary" disabled={disabled} onClick={onSave}>{saved ? "Open saved lesson page" : "Save lesson to Workbook"}</button>
       </div>
     </section>
   );

@@ -105,7 +105,8 @@ export function QuestJourneySurface({
   } | null>(null);
   const [editorPending, setEditorPending] = useState(false);
   const [craftPageId, setCraftPageId] = useState<string | undefined>();
-  const lessonReceipt = useRef<{ moduleId: string; requestId: string; document: WorkbookDocumentV1; page?: WorkbookPageRow } | null>(null);
+  const lessonReceipts = useRef(new Map<string, { requestId: string; document: WorkbookDocumentV1; page?: WorkbookPageRow }>());
+  const [savedLessonPages, setSavedLessonPages] = useState<Record<string, string>>({});
   const exploreContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "EXPLORE", relationship: "APPLIES_TO", pageId: openExplorePage?.pageId }), [questId, openExplorePage?.pageId]);
   const craftContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "CRAFT", relationship: "CREATED_DURING", pageId: craftPageId }), [questId, craftPageId]);
   const mapCreateRequest = useRef<{ topicKey: string; requestId: string } | null>(null);
@@ -351,6 +352,7 @@ export function QuestJourneySurface({
       setOpenExplorePage({ pageId: created.page.id, moduleKey: selectedTopic.moduleKey });
       const nextJourney = await setQuestJourneyStage(client(), questId, "EXPLORE");
       setDetail((current) => (current ? { ...current, journey: nextJourney } : current));
+      setLearningFocus(null);
       setModuleMessage("Workbook created, linked, and opened in Explore.");
     } catch {
       setError(
@@ -375,6 +377,7 @@ export function QuestJourneySurface({
     try {
       const nextJourney = await setQuestJourneyStage(client(), questId, "EXPLORE");
       if (selectedTopic.moduleKey) setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
+      if (lesson) setOpenExplorePage(null);
       setLearningFocus(lesson ? { title: lesson.title, lessonId: lesson.id, level: lesson.level, moduleKey: selectedTopic.moduleKey } : null);
       setDetail((current) => current ? { ...current, journey: nextJourney } : current);
     } catch {
@@ -387,14 +390,18 @@ export function QuestJourneySurface({
   async function saveFocusedLesson() {
     if (!focusedLesson || pending || editorPending || archived) return;
     const lesson = focusedLesson;
+    const savedPageId = savedLessonPages[lesson.moduleId];
+    if (savedPageId && workbookPages.some((page) => page.id === savedPageId)) {
+      setOpenExplorePage({ pageId: savedPageId, moduleKey: lesson.skillSlug });
+      return;
+    }
     setPending(true);
     setError(null);
-    const receipt = lessonReceipt.current?.moduleId === lesson.moduleId ? lessonReceipt.current : {
-      moduleId: lesson.moduleId,
+    const receipt = lessonReceipts.current.get(lesson.moduleId) ?? {
       requestId: crypto.randomUUID(),
       document: buildLessonWorkbookDocument(lesson),
     };
-    lessonReceipt.current = receipt;
+    lessonReceipts.current.set(lesson.moduleId, receipt);
     try {
       const api = client();
       if (!receipt.page) {
@@ -413,7 +420,8 @@ export function QuestJourneySurface({
       setWorkbookLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
       setExpandedModules((current) => new Set(current).add(lesson.skillSlug));
       setOpenExplorePage({ pageId: page.id, moduleKey: lesson.skillSlug });
-      lessonReceipt.current = null;
+      setSavedLessonPages((current) => ({ ...current, [lesson.moduleId]: page.id }));
+      lessonReceipts.current.delete(lesson.moduleId);
       setModuleMessage("Lesson page saved and opened in Explore.");
     } catch {
       setError("Your lesson page may already be safe. Retry Save to Workbook to resume linking the same page.");
@@ -441,7 +449,14 @@ export function QuestJourneySurface({
   }
 
   return (
-    <section className={`generate-stack journey-shell${atlas ? " journey-shell--atlas" : ""}`} aria-labelledby="quest-journey-title">
+    <section className={`generate-stack journey-shell${atlas ? " journey-shell--atlas" : ""}`} aria-labelledby="quest-journey-title" onClickCapture={(event) => {
+      if (!editorPending || !(event.target instanceof Element)) return;
+      const link = event.target.closest("a[href]");
+      if (link && link.getAttribute("target") !== "_blank" && !link.getAttribute("href")?.startsWith("#")) {
+        event.preventDefault();
+        setModuleMessage("Wait for your Workbook to show Saved before leaving this workspace.");
+      }
+    }}>
       <Link className="text-link journey-back" href="/quests">
         ← Saved Quests
       </Link>
@@ -709,7 +724,7 @@ export function QuestJourneySurface({
             <>
               <section className="explore-workspaces" aria-labelledby="explore-workspaces-title">
                 {atlas && focusedLesson ? (
-                  <AtlasLessonActivity lesson={focusedLesson} blocks={mapCodexLearning[focusedLesson.skillSlug]?.blocks ?? []} disabled={pending || editorPending || archived} onSave={() => void saveFocusedLesson()} />
+                  <AtlasLessonActivity lesson={focusedLesson} blocks={mapCodexLearning[focusedLesson.skillSlug]?.blocks ?? []} disabled={pending || editorPending || archived} saved={Boolean(savedLessonPages[focusedLesson.moduleId])} onSave={() => void saveFocusedLesson()} />
                 ) : learningFocus ? (
                   <div className="explore-learning-focus" role="status">
                     <span className="eyebrow">
@@ -740,7 +755,7 @@ export function QuestJourneySurface({
                   </div>
                   <button
                     type="button"
-                    disabled={orderedModuleKeys.every(
+                    disabled={pending || archived || editorPending || orderedModuleKeys.every(
                       (key, index) => key === suggestedModules[index]?.slug,
                     )}
                     onClick={() =>
@@ -800,7 +815,7 @@ export function QuestJourneySurface({
                             type="button"
                             aria-label={`Move ${module.name} earlier`}
                             title="Move this ingredient earlier"
-                            disabled={pending || index === 0}
+                            disabled={pending || archived || editorPending || index === 0}
                             onClick={() => {
                               const next = [...orderedModuleKeys];
                               [next[index - 1], next[index]] = [next[index], next[index - 1]];
@@ -813,7 +828,7 @@ export function QuestJourneySurface({
                             type="button"
                             aria-label={`Move ${module.name} later`}
                             title="Move this ingredient later"
-                            disabled={pending || index === exploreModules.length - 1}
+                            disabled={pending || archived || editorPending || index === exploreModules.length - 1}
                             onClick={() => {
                               const next = [...orderedModuleKeys];
                               [next[index + 1], next[index]] = [next[index], next[index + 1]];
@@ -926,6 +941,7 @@ export function QuestJourneySurface({
                                 Assign to
                                 <select
                                   defaultValue=""
+                                  disabled={pending || archived || editorPending}
                                   onChange={async (event) => {
                                     if (!event.target.value) return;
                                     try {
