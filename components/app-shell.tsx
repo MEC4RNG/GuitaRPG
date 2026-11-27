@@ -26,7 +26,10 @@ export function AppShell({ children }: AppShellProps) {
       : "";
 
   return (
-    <div className={`app-shell app-shell--${surface}${prototypeClass}${workbookWorkspace ? " app-shell--workbook-workspace" : ""}`} data-surface={surface}>
+    <div
+      className={`app-shell app-shell--${surface}${prototypeClass}${workbookWorkspace ? " app-shell--workbook-workspace" : ""}`}
+      data-surface={surface}
+    >
       <CodexPeekProvider>
         <div className="app-shell__frame">
           <a className="skip-link" href="#main-content">
