@@ -47,11 +47,15 @@ export function WorkbookPersistenceSurface({
   embeddedCraft = false,
   embeddedExplore,
   lessonSource = null,
+  onEmbeddedPendingChange,
+  onContinueInCraft,
 }: {
   context: WorkbookRouteContext | null;
   embeddedCraft?: boolean;
   embeddedExplore?: { pageId: string; moduleKey: string | null };
   lessonSource?: CodexLessonWorkbookSource | null;
+  onEmbeddedPendingChange?: (pending: boolean) => void;
+  onContinueInCraft?: (pageId: string) => Promise<void>;
 }) {
   const router = useRouter();
   const clientRef = useRef<WorkbookClient | null>(null);
@@ -69,6 +73,11 @@ export function WorkbookPersistenceSurface({
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [pendingEdits, setPendingEdits] = useState(false);
+  const reportEmbeddedPending = useCallback((pending: boolean) => {
+    setPendingEdits(pending);
+    onEmbeddedPendingChange?.(pending);
+  }, [onEmbeddedPendingChange]);
+  const [transferring, setTransferring] = useState(false);
   const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
   const [creatingLesson, setCreatingLesson] = useState(false);
@@ -512,12 +521,18 @@ export function WorkbookPersistenceSurface({
               {owner.title} · {page.title}
             </h2>
           </div>
-          <Link
-            className="action-button action-button--secondary"
-            href={`/workbooks?quest=${context.questId}&stage=EXPLORE&relationship=APPLIES_TO&page=${page.id}`}
-          >
-            Open Full Editor
-          </Link>
+          <div className="craft-workspace__actions">
+            {onContinueInCraft ? (
+              <button type="button" className="action-button action-button--primary" disabled={pendingEdits || transferring || !activePage} onClick={async () => {
+                if (!activePage || pendingEdits || transferring) return;
+                setTransferring(true);
+                try { await onContinueInCraft(activePage.id); } finally { setTransferring(false); }
+              }}>Continue in Craft</button>
+            ) : null}
+            <Link className="action-button action-button--secondary" aria-disabled={pendingEdits} href={pendingEdits ? "#explore-editor-title" : `/workbooks?quest=${context.questId}&stage=EXPLORE&relationship=APPLIES_TO&page=${page.id}`} onClick={(event) => { if (pendingEdits) event.preventDefault(); }}>
+              Open Full Editor
+            </Link>
+          </div>
         </header>
         <p role="status" className="workbook-library__message">
           {message}
@@ -529,7 +544,7 @@ export function WorkbookPersistenceSurface({
           initialActivePageId={page.id}
           initialPages={[page]}
           onActivePageChange={setActivePage}
-          onPendingChange={setPendingEdits}
+          onPendingChange={reportEmbeddedPending}
           onCreatePage={async (title, document) => {
             const created = await createPage(getClient(), owner.id, title, document);
             upsertPage(created);
