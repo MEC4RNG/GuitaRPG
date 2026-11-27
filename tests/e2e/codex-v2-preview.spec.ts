@@ -1246,10 +1246,14 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   await expect(craft.getByLabel("Page title")).toHaveValue("Hear the other degrees");
   await craft.getByRole("button", { name: "New Composition", exact: true }).click();
   await craft.getByLabel("Composition title").fill("My melodic idea");
-  await craft.getByLabel("Composition destination").selectOption({ label: "Scale-Degree Recognition Practice" });
+  await craft
+    .getByLabel("Composition destination")
+    .selectOption({ label: "Scale-Degree Recognition Practice" });
   await craft.getByRole("button", { name: "Create composition", exact: true }).click();
   await expect(craft.getByLabel("Page title")).toHaveValue("My melodic idea");
-  await expect(craft.getByText("Linked to this Quest’s Craft stage", { exact: true })).toBeVisible();
+  await expect(
+    craft.getByText("Linked to this Quest’s Craft stage", { exact: true }),
+  ).toBeVisible();
   await expectAccessible(page, "F3D Craft workspace");
   await expectNoHorizontalOverflow(page);
   await craft.getByRole("button", { name: "Back to Explore" }).click();

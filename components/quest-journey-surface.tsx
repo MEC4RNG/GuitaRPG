@@ -303,7 +303,9 @@ export function QuestJourneySurface({
   const topics = questJourneyTopics(quest);
   const selectedTopic = topics.find((topic) => topic.key === selectedTopicKey) ?? topics[0];
   const toolkitTopic = topics.find((topic) => topic.key === toolkitTopicKey) ?? selectedTopic;
-  const toolkitCodex = toolkitTopic?.moduleKey ? mapCodexLearning[toolkitTopic.moduleKey] : undefined;
+  const toolkitCodex = toolkitTopic?.moduleKey
+    ? mapCodexLearning[toolkitTopic.moduleKey]
+    : undefined;
   const selectedMapCodex =
     selectedTopic?.kind === "SKILL" ? mapCodexLearning[selectedTopic.slug] : undefined;
   const mapLevelLessons = selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
@@ -1351,7 +1353,13 @@ export function QuestJourneySurface({
               embeddedCraft
               atlasCraft={atlas}
               craftReadOnly={atlas && archived}
-              onReturnToExplore={atlas ? async () => { await chooseStage("EXPLORE"); } : undefined}
+              onReturnToExplore={
+                atlas
+                  ? async () => {
+                      await chooseStage("EXPLORE");
+                    }
+                  : undefined
+              }
               onEmbeddedPendingChange={setEditorPending}
             />
           ) : null}
@@ -1446,7 +1454,12 @@ export function QuestJourneySurface({
                   ))}
                 </ul>
               ) : null}
-              {atlas ? <p className="atlas-lesson-note">Choose a creative direction that fits your objective. These are optional ideas, not required milestones.</p> : null}
+              {atlas ? (
+                <p className="atlas-lesson-note">
+                  Choose a creative direction that fits your objective. These are optional ideas,
+                  not required milestones.
+                </p>
+              ) : null}
               <div className="craft-prompts" aria-label="Creative prompt ideas">
                 {["Riff", "Progression", "Melody", "Groove", "Étude", "Freeform idea"].map(
                   (label) => (
@@ -1457,7 +1470,38 @@ export function QuestJourneySurface({
             </details>
           ) : null}
           {atlas && journey.currentStage === "CRAFT" ? (
-            <details className="atlas-toolkit-reference"><summary>Musical reference tools</summary><p className="atlas-lesson-note">Select a Quest ingredient to view its available interactive reference.</p><label>Toolkit ingredient<select value={toolkitTopic?.key ?? ""} disabled={editorPending || pending} onChange={(event) => setToolkitTopicKey(event.target.value)}>{topics.map((topic) => <option key={topic.key} value={topic.key}>{topic.name}</option>)}</select></label>{toolkitTopic && toolkitCodex?.blocks.length ? <Link className="text-link" href={codexQuestPreviewHref(questId, toolkitTopic.slug)} target="_blank" rel="noopener noreferrer">Open interactive reference in Codex ↗</Link> : <p>No separate interactive reference is available for this ingredient.</p>}</details>
+            <details className="atlas-toolkit-reference">
+              <summary>Musical reference tools</summary>
+              <p className="atlas-lesson-note">
+                Select a Quest ingredient to view its available interactive reference.
+              </p>
+              <label>
+                Toolkit ingredient
+                <select
+                  value={toolkitTopic?.key ?? ""}
+                  disabled={editorPending || pending}
+                  onChange={(event) => setToolkitTopicKey(event.target.value)}
+                >
+                  {topics.map((topic) => (
+                    <option key={topic.key} value={topic.key}>
+                      {topic.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {toolkitTopic && toolkitCodex?.blocks.length ? (
+                <Link
+                  className="text-link"
+                  href={codexQuestPreviewHref(questId, toolkitTopic.slug)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open interactive reference in Codex ↗
+                </Link>
+              ) : (
+                <p>No separate interactive reference is available for this ingredient.</p>
+              )}
+            </details>
           ) : null}
           {journey.currentStage === "CRAFT" ? (
             <div className="quest-toolkit__practice">
