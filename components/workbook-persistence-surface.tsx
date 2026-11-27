@@ -527,7 +527,16 @@ export function WorkbookPersistenceSurface({
             </h2>
           </div>
           <div className="craft-workspace__actions">
-            {onReturnToActivity ? <button type="button" className="action-button action-button--secondary" disabled={pendingEdits || transferring} onClick={() => void onReturnToActivity()}>Return to activity</button> : null}
+            {onReturnToActivity ? (
+              <button
+                type="button"
+                className="action-button action-button--secondary"
+                disabled={pendingEdits || transferring}
+                onClick={() => void onReturnToActivity()}
+              >
+                Return to activity
+              </button>
+            ) : null}
             {onContinueInCraft ? (
               <button
                 type="button"

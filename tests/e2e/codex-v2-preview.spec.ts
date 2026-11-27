@@ -1194,7 +1194,9 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   await page.locator(".mec-stage", { hasText: "Explore" }).click();
   const picker = page.locator(".atlas-activity-picker");
   await expect(picker.getByLabel("Learning activity")).toHaveValue("sdr.aural.f1");
-  await expect(activity.getByRole("heading", { name: "Hear the tonal home", exact: true })).toBeVisible();
+  await expect(
+    activity.getByRole("heading", { name: "Hear the tonal home", exact: true }),
+  ).toBeVisible();
   await activity.getByRole("button", { name: "Open saved lesson page" }).click();
   await expect(page.getByLabel("Page title")).toHaveValue("My tonal home study");
   await expect(fullEditor).toHaveAttribute("href", new RegExp(`page=${pageId}$`));
@@ -1203,13 +1205,19 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   await expect(picker.getByLabel("Learning activity")).toBeEnabled();
   await picker.getByLabel("Activity level").selectOption("intermediate");
   await picker.getByLabel("Learning activity").selectOption("sdr.aural.i1");
-  await expect(activity.getByRole("heading", { name: "Hear the other degrees", exact: true })).toBeVisible();
+  await expect(
+    activity.getByRole("heading", { name: "Hear the other degrees", exact: true }),
+  ).toBeVisible();
   await expect(page.locator(".explore-module__disclosure").first()).toContainText("1 linked page");
-  await activity.getByLabel("Save to Workbook").selectOption({ label: "Scale-Degree Recognition Practice" });
+  await activity
+    .getByLabel("Save to Workbook")
+    .selectOption({ label: "Scale-Degree Recognition Practice" });
   await activity.getByRole("button", { name: "Save lesson to Workbook" }).click();
   await expect(page.locator(".explore-editor")).toBeVisible();
   await expect(page.getByLabel("Page title")).toHaveValue("Hear the other degrees");
-  await expect(page.locator("#explore-editor-title")).toContainText("Scale-Degree Recognition Practice");
+  await expect(page.locator("#explore-editor-title")).toContainText(
+    "Scale-Degree Recognition Practice",
+  );
   await expect(page.locator(".explore-module__disclosure").first()).toContainText("2 linked pages");
   await page.getByRole("button", { name: "Return to activity" }).click();
   await expect(picker.getByLabel("Learning activity")).toBeEnabled();
