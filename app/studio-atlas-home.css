@@ -1,0 +1,65 @@
+.sa-home > h1 {
+  font: 400 clamp(1.75rem, 3vw, 2.5rem)/1.2 var(--sa-font-display);
+  overflow-wrap: anywhere;
+}
+.sa-home .sa-hero h2 {
+  margin: 0;
+  font: 400 clamp(1.75rem, 3.5vw, 3rem)/1.15 var(--sa-font-display);
+  overflow-wrap: anywhere;
+}
+.sa-home-guest {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+.sa-home .sa-panel h2 {
+  margin: 0;
+}
+.sa-home-progress {
+  width: 100%;
+  height: 0.8rem;
+  accent-color: var(--sa-brand);
+}
+.sa-home-notebooks {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+.sa-home-notebooks li {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.sa-home-notebooks li > span:last-child {
+  color: var(--sa-muted);
+}
+.sa-home-notebook-art {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  color: var(--sa-brand);
+  border: 1px solid var(--sa-border-control);
+  border-radius: 0.25rem 0.65rem 0.65rem 0.25rem;
+  background: url("/studio-atlas/atlas-contours.svg") center / cover, var(--sa-raised);
+  box-shadow: inset 0.35rem 0 0 var(--sa-canvas);
+}
+.sa-home-notebook-art svg {
+  width: 3rem;
+}
+.sa-home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+@media (max-width: 48rem) {
+  .sa-home-guest {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sa-home-notebooks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
