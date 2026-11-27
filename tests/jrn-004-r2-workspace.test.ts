@@ -8,8 +8,11 @@ const repository = readFileSync("lib/workbook/repository.ts", "utf8");
 describe("JRN-004-R2 Quest workspace contract", () => {
   it("uses snapshot topics and truthful Map regions without the redundant Journey eyebrow", () => {
     expect(journey).toContain("questJourneyTopics(quest)");
-    expect(journey).toContain("What it is");
-    expect(journey).toContain("Within this Quest");
+    expect(journey).toContain('className="map-topic__summary"');
+    expect(journey).toContain("{selectedTopic.codex.definition}");
+    expect(journey).toContain("selectedTopic.questDetails");
+    expect(journey).not.toContain("What it is");
+    expect(journey).not.toContain("Within this Quest");
     expect(journey).toContain("How to explore");
     expect(journey).not.toContain("QUEST JOURNEY</p>");
   });
