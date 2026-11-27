@@ -17,10 +17,15 @@ type AppShellProps = {
   atlasDefault?: boolean;
 };
 
-export function AppShell({ children, atlasAvailable = false, atlasDefault = false }: AppShellProps) {
+export function AppShell({
+  children,
+  atlasAvailable = false,
+  atlasDefault = false,
+}: AppShellProps) {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
-  const atlas = atlasAvailable && (atlasDefault || pathname.startsWith("/prototype/studio-atlas/home"));
+  const atlas =
+    atlasAvailable && (atlasDefault || pathname.startsWith("/prototype/studio-atlas/home"));
   const atlasHome = atlasDefault ? "/" : "/prototype/studio-atlas/home";
   const surface = getSurfaceForPath(pathname);
   const current = getNavigationItem(pathname);
@@ -41,7 +46,13 @@ export function AppShell({ children, atlasAvailable = false, atlasDefault = fals
             Skip to content
           </a>
 
-          <Sidebar pathname={pathname} atlas={atlas} atlasHome={atlasHome} collapsed={collapsed} onToggle={() => setCollapsed((value) => !value)} />
+          <Sidebar
+            pathname={pathname}
+            atlas={atlas}
+            atlasHome={atlasHome}
+            collapsed={collapsed}
+            onToggle={() => setCollapsed((value) => !value)}
+          />
 
           <div className="app-shell__workspace">
             <header className="topbar">
@@ -67,7 +78,12 @@ export function AppShell({ children, atlasAvailable = false, atlasDefault = fals
                   </Link>
                 </nav>
               ) : null}
-              <MobileNavigationMenu key={pathname} pathname={pathname} atlas={atlas} atlasHome={atlasHome} />
+              <MobileNavigationMenu
+                key={pathname}
+                pathname={pathname}
+                atlas={atlas}
+                atlasHome={atlasHome}
+              />
             </header>
 
             <main className="app-content" id="main-content" tabIndex={-1}>

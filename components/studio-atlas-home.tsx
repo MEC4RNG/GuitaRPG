@@ -107,7 +107,10 @@ export function StudioAtlasHome() {
         <>
           {overview.anonymous ? (
             <div className="sa-panel sa-home-guest">
-              <p>You are practicing as a guest. Protect your progress to recover it on another device.</p>
+              <p>
+                You are practicing as a guest. Protect your progress to recover it on another
+                device.
+              </p>
               <Link className="sa-button sa-button--secondary" href="/profile">
                 Protect your progress
               </Link>
@@ -156,7 +159,9 @@ export function StudioAtlasHome() {
               ) : (
                 <p>Training recommendations are unavailable.</p>
               )}
-              <p>Based on stored evidence. Open Training to refresh readiness and select a target.</p>
+              <p>
+                Based on stored evidence. Open Training to refresh readiness and select a target.
+              </p>
               <Link className="sa-button sa-button--secondary" href="/training">
                 Open Training
               </Link>
@@ -176,7 +181,8 @@ export function StudioAtlasHome() {
                   />
                   <p>
                     {overview.progress.progress.xpIntoLevel.toLocaleString()} /{" "}
-                    {overview.progress.progress.xpForNextLevel.toLocaleString()} XP toward next level.
+                    {overview.progress.progress.xpForNextLevel.toLocaleString()} XP toward next
+                    level.
                   </p>
                 </>
               ) : (
@@ -185,7 +191,17 @@ export function StudioAtlasHome() {
               {overview.training?.uniqueTop ? (
                 <>
                   <p>Training focus: {overview.training.uniqueTop.skill}</p>
-                  <AtlasStatus kind={overview.training.uniqueTop.source.candidate.skill.assessment_status === "ESTIMATED" ? "estimated" : overview.training.uniqueTop.source.candidate.skill.assessment_status === "ESTABLISHED" ? "information" : "unknown"}>
+                  <AtlasStatus
+                    kind={
+                      overview.training.uniqueTop.source.candidate.skill.assessment_status ===
+                      "ESTIMATED"
+                        ? "estimated"
+                        : overview.training.uniqueTop.source.candidate.skill.assessment_status ===
+                            "ESTABLISHED"
+                          ? "information"
+                          : "unknown"
+                    }
+                  >
                     {overview.training.uniqueTop.source.candidate.skill.assessment_status}
                     {overview.training.uniqueTop.source.candidate.skill.visible_level
                       ? ` · Level ${overview.training.uniqueTop.source.candidate.skill.visible_level}`
@@ -238,7 +254,10 @@ export function StudioAtlasHome() {
           </Link>
         ))}
       </nav>
-      <p className="sa-preview-note">F2 dashboard preview · actual Player records when available. Existing production routes remain unchanged.</p>
+      <p className="sa-preview-note">
+        F2 dashboard preview · actual Player records when available. Existing production routes
+        remain unchanged.
+      </p>
     </section>
   );
 }

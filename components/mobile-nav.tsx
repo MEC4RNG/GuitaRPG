@@ -16,7 +16,9 @@ export function MobileNav({ pathname, atlasHome }: MobileNavProps) {
         const href = item.href === "/" && atlasHome ? atlasHome : item.href;
         const active =
           isRouteActive(pathname, href) ||
-          (Boolean(atlasHome) && item.href === "/" && pathname === "/prototype/studio-atlas/home") ||
+          (Boolean(atlasHome) &&
+            item.href === "/" &&
+            pathname === "/prototype/studio-atlas/home") ||
           (item.href === "/codex" &&
             (pathname === "/prototype/codex-v2" || pathname.startsWith("/prototype/codex-v2/")));
 

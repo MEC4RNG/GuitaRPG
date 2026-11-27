@@ -13,7 +13,13 @@ type SidebarProps = {
   onToggle?: () => void;
 };
 
-export function Sidebar({ pathname, atlas = false, atlasHome = "/", collapsed = false, onToggle }: SidebarProps) {
+export function Sidebar({
+  pathname,
+  atlas = false,
+  atlasHome = "/",
+  collapsed = false,
+  onToggle,
+}: SidebarProps) {
   return (
     <aside className="sidebar" aria-label="Primary navigation">
       <div className="sidebar__brand">
@@ -32,7 +38,14 @@ export function Sidebar({ pathname, atlas = false, atlasHome = "/", collapsed = 
         </Link>
       </div>
       {atlas ? (
-        <button className="atlas-rail-toggle" type="button" aria-expanded={!collapsed} aria-controls="primary-sidebar-links" aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} onClick={onToggle}>
+        <button
+          className="atlas-rail-toggle"
+          type="button"
+          aria-expanded={!collapsed}
+          aria-controls="primary-sidebar-links"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={onToggle}
+        >
           <span aria-hidden="true">{collapsed ? "»" : "«"}</span>
           <span className="atlas-rail-label">{collapsed ? "Expand" : "Collapse"}</span>
         </button>
@@ -49,7 +62,12 @@ export function Sidebar({ pathname, atlas = false, atlasHome = "/", collapsed = 
             <div className="nav-group__items">
               {group.items.map((item) => {
                 const href = atlas && item.href === "/" ? atlasHome : item.href;
-                const active = isRouteActive(pathname, href) || (atlas && ((item.href === "/quests" && pathname.startsWith("/quest/")) || (item.href === "/" && pathname === "/prototype/studio-atlas/home") || (item.href === "/codex" && pathname.startsWith("/prototype/codex-v2"))));
+                const active =
+                  isRouteActive(pathname, href) ||
+                  (atlas &&
+                    ((item.href === "/quests" && pathname.startsWith("/quest/")) ||
+                      (item.href === "/" && pathname === "/prototype/studio-atlas/home") ||
+                      (item.href === "/codex" && pathname.startsWith("/prototype/codex-v2"))));
 
                 return (
                   <Link
@@ -67,7 +85,13 @@ export function Sidebar({ pathname, atlas = false, atlasHome = "/", collapsed = 
                 );
               })}
               {atlas && group.label === "Learn" ? (
-                <Link className={`nav-link${pathname === "/workbooks" ? " nav-link--active" : ""}`} href="/workbooks" aria-current={pathname === "/workbooks" ? "page" : undefined} aria-label="Workbooks" title={collapsed ? "Workbooks" : undefined}>
+                <Link
+                  className={`nav-link${pathname === "/workbooks" ? " nav-link--active" : ""}`}
+                  href="/workbooks"
+                  aria-current={pathname === "/workbooks" ? "page" : undefined}
+                  aria-label="Workbooks"
+                  title={collapsed ? "Workbooks" : undefined}
+                >
                   <NavigationIcon icon="quests" />
                   <span className="atlas-rail-label">Workbooks</span>
                 </Link>

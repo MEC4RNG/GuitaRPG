@@ -144,10 +144,16 @@ test("F2 guest-free dashboard and compact navigation are accessible", async ({ p
   expect(signups).toBe(0);
   const sidebar = page.getByRole("complementary", { name: "Primary navigation" });
   await expect(sidebar.getByRole("link", { name: "Workbooks" })).toBeVisible();
-  await expect(sidebar.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(sidebar.getByRole("link", { name: "Home", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
   const collapse = sidebar.getByRole("button", { name: "Collapse sidebar" });
   await collapse.click();
-  await expect(sidebar.getByRole("button", { name: "Expand sidebar" })).toHaveAttribute("aria-expanded", "false");
+  await expect(sidebar.getByRole("button", { name: "Expand sidebar" })).toHaveAttribute(
+    "aria-expanded",
+    "false",
+  );
   await expect(sidebar.getByRole("link", { name: "Workbooks" })).toBeVisible();
   await expectNoHorizontalOverflow(page);
   await expectAccessible(page, "F2 compact desktop shell");
@@ -169,7 +175,9 @@ test("F2 dashboard uses real guest data and prioritizes an open Session", async 
   await completeGuestOnboarding(page);
   await page.goto("/prototype/studio-atlas/home");
   const home = page.locator(".sa-home");
-  await expect(home.getByRole("heading", { name: "Your progress" })).toBeVisible({ timeout: 20_000 });
+  await expect(home.getByRole("heading", { name: "Your progress" })).toBeVisible({
+    timeout: 20_000,
+  });
   await expect(home.getByRole("link", { name: "Protect your progress" })).toBeVisible();
   await expect(home.getByRole("heading", { name: "Character Level 1" })).toBeVisible();
   await expect(home.getByText("0 practice XP", { exact: true })).toBeVisible();
@@ -178,7 +186,11 @@ test("F2 dashboard uses real guest data and prioritizes an open Session", async 
   await expectAccessible(page, "F2 new Player");
   const sessionId = await generateAndStartPractice(page);
   await page.goto("/prototype/studio-atlas/home");
-  await expect(home.getByRole("link", { name: "Resume Session" })).toHaveAttribute("href", `/session/${sessionId}`, { timeout: 20_000 });
+  await expect(home.getByRole("link", { name: "Resume Session" })).toHaveAttribute(
+    "href",
+    `/session/${sessionId}`,
+    { timeout: 20_000 },
+  );
   await expect(home.getByRole("link", { name: "Quick Quest", exact: true })).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await expectNoHorizontalOverflow(page);

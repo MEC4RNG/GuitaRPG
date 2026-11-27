@@ -7,7 +7,15 @@ import { NAVIGATION_GROUPS, isRouteActive } from "@/lib/navigation";
 
 import { NavigationIcon } from "./navigation-icon";
 
-export function MobileNavigationMenu({ pathname, atlas = false, atlasHome = "/" }: { pathname: string; atlas?: boolean; atlasHome?: string }) {
+export function MobileNavigationMenu({
+  pathname,
+  atlas = false,
+  atlasHome = "/",
+}: {
+  pathname: string;
+  atlas?: boolean;
+  atlasHome?: string;
+}) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -91,7 +99,12 @@ export function MobileNavigationMenu({ pathname, atlas = false, atlasHome = "/" 
                     );
                   })}
                   {atlas && group.label === "Learn" ? (
-                    <Link className={`mobile-menu-link${pathname === "/workbooks" ? " mobile-menu-link--active" : ""}`} href="/workbooks" aria-current={pathname === "/workbooks" ? "page" : undefined} onClick={closeMenu}>
+                    <Link
+                      className={`mobile-menu-link${pathname === "/workbooks" ? " mobile-menu-link--active" : ""}`}
+                      href="/workbooks"
+                      aria-current={pathname === "/workbooks" ? "page" : undefined}
+                      onClick={closeMenu}
+                    >
                       <NavigationIcon icon="quests" />
                       <span>Workbooks</span>
                     </Link>

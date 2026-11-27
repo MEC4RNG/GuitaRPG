@@ -4,7 +4,10 @@ import { journeyStageContent } from "@/lib/quest/journey-presentation";
 import type { QuestJourneyStage } from "@/lib/quest/journey-runtime";
 import { readCharacterProgression, type ProgressionReadClient } from "@/lib/progression/repository";
 import type { CharacterProgressionView } from "@/lib/progression/read-model";
-import { readRankedRecommendationsV1, type TrainingCandidateReadClient } from "@/lib/training/repository";
+import {
+  readRankedRecommendationsV1,
+  type TrainingCandidateReadClient,
+} from "@/lib/training/repository";
 import { trainingPresentationV1 } from "@/lib/training/presentation-v1";
 
 type Client = ReturnType<typeof createBrowserSupabaseClient>;
@@ -34,7 +37,13 @@ export type HomeOverview =
 
 export function chooseHomeAction(
   session: { id: string; status: "ACTIVE" | "PAUSED"; title: string } | null,
-  quest: { id: string; title: string; stage: QuestJourneyStage; skill: string; active: boolean } | null,
+  quest: {
+    id: string;
+    title: string;
+    stage: QuestJourneyStage;
+    skill: string;
+    active: boolean;
+  } | null,
 ): NextAction {
   if (session)
     return {
@@ -49,7 +58,9 @@ export function chooseHomeAction(
       kind: "quest",
       title: quest.title,
       detail: `${quest.skill} · ${journeyStageContent[quest.stage].label}`,
-      label: quest.active ? `Continue in ${journeyStageContent[quest.stage].label}` : "Open saved Quest",
+      label: quest.active
+        ? `Continue in ${journeyStageContent[quest.stage].label}`
+        : "Open saved Quest",
       href: `/quest/${quest.id}`,
     };
   return {
@@ -87,7 +98,10 @@ async function readAction(client: Client, owner: string) {
   const session = sessions.data?.[0];
   if (session) {
     const quest = await questTitle(client, session.quest_id);
-    return chooseHomeAction({ id: session.id, status: session.status, title: quest.identity.title }, null);
+    return chooseHomeAction(
+      { id: session.id, status: session.status, title: quest.identity.title },
+      null,
+    );
   }
   // Do not ensure or create journey overlays from Home. Existing library retains that authority.
   for (const status of ["ACTIVE", "SAVED"] as const) {
