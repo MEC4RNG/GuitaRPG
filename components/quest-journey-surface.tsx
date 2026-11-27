@@ -232,7 +232,8 @@ export function QuestJourneySurface({
   }
 
   async function practice() {
-    if (pending || !detail || detail.journey.lifecycleStatus === "ARCHIVED") return;
+    if (pending || editorPending || !detail || detail.journey.lifecycleStatus === "ARCHIVED")
+      return;
     setPending(true);
     setError(null);
     try {
@@ -291,6 +292,7 @@ export function QuestJourneySurface({
   const exploreModules = orderedModuleKeys.map((key) => moduleByKey.get(key)!);
 
   async function persistModuleOrder(next: string[]) {
+    if (pending || editorPending || archived) return;
     setModuleMessage("");
     try {
       setModuleOrder(await saveExploreModuleOrder(client(), questId, next));
@@ -579,7 +581,7 @@ export function QuestJourneySurface({
               {journey.lifecycleStatus === "SAVED" ? (
                 <button
                   className="action-button action-button--secondary"
-                  disabled={pending}
+                  disabled={pending || editorPending}
                   onClick={() => void lifecycle("START")}
                 >
                   Start Quest
@@ -587,7 +589,7 @@ export function QuestJourneySurface({
               ) : null}
               <button
                 className="action-button action-button--primary"
-                disabled={pending}
+                disabled={pending || editorPending}
                 onClick={() => void practice()}
               >
                 {pending ? "Working…" : practiceLabel}
@@ -596,7 +598,7 @@ export function QuestJourneySurface({
               journey.lifecycleStatus === "ABANDONED" ? (
                 <button
                   className="action-button action-button--secondary"
-                  disabled={pending}
+                  disabled={pending || editorPending}
                   onClick={() => void lifecycle("REOPEN")}
                 >
                   Reopen Quest
@@ -628,7 +630,7 @@ export function QuestJourneySurface({
               type="button"
               aria-pressed={current}
               className={current ? "mec-stage is-current" : "mec-stage"}
-              disabled={pending || archived}
+              disabled={pending || archived || editorPending}
               onClick={() => void chooseStage(stage)}
             >
               <span>{copy.label}</span>
@@ -736,7 +738,7 @@ export function QuestJourneySurface({
                             </div>
                             <button
                               type="button"
-                              disabled={pending || archived}
+                              disabled={pending || archived || editorPending}
                               onClick={() => void exploreSelectedTopic(lesson)}
                             >
                               Explore this lesson →
@@ -755,7 +757,7 @@ export function QuestJourneySurface({
                       <button
                         className="action-button action-button--primary"
                         type="button"
-                        disabled={pending || archived}
+                        disabled={pending || archived || editorPending}
                         onClick={() => void exploreSelectedTopic()}
                       >
                         Open {selectedTopic.name} in Explore →
@@ -792,7 +794,7 @@ export function QuestJourneySurface({
                   <button
                     className="action-button action-button--secondary"
                     type="button"
-                    disabled={pending || archived}
+                    disabled={pending || archived || editorPending}
                     onClick={() => void createTopicWorkbook()}
                   >
                     {pending ? "Preparing Workbook…" : "Create Workbook and open Explore"}
@@ -986,7 +988,7 @@ export function QuestJourneySurface({
                         <div className="explore-module__actions">
                           <button
                             type="button"
-                            disabled={pending || archived}
+                            disabled={pending || archived || editorPending}
                             onClick={() => void newModulePage(module.slug)}
                           >
                             New Page
@@ -996,7 +998,7 @@ export function QuestJourneySurface({
                             <select
                               aria-label={`Choose existing page for ${module.name}`}
                               defaultValue=""
-                              disabled={pending || archived}
+                              disabled={pending || archived || editorPending}
                               onChange={(event) =>
                                 void linkModulePage(module.slug, event.target.value)
                               }
@@ -1269,14 +1271,14 @@ export function QuestJourneySurface({
             <>
               <button
                 className="action-button action-button--secondary"
-                disabled={pending}
+                disabled={pending || editorPending}
                 onClick={() => void lifecycle("CONCLUDE")}
               >
                 Conclude Quest
               </button>
               <button
                 className="text-button"
-                disabled={pending}
+                disabled={pending || editorPending}
                 onClick={() => void lifecycle("ABANDON")}
               >
                 Stop Quest
@@ -1286,7 +1288,7 @@ export function QuestJourneySurface({
           {journey.lifecycleStatus === "SAVED" ? (
             <button
               className="text-button"
-              disabled={pending}
+              disabled={pending || editorPending}
               onClick={() => void lifecycle("ABANDON")}
             >
               Stop Quest
@@ -1295,7 +1297,7 @@ export function QuestJourneySurface({
           {!archived ? (
             <button
               className="text-button"
-              disabled={pending}
+              disabled={pending || editorPending}
               onClick={() => void lifecycle("ARCHIVE")}
             >
               Archive Quest

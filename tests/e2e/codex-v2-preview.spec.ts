@@ -1144,12 +1144,35 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   expect(pageId).toBeTruthy();
   const handoff = page.getByRole("button", { name: "Continue in Craft" });
   const status = page.locator(".explore-editor .workbook-status");
-  await page.getByLabel("Page title").fill("My tonal home study");
-  await expect(status).toHaveText("Unsaved changes");
-  await expect(handoff).toBeDisabled();
-  await expect(page.locator(".mec-stage", { hasText: "Craft" })).toBeDisabled();
+  // Hold the real save request until the navigation guards have been verified.
+  // This makes the pending state deterministic even on fast CI runners.
+  let releaseSave = () => {};
+  const saveGate = new Promise<void>((resolve) => {
+    releaseSave = resolve;
+  });
+  const saveRoute = "**/rest/v1/rpc/save_player_workbook_page_v1";
+  await page.route(saveRoute, async (route) => {
+    await saveGate;
+    await route.continue();
+  });
+  try {
+    await page.getByLabel("Page title").fill("My tonal home study");
+    await expect(status).toHaveText("Unsaved changes");
+    await expect(handoff).toBeDisabled();
+    for (const stage of await page.locator(".mec-stage").all()) {
+      await expect(stage).toBeDisabled();
+    }
+    await expect(page.getByRole("button", { name: "Start Practice", exact: true })).toBeDisabled();
+    await expect(status).toHaveText("Saving", { timeout: 10_000 });
+    await expect(handoff).toBeDisabled();
+    await expect(page.locator(".mec-stage", { hasText: "Craft" })).toBeDisabled();
+  } finally {
+    releaseSave();
+  }
   await expect(status).toHaveText("Saved", { timeout: 10_000 });
+  await page.unroute(saveRoute);
   await expect(handoff).toBeEnabled();
+  await expect(page.locator(".mec-stage", { hasText: "Craft" })).toBeEnabled();
   await handoff.click();
   await expect(page.locator(".craft-workspace")).toBeVisible();
   await expect(page.getByLabel("Page title")).toHaveValue("My tonal home study");
