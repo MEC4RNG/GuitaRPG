@@ -19,7 +19,11 @@ import {
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { AtlasQuestIdentity } from "./studio-atlas-quest-elements";
 import { AtlasStatus, type AtlasStatusKind } from "./studio-atlas-primitives";
-import { filterLoadedQuests, questDomains, type QuestLibraryFilters } from "@/lib/ux/quest-discovery";
+import {
+  filterLoadedQuests,
+  questDomains,
+  type QuestLibraryFilters,
+} from "@/lib/ux/quest-discovery";
 import type { QuestJourneyStatus } from "@/lib/quest/journey-runtime";
 
 const client = () =>
@@ -31,7 +35,13 @@ function date(value: string) {
   return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(new Date(value));
 }
 
-const statusKind: Record<QuestJourneyStatus, AtlasStatusKind> = { ACTIVE: "success", SAVED: "information", CONCLUDED: "information", ABANDONED: "warning", ARCHIVED: "unknown" };
+const statusKind: Record<QuestJourneyStatus, AtlasStatusKind> = {
+  ACTIVE: "success",
+  SAVED: "information",
+  CONCLUDED: "information",
+  ABANDONED: "warning",
+  ARCHIVED: "unknown",
+};
 const initialFilters: QuestLibraryFilters = { search: "", status: "ALL", domain: "" };
 
 function QuestCard({
@@ -58,7 +68,11 @@ function QuestCard({
           <p className="eyebrow">{item.quest.identity.type} QUEST</p>
           <h3>{item.quest.identity.title}</h3>
         </div>
-        {atlas ? <AtlasStatus kind={statusKind[status]}>{questLifecycleLabel(status)}</AtlasStatus> : <span className="status-chip">{questLifecycleLabel(status)}</span>}
+        {atlas ? (
+          <AtlasStatus kind={statusKind[status]}>{questLifecycleLabel(status)}</AtlasStatus>
+        ) : (
+          <span className="status-chip">{questLifecycleLabel(status)}</span>
+        )}
       </div>
       <p>{item.quest.objective.summary}</p>
       <dl className="quest-library-meta">
@@ -70,10 +84,18 @@ function QuestCard({
           <dt>Primary Skill</dt>
           <dd>{item.quest.execution.primary_skill.name}</dd>
         </div>
-        {atlas ? <>
-          <div><dt>Demand</dt><dd>Level {item.quest.difficulty_profile.declared_overall_demand}</dd></div>
-          <div><dt>Suggested Session</dt><dd>{item.quest.execution.estimated_minutes} min</dd></div>
-        </> : null}
+        {atlas ? (
+          <>
+            <div>
+              <dt>Demand</dt>
+              <dd>Level {item.quest.difficulty_profile.declared_overall_demand}</dd>
+            </div>
+            <div>
+              <dt>Suggested Session</dt>
+              <dd>{item.quest.execution.estimated_minutes} min</dd>
+            </div>
+          </>
+        ) : null}
         <div>
           <dt>Sessions</dt>
           <dd>{item.sessionCount}</dd>
@@ -184,13 +206,18 @@ export function QuestLibrarySurface({ atlas = false }: { atlas?: boolean }) {
   const visibleItems = atlas ? filterLoadedQuests(items, filters) : items;
   const sections = groupSavedQuests(visibleItems);
   return (
-    <section className={`quest-library${atlas ? " studio-atlas atlas-quest-library" : ""}`} aria-labelledby="quest-library-title">
+    <section
+      className={`quest-library${atlas ? " studio-atlas atlas-quest-library" : ""}`}
+      aria-labelledby="quest-library-title"
+    >
       <header className="page-header">
         <div>
           <p className="page-header__eyebrow">PLAY · QUESTS</p>
           <h1 id="quest-library-title">Your Quest journeys.</h1>
           <p>
-            {atlas ? "Revisit your discoveries, continue a musical journey, or choose what to practice next. Recorded Sessions and Results live in History." : "Saved work stays actionable here. Practice History remains a separate record of Sessions and Results."}
+            {atlas
+              ? "Revisit your discoveries, continue a musical journey, or choose what to practice next. Recorded Sessions and Results live in History."
+              : "Saved work stays actionable here. Practice History remains a separate record of Sessions and Results."}
           </p>
         </div>
         <Link className="action-button" href="/generate">
@@ -200,34 +227,93 @@ export function QuestLibrarySurface({ atlas = false }: { atlas?: boolean }) {
       {error ? (
         <div className="session-notice" role="alert">
           <p>{error}</p>
-          {atlas ? <button className="sa-button sa-button--secondary" type="button" disabled={loading || busyQuest !== null} onClick={() => void load(0, false)}>Refresh Quest library</button> : null}
+          {atlas ? (
+            <button
+              className="sa-button sa-button--secondary"
+              type="button"
+              disabled={loading || busyQuest !== null}
+              onClick={() => void load(0, false)}
+            >
+              Refresh Quest library
+            </button>
+          ) : null}
         </div>
       ) : null}
       {atlas && items.length ? (
-        <section className="sa-panel atlas-library-filters" aria-labelledby="atlas-library-filters-title">
+        <section
+          className="sa-panel atlas-library-filters"
+          aria-labelledby="atlas-library-filters-title"
+        >
           <h2 id="atlas-library-filters-title">Find a Quest</h2>
           <div className="atlas-library-filter-grid">
-            <label>Search loaded Quests<input type="search" value={filters.search} placeholder="Title, Skill or concept" onChange={(event) => setFilters((current) => ({ ...current, search: event.target.value }))} /></label>
-            <label>Lifecycle<select value={filters.status} onChange={(event) => setFilters((current) => ({ ...current, status: event.target.value as QuestLibraryFilters["status"] }))}>
-              <option value="ALL">All states</option>
-              <option value="ACTIVE">Active</option>
-              <option value="SAVED">Saved</option>
-              <option value="CONCLUDED">Concluded</option>
-              <option value="ABANDONED">Stopped</option>
-              <option value="ARCHIVED">Archived</option>
-            </select></label>
-            <label>Musical domain<select value={filters.domain} onChange={(event) => setFilters((current) => ({ ...current, domain: event.target.value }))}>
-              <option value="">All domains</option>
-              {questDomains.map((domain) => <option key={domain.slug} value={domain.slug}>{domain.name}</option>)}
-            </select></label>
+            <label>
+              Search loaded Quests
+              <input
+                type="search"
+                value={filters.search}
+                placeholder="Title, Skill or concept"
+                onChange={(event) =>
+                  setFilters((current) => ({ ...current, search: event.target.value }))
+                }
+              />
+            </label>
+            <label>
+              Lifecycle
+              <select
+                value={filters.status}
+                onChange={(event) =>
+                  setFilters((current) => ({
+                    ...current,
+                    status: event.target.value as QuestLibraryFilters["status"],
+                  }))
+                }
+              >
+                <option value="ALL">All states</option>
+                <option value="ACTIVE">Active</option>
+                <option value="SAVED">Saved</option>
+                <option value="CONCLUDED">Concluded</option>
+                <option value="ABANDONED">Stopped</option>
+                <option value="ARCHIVED">Archived</option>
+              </select>
+            </label>
+            <label>
+              Musical domain
+              <select
+                value={filters.domain}
+                onChange={(event) =>
+                  setFilters((current) => ({ ...current, domain: event.target.value }))
+                }
+              >
+                <option value="">All domains</option>
+                {questDomains.map((domain) => (
+                  <option key={domain.slug} value={domain.slug}>
+                    {domain.name}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
           <div className="sa-actions">
-            <p role="status">Showing {visibleItems.length} of {items.length} loaded Quests{hasMore ? " · Load more to search additional Quests" : ""}.</p>
-            <button type="button" className="sa-button sa-button--secondary" onClick={() => setFilters(initialFilters)}>Clear filters</button>
+            <p role="status">
+              Showing {visibleItems.length} of {items.length} loaded Quests
+              {hasMore ? " · Load more to search additional Quests" : ""}.
+            </p>
+            <button
+              type="button"
+              className="sa-button sa-button--secondary"
+              onClick={() => setFilters(initialFilters)}
+            >
+              Clear filters
+            </button>
           </div>
         </section>
       ) : null}
-      {atlas && items.length > 0 && !visibleItems.length ? <section className="sa-panel"><h2>No matching loaded Quests</h2><p>Change your filters or load more Quests if available.</p></section> : null}
+      {atlas && items.length > 0 && !visibleItems.length ? (
+        <section className="sa-panel">
+          <h2>No matching loaded Quests</h2>
+          <p>Change your filters or load more Quests if available.</p>
+        </section>
+      ) : null}
       {loading && !items.length ? (
         <p className="session-notice" role="status">
           Loading Saved Quests…

@@ -17,7 +17,10 @@ export type QuestLibraryFilters = {
 };
 
 /** Filters loaded owner-scoped summaries only; never implies full-library search. */
-export function filterLoadedQuests(items: readonly SavedQuestSummary[], filters: QuestLibraryFilters) {
+export function filterLoadedQuests(
+  items: readonly SavedQuestSummary[],
+  filters: QuestLibraryFilters,
+) {
   const terms = filters.search.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
   return items.filter(({ quest, journey }) => {
     if (filters.status !== "ALL" && journey.lifecycleStatus !== filters.status) return false;
@@ -30,13 +33,16 @@ export function filterLoadedQuests(items: readonly SavedQuestSummary[], filters:
       ...quest.concepts.map((concept) => concept.name),
       questDomainIdentity(quest)?.name ?? quest.purpose.primary_domain,
       quest.objective.summary,
-    ].join(" ").toLocaleLowerCase();
+    ]
+      .join(" ")
+      .toLocaleLowerCase();
     return terms.every((term) => searchable.includes(term));
   });
 }
 
 export function questCriterionLabel(criterion: Quest["objective"]["criteria"][number]) {
   const metric = humanizeQuestValue(criterion.metric);
-  const comparison = criterion.operator === "GTE" ? "at least" : criterion.operator === "LTE" ? "at most" : "equals";
+  const comparison =
+    criterion.operator === "GTE" ? "at least" : criterion.operator === "LTE" ? "at most" : "equals";
   return `${metric}: ${comparison} ${humanizeQuestValue(criterion.value)}${criterion.unit ? ` ${criterion.unit}` : ""}`;
 }

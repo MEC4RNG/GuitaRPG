@@ -239,15 +239,23 @@ test("F2-R1 daily challenge uses explicit generation and preserves an existing d
   await expectAccessible(page, "F2-R1 daily challenge");
 });
 
-test("F3B discovery, real Quest reveal, filtering and lifecycle actions work at desktop and phone widths", async ({ page }) => {
+test("F3B discovery, real Quest reveal, filtering and lifecycle actions work at desktop and phone widths", async ({
+  page,
+}) => {
   test.setTimeout(90_000);
   await completeGuestOnboarding(page);
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/generate");
   const discovery = page.locator(".atlas-discovery");
   await expect(discovery.getByRole("heading", { name: "Quick Quest", exact: true })).toBeVisible();
-  await expect(discovery.getByRole("link", { name: "Explore Training" })).toHaveAttribute("href", "/training");
-  await expect(discovery.getByRole("link", { name: "Open daily challenge" })).toHaveAttribute("href", "/generate?daily=1");
+  await expect(discovery.getByRole("link", { name: "Explore Training" })).toHaveAttribute(
+    "href",
+    "/training",
+  );
+  await expect(discovery.getByRole("link", { name: "Open daily challenge" })).toHaveAttribute(
+    "href",
+    "/generate?daily=1",
+  );
   await expectAccessible(page, "F3B discovery");
   await page.getByRole("button", { name: "Generate Quest" }).click();
   const reveal = page.locator(".generate-preview");
@@ -283,7 +291,9 @@ test("F3B discovery, real Quest reveal, filtering and lifecycle actions work at 
   await expect(card).toHaveCount(0);
   await library.getByLabel("Lifecycle").selectOption("SAVED");
   await expect(card).toHaveCount(1);
-  await library.getByLabel("Musical domain").selectOption((await card.locator(".atlas-quest-identity").getAttribute("data-domain"))!);
+  await library
+    .getByLabel("Musical domain")
+    .selectOption((await card.locator(".atlas-quest-identity").getAttribute("data-domain"))!);
   await expect(card).toHaveCount(1);
   await library.getByRole("button", { name: "Clear filters" }).click();
   await card.getByRole("button", { name: /^Archive / }).click();
@@ -296,5 +306,7 @@ test("F3B discovery, real Quest reveal, filtering and lifecycle actions work at 
   await expectNoHorizontalOverflow(page);
   await card.getByRole("link", { name: "Open Quest", exact: true }).click();
   await expect(page.getByRole("heading", { name: generatedTitle, exact: true })).toBeVisible();
-  await expect(page.getByText("No Sessions yet. This is activity history, not a measure of ability.")).toBeVisible();
+  await expect(
+    page.getByText("No Sessions yet. This is activity history, not a measure of ability."),
+  ).toBeVisible();
 });

@@ -29,23 +29,48 @@ export function AtlasQuestDiscovery({ daily }: { daily: boolean }) {
         <article className="sa-panel atlas-discovery-option" data-current={!daily || undefined}>
           <span className="sa-eyebrow">{daily ? "Explore freely" : "Selected mode"}</span>
           <h3>Quick Quest</h3>
-          <p>Discover a focused musical challenge in one click. Inspect it before choosing to save or begin.</p>
-          {daily ? <Link className="sa-button sa-button--secondary" href="/generate">Open Quick Quest</Link> : <span className="atlas-mode-label">Generate using the action above</span>}
+          <p>
+            Discover a focused musical challenge in one click. Inspect it before choosing to save or
+            begin.
+          </p>
+          {daily ? (
+            <Link className="sa-button sa-button--secondary" href="/generate">
+              Open Quick Quest
+            </Link>
+          ) : (
+            <span className="atlas-mode-label">Generate using the action above</span>
+          )}
         </article>
         <article className="sa-panel atlas-discovery-option">
           <span className="sa-eyebrow">Develop deliberately</span>
           <h3>Recommended Training</h3>
-          <p>Choose a practice target using your current Skill evidence, goals and challenge preferences.</p>
-          <Link className="sa-button sa-button--secondary" href="/training">Explore Training</Link>
+          <p>
+            Choose a practice target using your current Skill evidence, goals and challenge
+            preferences.
+          </p>
+          <Link className="sa-button sa-button--secondary" href="/training">
+            Explore Training
+          </Link>
         </article>
         <article className="sa-panel atlas-discovery-option" data-current={daily || undefined}>
           <span className="sa-eyebrow">{daily ? "Selected mode" : "Daily discovery"}</span>
           <h3>{daily ? "Daily challenge" : "Boredom Buster"}</h3>
-          <p>Try a short one-Skill challenge with a daily seed. No streaks or special rewards required.</p>
-          {daily ? <span className="atlas-mode-label">Generate using the action above</span> : <Link className="sa-button sa-button--secondary" href="/generate?daily=1">Open daily challenge</Link>}
+          <p>
+            Try a short one-Skill challenge with a daily seed. No streaks or special rewards
+            required.
+          </p>
+          {daily ? (
+            <span className="atlas-mode-label">Generate using the action above</span>
+          ) : (
+            <Link className="sa-button sa-button--secondary" href="/generate?daily=1">
+              Open daily challenge
+            </Link>
+          )}
         </article>
       </div>
-      <Link className="sa-button sa-button--quiet" href="/quests">Browse your Quest library</Link>
+      <Link className="sa-button sa-button--quiet" href="/quests">
+        Browse your Quest library
+      </Link>
     </section>
   );
 }
