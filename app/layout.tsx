@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { AppShell } from "@/components/app-shell";
+import { canAccessStudioAtlasPreview, useStudioAtlasShellPreview } from "@/lib/ux/studio-atlas-preview";
 
 import "./globals.css";
 import "./workbook-workspace.css";
+import "./studio-atlas.css";
+import "./studio-atlas-home.css";
+import "./studio-atlas-shell.css";
 
 export const metadata: Metadata = {
   title: {
@@ -19,7 +23,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en">
       <body>
-        <AppShell>{children}</AppShell>
+        <AppShell atlasAvailable={canAccessStudioAtlasPreview()} atlasDefault={useStudioAtlasShellPreview()}>
+          {children}
+        </AppShell>
       </body>
     </html>
   );

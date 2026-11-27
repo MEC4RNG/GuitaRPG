@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,10 +13,15 @@ import { CodexPeekProvider } from "./codex-peek";
 
 type AppShellProps = {
   children: ReactNode;
+  atlasAvailable?: boolean;
+  atlasDefault?: boolean;
 };
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({ children, atlasAvailable = false, atlasDefault = false }: AppShellProps) {
+  const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+  const atlas = atlasAvailable && (atlasDefault || pathname.startsWith("/prototype/studio-atlas/home"));
+  const atlasHome = atlasDefault ? "/" : "/prototype/studio-atlas/home";
   const surface = getSurfaceForPath(pathname);
   const current = getNavigationItem(pathname);
   const workbookWorkspace = pathname === "/workbooks";
@@ -27,7 +32,7 @@ export function AppShell({ children }: AppShellProps) {
 
   return (
     <div
-      className={`app-shell app-shell--${surface}${prototypeClass}${workbookWorkspace ? " app-shell--workbook-workspace" : ""}`}
+      className={`app-shell app-shell--${surface}${prototypeClass}${workbookWorkspace ? " app-shell--workbook-workspace" : ""}${atlas ? " app-shell--atlas" : ""}${atlas && collapsed ? " app-shell--atlas-compact" : ""}`}
       data-surface={surface}
     >
       <CodexPeekProvider>
@@ -36,7 +41,7 @@ export function AppShell({ children }: AppShellProps) {
             Skip to content
           </a>
 
-          <Sidebar pathname={pathname} />
+          <Sidebar pathname={pathname} atlas={atlas} atlasHome={atlasHome} collapsed={collapsed} onToggle={() => setCollapsed((value) => !value)} />
 
           <div className="app-shell__workspace">
             <header className="topbar">
@@ -62,7 +67,7 @@ export function AppShell({ children }: AppShellProps) {
                   </Link>
                 </nav>
               ) : null}
-              <MobileNavigationMenu key={pathname} pathname={pathname} />
+              <MobileNavigationMenu key={pathname} pathname={pathname} atlas={atlas} atlasHome={atlasHome} />
             </header>
 
             <main className="app-content" id="main-content" tabIndex={-1}>
@@ -70,7 +75,7 @@ export function AppShell({ children }: AppShellProps) {
             </main>
           </div>
 
-          <MobileNav pathname={pathname} />
+          <MobileNav pathname={pathname} atlasHome={atlas ? atlasHome : undefined} />
         </div>
       </CodexPeekProvider>
     </div>

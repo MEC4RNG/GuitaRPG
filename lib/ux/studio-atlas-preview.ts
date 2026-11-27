@@ -15,3 +15,8 @@ export function canAccessStudioAtlasPreview(
     environment.NODE_ENV === "development" || environment.STUDIO_ATLAS_PREVIEW_ENABLED === "true"
   );
 }
+
+/** F2 preview deployments use the new shell; production always retains the accepted shell. */
+export function useStudioAtlasShellPreview(environment: PreviewEnvironment = process.env) {
+  return canAccessStudioAtlasPreview(environment) && environment.VERCEL_ENV === "preview";
+}

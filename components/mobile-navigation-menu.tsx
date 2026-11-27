@@ -7,7 +7,7 @@ import { NAVIGATION_GROUPS, isRouteActive } from "@/lib/navigation";
 
 import { NavigationIcon } from "./navigation-icon";
 
-export function MobileNavigationMenu({ pathname }: { pathname: string }) {
+export function MobileNavigationMenu({ pathname, atlas = false, atlasHome = "/" }: { pathname: string; atlas?: boolean; atlasHome?: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -69,8 +69,9 @@ export function MobileNavigationMenu({ pathname }: { pathname: string }) {
                 <h2>{group.label}</h2>
                 <div>
                   {group.items.map((item) => {
+                    const href = atlas && item.href === "/" ? atlasHome : item.href;
                     const active =
-                      isRouteActive(pathname, item.href) ||
+                      isRouteActive(pathname, href) ||
                       (item.href === "/codex" &&
                         (pathname === "/prototype/codex-v2" ||
                           pathname.startsWith("/prototype/codex-v2/")));
@@ -78,7 +79,7 @@ export function MobileNavigationMenu({ pathname }: { pathname: string }) {
                       <Link
                         className={`mobile-menu-link${active ? " mobile-menu-link--active" : ""}`}
                         key={item.href}
-                        href={item.href}
+                        href={href}
                         aria-current={active ? "page" : undefined}
                         onClick={closeMenu}
                       >
@@ -87,6 +88,12 @@ export function MobileNavigationMenu({ pathname }: { pathname: string }) {
                       </Link>
                     );
                   })}
+                  {atlas && group.label === "Learn" ? (
+                    <Link className={`mobile-menu-link${pathname === "/workbooks" ? " mobile-menu-link--active" : ""}`} href="/workbooks" aria-current={pathname === "/workbooks" ? "page" : undefined} onClick={closeMenu}>
+                      <NavigationIcon icon="quests" />
+                      <span>Workbooks</span>
+                    </Link>
+                  ) : null}
                 </div>
               </section>
             ))}

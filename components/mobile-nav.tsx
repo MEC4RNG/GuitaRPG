@@ -6,14 +6,16 @@ import { NavigationIcon } from "./navigation-icon";
 
 type MobileNavProps = {
   pathname: string;
+  atlasHome?: string;
 };
 
-export function MobileNav({ pathname }: MobileNavProps) {
+export function MobileNav({ pathname, atlasHome }: MobileNavProps) {
   return (
     <nav className="mobile-nav" aria-label="Mobile navigation">
       {MOBILE_NAVIGATION_ITEMS.map((item) => {
+        const href = item.href === "/" && atlasHome ? atlasHome : item.href;
         const active =
-          isRouteActive(pathname, item.href) ||
+          isRouteActive(pathname, href) ||
           (item.href === "/codex" &&
             (pathname === "/prototype/codex-v2" || pathname.startsWith("/prototype/codex-v2/")));
 
@@ -26,7 +28,7 @@ export function MobileNav({ pathname }: MobileNavProps) {
             ]
               .filter(Boolean)
               .join(" ")}
-            href={item.href}
+            href={href}
             key={item.href}
             aria-current={active ? "page" : undefined}
           >
