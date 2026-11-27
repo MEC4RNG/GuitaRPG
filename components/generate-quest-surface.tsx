@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { CodexReferenceLink, CodexReferenceList } from "@/components/quest-codex-reference";
 import { generateQuickQuest, type GeneratedQuest } from "@/lib/quest/generator";
+import { dailyChallengeSeed } from "@/lib/quest/generator/daily-preview";
 import { toQuestPersistenceInput } from "@/lib/quest/runtime";
 import { questCodexReferences } from "@/lib/quest/codex-references";
 import { saveGeneratedQuestJourney, type JourneyRpcClient } from "@/lib/quest/journey-repository";
@@ -62,7 +63,7 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
         return;
       }
       setOwnerId(resolvedOwnerId);
-      const next = generateQuickQuest(daily ? { seed: `boredom-buster-v1:${new Date().toISOString().slice(0, 10)}` } : {});
+      const next = generateQuickQuest(daily ? { seed: dailyChallengeSeed() } : {});
       setGenerated(next);
       setDurableQuestId(null);
       saveQuestDraft(window.sessionStorage, resolvedOwnerId, next.quest);
@@ -106,7 +107,7 @@ export function GenerateQuestSurface({ daily = false }: { daily?: boolean }) {
         <div>
           <p className="eyebrow">PLAY · GENERATE</p>
           <h1 id="generate-title">{daily ? "Boredom Buster" : "Build the next quest."}</h1>
-          <p>{daily ? "A daily seeded one-Skill Quick Quest. Select Generate Quest to reveal it; your existing draft is preserved unless you confirm replacement." : "One useful practice plan, generated from the canonical Quest system."}</p>
+          <p>{daily ? "A daily seeded one-Skill Quick Quest. Generate the daily challenge when ready. An existing draft stays available unless you confirm replacement." : "One useful practice plan, generated from the canonical Quest system."}</p>
         </div>
         <button
           className="action-button"

@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { chooseHomeAction, readHomeOverview } from "@/lib/ux/home-overview";
+import { chooseHomeAction, pickHomeCodexEntry, readHomeOverview } from "@/lib/ux/home-overview";
+import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
+import { generateQuickQuest } from "@/lib/quest/generator";
+import { dailyChallengeSeed } from "@/lib/quest/generator/daily-preview";
 import { useStudioAtlasShellPreview } from "@/lib/ux/studio-atlas-preview";
 
 describe("Studio Atlas F2 Home", () => {
@@ -73,5 +76,30 @@ describe("Studio Atlas F2 Home", () => {
     } as unknown as Parameters<typeof readHomeOverview>[0];
     await expect(readHomeOverview(client)).rejects.toThrow("Identity unavailable");
     expect(from).not.toHaveBeenCalled();
+  });
+});
+
+describe("F2-R1 discovery modules", () => {
+  it("selects a published Skill or Concept reference with its canonical route", () => {
+    for (const sample of [0, 0.5, 0.999]) {
+      const entry = pickHomeCodexEntry(sample);
+      expect(["SKILL", "CONCEPT"]).toContain(entry.kind);
+      expect(CODEX_ENTRIES.find((item) => item.href === entry.href)).toMatchObject(entry);
+    }
+  });
+
+  it("rotates the challenge seed by UTC date and reuses the canonical one-Skill Quick Quest", () => {
+    const seed = dailyChallengeSeed(new Date("2026-11-27T00:00:00Z"));
+    expect(dailyChallengeSeed(new Date("2026-11-27T23:59:59Z"))).toBe(seed);
+    expect(dailyChallengeSeed(new Date("2026-11-28T00:00:00Z"))).not.toBe(seed);
+    const a = generateQuickQuest({ seed }).quest;
+    const b = generateQuickQuest({ seed }).quest;
+    expect(a.identity.title).toBe(b.identity.title);
+    expect(a.identity.id).not.toBe(b.identity.id);
+    expect(a.execution).toEqual(b.execution);
+    expect(a.execution.secondary_skills).toEqual([]);
+    expect(a.execution.required_techniques).toEqual([]);
+    expect(a.execution.estimated_minutes).toBe(10);
+    expect(a.purpose.generation_mode).toBe("QUICK");
   });
 });

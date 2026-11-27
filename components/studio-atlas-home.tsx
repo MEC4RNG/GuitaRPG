@@ -258,7 +258,7 @@ export function StudioAtlasHome() {
           <div className="sa-home-module-grid">
             {visitorFeatures.map((feature) => (
               <article className="sa-panel sa-visitor-feature" data-domain={feature.domain} key={feature.title}>
-                <span className="sa-domain-icon"><AtlasDomainIcon domain={feature.domain} /></span>
+                <span className="sa-domain-icon" aria-hidden="true"><AtlasDomainIcon domain={feature.domain} /></span>
                 <h3>{feature.title}</h3>
                 <p>{feature.text}</p>
               </article>
@@ -295,7 +295,7 @@ export function StudioAtlasHome() {
             <section className="sa-panel sa-boredom-buster" aria-labelledby="sa-boredom">
               <p className="sa-eyebrow">Daily challenge</p>
               <h2 id="sa-boredom">Boredom Buster</h2>
-              <p>A fresh, focused one-Skill challenge. Around 10 minutes, with a different seeded selection each UTC day.</p>
+              <p>A focused one-Skill challenge for a change of pace. Around 10 minutes, with a new daily seed at midnight UTC.</p>
               {overview.action.kind === "session" ? <p>Finish or resume your current Session first.</p> : (
                 <Link className="sa-button sa-button--primary" href="/generate?daily=1">Explore today&apos;s challenge</Link>
               )}
@@ -329,7 +329,7 @@ export function StudioAtlasHome() {
                   ))}
                 </ul>
               )}
-              <p>{overview.training?.uniqueTop ? `Current training focus: ${overview.training.uniqueTop.skill}` : "Your Skill evidence is available in the Skills library."}</p>
+              <p>{overview.training?.uniqueTop ? `Current training focus: ${overview.training.uniqueTop.skill}` : "Explore the Skills library to review your recorded development."}</p>
               <div className="sa-actions">
                 <Link className="sa-button sa-button--secondary" href="/skills">Explore your Skills</Link>
                 <Link className="sa-button sa-button--quiet" href="/profile#profile-goals-title">Set goals</Link>

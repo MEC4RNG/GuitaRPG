@@ -142,6 +142,11 @@ test("F2 guest-free dashboard and compact navigation are accessible", async ({ p
   await expect(page.getByRole("link", { name: "Start playing" })).toBeVisible({ timeout: 15_000 });
   await expect(page.getByRole("heading", { name: "Your progress" })).toHaveCount(0);
   expect(signups).toBe(0);
+  await expect(page.locator(".sa-visitor-feature")).toHaveCount(6);
+  await expect(page.getByRole("link", { name: "Create your Player" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Recent Quests" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Boredom Buster" })).toHaveCount(0);
+  await expect(page.getByRole("navigation", { name: "Explore Sound Uncharted" })).toHaveCount(0);
   const sidebar = page.getByRole("complementary", { name: "Primary navigation" });
   await expect(sidebar.getByRole("link", { name: "Workbooks" })).toBeVisible();
   await expect(sidebar.getByRole("link", { name: "Home", exact: true })).toHaveAttribute(
@@ -182,6 +187,13 @@ test("F2 dashboard uses real guest data and prioritizes an open Session", async 
   await expect(home.getByRole("heading", { name: "Character Level 1" })).toBeVisible();
   await expect(home.getByText("0 practice XP", { exact: true })).toBeVisible();
   await expect(home.getByRole("heading", { name: "Recent Workbooks" })).toBeVisible();
+  await expect(home.getByRole("heading", { name: "Recent Quests" })).toBeVisible();
+  await expect(home.getByRole("heading", { name: "Boredom Buster" })).toBeVisible();
+  await expect(home.getByRole("link", { name: "Explore today\'s challenge" })).toHaveAttribute("href", "/generate?daily=1");
+  await expect(home.getByRole("link", { name: "Read Codex entry" })).toHaveAttribute("href", /^\/codex\/(skills|concepts)\//);
+  await expect(home.getByRole("heading", { name: "Practice setup" })).toBeVisible();
+  await expect(home.getByRole("heading", { name: "Learning path" })).toBeVisible();
+  await expect(home.locator(".sa-visitor-feature")).toHaveCount(0);
   await expect(home.getByRole("link", { name: "Quick Quest", exact: true })).toBeVisible();
   await expectAccessible(page, "F2 new Player");
   const sessionId = await generateAndStartPractice(page);
@@ -192,9 +204,29 @@ test("F2 dashboard uses real guest data and prioritizes an open Session", async 
     { timeout: 20_000 },
   );
   await expect(home.getByRole("link", { name: "Quick Quest", exact: true })).toHaveCount(0);
+  await expect(home.getByRole("link", { name: "Explore today\'s challenge" })).toHaveCount(0);
+  await expect(home.locator(".sa-home-quest-card").first()).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });
   await expectNoHorizontalOverflow(page);
   await expectAccessible(page, "F2 active Session dashboard");
   await home.getByRole("link", { name: "Resume Session" }).click();
   await expect(page).toHaveURL(new RegExp(`/session/${sessionId}$`));
+});
+
+test("F2-R1 daily challenge uses explicit generation and preserves an existing draft", async ({ page }) => {
+  test.setTimeout(60_000);
+  await completeGuestOnboarding(page);
+  await page.goto("/generate?daily=1");
+  await expect(page.getByRole("heading", { name: "Boredom Buster" })).toBeVisible();
+  await expect(page.locator("#generated-quest-title")).toHaveCount(0);
+  await page.getByRole("button", { name: "Generate Quest" }).click();
+  const title = page.locator("#generated-quest-title");
+  await expect(title).toBeVisible();
+  const generated = await title.innerText();
+  await page.reload();
+  await expect(title).toHaveText(generated);
+  page.once("dialog", (dialog) => dialog.dismiss());
+  await page.getByRole("button", { name: "Generate Another" }).click();
+  await expect(title).toHaveText(generated);
+  await expectAccessible(page, "F2-R1 daily challenge");
 });
