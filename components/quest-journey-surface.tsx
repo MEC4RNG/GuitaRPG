@@ -8,7 +8,10 @@ import { CodexV2Reference } from "@/components/codex-v2-reference";
 import type { CodexV2ReferenceBlock, LearningLevel } from "@/lib/codex/v2/content";
 import { WorkbookPersistenceSurface } from "@/components/workbook-persistence-surface";
 import { AtlasLessonActivity } from "@/components/studio-atlas-lesson-activity";
-import { buildLessonWorkbookDocument, type CodexLessonWorkbookSource } from "@/lib/workbook/lesson-template";
+import {
+  buildLessonWorkbookDocument,
+  type CodexLessonWorkbookSource,
+} from "@/lib/workbook/lesson-template";
 import type { WorkbookDocumentV1 } from "@/lib/workbook/document-v1";
 import type { WorkbookRouteContext } from "@/lib/workbook/context";
 import { questCodexReferences } from "@/lib/quest/codex-references";
@@ -65,7 +68,13 @@ const learningLevels: Array<{ id: LearningLevel; label: string }> = [
 ];
 export type MapCodexLearning = {
   blocks: CodexV2ReferenceBlock[];
-  modules: Array<{ id: string; title: string; level: LearningLevel; application: string; source?: CodexLessonWorkbookSource }>;
+  modules: Array<{
+    id: string;
+    title: string;
+    level: LearningLevel;
+    application: string;
+    source?: CodexLessonWorkbookSource;
+  }>;
 };
 const dateTime = (value: string) =>
   new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(
@@ -105,10 +114,28 @@ export function QuestJourneySurface({
   } | null>(null);
   const [editorPending, setEditorPending] = useState(false);
   const [craftPageId, setCraftPageId] = useState<string | undefined>();
-  const lessonReceipts = useRef(new Map<string, { requestId: string; document: WorkbookDocumentV1; page?: WorkbookPageRow }>());
+  const lessonReceipts = useRef(
+    new Map<string, { requestId: string; document: WorkbookDocumentV1; page?: WorkbookPageRow }>(),
+  );
   const [savedLessonPages, setSavedLessonPages] = useState<Record<string, string>>({});
-  const exploreContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "EXPLORE", relationship: "APPLIES_TO", pageId: openExplorePage?.pageId }), [questId, openExplorePage?.pageId]);
-  const craftContext = useMemo<WorkbookRouteContext>(() => ({ questId, stage: "CRAFT", relationship: craftPageId ? "APPLIES_TO" : "CREATED_DURING", pageId: craftPageId }), [questId, craftPageId]);
+  const exploreContext = useMemo<WorkbookRouteContext>(
+    () => ({
+      questId,
+      stage: "EXPLORE",
+      relationship: "APPLIES_TO",
+      pageId: openExplorePage?.pageId,
+    }),
+    [questId, openExplorePage?.pageId],
+  );
+  const craftContext = useMemo<WorkbookRouteContext>(
+    () => ({
+      questId,
+      stage: "CRAFT",
+      relationship: craftPageId ? "APPLIES_TO" : "CREATED_DURING",
+      pageId: craftPageId,
+    }),
+    [questId, craftPageId],
+  );
   const mapCreateRequest = useRef<{ topicKey: string; requestId: string } | null>(null);
 
   useEffect(() => {
@@ -170,7 +197,8 @@ export function QuestJourneySurface({
   }, [questId]);
 
   async function chooseStage(stage: QuestJourneyStage) {
-    if (pending || editorPending || !detail || detail.journey.lifecycleStatus === "ARCHIVED") return;
+    if (pending || editorPending || !detail || detail.journey.lifecycleStatus === "ARCHIVED")
+      return;
     setPending(true);
     setError(null);
     try {
@@ -232,7 +260,11 @@ export function QuestJourneySurface({
   const mapLevelLessons = selectedMapCodex?.modules.filter((item) => item.level === mapLevel) ?? [];
   const fullCodexHref = (slug: string) =>
     mapCodexLearning[slug] ? codexQuestPreviewHref(questId, slug) : undefined;
-  const focusedLesson = learningFocus?.moduleKey ? mapCodexLearning[learningFocus.moduleKey]?.modules.find((item) => item.id === learningFocus.lessonId)?.source : undefined;
+  const focusedLesson = learningFocus?.moduleKey
+    ? mapCodexLearning[learningFocus.moduleKey]?.modules.find(
+        (item) => item.id === learningFocus.lessonId,
+      )?.source
+    : undefined;
   const stageLinks = workbookLinks.filter((link) => link.stage === journey.currentStage);
   const suggestedModules = [
     { ...quest.execution.primary_skill, roles: ["Primary"] },
@@ -376,10 +408,20 @@ export function QuestJourneySurface({
     setError(null);
     try {
       const nextJourney = await setQuestJourneyStage(client(), questId, "EXPLORE");
-      if (selectedTopic.moduleKey) setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
+      if (selectedTopic.moduleKey)
+        setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
       if (lesson) setOpenExplorePage(null);
-      setLearningFocus(lesson ? { title: lesson.title, lessonId: lesson.id, level: lesson.level, moduleKey: selectedTopic.moduleKey } : null);
-      setDetail((current) => current ? { ...current, journey: nextJourney } : current);
+      setLearningFocus(
+        lesson
+          ? {
+              title: lesson.title,
+              lessonId: lesson.id,
+              level: lesson.level,
+              moduleKey: selectedTopic.moduleKey,
+            }
+          : null,
+      );
+      setDetail((current) => (current ? { ...current, journey: nextJourney } : current));
     } catch {
       setError("The Journey stage could not be updated. Your previous stage is unchanged.");
     } finally {
@@ -405,13 +447,23 @@ export function QuestJourneySurface({
     try {
       const api = client();
       if (!receipt.page) {
-        const created = await createWorkbook(api, `${lesson.skillName} Practice`, { document: receipt.document, requestId: receipt.requestId });
+        const created = await createWorkbook(api, `${lesson.skillName} Practice`, {
+          document: receipt.document,
+          requestId: receipt.requestId,
+        });
         receipt.page = created.page;
-        setWorkbooks((current) => [created.workbook, ...current.filter((book) => book.id !== created.workbook.id)]);
+        setWorkbooks((current) => [
+          created.workbook,
+          ...current.filter((book) => book.id !== created.workbook.id),
+        ]);
       }
       let page = receipt.page;
       if (page.title !== lesson.title.slice(0, 120)) {
-        const saved = await savePage(api, { ...page, title: lesson.title.slice(0, 120) }, crypto.randomUUID());
+        const saved = await savePage(
+          api,
+          { ...page, title: lesson.title.slice(0, 120) },
+          crypto.randomUUID(),
+        );
         page = saved.page;
         receipt.page = page;
       }
@@ -424,7 +476,9 @@ export function QuestJourneySurface({
       lessonReceipts.current.delete(lesson.moduleId);
       setModuleMessage("Lesson page saved and opened in Explore.");
     } catch {
-      setError("Your lesson page may already be safe. Retry Save to Workbook to resume linking the same page.");
+      setError(
+        "Your lesson page may already be safe. Retry Save to Workbook to resume linking the same page.",
+      );
     } finally {
       setPending(false);
     }
@@ -436,11 +490,16 @@ export function QuestJourneySurface({
     setError(null);
     try {
       const api = client();
-      const link = await attachWorkbookContext(api, { pageId, questId, stage: "CRAFT", relationship: "APPLIES_TO" });
+      const link = await attachWorkbookContext(api, {
+        pageId,
+        questId,
+        stage: "CRAFT",
+        relationship: "APPLIES_TO",
+      });
       const nextJourney = await setQuestJourneyStage(api, questId, "CRAFT");
       setWorkbookLinks((current) => [...current.filter((item) => item.id !== link.id), link]);
       setCraftPageId(pageId);
-      setDetail((current) => current ? { ...current, journey: nextJourney } : current);
+      setDetail((current) => (current ? { ...current, journey: nextJourney } : current));
     } catch {
       setError("The page is safe in your Workbook. Retry to continue in Craft.");
     } finally {
@@ -449,14 +508,22 @@ export function QuestJourneySurface({
   }
 
   return (
-    <section className={`generate-stack journey-shell${atlas ? " journey-shell--atlas" : ""}`} aria-labelledby="quest-journey-title" onClickCapture={(event) => {
-      if (!editorPending || !(event.target instanceof Element)) return;
-      const link = event.target.closest("a[href]");
-      if (link && link.getAttribute("target") !== "_blank" && !link.getAttribute("href")?.startsWith("#")) {
-        event.preventDefault();
-        setModuleMessage("Wait for your Workbook to show Saved before leaving this workspace.");
-      }
-    }}>
+    <section
+      className={`generate-stack journey-shell${atlas ? " journey-shell--atlas" : ""}`}
+      aria-labelledby="quest-journey-title"
+      onClickCapture={(event) => {
+        if (!editorPending || !(event.target instanceof Element)) return;
+        const link = event.target.closest("a[href]");
+        if (
+          link &&
+          link.getAttribute("target") !== "_blank" &&
+          !link.getAttribute("href")?.startsWith("#")
+        ) {
+          event.preventDefault();
+          setModuleMessage("Wait for your Workbook to show Saved before leaving this workspace.");
+        }
+      }}
+    >
       <Link className="text-link journey-back" href="/quests">
         ← Saved Quests
       </Link>
@@ -552,7 +619,11 @@ export function QuestJourneySurface({
         </p>
       ) : null}
 
-      {editorPending ? <p role="status" className="session-notice">Wait for your Workbook to show Saved before switching pages, stages or starting practice.</p> : null}
+      {editorPending ? (
+        <p role="status" className="session-notice">
+          Wait for your Workbook to show Saved before switching pages, stages or starting practice.
+        </p>
+      ) : null}
       <nav className="mec-navigator" aria-label="Quest Journey stages">
         {stages.map((stage) => {
           const copy = journeyStageContent[stage];
@@ -623,7 +694,13 @@ export function QuestJourneySurface({
                       <ul className="journey-list">
                         {quest.objective.criteria.map((criterion, index) => (
                           <li key={index}>
-                            {criterion.metric.replaceAll("_", " ")} · {criterion.operator === "GTE" ? "at least" : criterion.operator === "LTE" ? "at most" : "equals"} {String(criterion.value)} {criterion.unit}
+                            {criterion.metric.replaceAll("_", " ")} ·{" "}
+                            {criterion.operator === "GTE"
+                              ? "at least"
+                              : criterion.operator === "LTE"
+                                ? "at most"
+                                : "equals"}{" "}
+                            {String(criterion.value)} {criterion.unit}
                           </li>
                         ))}
                       </ul>
@@ -736,7 +813,13 @@ export function QuestJourneySurface({
             <>
               <section className="explore-workspaces" aria-labelledby="explore-workspaces-title">
                 {atlas && focusedLesson ? (
-                  <AtlasLessonActivity lesson={focusedLesson} blocks={mapCodexLearning[focusedLesson.skillSlug]?.blocks ?? []} disabled={pending || editorPending || archived} saved={Boolean(savedLessonPages[focusedLesson.moduleId])} onSave={() => void saveFocusedLesson()} />
+                  <AtlasLessonActivity
+                    lesson={focusedLesson}
+                    blocks={mapCodexLearning[focusedLesson.skillSlug]?.blocks ?? []}
+                    disabled={pending || editorPending || archived}
+                    saved={Boolean(savedLessonPages[focusedLesson.moduleId])}
+                    onSave={() => void saveFocusedLesson()}
+                  />
                 ) : learningFocus ? (
                   <div className="explore-learning-focus" role="status">
                     <span className="eyebrow">
@@ -767,9 +850,12 @@ export function QuestJourneySurface({
                   </div>
                   <button
                     type="button"
-                    disabled={pending || archived || editorPending || orderedModuleKeys.every(
-                      (key, index) => key === suggestedModules[index]?.slug,
-                    )}
+                    disabled={
+                      pending ||
+                      archived ||
+                      editorPending ||
+                      orderedModuleKeys.every((key, index) => key === suggestedModules[index]?.slug)
+                    }
                     onClick={() =>
                       void persistModuleOrder(suggestedModules.map((item) => item.slug))
                     }
@@ -840,7 +926,12 @@ export function QuestJourneySurface({
                             type="button"
                             aria-label={`Move ${module.name} later`}
                             title="Move this ingredient later"
-                            disabled={pending || archived || editorPending || index === exploreModules.length - 1}
+                            disabled={
+                              pending ||
+                              archived ||
+                              editorPending ||
+                              index === exploreModules.length - 1
+                            }
                             onClick={() => {
                               const next = [...orderedModuleKeys];
                               [next[index + 1], next[index]] = [next[index], next[index + 1]];

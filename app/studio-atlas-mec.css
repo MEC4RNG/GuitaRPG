@@ -10,7 +10,9 @@
   color: var(--surface-text);
 }
 .journey-shell--atlas .journey-header {
-  background: linear-gradient(90deg, #171e23 25%, rgb(23 30 35 / 96%)), url("/studio-atlas/atlas-contours.svg") right center / 18rem;
+  background:
+    linear-gradient(90deg, #171e23 25%, rgb(23 30 35 / 96%)),
+    url("/studio-atlas/atlas-contours.svg") right center / 18rem;
 }
 .journey-shell--atlas .journey-header h1 {
   font-family: Georgia, "Times New Roman", serif;
@@ -48,7 +50,10 @@
   gap: 0.65rem;
 }
 .atlas-lesson h2 {
-  font: 400 clamp(1.4rem, 3vw, 2rem)/1.2 Georgia, "Times New Roman", serif;
+  font:
+    400 clamp(1.4rem, 3vw, 2rem)/1.2 Georgia,
+    "Times New Roman",
+    serif;
 }
 .atlas-lesson ul,
 .atlas-lesson ol {

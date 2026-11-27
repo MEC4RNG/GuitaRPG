@@ -42,11 +42,19 @@ export default async function QuestJourneyPage({
                 revision: entry.revision,
                 status: entry.editorial_status,
                 title: module.title,
-                applicationTitle: entry.applications.find((item) => item.id === module.application_id)?.title ?? module.application_id,
+                applicationTitle:
+                  entry.applications.find((item) => item.id === module.application_id)?.title ??
+                  module.application_id,
                 level: module.level,
                 explanation: module.explanation,
                 outcomes: module.outcomes,
-                exercises: module.exercises.map((exercise) => ({ title: exercise.title, setup: exercise.setup, steps: exercise.steps, selfCheck: exercise.self_check, suggestedMinutes: exercise.suggested_minutes })),
+                exercises: module.exercises.map((exercise) => ({
+                  title: exercise.title,
+                  setup: exercise.setup,
+                  steps: exercise.steps,
+                  selfCheck: exercise.self_check,
+                  suggestedMinutes: exercise.suggested_minutes,
+                })),
               },
             })),
           },
@@ -54,5 +62,11 @@ export default async function QuestJourneyPage({
     );
   }
 
-  return <QuestJourneySurface questId={questId} mapCodexLearning={mapCodexLearning} atlas={canAccessStudioAtlasPreview()} />;
+  return (
+    <QuestJourneySurface
+      questId={questId}
+      mapCodexLearning={mapCodexLearning}
+      atlas={canAccessStudioAtlasPreview()}
+    />
+  );
 }

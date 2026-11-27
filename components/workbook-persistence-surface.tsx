@@ -73,10 +73,13 @@ export function WorkbookPersistenceSurface({
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [pendingEdits, setPendingEdits] = useState(false);
-  const reportEmbeddedPending = useCallback((pending: boolean) => {
-    setPendingEdits(pending);
-    onEmbeddedPendingChange?.(pending);
-  }, [onEmbeddedPendingChange]);
+  const reportEmbeddedPending = useCallback(
+    (pending: boolean) => {
+      setPendingEdits(pending);
+      onEmbeddedPendingChange?.(pending);
+    },
+    [onEmbeddedPendingChange],
+  );
   const [transferring, setTransferring] = useState(false);
   const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
@@ -523,13 +526,35 @@ export function WorkbookPersistenceSurface({
           </div>
           <div className="craft-workspace__actions">
             {onContinueInCraft ? (
-              <button type="button" className="action-button action-button--primary" disabled={pendingEdits || transferring || !activePage} onClick={async () => {
-                if (!activePage || pendingEdits || transferring) return;
-                setTransferring(true);
-                try { await onContinueInCraft(activePage.id); } finally { setTransferring(false); }
-              }}>Continue in Craft</button>
+              <button
+                type="button"
+                className="action-button action-button--primary"
+                disabled={pendingEdits || transferring || !activePage}
+                onClick={async () => {
+                  if (!activePage || pendingEdits || transferring) return;
+                  setTransferring(true);
+                  try {
+                    await onContinueInCraft(activePage.id);
+                  } finally {
+                    setTransferring(false);
+                  }
+                }}
+              >
+                Continue in Craft
+              </button>
             ) : null}
-            <Link className="action-button action-button--secondary" aria-disabled={pendingEdits} href={pendingEdits ? "#explore-editor-title" : `/workbooks?quest=${context.questId}&stage=EXPLORE&relationship=APPLIES_TO&page=${page.id}`} onClick={(event) => { if (pendingEdits) event.preventDefault(); }}>
+            <Link
+              className="action-button action-button--secondary"
+              aria-disabled={pendingEdits}
+              href={
+                pendingEdits
+                  ? "#explore-editor-title"
+                  : `/workbooks?quest=${context.questId}&stage=EXPLORE&relationship=APPLIES_TO&page=${page.id}`
+              }
+              onClick={(event) => {
+                if (pendingEdits) event.preventDefault();
+              }}
+            >
               Open Full Editor
             </Link>
           </div>
@@ -624,7 +649,13 @@ export function WorkbookPersistenceSurface({
                 href={
                   pendingEdits
                     ? "#craft-workspace-title"
-                    : workbookContextHref(context.questId, "CRAFT", craftLinks.find((link) => link.page_id === activePage.id)?.relationship ?? "APPLIES_TO", { pageId: activePage.id })
+                    : workbookContextHref(
+                        context.questId,
+                        "CRAFT",
+                        craftLinks.find((link) => link.page_id === activePage.id)?.relationship ??
+                          "APPLIES_TO",
+                        { pageId: activePage.id },
+                      )
                 }
                 onClick={(event) => {
                   if (pendingEdits) event.preventDefault();
