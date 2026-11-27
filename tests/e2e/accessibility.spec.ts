@@ -99,7 +99,9 @@ test("Studio Atlas preview has readable responsive components and keyboard dialo
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/prototype/studio-atlas");
-    await expect(page.getByRole("heading", { name: "A world of musical discovery." })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "A world of musical discovery." }),
+    ).toBeVisible();
     await expect(page.locator(".sa-domain")).toHaveCount(6);
     await expect(page.locator(".sa-cover-item")).toHaveCount(3);
     await expect(page.getByRole("button", { name: "Unavailable", exact: true })).toBeDisabled();
