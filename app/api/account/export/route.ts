@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(body, {
       headers: {
         "Cache-Control": "private, no-store",
-        "Content-Disposition": `attachment; filename="guitarrpg-player-data-${exportedAt.slice(0, 10)}.json"`,
+        "Content-Disposition": `attachment; filename="sound-uncharted-player-data-${exportedAt.slice(0, 10)}.json"`,
         "X-Content-Type-Options": "nosniff",
       },
     });

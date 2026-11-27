@@ -1,0 +1,61 @@
+/* Standalone Workbooks use a horizontal application header instead of a second sidebar. */
+.workbook-app-navigation {
+  display: none;
+}
+@media (min-width: 64rem) {
+  .app-shell--workbook-workspace .sidebar {
+    display: none;
+  }
+  .app-shell--workbook-workspace .app-shell__workspace {
+    margin-left: 0;
+    width: 100%;
+    min-width: 0;
+  }
+  .app-shell--workbook-workspace .app-content {
+    max-width: 110rem;
+    width: 100%;
+    padding: 1rem;
+  }
+  .app-shell--workbook-workspace .topbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+  .workbook-app-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+    min-width: 0;
+  }
+  .workbook-app-navigation a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.45rem 0.65rem;
+    border-radius: 0.4rem;
+    color: var(--surface-text);
+  }
+  .workbook-app-navigation a[aria-current="page"] {
+    background: var(--surface-raised);
+    box-shadow: inset 0 -2px var(--surface-accent);
+    font-weight: 700;
+  }
+}
+.workbook-library--redesign .workbook-editor-shell--tools .workbook-json {
+  display: grid;
+}
+.workbook-library--redesign .workbook-library__list button,
+.workbook-library--redesign .workbook-workspace-controls button,
+.workbook-library--redesign .workbook-tools-toggle {
+  min-height: 44px;
+}
+@media (min-width: 75rem) {
+  .workbook-library--redesign .workbook-pages__heading,
+  .workbook-library--redesign .workbook-page-strip,
+  .workbook-library--redesign .workbook-new-page,
+  .workbook-library--redesign .workbook-page-actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}

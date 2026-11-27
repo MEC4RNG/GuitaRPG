@@ -42,11 +42,11 @@ otp_length = 6
 otp_expiry = 3600
 
 [auth.email.template.magic_link]
-subject = "Your GuitaRPG sign-in link"
+subject = "Your Sound Uncharted sign-in link"
 content_path = "./supabase/templates/magic-link.html"
 
 [auth.email.template.email_change]
-subject = "Protect your GuitaRPG Player"
+subject = "Protect your Sound Uncharted Player"
 content_path = "./supabase/templates/email-change.html"
 
 [experimental.pgdelta]

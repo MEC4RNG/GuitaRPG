@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import { expectNoHorizontalOverflow } from "./helpers/accessibility";
 
@@ -7,6 +7,15 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
 }, testInfo) => {
   for (const path of ["/", "/profile", "/onboarding", "/generate", "/codex"] as const) {
     await page.goto(path);
+    if (path === "/generate") {
+      // Onboarding may have already established a guest identity. Wait for
+      // either the ready Generate control or the redirected setup surface.
+      const ready = page.getByRole("button", { name: "Generate Quest", exact: true });
+      const setup = page.getByRole("heading", { name: "Set your starting point." });
+      const retry = page.getByRole("button", { name: "Retry Player setup" });
+      await expect(ready.or(setup).or(retry)).toBeVisible({ timeout: 30_000 });
+      if (await ready.isVisible()) await expect(ready).toBeEnabled();
+    }
     await page.locator("main").waitFor();
     await expectNoHorizontalOverflow(page);
   }
@@ -46,4 +55,49 @@ test("representative content reflows at effective 200 percent zoom", async ({ pa
     await page.locator("main").waitFor();
     await expectNoHorizontalOverflow(page);
   }
+});
+
+test("MEC-R13 mobile Codex is a persistent one-tap library destination", async ({ page }) => {
+  for (const viewport of [
+    { width: 320, height: 720 },
+    { width: 390, height: 844 },
+    { width: 740, height: 390 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const nav = page.getByRole("navigation", { name: "Mobile navigation" });
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole("link")).toHaveCount(5);
+    const codex = nav.getByRole("link", { name: "Codex", exact: true });
+    await expect(codex).toHaveAttribute("href", "/codex");
+    for (const link of await nav.getByRole("link").all()) {
+      const box = await link.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.width).toBeGreaterThanOrEqual(44);
+      expect(box!.height).toBeGreaterThanOrEqual(44);
+    }
+    await expectNoHorizontalOverflow(page);
+    await codex.click();
+    await expect(page).toHaveURL(/\/codex$/);
+    await expect(page.getByRole("heading", { name: "Musical reference" })).toBeVisible();
+    await expect(codex).toHaveAttribute("aria-current", "page");
+    await page.goto("/codex/concepts/dorian");
+    await expect(codex).toHaveAttribute("aria-current", "page");
+    await expectNoHorizontalOverflow(page);
+    await page.goto("/profile");
+    await expect(codex).toBeVisible();
+    await expect(codex).not.toHaveAttribute("aria-current", "page");
+    await codex.click();
+    await expect(page).toHaveURL(/\/codex$/);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/profile$/);
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await expect(page.locator(".mobile-nav")).toBeHidden();
+  await expect(
+    page
+      .getByRole("complementary", { name: "Primary navigation" })
+      .getByRole("link", { name: "Codex", exact: true }),
+  ).toBeVisible();
 });
