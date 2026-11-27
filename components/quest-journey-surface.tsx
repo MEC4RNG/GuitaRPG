@@ -198,7 +198,7 @@ export function QuestJourneySurface({
 
   async function chooseStage(stage: QuestJourneyStage) {
     if (pending || editorPending || !detail || detail.journey.lifecycleStatus === "ARCHIVED")
-      return;
+      return false;
     setPending(true);
     setError(null);
     try {
@@ -206,8 +206,10 @@ export function QuestJourneySurface({
         ...detail,
         journey: await setQuestJourneyStage(client(), detail.questId, stage),
       });
+      return true;
     } catch {
       setError("The Journey stage could not be updated. Your previous stage is unchanged.");
+      return false;
     } finally {
       setPending(false);
     }
@@ -404,29 +406,21 @@ export function QuestJourneySurface({
 
   async function exploreSelectedTopic(lesson?: MapCodexLearning["modules"][number]) {
     if (!selectedTopic || archived || pending || editorPending) return;
-    setPending(true);
-    setError(null);
-    try {
-      const nextJourney = await setQuestJourneyStage(client(), questId, "EXPLORE");
-      if (selectedTopic.moduleKey)
-        setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
-      if (lesson) setOpenExplorePage(null);
-      setLearningFocus(
-        lesson
-          ? {
-              title: lesson.title,
-              lessonId: lesson.id,
-              level: lesson.level,
-              moduleKey: selectedTopic.moduleKey,
-            }
-          : null,
-      );
-      setDetail((current) => (current ? { ...current, journey: nextJourney } : current));
-    } catch {
-      setError("The Journey stage could not be updated. Your previous stage is unchanged.");
-    } finally {
-      setPending(false);
-    }
+    // Navigation only: the existing stage RPC remains the sole authority.
+    if (!(await chooseStage("EXPLORE"))) return;
+    if (selectedTopic.moduleKey)
+      setExpandedModules((current) => new Set(current).add(selectedTopic.moduleKey!));
+    if (lesson) setOpenExplorePage(null);
+    setLearningFocus(
+      lesson
+        ? {
+            title: lesson.title,
+            lessonId: lesson.id,
+            level: lesson.level,
+            moduleKey: selectedTopic.moduleKey,
+          }
+        : null,
+    );
   }
 
   async function saveFocusedLesson() {
