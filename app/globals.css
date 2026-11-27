@@ -5762,7 +5762,12 @@ a {
   height: 1.8rem;
   position: relative;
   text-align: center;
-  background: linear-gradient(transparent calc(50% - 0.5px), #63717d calc(50% - 0.5px), #63717d calc(50% + 0.5px), transparent calc(50% + 0.5px));
+  background: linear-gradient(
+    transparent calc(50% - 0.5px),
+    #63717d calc(50% - 0.5px),
+    #63717d calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
 }
 .workbook-display-tab td span:not(:empty) {
   position: relative;
