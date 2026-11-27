@@ -1142,9 +1142,15 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
     "page",
   );
   expect(pageId).toBeTruthy();
+  const handoff = page.getByRole("button", { name: "Continue in Craft" });
+  const status = page.locator(".explore-editor .workbook-status");
   await page.getByLabel("Page title").fill("My tonal home study");
-  await expect(page.locator(".explore-editor").getByText("Saved", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Continue in Craft" }).click();
+  await expect(status).toHaveText("Unsaved changes");
+  await expect(handoff).toBeDisabled();
+  await expect(page.locator(".mec-stage", { hasText: "Craft" })).toBeDisabled();
+  await expect(status).toHaveText("Saved", { timeout: 10_000 });
+  await expect(handoff).toBeEnabled();
+  await handoff.click();
   await expect(page.locator(".craft-workspace")).toBeVisible();
   await expect(page.getByLabel("Page title")).toHaveValue("My tonal home study");
   const craftLink = page.getByRole("link", { name: "Open in Full Workbook Editor" });

@@ -1058,7 +1058,10 @@ export function WorkbookEditorPrototype({
   const markDirty = (pageId: string) => {
     changeVersionRef.current.set(pageId, (changeVersionRef.current.get(pageId) ?? 0) + 1);
     setDirtyPageIds((current) => new Set(current).add(pageId));
-    if (persistent) setStatus("Unsaved changes");
+    if (persistent) {
+      setStatus("Unsaved changes");
+      onPendingChange?.(true);
+    }
   };
   const [jsonText, setJsonText] = useState("");
   const statusRef = useRef<HTMLParagraphElement>(null);
@@ -1532,14 +1535,11 @@ export function WorkbookEditorPrototype({
             Page title
             <input
               value={activePage.title}
-              onChange={(event) =>
+              onChange={(event) => {
+                const title = event.target.value;
                 setPages((items) =>
-                  items.map((page) =>
-                    page.id === activePageId ? { ...page, title: event.target.value } : page,
-                  ),
-                )
-              }
-              onBlur={() => {
+                  items.map((page) => (page.id === activePageId ? { ...page, title } : page)),
+                );
                 if (persistent) markDirty(activePageId);
               }}
             />
