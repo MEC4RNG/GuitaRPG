@@ -644,12 +644,20 @@ test("CODEX-V2-A-R1 restores the interactive triad reference and complete educat
   await expect(page.getByRole("heading", { name: "Triad Construction" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Explore the musical library." })).toHaveCount(0);
   await expect(page.locator(".cv2-fret-svg")).toBeVisible();
-  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("C4 · E4 · G4");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText(
+    "C4 · E4 · G4",
+  );
   await page.getByRole("button", { name: "C minor" }).click();
-  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("C4 · E♭4 · G4");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText(
+    "C4 · E♭4 · G4",
+  );
   await page.getByRole("button", { name: /F major.*inversion/ }).click();
-  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("A3 · C4 · F4");
-  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText("First inversion");
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText(
+    "A3 · C4 · F4",
+  );
+  await expect(page.locator(".cv2-reference-stack .cv2-reference-detail")).toContainText(
+    "First inversion",
+  );
 
   await page.getByRole("button", { name: "Applications" }).click();
   await expect(page.locator(".cv2-application-grid button")).toHaveCount(4);
@@ -1007,7 +1015,9 @@ test("Triad Construction keeps split desktop references and a separate full-widt
   expect(Math.abs(intro!.y - quick!.y)).toBeLessThan(2);
   expect(quick!.x).toBeGreaterThan(intro!.x);
   expect(Math.abs(full!.width - layout!.width)).toBeLessThan(2);
-  expect(full!.y).toBeGreaterThanOrEqual(Math.max(intro!.y + intro!.height, quick!.y + quick!.height));
+  expect(full!.y).toBeGreaterThanOrEqual(
+    Math.max(intro!.y + intro!.height, quick!.y + quick!.height),
+  );
   await explorer.getByRole("combobox", { name: "Chord root" }).selectOption("C♯");
   await expect(explorer).toContainText("E♯");
   await explorer.getByRole("combobox", { name: "Chord guitar tuning" }).selectOption("dadgad");
@@ -1028,8 +1038,9 @@ test("Quest Codex lesson opens in new tabs and links the exact Explore ingredien
 
   // Keep the real authenticated draft envelope and use a reproducible Quick Quest
   // for this specific Skill, rather than depending on random generation.
-  const fixture = Array.from({ length: 128 }, (_, seed) => generateQuickQuest({ seed }))
-    .find((candidate) => candidate.quest.execution.primary_skill.slug === "scale_degree_recognition");
+  const fixture = Array.from({ length: 128 }, (_, seed) => generateQuickQuest({ seed })).find(
+    (candidate) => candidate.quest.execution.primary_skill.slug === "scale_degree_recognition",
+  );
   expect(fixture).toBeDefined();
   await page.evaluate((quest) => {
     const key = "guitarpg.quest-draft.v1";
@@ -1075,8 +1086,13 @@ test("Quest Codex lesson opens in new tabs and links the exact Explore ingredien
   await page.getByRole("button", { name: /Open Scale.Degree Recognition in Explore/ }).click();
   const ingredient = page.locator(".explore-module").first();
   await expect(ingredient.locator(".explore-module__disclosure")).toContainText("1 linked page");
-  await expect(ingredient.getByRole("button", { name: "Hear the tonal home", exact: true })).toBeVisible();
-  await expect(ingredient.getByRole("combobox", { name: /Choose existing page/ })).toHaveCSS("cursor", "pointer");
+  await expect(
+    ingredient.getByRole("button", { name: "Hear the tonal home", exact: true }),
+  ).toBeVisible();
+  await expect(ingredient.getByRole("combobox", { name: /Choose existing page/ })).toHaveCSS(
+    "cursor",
+    "pointer",
+  );
   await page.reload();
   await expect(page.locator(".explore-module__disclosure").first()).toContainText("1 linked page");
 });
