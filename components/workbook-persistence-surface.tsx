@@ -96,7 +96,7 @@ export function WorkbookPersistenceSurface({
   const [craftTarget, setCraftTarget] = useState("");
   const [craftBusy, setCraftBusy] = useState(false);
   const [craftRetry, setCraftRetry] = useState(false);
-  const compositionReceipt = useRef<{ requestId: string; title: string; target: string; document: WorkbookDocumentV1; page?: WorkbookPageRow; workbookId?: string } | null>(null);
+  const compositionReceipt = useRef<{ requestId: string; title: string; target: string; document: WorkbookDocumentV1; page?: WorkbookPageRow } | null>(null);
   const [contextLinks, setContextLinks] = useState<WorkbookContextLinkRow[]>([]);
   const [questContextTitle, setQuestContextTitle] = useState<string | null>(null);
   const [creatingLesson, setCreatingLesson] = useState(false);
@@ -548,12 +548,10 @@ export function WorkbookPersistenceSurface({
       const api = getClient();
       if (!receipt.page && receipt.target) {
         receipt.page = await createPage(api, receipt.target, receipt.title, receipt.document, receipt.requestId);
-        receipt.workbookId = receipt.target;
       }
       if (!receipt.page) {
         const created = await createWorkbook(api, "Compositions", { document: receipt.document, requestId: receipt.requestId });
         receipt.page = created.page;
-        receipt.workbookId = created.workbook.id;
         setWorkbooks((current) => [created.workbook, ...current.filter((book) => book.id !== created.workbook.id)]);
       }
       let page = receipt.page;
@@ -583,6 +581,7 @@ export function WorkbookPersistenceSurface({
 
   const craftLinks = contextLinks.filter((link) => link.stage === "CRAFT");
   const craftPages = craftLinks
+    .filter((link, index, all) => all.findIndex((item) => item.page_id === link.page_id) === index)
     .map((link) => pages.find((page) => page.id === link.page_id))
     .filter((page): page is WorkbookPageRow => Boolean(page))
     .filter((page) => workbooks.some((book) => book.id === page.workbook_id && !book.archived_at))
@@ -737,7 +736,7 @@ export function WorkbookPersistenceSurface({
             <p>Private, persistent work. Editing never starts a Session or claims progress.</p>
           </div>
           <div className="craft-workspace__actions">
-            {atlasCraft && onReturnToExplore ? <button type="button" className="action-button action-button--secondary" disabled={pendingEdits || craftBusy} onClick={() => void onReturnToExplore()}>Back to Explore</button> : null}
+            {atlasCraft && onReturnToExplore ? <button type="button" className="action-button action-button--secondary" disabled={pendingEdits || craftBusy || craftReadOnly} onClick={() => void onReturnToExplore()}>Back to Explore</button> : null}
             {(!atlasCraft || craftPages.length > 0) ? <button type="button" disabled={atlasCraft ? craftDisabled : pendingEdits} onClick={() => atlasCraft ? setCraftCreating(true) : void createComposition()}>New Composition</button> : null}
             {(atlasCraft ? currentCraftPage : activePage) ? (
               <Link
@@ -826,6 +825,7 @@ export function WorkbookPersistenceSurface({
           </section>
         ) : null}
         {selected && (atlasCraft ? selectedCraftPages.length > 0 && !showingDisplay && !craftReadOnly : selectedPages.length && craftPages.length) ? (
+          <div className="atlas-craft-editor" inert={atlasCraft && craftBusy}>
           <WorkbookEditorPrototype
             key={`${selected.id}-${initialPageId ?? "first"}`}
             persistent
@@ -882,6 +882,7 @@ export function WorkbookPersistenceSurface({
               return { status: "accepted", revision: result.revision };
             }}
           />
+          </div>
         ) : null}
       </section>
     );

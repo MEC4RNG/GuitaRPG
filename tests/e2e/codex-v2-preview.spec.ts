@@ -1227,4 +1227,32 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
   await expect(activity.getByRole("button", { name: "Open saved lesson page" })).toBeVisible();
   await expectAccessible(page, "F3C focused Explore");
   await expectNoHorizontalOverflow(page);
+
+  // F3D: reuse a second Explore page directly from Craft without duplication.
+  await page.locator(".mec-stage", { hasText: "Craft" }).click();
+  const craft = page.locator(".craft-workspace");
+  await expect(craft.getByLabel("Craft mode")).toBeVisible();
+  const material = craft.locator(".atlas-craft-material");
+  await material.locator("summary").click();
+  await expect(material.getByText("Hear the other degrees", { exact: true })).toBeVisible();
+  await material.getByRole("button", { name: "Develop this page" }).click();
+  await expect(craft.getByLabel("Page title")).toHaveValue("Hear the other degrees");
+  await expect(craft.getByText("Linked to Explore and Craft · same saved page")).toBeVisible();
+  const modes = craft.getByRole("group", { name: "Craft mode" });
+  await modes.getByRole("button", { name: "Display" }).click();
+  await expect(craft.getByRole("article", { name: "Workbook page display" })).toBeVisible();
+  await expect(craft.getByLabel("Page title")).toHaveCount(0);
+  await modes.getByRole("button", { name: "Edit", exact: true }).click();
+  await expect(craft.getByLabel("Page title")).toHaveValue("Hear the other degrees");
+  await craft.getByRole("button", { name: "New Composition", exact: true }).click();
+  await craft.getByLabel("Composition title").fill("My melodic idea");
+  await craft.getByLabel("Composition destination").selectOption({ label: "Scale-Degree Recognition Practice" });
+  await craft.getByRole("button", { name: "Create composition", exact: true }).click();
+  await expect(craft.getByLabel("Page title")).toHaveValue("My melodic idea");
+  await expect(craft.getByText("Linked to this Quest’s Craft stage", { exact: true })).toBeVisible();
+  await expectAccessible(page, "F3D Craft workspace");
+  await expectNoHorizontalOverflow(page);
+  await craft.getByRole("button", { name: "Back to Explore" }).click();
+  await expect(picker.getByLabel("Learning activity")).toHaveValue("sdr.aural.i1");
+  await expect(page.locator(".explore-module__disclosure").first()).toContainText("2 linked pages");
 });
