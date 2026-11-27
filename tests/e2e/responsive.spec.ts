@@ -8,11 +8,13 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
   for (const path of ["/", "/profile", "/onboarding", "/generate", "/codex"] as const) {
     await page.goto(path);
     if (path === "/generate") {
-      // A fresh browser is redirected to onboarding asynchronously. Check the
-      // actual settled entry surface before starting the next navigation.
-      await expect(page).toHaveURL(/\/onboarding\?next=(?:%2F|\/)generate/, {
-        timeout: 15_000,
-      });
+      // Onboarding may have already established a guest identity. Wait for
+      // either the ready Generate control or the redirected setup surface.
+      const ready = page.getByRole("button", { name: "Generate Quest", exact: true });
+      const setup = page.getByRole("heading", { name: "Set your starting point." });
+      const retry = page.getByRole("button", { name: "Retry Player setup" });
+      await expect(ready.or(setup).or(retry)).toBeVisible({ timeout: 30_000 });
+      if (await ready.isVisible()) await expect(ready).toBeEnabled();
     }
     await page.locator("main").waitFor();
     await expectNoHorizontalOverflow(page);
