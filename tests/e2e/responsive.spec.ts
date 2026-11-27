@@ -7,6 +7,13 @@ test("core public surfaces fit small phone, tablet, and mobile WebKit", async ({
 }, testInfo) => {
   for (const path of ["/", "/profile", "/onboarding", "/generate", "/codex"] as const) {
     await page.goto(path);
+    if (path === "/generate") {
+      // A fresh browser is redirected to onboarding asynchronously. Check the
+      // actual settled entry surface before starting the next navigation.
+      await expect(page).toHaveURL(/\/onboarding\?next=(?:%2F|\/)generate/, {
+        timeout: 15_000,
+      });
+    }
     await page.locator("main").waitFor();
     await expectNoHorizontalOverflow(page);
   }
