@@ -9,8 +9,7 @@ export function canAccessStudioAtlasPreview(
   environment: PreviewEnvironment = process.env,
 ): boolean {
   if (environment.VERCEL_ENV === "production") return false;
-  if (environment.VERCEL_ENV === "preview" || environment.VERCEL_ENV === "development")
-    return true;
+  if (environment.VERCEL_ENV === "preview" || environment.VERCEL_ENV === "development") return true;
   if (environment.VERCEL_ENV !== undefined) return false;
   return (
     environment.NODE_ENV === "development" || environment.STUDIO_ATLAS_PREVIEW_ENABLED === "true"
