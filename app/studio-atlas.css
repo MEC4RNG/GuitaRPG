@@ -206,18 +206,42 @@
   border: 1px solid var(--sa-border-control);
   border-radius: 0.35rem;
 }
-.sa-swatch-color--canvas { background: var(--sa-canvas); }
-.sa-swatch-color--panel { background: var(--sa-panel); }
-.sa-swatch-color--raised { background: var(--sa-raised); }
-.sa-swatch-color--brand { background: var(--sa-brand); }
-.sa-swatch-color--discovery { background: var(--sa-discovery); }
-.sa-swatch-color--paper { background: var(--sa-paper); }
-.studio-atlas [data-domain="technique"] { --sa-domain-color: var(--sa-domain-technique); }
-.studio-atlas [data-domain="fretboard"] { --sa-domain-color: var(--sa-domain-fretboard); }
-.studio-atlas [data-domain="harmony_theory"] { --sa-domain-color: var(--sa-domain-harmony-theory); }
-.studio-atlas [data-domain="rhythm"] { --sa-domain-color: var(--sa-domain-rhythm); }
-.studio-atlas [data-domain="ear_musicianship"] { --sa-domain-color: var(--sa-domain-ear-musicianship); }
-.studio-atlas [data-domain="creativity_expression"] { --sa-domain-color: var(--sa-domain-creativity-expression); }
+.sa-swatch-color--canvas {
+  background: var(--sa-canvas);
+}
+.sa-swatch-color--panel {
+  background: var(--sa-panel);
+}
+.sa-swatch-color--raised {
+  background: var(--sa-raised);
+}
+.sa-swatch-color--brand {
+  background: var(--sa-brand);
+}
+.sa-swatch-color--discovery {
+  background: var(--sa-discovery);
+}
+.sa-swatch-color--paper {
+  background: var(--sa-paper);
+}
+.studio-atlas [data-domain="technique"] {
+  --sa-domain-color: var(--sa-domain-technique);
+}
+.studio-atlas [data-domain="fretboard"] {
+  --sa-domain-color: var(--sa-domain-fretboard);
+}
+.studio-atlas [data-domain="harmony_theory"] {
+  --sa-domain-color: var(--sa-domain-harmony-theory);
+}
+.studio-atlas [data-domain="rhythm"] {
+  --sa-domain-color: var(--sa-domain-rhythm);
+}
+.studio-atlas [data-domain="ear_musicianship"] {
+  --sa-domain-color: var(--sa-domain-ear-musicianship);
+}
+.studio-atlas [data-domain="creativity_expression"] {
+  --sa-domain-color: var(--sa-domain-creativity-expression);
+}
 .sa-domain {
   display: flex;
   align-items: center;
@@ -274,12 +298,24 @@
   font-size: 0.85rem;
   background: var(--sa-panel);
 }
-.sa-status--success { color: var(--sa-success); }
-.sa-status--warning { color: var(--sa-warning); }
-.sa-status--danger { color: var(--sa-danger); }
-.sa-status--information { color: var(--sa-information); }
-.sa-status--estimated { color: var(--sa-estimated); }
-.sa-status--unknown { color: var(--sa-unknown); }
+.sa-status--success {
+  color: var(--sa-success);
+}
+.sa-status--warning {
+  color: var(--sa-warning);
+}
+.sa-status--danger {
+  color: var(--sa-danger);
+}
+.sa-status--information {
+  color: var(--sa-information);
+}
+.sa-status--estimated {
+  color: var(--sa-estimated);
+}
+.sa-status--unknown {
+  color: var(--sa-unknown);
+}
 .sa-covers {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -368,17 +404,35 @@
   background: rgb(0 0 0 / 75%);
 }
 @media (max-width: 72rem) {
-  .sa-domain-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .sa-journal-grid { grid-template-columns: minmax(0, 1fr); }
+  .sa-domain-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sa-journal-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 @media (max-width: 48rem) {
-  .studio-atlas { gap: 1.5rem; }
-  .sa-hero { grid-template-columns: minmax(0, 1fr); }
-  .sa-hero-art { min-height: 10rem; background-position: right center; }
-  .sa-component-grid { grid-template-columns: minmax(0, 1fr); }
-  .sa-swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .studio-atlas {
+    gap: 1.5rem;
+  }
+  .sa-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sa-hero-art {
+    min-height: 10rem; background-position: right center;
+  }
+  .sa-component-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sa-swatches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 27rem) {
-  .sa-domain-grid { grid-template-columns: minmax(0, 1fr); }
-  .sa-covers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sa-domain-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sa-covers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
