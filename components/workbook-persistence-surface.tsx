@@ -207,8 +207,8 @@ export function WorkbookPersistenceSurface({
     selectedPages.find((page) => page.id === initialPageId) ??
     selectedPages[0];
   const showingDisplay = displayMode && !pendingEdits;
+  const query = librarySearch.trim().toLocaleLowerCase();
   const filteredWorkbooks = workbooks.filter((workbook) => {
-    const query = librarySearch.trim().toLocaleLowerCase();
     return (
       !query ||
       workbook.title.toLocaleLowerCase().includes(query) ||
@@ -219,6 +219,17 @@ export function WorkbookPersistenceSurface({
       )
     );
   });
+  const matchingPages = query
+    ? pages
+        .filter(
+          (page) =>
+            page.title.toLocaleLowerCase().includes(query) &&
+            workbooks.some(
+              (workbook) => workbook.id === page.workbook_id && !workbook.archived_at,
+            ),
+        )
+        .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
+    : [];
   const recentPages = [...pages]
     .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     .slice(0, 5);
@@ -1214,6 +1225,30 @@ export function WorkbookPersistenceSurface({
               placeholder="Search your library"
             />
           </label>
+          {query ? (
+            <section className="workbook-search-results" aria-label="Matching pages">
+              <h2>Matching pages ({matchingPages.length})</h2>
+              {matchingPages.length ? (
+                <ul>
+                  {matchingPages.map((page) => (
+                    <li key={page.id}>
+                      <button
+                        type="button"
+                        onClick={() => selectWorkbook(page.workbook_id, page.id)}
+                      >
+                        <strong>{page.title}</strong>
+                        <small>
+                          {workbooks.find((item) => item.id === page.workbook_id)?.title}
+                        </small>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No matching active pages.</p>
+              )}
+            </section>
+          ) : null}
           <details className="workbook-library__recent">
             <summary>Recent pages</summary>
             {recentPages.map((page) => (
@@ -1241,6 +1276,7 @@ export function WorkbookPersistenceSurface({
               >
                 <button
                   type="button"
+                  aria-current={selectedId === workbook.id ? "true" : undefined}
                   onClick={() => {
                     selectWorkbook(workbook.id);
                   }}
@@ -1251,6 +1287,8 @@ export function WorkbookPersistenceSurface({
                   {workbook.kind === "QUICK_NOTES"
                     ? "Quick Notes"
                     : `Updated ${new Date(workbook.updated_at).toLocaleDateString()}`}
+                  {" · "}
+                  {pages.filter((page) => page.workbook_id === workbook.id).length} pages
                 </small>
                 <details className="workbook-library__manage">
                   <summary>Workbook actions</summary>

@@ -292,3 +292,27 @@ test("JRN-UX-001 displays an accepted page without edit controls and retains its
   await expect(page.getByText("No matching Workbooks.")).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
+
+test("F4A opens an exact saved page from the private library search", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.once("dialog", (dialog) => dialog.accept("Notebook search study"));
+  await page.getByRole("button", { name: "New Workbook" }).click();
+  await page.getByLabel("Page title").fill("Aural cadence reference");
+  await page.getByLabel("Page title").blur();
+  await expect(page.locator(".workbook-status")).toContainText("Saved", { timeout: 10_000 });
+  await page.once("dialog", (dialog) => dialog.accept("Different notebook"));
+  await page.getByRole("button", { name: "New Workbook" }).click();
+  const library = page.getByRole("complementary", { name: "Workbook library" });
+  await library.getByRole("searchbox").fill("aural cadence");
+  const results = library.getByRole("region", { name: "Matching pages" });
+  await expect(results.getByRole("heading", { name: "Matching pages (1)" })).toBeVisible();
+  await results.getByRole("button", { name: /Aural cadence reference/ }).click();
+  await expect(page.getByLabel("Page title")).toHaveValue("Aural cadence reference");
+  await expect(
+    library.getByRole("button", { name: "Notebook search study", exact: true }),
+  ).toHaveAttribute("aria-current", "true");
+  await expectNoHorizontalOverflow(page);
+  await page.getByRole("button", { name: "Display", exact: true }).click();
+  await expect(page.getByRole("article", { name: "Workbook page display" })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});

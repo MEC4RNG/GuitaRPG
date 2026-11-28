@@ -59,3 +59,79 @@
     grid-row: auto;
   }
 }
+
+/* F4A: standalone notebook library; embedded MEC workspaces are unchanged. */
+.app-shell--atlas .workbook-library--redesign {
+  --surface-bg: var(--sa-canvas);
+  --surface-panel: var(--sa-panel);
+  --surface-raised: var(--sa-raised);
+  --surface-border: var(--sa-border-control);
+  --surface-text: var(--sa-text);
+  --surface-muted: var(--sa-muted);
+  --surface-accent: var(--sa-brand);
+  color: var(--surface-text);
+}
+.app-shell--atlas .workbook-library--redesign .workbook-library__header h1 {
+  font-family: var(--sa-font-display);
+  font-weight: 400;
+}
+.app-shell--atlas .workbook-library__list article.is-selected {
+  border-left-color: var(--sa-brand);
+  background: var(--sa-raised);
+}
+.app-shell--atlas .workbook-library__list article > button:first-child {
+  border-radius: 0.3rem 0.55rem 0.55rem 0.3rem;
+}
+.workbook-library--redesign .workbook-library__actions {
+  flex-wrap: wrap;
+}
+.workbook-library--redesign .workbook-library__list article > button:first-child,
+.workbook-library--redesign .workbook-search-results button,
+.workbook-library--redesign .workbook-reading-pages button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.workbook-search-results {
+  min-width: 0;
+  display: grid;
+  gap: 0.5rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+.workbook-search-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.workbook-search-results button {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 44px;
+  min-width: 0;
+  text-align: left;
+}
+.workbook-search-results small {
+  color: var(--surface-muted);
+}
+.workbook-library--redesign .workbook-page-selector {
+  min-width: 0;
+}
+.workbook-library--redesign .workbook-reading-pages button {
+  min-height: 44px;
+  max-width: 100%;
+}
+@media (max-width: 63.99rem) {
+  .workbook-library--redesign .workbook-library__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workbook-library--redesign .workbook-workspace-controls {
+    justify-content: flex-start;
+  }
+  .workbook-library--redesign .workbook-toolbar {
+    position: static;
+    max-height: none;
+  }
+}
