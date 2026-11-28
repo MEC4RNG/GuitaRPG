@@ -34,7 +34,8 @@ export function CodexV2Library({
     [],
   );
   const domains = useMemo(
-    () => [...new Set(entries.map((entry) => domainsByEntry.get(entry.entity_id) ?? "Other"))].sort(),
+    () =>
+      [...new Set(entries.map((entry) => domainsByEntry.get(entry.entity_id) ?? "Other"))].sort(),
     [entries, domainsByEntry],
   );
   const selected = entries.find((entry) => entry.slug === selectedSlug) ?? null;
@@ -191,7 +192,9 @@ export function CodexV2Library({
               <h2 id="cv2-library-index-title">Musical Skills</h2>
               <p>Choose a subject to explore its lessons, applications, and related knowledge.</p>
             </div>
-            <span role="status">{results.length} of {entries.length} preview entries</span>
+            <span role="status">
+              {results.length} of {entries.length} preview entries
+            </span>
           </div>
           <div className="cv2-filters">
             <label>
@@ -256,7 +259,9 @@ export function CodexV2Library({
             ))}
           </div>
           {!results.length ? (
-            <p role="status">No preview Skills match. Try a different search, domain, or learning level.</p>
+            <p role="status">
+              No preview Skills match. Try a different search, domain, or learning level.
+            </p>
           ) : null}
         </section>
       ) : null}
