@@ -5,9 +5,7 @@ import { usePlayerProgression } from "./use-player-progression";
 
 import { PageHeader } from "./page-header";
 import { Panel } from "./panel";
-import {
-  formatPracticeDuration,
-} from "@/lib/progression/read-model";
+import { formatPracticeDuration } from "@/lib/progression/read-model";
 import { readCharacterProgression, type ProgressionReadClient } from "@/lib/progression/repository";
 import type { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
@@ -25,9 +23,6 @@ export function CharacterProgressionSurface() {
   const model = state.kind === "player" ? state.value : null;
   const browsing = state.kind === "visitor" || state.kind === "setup";
 
-  return () => window.clearTimeout(initialLoad);
-  }, [load]);
-
   return (
     <div className="progression-stack">
       <PageHeader
@@ -39,7 +34,10 @@ export function CharacterProgressionSurface() {
       {browsing ? (
         <Panel className="progression-empty">
           <h2>Develop your musical character</h2>
-          <p>Record meaningful practice to earn Practice XP and build evidence across musical and physical attributes.</p>
+          <p>
+            Record meaningful practice to earn Practice XP and build evidence across musical and
+            physical attributes.
+          </p>
           <Link className="action-button action-button--primary" href="/onboarding?next=/character">
             {state.kind === "setup" ? "Continue Player setup" : "Start playing"}
           </Link>

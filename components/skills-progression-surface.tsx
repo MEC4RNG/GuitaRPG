@@ -191,16 +191,16 @@ export function SkillsProgressionSurface() {
       {skills.length ? (
         <>
           {!browsing ? (
-          <section className="skill-explainer" aria-label="How to read Skill progression">
-            <p>
-              <strong>Proficiency</strong> is the demonstrated Skill estimate.{" "}
-              <strong>System confidence</strong> is certainty in that estimate.
-            </p>
-            <p>
-              <strong>Readiness</strong> is current preparedness relative to demonstrated
-              proficiency; LOW readiness does not demote a Skill Level.
-            </p>
-          </section>
+            <section className="skill-explainer" aria-label="How to read Skill progression">
+              <p>
+                <strong>Proficiency</strong> is the demonstrated Skill estimate.{" "}
+                <strong>System confidence</strong> is certainty in that estimate.
+              </p>
+              <p>
+                <strong>Readiness</strong> is current preparedness relative to demonstrated
+                proficiency; LOW readiness does not demote a Skill Level.
+              </p>
+            </section>
           ) : null}
           <form className="skill-filters" onSubmit={(event) => event.preventDefault()}>
             <label>
@@ -229,23 +229,23 @@ export function SkillsProgressionSurface() {
               </select>
             </label>
             {!browsing ? (
-            <label>
-              Assessment status
-              <select
-                onChange={(event) =>
-                  setFilters((current) => ({
-                    ...current,
-                    assessment: event.target.value as SkillFilters["assessment"],
-                  }))
-                }
-                value={filters.assessment}
-              >
-                <option value="ALL">All</option>
-                <option value="UNRATED">UNRATED</option>
-                <option value="ESTIMATED">ESTIMATED</option>
-                <option value="ESTABLISHED">ESTABLISHED</option>
-              </select>
-            </label>
+              <label>
+                Assessment status
+                <select
+                  onChange={(event) =>
+                    setFilters((current) => ({
+                      ...current,
+                      assessment: event.target.value as SkillFilters["assessment"],
+                    }))
+                  }
+                  value={filters.assessment}
+                >
+                  <option value="ALL">All</option>
+                  <option value="UNRATED">UNRATED</option>
+                  <option value="ESTIMATED">ESTIMATED</option>
+                  <option value="ESTABLISHED">ESTABLISHED</option>
+                </select>
+              </label>
             ) : null}
           </form>
           <p className="skill-result-count" role="status">

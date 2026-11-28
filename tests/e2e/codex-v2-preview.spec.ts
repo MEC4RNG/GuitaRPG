@@ -1349,7 +1349,9 @@ test("F4B filters by musical domain and opens the dictionary from a Skill", asyn
 
 test("F4B-R1 visitors can browse Skills and Character without invented ratings", async ({ page }) => {
   await page.goto("/skills");
-  await expect(page.getByRole("heading", { name: "Start your journey to track progression" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Start your journey to track progression" }),
+  ).toBeVisible();
   const cards = page.getByTestId("skill-row");
   await expect(cards.first()).toBeVisible();
   await expect(page.getByLabel("Assessment status")).toHaveCount(0);
