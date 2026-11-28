@@ -124,7 +124,9 @@ test("guest warning, same-Player protection, sign-out, and passwordless recovery
   await expect(page.getByRole("link", { name: "Start a new guest Player" })).toBeVisible();
   await page.getByLabel("Linked email").fill(email);
   await page.getByRole("button", { name: "Email me a sign-in link" }).click();
-  await expect(page.getByRole("status")).toContainText("If a linked GuitaRPG account exists");
+  await expect(page.getByRole("status")).toContainText(
+    "If a linked Sound Uncharted account exists",
+  );
   await page.goto(await waitForEmailLink(request, email, "magiclink"));
   await expect(
     page.getByRole("heading", { name: "Protected / recoverable account" }),
