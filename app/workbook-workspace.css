@@ -1,0 +1,191 @@
+/* Standalone Workbooks use a horizontal application header instead of a second sidebar. */
+.workbook-app-navigation {
+  display: none;
+}
+@media (min-width: 64rem) {
+  .app-shell--workbook-workspace .sidebar {
+    display: none;
+  }
+  .app-shell--workbook-workspace .app-shell__workspace {
+    margin-left: 0;
+    width: 100%;
+    min-width: 0;
+  }
+  .app-shell--workbook-workspace .app-content {
+    max-width: 110rem;
+    width: 100%;
+    padding: 1rem;
+  }
+  .app-shell--workbook-workspace .topbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+  .workbook-app-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+    min-width: 0;
+  }
+  .workbook-app-navigation a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.45rem 0.65rem;
+    border-radius: 0.4rem;
+    color: var(--surface-text);
+  }
+  .workbook-app-navigation a[aria-current="page"] {
+    background: var(--surface-raised);
+    box-shadow: inset 0 -2px var(--surface-accent);
+    font-weight: 700;
+  }
+}
+.workbook-library--redesign .workbook-editor-shell--tools .workbook-json {
+  display: grid;
+}
+.workbook-library--redesign .workbook-library__list button,
+.workbook-library--redesign .workbook-workspace-controls button,
+.workbook-library--redesign .workbook-tools-toggle {
+  min-height: 44px;
+}
+@media (min-width: 75rem) {
+  .workbook-library--redesign .workbook-pages__heading,
+  .workbook-library--redesign .workbook-page-strip,
+  .workbook-library--redesign .workbook-new-page,
+  .workbook-library--redesign .workbook-page-actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* F4A: standalone notebook library; embedded MEC workspaces are unchanged. */
+.app-shell--atlas .workbook-library--redesign {
+  --surface-bg: var(--sa-canvas);
+  --surface-panel: var(--sa-panel);
+  --surface-raised: var(--sa-raised);
+  --surface-border: var(--sa-border-control);
+  --surface-text: var(--sa-text);
+  --surface-muted: var(--sa-muted);
+  --surface-accent: var(--sa-brand);
+  color: var(--surface-text);
+}
+.app-shell--atlas .workbook-library--redesign .workbook-library__header h1 {
+  font-family: var(--sa-font-display);
+  font-weight: 400;
+}
+.app-shell--atlas .workbook-library__list article.is-selected {
+  border-left-color: var(--sa-brand);
+  background: var(--sa-raised);
+}
+.app-shell--atlas .workbook-library__list article > button:first-child {
+  border-radius: 0.3rem 0.55rem 0.55rem 0.3rem;
+}
+.workbook-library--redesign .workbook-library__actions {
+  flex-wrap: wrap;
+}
+.workbook-library--redesign .workbook-library__list article > button:first-child,
+.workbook-library--redesign .workbook-search-results button,
+.workbook-library--redesign .workbook-reading-pages button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.workbook-search-results {
+  min-width: 0;
+  display: grid;
+  gap: 0.5rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+.workbook-search-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.workbook-search-results button {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 44px;
+  min-width: 0;
+  text-align: left;
+}
+.workbook-search-results small {
+  color: var(--surface-muted);
+}
+.workbook-library--redesign .workbook-page-selector {
+  min-width: 0;
+}
+.workbook-library--redesign .workbook-reading-pages button {
+  min-height: 44px;
+  max-width: 100%;
+}
+@media (max-width: 63.99rem) {
+  .workbook-library--redesign .workbook-library__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workbook-library--redesign .workbook-workspace-controls {
+    justify-content: flex-start;
+  }
+  .workbook-library--redesign .workbook-toolbar {
+    position: static;
+    max-height: none;
+  }
+}
+
+/* F4A-R1: a visible, responsive shelf above the current editor. */
+.workbook-library--redesign .workbook-library__grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.workbook-current-title {
+  margin: 0.35rem 0 0;
+  color: var(--surface-muted);
+  overflow-wrap: anywhere;
+}
+.workbook-shelf-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.workbook-library--redesign .workbook-shelf-heading h2 {
+  color: var(--surface-text);
+  font-size: 1.15rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.workbook-shelf-heading p,
+.workbook-shelf-heading > span {
+  margin: 0.25rem 0 0;
+  color: var(--surface-muted);
+  font-size: 0.85rem;
+}
+.workbook-shelf-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: 0.65rem;
+  min-width: 0;
+  align-items: start;
+}
+.workbook-library--redesign .workbook-shelf-cards > article {
+  border: 1px solid var(--surface-border);
+  border-left-width: 4px;
+  border-radius: 0.4rem 0.65rem 0.65rem 0.4rem;
+  background: var(--surface-raised);
+  padding: 0.65rem;
+}
+.workbook-library--redesign .workbook-shelf-cards > article.is-selected {
+  border-left-color: var(--sa-discovery, #2ec4b6);
+  box-shadow: inset 0 0 0 1px var(--sa-discovery, #2ec4b6);
+}
+.workbook-library--redesign .workbook-shelf-cards > article > button:first-child {
+  background: transparent;
+  color: var(--surface-text);
+}
+.workbook-library--redesign .workbook-library__search {
+  max-width: 32rem;
+}

@@ -2,8 +2,11 @@ import Link from "next/link";
 
 import { Panel } from "@/components/panel";
 import { RecentQuests } from "@/components/recent-quests";
+import { StudioAtlasHome } from "@/components/studio-atlas-home";
+import { useStudioAtlasShellPreview } from "@/lib/ux/studio-atlas-preview";
 
 export default function Home() {
+  if (useStudioAtlasShellPreview()) return <StudioAtlasHome />;
   return (
     <div className="home-stack">
       <section className="hero">

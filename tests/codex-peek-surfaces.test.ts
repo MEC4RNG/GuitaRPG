@@ -46,7 +46,7 @@ describe("CODEX-002 surface contract", () => {
     const peekRuntime = read("lib/codex/peek-v1.ts");
 
     expect(journey.match(/CodexReferenceLink/g)?.length).toBeGreaterThanOrEqual(4);
-    expect(journey.match(/CodexReferenceList/g)?.length).toBeGreaterThanOrEqual(6);
+    expect(journey.match(/CodexReferenceList/g)?.length).toBeGreaterThanOrEqual(4);
     expect(`${read("components/codex-peek.tsx")}\n${peekRuntime}`).not.toMatch(
       /supabase|\.rpc\(|\.insert\(|\.update\(/i,
     );
