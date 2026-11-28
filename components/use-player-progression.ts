@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 type Client = ReturnType<typeof createBrowserSupabaseClient>;
-type State<T> =
-  | { kind: "loading" | "visitor" | "setup" | "error" }
-  | { kind: "player"; value: T };
+type State<T> = { kind: "loading" | "visitor" | "setup" | "error" } | { kind: "player"; value: T };
 
 async function getIdentity(client: Client) {
   const { data, error } = await client.auth.getUser();

@@ -1347,7 +1347,9 @@ test("F4B filters by musical domain and opens the dictionary from a Skill", asyn
   await expectAccessible(page, "F4B musical library");
 });
 
-test("F4B-R1 visitors can browse Skills and Character without invented ratings", async ({ page }) => {
+test("F4B-R1 visitors can browse Skills and Character without invented ratings", async ({
+  page,
+}) => {
   await page.goto("/skills");
   await expect(
     page.getByRole("heading", { name: "Start your journey to track progression" }),
