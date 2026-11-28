@@ -119,6 +119,7 @@ export function CodexV2Entry({
   terms,
   onBack,
   onReadDictionary,
+  onBrowseDictionary,
   preview = false,
   questContext = null,
 }: {
@@ -126,6 +127,7 @@ export function CodexV2Entry({
   terms: readonly CodexV2Term[];
   onBack?: () => void;
   onReadDictionary?: (term: CodexV2Term) => void;
+  onBrowseDictionary?: () => void;
   preview?: boolean;
   questContext?: CodexQuestContext | null;
 }) {
@@ -248,6 +250,11 @@ export function CodexV2Entry({
           <Link href="/codex">← Codex Library</Link>
         )}
         <span>/ {entry.kind.toLocaleLowerCase()} reference</span>
+        {onBrowseDictionary ? (
+          <button type="button" className="cv2-browse-dictionary" onClick={onBrowseDictionary}>
+            Music Dictionary
+          </button>
+        ) : null}
       </div>
       <header className="cv2-entry-hero">
         <span className="cv2-eyebrow">

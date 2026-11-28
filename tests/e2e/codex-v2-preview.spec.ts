@@ -1320,3 +1320,29 @@ test("F3 Map lesson opens exact activity, saves explicitly and continues the sam
     page.getByText("No Sessions yet. This is activity history, not a measure of ability."),
   ).toBeVisible();
 });
+
+test("F4B filters by musical domain and opens the dictionary from a Skill", async ({ page }) => {
+  await page.goto("/codex");
+  await page.getByRole("link", { name: /Preview Codex V2/ }).click();
+  const domain = page.getByLabel("Musical domain");
+  await domain.selectOption("Fretboard");
+  const cards = page.locator(".cv2-card");
+  await expect(cards.filter({ hasText: "Note Location" })).toBeVisible();
+  expect(await cards.count()).toBeLessThan(9);
+  await page.getByLabel("Search Skills").fill("note location");
+  await expect(cards).toHaveCount(1);
+  await cards.getByRole("button", { name: /Explore this Skill/ }).click();
+  await expect(page.getByRole("heading", { name: "Note Location" })).toBeVisible();
+  await page.getByRole("button", { name: "Music Dictionary", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Music Dictionary" })).toBeVisible();
+  await page.goBack();
+  await expect(page.getByRole("heading", { name: "Note Location" })).toBeVisible();
+  await page.getByRole("button", { name: "← Library" }).click();
+  await expect(domain).toHaveValue("Fretboard");
+  await expect(cards).toHaveCount(1);
+  await page.getByRole("button", { name: "Clear Skill filters" }).click();
+  await expect(cards).toHaveCount(9);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expectNoHorizontalOverflow(page);
+  await expectAccessible(page, "F4B musical library");
+});

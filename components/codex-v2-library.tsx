@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { CodexV2Entry as Entry, CodexV2Term, LearningLevel } from "@/lib/codex/v2/content";
 import { canonicalCodexHref, canonicalCodexName } from "@/lib/codex/v2/content";
+import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
 import type { CodexQuestContext } from "@/lib/workbook/context";
 import { CodexV2Entry } from "./codex-v2-entry";
 
@@ -27,6 +28,15 @@ export function CodexV2Library({
     [terms],
   );
   const [level, setLevel] = useState<LearningLevel | "all">("all");
+  const [domain, setDomain] = useState("all");
+  const domainsByEntry = useMemo(
+    () => new Map(CODEX_ENTRIES.map((entry) => [entry.id, entry.domain?.name ?? "Other"])),
+    [],
+  );
+  const domains = useMemo(
+    () => [...new Set(entries.map((entry) => domainsByEntry.get(entry.entity_id) ?? "Other"))].sort(),
+    [entries, domainsByEntry],
+  );
   const selected = entries.find((entry) => entry.slug === selectedSlug) ?? null;
   const selectedTerm = terms.find((term) => term.id === selectedTermId) ?? null;
   const results = useMemo(
@@ -34,7 +44,9 @@ export function CodexV2Library({
       entries.filter(
         (entry) =>
           (level === "all" || entry.modules.some((module) => module.level === level)) &&
+          (domain === "all" || (domainsByEntry.get(entry.entity_id) ?? "Other") === domain) &&
           [
+            canonicalCodexName(entry.kind, entry.slug),
             entry.slug.replaceAll("_", " "),
             entry.one_line,
             ...entry.applications.map((item) => item.title),
@@ -43,7 +55,7 @@ export function CodexV2Library({
             .toLocaleLowerCase()
             .includes(search.trim().toLocaleLowerCase()),
       ),
-    [entries, level, search],
+    [entries, level, search, domain, domainsByEntry],
   );
   const matchingTerms = useMemo(
     () =>
@@ -115,7 +127,7 @@ export function CodexV2Library({
   }
 
   return (
-    <div className="cv2-library">
+    <div className="cv2-library cv2-library--atlas">
       {view !== "entry" ? (
         <header
           className={
@@ -168,6 +180,7 @@ export function CodexV2Library({
           questContext={questContext}
           onBack={() => navigate("library")}
           onReadDictionary={openTerm}
+          onBrowseDictionary={() => navigate("dictionary")}
         />
       ) : null}
       {view === "library" ? (
@@ -178,7 +191,7 @@ export function CodexV2Library({
               <h2 id="cv2-library-index-title">Musical Skills</h2>
               <p>Choose a subject to explore its lessons, applications, and related knowledge.</p>
             </div>
-            <span>{results.length} preview entries</span>
+            <span role="status">{results.length} of {entries.length} preview entries</span>
           </div>
           <div className="cv2-filters">
             <label>
@@ -189,6 +202,17 @@ export function CodexV2Library({
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Try rhythm, triads, or scale degrees"
               />
+            </label>
+            <label>
+              Musical domain
+              <select value={domain} onChange={(event) => setDomain(event.target.value)}>
+                <option value="all">All domains</option>
+                {domains.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
             </label>
             <label>
               Learning material
@@ -203,11 +227,25 @@ export function CodexV2Library({
               </select>
             </label>
           </div>
+          {search || level !== "all" || domain !== "all" ? (
+            <button
+              className="cv2-clear-filters"
+              type="button"
+              onClick={() => {
+                setSearch("");
+                setLevel("all");
+                setDomain("all");
+              }}
+            >
+              Clear Skill filters
+            </button>
+          ) : null}
           <div className="cv2-cards">
             {results.map((entry) => (
               <article className="cv2-card" key={entry.slug}>
                 <span className="cv2-eyebrow">
-                  Skill · {entry.modules.length} draft learning modules
+                  {domainsByEntry.get(entry.entity_id) ?? "Other"} · {entry.modules.length} draft
+                  learning modules
                 </span>
                 <h3>{canonicalCodexName(entry.kind, entry.slug)}</h3>
                 <p>{entry.one_line}</p>
@@ -218,7 +256,7 @@ export function CodexV2Library({
             ))}
           </div>
           {!results.length ? (
-            <p role="status">No preview Skills match. Try a different search or learning level.</p>
+            <p role="status">No preview Skills match. Try a different search, domain, or learning level.</p>
           ) : null}
         </section>
       ) : null}
