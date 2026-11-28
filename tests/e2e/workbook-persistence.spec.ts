@@ -316,3 +316,42 @@ test("F4A opens an exact saved page from the private library search", async ({ p
   await expect(page.getByRole("article", { name: "Workbook page display" })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
+
+test("F4A-R1 shows the notebook shelf above the editor and highlights musical focus", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.once("dialog", (dialog) => dialog.accept("Shelf notebook"));
+  await page.getByRole("button", { name: "New Workbook" }).click();
+  const shelf = page.getByRole("complementary", { name: "Workbook library" });
+  await expect(shelf.getByRole("heading", { name: "Workbook shelf" })).toBeVisible();
+  await expect(shelf.getByRole("button", { name: "Shelf notebook", exact: true })).toBeVisible();
+  const editor = page.getByRole("textbox", { name: "Workbook page document" });
+  await expect(editor).toBeVisible();
+  expect((await shelf.boundingBox())!.y).toBeLessThan((await editor.boundingBox())!.y);
+  await page.getByRole("button", { name: "Hide library" }).click();
+  await expect(shelf).toBeHidden();
+  await page.getByRole("button", { name: "Show library" }).click();
+  await expect(shelf).toBeVisible();
+  await page.getByRole("button", { name: "Insert tablature" }).click();
+  await page.getByRole("button", { name: "Insert chord diagram" }).click();
+  const tab = page.locator('[data-block-type="guitar-tab"]').last();
+  const chord = page.locator('[data-block-type="chord-diagram"]').last();
+  const tabCell = tab.getByRole("gridcell", { name: /^String 6, position 1,/ });
+  const activeColor = await page.locator(".app-shell").evaluate((element) => {
+    const color = getComputedStyle(element).getPropertyValue("--sa-discovery").trim();
+    return color ? "rgb(120, 191, 176)" : "rgb(46, 196, 182)";
+  });
+  await tabCell.focus();
+  await expect(tab).toHaveCSS("border-top-color", activeColor);
+  await expect(tab).toHaveCSS("border-left-color", activeColor);
+  await chord.getByLabel("Chord name").focus();
+  await expect(chord).toHaveCSS("border-top-color", activeColor);
+  await expect(chord).toHaveCSS("border-left-color", activeColor);
+  await expect(tab).not.toHaveCSS("border-left-color", activeColor);
+  await chord.getByRole("button", { name: "Return to document" }).click();
+  await expect(chord).not.toHaveCSS("border-left-color", activeColor);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(shelf).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});

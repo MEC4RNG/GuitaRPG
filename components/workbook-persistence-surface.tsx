@@ -1095,8 +1095,19 @@ export function WorkbookPersistenceSurface({
         <div>
           <span className="eyebrow">Private Player workspace · preview</span>
           <h1 id="workbook-library-title">Workbooks</h1>
+          {selected ? <p className="workbook-current-title">Open: {selected.title}</p> : null}
         </div>
         <div className="workbook-library__actions">
+          {!focusMode ? (
+            <button
+              type="button"
+              aria-controls="workbook-shelf"
+              aria-expanded={libraryOpen}
+              onClick={() => setLibraryOpen((value) => !value)}
+            >
+              {libraryOpen ? "Hide library" : "Show library"}
+            </button>
+          ) : null}
           <button
             type="button"
             aria-pressed={focusMode}
@@ -1210,10 +1221,18 @@ export function WorkbookPersistenceSurface({
         className={`workbook-library__grid${focusMode || !libraryOpen ? " workbook-library__grid--collapsed" : ""}`}
       >
         <aside
+          id="workbook-shelf"
           className="workbook-library__list"
           aria-label="Workbook library"
           hidden={focusMode || !libraryOpen}
         >
+          <div className="workbook-shelf-heading">
+            <div>
+              <h2>Workbook shelf</h2>
+              <p>Choose a notebook to open its pages in the editor below.</p>
+            </div>
+            <span>{workbooks.filter((item) => !item.archived_at).length} active</span>
+          </div>
           <label className="workbook-library__search">
             Search Workbooks and Pages
             <input
@@ -1265,45 +1284,47 @@ export function WorkbookPersistenceSurface({
           {filteredWorkbooks.filter((item) => !item.archived_at).length ? null : (
             <p>No matching Workbooks.</p>
           )}
-          {filteredWorkbooks
-            .filter((item) => !item.archived_at)
-            .map((workbook) => (
-              <article
-                key={workbook.id}
-                className={selectedId === workbook.id ? "is-selected" : ""}
-              >
-                <button
-                  type="button"
-                  aria-current={selectedId === workbook.id ? "true" : undefined}
-                  onClick={() => {
-                    selectWorkbook(workbook.id);
-                  }}
+          <div className="workbook-shelf-cards">
+            {filteredWorkbooks
+              .filter((item) => !item.archived_at)
+              .map((workbook) => (
+                <article
+                  key={workbook.id}
+                  className={selectedId === workbook.id ? "is-selected" : ""}
                 >
-                  {workbook.title}
-                </button>
-                <small>
-                  {workbook.kind === "QUICK_NOTES"
-                    ? "Quick Notes"
-                    : `Updated ${new Date(workbook.updated_at).toLocaleDateString()}`}
-                  {" · "}
-                  {pages.filter((page) => page.workbook_id === workbook.id).length} pages
-                </small>
-                <details className="workbook-library__manage">
-                  <summary>Workbook actions</summary>
-                  <div>
-                    <button type="button" onClick={() => void rename(workbook)}>
-                      Rename
-                    </button>
-                    <button type="button" onClick={() => void describe(workbook)}>
-                      Description
-                    </button>
-                    <button type="button" onClick={() => void archive(workbook, true)}>
-                      Archive
-                    </button>
-                  </div>
-                </details>
-              </article>
-            ))}
+                  <button
+                    type="button"
+                    aria-current={selectedId === workbook.id ? "true" : undefined}
+                    onClick={() => {
+                      selectWorkbook(workbook.id);
+                    }}
+                  >
+                    {workbook.title}
+                  </button>
+                  <small>
+                    {workbook.kind === "QUICK_NOTES"
+                      ? "Quick Notes"
+                      : `Updated ${new Date(workbook.updated_at).toLocaleDateString()}`}
+                    {" · "}
+                    {pages.filter((page) => page.workbook_id === workbook.id).length} pages
+                  </small>
+                  <details className="workbook-library__manage">
+                    <summary>Workbook actions</summary>
+                    <div>
+                      <button type="button" onClick={() => void rename(workbook)}>
+                        Rename
+                      </button>
+                      <button type="button" onClick={() => void describe(workbook)}>
+                        Description
+                      </button>
+                      <button type="button" onClick={() => void archive(workbook, true)}>
+                        Archive
+                      </button>
+                    </div>
+                  </details>
+                </article>
+              ))}
+          </div>
           <details>
             <summary>
               Archived Workbooks ({workbooks.filter((item) => item.archived_at).length})
@@ -1339,15 +1360,6 @@ export function WorkbookPersistenceSurface({
         </aside>
         <div className="workbook-library__workspace">
           <div className="workbook-workspace-controls">
-            {!focusMode ? (
-              <button
-                type="button"
-                aria-expanded={libraryOpen}
-                onClick={() => setLibraryOpen((value) => !value)}
-              >
-                {libraryOpen ? "Hide library" : "Show library"}
-              </button>
-            ) : null}
             {selected ? (
               <>
                 {!focusMode ? (
