@@ -224,9 +224,7 @@ export function WorkbookPersistenceSurface({
         .filter(
           (page) =>
             page.title.toLocaleLowerCase().includes(query) &&
-            workbooks.some(
-              (workbook) => workbook.id === page.workbook_id && !workbook.archived_at,
-            ),
+            workbooks.some((workbook) => workbook.id === page.workbook_id && !workbook.archived_at),
         )
         .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     : [];
