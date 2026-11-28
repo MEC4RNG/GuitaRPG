@@ -1,6 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
+import { usePlayerProgression } from "./use-player-progression";
 
 import { PageHeader } from "./page-header";
 import {
@@ -12,9 +15,30 @@ import {
   type SkillView,
 } from "@/lib/progression/read-model";
 import { readSkillsProgression, type ProgressionReadClient } from "@/lib/progression/repository";
-import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import type { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-const client = () => createBrowserSupabaseClient() as unknown as ProgressionReadClient;
+const readPlayerSkills = (client: ReturnType<typeof createBrowserSupabaseClient>) =>
+  readSkillsProgression(client as unknown as ProgressionReadClient);
+
+const publicSkills: SkillView[] = CODEX_ENTRIES.filter((entry) => entry.kind === "SKILL").map(
+  (entry) => ({
+    id: entry.id,
+    slug: entry.slug,
+    name: entry.name,
+    domain: entry.domain?.name ?? "Domain unavailable",
+    projectionAvailable: false,
+    assessmentStatus: "UNAVAILABLE",
+    visibleLevel: null,
+    proficiencyScore: null,
+    confidenceScore: null,
+    readinessStatus: "UNAVAILABLE",
+    readinessScore: null,
+    exposureCount: null,
+    evidenceCount: null,
+    lastPracticedAt: null,
+    lastEvidenceAt: null,
+  }),
+);
 const DEFAULT_FILTERS: SkillFilters = { search: "", domain: "ALL", assessment: "ALL" };
 
 function StateLabel({ value }: { value: string }) {
@@ -23,27 +47,46 @@ function StateLabel({ value }: { value: string }) {
   );
 }
 
-function SkillRow({ skill }: { skill: SkillView }) {
+function SkillRow({ skill, browsing }: { skill: SkillView; browsing: boolean }) {
+  const reference = CODEX_ENTRIES.find((entry) => entry.kind === "SKILL" && entry.id === skill.id);
   return (
-    <details className="skill-row" data-testid="skill-row">
+    <details
+      className="skill-row skill-card"
+      data-testid="skill-row"
+      data-tier={browsing ? "unrated" : (skill.visibleLevel ?? "unrated").toLowerCase()}
+    >
       <summary>
         <span className="skill-row__identity">
           <strong>{skill.name}</strong>
           <small>{skill.domain}</small>
         </span>
-        <span className="skill-row__state">
-          <StateLabel value={skill.assessmentStatus} />
-          <span>{skill.visibleLevel ? `Level ${skill.visibleLevel}` : "No Skill Level"}</span>
-        </span>
-        <span className="skill-row__readiness">
-          <small>READINESS</small>
-          <strong>{skill.readinessStatus}</strong>
-        </span>
+        {browsing ? (
+          <span className="skill-row__state">Discover this Skill</span>
+        ) : (
+          <>
+            <span className="skill-row__state">
+              <StateLabel value={skill.assessmentStatus} />
+              <span>{skill.visibleLevel ? `Level ${skill.visibleLevel}` : "No Skill Level"}</span>
+            </span>
+            <span className="skill-row__readiness">
+              <small>READINESS</small>
+              <strong>{skill.readinessStatus}</strong>
+            </span>
+          </>
+        )}
         <span aria-hidden="true" className="skill-row__disclosure">
-          +
+          ▾
         </span>
       </summary>
-      {skill.projectionAvailable ? (
+      {reference ? (
+        <div className="skill-card-reference">
+          <p>{reference.definition}</p>
+          <Link href={reference.href}>Read Codex reference →</Link>
+        </div>
+      ) : null}
+      {browsing ? (
+        <p className="skill-row__unavailable">Start your journey to track this Skill.</p>
+      ) : skill.projectionAvailable ? (
         <dl className="skill-detail">
           <div>
             <dt>Proficiency</dt>
@@ -96,31 +139,13 @@ function SkillRow({ skill }: { skill: SkillView }) {
 }
 
 export function SkillsProgressionSurface() {
-  const [skills, setSkills] = useState<SkillView[]>([]);
+  const { state, retry } = usePlayerProgression(readPlayerSkills);
+  const browsing = state.kind === "visitor" || state.kind === "setup";
+  const result = state.kind === "player" ? state.value : null;
+  const skills = browsing ? publicSkills : (result?.skills ?? []);
   const [filters, setFilters] = useState<SkillFilters>(DEFAULT_FILTERS);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [readinessCurrent, setReadinessCurrent] = useState(true);
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const result = await readSkillsProgression(client());
-      setSkills(result.skills);
-      setReadinessCurrent(result.readinessCurrent);
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const initialLoad = window.setTimeout(() => void load(), 0);
-    return () => window.clearTimeout(initialLoad);
-  }, [load]);
-
-  const filtered = useMemo(() => filterSkills(skills, filters), [skills, filters]);
+  const effectiveFilters = browsing ? { ...filters, assessment: "ALL" as const } : filters;
+  const filtered = filterSkills(skills, effectiveFilters);
   const groups = useMemo(() => groupSkillsByDomain(filtered), [filtered]);
 
   return (
@@ -128,29 +153,44 @@ export function SkillsProgressionSurface() {
       <PageHeader
         eyebrow="DEVELOPMENT · SKILLS"
         title="Skill development."
-        description="Proficiency, system confidence, current readiness, exposure, and informative evidence remain separate signals."
+        description={
+          browsing
+            ? "Discover the musical Skills you can develop across six domains."
+            : "Proficiency, system confidence, current readiness, exposure, and informative evidence remain separate signals."
+        }
       />
-      {!readinessCurrent ? (
+      {browsing ? (
+        <section className="skill-explainer">
+          <h2>Start your journey to track progression</h2>
+          <p>Browse every Skill without an account. Your levels appear once you build evidence.</p>
+          <Link className="action-button action-button--primary" href="/onboarding?next=/skills">
+            {state.kind === "setup" ? "Continue Player setup" : "Start playing"}
+          </Link>
+          <Link href="/profile">Access your Player</Link>
+        </section>
+      ) : null}
+      {result && !result.readinessCurrent ? (
         <p className="session-notice" role="status">
           Readiness could not be refreshed. Other Skill data is shown, but readiness may not be
           current.
         </p>
       ) : null}
-      {loading && !skills.length ? (
+      {state.kind === "loading" ? (
         <p className="session-notice" role="status">
           Loading Skill progression…
         </p>
       ) : null}
-      {error ? (
+      {state.kind === "error" ? (
         <div className="session-notice" role="alert">
           <p>Skill progression is unavailable right now.</p>
-          <button className="action-button action-button--secondary" onClick={() => void load()}>
+          <button className="action-button action-button--secondary" onClick={retry}>
             Retry
           </button>
         </div>
       ) : null}
       {skills.length ? (
         <>
+          {!browsing ? (
           <section className="skill-explainer" aria-label="How to read Skill progression">
             <p>
               <strong>Proficiency</strong> is the demonstrated Skill estimate.{" "}
@@ -161,6 +201,7 @@ export function SkillsProgressionSurface() {
               proficiency; LOW readiness does not demote a Skill Level.
             </p>
           </section>
+          ) : null}
           <form className="skill-filters" onSubmit={(event) => event.preventDefault()}>
             <label>
               Search Skills
@@ -187,6 +228,7 @@ export function SkillsProgressionSurface() {
                 ))}
               </select>
             </label>
+            {!browsing ? (
             <label>
               Assessment status
               <select
@@ -204,6 +246,7 @@ export function SkillsProgressionSurface() {
                 <option value="ESTABLISHED">ESTABLISHED</option>
               </select>
             </label>
+            ) : null}
           </form>
           <p className="skill-result-count" role="status">
             Showing {filtered.length} of {skills.length} active Skills
@@ -221,7 +264,7 @@ export function SkillsProgressionSurface() {
                 </header>
                 <div className="skill-list">
                   {group.skills.map((skill) => (
-                    <SkillRow key={skill.id} skill={skill} />
+                    <SkillRow key={skill.id} skill={skill} browsing={browsing} />
                   ))}
                 </div>
               </section>

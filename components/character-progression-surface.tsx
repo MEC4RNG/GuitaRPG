@@ -1,18 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { usePlayerProgression } from "./use-player-progression";
 
 import { PageHeader } from "./page-header";
 import { Panel } from "./panel";
 import {
   formatPracticeDuration,
-  type CharacterProgressionView,
 } from "@/lib/progression/read-model";
 import { readCharacterProgression, type ProgressionReadClient } from "@/lib/progression/repository";
-import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import type { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-const client = () => createBrowserSupabaseClient() as unknown as ProgressionReadClient;
+const readPlayerCharacter = (client: ReturnType<typeof createBrowserSupabaseClient>) =>
+  readCharacterProgression(client as unknown as ProgressionReadClient);
 
 function AttributeState({ status }: { status: string }) {
   return (
@@ -21,24 +21,11 @@ function AttributeState({ status }: { status: string }) {
 }
 
 export function CharacterProgressionSurface() {
-  const [model, setModel] = useState<CharacterProgressionView | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      setModel(await readCharacterProgression(client()));
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const { state, retry } = usePlayerProgression(readPlayerCharacter);
+  const model = state.kind === "player" ? state.value : null;
+  const browsing = state.kind === "visitor" || state.kind === "setup";
 
-  useEffect(() => {
-    const initialLoad = window.setTimeout(() => void load(), 0);
-    return () => window.clearTimeout(initialLoad);
+  return () => window.clearTimeout(initialLoad);
   }, [load]);
 
   return (
@@ -49,15 +36,26 @@ export function CharacterProgressionSurface() {
         description="Practice XP reflects recorded effort. Character Level is practice progress—not an overall rating of your guitar ability."
       />
 
-      {loading && !model ? (
+      {browsing ? (
+        <Panel className="progression-empty">
+          <h2>Develop your musical character</h2>
+          <p>Record meaningful practice to earn Practice XP and build evidence across musical and physical attributes.</p>
+          <Link className="action-button action-button--primary" href="/onboarding?next=/character">
+            {state.kind === "setup" ? "Continue Player setup" : "Start playing"}
+          </Link>
+          <Link href="/skills">Browse musical Skills →</Link>
+          <Link href="/profile">Access your Player</Link>
+        </Panel>
+      ) : null}
+      {state.kind === "loading" ? (
         <p className="session-notice" role="status">
           Loading Character progression…
         </p>
       ) : null}
-      {error ? (
+      {state.kind === "error" ? (
         <div className="session-notice" role="alert">
           <p>Character progression is unavailable right now.</p>
-          <button className="action-button action-button--secondary" onClick={() => void load()}>
+          <button className="action-button action-button--secondary" onClick={retry}>
             Retry
           </button>
         </div>

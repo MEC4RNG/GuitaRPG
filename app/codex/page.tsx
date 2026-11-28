@@ -7,6 +7,8 @@ import { CODEX_ENTRIES } from "@/lib/codex/catalog-v1";
 import { canAccessCodexV2DraftPreview } from "@/lib/codex/v2/preview-access";
 
 export const metadata: Metadata = { title: "Codex" };
+// Evaluate the preview gate at request time, not during the CI build.
+export const dynamic = "force-dynamic";
 
 export default function CodexPage() {
   return (

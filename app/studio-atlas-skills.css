@@ -1,0 +1,89 @@
+/* F4B-R1: card tiers reflect accepted Skill level, not XP or readiness. */
+.skills-progression .skill-list {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  align-items: start;
+  gap: 0.75rem;
+}
+.skills-progression .skill-card {
+  --skill-tier: var(--surface-border);
+  border: 1px solid var(--skill-tier);
+  border-top: 3px solid var(--skill-tier);
+  border-radius: 0.75rem;
+}
+.skills-progression .skill-card[data-tier="i"] {
+  --skill-tier: #78bfb0;
+}
+.skills-progression .skill-card[data-tier="ii"] {
+  --skill-tier: #8fb6e4;
+}
+.skills-progression .skill-card[data-tier="iii"] {
+  --skill-tier: #d6af70;
+  box-shadow: inset 0 0 0 1px var(--skill-tier);
+}
+.skills-progression .skill-card[data-tier="iv"] {
+  --skill-tier: #b7a5e0;
+  box-shadow: inset 0 0 0 2px var(--skill-tier);
+}
+.skills-progression .skill-card[data-tier="v"] {
+  --skill-tier: #e8cc91;
+  box-shadow: inset 0 0 0 3px var(--skill-tier);
+  background: linear-gradient(145deg, var(--surface-panel), var(--surface-raised));
+}
+.skills-progression .skill-card summary {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+.skills-progression .skill-card .skill-row__identity {
+  grid-area: 1 / 1;
+}
+.skills-progression .skill-card .skill-row__identity strong {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  font-size: 1.08rem;
+}
+.skills-progression .skill-card .skill-row__state {
+  grid-area: 2 / 1;
+  justify-items: start;
+}
+.skills-progression .skill-card .skill-row__readiness {
+  grid-area: 3 / 1;
+}
+.skills-progression .skill-card .skill-row__disclosure {
+  grid-area: 1 / 2;
+  color: var(--surface-text);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.35rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+}
+.skills-progression .skill-card[open] .skill-row__disclosure {
+  transform: rotate(180deg);
+}
+.skills-progression .skill-card summary:focus-visible {
+  outline: 2px solid var(--surface-accent);
+  outline-offset: -3px;
+}
+.skills-progression .skill-detail {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.skill-card-reference {
+  padding: 1rem;
+  border-top: 1px solid var(--surface-border);
+}
+.skill-card-reference p {
+  margin: 0 0 0.75rem;
+  color: var(--surface-muted);
+  overflow-wrap: anywhere;
+}
+.skill-card-reference a {
+  color: var(--surface-accent);
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+.skill-explainer .action-button {
+  justify-self: start;
+}

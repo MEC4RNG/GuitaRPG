@@ -1346,3 +1346,23 @@ test("F4B filters by musical domain and opens the dictionary from a Skill", asyn
   await expectNoHorizontalOverflow(page);
   await expectAccessible(page, "F4B musical library");
 });
+
+test("F4B-R1 visitors can browse Skills and Character without invented ratings", async ({ page }) => {
+  await page.goto("/skills");
+  await expect(page.getByRole("heading", { name: "Start your journey to track progression" })).toBeVisible();
+  const cards = page.getByTestId("skill-row");
+  await expect(cards.first()).toBeVisible();
+  await expect(page.getByLabel("Assessment status")).toHaveCount(0);
+  await page.getByLabel("Search Skills").fill("Note Location");
+  await expect(cards).toHaveCount(1);
+  await expect(cards.first()).toHaveAttribute("data-tier", "unrated");
+  await cards.first().locator("summary").click();
+  await expect(cards.first()).toHaveAttribute("open", "");
+  await expect(cards.first().getByRole("link", { name: /Read Codex reference/ })).toBeVisible();
+  await expect(cards.first().getByText("Start your journey to track this Skill.")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await expectAccessible(page, "Visitor Skills");
+  await page.goto("/character");
+  await expect(page.getByRole("heading", { name: "Develop your musical character" })).toBeVisible();
+  await expect(page.getByRole("progressbar")).toHaveCount(0);
+});
